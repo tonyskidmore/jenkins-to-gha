@@ -1,0 +1,40 @@
+[2026-10-10T08:59:43.278Z] Started by user admin
+[2026-10-10T08:59:43.374Z] [Pipeline] Start of Pipeline
+[2026-10-10T08:59:43.405Z] [Pipeline] node
+[2026-10-10T08:59:43.418Z] Running on Jenkins in /var/jenkins_home/workspace/ex-016-full
+[2026-10-10T08:59:43.435Z] [Pipeline] {
+[2026-10-10T08:59:43.466Z] [Pipeline] echo
+[2026-10-10T08:59:43.472Z] J2GHA-TRACE {"stage":"","step":"withFolderProperties"}
+[2026-10-10T08:59:43.479Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named LBRANCH (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T08:59:43.479Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named APP_ID (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T08:59:43.493Z] [Pipeline] stage
+[2026-10-10T08:59:43.498Z] [Pipeline] { (checkout)
+[2026-10-10T08:59:43.520Z] [Pipeline] checkout
+[2026-10-10T08:59:43.527Z] The recommended git tool is: NONE
+[2026-10-10T08:59:43.528Z] No credentials specified
+[2026-10-10T08:59:43.529Z]  > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/ex-016-full/.git # timeout=10
+[2026-10-10T08:59:43.537Z] Fetching changes from the remote Git repository
+[2026-10-10T08:59:43.539Z]  > git config remote.origin.url https://github.com/dvsa/cvs-auto-mobile-app-retired.git # timeout=10
+[2026-10-10T08:59:43.545Z] Fetching upstream changes from https://github.com/dvsa/cvs-auto-mobile-app-retired.git
+[2026-10-10T08:59:43.545Z]  > git --version # timeout=10
+[2026-10-10T08:59:43.550Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T08:59:43.550Z]  > git fetch --no-tags --force --progress -- https://github.com/dvsa/cvs-auto-mobile-app-retired.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T08:59:44.682Z]  > git rev-parse bf150f606a385a8ed5eacc00070a988c675dd815^{commit} # timeout=10
+[2026-10-10T08:59:44.690Z] Checking out Revision bf150f606a385a8ed5eacc00070a988c675dd815 (detached)
+[2026-10-10T08:59:44.690Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T08:59:44.697Z]  > git checkout -f bf150f606a385a8ed5eacc00070a988c675dd815 # timeout=10
+[2026-10-10T08:59:44.792Z] Commit message: "Update Jenkinsfile"
+[2026-10-10T08:59:44.792Z]  > git rev-list --no-walk bf150f606a385a8ed5eacc00070a988c675dd815 # timeout=10
+[2026-10-10T08:59:44.821Z] [Pipeline] }
+[2026-10-10T08:59:44.841Z] [Pipeline] // stage
+[2026-10-10T08:59:44.862Z] [Pipeline] stage
+[2026-10-10T08:59:44.866Z] [Pipeline] { (Get IPA from AWS S3)
+[2026-10-10T08:59:44.893Z] [Pipeline] withCredentials
+[2026-10-10T08:59:44.910Z] [Pipeline] // withCredentials
+[2026-10-10T08:59:44.924Z] [Pipeline] }
+[2026-10-10T08:59:44.949Z] [Pipeline] // stage
+[2026-10-10T08:59:44.964Z] [Pipeline] }
+[2026-10-10T08:59:44.991Z] [Pipeline] // node
+[2026-10-10T08:59:45.017Z] [Pipeline] End of Pipeline
+[2026-10-10T08:59:45.030Z] ERROR: Credentials 'jenkins-iam' is of type 'Username with password' where 'com.cloudbees.jenkins.plugins.awscredentials.AmazonWebServicesCredentials' was expected
+[2026-10-10T08:59:45.046Z] Finished: FAILURE

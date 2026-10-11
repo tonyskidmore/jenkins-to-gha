@@ -1,0 +1,53 @@
+# j2gha act variant (trace) of examples/016
+name: 'j2gha 016: dvsa/cvs-auto-mobile-app-retired Jenkinsfile (j2gha)'
+on:
+  push:
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  BRANCH_NAME: develop
+  TAG_NAME: ''
+  CHANGE_ID: ''
+  GIT_COMMIT: ${{ github.sha }}
+  GIT_BRANCH: origin/develop
+  GIT_URL: ${{ github.server_url }}/${{ github.repository }}.git
+defaults:
+  run:
+    shell: bash
+jobs:
+  main:
+    name: main
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+    - name: withFolderProperties (manual migration)
+      id: s1
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"","step":"withFolderProperties"}'
+    - name: 'checkout: checkout'
+      id: s2
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"checkout","step":"checkout"}'
+    - name: 'Get IPA from AWS S3: aws s3 cp s3://dvsa-cvs-mobile-artefacts/files/${LBRANCH}.txt ${LBRANC'
+      id: s3
+      env:
+        AWS_ACCESS_KEY_ID: j2gha-user
+        AWS_SECRET_ACCESS_KEY: j2gha-fake-password
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Get IPA from AWS S3","step":"sh"}'
+    - name: 'install ipa in browserstack: wget -O CVSMobile.ipa `cat ${LBRANCH}.txt`'
+      id: s4
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"install ipa in browserstack","step":"sh"}'
+    - name: 'install ipa in browserstack: curl -u $BROWSERSTACK_CREDS -X POST "https://api-cloud.browserstack.co'
+      id: s5
+      env:
+        BROWSERSTACK_CREDS: j2gha-fake-secret
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"install ipa in browserstack","step":"sh"}'
+    - name: 'test: browserstack (manual migration)'
+      id: s7
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"test","step":"browserstack"}'
+    - name: 'test: mvn --batch-mode clean install -PCI-Browserstack -DBROWSERSTACK_APP_ID'
+      id: s6
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"test","step":"sh"}'
+    - name: 'create report: publish HTML report'
+      id: s8
+      if: always()
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"create report","step":"publishHTML"}'

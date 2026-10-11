@@ -1,0 +1,13 @@
+
+@@CMD@@ uv run j2gha analyze 000
+[j2gha] parsing 1 Jenkinsfile(s) with Jenkins' Groovy
+[j2gha] 000: declarative      difficulty  23 (assisted), coverage 78.5%, convertibility automatic
+@@END@@ rc=0 ms=5922
+
+@@CMD@@ uv run j2gha convert 000
+[j2gha] 000: 9 job(s); mapped 41, approx 33, manual 1 -> automation 81.0%
+@@END@@ rc=0 ms=571
+
+@@CMD@@ uv run j2gha validate 000
+[validate] 000: actionlint 0 (0 shellcheck), zizmor 0, policy 1 -> OK
+@@END@@ rc=0 ms=2922

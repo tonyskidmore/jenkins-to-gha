@@ -1,0 +1,541 @@
+<template id="act4-template">
+  <div
+    data-composition-id="act4"
+    data-width="1920"
+    data-height="1080"
+    data-duration="15"
+  >
+    <div class="act4-container">
+      <!-- Main Scene: Real GHA Graph & Scorecard (45s - 55s) -->
+      <div id="act4-main-scene" class="main-scene">
+        <div class="act4-header">
+          <div class="act-badge">PART 7 OF 7 · REAL GHA RUNNERS</div>
+          <h1 class="act-title">Production Execution on GitHub Actions</h1>
+          <p class="act-desc">All 11 jobs execute successfully on disposable self-hosted runners with zero billable cloud minutes.</p>
+        </div>
+
+        <div class="stage-grid">
+          <!-- Left: Real GHA Graph Screenshot Window -->
+          <div class="browser-window">
+            <div class="browser-header">
+              <div class="window-dots">
+                <span class="dot dot-red"></span>
+                <span class="dot dot-yellow"></span>
+                <span class="dot dot-green"></span>
+              </div>
+              <div class="browser-url-bar">
+                <span class="gh-icon">🐙</span>
+                <span class="url-text">github.com/tonyskidmore/jenkins-to-gha/actions/runs/38066767284</span>
+              </div>
+              <span class="live-pill"><span class="live-dot"></span>LIVE CAPTURE</span>
+              <span class="status-pill">
+                <span id="jobs-count" class="jobs-count">0 / 11 jobs passed</span>
+                <span id="jobs-done" class="jobs-done text-green">✓ All 11 jobs passed</span>
+              </span>
+            </div>
+            <div class="browser-body">
+              <!-- Real screen capture of run #148 on self-hosted JIT runners (capture/gha.mjs + build-clip.mjs).
+                   The camera wrapper is untimed so GSAP owns its transform; the timed <video> is never animated. -->
+              <div id="gha-cam" class="gha-cam">
+                <video
+                  id="gha-run"
+                  class="gha-video"
+                  src="./assets/clips/gha_run.mp4"
+                  data-start="0.5"
+                  data-duration="9.5"
+                  data-media-start="0"
+                  muted
+                  playsinline
+                ></video>
+              </div>
+              <div id="gha-speed" class="speed-badge">
+                <span id="gha-speed-fast" class="speed-txt speed-fast">▶▶ 13× speed</span>
+                <span id="gha-speed-real" class="speed-txt">▶ real time</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right: Migration Scorecard Card -->
+          <div class="scorecard-card">
+            <div class="scorecard-header">
+              <span class="score-icon">📊</span>
+              <span class="score-title">Migration Scorecard</span>
+              <span class="tag-verified">VERIFIED</span>
+            </div>
+
+            <div class="score-metrics">
+              <div class="metric-tile">
+                <div class="metric-top">
+                  <span class="m-label">Behavioral Equivalence</span>
+                  <span class="m-val text-green">100.0%</span>
+                </div>
+                <div class="m-bar"><div class="m-fill fill-green"></div></div>
+                <span class="m-sub">41 / 41 trace points matched</span>
+              </div>
+
+              <div class="metric-tile">
+                <div class="metric-top">
+                  <span class="m-label">Billable Cloud Minutes</span>
+                  <span class="m-val text-blue">0.0 min</span>
+                </div>
+                <div class="m-bar"><div class="m-fill fill-blue"></div></div>
+                <span class="m-sub">Ephemeral local JIT runners</span>
+              </div>
+
+              <div class="metric-tile">
+                <div class="metric-top">
+                  <span class="m-label">Artifact Integrity</span>
+                  <span class="m-val text-purple">100% SHA</span>
+                </div>
+                <div class="m-bar"><div class="m-fill fill-purple"></div></div>
+                <span class="m-sub">Exact binary checksum parity</span>
+              </div>
+
+              <div class="metric-tile">
+                <div class="metric-top">
+                  <span class="m-label">Security & Linters</span>
+                  <span class="m-val text-green">0 Findings</span>
+                </div>
+                <div class="m-bar"><div class="m-fill fill-green"></div></div>
+                <span class="m-sub">actionlint & zizmor clean</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Outro Hero Scene (55s - 60s) -->
+      <div id="act4-hero-scene" class="hero-scene">
+        <div class="hero-card">
+          <div class="hero-badge-wrap">
+            <div class="hero-logo">J2G</div>
+          </div>
+          <h1 class="hero-title">From Jenkins to GitHub Actions</h1>
+          <p class="hero-subtitle">Fully verified with automated evidence, differential traces, and artifact checksums.</p>
+          
+          <div class="pipeline-pills">
+            <div class="p-pill"><code>crawl</code></div>
+            <div class="p-arrow">→</div>
+            <div class="p-pill"><code>analyze</code></div>
+            <div class="p-arrow">→</div>
+            <div class="p-pill"><code>convert</code></div>
+            <div class="p-arrow">→</div>
+            <div class="p-pill"><code>validate</code></div>
+            <div class="p-arrow">→</div>
+            <div class="p-pill highlight-pill"><code>diff</code></div>
+          </div>
+
+          <div class="hero-repo-tag">
+            <span>github.com/tonyskidmore/jenkins-to-gha</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <style>
+      [data-composition-id="act4"] .act4-container {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        padding: 110px 64px 120px 64px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      [data-composition-id="act4"] .main-scene {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+      }
+      [data-composition-id="act4"] .act-badge {
+        display: inline-block;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #a855f7;
+        background: rgba(168, 85, 247, 0.12);
+        border: 1px solid rgba(168, 85, 247, 0.3);
+        padding: 4px 14px;
+        border-radius: 9999px;
+        margin-bottom: 8px;
+      }
+      [data-composition-id="act4"] .act-title {
+        font-size: 38px;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        color: #f8fafc;
+        margin-bottom: 6px;
+      }
+      [data-composition-id="act4"] .act-desc {
+        font-size: 18px;
+        color: #94a3b8;
+      }
+      [data-composition-id="act4"] .stage-grid {
+        display: grid;
+        grid-template-columns: 1fr 540px;
+        gap: 36px;
+        align-items: center;
+      }
+
+      /* Browser Frame */
+      [data-composition-id="act4"] .browser-window {
+        background: rgba(15, 23, 42, 0.85);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 24px 48px rgba(0, 0, 0, 0.6);
+        display: flex;
+        flex-direction: column;
+      }
+      [data-composition-id="act4"] .browser-header {
+        height: 48px;
+        background: rgba(30, 41, 59, 0.8);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        display: flex;
+        align-items: center;
+        padding: 0 18px;
+        gap: 16px;
+      }
+      [data-composition-id="act4"] .window-dots {
+        display: flex;
+        gap: 8px;
+      }
+      [data-composition-id="act4"] .dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+      }
+      [data-composition-id="act4"] .dot-red { background: #ef4444; }
+      [data-composition-id="act4"] .dot-yellow { background: #f59e0b; }
+      [data-composition-id="act4"] .dot-green { background: #10b981; }
+      [data-composition-id="act4"] .browser-url-bar {
+        flex: 1;
+        background: rgba(15, 23, 42, 0.6);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 8px;
+        padding: 4px 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px;
+        color: #94a3b8;
+      }
+      [data-composition-id="act4"] .status-pill {
+        font-size: 12px;
+        font-weight: 700;
+        background: rgba(16, 185, 129, 0.15);
+        color: #34d399;
+        border: 1px solid rgba(16, 185, 129, 0.3);
+        padding: 4px 10px;
+        border-radius: 6px;
+      }
+      [data-composition-id="act4"] .browser-body {
+        position: relative;
+        width: 100%;
+        height: 450px;
+        background: #0d1117;
+        overflow: hidden;
+      }
+      [data-composition-id="act4"] .gha-cam {
+        position: absolute;
+        inset: 0;
+        transform-origin: 0% 100%;
+      }
+      [data-composition-id="act4"] .gha-video {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      [data-composition-id="act4"] .live-pill {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        color: #fca5a5;
+        background: rgba(239, 68, 68, 0.14);
+        border: 1px solid rgba(239, 68, 68, 0.4);
+        padding: 3px 9px;
+        border-radius: 9999px;
+      }
+      [data-composition-id="act4"] .live-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #ef4444;
+        box-shadow: 0 0 8px #ef4444;
+      }
+      [data-composition-id="act4"] .status-pill {
+        position: relative;
+        width: 172px;
+        height: 24px;
+        color: #e2e8f0;
+      }
+      [data-composition-id="act4"] .jobs-count,
+      [data-composition-id="act4"] .jobs-done {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        white-space: nowrap;
+      }
+      [data-composition-id="act4"] .jobs-done {
+        opacity: 0;
+      }
+      [data-composition-id="act4"] .speed-badge {
+        position: absolute;
+        bottom: 14px;
+        right: 14px;
+        width: 128px;
+        height: 30px;
+        background: rgba(15, 23, 42, 0.88);
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        border-radius: 8px;
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
+        opacity: 0;
+      }
+      [data-composition-id="act4"] .speed-txt {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 13px;
+        font-weight: 700;
+        color: #e2e8f0;
+      }
+      [data-composition-id="act4"] .speed-fast {
+        color: #fbbf24;
+      }
+      [data-composition-id="act4"] #gha-speed-real {
+        opacity: 0;
+      }
+
+      /* Scorecard Card */
+      [data-composition-id="act4"] .scorecard-card {
+        background: rgba(15, 23, 42, 0.85);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        padding: 24px;
+        backdrop-filter: blur(16px);
+        box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4);
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      [data-composition-id="act4"] .scorecard-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+      [data-composition-id="act4"] .score-icon { font-size: 20px; }
+      [data-composition-id="act4"] .score-title {
+        font-size: 18px;
+        font-weight: 700;
+        color: #f8fafc;
+        flex: 1;
+      }
+      [data-composition-id="act4"] .tag-verified {
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.06em;
+        background: rgba(16, 185, 129, 0.2);
+        color: #34d399;
+        border: 1px solid rgba(16, 185, 129, 0.4);
+        padding: 3px 8px;
+        border-radius: 6px;
+      }
+      [data-composition-id="act4"] .score-metrics {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      [data-composition-id="act4"] .metric-tile {
+        background: rgba(0, 0, 0, 0.25);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        border-radius: 12px;
+        padding: 10px 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+      }
+      [data-composition-id="act4"] .metric-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 13.5px;
+        font-weight: 600;
+      }
+      [data-composition-id="act4"] .m-label { color: #cbd5e1; }
+      [data-composition-id="act4"] .m-val { font-family: 'JetBrains Mono', monospace; font-weight: 700; }
+      [data-composition-id="act4"] .text-green { color: #10b981; }
+      [data-composition-id="act4"] .text-blue { color: #38bdf8; }
+      [data-composition-id="act4"] .text-purple { color: #c084fc; }
+      [data-composition-id="act4"] .m-bar {
+        width: 100%;
+        height: 4px;
+        background: rgba(255, 255, 255, 0.06);
+        border-radius: 2px;
+        overflow: hidden;
+      }
+      [data-composition-id="act4"] .m-fill { height: 100%; width: 100%; }
+      [data-composition-id="act4"] .fill-green { background: #10b981; }
+      [data-composition-id="act4"] .fill-blue { background: #38bdf8; }
+      [data-composition-id="act4"] .fill-purple { background: #c084fc; }
+      [data-composition-id="act4"] .m-sub {
+        font-size: 11.5px;
+        color: #94a3b8;
+      }
+
+      /* Outro Hero Scene */
+      [data-composition-id="act4"] .hero-scene {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        opacity: 0;
+        pointer-events: none;
+      }
+      [data-composition-id="act4"] .hero-card {
+        background: rgba(15, 23, 42, 0.95);
+        border: 2px solid rgba(59, 130, 246, 0.3);
+        border-radius: 28px;
+        padding: 48px 64px;
+        backdrop-filter: blur(24px);
+        box-shadow: 0 32px 80px rgba(0, 0, 0, 0.7), 0 0 40px rgba(59, 130, 246, 0.2);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        max-width: 900px;
+      }
+      [data-composition-id="act4"] .hero-badge-wrap {
+        margin-bottom: 20px;
+      }
+      [data-composition-id="act4"] .hero-logo {
+        width: 64px;
+        height: 64px;
+        border-radius: 18px;
+        background: linear-gradient(135deg, #06b6d4, #3b82f6, #8b5cf6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 900;
+        font-size: 24px;
+        color: white;
+        box-shadow: 0 0 24px rgba(59, 130, 246, 0.5);
+      }
+      [data-composition-id="act4"] .hero-title {
+        font-size: 44px;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        color: #f8fafc;
+        margin-bottom: 12px;
+      }
+      [data-composition-id="act4"] .hero-subtitle {
+        font-size: 18px;
+        color: #94a3b8;
+        line-height: 1.5;
+        max-width: 680px;
+        margin-bottom: 28px;
+      }
+      [data-composition-id="act4"] .pipeline-pills {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 24px;
+      }
+      [data-composition-id="act4"] .p-pill {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        padding: 6px 14px;
+        border-radius: 8px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 13.5px;
+        color: #e2e8f0;
+      }
+      [data-composition-id="act4"] .highlight-pill {
+        background: rgba(16, 185, 129, 0.15);
+        border-color: rgba(16, 185, 129, 0.4);
+        color: #34d399;
+        font-weight: 700;
+      }
+      [data-composition-id="act4"] .p-arrow {
+        color: #94a3b8;
+        font-size: 14px;
+      }
+      [data-composition-id="act4"] .hero-repo-tag {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 13px;
+        color: #94a3b8;
+      }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script>
+      (function() {
+        const tl = gsap.timeline({ paused: true });
+
+        // Staggered entrance for main scene
+        tl.fromTo('[data-composition-id="act4"] #act4-main-scene', 
+          { opacity: 0, scale: 0.98 }, 
+          { opacity: 1, scale: 1, duration: 0.6, ease: "power3.out" }, 
+          0.2
+        );
+
+        // Live run clip starts at 0.5s; times are 0.5 + clip time from assets/clips/gha_run.map.json
+        const A = '[data-composition-id="act4"] ';
+        tl.to(A + '#gha-speed', { opacity: 1, duration: 0.3 }, 0.8);
+        tl.to(A + '#gha-cam', { scale: 1.3, duration: 1.0, ease: 'power2.inOut' }, 1.0);    // punch in on status + job list (anchored bottom-left)
+        tl.set(A + '#jobs-count', { textContent: '1 / 11 jobs passed' }, 1.61);
+        tl.set(A + '#jobs-count', { textContent: '2 / 11 jobs passed' }, 2.62);
+        tl.set(A + '#jobs-count', { textContent: '3 / 11 jobs passed' }, 2.88);
+        tl.set(A + '#jobs-count', { textContent: '4 / 11 jobs passed' }, 3.13);
+        tl.set(A + '#jobs-count', { textContent: '5 / 11 jobs passed' }, 3.89);
+        tl.set(A + '#jobs-count', { textContent: '6 / 11 jobs passed' }, 4.68);
+        tl.set(A + '#jobs-count', { textContent: '7 / 11 jobs passed' }, 4.68);
+        tl.set(A + '#jobs-count', { textContent: '8 / 11 jobs passed' }, 5.45);
+        tl.set(A + '#jobs-count', { textContent: '9 / 11 jobs passed' }, 6.46);
+        tl.set(A + '#jobs-count', { textContent: '10 / 11 jobs passed' }, 7.25);
+        tl.set(A + '#jobs-count', { textContent: '11 / 11 jobs passed' }, 8.01);
+        // Run completed (clip 7.51s): pull back to the whole page, real time from here
+        tl.to(A + '#gha-cam', { scale: 1, duration: 0.7, ease: 'power2.inOut' }, 8.01);
+        tl.to(A + '#gha-speed-fast', { opacity: 0, duration: 0.15 }, 8.01);
+        tl.to(A + '#gha-speed-real', { opacity: 1, duration: 0.15 }, 8.01);
+        tl.to(A + '#jobs-count', { opacity: 0, duration: 0.2 }, 8.11);
+        tl.to(A + '#jobs-done', { opacity: 1, duration: 0.2 }, 8.11);
+        tl.fromTo(A + '.status-pill', { scale: 1 }, { scale: 1.12, duration: 0.2, yoyo: true, repeat: 1 }, 8.11);
+
+        // At 10.0s (55.0s in global time): Outro Hero reveal
+        tl.to('[data-composition-id="act4"] #act4-main-scene', 
+          { opacity: 0, scale: 0.95, duration: 0.5, ease: "power2.in" }, 
+          10.0
+        );
+        tl.set('[data-composition-id="act4"] #act4-main-scene', { display: "none" }, 10.5);
+        tl.fromTo('[data-composition-id="act4"] #act4-hero-scene', 
+          { opacity: 0, scale: 0.92 }, 
+          { opacity: 1, scale: 1, duration: 0.6, ease: "back.out(1.2)" }, 
+          10.4
+        );
+
+        // Exit fadeout at the very end
+        tl.to('[data-composition-id="act4"] .act4-container', 
+          { opacity: 0, duration: 0.5, ease: "power2.in" }, 
+          14.5
+        );
+
+        window.__timelines = window.__timelines || {};
+        window.__timelines["act4"] = tl;
+      })();
+    </script>
+  </div>
+</template>

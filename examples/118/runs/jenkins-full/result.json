@@ -1,0 +1,221 @@
+{
+  "tier": "jenkins",
+  "mode": "full",
+  "scenario": {
+    "branch": "master",
+    "git_branch": "origin/master"
+  },
+  "localisation": {
+    "changes": [
+      "L17: node(master) -> node('built-in')",
+      "L7: import org.jvnet.jenkins.plugins.nodelabelparameter. removed (class stubbed)"
+    ],
+    "stubs": [
+      "build",
+      "mail",
+      "emailext",
+      "slackSend",
+      "office365ConnectorSend",
+      "githubNotify",
+      "setGitHubPullRequestStatus",
+      "publishChecks",
+      "s3Upload",
+      "s3Download",
+      "copyArtifacts",
+      "waitForQualityGate",
+      "recordIssues",
+      "publishCoverage",
+      "recordCoverage",
+      "jacoco",
+      "cobertura",
+      "milestone",
+      "properties(parameters kept)",
+      "buildDiscarder",
+      "checkout(GIT_BRANCH kept)",
+      "withSonarQubeEnv",
+      "withAWS",
+      "withKubeConfig",
+      "withVault",
+      "azureCLI",
+      "container",
+      "sshagent",
+      "withDockerRegistry",
+      "configFileProvider",
+      "withMaven",
+      "withGradle",
+      "withPythonEnv",
+      "podTemplate",
+      "wrap",
+      "withDockerContainer",
+      "node"
+    ],
+    "auto_repairs": {
+      "removed": [],
+      "stubbed": [],
+      "ineffective": []
+    }
+  },
+  "attempts": [
+    {
+      "attempt": 0,
+      "phase": "run",
+      "build": 2,
+      "result": "SUCCESS",
+      "seconds": 21.9,
+      "repairs": [],
+      "stubs": []
+    }
+  ],
+  "result": "SUCCESS",
+  "build": 2,
+  "duration_ms": 21058,
+  "stages": [
+    {
+      "name": "App Branch Close and Tag (not currently integrated)",
+      "status": "SUCCESS",
+      "durationMillis": 46
+    },
+    {
+      "name": "Get Repos",
+      "status": "SUCCESS",
+      "durationMillis": 8324
+    },
+    {
+      "name": "Get App Release Tags",
+      "status": "SUCCESS",
+      "durationMillis": 460
+    },
+    {
+      "name": "Check and Build Release Artefacts",
+      "status": "SUCCESS",
+      "durationMillis": 7495
+    },
+    {
+      "name": "Check Artefacts from Input Params",
+      "status": "SUCCESS",
+      "durationMillis": 1531
+    },
+    {
+      "name": "Check App Version against Built artefacts",
+      "status": "SUCCESS",
+      "durationMillis": 51
+    },
+    {
+      "name": "Create and Push Release Manifest",
+      "status": "SUCCESS",
+      "durationMillis": 2536
+    }
+  ],
+  "traces": [
+    {
+      "stage": "Check and Build Release Artefacts",
+      "step": "build"
+    },
+    {
+      "stage": "Check and Build Release Artefacts",
+      "step": "build"
+    },
+    {
+      "stage": "Check and Build Release Artefacts",
+      "step": "build"
+    },
+    {
+      "stage": "Check and Build Release Artefacts",
+      "step": "build"
+    },
+    {
+      "stage": "Check and Build Release Artefacts",
+      "step": "build"
+    },
+    {
+      "stage": "Check and Build Release Artefacts",
+      "step": "build"
+    },
+    {
+      "stage": "Check and Build Release Artefacts",
+      "step": "build"
+    },
+    {
+      "stage": "Check and Build Release Artefacts",
+      "step": "build"
+    },
+    {
+      "stage": "Check and Build Release Artefacts",
+      "step": "build"
+    },
+    {
+      "stage": "Check and Build Release Artefacts",
+      "step": "build"
+    },
+    {
+      "stage": "Check App Version against Built artefacts",
+      "step": "build"
+    }
+  ],
+  "approved_inputs": [],
+  "error_tail": null,
+  "outputs": {
+    "archived": [],
+    "tests": null
+  },
+  "provenance": {
+    "jenkinsfile_sha256": "7942e105cb89fd92b94cd5cf9088d86144ca86aa6e5b93b948875646d1b633d0",
+    "scenario": {
+      "branch": "master",
+      "git_branch": "origin/master"
+    },
+    "mode": "full",
+    "localizer_version": 5,
+    "images": {
+      "jenkins": {
+        "ref": "j2gha/jenkins:local",
+        "present": true,
+        "id": "sha256:672c4b841b2c934f224d4f1b3523d77a1b651f8f491f8f04da47ca764eb86775",
+        "repo_digests": [],
+        "created": "2026-10-09T18:21:15.545465961Z",
+        "labels": {
+          "j2gha.base-image": "jenkins/jenkins:lts-jdk21@sha256:a660310e39ade10631f774bacd5219de767dfd08947ea5c32a739b5e5bb382c1",
+          "org.opencontainers.image.version": "2.580.1",
+          "org.opencontainers.image.revision": "457b9316d71b43cdf3e2ba6ec7c27efc40f5dc60",
+          "org.opencontainers.image.source": "https://github.com/jenkinsci/docker"
+        },
+        "jenkins_version": "2.580.1"
+      },
+      "act": {
+        "ref": "j2gha/act:local",
+        "present": true,
+        "id": "sha256:0781bb0384b914fba362a2a2483d55d30c3d3cc9b59598856146778aa88662a4",
+        "repo_digests": [],
+        "created": "2026-10-03T06:26:46.552472741Z",
+        "labels": {},
+        "act_version": "0.2.89"
+      },
+      "act_runner": {
+        "ref": "j2gha/act-runner:local",
+        "present": true,
+        "id": "sha256:134418998a1ca958b148ee6befb038aa3ff598bf147b39ce9e99b60a563a15be",
+        "repo_digests": [],
+        "created": "2026-10-09T18:54:04.157825772Z",
+        "labels": {
+          "j2gha.base-image": "catthehacker/ubuntu:act-latest@sha256:c58e2b364da03b0c804c7d660f2ecbedf2f221a382b9baa0b344b0144780ff43",
+          "org.opencontainers.image.version": "20260815",
+          "org.opencontainers.image.revision": "e2f8efe464c82732f78e967ee709c00b6af53643",
+          "org.opencontainers.image.source": "https://github.com/catthehacker/catthehacker/docker_images"
+        }
+      },
+      "jit_runner": {
+        "ref": "j2gha/runner:local",
+        "present": true,
+        "id": "sha256:4847cf6e3e915577d28244aedfbe1b633eafa060a49d4ef313129d6841e2e667",
+        "repo_digests": [],
+        "created": "2026-10-09T18:52:46.515242869Z",
+        "labels": {
+          "j2gha.base-image": "ghcr.io/actions/actions-runner:latest@sha256:4ffadc0002b2581327e06101fc8c06cd189232baf79fe561fac9caeb76f5e807",
+          "org.opencontainers.image.version": "24.04",
+          "org.opencontainers.image.source": "https://github.com/actions/runner"
+        }
+      }
+    }
+  },
+  "finished_at": "2026-10-10T09:32:36+00:00"
+}

@@ -1,0 +1,100 @@
+[2026-10-10T08:14:21.515Z] Started by user admin
+[2026-10-10T08:14:21.662Z] [Pipeline] Start of Pipeline
+[2026-10-10T08:14:21.786Z] [Pipeline] node
+[2026-10-10T08:14:21.798Z] Running on Jenkins in /var/jenkins_home/workspace/ex-104-trace
+[2026-10-10T08:14:21.817Z] [Pipeline] {
+[2026-10-10T08:14:21.850Z] [Pipeline] stage
+[2026-10-10T08:14:21.857Z] [Pipeline] { (Declarative: Checkout SCM)
+[2026-10-10T08:14:21.905Z] [Pipeline] echo
+[2026-10-10T08:14:21.911Z] J2GHA-TRACE {"stage":"Declarative: Checkout SCM","step":"checkout"}
+[2026-10-10T08:14:21.917Z] [Pipeline] }
+[2026-10-10T08:14:21.942Z] [Pipeline] // stage
+[2026-10-10T08:14:21.987Z] [Pipeline] withEnv
+[2026-10-10T08:14:21.993Z] [Pipeline] {
+[2026-10-10T08:14:22.028Z] [Pipeline] echo
+[2026-10-10T08:14:22.034Z] J2GHA-TRACE {"stage":"","step":"sh"}
+[2026-10-10T08:14:22.065Z] [Pipeline] withEnv
+[2026-10-10T08:14:22.071Z] [Pipeline] {
+[2026-10-10T08:14:22.111Z] [Pipeline] timeout
+[2026-10-10T08:14:22.111Z] Timeout set to expire in 30 min
+[2026-10-10T08:14:22.117Z] [Pipeline] {
+[2026-10-10T08:14:22.161Z] [Pipeline] stage
+[2026-10-10T08:14:22.168Z] [Pipeline] { (Build docker image)
+[2026-10-10T08:14:22.227Z] [Pipeline] node
+[2026-10-10T08:14:22.238Z] Running on Jenkins in /var/jenkins_home/workspace/ex-104-trace@2
+[2026-10-10T08:14:22.250Z] [Pipeline] {
+[2026-10-10T08:14:22.272Z] [Pipeline] echo
+[2026-10-10T08:14:22.277Z] J2GHA-TRACE {"stage":"Build docker image","step":"checkout"}
+[2026-10-10T08:14:22.298Z] [Pipeline] withEnv
+[2026-10-10T08:14:22.305Z] [Pipeline] {
+[2026-10-10T08:14:22.335Z] [Pipeline] echo
+[2026-10-10T08:14:22.340Z] J2GHA-TRACE {"stage":"Build docker image","step":"sh"}
+[2026-10-10T08:14:22.346Z] [Pipeline] }
+[2026-10-10T08:14:22.370Z] [Pipeline] // withEnv
+[2026-10-10T08:14:22.383Z] [Pipeline] }
+[2026-10-10T08:14:22.417Z] [Pipeline] // node
+[2026-10-10T08:14:22.430Z] [Pipeline] }
+[2026-10-10T08:14:22.455Z] [Pipeline] // stage
+[2026-10-10T08:14:22.480Z] [Pipeline] stage
+[2026-10-10T08:14:22.486Z] [Pipeline] { (Push docker image)
+[2026-10-10T08:14:22.516Z] [Pipeline] node
+[2026-10-10T08:14:22.528Z] Running on Jenkins in /var/jenkins_home/workspace/ex-104-trace@2
+[2026-10-10T08:14:22.544Z] [Pipeline] {
+[2026-10-10T08:14:22.570Z] [Pipeline] echo
+[2026-10-10T08:14:22.575Z] J2GHA-TRACE {"stage":"Push docker image","step":"checkout"}
+[2026-10-10T08:14:22.601Z] [Pipeline] withEnv
+[2026-10-10T08:14:22.607Z] [Pipeline] {
+[2026-10-10T08:14:22.638Z] [Pipeline] echo
+[2026-10-10T08:14:22.643Z] J2GHA-TRACE {"stage":"Push docker image","step":"sh"}
+[2026-10-10T08:14:22.649Z] [Pipeline] }
+[2026-10-10T08:14:22.677Z] [Pipeline] // withEnv
+[2026-10-10T08:14:22.692Z] [Pipeline] }
+[2026-10-10T08:14:22.728Z] [Pipeline] // node
+[2026-10-10T08:14:22.741Z] [Pipeline] }
+[2026-10-10T08:14:22.772Z] [Pipeline] // stage
+[2026-10-10T08:14:22.797Z] [Pipeline] stage
+[2026-10-10T08:14:22.805Z] [Pipeline] { (Deploy test)
+[2026-10-10T08:14:22.841Z] Stage "Deploy test" skipped due to when conditional
+[2026-10-10T08:14:22.856Z] [Pipeline] getContext
+[2026-10-10T08:14:22.878Z] [Pipeline] }
+[2026-10-10T08:14:22.910Z] [Pipeline] // stage
+[2026-10-10T08:14:22.938Z] [Pipeline] stage
+[2026-10-10T08:14:22.944Z] [Pipeline] { (Deploy staging)
+[2026-10-10T08:14:22.966Z] Stage "Deploy staging" skipped due to when conditional
+[2026-10-10T08:14:22.977Z] [Pipeline] getContext
+[2026-10-10T08:14:22.993Z] [Pipeline] }
+[2026-10-10T08:14:23.020Z] [Pipeline] // stage
+[2026-10-10T08:14:23.069Z] [Pipeline] stage
+[2026-10-10T08:14:23.075Z] [Pipeline] { (Deploy production)
+[2026-10-10T08:14:23.093Z] Stage "Deploy production" skipped due to when conditional
+[2026-10-10T08:14:23.105Z] [Pipeline] getContext
+[2026-10-10T08:14:23.120Z] [Pipeline] }
+[2026-10-10T08:14:23.149Z] [Pipeline] // stage
+[2026-10-10T08:14:23.174Z] [Pipeline] stage
+[2026-10-10T08:14:23.179Z] [Pipeline] { (Deploy aws-staging)
+[2026-10-10T08:14:23.214Z] [Pipeline] echo
+[2026-10-10T08:14:23.219Z] J2GHA-TRACE {"stage":"Deploy aws-staging","step":"sh"}
+[2026-10-10T08:14:23.225Z] [Pipeline] }
+[2026-10-10T08:14:23.254Z] [Pipeline] // stage
+[2026-10-10T08:14:23.281Z] [Pipeline] stage
+[2026-10-10T08:14:23.287Z] [Pipeline] { (Deploy aws-production)
+[2026-10-10T08:14:23.307Z] Stage "Deploy aws-production" skipped due to when conditional
+[2026-10-10T08:14:23.320Z] [Pipeline] getContext
+[2026-10-10T08:14:23.338Z] [Pipeline] }
+[2026-10-10T08:14:23.367Z] [Pipeline] // stage
+[2026-10-10T08:14:23.394Z] [Pipeline] stage
+[2026-10-10T08:14:23.400Z] [Pipeline] { (Declarative: Post Actions)
+[2026-10-10T08:14:23.437Z] [Pipeline] echo
+[2026-10-10T08:14:23.443Z] J2GHA-TRACE {"stage":"Declarative: Post Actions","step":"deleteDir"}
+[2026-10-10T08:14:23.449Z] [Pipeline] }
+[2026-10-10T08:14:23.475Z] [Pipeline] // stage
+[2026-10-10T08:14:23.488Z] [Pipeline] }
+[2026-10-10T08:14:23.516Z] [Pipeline] // timeout
+[2026-10-10T08:14:23.530Z] [Pipeline] }
+[2026-10-10T08:14:23.559Z] [Pipeline] // withEnv
+[2026-10-10T08:14:23.573Z] [Pipeline] }
+[2026-10-10T08:14:23.599Z] [Pipeline] // withEnv
+[2026-10-10T08:14:23.612Z] [Pipeline] }
+[2026-10-10T08:14:23.643Z] [Pipeline] // node
+[2026-10-10T08:14:23.656Z] [Pipeline] End of Pipeline
+[2026-10-10T08:14:23.697Z] Finished: SUCCESS

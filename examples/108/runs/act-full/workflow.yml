@@ -1,0 +1,170 @@
+# j2gha act variant (full) of examples/108
+name: 'j2gha 108: h2oai/h2o-3 docker/Jenkinsfile-build-docker (j2gha)'
+on:
+  push:
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  BRANCH_NAME: master
+  TAG_NAME: ''
+  CHANGE_ID: ''
+  forceBuild: ${{ github.event_name != 'workflow_dispatch' && 'false' || format('{0}', inputs.forceBuild) }}
+  publish: ${{ github.event_name != 'workflow_dispatch' && 'false' || format('{0}', inputs.publish) }}
+  h2oBranch: ${{ github.event_name != 'workflow_dispatch' && 'master' || format('{0}', inputs.h2oBranch) }}
+  noCache: ${{ github.event_name != 'workflow_dispatch' && 'true' || format('{0}', inputs.noCache) }}
+  GIT_COMMIT: f26129ff5c9c3646573f98af753c8cd227462a7c
+  GIT_BRANCH: origin/master
+  GIT_URL: ${{ github.server_url }}/${{ github.repository }}.git
+defaults:
+  run:
+    shell: bash
+jobs:
+  main:
+    name: main, Checkout and Init
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+    - name: Checkout
+      uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      with:
+        persist-credentials: false
+    - name: buildSummary (manual migration)
+      id: s1
+      run: echo "::warning::Jenkins step 'buildSummary' requires manual migration"
+    - name: addStagesSummary (manual migration)
+      id: s2
+      run: echo "::warning::Jenkins step 'addStagesSummary' requires manual migration"
+    - name: 'Checkout and Init: refreshStage (manual migration)'
+      id: s3
+      run: echo "::warning::Jenkins step 'refreshStage' requires manual migration"
+    - name: 'Checkout and Init: cleanWs'
+      id: s4
+      run: find . -mindepth 1 -delete || true
+    - name: 'Checkout and Init: checkout'
+      id: s5
+      uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      with:
+        persist-credentials: false
+    - name: 'Checkout and Init: load (manual migration)'
+      id: s6
+      run: echo "::warning::Jenkins step 'load' requires manual migration"
+    - name: 'Checkout and Init: pipelineContextFactory (manual migration)'
+      id: s7
+      run: echo "::warning::Jenkins step 'pipelineContextFactory' requires manual migration"
+    - name: 'Checkout and Init: getDefaultImageVersion (manual migration)'
+      id: s8
+      run: echo "::warning::Jenkins step 'getDefaultImageVersion' requires manual migration"
+    - name: 'Checkout and Init: dir docker'
+      id: s9
+      run: mkdir -p -- "$J2GHA_DIR"
+      env:
+        J2GHA_DIR: docker
+    - name: 'Checkout and Init: echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-8/x64-linux/j'
+      id: s10
+      run: docker run --rm -v "$PWD":"$PWD" -w "$PWD" --env-file <(env | grep -v '^PATH=') d3fk/s3cmd sh -c 'echo s3cmd get
+        s3://artifacts.h2o.ai/releases/oracle/jdk-8/x64-linux/jdk-8u311-linux-x64.tar.gz > jdk-8u311-linux-x64.tar.gz'
+      working-directory: docker
+      env:
+        AWS_ACCESS_KEY_ID: j2gha-user
+        AWS_SECRET_ACCESS_KEY: j2gha-fake-password
+    - name: 'Checkout and Init: echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-10/x64-linux/'
+      id: s11
+      run: docker run --rm -v "$PWD":"$PWD" -w "$PWD" --env-file <(env | grep -v '^PATH=') d3fk/s3cmd sh -c 'echo s3cmd get
+        s3://artifacts.h2o.ai/releases/oracle/jdk-10/x64-linux/jdk-10.0.2_linux-x64_bin.tar.gz > jdk-10.0.2_linux-x64_bin.tar.gz'
+      working-directory: docker
+      env:
+        AWS_ACCESS_KEY_ID: j2gha-user
+        AWS_SECRET_ACCESS_KEY: j2gha-fake-password
+    - name: 'Checkout and Init: echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-11/x64-linux/'
+      id: s12
+      run: docker run --rm -v "$PWD":"$PWD" -w "$PWD" --env-file <(env | grep -v '^PATH=') d3fk/s3cmd sh -c 'echo s3cmd get
+        s3://artifacts.h2o.ai/releases/oracle/jdk-11/x64-linux/jdk-11.0.3_linux-x64_bin.tar.gz > jdk-11.0.3_linux-x64_bin.tar.gz'
+      working-directory: docker
+      env:
+        AWS_ACCESS_KEY_ID: j2gha-user
+        AWS_SECRET_ACCESS_KEY: j2gha-fake-password
+    - name: 'Checkout and Init: echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-12/x64-linux/'
+      id: s13
+      run: docker run --rm -v "$PWD":"$PWD" -w "$PWD" --env-file <(env | grep -v '^PATH=') d3fk/s3cmd sh -c 'echo s3cmd get
+        s3://artifacts.h2o.ai/releases/oracle/jdk-12/x64-linux/jdk-12.0.2_linux-x64_bin.tar.gz > jdk-12.0.2_linux-x64_bin.tar.gz'
+      working-directory: docker
+      env:
+        AWS_ACCESS_KEY_ID: j2gha-user
+        AWS_SECRET_ACCESS_KEY: j2gha-fake-password
+    - name: 'Checkout and Init: echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-13/x64-linux/'
+      id: s14
+      run: docker run --rm -v "$PWD":"$PWD" -w "$PWD" --env-file <(env | grep -v '^PATH=') d3fk/s3cmd sh -c 'echo s3cmd get
+        s3://artifacts.h2o.ai/releases/oracle/jdk-13/x64-linux/jdk-13.0.2_linux-x64_bin.tar.gz > jdk-13.0.2_linux-x64_bin.tar.gz'
+      working-directory: docker
+      env:
+        AWS_ACCESS_KEY_ID: j2gha-user
+        AWS_SECRET_ACCESS_KEY: j2gha-fake-password
+    - name: 'Checkout and Init: echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-14/x64-linux/'
+      id: s15
+      run: docker run --rm -v "$PWD":"$PWD" -w "$PWD" --env-file <(env | grep -v '^PATH=') d3fk/s3cmd sh -c 'echo s3cmd get
+        s3://artifacts.h2o.ai/releases/oracle/jdk-14/x64-linux/jdk-14.0.2_linux-x64_bin.tar.gz > jdk-14.0.2_linux-x64_bin.tar.gz'
+      working-directory: docker
+      env:
+        AWS_ACCESS_KEY_ID: j2gha-user
+        AWS_SECRET_ACCESS_KEY: j2gha-fake-password
+    - name: 'Checkout and Init: echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-15/x64-linux/'
+      id: s16
+      run: docker run --rm -v "$PWD":"$PWD" -w "$PWD" --env-file <(env | grep -v '^PATH=') d3fk/s3cmd sh -c 'echo s3cmd get
+        s3://artifacts.h2o.ai/releases/oracle/jdk-15/x64-linux/jdk-15.0.2_linux-x64_bin.tar.gz > jdk-15.0.2_linux-x64_bin.tar.gz'
+      working-directory: docker
+      env:
+        AWS_ACCESS_KEY_ID: j2gha-user
+        AWS_SECRET_ACCESS_KEY: j2gha-fake-password
+    - name: 'Checkout and Init: echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-16/x64-linux/'
+      id: s17
+      run: docker run --rm -v "$PWD":"$PWD" -w "$PWD" --env-file <(env | grep -v '^PATH=') d3fk/s3cmd sh -c 'echo s3cmd get
+        s3://artifacts.h2o.ai/releases/oracle/jdk-16/x64-linux/jdk-16.0.2_linux-x64_bin.tar.gz > jdk-16.0.2_linux-x64_bin.tar.gz'
+      working-directory: docker
+      env:
+        AWS_ACCESS_KEY_ID: j2gha-user
+        AWS_SECRET_ACCESS_KEY: j2gha-fake-password
+    - name: 'Checkout and Init: echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-17/x64-linux/'
+      id: s18
+      run: docker run --rm -v "$PWD":"$PWD" -w "$PWD" --env-file <(env | grep -v '^PATH=') d3fk/s3cmd sh -c 'echo s3cmd get
+        s3://artifacts.h2o.ai/releases/oracle/jdk-17/x64-linux/jdk-17.0.0_linux-x64_bin.tar.gz > jdk-17.0.0_linux-x64_bin.tar.gz'
+      working-directory: docker
+      env:
+        AWS_ACCESS_KEY_ID: j2gha-user
+        AWS_SECRET_ACCESS_KEY: j2gha-fake-password
+    - name: 'Checkout and Init: stash docker-sources'
+      id: s19
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: stash-docker-sources
+        path: |-
+          docker/**
+          !docker/**/.git
+          !docker/**/.git/**
+          !docker/**/.gitignore
+          !docker/**/.gitattributes
+          !docker/**/.gitmodules
+          !docker/**/.svn
+          !docker/**/.svn/**
+          !docker/**/.hg
+          !docker/**/.hg/**
+          !docker/**/.hgignore
+          !docker/**/.hgtags
+          !docker/**/.bzr
+          !docker/**/.bzr/**
+          !docker/**/.bzrignore
+          !docker/**/CVS
+          !docker/**/CVS/**
+          !docker/**/.cvsignore
+          !docker/**/SCCS
+          !docker/**/SCCS/**
+          !docker/**/vssver.scc
+          !docker/**/.DS_Store
+          !docker/**/*~
+          !docker/**/#*#
+          !docker/**/.#*
+          !docker/**/%*%
+          !docker/**/._*
+        retention-days: 1
+        include-hidden-files: true
+        if-no-files-found: error

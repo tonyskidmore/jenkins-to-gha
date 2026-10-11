@@ -1,0 +1,347 @@
+{
+  "tier": "jenkins",
+  "mode": "trace",
+  "scenario": {
+    "branch": "master",
+    "git_branch": "origin/master"
+  },
+  "localisation": {
+    "changes": [
+      "L173: options buildDiscarder removed",
+      "L183: agent -> any (was ?)",
+      "L319: agent -> any (was ?)",
+      "L352: agent -> any (was ?)",
+      "L384: agent -> any (was ?)",
+      "L453: agent -> any (was ?)",
+      "L491: agent -> any (was ?)",
+      "L510: agent -> any (was ?)",
+      "L529: agent -> any (was ?)",
+      "L547: agent -> any (was ?)",
+      "L596: agent -> any (was ?)",
+      "L649: agent -> any (was ?)",
+      "L672: agent -> any (was ?)",
+      "L706: agent -> any (was ?)",
+      "L766: node(${jenkinsBuildLabel} && ${account}) -> node('built-in')",
+      "L782: node(${jenkinsCtrlNodeLabel} && ${account}) -> node('built-in')",
+      "L2: import dvsa.aws.mot.jenkins.pipeline.common.AWSFunctions removed (class stubbed)",
+      "L4: import dvsa.aws.mot.jenkins.pipeline.common.RepoFunctions removed (class stubbed)",
+      "L5: import dvsa.aws.mot.jenkins.pipeline.common.GlobalValues removed (class stubbed)",
+      "L203: `Map output` declared with def - its value is a stub that cannot be cast to the declared type",
+      "L571: `Map output` declared with def - its value is a stub that cannot be cast to the declared type",
+      "L152: `Map domainOutput` declared with def - its value is a stub that cannot be cast to the declared type",
+      "undefined property 'log' (plugin/library global) replaced by a permissive stub"
+    ],
+    "stubs": [
+      "sh",
+      "bat",
+      "powershell",
+      "pwsh",
+      "echo",
+      "checkout",
+      "git",
+      "archiveArtifacts",
+      "archive",
+      "junit",
+      "stash",
+      "unstash",
+      "input",
+      "build",
+      "error",
+      "unstable",
+      "mail",
+      "emailext",
+      "slackSend",
+      "office365ConnectorSend",
+      "publishHTML",
+      "publishCoverage",
+      "recordCoverage",
+      "jacoco",
+      "cobertura",
+      "recordIssues",
+      "deleteDir",
+      "cleanWs",
+      "sleep",
+      "writeFile",
+      "httpRequest",
+      "copyArtifacts",
+      "waitForQualityGate",
+      "githubNotify",
+      "setGitHubPullRequestStatus",
+      "step",
+      "fingerprint",
+      "s3Upload",
+      "s3Download",
+      "milestone",
+      "properties",
+      "buildDiscarder",
+      "readFile",
+      "fileExists",
+      "findFiles",
+      "readJSON",
+      "readYaml",
+      "readProperties",
+      "readMavenPom",
+      "readCSV",
+      "tool",
+      "load",
+      "evaluate",
+      "library",
+      "withCredentials",
+      "sshagent",
+      "withDockerRegistry",
+      "withMaven",
+      "withSonarQubeEnv",
+      "container",
+      "wrap",
+      "ansiColor",
+      "withAWS",
+      "withKubeConfig",
+      "withVault",
+      "configFileProvider",
+      "withGradle",
+      "nodejs",
+      "withPythonEnv",
+      "timestamps",
+      "withDockerContainer",
+      "withDockerServer",
+      "azureCLI",
+      "retry",
+      "podTemplate",
+      "lock",
+      "fail"
+    ],
+    "auto_repairs": {
+      "removed": [
+        [
+          "stub-property",
+          "log"
+        ],
+        [
+          "untype-decl",
+          203
+        ]
+      ],
+      "stubbed": [],
+      "ineffective": []
+    }
+  },
+  "attempts": [
+    {
+      "attempt": 0,
+      "phase": "run",
+      "build": 4,
+      "result": "FAILURE",
+      "seconds": 7.0,
+      "repairs": [
+        [
+          "stub-property",
+          "log"
+        ]
+      ],
+      "stubs": []
+    },
+    {
+      "attempt": 1,
+      "phase": "run",
+      "build": 5,
+      "result": "FAILURE",
+      "seconds": 6.9,
+      "repairs": [
+        [
+          "untype-decl",
+          203
+        ]
+      ],
+      "stubs": []
+    },
+    {
+      "attempt": 2,
+      "phase": "run",
+      "build": 6,
+      "result": "FAILURE",
+      "seconds": 6.9,
+      "repairs": [],
+      "stubs": []
+    }
+  ],
+  "result": "FAILURE",
+  "build": 6,
+  "duration_ms": 5171,
+  "stages": [
+    {
+      "name": "Init",
+      "status": "SUCCESS",
+      "durationMillis": 234
+    },
+    {
+      "name": "Init: Check DB data completion",
+      "status": "SUCCESS",
+      "durationMillis": 230
+    },
+    {
+      "name": "Init: TF deployment bucket",
+      "status": "SUCCESS",
+      "durationMillis": 324
+    },
+    {
+      "name": "Init: Verify environment",
+      "status": "FAILED",
+      "durationMillis": 344
+    },
+    {
+      "name": "Build",
+      "status": "SUCCESS",
+      "durationMillis": 160
+    },
+    {
+      "name": "Build: CVR frontend",
+      "status": "FAILED",
+      "durationMillis": 327
+    },
+    {
+      "name": "Build: CVR backend",
+      "status": "FAILED",
+      "durationMillis": 334
+    },
+    {
+      "name": "Build: frontend assets",
+      "status": "FAILED",
+      "durationMillis": 343
+    },
+    {
+      "name": "Build: CVR data update module",
+      "status": "FAILED",
+      "durationMillis": 356
+    },
+    {
+      "name": "Deploy",
+      "status": "SUCCESS",
+      "durationMillis": 108
+    },
+    {
+      "name": "Deploy: Upload CVR frontend package",
+      "status": "FAILED",
+      "durationMillis": 118
+    },
+    {
+      "name": "Deploy: Upload CVR backend package",
+      "status": "FAILED",
+      "durationMillis": 96
+    },
+    {
+      "name": "Deploy: Upload CVR data update package",
+      "status": "FAILED",
+      "durationMillis": 109
+    },
+    {
+      "name": "Deploy: Terraform CVR",
+      "status": "FAILED",
+      "durationMillis": 193
+    },
+    {
+      "name": "Deploy: Upload CVR frontend assets",
+      "status": "FAILED",
+      "durationMillis": 94
+    },
+    {
+      "name": "Deploy: Manifest",
+      "status": "FAILED",
+      "durationMillis": 94
+    },
+    {
+      "name": "Load test data to DB",
+      "status": "FAILED",
+      "durationMillis": 117
+    },
+    {
+      "name": "Tests",
+      "status": "FAILED",
+      "durationMillis": 80
+    },
+    {
+      "name": "Declarative: Post Actions",
+      "status": "SUCCESS",
+      "durationMillis": 702
+    }
+  ],
+  "traces": [
+    {
+      "stage": "Init",
+      "step": "checkout"
+    },
+    {
+      "stage": "Init: TF deployment bucket",
+      "step": "sh"
+    },
+    {
+      "stage": "Init: TF deployment bucket",
+      "step": "sh"
+    },
+    {
+      "stage": "Declarative: Post Actions",
+      "step": "slackSend"
+    }
+  ],
+  "approved_inputs": [],
+  "error_tail": "[2026-10-10T08:20:56.714Z] Also:   hudson.remoting.ProxyException: org.jenkinsci.plugins.workflow.actions.ErrorAction$ErrorId: 7b0aff77-85a0-4cf5-a709-a0a7b718a3b5\n[2026-10-10T08:20:56.714Z] hudson.remoting.ProxyException: org.codehaus.groovy.runtime.typehandling.GroovyCastException: Cannot cast object '{}' with class 'J2ghaConfig' to class 'net.sf.json.JSON' due to: groovy.lang.GroovyRuntimeException: Could not find matching constructor for: net.sf.json.JSON(J2ghaConfig)\n[2026-10-10T08:20:56.714Z] \tat org.codehaus.groovy.runtime.typehandling.DefaultTypeTransformation.continueCastOnSAM(DefaultTypeTransformation.java:416)\n[2026-10-10T08:20:56.714Z] \tat org.codehaus.groovy.runtime.typehandling.DefaultTypeTransformation.continueCastOnNumber(DefaultTypeTransformation.java:332)\n[2026-10-10T08:20:56.714Z] \tat org.codehaus.groovy.runtime.typehandling.DefaultTypeTransformation.castToType(DefaultTypeTransformation.java:245)\n[2026-10-10T08:20:56.714Z] \tat org.codehaus.groovy.runtime.ScriptBytecodeAdapter.castToType(ScriptBytecodeAdapter.java:616)\n[2026-10-10T08:20:56.714Z] \tat PluginClassLoader for workflow-cps//com.cloudbees.groovy.cps.sandbox.DefaultInvoker.cast(DefaultInvoker.java:72)\n[2026-10-10T08:20:56.714Z] \tat PluginClassLoader for workflow-cps//org.jenkinsci.plugins.workflow.cps.LoggingInvoker.cast(LoggingInvoker.java:267)\n[2026-10-10T08:20:56.714Z] \tat WorkflowScript.run(WorkflowScript:288)\n[2026-10-10T08:20:56.714Z] \tat ___cps.transform___(Native Method)\n[2026-10-10T08:20:56.714Z] \tat PluginClassLoader for workflow-cps//com.cloudbees.groovy.cps.impl.CastBlock$ContinuationImpl.cast(CastBlock.java:56)\n[2026-10-10T08:20:56.714Z] \tat java.base/jdk.internal.reflect.DirectMethodHandleAccessor.invoke(Unknown Source)",
+  "provenance": {
+    "jenkinsfile_sha256": "b51a5a533f16cebacb87d81a771f548ed4e5f7304e756872c48a160b60bd7f56",
+    "scenario": {
+      "branch": "master",
+      "git_branch": "origin/master"
+    },
+    "mode": "trace",
+    "localizer_version": 5,
+    "images": {
+      "jenkins": {
+        "ref": "j2gha/jenkins:local",
+        "present": true,
+        "id": "sha256:672c4b841b2c934f224d4f1b3523d77a1b651f8f491f8f04da47ca764eb86775",
+        "repo_digests": [],
+        "created": "2026-10-09T18:21:15.545465961Z",
+        "labels": {
+          "j2gha.base-image": "jenkins/jenkins:lts-jdk21@sha256:a660310e39ade10631f774bacd5219de767dfd08947ea5c32a739b5e5bb382c1",
+          "org.opencontainers.image.version": "2.580.1",
+          "org.opencontainers.image.revision": "457b9316d71b43cdf3e2ba6ec7c27efc40f5dc60",
+          "org.opencontainers.image.source": "https://github.com/jenkinsci/docker"
+        },
+        "jenkins_version": "2.580.1"
+      },
+      "act": {
+        "ref": "j2gha/act:local",
+        "present": true,
+        "id": "sha256:0781bb0384b914fba362a2a2483d55d30c3d3cc9b59598856146778aa88662a4",
+        "repo_digests": [],
+        "created": "2026-10-03T06:26:46.552472741Z",
+        "labels": {},
+        "act_version": "0.2.89"
+      },
+      "act_runner": {
+        "ref": "j2gha/act-runner:local",
+        "present": true,
+        "id": "sha256:134418998a1ca958b148ee6befb038aa3ff598bf147b39ce9e99b60a563a15be",
+        "repo_digests": [],
+        "created": "2026-10-09T18:54:04.157825772Z",
+        "labels": {
+          "j2gha.base-image": "catthehacker/ubuntu:act-latest@sha256:c58e2b364da03b0c804c7d660f2ecbedf2f221a382b9baa0b344b0144780ff43",
+          "org.opencontainers.image.version": "20260815",
+          "org.opencontainers.image.revision": "e2f8efe464c82732f78e967ee709c00b6af53643",
+          "org.opencontainers.image.source": "https://github.com/catthehacker/catthehacker/docker_images"
+        }
+      },
+      "jit_runner": {
+        "ref": "j2gha/runner:local",
+        "present": true,
+        "id": "sha256:4847cf6e3e915577d28244aedfbe1b633eafa060a49d4ef313129d6841e2e667",
+        "repo_digests": [],
+        "created": "2026-10-09T18:52:46.515242869Z",
+        "labels": {
+          "j2gha.base-image": "ghcr.io/actions/actions-runner:latest@sha256:4ffadc0002b2581327e06101fc8c06cd189232baf79fe561fac9caeb76f5e807",
+          "org.opencontainers.image.version": "24.04",
+          "org.opencontainers.image.source": "https://github.com/actions/runner"
+        }
+      }
+    }
+  },
+  "finished_at": "2026-10-10T08:20:58+00:00"
+}

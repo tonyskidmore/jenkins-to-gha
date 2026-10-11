@@ -1,0 +1,109 @@
+[2026-10-10T09:33:03.162Z] Started by user admin
+[2026-10-10T09:33:03.251Z] [Pipeline] Start of Pipeline
+[2026-10-10T09:33:03.271Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named branch (to a value of type GStringImpl) which could lead to memory leaks or other issues.
+[2026-10-10T09:33:03.271Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named target_location (to a value of type GStringImpl) which could lead to memory leaks or other issues.
+[2026-10-10T09:33:03.271Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named git_repo_url (to a value of type GStringImpl) which could lead to memory leaks or other issues.
+[2026-10-10T09:33:03.271Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named plugin_check (to a value of type GStringImpl) which could lead to memory leaks or other issues.
+[2026-10-10T09:33:03.271Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named bucket (to a value of type GStringImpl) which could lead to memory leaks or other issues.
+[2026-10-10T09:33:03.271Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named file (to a value of type GStringImpl) which could lead to memory leaks or other issues.
+[2026-10-10T09:33:03.271Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named integration_test_check (to a value of type GStringImpl) which could lead to memory leaks or other issues.
+[2026-10-10T09:33:03.282Z] [Pipeline] timestamps
+[2026-10-10T09:33:03.282Z] The timestamps step is unnecessary when timestamps are enabled for all Pipeline builds.
+[2026-10-10T09:33:03.288Z] [Pipeline] {
+[2026-10-10T09:33:03.321Z] [Pipeline] ansiColor
+[2026-10-10T09:33:03.327Z] [Pipeline] {
+[2026-10-10T09:33:03.333Z] 
+[2026-10-10T09:33:03.361Z] [Pipeline] node
+[2026-10-10T09:33:03.374Z] Running on Jenkins in /var/jenkins_home/workspace/ex-119-full
+[2026-10-10T09:33:03.385Z] [Pipeline] {
+[2026-10-10T09:33:03.403Z] [Pipeline] deleteDir
+[2026-10-10T09:33:03.443Z] [Pipeline] stage
+[2026-10-10T09:33:03.449Z] [Pipeline] { (Git Checkout)
+[2026-10-10T09:33:03.475Z] [Pipeline] parallel
+[2026-10-10T09:33:03.488Z] [Pipeline] { (Branch: main)
+[2026-10-10T09:33:03.494Z] [Pipeline] { (Branch: plugin)
+[2026-10-10T09:33:03.512Z] [Pipeline] }
+[2026-10-10T09:33:03.518Z] [Pipeline] }
+[2026-10-10T09:33:03.560Z] [Pipeline] // parallel
+[2026-10-10T09:33:03.573Z] [Pipeline] }
+[2026-10-10T09:33:03.597Z] [Pipeline] // stage
+[2026-10-10T09:33:03.611Z] [Pipeline] pwd
+[2026-10-10T09:33:03.636Z] [Pipeline] dir
+[2026-10-10T09:33:03.636Z] Running in /var/jenkins_home/workspace/ex-119-full
+[2026-10-10T09:33:03.642Z] [Pipeline] {
+[2026-10-10T09:33:03.681Z] [Pipeline] stash
+[2026-10-10T09:33:03.695Z] Stashed 0 file(s)
+[2026-10-10T09:33:03.720Z] [Pipeline] }
+[2026-10-10T09:33:03.758Z] [Pipeline] // dir
+[2026-10-10T09:33:03.778Z] [Pipeline] }
+[2026-10-10T09:33:03.821Z] [Pipeline] // node
+[2026-10-10T09:33:03.845Z] [Pipeline] node
+[2026-10-10T09:33:03.861Z] Running on Jenkins in /var/jenkins_home/workspace/ex-119-full
+[2026-10-10T09:33:03.872Z] [Pipeline] {
+[2026-10-10T09:33:03.891Z] [Pipeline] deleteDir
+[2026-10-10T09:33:03.916Z] [Pipeline] pwd
+[2026-10-10T09:33:03.933Z] [Pipeline] unstash
+[2026-10-10T09:33:03.967Z] [Pipeline] dir
+[2026-10-10T09:33:03.967Z] Running in /var/jenkins_home/workspace/ex-119-full/j2gha-stub
+[2026-10-10T09:33:03.972Z] [Pipeline] {
+[2026-10-10T09:33:04.002Z] [Pipeline] stage
+[2026-10-10T09:33:04.009Z] [Pipeline] { (NPM Install)
+[2026-10-10T09:33:04.027Z] [Pipeline] }
+[2026-10-10T09:33:04.050Z] [Pipeline] // stage
+[2026-10-10T09:33:04.073Z] [Pipeline] stage
+[2026-10-10T09:33:04.079Z] [Pipeline] { (Security Check)
+[2026-10-10T09:33:04.097Z] [Pipeline] }
+[2026-10-10T09:33:04.121Z] [Pipeline] // stage
+[2026-10-10T09:33:04.145Z] [Pipeline] stage
+[2026-10-10T09:33:04.151Z] [Pipeline] { (SonarQube)
+[2026-10-10T09:33:04.169Z] [Pipeline] }
+[2026-10-10T09:33:04.191Z] [Pipeline] // stage
+[2026-10-10T09:33:04.215Z] [Pipeline] stage
+[2026-10-10T09:33:04.223Z] [Pipeline] { (Unit Tests)
+[2026-10-10T09:33:04.241Z] [Pipeline] }
+[2026-10-10T09:33:04.263Z] [Pipeline] // stage
+[2026-10-10T09:33:04.282Z] [Pipeline] stage
+[2026-10-10T09:33:04.287Z] [Pipeline] { (NPM Build)
+[2026-10-10T09:33:04.304Z] [Pipeline] }
+[2026-10-10T09:33:04.329Z] [Pipeline] // stage
+[2026-10-10T09:33:04.355Z] [Pipeline] stage
+[2026-10-10T09:33:04.361Z] [Pipeline] { (Cordova Platform)
+[2026-10-10T09:33:04.379Z] [Pipeline] }
+[2026-10-10T09:33:04.397Z] [Pipeline] // stage
+[2026-10-10T09:33:04.407Z] [Pipeline] }
+[2026-10-10T09:33:04.437Z] [Pipeline] // dir
+[2026-10-10T09:33:04.472Z] [Pipeline] dir
+[2026-10-10T09:33:04.472Z] Running in /var/jenkins_home/workspace/ex-119-full/j2gha-stub/platforms/ios
+[2026-10-10T09:33:04.479Z] [Pipeline] {
+[2026-10-10T09:33:04.513Z] [Pipeline] stage
+[2026-10-10T09:33:04.519Z] [Pipeline] { (Build)
+[2026-10-10T09:33:04.537Z] [Pipeline] }
+[2026-10-10T09:33:04.561Z] [Pipeline] // stage
+[2026-10-10T09:33:04.580Z] [Pipeline] stash
+[2026-10-10T09:33:04.586Z] Stashed 0 file(s)
+[2026-10-10T09:33:04.605Z] [Pipeline] }
+[2026-10-10T09:33:04.630Z] [Pipeline] // dir
+[2026-10-10T09:33:04.642Z] [Pipeline] }
+[2026-10-10T09:33:04.670Z] [Pipeline] // node
+[2026-10-10T09:33:04.694Z] [Pipeline] node
+[2026-10-10T09:33:04.710Z] Running on Jenkins in /var/jenkins_home/workspace/ex-119-full
+[2026-10-10T09:33:04.721Z] [Pipeline] {
+[2026-10-10T09:33:04.740Z] [Pipeline] deleteDir
+[2026-10-10T09:33:04.768Z] [Pipeline] unstash
+[2026-10-10T09:33:04.804Z] [Pipeline] stage
+[2026-10-10T09:33:04.810Z] [Pipeline] { (Upload to S3)
+[2026-10-10T09:33:04.828Z] [Pipeline] }
+[2026-10-10T09:33:04.851Z] [Pipeline] // stage
+[2026-10-10T09:33:04.873Z] [Pipeline] stage
+[2026-10-10T09:33:04.879Z] [Pipeline] { (Generate bucket URL)
+[2026-10-10T09:33:04.900Z] [Pipeline] }
+[2026-10-10T09:33:04.922Z] [Pipeline] // stage
+[2026-10-10T09:33:04.932Z] [Pipeline] }
+[2026-10-10T09:33:04.957Z] [Pipeline] // node
+[2026-10-10T09:33:04.970Z] [Pipeline] }
+[2026-10-10T09:33:04.975Z] 
+[2026-10-10T09:33:04.997Z] [Pipeline] // ansiColor
+[2026-10-10T09:33:05.007Z] [Pipeline] }
+[2026-10-10T09:33:05.026Z] [Pipeline] // timestamps
+[2026-10-10T09:33:05.036Z] [Pipeline] End of Pipeline
+[2026-10-10T09:33:05.075Z] Finished: SUCCESS

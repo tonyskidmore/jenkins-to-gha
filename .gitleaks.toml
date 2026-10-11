@@ -1,0 +1,7 @@
+# gitleaks configuration: the default rules, minus a known false positive.
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Jenkins plugin pins (name:version) match generic-api-key"
+paths = ['''^docker/jenkins/plugins\.txt$''']

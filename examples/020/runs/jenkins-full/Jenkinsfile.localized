@@ -1,0 +1,116 @@
+/* j2gha: import aws.dvsa.mes.Globals removed */
+
+/* j2gha: import aws.dvsa.mes.CommonFunctions removed */
+/* j2gha: import aws.dvsa.mes.GitFunctions removed */
+/* j2gha: import aws.dvsa.mes.MobileFunctions removed */
+/* j2gha: import aws.dvsa.mes.NVMFunctions removed */
+//------------------------------------------
+def Globals         = new Globals()
+def CommonFunctions = new CommonFunctions()
+def GitFunctions    = new GitFunctions()
+def MobileFunctions = new MobileFunctions()
+def NVMFunctions    = new NVMFunctions()
+
+String branch_name          = "${env.BRANCH_NAME}"
+String ionic_app_id         = Globals.MOBILE_APP_ID
+String nodejs_installation  = Globals.MOBILE_NODE_JS
+String mobile_config_branch = "master"
+//----------------------------------------------------
+node ('built-in') {
+  currentBuild.description = "BRANCH: ${branch_name}"
+  // clear workspace
+  deleteDir()
+  // declare workspace
+  env.WSPACE = pwd()
+  // wrappers
+  timestamps {
+  ansiColor("xterm") {
+  wrap([$class: "BuildUser"]) {
+    stage("checkout") {
+      CommonFunctions.log("info", "STAGE: Checkout")
+      GitFunctions.git_check_out(Globals.MOBILE_REPO, branch_name, Globals.MOBILE_NAME, Globals.GITHUB_MOBILE_CREDS, false, false)
+    }
+    stage("install dependencies") {
+      CommonFunctions.log("info", "STAGE: Install Dependencies")
+      dir("${Globals.MOBILE_NAME}") {
+        NVMFunctions.run(" -c 'npm install'")
+      }
+    }
+    stage("tests") {
+      CommonFunctions.log("info", "STAGE: Tests")
+      dir("${Globals.MOBILE_NAME}") {
+        NVMFunctions.run(" -c 'npm test'")
+      }
+    }
+    stage("build") {
+      if(branch_name == "develop" || branch_name == "origin/develop"){
+          CommonFunctions.log("info", "STAGE: Build")
+          // install ionic
+          MobileFunctions.ionic_cli_install(nodejs_installation)
+          // get current commit hash of the ios_app branch
+          String commit_hash = GitFunctions.git_get_commit_hash(Globals.MOBILE_NAME)
+          // build
+          dir("${Globals.MOBILE_NAME}") {
+            MobileFunctions.ionic_pro_push(nodejs_installation, Globals.MOBILE_DEPLOYER_KEY, branch_name, commit_hash, ionic_app_id)
+          }
+          CommonFunctions.log("info", "It takes a couple of minutes to build and publish the app to the IonicPro service.")
+        }
+
+
+        // IONIC APP info for Ionic View
+        CommonFunctions.shout(ionic_app_id, "35m", Globals.MOBILE_NAME.toUpperCase()+" ID", 26)
+  }}}} //ansiColor //BuildUser //timestamps
+  // clear workspace
+  deleteDir()
+}
+
+// ---- j2gha localisation block (full mode) - generated, not part of the original pipeline ----
+@groovy.transform.Field def scm = [$class: 'GitSCM', branches: [[name: "6e6a4b0b53dadc4bdfb451bbc1899d8af5b17532"]], extensions: [[$class: 'CloneOption', shallow: false, noTags: true]], userRemoteConfigs: [[url: "https://github.com/dvsa/mes-beta-sandbox.git"]]]
+class J2ghaAny implements Serializable { @NonCPS def propertyMissing(String n) { new J2ghaAny() }; @NonCPS def methodMissing(String n, Object a) { new J2ghaAny() }; @NonCPS String toString() { 'j2gha-stub' }; @NonCPS boolean asBoolean() { true }; @NonCPS boolean isEmpty() { false }; @NonCPS def getAt(Object k) { new J2ghaAny() }; @NonCPS Iterator iterator() { [].iterator() } }
+class J2ghaConfig extends LinkedHashMap { @NonCPS Object get(Object k) { super.containsKey(k) ? super.get(k) : new J2ghaAny() }; @NonCPS def methodMissing(String n, Object a) { new J2ghaAny() } }
+def j2ghaTrace(String kind) {
+  steps.echo('J2GHA-TRACE ' + groovy.json.JsonOutput.toJson([stage: (env.STAGE_NAME ?: ''), step: kind]))
+}
+def build(Object... a) { j2ghaTrace('build'); return [result: 'SUCCESS', number: 1, currentResult: 'SUCCESS', absoluteUrl: '', getResult: { -> 'SUCCESS' }, buildVariables: [:]] }
+def mail(Object... a) { j2ghaTrace('mail'); return null }
+def emailext(Object... a) { j2ghaTrace('emailext'); return null }
+def slackSend(Object... a) { j2ghaTrace('slackSend'); return null }
+def office365ConnectorSend(Object... a) { j2ghaTrace('office365ConnectorSend'); return null }
+def githubNotify(Object... a) { j2ghaTrace('githubNotify'); return null }
+def setGitHubPullRequestStatus(Object... a) { j2ghaTrace('setGitHubPullRequestStatus'); return null }
+def publishChecks(Object... a) { j2ghaTrace('publishChecks'); return null }
+def s3Upload(Object... a) { j2ghaTrace('s3Upload'); return null }
+def s3Download(Object... a) { j2ghaTrace('s3Download'); return null }
+def copyArtifacts(Object... a) { j2ghaTrace('copyArtifacts'); return null }
+def waitForQualityGate(Object... a) { j2ghaTrace('waitForQualityGate'); return null }
+def recordIssues(Object... a) { j2ghaTrace('recordIssues'); return null }
+def publishCoverage(Object... a) { j2ghaTrace('publishCoverage'); return null }
+def recordCoverage(Object... a) { j2ghaTrace('recordCoverage'); return null }
+def jacoco(Object... a) { j2ghaTrace('jacoco'); return null }
+def cobertura(Object... a) { j2ghaTrace('cobertura'); return null }
+def milestone(Object... a) { return null }
+def properties(Object... a) { return null }
+def buildDiscarder(Object... a) { return null }
+def checkout(Object... a) { def r = a.length == 1 ? steps.checkout(a[0]) : steps.checkout(a); if (r instanceof Map && env.GIT_BRANCH) { r.GIT_BRANCH = env.GIT_BRANCH }; return r }
+def withSonarQubeEnv(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withAWS(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withKubeConfig(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withVault(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def azureCLI(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def container(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def sshagent(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withDockerRegistry(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def configFileProvider(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withMaven(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withGradle(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withPythonEnv(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def podTemplate(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def wrap(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withDockerContainer(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+class Globals extends J2ghaAny { @NonCPS static $static_propertyMissing(String n) { new J2ghaAny() }; @NonCPS static $static_methodMissing(String n, Object a) { new J2ghaAny() } }
+class GitFunctions extends J2ghaAny { @NonCPS static $static_propertyMissing(String n) { new J2ghaAny() }; @NonCPS static $static_methodMissing(String n, Object a) { new J2ghaAny() } }
+class NVMFunctions extends J2ghaAny { @NonCPS static $static_propertyMissing(String n) { new J2ghaAny() }; @NonCPS static $static_methodMissing(String n, Object a) { new J2ghaAny() } }
+class CommonFunctions extends J2ghaAny { @NonCPS static $static_propertyMissing(String n) { new J2ghaAny() }; @NonCPS static $static_methodMissing(String n, Object a) { new J2ghaAny() } }
+class MobileFunctions extends J2ghaAny { @NonCPS static $static_propertyMissing(String n) { new J2ghaAny() }; @NonCPS static $static_methodMissing(String n, Object a) { new J2ghaAny() } }
+def node(Object... a) { def body = a[-1]; return steps.node('built-in') { body() } }
+// ---- end of j2gha localisation block ----

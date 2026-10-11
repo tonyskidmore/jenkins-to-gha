@@ -1,0 +1,368 @@
+{
+  "tier": "jenkins",
+  "mode": "trace",
+  "scenario": {
+    "branch": "main",
+    "git_branch": "origin/main"
+  },
+  "localisation": {
+    "changes": [
+      "L36: agent -> any (was ?)",
+      "L41: tools {} removed (trace mode)"
+    ],
+    "stubs": [
+      "sh",
+      "bat",
+      "powershell",
+      "pwsh",
+      "echo",
+      "checkout",
+      "git",
+      "archiveArtifacts",
+      "archive",
+      "junit",
+      "stash",
+      "unstash",
+      "input",
+      "build",
+      "error",
+      "unstable",
+      "mail",
+      "emailext",
+      "slackSend",
+      "office365ConnectorSend",
+      "publishHTML",
+      "publishCoverage",
+      "recordCoverage",
+      "jacoco",
+      "cobertura",
+      "recordIssues",
+      "deleteDir",
+      "cleanWs",
+      "sleep",
+      "writeFile",
+      "httpRequest",
+      "copyArtifacts",
+      "waitForQualityGate",
+      "githubNotify",
+      "setGitHubPullRequestStatus",
+      "step",
+      "fingerprint",
+      "s3Upload",
+      "s3Download",
+      "milestone",
+      "properties",
+      "buildDiscarder",
+      "readFile",
+      "fileExists",
+      "findFiles",
+      "readJSON",
+      "readYaml",
+      "readProperties",
+      "readMavenPom",
+      "readCSV",
+      "tool",
+      "load",
+      "evaluate",
+      "library",
+      "withCredentials",
+      "sshagent",
+      "withDockerRegistry",
+      "withMaven",
+      "withSonarQubeEnv",
+      "container",
+      "wrap",
+      "ansiColor",
+      "withAWS",
+      "withKubeConfig",
+      "withVault",
+      "configFileProvider",
+      "withGradle",
+      "nodejs",
+      "withPythonEnv",
+      "timestamps",
+      "withDockerContainer",
+      "withDockerServer",
+      "azureCLI",
+      "retry",
+      "podTemplate",
+      "lock",
+      "call"
+    ],
+    "auto_repairs": {
+      "removed": [],
+      "stubbed": [],
+      "ineffective": []
+    }
+  },
+  "attempts": [
+    {
+      "attempt": 0,
+      "phase": "register",
+      "build": 3,
+      "result": "SUCCESS",
+      "note": "parameters could not be defined up front: this build ran with defaults"
+    },
+    {
+      "attempt": 0,
+      "phase": "run",
+      "build": 4,
+      "result": "SUCCESS",
+      "seconds": 13.7,
+      "repairs": [],
+      "stubs": []
+    }
+  ],
+  "result": "SUCCESS",
+  "build": 4,
+  "duration_ms": 4766,
+  "stages": [
+    {
+      "name": "Declarative: Checkout SCM",
+      "status": "SUCCESS",
+      "durationMillis": 86
+    },
+    {
+      "name": "Filter unwanted branches",
+      "status": "SUCCESS",
+      "durationMillis": 75
+    },
+    {
+      "name": "Workaround JENKINS-41929 Parameters bug",
+      "status": "SUCCESS",
+      "durationMillis": 675
+    },
+    {
+      "name": "Echo environment",
+      "status": "SUCCESS",
+      "durationMillis": 356
+    },
+    {
+      "name": "Build WebLogic Kubernetes Operator",
+      "status": "SUCCESS",
+      "durationMillis": 88
+    },
+    {
+      "name": "Make Workspace bin directory",
+      "status": "SUCCESS",
+      "durationMillis": 141
+    },
+    {
+      "name": "Install Helm",
+      "status": "SUCCESS",
+      "durationMillis": 183
+    },
+    {
+      "name": "Run Helm installation tests",
+      "status": "SUCCESS",
+      "durationMillis": 82
+    },
+    {
+      "name": "Install kubectl",
+      "status": "SUCCESS",
+      "durationMillis": 203
+    },
+    {
+      "name": "Install kind",
+      "status": "SUCCESS",
+      "durationMillis": 207
+    },
+    {
+      "name": "Preparing Integration Test Environment",
+      "status": "SUCCESS",
+      "durationMillis": 204
+    },
+    {
+      "name": "Start registry container",
+      "status": "SUCCESS",
+      "durationMillis": 180
+    },
+    {
+      "name": "Create kind cluster",
+      "status": "SUCCESS",
+      "durationMillis": 256
+    },
+    {
+      "name": "Run integration tests",
+      "status": "SUCCESS",
+      "durationMillis": 439
+    },
+    {
+      "name": "Sync",
+      "status": "SUCCESS",
+      "durationMillis": 127
+    }
+  ],
+  "traces": [
+    {
+      "stage": "Declarative: Checkout SCM",
+      "step": "checkout"
+    },
+    {
+      "stage": "",
+      "step": "sh"
+    },
+    {
+      "stage": "Workaround JENKINS-41929 Parameters bug",
+      "step": "echo"
+    },
+    {
+      "stage": "Echo environment",
+      "step": "sh"
+    },
+    {
+      "stage": "Echo environment",
+      "step": "echo"
+    },
+    {
+      "stage": "Build WebLogic Kubernetes Operator",
+      "step": "sh"
+    },
+    {
+      "stage": "Make Workspace bin directory",
+      "step": "sh"
+    },
+    {
+      "stage": "Make Workspace bin directory",
+      "step": "sh"
+    },
+    {
+      "stage": "Install Helm",
+      "step": "sh"
+    },
+    {
+      "stage": "Run Helm installation tests",
+      "step": "sh"
+    },
+    {
+      "stage": "Install kubectl",
+      "step": "sh"
+    },
+    {
+      "stage": "Install kind",
+      "step": "sh"
+    },
+    {
+      "stage": "Preparing Integration Test Environment",
+      "step": "sh"
+    },
+    {
+      "stage": "Preparing Integration Test Environment",
+      "step": "echo"
+    },
+    {
+      "stage": "Preparing Integration Test Environment",
+      "step": "sh"
+    },
+    {
+      "stage": "Preparing Integration Test Environment",
+      "step": "echo"
+    },
+    {
+      "stage": "Start registry container",
+      "step": "sh"
+    },
+    {
+      "stage": "Create kind cluster",
+      "step": "sh"
+    },
+    {
+      "stage": "Create kind cluster",
+      "step": "sh"
+    },
+    {
+      "stage": "Run integration tests",
+      "step": "sh"
+    },
+    {
+      "stage": "Run integration tests",
+      "step": "sh"
+    },
+    {
+      "stage": "Run integration tests",
+      "step": "sh"
+    },
+    {
+      "stage": "Run integration tests",
+      "step": "sh"
+    },
+    {
+      "stage": "Run integration tests",
+      "step": "archiveArtifacts"
+    },
+    {
+      "stage": "Run integration tests",
+      "step": "junit"
+    },
+    {
+      "stage": "Filter unwanted branches",
+      "step": "sh"
+    },
+    {
+      "stage": "Sync",
+      "step": "build"
+    }
+  ],
+  "approved_inputs": [],
+  "error_tail": null,
+  "provenance": {
+    "jenkinsfile_sha256": "d820e0cb6e8ecba13d07f97a32ecd783640fe33f4fb6a87614d471a2f73abfc9",
+    "scenario": {
+      "branch": "main",
+      "git_branch": "origin/main"
+    },
+    "mode": "trace",
+    "localizer_version": 5,
+    "images": {
+      "jenkins": {
+        "ref": "j2gha/jenkins:local",
+        "present": true,
+        "id": "sha256:672c4b841b2c934f224d4f1b3523d77a1b651f8f491f8f04da47ca764eb86775",
+        "repo_digests": [],
+        "created": "2026-10-09T18:21:15.545465961Z",
+        "labels": {
+          "j2gha.base-image": "jenkins/jenkins:lts-jdk21@sha256:a660310e39ade10631f774bacd5219de767dfd08947ea5c32a739b5e5bb382c1",
+          "org.opencontainers.image.version": "2.580.1",
+          "org.opencontainers.image.revision": "457b9316d71b43cdf3e2ba6ec7c27efc40f5dc60",
+          "org.opencontainers.image.source": "https://github.com/jenkinsci/docker"
+        },
+        "jenkins_version": "2.580.1"
+      },
+      "act": {
+        "ref": "j2gha/act:local",
+        "present": true,
+        "id": "sha256:0781bb0384b914fba362a2a2483d55d30c3d3cc9b59598856146778aa88662a4",
+        "repo_digests": [],
+        "created": "2026-10-03T06:26:46.552472741Z",
+        "labels": {},
+        "act_version": "0.2.89"
+      },
+      "act_runner": {
+        "ref": "j2gha/act-runner:local",
+        "present": true,
+        "id": "sha256:134418998a1ca958b148ee6befb038aa3ff598bf147b39ce9e99b60a563a15be",
+        "repo_digests": [],
+        "created": "2026-10-09T18:54:04.157825772Z",
+        "labels": {
+          "j2gha.base-image": "catthehacker/ubuntu:act-latest@sha256:c58e2b364da03b0c804c7d660f2ecbedf2f221a382b9baa0b344b0144780ff43",
+          "org.opencontainers.image.version": "20260815",
+          "org.opencontainers.image.revision": "e2f8efe464c82732f78e967ee709c00b6af53643",
+          "org.opencontainers.image.source": "https://github.com/catthehacker/catthehacker/docker_images"
+        }
+      },
+      "jit_runner": {
+        "ref": "j2gha/runner:local",
+        "present": true,
+        "id": "sha256:4847cf6e3e915577d28244aedfbe1b633eafa060a49d4ef313129d6841e2e667",
+        "repo_digests": [],
+        "created": "2026-10-09T18:52:46.515242869Z",
+        "labels": {
+          "j2gha.base-image": "ghcr.io/actions/actions-runner:latest@sha256:4ffadc0002b2581327e06101fc8c06cd189232baf79fe561fac9caeb76f5e807",
+          "org.opencontainers.image.version": "24.04",
+          "org.opencontainers.image.source": "https://github.com/actions/runner"
+        }
+      }
+    }
+  },
+  "finished_at": "2026-10-10T08:15:17+00:00"
+}

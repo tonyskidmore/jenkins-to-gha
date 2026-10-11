@@ -1,0 +1,796 @@
+{
+  "file": "109",
+  "ok": true,
+  "errors": [],
+  "imports": [],
+  "annotations": [],
+  "methods": [],
+  "classes": [],
+  "statements": [
+    {
+      "k": "call",
+      "name": "pipeline",
+      "args": [],
+      "named": {},
+      "line": 11,
+      "col": 1,
+      "endLine": 92,
+      "endCol": 2,
+      "body": [
+        {
+          "k": "call",
+          "name": "agent",
+          "args": [
+            {
+              "t": "var",
+              "name": "any",
+              "line": 12,
+              "col": 11,
+              "endLine": 12,
+              "endCol": 14
+            }
+          ],
+          "named": {},
+          "line": 12,
+          "col": 5,
+          "endLine": 12,
+          "endCol": 14
+        },
+        {
+          "k": "call",
+          "name": "options",
+          "args": [],
+          "named": {},
+          "line": 13,
+          "col": 5,
+          "endLine": 22,
+          "endCol": 6,
+          "body": [
+            {
+              "k": "call",
+              "name": "buildDiscarder",
+              "args": [
+                {
+                  "t": "call",
+                  "call": {
+                    "k": "call",
+                    "name": "logRotator",
+                    "args": [],
+                    "named": {
+                      "daysToKeepStr": {
+                        "t": "str",
+                        "v": "14",
+                        "line": 16,
+                        "col": 32,
+                        "endLine": 16,
+                        "endCol": 36
+                      },
+                      "numToKeepStr": {
+                        "t": "str",
+                        "v": "50",
+                        "line": 17,
+                        "col": 31,
+                        "endLine": 17,
+                        "endCol": 35
+                      },
+                      "artifactDaysToKeepStr": {
+                        "t": "str",
+                        "v": "14",
+                        "line": 18,
+                        "col": 40,
+                        "endLine": 18,
+                        "endCol": 44
+                      },
+                      "artifactNumToKeepStr": {
+                        "t": "str",
+                        "v": "50",
+                        "line": 19,
+                        "col": 39,
+                        "endLine": 20,
+                        "endCol": 13
+                      }
+                    },
+                    "line": 15,
+                    "col": 13,
+                    "endLine": 21,
+                    "endCol": 9
+                  },
+                  "line": 15,
+                  "col": 13,
+                  "endLine": 21,
+                  "endCol": 9
+                }
+              ],
+              "named": {},
+              "line": 14,
+              "col": 9,
+              "endLine": 21,
+              "endCol": 10
+            }
+          ]
+        },
+        {
+          "k": "call",
+          "name": "environment",
+          "args": [],
+          "named": {},
+          "line": 23,
+          "col": 5,
+          "endLine": 25,
+          "endCol": 6,
+          "body": [
+            {
+              "k": "assign",
+              "op": "=",
+              "target": "GITHUB_TOKEN",
+              "value": {
+                "t": "call",
+                "call": {
+                  "k": "call",
+                  "name": "credentials",
+                  "args": [
+                    {
+                      "t": "str",
+                      "v": "STELLARBOT_GITHUB_TOKEN",
+                      "line": 24,
+                      "col": 36,
+                      "endLine": 24,
+                      "endCol": 61
+                    }
+                  ],
+                  "named": {},
+                  "line": 24,
+                  "col": 24,
+                  "endLine": 24,
+                  "endCol": 62
+                },
+                "line": 24,
+                "col": 24,
+                "endLine": 24,
+                "endCol": 62
+              },
+              "line": 24,
+              "col": 9,
+              "endLine": 24,
+              "endCol": 62
+            }
+          ]
+        },
+        {
+          "k": "call",
+          "name": "stages",
+          "args": [],
+          "named": {},
+          "line": 26,
+          "col": 5,
+          "endLine": 84,
+          "endCol": 6,
+          "body": [
+            {
+              "k": "call",
+              "name": "stage",
+              "args": [
+                {
+                  "t": "str",
+                  "v": "checkout",
+                  "line": 27,
+                  "col": 15,
+                  "endLine": 27,
+                  "endCol": 25
+                }
+              ],
+              "named": {},
+              "line": 27,
+              "col": 9,
+              "endLine": 53,
+              "endCol": 10,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "steps",
+                  "args": [],
+                  "named": {},
+                  "line": 28,
+                  "col": 13,
+                  "endLine": 52,
+                  "endCol": 14,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "script",
+                      "args": [],
+                      "named": {},
+                      "line": 39,
+                      "col": 17,
+                      "endLine": 47,
+                      "endCol": 18,
+                      "body": [
+                        {
+                          "k": "if",
+                          "cond": "env.BRANCH_NAME",
+                          "condCalls": [],
+                          "then": [
+                            {
+                              "k": "decl",
+                              "name": "buildNumber",
+                              "value": {
+                                "t": "expr",
+                                "kind": "CastExpression",
+                                "text": "as",
+                                "calls": [],
+                                "line": 41,
+                                "col": 60,
+                                "endLine": 41,
+                                "endCol": 62
+                              },
+                              "annotations": [],
+                              "line": 41,
+                              "col": 25,
+                              "endLine": 41,
+                              "endCol": 66
+                            },
+                            {
+                              "k": "if",
+                              "cond": "buildNumber > 1",
+                              "condCalls": [],
+                              "then": [
+                                {
+                                  "k": "call",
+                                  "name": "milestone",
+                                  "args": [
+                                    {
+                                      "t": "expr",
+                                      "kind": "BinaryExpression",
+                                      "text": "buildNumber - 1",
+                                      "calls": [],
+                                      "line": 43,
+                                      "col": 39,
+                                      "endLine": 43,
+                                      "endCol": 54
+                                    }
+                                  ],
+                                  "named": {},
+                                  "line": 43,
+                                  "col": 29,
+                                  "endLine": 43,
+                                  "endCol": 55
+                                }
+                              ],
+                              "else": [],
+                              "line": 42,
+                              "col": 25,
+                              "endLine": 44,
+                              "endCol": 26
+                            },
+                            {
+                              "k": "call",
+                              "name": "milestone",
+                              "args": [
+                                {
+                                  "t": "var",
+                                  "name": "buildNumber",
+                                  "line": 45,
+                                  "col": 35,
+                                  "endLine": 45,
+                                  "endCol": 46
+                                }
+                              ],
+                              "named": {},
+                              "line": 45,
+                              "col": 25,
+                              "endLine": 45,
+                              "endCol": 47
+                            }
+                          ],
+                          "else": [],
+                          "line": 40,
+                          "col": 21,
+                          "endLine": 46,
+                          "endCol": 22
+                        }
+                      ]
+                    },
+                    {
+                      "k": "call",
+                      "name": "dir",
+                      "args": [
+                        {
+                          "t": "gstr",
+                          "v": "\"hpx_${env.BUILD_ID}\"",
+                          "vars": [
+                            "{env.BUILD_ID}"
+                          ],
+                          "calls": [],
+                          "line": 48,
+                          "col": 21,
+                          "endLine": 48,
+                          "endCol": 42
+                        }
+                      ],
+                      "named": {},
+                      "line": 48,
+                      "col": 17,
+                      "endLine": 51,
+                      "endCol": 18,
+                      "body": [
+                        {
+                          "k": "call",
+                          "name": "checkout",
+                          "args": [
+                            {
+                              "t": "var",
+                              "name": "scm",
+                              "line": 49,
+                              "col": 30,
+                              "endLine": 49,
+                              "endCol": 33
+                            }
+                          ],
+                          "named": {},
+                          "line": 49,
+                          "col": 21,
+                          "endLine": 49,
+                          "endCol": 33
+                        },
+                        {
+                          "k": "call",
+                          "name": "echo",
+                          "args": [
+                            {
+                              "t": "gstr",
+                              "v": "\"Running ${env.BUILD_ID} on ${env.JENKINS_URL} (base directory: ${env.WORKSPACE})\"",
+                              "vars": [
+                                "{env.BUILD_ID}",
+                                "{env.JENKINS_URL}",
+                                "{env.WORKSPACE}"
+                              ],
+                              "calls": [],
+                              "line": 50,
+                              "col": 26,
+                              "endLine": 50,
+                              "endCol": 108
+                            }
+                          ],
+                          "named": {},
+                          "line": 50,
+                          "col": 21,
+                          "endLine": 50,
+                          "endCol": 108
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "k": "call",
+              "name": "stage",
+              "args": [
+                {
+                  "t": "str",
+                  "v": "build",
+                  "line": 54,
+                  "col": 15,
+                  "endLine": 54,
+                  "endCol": 22
+                }
+              ],
+              "named": {},
+              "line": 54,
+              "col": 9,
+              "endLine": 83,
+              "endCol": 10,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "matrix",
+                  "args": [],
+                  "named": {},
+                  "line": 55,
+                  "col": 13,
+                  "endLine": 82,
+                  "endCol": 14,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "axes",
+                      "args": [],
+                      "named": {},
+                      "line": 56,
+                      "col": 17,
+                      "endLine": 65,
+                      "endCol": 18,
+                      "body": [
+                        {
+                          "k": "call",
+                          "name": "axis",
+                          "args": [],
+                          "named": {},
+                          "line": 57,
+                          "col": 21,
+                          "endLine": 60,
+                          "endCol": 22,
+                          "body": [
+                            {
+                              "k": "call",
+                              "name": "name",
+                              "args": [
+                                {
+                                  "t": "str",
+                                  "v": "configuration_name",
+                                  "line": 58,
+                                  "col": 30,
+                                  "endLine": 58,
+                                  "endCol": 50
+                                }
+                              ],
+                              "named": {},
+                              "line": 58,
+                              "col": 25,
+                              "endLine": 58,
+                              "endCol": 50
+                            },
+                            {
+                              "k": "call",
+                              "name": "values",
+                              "args": [
+                                {
+                                  "t": "str",
+                                  "v": "gcc-12",
+                                  "line": 59,
+                                  "col": 32,
+                                  "endLine": 59,
+                                  "endCol": 40
+                                },
+                                {
+                                  "t": "str",
+                                  "v": "gcc-13",
+                                  "line": 59,
+                                  "col": 42,
+                                  "endLine": 59,
+                                  "endCol": 50
+                                },
+                                {
+                                  "t": "str",
+                                  "v": "gcc-14",
+                                  "line": 59,
+                                  "col": 52,
+                                  "endLine": 59,
+                                  "endCol": 60
+                                },
+                                {
+                                  "t": "str",
+                                  "v": "gcc-15",
+                                  "line": 59,
+                                  "col": 62,
+                                  "endLine": 59,
+                                  "endCol": 70
+                                },
+                                {
+                                  "t": "str",
+                                  "v": "clang-17-apex",
+                                  "line": 59,
+                                  "col": 72,
+                                  "endLine": 59,
+                                  "endCol": 87
+                                },
+                                {
+                                  "t": "str",
+                                  "v": "clang-16",
+                                  "line": 59,
+                                  "col": 89,
+                                  "endLine": 59,
+                                  "endCol": 99
+                                },
+                                {
+                                  "t": "str",
+                                  "v": "clang-17",
+                                  "line": 59,
+                                  "col": 101,
+                                  "endLine": 59,
+                                  "endCol": 111
+                                },
+                                {
+                                  "t": "str",
+                                  "v": "clang-18",
+                                  "line": 59,
+                                  "col": 113,
+                                  "endLine": 59,
+                                  "endCol": 123
+                                },
+                                {
+                                  "t": "str",
+                                  "v": "clang-19",
+                                  "line": 59,
+                                  "col": 125,
+                                  "endLine": 59,
+                                  "endCol": 135
+                                },
+                                {
+                                  "t": "str",
+                                  "v": "clang-20",
+                                  "line": 59,
+                                  "col": 137,
+                                  "endLine": 59,
+                                  "endCol": 147
+                                },
+                                {
+                                  "t": "str",
+                                  "v": "gcc-12-cuda-12",
+                                  "line": 59,
+                                  "col": 149,
+                                  "endLine": 59,
+                                  "endCol": 165
+                                },
+                                {
+                                  "t": "str",
+                                  "v": "gcc-12-cuda-12-dgx",
+                                  "line": 59,
+                                  "col": 167,
+                                  "endLine": 59,
+                                  "endCol": 187
+                                },
+                                {
+                                  "t": "str",
+                                  "v": "hipcc",
+                                  "line": 59,
+                                  "col": 189,
+                                  "endLine": 59,
+                                  "endCol": 196
+                                }
+                              ],
+                              "named": {},
+                              "line": 59,
+                              "col": 25,
+                              "endLine": 59,
+                              "endCol": 196
+                            }
+                          ]
+                        },
+                        {
+                          "k": "call",
+                          "name": "axis",
+                          "args": [],
+                          "named": {},
+                          "line": 61,
+                          "col": 21,
+                          "endLine": 64,
+                          "endCol": 22,
+                          "body": [
+                            {
+                              "k": "call",
+                              "name": "name",
+                              "args": [
+                                {
+                                  "t": "str",
+                                  "v": "build_type",
+                                  "line": 62,
+                                  "col": 31,
+                                  "endLine": 62,
+                                  "endCol": 43
+                                }
+                              ],
+                              "named": {},
+                              "line": 62,
+                              "col": 26,
+                              "endLine": 62,
+                              "endCol": 43
+                            },
+                            {
+                              "k": "call",
+                              "name": "values",
+                              "args": [
+                                {
+                                  "t": "str",
+                                  "v": "Release",
+                                  "line": 63,
+                                  "col": 33,
+                                  "endLine": 63,
+                                  "endCol": 42
+                                },
+                                {
+                                  "t": "str",
+                                  "v": "Debug",
+                                  "line": 63,
+                                  "col": 44,
+                                  "endLine": 63,
+                                  "endCol": 51
+                                }
+                              ],
+                              "named": {},
+                              "line": 63,
+                              "col": 26,
+                              "endLine": 63,
+                              "endCol": 51
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "k": "call",
+                      "name": "stages",
+                      "args": [],
+                      "named": {},
+                      "line": 66,
+                      "col": 17,
+                      "endLine": 81,
+                      "endCol": 18,
+                      "body": [
+                        {
+                          "k": "call",
+                          "name": "stage",
+                          "args": [
+                            {
+                              "t": "str",
+                              "v": "build",
+                              "line": 67,
+                              "col": 27,
+                              "endLine": 67,
+                              "endCol": 34
+                            }
+                          ],
+                          "named": {},
+                          "line": 67,
+                          "col": 21,
+                          "endLine": 80,
+                          "endCol": 22,
+                          "body": [
+                            {
+                              "k": "call",
+                              "name": "steps",
+                              "args": [],
+                              "named": {},
+                              "line": 68,
+                              "col": 25,
+                              "endLine": 79,
+                              "endCol": 26,
+                              "body": [
+                                {
+                                  "k": "call",
+                                  "name": "dir",
+                                  "args": [
+                                    {
+                                      "t": "gstr",
+                                      "v": "\"hpx_${env.BUILD_ID}\"",
+                                      "vars": [
+                                        "{env.BUILD_ID}"
+                                      ],
+                                      "calls": [],
+                                      "line": 69,
+                                      "col": 33,
+                                      "endLine": 69,
+                                      "endCol": 54
+                                    }
+                                  ],
+                                  "named": {},
+                                  "line": 69,
+                                  "col": 29,
+                                  "endLine": 78,
+                                  "endCol": 30,
+                                  "body": [
+                                    {
+                                      "k": "call",
+                                      "name": "sh",
+                                      "args": [
+                                        {
+                                          "t": "str",
+                                          "v": "\n                                #!/bin/bash -l\n                                # j2gha-local: was .jenkins/lsu/entry.sh (submits a Slurm job on the LSU cluster and posts\n                                # a GitHub status); writes the files the post section archives instead\n                                mkdir -p \"build/${configuration_name}-${build_type}/Testing/Temporary\"\n                                echo \"${configuration_name} ${build_type} ${GIT_COMMIT}\" > \"jenkins-hpx-${configuration_name}-${build_type}.out\"\n                                echo \"Start testing: ${configuration_name}-${build_type}\" > \"build/${configuration_name}-${build_type}/Testing/Temporary/LastTest.log\"\n                                ",
+                                          "line": 70,
+                                          "col": 36,
+                                          "endLine": 77,
+                                          "endCol": 36
+                                        }
+                                      ],
+                                      "named": {},
+                                      "line": 70,
+                                      "col": 33,
+                                      "endLine": 77,
+                                      "endCol": 36
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "k": "call",
+          "name": "post",
+          "args": [],
+          "named": {},
+          "line": 86,
+          "col": 5,
+          "endLine": 91,
+          "endCol": 6,
+          "body": [
+            {
+              "k": "call",
+              "name": "always",
+              "args": [],
+              "named": {},
+              "line": 87,
+              "col": 9,
+              "endLine": 90,
+              "endCol": 10,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "archiveArtifacts",
+                  "args": [],
+                  "named": {
+                    "artifacts": {
+                      "t": "gstr",
+                      "v": "\"hpx_${env.BUILD_ID}/jenkins-hpx-*\"",
+                      "vars": [
+                        "{env.BUILD_ID}"
+                      ],
+                      "calls": [],
+                      "line": 88,
+                      "col": 41,
+                      "endLine": 88,
+                      "endCol": 76
+                    },
+                    "fingerprint": {
+                      "t": "bool",
+                      "v": true,
+                      "line": 88,
+                      "col": 91,
+                      "endLine": 88,
+                      "endCol": 95
+                    }
+                  },
+                  "line": 88,
+                  "col": 13,
+                  "endLine": 88,
+                  "endCol": 95
+                },
+                {
+                  "k": "call",
+                  "name": "archiveArtifacts",
+                  "args": [],
+                  "named": {
+                    "artifacts": {
+                      "t": "gstr",
+                      "v": "\"hpx_${env.BUILD_ID}/build/*/Testing/**\"",
+                      "vars": [
+                        "{env.BUILD_ID}"
+                      ],
+                      "calls": [],
+                      "line": 89,
+                      "col": 41,
+                      "endLine": 89,
+                      "endCol": 81
+                    },
+                    "fingerprint": {
+                      "t": "bool",
+                      "v": true,
+                      "line": 89,
+                      "col": 96,
+                      "endLine": 89,
+                      "endCol": 100
+                    }
+                  },
+                  "line": 89,
+                  "col": 13,
+                  "endLine": 89,
+                  "endCol": 100
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "source_sha256": "da620abf48eee9166667d081b7b5fadb0e6f92771cc1b06d3f538eecb90bd78d"
+}

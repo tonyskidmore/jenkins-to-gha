@@ -1,0 +1,1030 @@
+{
+  "dialect": "declarative",
+  "line": 5,
+  "agent": {
+    "kind": "label",
+    "label": "docker",
+    "raw": {
+      "label": "docker"
+    },
+    "line": 7
+  },
+  "environment": {
+    "DEPENDENCIES_DIR": {
+      "kind": "literal",
+      "value": "dependencies/",
+      "line": 14
+    },
+    "VERSION": {
+      "kind": "call",
+      "value": "feDetermineVersionFromGit",
+      "line": 15
+    },
+    "ARTIFACT_FILENAME": {
+      "kind": "literal",
+      "value": "robot-descriptions",
+      "line": 16
+    },
+    "DIST_DIR": {
+      "kind": "literal",
+      "value": "dist/usr/share/robot-descriptions",
+      "line": 17
+    }
+  },
+  "options": {
+    "timeout": {
+      "time": 2,
+      "unit": "HOURS",
+      "minutes": 120
+    },
+    "gitLabConnection": "FePipelineOptionDefaults.GITLAB_CONNECTION",
+    "buildDiscarder": "logRotator(...)"
+  },
+  "libraries": [
+    "fe-gitlab-pipeline-steps@lts-2.2"
+  ],
+  "stages": [
+    {
+      "name": "Check Commit Message",
+      "line": 34,
+      "steps": [
+        {
+          "name": "script",
+          "line": 36,
+          "body": [
+            {
+              "name": "<decl>",
+              "line": 37,
+              "named": {
+                "_target": "commitMsg"
+              },
+              "body": [
+                {
+                  "name": "sh",
+                  "line": 37,
+                  "named": {
+                    "returnStdout": true,
+                    "script": "git log -1 --pretty=format:%s",
+                    "_chain": "trim"
+                  },
+                  "category": "direct"
+                }
+              ],
+              "category": "dynamic",
+              "source": "commitMsg = sh(returnStdout: true, script: 'git log -1 --pretty=format:%s').trim(...)",
+              "dynamic": true
+            },
+            {
+              "name": "<decl>",
+              "line": 38,
+              "named": {
+                "_target": "skipKeywords"
+              },
+              "category": "dynamic",
+              "source": "skipKeywords = [wip, [skip ci], [skip-ci], [ci skip], [ci-skip]]",
+              "dynamic": true
+            },
+            {
+              "name": "<if>",
+              "line": 39,
+              "body": [
+                {
+                  "name": "<assign>",
+                  "line": 40,
+                  "named": {
+                    "_target": "currentBuild.result",
+                    "_literal": "ABORTED"
+                  },
+                  "category": "dynamic",
+                  "source": "currentBuild.result = ABORTED",
+                  "dynamic": true
+                },
+                {
+                  "name": "error",
+                  "line": 41,
+                  "args": [
+                    "Pipeline aborted because commit message contains skip directive."
+                  ],
+                  "category": "direct"
+                }
+              ],
+              "category": "dynamic",
+              "source": "skipKeywords.any { commitMsg.toLowerCase().contains(it) }",
+              "dynamic": true
+            }
+          ],
+          "category": "dynamic"
+        }
+      ]
+    },
+    {
+      "name": "Get Ready",
+      "line": 47,
+      "steps": [
+        {
+          "name": "script",
+          "line": 49,
+          "body": [
+            {
+              "name": "notifyBitbucket",
+              "line": 50,
+              "category": "unknown"
+            }
+          ],
+          "category": "dynamic"
+        },
+        {
+          "name": "sh",
+          "line": 53,
+          "args": [
+            "git clean -x -d -f"
+          ],
+          "category": "direct"
+        }
+      ]
+    },
+    {
+      "name": "Run URDF tests",
+      "line": 57,
+      "agent": {
+        "kind": "dockerfile",
+        "filename": "Dockerfile",
+        "dir": ".docker",
+        "reuse_node": true,
+        "raw": {
+          "dir": ".docker",
+          "reuseNode": true
+        },
+        "line": 58
+      },
+      "steps": [
+        {
+          "name": "sh",
+          "line": 65,
+          "args": [
+            ".ci/run_urdf_tests.sh"
+          ],
+          "category": "direct"
+        }
+      ]
+    },
+    {
+      "name": "Build robot URDFs and SRDFs",
+      "line": 69,
+      "matrix": {
+        "axes": {
+          "ROBOT": [
+            "fp3",
+            "fr3",
+            "fr3v2",
+            "fr3v2_1",
+            "tmrv0_2"
+          ]
+        },
+        "stages": [
+          {
+            "name": "Build URDF and SRDF",
+            "line": 78,
+            "steps": [
+              {
+                "name": "sh",
+                "line": 80,
+                "args": [
+                  "./scripts/create_urdf.sh --no-ee --no-prefix ${ROBOT}"
+                ],
+                "category": "direct",
+                "dynamic": true
+              },
+              {
+                "name": "dir",
+                "line": 81,
+                "args": [
+                  "urdfs"
+                ],
+                "body": [
+                  {
+                    "name": "stash",
+                    "line": 82,
+                    "named": {
+                      "name": "ROBOT_${ROBOT}_urdf",
+                      "includes": "${ROBOT}.urdf"
+                    },
+                    "category": "policy",
+                    "dynamic": true
+                  },
+                  {
+                    "name": "stash",
+                    "line": 83,
+                    "named": {
+                      "name": "ROBOT_${ROBOT}_srdf",
+                      "includes": "${ROBOT}.srdf"
+                    },
+                    "category": "policy",
+                    "dynamic": true
+                  }
+                ],
+                "category": "direct"
+              }
+            ]
+          }
+        ],
+        "line": 70
+      }
+    },
+    {
+      "name": "Build End Effector URDFs",
+      "line": 91,
+      "matrix": {
+        "axes": {
+          "EE": [
+            "franka_hand",
+            "cobot_pump"
+          ]
+        },
+        "stages": [
+          {
+            "name": "Build URDF",
+            "line": 100,
+            "steps": [
+              {
+                "name": "sh",
+                "line": 102,
+                "args": [
+                  "./scripts/create_urdf.sh --only-ee --robot-ee ${EE}"
+                ],
+                "category": "direct",
+                "dynamic": true
+              },
+              {
+                "name": "dir",
+                "line": 103,
+                "args": [
+                  "urdfs"
+                ],
+                "body": [
+                  {
+                    "name": "stash",
+                    "line": 104,
+                    "named": {
+                      "name": "EE_${EE}_urdf",
+                      "includes": "${EE}.urdf"
+                    },
+                    "category": "policy",
+                    "dynamic": true
+                  }
+                ],
+                "category": "direct"
+              }
+            ]
+          }
+        ],
+        "line": 92
+      }
+    },
+    {
+      "name": "Archive URDFs and SRDFs",
+      "line": 112,
+      "agent": {
+        "kind": "docker",
+        "image": "franka/build/ubuntu-24.04:0.27.0",
+        "reuse_node": true,
+        "raw": {
+          "image": "franka/build/ubuntu-24.04:0.27.0",
+          "reuseNode": true
+        },
+        "line": 113
+      },
+      "stages": [
+        {
+          "name": "Cleanup",
+          "line": 121,
+          "steps": [
+            {
+              "name": "sh",
+              "line": 123,
+              "args": [
+                "rm -rf usr"
+              ],
+              "category": "direct"
+            }
+          ]
+        },
+        {
+          "name": "Create directory structure",
+          "line": 126,
+          "steps": [
+            {
+              "name": "sh",
+              "line": 128,
+              "args": [
+                "mkdir -p ${DIST_DIR}/meshes"
+              ],
+              "category": "direct",
+              "dynamic": true
+            },
+            {
+              "name": "sh",
+              "line": 129,
+              "args": [
+                "mkdir -p ${DIST_DIR}/robots"
+              ],
+              "category": "direct",
+              "dynamic": true
+            },
+            {
+              "name": "sh",
+              "line": 130,
+              "args": [
+                "mkdir -p ${DIST_DIR}/end_effectors"
+              ],
+              "category": "direct",
+              "dynamic": true
+            }
+          ]
+        },
+        {
+          "name": "Move robot urdfs and srdfs into correct robot arm directory",
+          "line": 133,
+          "parallel": [
+            {
+              "name": "Arm3R",
+              "line": 135,
+              "steps": [
+                {
+                  "name": "sh",
+                  "line": 137,
+                  "args": [
+                    "mkdir -p ${DIST_DIR}/robots/Arm3R"
+                  ],
+                  "category": "direct",
+                  "dynamic": true
+                },
+                {
+                  "name": "dir",
+                  "line": 138,
+                  "args": [
+                    "${DIST_DIR}/robots/Arm3R"
+                  ],
+                  "body": [
+                    {
+                      "name": "unstash",
+                      "line": 139,
+                      "args": [
+                        "ROBOT_fr3_urdf"
+                      ],
+                      "category": "policy"
+                    },
+                    {
+                      "name": "unstash",
+                      "line": 140,
+                      "args": [
+                        "ROBOT_fr3_srdf"
+                      ],
+                      "category": "policy"
+                    },
+                    {
+                      "name": "sh",
+                      "line": 141,
+                      "args": [
+                        "mv fr3.urdf robot.urdf"
+                      ],
+                      "category": "direct"
+                    },
+                    {
+                      "name": "sh",
+                      "line": 142,
+                      "args": [
+                        "mv fr3.srdf robot.srdf"
+                      ],
+                      "category": "direct"
+                    }
+                  ],
+                  "category": "direct",
+                  "dynamic": true
+                }
+              ]
+            },
+            {
+              "name": "Arm3P",
+              "line": 146,
+              "steps": [
+                {
+                  "name": "sh",
+                  "line": 148,
+                  "args": [
+                    "mkdir -p ${DIST_DIR}/robots/Arm3P"
+                  ],
+                  "category": "direct",
+                  "dynamic": true
+                },
+                {
+                  "name": "dir",
+                  "line": 149,
+                  "args": [
+                    "${DIST_DIR}/robots/Arm3P"
+                  ],
+                  "body": [
+                    {
+                      "name": "unstash",
+                      "line": 150,
+                      "args": [
+                        "ROBOT_fp3_urdf"
+                      ],
+                      "category": "policy"
+                    },
+                    {
+                      "name": "unstash",
+                      "line": 151,
+                      "args": [
+                        "ROBOT_fp3_srdf"
+                      ],
+                      "category": "policy"
+                    },
+                    {
+                      "name": "sh",
+                      "line": 152,
+                      "args": [
+                        "mv fp3.urdf robot.urdf"
+                      ],
+                      "category": "direct"
+                    },
+                    {
+                      "name": "sh",
+                      "line": 153,
+                      "args": [
+                        "mv fp3.srdf robot.srdf"
+                      ],
+                      "category": "direct"
+                    }
+                  ],
+                  "category": "direct",
+                  "dynamic": true
+                }
+              ]
+            },
+            {
+              "name": "Arm3Rv2",
+              "line": 157,
+              "steps": [
+                {
+                  "name": "sh",
+                  "line": 159,
+                  "args": [
+                    "mkdir -p ${DIST_DIR}/robots/Arm3Rv2"
+                  ],
+                  "category": "direct",
+                  "dynamic": true
+                },
+                {
+                  "name": "dir",
+                  "line": 160,
+                  "args": [
+                    "${DIST_DIR}/robots/Arm3Rv2"
+                  ],
+                  "body": [
+                    {
+                      "name": "unstash",
+                      "line": 161,
+                      "args": [
+                        "ROBOT_fr3v2_urdf"
+                      ],
+                      "category": "policy"
+                    },
+                    {
+                      "name": "unstash",
+                      "line": 162,
+                      "args": [
+                        "ROBOT_fr3v2_srdf"
+                      ],
+                      "category": "policy"
+                    },
+                    {
+                      "name": "sh",
+                      "line": 163,
+                      "args": [
+                        "mv fr3v2.urdf robot.urdf"
+                      ],
+                      "category": "direct"
+                    },
+                    {
+                      "name": "sh",
+                      "line": 164,
+                      "args": [
+                        "mv fr3v2.srdf robot.srdf"
+                      ],
+                      "category": "direct"
+                    }
+                  ],
+                  "category": "direct",
+                  "dynamic": true
+                }
+              ]
+            },
+            {
+              "name": "Arm3Rv2.1",
+              "line": 168,
+              "steps": [
+                {
+                  "name": "sh",
+                  "line": 170,
+                  "args": [
+                    "mkdir -p ${DIST_DIR}/robots/Arm3Rv2.1"
+                  ],
+                  "category": "direct",
+                  "dynamic": true
+                },
+                {
+                  "name": "dir",
+                  "line": 171,
+                  "args": [
+                    "${DIST_DIR}/robots/Arm3Rv2.1"
+                  ],
+                  "body": [
+                    {
+                      "name": "unstash",
+                      "line": 172,
+                      "args": [
+                        "ROBOT_fr3v2_1_urdf"
+                      ],
+                      "category": "policy"
+                    },
+                    {
+                      "name": "unstash",
+                      "line": 173,
+                      "args": [
+                        "ROBOT_fr3v2_1_srdf"
+                      ],
+                      "category": "policy"
+                    },
+                    {
+                      "name": "sh",
+                      "line": 174,
+                      "args": [
+                        "mv fr3v2_1.urdf robot.urdf"
+                      ],
+                      "category": "direct"
+                    },
+                    {
+                      "name": "sh",
+                      "line": 175,
+                      "args": [
+                        "mv fr3v2_1.srdf robot.srdf"
+                      ],
+                      "category": "direct"
+                    }
+                  ],
+                  "category": "direct",
+                  "dynamic": true
+                }
+              ]
+            },
+            {
+              "name": "TMRv0.2",
+              "line": 179,
+              "steps": [
+                {
+                  "name": "sh",
+                  "line": 181,
+                  "args": [
+                    "mkdir -p ${DIST_DIR}/robots/TMRv0.2"
+                  ],
+                  "category": "direct",
+                  "dynamic": true
+                },
+                {
+                  "name": "dir",
+                  "line": 182,
+                  "args": [
+                    "${DIST_DIR}/robots/TMRv0.2"
+                  ],
+                  "body": [
+                    {
+                      "name": "unstash",
+                      "line": 183,
+                      "args": [
+                        "ROBOT_tmrv0_2_urdf"
+                      ],
+                      "category": "policy"
+                    },
+                    {
+                      "name": "unstash",
+                      "line": 184,
+                      "args": [
+                        "ROBOT_tmrv0_2_srdf"
+                      ],
+                      "category": "policy"
+                    },
+                    {
+                      "name": "sh",
+                      "line": 185,
+                      "args": [
+                        "mv tmrv0_2.urdf robot.urdf"
+                      ],
+                      "category": "direct"
+                    },
+                    {
+                      "name": "sh",
+                      "line": 186,
+                      "args": [
+                        "mv tmrv0_2.srdf robot.srdf"
+                      ],
+                      "category": "direct"
+                    }
+                  ],
+                  "category": "direct",
+                  "dynamic": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Copy meshes to dist",
+          "line": 192,
+          "steps": [
+            {
+              "name": "script",
+              "line": 194,
+              "body": [
+                {
+                  "name": "sh",
+                  "line": 195,
+                  "args": [
+                    "mkdir -p ${DIST_DIR}/meshes/robots"
+                  ],
+                  "category": "direct",
+                  "dynamic": true
+                },
+                {
+                  "name": "<decl>",
+                  "line": 196,
+                  "named": {
+                    "_target": "robs"
+                  },
+                  "category": "dynamic",
+                  "source": "robs = [fp3, fr3, fr3v2, fr3v2_1, tmrv0_2]",
+                  "dynamic": true
+                },
+                {
+                  "name": "<decl>",
+                  "line": 197,
+                  "named": {
+                    "_target": "copyCmd"
+                  },
+                  "body": [
+                    {
+                      "name": "collect",
+                      "line": 197,
+                      "named": {
+                        "_chain": "join"
+                      },
+                      "body": [
+                        {
+                          "name": "<expr>",
+                          "line": 197,
+                          "category": "dynamic",
+                          "source": "\"cp -r meshes/robots/${it} ${DIST_DIR}/meshes/robots\" ",
+                          "dynamic": true
+                        }
+                      ],
+                      "category": "groovy",
+                      "receiver": "robs"
+                    }
+                  ],
+                  "category": "dynamic",
+                  "source": "copyCmd = robs.collect { \"cp -r meshes/robots/${it} ${DIST_DIR}/meshes/robots\" }.join(...)",
+                  "dynamic": true
+                },
+                {
+                  "name": "sh",
+                  "line": 198,
+                  "args": [
+                    "copyCmd"
+                  ],
+                  "category": "direct",
+                  "dynamic": true,
+                  "variable_args": [
+                    0
+                  ]
+                }
+              ],
+              "category": "dynamic"
+            }
+          ]
+        },
+        {
+          "name": "Extract End Effector URDFs",
+          "line": 202,
+          "stages": [
+            {
+              "name": "Create End Effector directories",
+              "line": 204,
+              "steps": [
+                {
+                  "name": "sh",
+                  "line": 206,
+                  "args": [
+                    "mkdir -p ${DIST_DIR}/end_effectors/cobot_pump"
+                  ],
+                  "category": "direct",
+                  "dynamic": true
+                },
+                {
+                  "name": "sh",
+                  "line": 207,
+                  "args": [
+                    "mkdir -p ${DIST_DIR}/end_effectors/franka_hand"
+                  ],
+                  "category": "direct",
+                  "dynamic": true
+                }
+              ]
+            },
+            {
+              "name": "Copy meshes",
+              "line": 210,
+              "parallel": [
+                {
+                  "name": "cobot_pump",
+                  "line": 212,
+                  "steps": [
+                    {
+                      "name": "sh",
+                      "line": 214,
+                      "args": [
+                        "\n                        mkdir -p \"${DIST_DIR}/meshes/robot_ee/cobot_pump\"\n                        cp -r meshes/robot_ee/cobot_pump/* \"${DIST_DIR}/meshes/robot_ee/cobot_pump\"\n                      "
+                      ],
+                      "category": "direct"
+                    }
+                  ]
+                },
+                {
+                  "name": "franka_hand",
+                  "line": 220,
+                  "steps": [
+                    {
+                      "name": "sh",
+                      "line": 222,
+                      "args": [
+                        "\n                        mkdir -p \"${DIST_DIR}/meshes/robot_ee/franka_hand_white\"\n                        cp -r meshes/robot_ee/franka_hand_white/* \"${DIST_DIR}/meshes/robot_ee/franka_hand_white\"\n                      "
+                      ],
+                      "category": "direct"
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Unstash URDF",
+              "line": 230,
+              "steps": [
+                {
+                  "name": "dir",
+                  "line": 232,
+                  "args": [
+                    "${DIST_DIR}/end_effectors/cobot_pump"
+                  ],
+                  "body": [
+                    {
+                      "name": "unstash",
+                      "line": 233,
+                      "args": [
+                        "EE_cobot_pump_urdf"
+                      ],
+                      "category": "policy"
+                    },
+                    {
+                      "name": "sh",
+                      "line": 234,
+                      "args": [
+                        "mv cobot_pump.urdf endeffector.urdf"
+                      ],
+                      "category": "direct"
+                    }
+                  ],
+                  "category": "direct",
+                  "dynamic": true
+                },
+                {
+                  "name": "dir",
+                  "line": 236,
+                  "args": [
+                    "${DIST_DIR}/end_effectors/franka_hand"
+                  ],
+                  "body": [
+                    {
+                      "name": "unstash",
+                      "line": 237,
+                      "args": [
+                        "EE_franka_hand_urdf"
+                      ],
+                      "category": "policy"
+                    },
+                    {
+                      "name": "sh",
+                      "line": 238,
+                      "args": [
+                        "mv franka_hand.urdf endeffector.urdf"
+                      ],
+                      "category": "direct"
+                    }
+                  ],
+                  "category": "direct",
+                  "dynamic": true
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Create archive",
+          "line": 244,
+          "steps": [
+            {
+              "name": "sh",
+              "line": 246,
+              "args": [
+                "rm -rf ${DIST_DIR}/robots/*@tmp"
+              ],
+              "category": "direct",
+              "dynamic": true
+            },
+            {
+              "name": "sh",
+              "line": 247,
+              "args": [
+                "rm -rf ${DIST_DIR}/end_effectors/*@tmp"
+              ],
+              "category": "direct",
+              "dynamic": true
+            },
+            {
+              "name": "dir",
+              "line": 249,
+              "args": [
+                "dist"
+              ],
+              "body": [
+                {
+                  "name": "sh",
+                  "line": 250,
+                  "args": [
+                    "\n                tar czvf \"${ARTIFACT_FILENAME}_${VERSION}.tar.gz\" usr/share\n                fpm -s tar                     -t deb                     -n \"robot-descriptions\"                     -v ${VERSION}                     -a all                     --vendor \"Franka Robotics GmbH\"                     --maintainer \"Franka Robotics GmbH <support@franka.de>\"                     \"${ARTIFACT_FILENAME}_${VERSION}.tar.gz\"\n                # Rename .deb to .ipk for opkg-compatible publishing via fePublishOpkg\n                mv \"${ARTIFACT_FILENAME}_${VERSION}_all.deb\" \"${ARTIFACT_FILENAME}_${VERSION}_all.ipk\"\n                printf \"%s archive created.\nversion: %s\nsha1sum: %s\n\" \"${ARTIFACT_FILENAME}\" \"${VERSION}\" \"$(sha1sum \"${ARTIFACT_FILENAME}_${VERSION}_all.ipk\")\"\n              "
+                  ],
+                  "category": "direct"
+                },
+                {
+                  "name": "archiveArtifacts",
+                  "line": 264,
+                  "args": [
+                    "*.tar.gz"
+                  ],
+                  "category": "direct"
+                }
+              ],
+              "category": "direct"
+            }
+          ]
+        },
+        {
+          "name": "Publish to artifactory",
+          "line": 268,
+          "when": {
+            "conditions": [
+              {
+                "kind": "not",
+                "children": [
+                  {
+                    "kind": "equals",
+                    "value": {
+                      "expected": "'UNSTABLE'",
+                      "actual": "currentBuild.result"
+                    },
+                    "line": 271
+                  }
+                ],
+                "line": 270
+              },
+              {
+                "kind": "anyOf",
+                "children": [
+                  {
+                    "kind": "buildingTag",
+                    "line": 274
+                  },
+                  {
+                    "kind": "branch",
+                    "value": "${env.BRANCH_NAME}",
+                    "line": 276
+                  }
+                ],
+                "line": 273
+              }
+            ]
+          },
+          "steps": [
+            {
+              "name": "fePublishOpkg",
+              "line": 280,
+              "args": [
+                "*.ipk",
+                "mc7-5x"
+              ],
+              "category": "unknown"
+            },
+            {
+              "name": "fePublishBuildInfo",
+              "line": 281,
+              "category": "unknown"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Trigger upstream franka_ros2_ws builds",
+      "line": 287,
+      "parallel": [
+        {
+          "name": "humble",
+          "line": 289,
+          "steps": [
+            {
+              "name": "build",
+              "line": 291,
+              "named": {
+                "job": "FCI/franka_ros2_ws/humble",
+                "wait": true,
+                "propagate": true,
+                "parameters": [
+                  "string(...)"
+                ]
+              },
+              "category": "redesign"
+            }
+          ]
+        },
+        {
+          "name": "jazzy",
+          "line": 297,
+          "steps": [
+            {
+              "name": "build",
+              "line": 299,
+              "named": {
+                "job": "FCI/franka_ros2_ws/jazzy",
+                "wait": true,
+                "propagate": true,
+                "parameters": [
+                  "string(...)"
+                ]
+              },
+              "category": "redesign"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "post": {
+    "always": [
+      {
+        "name": "sh",
+        "line": 315,
+        "args": [
+          "git clean -x -d -f"
+        ],
+        "category": "direct"
+      },
+      {
+        "name": "cleanWs",
+        "line": 316,
+        "category": "direct"
+      },
+      {
+        "name": "sh",
+        "line": 317,
+        "args": [
+          "du -h --max-depth=1 . && ls -la"
+        ],
+        "category": "direct"
+      },
+      {
+        "name": "script",
+        "line": 318,
+        "body": [
+          {
+            "name": "feNotifySCM",
+            "line": 319,
+            "args": [
+              "currentBuild.result"
+            ],
+            "category": "unknown",
+            "dynamic": true
+          }
+        ],
+        "category": "dynamic"
+      }
+    ]
+  }
+}

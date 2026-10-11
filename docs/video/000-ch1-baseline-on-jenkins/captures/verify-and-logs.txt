@@ -1,0 +1,49 @@
+
+@@CMD@@ for f in $FILES; do curl -fsSu admin:j2gha-local-only -O "$J/$f"; done; ls
+BUILD_INFO.txt
+inventory-service-1.4.0.tar.gz
+inventory-service-1.4.0.tar.gz.sha256
+staging.json
+@@END@@ rc=0 ms=375
+
+@@CMD@@ sha256sum -c inventory-service-1.4.0.tar.gz.sha256
+inventory-service-1.4.0.tar.gz: OK
+@@END@@ rc=0 ms=4
+
+@@CMD@@ cat BUILD_INFO.txt
+service=inventory-service
+version=1.4.0
+build=inventory-service-1.4.0-b1
+python=3.13.5
+@@END@@ rc=0 ms=4
+
+@@CMD@@ python3 -m json.tool staging.json
+{
+    "service": "inventory-service",
+    "version": "1.4.0",
+    "environment": "staging",
+    "change": "CHG-1234",
+    "approver": "admin"
+}
+@@END@@ rc=0 ms=42
+
+@@CMD@@ tar -xzf inventory-service-1.4.0.tar.gz
+@@END@@ rc=0 ms=10
+
+@@CMD@@ REPORT_FORMAT=json PYTHONPATH=. python3 -m inventory.cli widget=2 gadget=1
+{"backend": "memory", "stock": {"gadget": 1, "widget": 2}, "version": "1.4.0"}
+@@END@@ rc=0 ms=36
+
+@@CMD@@ console 1 | grep -E "^(Uploaded|Approved|Deploying|inventory.*finished)"
+Uploaded to repository/inventory-service/1.4.0 as ci-uploader (password: 15 characters)
+Approved by admin
+Deploying 1.4.0 to staging (deploy token is set)
+inventory-service-1.4.0-b1 finished: SUCCESS
+@@END@@ rc=0 ms=114
+
+@@CMD@@ console 2 | grep -E "^(Snapshot|Stage)"
+Snapshot build: the Publish stage will be skipped
+Stage "Integration tests" skipped due to when conditional
+Stage "Publish" skipped due to when conditional
+Stage "Deploy" skipped due to when conditional
+@@END@@ rc=0 ms=115

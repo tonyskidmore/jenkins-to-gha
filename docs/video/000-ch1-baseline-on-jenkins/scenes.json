@@ -1,0 +1,739 @@
+{
+  "meta": {
+    "title": "From Jenkins to GitHub Actions: chapter one, run it on Jenkins",
+    "chip": "Jenkins to GitHub Actions · Chapter one: the baseline",
+    "fps": 30,
+    "width": 1920,
+    "height": 1080,
+    "voice": {
+      "engine": "kokoro",
+      "voice": "bf_emma",
+      "lang_code": "b",
+      "speed": 1.0
+    },
+    "pronunciations": "pronunciations.json",
+    "prompt": "$ "
+  },
+  "captures": {
+    "verify": {
+      "file": "captures/verify-and-logs.txt",
+      "label": "Checking build one, and reading the logs"
+    }
+  },
+  "scenes": [
+    {
+      "id": "00-title",
+      "kind": "title",
+      "source": "examples/000/README.md Part 1",
+      "narration": "From Jenkins to GitHub Actions. Chapter one: run the original pipeline on Jenkins, and see what it should do.",
+      "onScreen": [
+        "Run it on Jenkins first",
+        "Chapter one: the baseline for the whole walkthrough"
+      ]
+    },
+    {
+      "id": "01-note",
+      "kind": "disclaimer",
+      "source": "README Part 1 intro; source-facts.md (how the recording was made)",
+      "narration": "A quick note on what this chapter is. It shows one example pipeline running on a throwaway Jenkins on this machine. The screens are real screenshots, and the terminal output is replayed from real runs. To make the recording, the two credentials, the job and the approval were sent through Jenkins web interface, instead of being clicked by hand. One clip is different: a live recording of the same pipeline, made separately, where the approval is typed in by hand. Nothing is converted here. That comes in later chapters.",
+      "onScreen": [
+        "Summary",
+        "One example pipeline on a disposable local Jenkins",
+        "Real screenshots and replayed terminal output",
+        "Credentials, job and approval were sent by script, not clicked",
+        "Plus one live recording, made separately, approved by hand",
+        "Not shown here: any conversion to GitHub Actions"
+      ],
+      "data": {
+        "foot": "The aim: know exactly what the pipeline does, so later chapters can check the copy against it."
+      }
+    },
+    {
+      "id": "02-pipeline",
+      "kind": "explainer",
+      "source": "README 'The pipeline' section",
+      "narration": "The example is a small stock-keeping service called inventory service. Its Jenkinsfile, the script that tells Jenkins what to do, builds it, tests it, packages it, publishes it and deploys it. It takes three settings: a release version, a deployment environment, and whether to run the integration tests. It also needs two secrets.",
+      "onScreen": [
+        {
+          "k": "Service",
+          "v": "inventory-service, a small Python stock-keeping tool"
+        },
+        {
+          "k": "The script",
+          "v": "A Jenkinsfile: build, test, package, publish, deploy"
+        },
+        {
+          "k": "Three settings",
+          "v": "Release version, deploy environment, run integration tests"
+        },
+        {
+          "k": "Two secrets",
+          "v": "A repository login and a deployment token"
+        }
+      ]
+    },
+    {
+      "id": "03-stages",
+      "kind": "flow",
+      "source": "README 'The pipeline' diagram and Part 1.4",
+      "narration": "The stages run in order. Quality runs three checks side by side. Compatibility repeats the tests across three combinations of settings. Publish is skipped for snapshot versions. Deploy stops and waits for a person to approve it. These are the features that make a migration hard, so this is the behaviour to remember.",
+      "data": {
+        "type": "chain",
+        "title": "The stages of the pipeline",
+        "nodes": [
+          {
+            "label": "Prepare sources",
+            "sub": "and Build"
+          },
+          {
+            "label": "Quality",
+            "sub": "three checks in parallel"
+          },
+          {
+            "label": "Compatibility",
+            "sub": "a matrix of three cells"
+          },
+          {
+            "label": "Publish",
+            "sub": "not for snapshot versions"
+          },
+          {
+            "label": "Deploy",
+            "sub": "waits for approval"
+          }
+        ]
+      }
+    },
+    {
+      "id": "04-credentials",
+      "kind": "screenshot",
+      "source": "README 1.2; capture shots/02-credentials.png",
+      "narration": "The pipeline needs two credentials, stored inside Jenkins. Here are both on the credentials page: a username and password, and a secret text. Jenkins masks the password. The names must match exactly what the pipeline script asks for. Both hold dummy values.",
+      "data": {
+        "image": "shots/02-credentials.png",
+        "url": "http://127.0.0.1:18080/manage/credentials/store/system/domain/_/",
+        "title": "Credentials the pipeline uses",
+        "annotations": [
+          {
+            "box": [
+              0.093,
+              0.207,
+              0.814,
+              0.07
+            ],
+            "label": "artifact-repo: username and password, used when publishing"
+          },
+          {
+            "box": [
+              0.19,
+              0.228,
+              0.085,
+              0.03
+            ],
+            "label": "The password is masked",
+            "tone": "info"
+          },
+          {
+            "box": [
+              0.093,
+              0.278,
+              0.814,
+              0.07
+            ],
+            "label": "inventory-deploy-token: secret text, used when deploying"
+          }
+        ]
+      }
+    },
+    {
+      "id": "05-job",
+      "kind": "screenshot",
+      "source": "README 1.3; capture shots/01-dashboard.png",
+      "narration": "With the job created from the Jenkinsfile, with the script sandbox switched on, it shows on the dashboard. This screenshot was taken after both builds had run, so it already shows build number two as the latest.",
+      "data": {
+        "image": "shots/01-dashboard.png",
+        "url": "http://127.0.0.1:18080/",
+        "title": "The job on the dashboard",
+        "annotations": [
+          {
+            "box": [
+              0.254,
+              0.32,
+              0.728,
+              0.065
+            ],
+            "label": "One job: inventory-service, green"
+          },
+          {
+            "box": [
+              0.568,
+              0.335,
+              0.155,
+              0.032
+            ],
+            "label": "Latest build, number two (taken after both builds)",
+            "tone": "warn"
+          }
+        ]
+      }
+    },
+    {
+      "id": "06-build1-overview",
+      "kind": "screenshot",
+      "source": "README 1.4 (stages and Deploy gate); capture shots/04-stages-waiting.png (build 3, a repeat of the default build, caught while paused)",
+      "narration": "Build number one uses the default settings. This is the Pipeline Overview, which draws the stages as a map. Quality fans out into three branches. Compatibility shows three matrix cells. To catch the pause on screen, this picture is the same default build run again, as build three. It has stopped at Deploy, waiting for approval.",
+      "data": {
+        "image": "shots/04-stages-waiting.png",
+        "url": "http://127.0.0.1:18080/job/inventory-service/3/stages",
+        "title": "Same default build, paused at Deploy",
+        "annotations": [
+          {
+            "box": [
+              0.31,
+              0.235,
+              0.095,
+              0.27
+            ],
+            "label": "Quality: three parallel branches",
+            "tone": "info"
+          },
+          {
+            "box": [
+              0.43,
+              0.235,
+              0.16,
+              0.27
+            ],
+            "label": "Compatibility: three matrix cells (names are cut off on screen)",
+            "tone": "info"
+          },
+          {
+            "box": [
+              0.715,
+              0.235,
+              0.055,
+              0.11
+            ],
+            "label": "Deploy is paused",
+            "tone": "warn"
+          },
+          {
+            "box": [
+              0.245,
+              0.64,
+              0.74,
+              0.13
+            ],
+            "label": "The approval question waits here for a person",
+            "tone": "warn"
+          }
+        ]
+      }
+    },
+    {
+      "id": "07-approval",
+      "kind": "screenshot",
+      "source": "README 1.5; capture shots/05-input.png (build 3, while it waits)",
+      "narration": "This is the approval page, captured while build three waits. It asks whether to deploy the release, and wants a change ticket, with a default of C H G zero zero zero zero. In this recording, builds one and three were approved through the API with the ticket C H G one two three four, not typed into this form.",
+      "data": {
+        "image": "shots/05-input.png",
+        "url": "http://127.0.0.1:18080/job/inventory-service/3/input/",
+        "title": "The approval page, before approving",
+        "annotations": [
+          {
+            "box": [
+              0.253,
+              0.2225,
+              0.5,
+              0.05
+            ],
+            "label": "The change ticket field",
+            "tone": "info"
+          },
+          {
+            "box": [
+              0.253,
+              0.34,
+              0.075,
+              0.05
+            ],
+            "label": "Deploy approves it; Abort stops the build",
+            "tone": "warn"
+          }
+        ]
+      }
+    },
+    {
+      "id": "07b-live",
+      "kind": "clip",
+      "source": "hyperframes-walkthrough capture 000-walkthrough-60s/capture/jenkins (separate recording: build #1, SUCCESS, CHANGE_TICKET typed as CHG-1234, Deploy clicked); cuts as in docs/video/000-walkthrough-60s/edit.json, stages at 2x instead of 3x to fit the narration",
+      "narration": "For comparison, here is the same pipeline filmed live, in a separate recording where it was build number one. The stages are sped up, and the speed is shown at the top. The build pauses at the Deploy gate. This time the same ticket is typed into the form, and Deploy is clicked. The build finishes successfully. The rest of this chapter returns to the builds approved through the API.",
+      "data": {
+        "clip": "jenkins",
+        "url": [
+          {
+            "at": 0,
+            "url": "127.0.0.1:18080/job/inventory-service/"
+          },
+          {
+            "at": "stages-page",
+            "url": "127.0.0.1:18080/job/inventory-service/1/stages"
+          },
+          {
+            "at": "input-page",
+            "url": "127.0.0.1:18080/job/inventory-service/1/input/"
+          },
+          {
+            "at": "stages-after-approval",
+            "url": "127.0.0.1:18080/job/inventory-service/1/stages"
+          }
+        ],
+        "title": "A separate recording, filmed live",
+        "callouts": [
+          {
+            "at": "stages-page",
+            "label": "Recorded as it ran",
+            "tone": "info"
+          },
+          {
+            "at": "input-pending",
+            "label": "Paused at the Deploy gate",
+            "tone": "warn"
+          },
+          {
+            "at": "deploy-click",
+            "label": "Ticket typed, Deploy clicked",
+            "tone": "info"
+          },
+          {
+            "at": "build-finished",
+            "label": "Finished: SUCCESS",
+            "tone": "ok"
+          }
+        ],
+        "zoom": [
+          {
+            "at": "input-pending",
+            "scale": 1.35,
+            "origin": "70% 30%"
+          },
+          {
+            "at": "deploy-click",
+            "scale": 1
+          }
+        ],
+        "start": 3.5
+      }
+    },
+    {
+      "id": "08-console",
+      "kind": "screenshot",
+      "source": "README 1.6 (Log); capture shots/12-console-approval.png",
+      "narration": "The console log records the approval: input requested, then approved by admin. The next lines deploy with the secret token masked, and write a small record holding the ticket and the approver.",
+      "data": {
+        "image": "shots/12-console-approval.png",
+        "url": "http://127.0.0.1:18080/job/inventory-service/1/console",
+        "title": "Console output, around the approval",
+        "annotations": [
+          {
+            "box": [
+              0.26,
+              0.09,
+              0.17,
+              0.06
+            ],
+            "label": "Input requested, then approved by admin"
+          },
+          {
+            "box": [
+              0.26,
+              0.227,
+              0.4,
+              0.035
+            ],
+            "label": "The deploy token is masked in the log",
+            "tone": "info"
+          },
+          {
+            "box": [
+              0.26,
+              0.61,
+              0.23,
+              0.1
+            ],
+            "label": "Ticket and approver recorded",
+            "tone": "ok"
+          }
+        ]
+      }
+    },
+    {
+      "id": "09-result",
+      "kind": "screenshot",
+      "source": "README 1.6 Result and Artifacts; capture shots/06-build-page.png",
+      "narration": "Build number one finished green. Its display name, version one point four to staging, was set by a script block in the pipeline. The page lists five build artifacts, and says it was approved by admin.",
+      "data": {
+        "image": "shots/06-build-page.png",
+        "url": "http://127.0.0.1:18080/job/inventory-service/1/",
+        "title": "Build one: the result",
+        "annotations": [
+          {
+            "box": [
+              0.25,
+              0.085,
+              0.41,
+              0.05
+            ],
+            "label": "Green, with the name the pipeline set",
+            "tone": "ok"
+          },
+          {
+            "box": [
+              0.3,
+              0.16,
+              0.31,
+              0.18
+            ],
+            "label": "Five build artifacts"
+          },
+          {
+            "box": [
+              0.255,
+              0.66,
+              0.22,
+              0.04
+            ],
+            "label": "Approved by admin"
+          }
+        ]
+      }
+    },
+    {
+      "id": "10-tests",
+      "kind": "screenshot",
+      "source": "README 1.6 Tests; capture shots/08-tests.png",
+      "narration": "The Tests page shows twenty-one tests and no failures. Jenkins groups them into five packages: the unit tests, the integration test, and one set for each matrix cell.",
+      "data": {
+        "image": "shots/08-tests.png",
+        "url": "http://127.0.0.1:18080/job/inventory-service/1/testReport/",
+        "title": "Tests: twenty-one, none failing",
+        "annotations": [
+          {
+            "box": [
+              0.254,
+              0.086,
+              0.075,
+              0.045
+            ],
+            "label": "Twenty-one tests",
+            "tone": "ok"
+          },
+          {
+            "box": [
+              0.254,
+              0.633,
+              0.728,
+              0.058
+            ],
+            "label": "One integration test"
+          },
+          {
+            "box": [
+              0.254,
+              0.694,
+              0.728,
+              0.182
+            ],
+            "label": "Three matrix cells, five tests each"
+          },
+          {
+            "box": [
+              0.254,
+              0.875,
+              0.728,
+              0.06
+            ],
+            "label": "Five plain unit tests"
+          }
+        ]
+      }
+    },
+    {
+      "id": "11-fingerprints",
+      "kind": "screenshot",
+      "source": "README 1.6 Fingerprints; capture shots/11-fingerprints.png",
+      "narration": "Fingerprints are checksums that let Jenkins track a file across builds. The three files in the distribution folder are fingerprinted: the archive, its checksum file, and the build information.",
+      "data": {
+        "image": "shots/11-fingerprints.png",
+        "url": "http://127.0.0.1:18080/job/inventory-service/1/fingerprints",
+        "title": "Recorded fingerprints",
+        "annotations": [
+          {
+            "box": [
+              0.254,
+              0.15,
+              0.728,
+              0.235
+            ],
+            "label": "Three files from the dist folder"
+          },
+          {
+            "box": [
+              0.64,
+              0.222,
+              0.06,
+              0.145
+            ],
+            "label": "Created by this build",
+            "tone": "info"
+          }
+        ]
+      }
+    },
+    {
+      "id": "12-log",
+      "kind": "terminal",
+      "source": "README 1.6 Log row; capture verify-and-logs #6",
+      "capture": "verify",
+      "part": "Part 1.6 · the console log",
+      "beats": [
+        {
+          "steps": [
+            6
+          ],
+          "narration": "The console log holds the key lines. A small helper downloads it, and this filter keeps four: the upload, which shows only the length of the password, the approval, the deploy, and the final success.",
+          "highlight": [
+            {
+              "text": "Password length shown, never the password",
+              "tone": "ok"
+            },
+            {
+              "text": "Approved by admin",
+              "tone": "info"
+            },
+            {
+              "text": "Finished: success",
+              "tone": "ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "13-verify",
+      "kind": "terminal",
+      "source": "README 1.6 verification commands; capture verify-and-logs #0 to #5",
+      "capture": "verify",
+      "part": "Part 1.6 · is the release sound?",
+      "beats": [
+        {
+          "steps": [
+            0
+          ],
+          "narration": "Present is not the same as sound. So we download the four files the build archived, straight from Jenkins, in a temporary folder.",
+          "highlight": [
+            "Four files downloaded"
+          ]
+        },
+        {
+          "steps": [
+            1
+          ],
+          "narration": "First, check the archive against the checksum file the pipeline recorded. The word O K means they match.",
+          "highlight": [
+            {
+              "text": "Archive matches its checksum",
+              "tone": "ok"
+            }
+          ]
+        },
+        {
+          "steps": [
+            2
+          ],
+          "narration": "The build information file records the service, the version, the build name and the Python version used.",
+          "highlight": [
+            "Version one point four point zero, build number one"
+          ]
+        },
+        {
+          "steps": [
+            3
+          ],
+          "narration": "The deploy record holds the change ticket we entered and the approver, taken from the approval. The walkthrough says GitHub Actions cannot reproduce these two values, so keep them in mind.",
+          "highlight": [
+            {
+              "text": "Ticket and approver came from the approval",
+              "tone": "warn"
+            }
+          ]
+        },
+        {
+          "steps": [
+            4,
+            5
+          ],
+          "narration": "Finally, unpack the archive and run the packaged tool. It reports two widgets and one gadget, with the right version.",
+          "highlight": [
+            {
+              "text": "The released package really runs",
+              "tone": "ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "14-build2",
+      "kind": "screenshot",
+      "source": "README 1.7; capture shots/16-b2-stages.png",
+      "narration": "Build number two is a snapshot: version one point five, deploy environment none, integration tests switched off. There was no approval prompt. In the Pipeline Overview, Integration tests, Publish and Deploy are shown as skipped.",
+      "data": {
+        "image": "shots/16-b2-stages.png",
+        "url": "http://127.0.0.1:18080/job/inventory-service/2/stages",
+        "title": "Build two: skipped stages",
+        "annotations": [
+          {
+            "box": [
+              0.313,
+              0.435,
+              0.083,
+              0.062
+            ],
+            "label": "Integration tests: skipped",
+            "tone": "warn"
+          },
+          {
+            "box": [
+              0.618,
+              0.26,
+              0.153,
+              0.065
+            ],
+            "label": "Publish and Deploy: skipped",
+            "tone": "warn"
+          }
+        ]
+      }
+    },
+    {
+      "id": "15-log2",
+      "kind": "terminal",
+      "source": "README 1.7 Console Output bullet; capture verify-and-logs #7",
+      "capture": "verify",
+      "part": "Part 1.7 · why the stages were skipped",
+      "beats": [
+        {
+          "steps": [
+            7
+          ],
+          "narration": "The log gives the reasons. It announces the snapshot, then each of the three stages says it was skipped because its when condition was not met.",
+          "highlight": [
+            {
+              "text": "Three stages skipped, each says why",
+              "tone": "info"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "16-tests2",
+      "kind": "screenshot",
+      "source": "README 1.7 Tests, Build Artifacts; capture shots/17-b2-tests.png and 15-b2-build-page.png",
+      "narration": "The Tests page now shows twenty tests, because the integration test did not run. The build also archived only the lint report, since nothing was packaged or published.",
+      "data": {
+        "image": "shots/17-b2-tests.png",
+        "url": "http://127.0.0.1:18080/job/inventory-service/2/testReport/",
+        "title": "Build two: twenty tests",
+        "annotations": [
+          {
+            "box": [
+              0.254,
+              0.085,
+              0.075,
+              0.045
+            ],
+            "label": "Twenty tests: no integration suite",
+            "tone": "warn"
+          },
+          {
+            "box": [
+              0.254,
+              0.58,
+              0.728,
+              0.297
+            ],
+            "label": "Only the unit-test packages remain"
+          }
+        ]
+      }
+    },
+    {
+      "id": "17-jobpage",
+      "kind": "screenshot",
+      "source": "README 1.7 last bullet; capture shots/13-job-page.png",
+      "narration": "Back on the job page, the test trend drops from twenty-one to twenty, and both builds are listed. These are the two behaviours the converted workflow will later be compared against.",
+      "data": {
+        "image": "shots/13-job-page.png",
+        "url": "http://127.0.0.1:18080/job/inventory-service/",
+        "title": "The job after both builds",
+        "annotations": [
+          {
+            "box": [
+              0.628,
+              0.158,
+              0.353,
+              0.264
+            ],
+            "label": "Test trend: twenty-one, then twenty"
+          },
+          {
+            "box": [
+              0.267,
+              0.16,
+              0.18,
+              0.058
+            ],
+            "label": "Latest artifacts: only the lint report"
+          },
+          {
+            "box": [
+              0.007,
+              0.7,
+              0.23,
+              0.12
+            ],
+            "label": "Both builds in the history",
+            "tone": "ok"
+          }
+        ]
+      }
+    },
+    {
+      "id": "18-summary",
+      "kind": "summary",
+      "source": "README Part 1; findings in source-facts.md",
+      "narration": "To recap. We ran the example pipeline on a local Jenkins. Build one used the defaults, waited for approval, and produced a verified release. Build two, a snapshot, skipped three stages and ran twenty tests. That is the baseline. But this was one machine, one run of each case, with credentials and approval sent by script, and nothing here has been converted or run on GitHub yet.",
+      "title": "Chapter one: the baseline",
+      "onScreen": [
+        "Build one: default settings, approval, five artifacts, twenty-one tests",
+        "The release archive passed its checksum and runs",
+        "Build two: a snapshot, three stages skipped, twenty tests",
+        "Credentials, job and approval were sent by script in this recording",
+        {
+          "text": "Not shown: any conversion, or any run on GitHub Actions",
+          "tone": "warn"
+        }
+      ]
+    }
+  ],
+  "clips": {
+    "jenkins": {
+      "capture": "../000-walkthrough-60s/capture/jenkins",
+      "trimStart": 0.7,
+      "trimEnd": 27.1,
+      "segments": "0-1.65:1,1.65-5.6:20,5.6-11.6:2,11.6-13.2:3,13.2-15.6:1,15.6-16.3:20,16.3-20.75:1,20.75-22.2:50,22.2-25.3:1,25.3-26.4:50,26.4-30:1"
+    }
+  }
+}

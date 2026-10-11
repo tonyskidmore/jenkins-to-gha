@@ -1,0 +1,232 @@
+{
+  "analysis_version": 1,
+  "parser": {
+    "engine": "groovy-ast (Jenkins-bundled Groovy 2.4, CONVERSION phase)",
+    "ok": true,
+    "errors": []
+  },
+  "dialect": "declarative",
+  "metrics": {
+    "classes": 0,
+    "credentials": 2,
+    "distinct_steps": 7,
+    "env_vars": 5,
+    "libraries": 0,
+    "loc": 191,
+    "max_stage_depth": 1,
+    "methods": 0,
+    "options": 2,
+    "parameters": 0,
+    "post_conditions": 3,
+    "shell_steps": 7,
+    "stages": 7,
+    "steps": 21,
+    "tools": 0,
+    "top_level_stages": 7,
+    "triggers": 0,
+    "unknown_steps": 0,
+    "when_conditions": 5
+  },
+  "steps": {
+    "sh": {
+      "count": 7,
+      "category": "direct",
+      "lines": [
+        76,
+        88,
+        102,
+        117,
+        132,
+        150,
+        172
+      ],
+      "gha": "run: (shell: bash)"
+    },
+    "container": {
+      "count": 5,
+      "category": "policy",
+      "lines": [
+        100,
+        115,
+        130,
+        145,
+        167
+      ],
+      "gha": "job container: or docker run"
+    },
+    "withKubeConfig": {
+      "count": 3,
+      "category": "policy",
+      "lines": [
+        101,
+        116,
+        131
+      ],
+      "gha": "azure/k8s-set-context or kubeconfig secret"
+    },
+    "withCredentials": {
+      "count": 2,
+      "category": "policy",
+      "lines": [
+        146,
+        168
+      ],
+      "gha": "secrets.* / environment secrets / OIDC"
+    },
+    "mail": {
+      "count": 2,
+      "category": "policy",
+      "lines": [
+        186,
+        192
+      ],
+      "gha": "email action / GitHub notifications"
+    },
+    "withDockerRegistry": {
+      "count": 1,
+      "category": "policy",
+      "lines": [
+        87
+      ],
+      "gha": "docker/login-action"
+    },
+    "deleteDir": {
+      "count": 1,
+      "category": "direct",
+      "lines": [
+        198
+      ],
+      "gha": "run: rm -rf (runners are ephemeral)"
+    }
+  },
+  "unknown_steps": [],
+  "agents": [
+    {
+      "kind": "kubernetes",
+      "label": "kubedeploy-agent",
+      "image": null,
+      "line": 2,
+      "scope": "pipeline"
+    },
+    {
+      "kind": "label",
+      "label": "docker-build",
+      "image": null,
+      "line": 72,
+      "scope": "stage:Build docker image"
+    },
+    {
+      "kind": "label",
+      "label": "docker-build",
+      "image": null,
+      "line": 83,
+      "scope": "stage:Push docker image"
+    }
+  ],
+  "credentials": [
+    {
+      "id": "jenkins-openvsx-aws-key-id",
+      "type": "string",
+      "lines": [
+        147,
+        169
+      ]
+    },
+    {
+      "id": "jenkins-openvsx-aws-secret-key",
+      "type": "string",
+      "lines": [
+        148,
+        170
+      ]
+    }
+  ],
+  "dsl_symbols": [],
+  "libraries": [],
+  "methods": [],
+  "jenkins_model": {
+    "result": "success",
+    "errors": [],
+    "stages": [
+      "Build docker image",
+      "Push docker image",
+      "Deploy test",
+      "Deploy staging",
+      "Deploy production",
+      "Deploy aws-staging",
+      "Deploy aws-production"
+    ],
+    "agent": "kubernetes",
+    "discrepancies": []
+  },
+  "findings": [
+    {
+      "id": "KubernetesAgent",
+      "severity": "medium",
+      "line": 2,
+      "evidence": "agent { kubernetes }",
+      "recommendation": "Use job container + services, or ARC runner scale sets"
+    },
+    {
+      "id": "PostConditionGap",
+      "severity": "low",
+      "line": null,
+      "evidence": "post { fixed }",
+      "recommendation": "No GHA equivalent (needs previous-run status / UNSTABLE); approximated or dropped"
+    },
+    {
+      "id": "CredentialBinding",
+      "severity": "low",
+      "line": 147,
+      "evidence": "string 'jenkins-openvsx-aws-key-id'",
+      "recommendation": "Create GitHub secret(s) or use OIDC; never inline values"
+    },
+    {
+      "id": "CredentialBinding",
+      "severity": "low",
+      "line": 148,
+      "evidence": "string 'jenkins-openvsx-aws-secret-key'",
+      "recommendation": "Create GitHub secret(s) or use OIDC; never inline values"
+    }
+  ],
+  "hard_gates": [],
+  "styles": [
+    "declarative",
+    "when-post",
+    "kubernetes-agent",
+    "credentials"
+  ],
+  "coverage": {
+    "by_category": {
+      "direct": 8,
+      "policy": 13
+    },
+    "weighted_mapped_pct": 70.5
+  },
+  "complexity": {
+    "score": 28,
+    "classification": "assisted",
+    "dimensions": {
+      "declarative_structure": 0.0,
+      "step_mapping": 7.4,
+      "plugin_coupling": 3.8,
+      "library_opacity": 0.0,
+      "runtime_coupling": 10,
+      "security_identity": 7,
+      "control_flow": 0.0
+    },
+    "hard_gates": [],
+    "weights": {
+      "declarative_structure": 20,
+      "step_mapping": 25,
+      "plugin_coupling": 15,
+      "library_opacity": 15,
+      "runtime_coupling": 10,
+      "security_identity": 10,
+      "control_flow": 5
+    }
+  },
+  "convertibility": "automatic",
+  "ir_notes": [],
+  "source_sha256": "cf78f159b0582f4df0e920a9067e024f7772bfd5543ae2648514466a07446f50"
+}

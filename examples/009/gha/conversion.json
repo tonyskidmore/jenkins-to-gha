@@ -1,0 +1,200 @@
+{
+  "counts": {
+    "mapped": 11,
+    "approximated": 4,
+    "manual": 2,
+    "info": 1,
+    "dropped": 1
+  },
+  "automation_pct": 78.9,
+  "items": [
+    {
+      "jenkins": "post always",
+      "line": null,
+      "stage": null,
+      "status": "mapped",
+      "gha": "final job if: always()",
+      "note": ""
+    },
+    {
+      "jenkins": "post (workspace-dependent steps)",
+      "line": null,
+      "stage": null,
+      "status": "mapped",
+      "gha": "final job",
+      "note": "archiveArtifacts run in the restored pipeline workspace (j2gha-ws-* artifacts)"
+    },
+    {
+      "jenkins": "environment GITHUB_TOKEN = credentials('STELLARBOT_GITHUB_TOKEN')",
+      "line": 24,
+      "stage": null,
+      "status": "mapped",
+      "gha": "env from secrets.STELLARBOT_GITHUB_TOKEN",
+      "note": "create the repository/environment secret"
+    },
+    {
+      "jenkins": "dir",
+      "line": 48,
+      "stage": "checkout",
+      "status": "mapped",
+      "gha": "working-directory",
+      "note": ""
+    },
+    {
+      "jenkins": "checkout scm",
+      "line": 49,
+      "stage": "checkout",
+      "status": "mapped",
+      "gha": "actions/checkout@v4",
+      "note": ""
+    },
+    {
+      "jenkins": "echo",
+      "line": 50,
+      "stage": "checkout",
+      "status": "mapped",
+      "gha": "run: echo",
+      "note": ""
+    },
+    {
+      "jenkins": "stage 'build' matrix (configuration_name[13] x build_type[2])",
+      "line": 55,
+      "stage": "build",
+      "status": "mapped",
+      "gha": "strategy.matrix",
+      "note": ""
+    },
+    {
+      "jenkins": "dir",
+      "line": 69,
+      "stage": "build",
+      "status": "mapped",
+      "gha": "working-directory",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 70,
+      "stage": "build",
+      "status": "mapped",
+      "gha": "run (shell: bash -l {0})",
+      "note": ""
+    },
+    {
+      "jenkins": "archiveArtifacts",
+      "line": 84,
+      "stage": "Declarative: Post Actions",
+      "status": "mapped",
+      "gha": "actions/upload-artifact@v4",
+      "note": "fingerprinting has no equivalent"
+    },
+    {
+      "jenkins": "archiveArtifacts",
+      "line": 85,
+      "stage": "Declarative: Post Actions",
+      "status": "mapped",
+      "gha": "actions/upload-artifact@v4",
+      "note": "fingerprinting has no equivalent"
+    },
+    {
+      "jenkins": "(no pipeline timeout)",
+      "line": null,
+      "stage": null,
+      "status": "approximated",
+      "gha": "timeout-minutes: 60",
+      "note": "explicit job timeout added (GitHub's default is 360 minutes); set J2GHA_DEFAULT_TIMEOUT to change"
+    },
+    {
+      "jenkins": "options: buildDiscarder",
+      "line": null,
+      "stage": null,
+      "status": "dropped",
+      "gha": "-",
+      "note": "use artifact retention-days / repo settings"
+    },
+    {
+      "jenkins": "script {}",
+      "line": 39,
+      "stage": "checkout",
+      "status": "approximated",
+      "gha": "inner steps translated individually",
+      "note": "imperative Groovy is not executed; review control flow"
+    },
+    {
+      "jenkins": "if (env.BRANCH_NAME)",
+      "line": 40,
+      "stage": "checkout",
+      "status": "approximated",
+      "gha": "if: env.BRANCH_NAME != ''",
+      "note": ""
+    },
+    {
+      "jenkins": "milestone",
+      "line": 45,
+      "stage": "checkout",
+      "status": "approximated",
+      "gha": "concurrency",
+      "note": "use workflow/job concurrency groups"
+    },
+    {
+      "jenkins": "decl buildNumber = as",
+      "line": 41,
+      "stage": "checkout",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "if (buildNumber > 1)",
+      "line": 42,
+      "stage": "checkout",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "checkout: SCM environment (GIT_COMMIT, GIT_BRANCH, GIT_URL)",
+      "line": null,
+      "stage": null,
+      "status": "info",
+      "gha": "env",
+      "note": "Jenkins' git plugin exports them to every step after a checkout, so called scripts may read them; defined at workflow level even when the Jenkinsfile does not"
+    }
+  ],
+  "secrets": {
+    "STELLARBOT_GITHUB_TOKEN": "Jenkins credential 'STELLARBOT_GITHUB_TOKEN'"
+  },
+  "jobs": {
+    "checkout": {
+      "name": "checkout",
+      "runs-on": "ubuntu-latest",
+      "steps": 9,
+      "matrix": false
+    },
+    "build": {
+      "name": "build",
+      "runs-on": "ubuntu-latest",
+      "steps": 5,
+      "matrix": true
+    },
+    "post": {
+      "name": "post",
+      "runs-on": "ubuntu-latest",
+      "steps": 4,
+      "matrix": false
+    }
+  },
+  "notes": [],
+  "handoff": {
+    "handed_on": [
+      "checkout"
+    ],
+    "merged": [],
+    "restored_by": [
+      "build",
+      "post"
+    ]
+  },
+  "source_sha256": "cb527d3f1e03e41b0987393f4921daa89046a56d52ffea2b13c89f04f4e9fdf2",
+  "model_sha256": "fdecfd8bd034c9bfb9573fd26a6a8823037d2320ca09044780d1be6d77860392"
+}

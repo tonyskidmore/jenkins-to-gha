@@ -1,0 +1,817 @@
+{
+  "tier": "jenkins",
+  "mode": "full",
+  "scenario": {
+    "branch": "superstable",
+    "git_branch": "origin/superstable"
+  },
+  "localisation": {
+    "changes": [],
+    "stubs": [
+      "build",
+      "mail",
+      "emailext",
+      "slackSend",
+      "office365ConnectorSend",
+      "githubNotify",
+      "setGitHubPullRequestStatus",
+      "publishChecks",
+      "s3Upload",
+      "s3Download",
+      "copyArtifacts",
+      "waitForQualityGate",
+      "recordIssues",
+      "publishCoverage",
+      "recordCoverage",
+      "jacoco",
+      "cobertura",
+      "milestone",
+      "properties",
+      "buildDiscarder",
+      "checkout(GIT_BRANCH kept)",
+      "withSonarQubeEnv",
+      "withAWS",
+      "withKubeConfig",
+      "withVault",
+      "azureCLI",
+      "container",
+      "sshagent",
+      "withDockerRegistry",
+      "configFileProvider",
+      "withMaven",
+      "withGradle",
+      "withPythonEnv",
+      "podTemplate",
+      "wrap",
+      "withDockerContainer"
+    ],
+    "auto_repairs": {
+      "removed": [],
+      "stubbed": [],
+      "ineffective": []
+    }
+  },
+  "attempts": [
+    {
+      "attempt": 0,
+      "phase": "run",
+      "build": 3,
+      "result": "SUCCESS",
+      "seconds": 43.5,
+      "repairs": [],
+      "stubs": []
+    }
+  ],
+  "result": "SUCCESS",
+  "build": 3,
+  "duration_ms": 41786,
+  "stages": [
+    {
+      "name": "Declarative: Checkout SCM",
+      "status": "SUCCESS",
+      "durationMillis": 680
+    },
+    {
+      "name": "Update OpenROAD to HEAD of master branch",
+      "status": "SUCCESS",
+      "durationMillis": 5162
+    },
+    {
+      "name": "Build Docker OpenLane image with openroad_app master",
+      "status": "SUCCESS",
+      "durationMillis": 2341
+    },
+    {
+      "name": "Run Tests",
+      "status": "SUCCESS",
+      "durationMillis": 372
+    },
+    {
+      "name": "Matrix - DESIGN = 'ci/aes'",
+      "status": "SUCCESS",
+      "durationMillis": 1169
+    },
+    {
+      "name": "Matrix - DESIGN = 'ci/aes_core'",
+      "status": "SUCCESS",
+      "durationMillis": 1170
+    },
+    {
+      "name": "Matrix - DESIGN = 'ci/APU'",
+      "status": "SUCCESS",
+      "durationMillis": 1167
+    },
+    {
+      "name": "Matrix - DESIGN = 'ci/blabla'",
+      "status": "SUCCESS",
+      "durationMillis": 1164
+    },
+    {
+      "name": "Matrix - DESIGN = ''ci/BM64 -override_env QUIT_ON_LINTER_ERRORS=0''",
+      "status": "SUCCESS",
+      "durationMillis": 1162
+    },
+    {
+      "name": "Matrix - DESIGN = 'ci/gcd'",
+      "status": "SUCCESS",
+      "durationMillis": 1157
+    },
+    {
+      "name": "Matrix - DESIGN = 'ci/inverter'",
+      "status": "SUCCESS",
+      "durationMillis": 1156
+    },
+    {
+      "name": "Matrix - DESIGN = 'ci/manual_macro_placement_test'",
+      "status": "SUCCESS",
+      "durationMillis": 1153
+    },
+    {
+      "name": "Matrix - DESIGN = 'ci/picorv32a'",
+      "status": "SUCCESS",
+      "durationMillis": 1151
+    },
+    {
+      "name": "Matrix - DESIGN = 'ci/PPU'",
+      "status": "SUCCESS",
+      "durationMillis": 1150
+    },
+    {
+      "name": "Matrix - DESIGN = 'ci/s44'",
+      "status": "SUCCESS",
+      "durationMillis": 1149
+    },
+    {
+      "name": "Matrix - DESIGN = 'ci/salsa20'",
+      "status": "SUCCESS",
+      "durationMillis": 1020
+    },
+    {
+      "name": "Matrix - DESIGN = 'ci/usb'",
+      "status": "SUCCESS",
+      "durationMillis": 1020
+    },
+    {
+      "name": "Matrix - DESIGN = 'ci/usb_cdc_core'",
+      "status": "SUCCESS",
+      "durationMillis": 991
+    },
+    {
+      "name": "Matrix - DESIGN = 'ci/wbqspiflash'",
+      "status": "SUCCESS",
+      "durationMillis": 987
+    },
+    {
+      "name": "Matrix - DESIGN = 'ci/xtea'",
+      "status": "SUCCESS",
+      "durationMillis": 988
+    },
+    {
+      "name": "Matrix - DESIGN = ''ci/y_huff -override_env QUIT_ON_SYNTH_CHECKS=0''",
+      "status": "SUCCESS",
+      "durationMillis": 988
+    },
+    {
+      "name": "Matrix - DESIGN = 'ci/zipdiv'",
+      "status": "SUCCESS",
+      "durationMillis": 987
+    },
+    {
+      "name": "Matrix - DESIGN = 'ci/aes_user_project_wrapper'",
+      "status": "SUCCESS",
+      "durationMillis": 984
+    },
+    {
+      "name": "Matrix - DESIGN = 'ci/caravel_upw'",
+      "status": "SUCCESS",
+      "durationMillis": 987
+    },
+    {
+      "name": "Matrix - DESIGN = 'ci/mem_1r1w'",
+      "status": "SUCCESS",
+      "durationMillis": 990
+    },
+    {
+      "name": "Matrix - DESIGN = 'spm'",
+      "status": "SUCCESS",
+      "durationMillis": 992
+    },
+    {
+      "name": "Test",
+      "status": "SUCCESS",
+      "durationMillis": 3568
+    },
+    {
+      "name": "Test",
+      "status": "SUCCESS",
+      "durationMillis": 2484
+    },
+    {
+      "name": "Test",
+      "status": "SUCCESS",
+      "durationMillis": 2524
+    },
+    {
+      "name": "Test",
+      "status": "SUCCESS",
+      "durationMillis": 2745
+    },
+    {
+      "name": "Test",
+      "status": "SUCCESS",
+      "durationMillis": 2685
+    },
+    {
+      "name": "Test",
+      "status": "SUCCESS",
+      "durationMillis": 2685
+    },
+    {
+      "name": "Test",
+      "status": "SUCCESS",
+      "durationMillis": 3075
+    },
+    {
+      "name": "Test",
+      "status": "SUCCESS",
+      "durationMillis": 3523
+    },
+    {
+      "name": "Test",
+      "status": "SUCCESS",
+      "durationMillis": 3075
+    },
+    {
+      "name": "Test",
+      "status": "SUCCESS",
+      "durationMillis": 2785
+    },
+    {
+      "name": "Test",
+      "status": "SUCCESS",
+      "durationMillis": 3238
+    },
+    {
+      "name": "Test",
+      "status": "SUCCESS",
+      "durationMillis": 2914
+    },
+    {
+      "name": "Test",
+      "status": "SUCCESS",
+      "durationMillis": 3680
+    },
+    {
+      "name": "Test",
+      "status": "SUCCESS",
+      "durationMillis": 2915
+    },
+    {
+      "name": "Test",
+      "status": "SUCCESS",
+      "durationMillis": 22426
+    },
+    {
+      "name": "Test",
+      "status": "SUCCESS",
+      "durationMillis": 2946
+    },
+    {
+      "name": "Test",
+      "status": "SUCCESS",
+      "durationMillis": 22543
+    },
+    {
+      "name": "Test",
+      "status": "SUCCESS",
+      "durationMillis": 22552
+    },
+    {
+      "name": "Test",
+      "status": "SUCCESS",
+      "durationMillis": 22688
+    },
+    {
+      "name": "Test",
+      "status": "SUCCESS",
+      "durationMillis": 22685
+    },
+    {
+      "name": "Test",
+      "status": "SUCCESS",
+      "durationMillis": 22838
+    },
+    {
+      "name": "Test",
+      "status": "SUCCESS",
+      "durationMillis": 22840
+    },
+    {
+      "name": "ci/aes_core - Install PDK",
+      "status": "SUCCESS",
+      "durationMillis": 4119
+    },
+    {
+      "name": "ci/APU - Install PDK",
+      "status": "SUCCESS",
+      "durationMillis": 4279
+    },
+    {
+      "name": "'ci/BM64 -override_env QUIT_ON_LINTER_ERRORS=0' - Install PDK",
+      "status": "SUCCESS",
+      "durationMillis": 4168
+    },
+    {
+      "name": "ci/gcd - Install PDK",
+      "status": "SUCCESS",
+      "durationMillis": 4203
+    },
+    {
+      "name": "ci/blabla - Install PDK",
+      "status": "SUCCESS",
+      "durationMillis": 4335
+    },
+    {
+      "name": "ci/manual_macro_placement_test - Install PDK",
+      "status": "SUCCESS",
+      "durationMillis": 4268
+    },
+    {
+      "name": "ci/picorv32a - Install PDK",
+      "status": "SUCCESS",
+      "durationMillis": 4236
+    },
+    {
+      "name": "ci/PPU - Install PDK",
+      "status": "SUCCESS",
+      "durationMillis": 4282
+    },
+    {
+      "name": "ci/s44 - Install PDK",
+      "status": "SUCCESS",
+      "durationMillis": 4301
+    },
+    {
+      "name": "ci/salsa20 - Install PDK",
+      "status": "SUCCESS",
+      "durationMillis": 4350
+    },
+    {
+      "name": "ci/usb - Install PDK",
+      "status": "SUCCESS",
+      "durationMillis": 4467
+    },
+    {
+      "name": "ci/usb_cdc_core - Install PDK",
+      "status": "SUCCESS",
+      "durationMillis": 4355
+    },
+    {
+      "name": "ci/aes - Install PDK",
+      "status": "SUCCESS",
+      "durationMillis": 4262
+    },
+    {
+      "name": "ci/inverter - Install PDK",
+      "status": "SUCCESS",
+      "durationMillis": 4329
+    },
+    {
+      "name": "ci/wbqspiflash - Install PDK",
+      "status": "SUCCESS",
+      "durationMillis": 4295
+    },
+    {
+      "name": "ci/aes_core - Import Docker image",
+      "status": "SUCCESS",
+      "durationMillis": 2657
+    },
+    {
+      "name": "ci/APU - Import Docker image",
+      "status": "SUCCESS",
+      "durationMillis": 2541
+    },
+    {
+      "name": "'ci/BM64 -override_env QUIT_ON_LINTER_ERRORS=0' - Import Docker image",
+      "status": "SUCCESS",
+      "durationMillis": 2552
+    },
+    {
+      "name": "ci/gcd - Import Docker image",
+      "status": "SUCCESS",
+      "durationMillis": 2617
+    },
+    {
+      "name": "ci/blabla - Import Docker image",
+      "status": "SUCCESS",
+      "durationMillis": 2624
+    },
+    {
+      "name": "ci/manual_macro_placement_test - Import Docker image",
+      "status": "SUCCESS",
+      "durationMillis": 2577
+    },
+    {
+      "name": "ci/picorv32a - Import Docker image",
+      "status": "SUCCESS",
+      "durationMillis": 2625
+    },
+    {
+      "name": "ci/PPU - Import Docker image",
+      "status": "SUCCESS",
+      "durationMillis": 2667
+    },
+    {
+      "name": "ci/s44 - Import Docker image",
+      "status": "SUCCESS",
+      "durationMillis": 2720
+    },
+    {
+      "name": "ci/salsa20 - Import Docker image",
+      "status": "SUCCESS",
+      "durationMillis": 2873
+    },
+    {
+      "name": "ci/usb - Import Docker image",
+      "status": "SUCCESS",
+      "durationMillis": 2911
+    },
+    {
+      "name": "ci/usb_cdc_core - Import Docker image",
+      "status": "SUCCESS",
+      "durationMillis": 3024
+    },
+    {
+      "name": "ci/aes - Import Docker image",
+      "status": "SUCCESS",
+      "durationMillis": 2978
+    },
+    {
+      "name": "ci/inverter - Import Docker image",
+      "status": "SUCCESS",
+      "durationMillis": 3123
+    },
+    {
+      "name": "ci/wbqspiflash - Import Docker image",
+      "status": "SUCCESS",
+      "durationMillis": 3174
+    },
+    {
+      "name": "ci/aes_core - Update OpenROAD commit",
+      "status": "SUCCESS",
+      "durationMillis": 4861
+    },
+    {
+      "name": "ci/APU - Update OpenROAD commit",
+      "status": "SUCCESS",
+      "durationMillis": 4963
+    },
+    {
+      "name": "'ci/BM64 -override_env QUIT_ON_LINTER_ERRORS=0' - Update OpenROAD commit",
+      "status": "SUCCESS",
+      "durationMillis": 4949
+    },
+    {
+      "name": "ci/gcd - Update OpenROAD commit",
+      "status": "SUCCESS",
+      "durationMillis": 4976
+    },
+    {
+      "name": "ci/blabla - Update OpenROAD commit",
+      "status": "SUCCESS",
+      "durationMillis": 4884
+    },
+    {
+      "name": "ci/manual_macro_placement_test - Update OpenROAD commit",
+      "status": "SUCCESS",
+      "durationMillis": 5005
+    },
+    {
+      "name": "ci/picorv32a - Update OpenROAD commit",
+      "status": "SUCCESS",
+      "durationMillis": 4956
+    },
+    {
+      "name": "ci/PPU - Update OpenROAD commit",
+      "status": "SUCCESS",
+      "durationMillis": 4935
+    },
+    {
+      "name": "ci/s44 - Update OpenROAD commit",
+      "status": "SUCCESS",
+      "durationMillis": 4885
+    },
+    {
+      "name": "ci/salsa20 - Update OpenROAD commit",
+      "status": "SUCCESS",
+      "durationMillis": 4772
+    },
+    {
+      "name": "ci/usb - Update OpenROAD commit",
+      "status": "SUCCESS",
+      "durationMillis": 4669
+    },
+    {
+      "name": "ci/usb_cdc_core - Update OpenROAD commit",
+      "status": "SUCCESS",
+      "durationMillis": 4661
+    },
+    {
+      "name": "ci/aes - Update OpenROAD commit",
+      "status": "SUCCESS",
+      "durationMillis": 4639
+    },
+    {
+      "name": "ci/inverter - Update OpenROAD commit",
+      "status": "SUCCESS",
+      "durationMillis": 4572
+    },
+    {
+      "name": "ci/wbqspiflash - Update OpenROAD commit",
+      "status": "SUCCESS",
+      "durationMillis": 4517
+    },
+    {
+      "name": "ci/aes_core - Run test",
+      "status": "SUCCESS",
+      "durationMillis": 2354
+    },
+    {
+      "name": "ci/APU - Run test",
+      "status": "SUCCESS",
+      "durationMillis": 2297
+    },
+    {
+      "name": "'ci/BM64 -override_env QUIT_ON_LINTER_ERRORS=0' - Run test",
+      "status": "SUCCESS",
+      "durationMillis": 2259
+    },
+    {
+      "name": "ci/gcd - Run test",
+      "status": "SUCCESS",
+      "durationMillis": 2240
+    },
+    {
+      "name": "ci/blabla - Run test",
+      "status": "SUCCESS",
+      "durationMillis": 2227
+    },
+    {
+      "name": "ci/manual_macro_placement_test - Run test",
+      "status": "SUCCESS",
+      "durationMillis": 2170
+    },
+    {
+      "name": "ci/picorv32a - Run test",
+      "status": "SUCCESS",
+      "durationMillis": 2147
+    },
+    {
+      "name": "ci/PPU - Run test",
+      "status": "SUCCESS",
+      "durationMillis": 2141
+    },
+    {
+      "name": "ci/s44 - Run test",
+      "status": "SUCCESS",
+      "durationMillis": 2118
+    },
+    {
+      "name": "ci/salsa20 - Run test",
+      "status": "SUCCESS",
+      "durationMillis": 2052
+    },
+    {
+      "name": "ci/usb - Run test",
+      "status": "SUCCESS",
+      "durationMillis": 1987
+    },
+    {
+      "name": "ci/usb_cdc_core - Run test",
+      "status": "SUCCESS",
+      "durationMillis": 1864
+    },
+    {
+      "name": "ci/aes - Run test",
+      "status": "SUCCESS",
+      "durationMillis": 1896
+    },
+    {
+      "name": "ci/inverter - Run test",
+      "status": "SUCCESS",
+      "durationMillis": 1827
+    },
+    {
+      "name": "ci/wbqspiflash - Run test",
+      "status": "SUCCESS",
+      "durationMillis": 1810
+    },
+    {
+      "name": "ci/xtea - Install PDK",
+      "status": "SUCCESS",
+      "durationMillis": 1826
+    },
+    {
+      "name": "'ci/y_huff -override_env QUIT_ON_SYNTH_CHECKS=0' - Install PDK",
+      "status": "SUCCESS",
+      "durationMillis": 1754
+    },
+    {
+      "name": "ci/zipdiv - Install PDK",
+      "status": "SUCCESS",
+      "durationMillis": 1789
+    },
+    {
+      "name": "ci/aes_user_project_wrapper - Install PDK",
+      "status": "SUCCESS",
+      "durationMillis": 1848
+    },
+    {
+      "name": "ci/caravel_upw - Install PDK",
+      "status": "SUCCESS",
+      "durationMillis": 1976
+    },
+    {
+      "name": "ci/mem_1r1w - Install PDK",
+      "status": "SUCCESS",
+      "durationMillis": 1908
+    },
+    {
+      "name": "spm - Install PDK",
+      "status": "SUCCESS",
+      "durationMillis": 2000
+    },
+    {
+      "name": "ci/xtea - Import Docker image",
+      "status": "SUCCESS",
+      "durationMillis": 1042
+    },
+    {
+      "name": "'ci/y_huff -override_env QUIT_ON_SYNTH_CHECKS=0' - Import Docker image",
+      "status": "SUCCESS",
+      "durationMillis": 1091
+    },
+    {
+      "name": "ci/zipdiv - Import Docker image",
+      "status": "SUCCESS",
+      "durationMillis": 1183
+    },
+    {
+      "name": "ci/aes_user_project_wrapper - Import Docker image",
+      "status": "SUCCESS",
+      "durationMillis": 1251
+    },
+    {
+      "name": "ci/caravel_upw - Import Docker image",
+      "status": "SUCCESS",
+      "durationMillis": 1260
+    },
+    {
+      "name": "ci/mem_1r1w - Import Docker image",
+      "status": "SUCCESS",
+      "durationMillis": 1338
+    },
+    {
+      "name": "spm - Import Docker image",
+      "status": "SUCCESS",
+      "durationMillis": 1259
+    },
+    {
+      "name": "ci/xtea - Update OpenROAD commit",
+      "status": "SUCCESS",
+      "durationMillis": 1859
+    },
+    {
+      "name": "'ci/y_huff -override_env QUIT_ON_SYNTH_CHECKS=0' - Update OpenROAD commit",
+      "status": "SUCCESS",
+      "durationMillis": 1830
+    },
+    {
+      "name": "ci/zipdiv - Update OpenROAD commit",
+      "status": "SUCCESS",
+      "durationMillis": 1852
+    },
+    {
+      "name": "ci/aes_user_project_wrapper - Update OpenROAD commit",
+      "status": "SUCCESS",
+      "durationMillis": 1768
+    },
+    {
+      "name": "ci/caravel_upw - Update OpenROAD commit",
+      "status": "SUCCESS",
+      "durationMillis": 1705
+    },
+    {
+      "name": "ci/mem_1r1w - Update OpenROAD commit",
+      "status": "SUCCESS",
+      "durationMillis": 1615
+    },
+    {
+      "name": "spm - Update OpenROAD commit",
+      "status": "SUCCESS",
+      "durationMillis": 1749
+    },
+    {
+      "name": "ci/xtea - Run test",
+      "status": "SUCCESS",
+      "durationMillis": 928
+    },
+    {
+      "name": "'ci/y_huff -override_env QUIT_ON_SYNTH_CHECKS=0' - Run test",
+      "status": "SUCCESS",
+      "durationMillis": 883
+    },
+    {
+      "name": "ci/zipdiv - Run test",
+      "status": "SUCCESS",
+      "durationMillis": 818
+    },
+    {
+      "name": "ci/aes_user_project_wrapper - Run test",
+      "status": "SUCCESS",
+      "durationMillis": 828
+    },
+    {
+      "name": "ci/caravel_upw - Run test",
+      "status": "SUCCESS",
+      "durationMillis": 878
+    },
+    {
+      "name": "ci/mem_1r1w - Run test",
+      "status": "SUCCESS",
+      "durationMillis": 877
+    },
+    {
+      "name": "spm - Run test",
+      "status": "SUCCESS",
+      "durationMillis": 872
+    }
+  ],
+  "traces": [],
+  "approved_inputs": [],
+  "error_tail": null,
+  "outputs": {
+    "archived": [],
+    "tests": null
+  },
+  "provenance": {
+    "jenkinsfile_sha256": "8485f238d3d6957557d4b5be1f35add7d2b0f47c7e2e6d69e3f2f570c17ec583",
+    "scenario": {
+      "branch": "superstable",
+      "git_branch": "origin/superstable"
+    },
+    "mode": "full",
+    "localizer_version": 5,
+    "images": {
+      "jenkins": {
+        "ref": "j2gha/jenkins:local",
+        "present": true,
+        "id": "sha256:672c4b841b2c934f224d4f1b3523d77a1b651f8f491f8f04da47ca764eb86775",
+        "repo_digests": [],
+        "created": "2026-10-09T18:21:15.545465961Z",
+        "labels": {
+          "j2gha.base-image": "jenkins/jenkins:lts-jdk21@sha256:a660310e39ade10631f774bacd5219de767dfd08947ea5c32a739b5e5bb382c1",
+          "org.opencontainers.image.version": "2.580.1",
+          "org.opencontainers.image.revision": "457b9316d71b43cdf3e2ba6ec7c27efc40f5dc60",
+          "org.opencontainers.image.source": "https://github.com/jenkinsci/docker"
+        },
+        "jenkins_version": "2.580.1"
+      },
+      "act": {
+        "ref": "j2gha/act:local",
+        "present": true,
+        "id": "sha256:0781bb0384b914fba362a2a2483d55d30c3d3cc9b59598856146778aa88662a4",
+        "repo_digests": [],
+        "created": "2026-10-03T06:26:46.552472741Z",
+        "labels": {},
+        "act_version": "0.2.89"
+      },
+      "act_runner": {
+        "ref": "j2gha/act-runner:local",
+        "present": true,
+        "id": "sha256:134418998a1ca958b148ee6befb038aa3ff598bf147b39ce9e99b60a563a15be",
+        "repo_digests": [],
+        "created": "2026-10-09T18:54:04.157825772Z",
+        "labels": {
+          "j2gha.base-image": "catthehacker/ubuntu:act-latest@sha256:c58e2b364da03b0c804c7d660f2ecbedf2f221a382b9baa0b344b0144780ff43",
+          "org.opencontainers.image.version": "20260815",
+          "org.opencontainers.image.revision": "e2f8efe464c82732f78e967ee709c00b6af53643",
+          "org.opencontainers.image.source": "https://github.com/catthehacker/catthehacker/docker_images"
+        }
+      },
+      "jit_runner": {
+        "ref": "j2gha/runner:local",
+        "present": true,
+        "id": "sha256:4847cf6e3e915577d28244aedfbe1b633eafa060a49d4ef313129d6841e2e667",
+        "repo_digests": [],
+        "created": "2026-10-09T18:52:46.515242869Z",
+        "labels": {
+          "j2gha.base-image": "ghcr.io/actions/actions-runner:latest@sha256:4ffadc0002b2581327e06101fc8c06cd189232baf79fe561fac9caeb76f5e807",
+          "org.opencontainers.image.version": "24.04",
+          "org.opencontainers.image.source": "https://github.com/actions/runner"
+        }
+      }
+    }
+  },
+  "finished_at": "2026-10-10T09:18:23+00:00"
+}

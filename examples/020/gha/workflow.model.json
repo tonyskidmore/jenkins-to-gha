@@ -1,0 +1,257 @@
+{
+  "name": "j2gha 020: dvsa/mes-beta-sandbox autonomous-single-access-mode/Jenkinsfile (j2gha)",
+  "on": {
+    "push": {
+      "branches": [
+        "**"
+      ]
+    },
+    "pull_request": null,
+    "workflow_dispatch": null
+  },
+  "permissions": {
+    "contents": "read"
+  },
+  "env": {
+    "BRANCH_NAME": "${{ github.head_ref || github.ref_name }}",
+    "TAG_NAME": "${{ github.ref_type == 'tag' && github.ref_name || '' }}",
+    "CHANGE_ID": "${{ github.event.pull_request.number }}",
+    "GIT_COMMIT": "${{ github.sha }}",
+    "GIT_BRANCH": "${{ github.head_ref || github.ref_name }}",
+    "GIT_URL": "${{ github.server_url }}/${{ github.repository }}.git"
+  },
+  "defaults": {
+    "run": {
+      "shell": "bash"
+    }
+  },
+  "jobs": {
+    "main": {
+      "name": "main, checkout, install dependencies, tests, build",
+      "runs-on": "ubuntu-latest",
+      "timeout-minutes": 60,
+      "steps": [
+        {
+          "name": "Checkout",
+          "uses": "actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "with": {
+            "persist-credentials": false
+          },
+          "_j2gha": {
+            "kind": "checkout",
+            "line": null,
+            "trace": false,
+            "trace_events": [],
+            "role": "checkout"
+          }
+        },
+        {
+          "name": "new Globals (manual migration)",
+          "id": "s1",
+          "run": "echo \"::warning::Jenkins step 'new Globals' requires manual migration\"",
+          "_j2gha": {
+            "kind": "new Globals",
+            "stage": "",
+            "line": 8,
+            "trace": false
+          }
+        },
+        {
+          "name": "new CommonFunctions (manual migration)",
+          "id": "s2",
+          "run": "echo \"::warning::Jenkins step 'new CommonFunctions' requires manual migration\"",
+          "_j2gha": {
+            "kind": "new CommonFunctions",
+            "stage": "",
+            "line": 9,
+            "trace": false
+          }
+        },
+        {
+          "name": "new GitFunctions (manual migration)",
+          "id": "s3",
+          "run": "echo \"::warning::Jenkins step 'new GitFunctions' requires manual migration\"",
+          "_j2gha": {
+            "kind": "new GitFunctions",
+            "stage": "",
+            "line": 10,
+            "trace": false
+          }
+        },
+        {
+          "name": "new MobileFunctions (manual migration)",
+          "id": "s4",
+          "run": "echo \"::warning::Jenkins step 'new MobileFunctions' requires manual migration\"",
+          "_j2gha": {
+            "kind": "new MobileFunctions",
+            "stage": "",
+            "line": 11,
+            "trace": false
+          }
+        },
+        {
+          "name": "new NVMFunctions (manual migration)",
+          "id": "s5",
+          "run": "echo \"::warning::Jenkins step 'new NVMFunctions' requires manual migration\"",
+          "_j2gha": {
+            "kind": "new NVMFunctions",
+            "stage": "",
+            "line": 12,
+            "trace": false
+          }
+        },
+        {
+          "name": "deleteDir",
+          "id": "s6",
+          "run": "find . -mindepth 1 -delete || true",
+          "_j2gha": {
+            "kind": "deleteDir",
+            "stage": "",
+            "line": 22,
+            "trace": true
+          }
+        },
+        {
+          "name": "pwd (manual migration)",
+          "id": "s7",
+          "run": "echo \"::warning::Jenkins step 'pwd' requires manual migration\"",
+          "_j2gha": {
+            "kind": "pwd",
+            "stage": "",
+            "line": 24,
+            "trace": false
+          }
+        },
+        {
+          "name": "checkout: log (manual migration)",
+          "id": "s8",
+          "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
+          "_j2gha": {
+            "kind": "log",
+            "stage": "checkout",
+            "line": 30,
+            "trace": false
+          }
+        },
+        {
+          "name": "checkout: git_check_out (manual migration)",
+          "id": "s9",
+          "run": "echo \"::warning::Jenkins step 'git_check_out' requires manual migration\"",
+          "_j2gha": {
+            "kind": "git_check_out",
+            "stage": "checkout",
+            "line": 31,
+            "trace": false
+          }
+        },
+        {
+          "name": "install dependencies: log (manual migration)",
+          "id": "s10",
+          "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
+          "_j2gha": {
+            "kind": "log",
+            "stage": "install dependencies",
+            "line": 34,
+            "trace": false
+          }
+        },
+        {
+          "name": "install dependencies: dir Globals.MOBILE_NAME",
+          "id": "s11",
+          "run": "mkdir -p -- \"$J2GHA_DIR\"",
+          "env": {
+            "J2GHA_DIR": "Globals.MOBILE_NAME"
+          },
+          "_j2gha": {
+            "kind": "dir",
+            "stage": "install dependencies",
+            "line": null,
+            "trace": false
+          }
+        },
+        {
+          "name": "install dependencies: run (manual migration)",
+          "id": "s12",
+          "run": "echo \"::warning::Jenkins step 'run' requires manual migration\"",
+          "working-directory": "Globals.MOBILE_NAME",
+          "_j2gha": {
+            "kind": "run",
+            "stage": "install dependencies",
+            "line": 36,
+            "trace": false
+          }
+        },
+        {
+          "name": "tests: log (manual migration)",
+          "id": "s13",
+          "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
+          "_j2gha": {
+            "kind": "log",
+            "stage": "tests",
+            "line": 40,
+            "trace": false
+          }
+        },
+        {
+          "name": "tests: dir Globals.MOBILE_NAME",
+          "id": "s14",
+          "run": "mkdir -p -- \"$J2GHA_DIR\"",
+          "env": {
+            "J2GHA_DIR": "Globals.MOBILE_NAME"
+          },
+          "_j2gha": {
+            "kind": "dir",
+            "stage": "tests",
+            "line": null,
+            "trace": false
+          }
+        },
+        {
+          "name": "tests: run (manual migration)",
+          "id": "s15",
+          "run": "echo \"::warning::Jenkins step 'run' requires manual migration\"",
+          "working-directory": "Globals.MOBILE_NAME",
+          "_j2gha": {
+            "kind": "run",
+            "stage": "tests",
+            "line": 42,
+            "trace": false
+          }
+        },
+        {
+          "name": "build: Groovy if (manual)",
+          "id": "s16",
+          "run": "echo \"::warning::manual migration: Groovy condition at line 46: branch_name == \\\"develop\\\" || branch_name == \\\"origin/develop\\\"\"",
+          "_j2gha": {
+            "kind": "script-manual",
+            "stage": "build",
+            "line": 46,
+            "trace": false
+          }
+        },
+        {
+          "name": "build: shout (manual migration)",
+          "id": "s17",
+          "run": "echo \"::warning::Jenkins step 'shout' requires manual migration\"",
+          "_j2gha": {
+            "kind": "shout",
+            "stage": "build",
+            "line": 61,
+            "trace": false
+          }
+        },
+        {
+          "name": "deleteDir",
+          "id": "s18",
+          "run": "find . -mindepth 1 -delete || true",
+          "_j2gha": {
+            "kind": "deleteDir",
+            "stage": "",
+            "line": 64,
+            "trace": true
+          }
+        }
+      ]
+    }
+  }
+}

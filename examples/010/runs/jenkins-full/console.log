@@ -1,0 +1,61 @@
+[2026-10-10T08:33:31.020Z] Started by user admin
+[2026-10-10T08:33:31.136Z] [Pipeline] Start of Pipeline
+[2026-10-10T08:33:31.163Z] [Pipeline] node
+[2026-10-10T08:33:31.179Z] Running on Jenkins in /var/jenkins_home/workspace/ex-010-full
+[2026-10-10T08:33:31.191Z] [Pipeline] {
+[2026-10-10T08:33:31.218Z] [Pipeline] echo
+[2026-10-10T08:33:31.223Z] J2GHA-TRACE {"stage":"","step":"checkoutWithTags"}
+[2026-10-10T08:33:31.241Z] [Pipeline] stage
+[2026-10-10T08:33:31.246Z] [Pipeline] { (Checkout)
+[2026-10-10T08:33:31.267Z] [Pipeline] echo
+[2026-10-10T08:33:31.273Z] Checking out branch: main
+[2026-10-10T08:33:31.290Z] [Pipeline] checkout
+[2026-10-10T08:33:31.296Z] The recommended git tool is: NONE
+[2026-10-10T08:33:31.296Z] No credentials specified
+[2026-10-10T08:33:31.297Z] Cloning the remote Git repository
+[2026-10-10T08:33:31.297Z] Avoid fetching tags
+[2026-10-10T08:33:31.297Z] Cloning repository https://github.com/apicollective/apibuilder.git
+[2026-10-10T08:33:31.297Z]  > git init /var/jenkins_home/workspace/ex-010-full # timeout=10
+[2026-10-10T08:33:31.310Z] Fetching upstream changes from https://github.com/apicollective/apibuilder.git
+[2026-10-10T08:33:31.310Z]  > git --version # timeout=10
+[2026-10-10T08:33:31.315Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T08:33:31.316Z]  > git fetch --no-tags --force --progress -- https://github.com/apicollective/apibuilder.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T08:33:34.718Z]  > git config remote.origin.url https://github.com/apicollective/apibuilder.git # timeout=10
+[2026-10-10T08:33:34.726Z]  > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T08:33:34.736Z] Avoid second fetch
+[2026-10-10T08:33:34.736Z]  > git rev-parse 11b4b94e5fe33581d3d7de46c4002dbffcb3afc6^{commit} # timeout=10
+[2026-10-10T08:33:34.745Z] Checking out Revision 11b4b94e5fe33581d3d7de46c4002dbffcb3afc6 (detached)
+[2026-10-10T08:33:34.745Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T08:33:34.751Z]  > git checkout -f 11b4b94e5fe33581d3d7de46c4002dbffcb3afc6 # timeout=10
+[2026-10-10T08:33:34.877Z] Commit message: "FDN-4233: revert sources order for argo cd UI visibility (#959)"
+[2026-10-10T08:33:34.877Z] First time build. Skipping changelog.
+[2026-10-10T08:33:34.893Z] [Pipeline] }
+[2026-10-10T08:33:34.917Z] [Pipeline] // stage
+[2026-10-10T08:33:34.940Z] [Pipeline] stage
+[2026-10-10T08:33:34.946Z] [Pipeline] { (tagging)
+[2026-10-10T08:33:35.052Z] [Pipeline] echo
+[2026-10-10T08:33:35.058Z] J2GHA-TRACE {"stage":"tagging","step":"taggingv2"}
+[2026-10-10T08:33:35.058Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named semversion (to a value of type J2ghaAny) which could lead to memory leaks or other issues.
+[2026-10-10T08:33:35.068Z] [Pipeline] echo
+[2026-10-10T08:33:35.072Z] j2gha-stub
+[2026-10-10T08:33:35.077Z] [Pipeline] }
+[2026-10-10T08:33:35.094Z] [Pipeline] // stage
+[2026-10-10T08:33:35.108Z] [Pipeline] echo
+[2026-10-10T08:33:35.112Z] J2GHA-TRACE {"stage":"","step":"checkoutWithTags"}
+[2026-10-10T08:33:35.126Z] [Pipeline] withCredentials
+[2026-10-10T08:33:35.157Z] Masking supported pattern matches of $ARGOCD_AUTH_TOKEN
+[2026-10-10T08:33:35.165Z] [Pipeline] {
+[2026-10-10T08:33:35.198Z] [Pipeline] echo
+[2026-10-10T08:33:35.205Z] J2GHA-TRACE {"stage":"","step":"mainJenkinsBuildArgo"}
+[2026-10-10T08:33:35.209Z] [Pipeline] }
+[2026-10-10T08:33:35.235Z] [Pipeline] // withCredentials
+[2026-10-10T08:33:35.250Z] [Pipeline] cleanWs
+[2026-10-10T08:33:35.256Z] [WS-CLEANUP] Deleting project workspace...
+[2026-10-10T08:33:35.256Z] [WS-CLEANUP] Deferred wipeout is used...
+[2026-10-10T08:33:35.262Z] [WS-CLEANUP] done
+[2026-10-10T08:33:35.277Z] [Pipeline] echo
+[2026-10-10T08:33:35.283Z] Pipeline execution finished
+[2026-10-10T08:33:35.289Z] [Pipeline] }
+[2026-10-10T08:33:35.312Z] [Pipeline] // node
+[2026-10-10T08:33:35.323Z] [Pipeline] End of Pipeline
+[2026-10-10T08:33:35.353Z] Finished: SUCCESS

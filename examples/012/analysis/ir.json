@@ -1,0 +1,207 @@
+{
+  "dialect": "declarative",
+  "line": 2,
+  "agent": {
+    "kind": "label",
+    "label": "java",
+    "raw": {
+      "label": "java"
+    },
+    "line": 3
+  },
+  "environment": {
+    "BRANCH": {
+      "kind": "expression",
+      "value": "${BRANCH}",
+      "line": 11
+    },
+    "M2_HOME": {
+      "kind": "literal",
+      "value": "/usr/lib/maven/apache-maven-3.6.0",
+      "line": 12
+    },
+    "PATH": {
+      "kind": "expression",
+      "value": "${env.PATH}:${env.M2_HOME}/bin",
+      "line": 14
+    }
+  },
+  "parameters": [
+    {
+      "kind": "string",
+      "name": "PERSON",
+      "default": "Mr Jenkins",
+      "description": "Who should I say hello to?",
+      "line": 18
+    }
+  ],
+  "stages": [
+    {
+      "name": "Init",
+      "line": 22,
+      "when": {
+        "conditions": [
+          {
+            "kind": "environment",
+            "value": "develop",
+            "name": "BRANCH",
+            "line": 25
+          }
+        ]
+      },
+      "input": {
+        "message": "Should we continue?",
+        "ok": "Yes, we should.",
+        "submitter": "alice,bob",
+        "parameters": true,
+        "line": 27
+      }
+    },
+    {
+      "name": "Parallel Stage",
+      "line": 41,
+      "when": {
+        "conditions": [
+          {
+            "kind": "environment",
+            "value": "develop",
+            "name": "BRANCH",
+            "line": 44
+          }
+        ]
+      },
+      "parallel": [
+        {
+          "name": "Branch A",
+          "line": 49,
+          "steps": [
+            {
+              "name": "echo",
+              "line": 51,
+              "args": [
+                "On Branch A"
+              ],
+              "category": "direct"
+            }
+          ]
+        },
+        {
+          "name": "Branch B",
+          "line": 54,
+          "steps": [
+            {
+              "name": "echo",
+              "line": 56,
+              "args": [
+                "On Branch B"
+              ],
+              "category": "direct"
+            }
+          ]
+        }
+      ],
+      "fail_fast": true
+    },
+    {
+      "name": "Build",
+      "line": 62,
+      "environment": {
+        "M2_HOME": {
+          "kind": "literal",
+          "value": "/usr/lib/maven/apache-maven-3.6.0",
+          "line": 65
+        }
+      },
+      "options": {
+        "timeout": {
+          "time": 1,
+          "unit": "HOURS",
+          "minutes": 60
+        }
+      },
+      "steps": [
+        {
+          "name": "echo",
+          "line": 73,
+          "args": [
+            "Hello World Build"
+          ],
+          "category": "direct"
+        },
+        {
+          "name": "echo",
+          "line": 75,
+          "args": [
+            "Hello ${params.PERSON}"
+          ],
+          "category": "direct",
+          "dynamic": true
+        },
+        {
+          "name": "echo",
+          "line": 77,
+          "args": [
+            "${env.M2_HOME}"
+          ],
+          "category": "direct",
+          "dynamic": true
+        },
+        {
+          "name": "sh",
+          "line": 79,
+          "args": [
+            "mvn -version"
+          ],
+          "category": "direct"
+        },
+        {
+          "name": "sh",
+          "line": 80,
+          "args": [
+            "mvn clean install -Dmaven.test.skip=true"
+          ],
+          "category": "direct"
+        },
+        {
+          "name": "echo",
+          "line": 81,
+          "args": [
+            "${BRANCH}"
+          ],
+          "category": "direct",
+          "dynamic": true
+        }
+      ]
+    },
+    {
+      "name": "Deploy",
+      "line": 84,
+      "steps": [
+        {
+          "name": "echo",
+          "line": 86,
+          "args": [
+            "Hello World Deploy"
+          ],
+          "category": "direct"
+        },
+        {
+          "name": "sh",
+          "line": 87,
+          "args": [
+            "chmod 777 deploy.sh"
+          ],
+          "category": "direct"
+        },
+        {
+          "name": "sh",
+          "line": 89,
+          "args": [
+            "./deploy.sh"
+          ],
+          "category": "direct"
+        }
+      ]
+    }
+  ]
+}

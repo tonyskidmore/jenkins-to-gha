@@ -1,0 +1,66 @@
+
+@@CMD@@ ls -C -T 0 -w 68 $A
+artifacts-23                        j2gha-ws-quality-unit-tests
+artifacts-41                        stash-dist
+artifacts-47                        stash-sources
+html-report-18                      test-reports-17
+j2gha-ws-deploy                     test-reports-30
+j2gha-ws-prepare-sources            test-reports-37-memory-json
+j2gha-ws-publish                    test-reports-37-sqlite-json
+j2gha-ws-quality-integration-tests  test-reports-37-sqlite-text
+j2gha-ws-quality-lint
+@@END@@ rc=0 ms=7
+
+@@CMD@@ unzip -q $A/artifacts-41/*.zip -d release
+@@END@@ rc=0 ms=6
+
+@@CMD@@ unzip -q $A/artifacts-47/*.zip -d deploy
+@@END@@ rc=0 ms=6
+
+@@CMD@@ ls release/dist deploy/deploy
+deploy/deploy:
+staging.json
+
+release/dist:
+BUILD_INFO.txt
+inventory-service-1.4.0.tar.gz
+inventory-service-1.4.0.tar.gz.sha256
+@@END@@ rc=0 ms=7
+
+@@CMD@@ (cd release/dist && sha256sum -c inventory-service-1.4.0.tar.gz.sha256)
+inventory-service-1.4.0.tar.gz: OK
+@@END@@ rc=0 ms=6
+
+@@CMD@@ cat release/dist/BUILD_INFO.txt
+service=inventory-service
+version=1.4.0
+build=inventory-service-1.4.0-b1
+python=3.12.3
+@@END@@ rc=0 ms=5
+
+@@CMD@@ python3 -m json.tool deploy/deploy/staging.json
+{
+    "service": "inventory-service",
+    "version": "1.4.0",
+    "environment": "staging",
+    "change": "none",
+    "approver": "unknown"
+}
+@@END@@ rc=0 ms=44
+
+@@CMD@@ curl -fsSu admin:j2gha-local-only $J/deploy/staging.json | python3 -m json.tool
+{
+    "service": "inventory-service",
+    "version": "1.4.0",
+    "environment": "staging",
+    "change": "none",
+    "approver": "admin"
+}
+@@END@@ rc=0 ms=115
+
+@@CMD@@ curl -fsSu admin:j2gha-local-only $J/dist/BUILD_INFO.txt
+service=inventory-service
+version=1.4.0
+build=inventory-service-1.4.0-b25
+python=3.13.5
+@@END@@ rc=0 ms=99

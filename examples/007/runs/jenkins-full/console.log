@@ -1,0 +1,307 @@
+[2026-10-10T08:27:38.094Z] Started by user admin
+[2026-10-10T08:27:38.302Z] [Pipeline] Start of Pipeline
+[2026-10-10T08:27:38.474Z] [Pipeline] node
+[2026-10-10T08:27:38.485Z] Running on Jenkins in /var/jenkins_home/workspace/ex-007-full
+[2026-10-10T08:27:38.513Z] [Pipeline] {
+[2026-10-10T08:27:38.562Z] [Pipeline] stage
+[2026-10-10T08:27:38.568Z] [Pipeline] { (Declarative: Checkout SCM)
+[2026-10-10T08:27:38.614Z] [Pipeline] checkout
+[2026-10-10T08:27:38.623Z] The recommended git tool is: NONE
+[2026-10-10T08:27:38.623Z] No credentials specified
+[2026-10-10T08:27:38.624Z]  > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/ex-007-full/.git # timeout=10
+[2026-10-10T08:27:38.634Z] Fetching changes from the remote Git repository
+[2026-10-10T08:27:38.637Z]  > git config remote.origin.url https://github.com/oracle/weblogic-kubernetes-operator.git # timeout=10
+[2026-10-10T08:27:38.647Z] Fetching upstream changes from https://github.com/oracle/weblogic-kubernetes-operator.git
+[2026-10-10T08:27:38.647Z]  > git --version # timeout=10
+[2026-10-10T08:27:38.654Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T08:27:38.654Z]  > git fetch --no-tags --force --progress -- https://github.com/oracle/weblogic-kubernetes-operator.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T08:27:39.155Z]  > git rev-parse a1028378bd770495180ddabca31e8d1399be7900^{commit} # timeout=10
+[2026-10-10T08:27:39.164Z] Checking out Revision a1028378bd770495180ddabca31e8d1399be7900 (detached)
+[2026-10-10T08:27:39.164Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T08:27:39.171Z]  > git checkout -f a1028378bd770495180ddabca31e8d1399be7900 # timeout=10
+[2026-10-10T08:27:39.235Z] Commit message: "v8->v9 conversion race condition with new domain creation."
+[2026-10-10T08:27:39.235Z]  > git rev-list --no-walk a1028378bd770495180ddabca31e8d1399be7900 # timeout=10
+[2026-10-10T08:27:39.271Z] [Pipeline] }
+[2026-10-10T08:27:39.311Z] [Pipeline] // stage
+[2026-10-10T08:27:39.345Z] [Pipeline] withEnv
+[2026-10-10T08:27:39.352Z] [Pipeline] {
+[2026-10-10T08:27:39.391Z] [Pipeline] sh
+[2026-10-10T08:27:39.653Z] + date +%Y-%m-%d %H:%M:%S
+[2026-10-10T08:27:39.691Z] [Pipeline] withEnv
+[2026-10-10T08:27:39.696Z] [Pipeline] {
+[2026-10-10T08:27:39.735Z] [Pipeline] timeout
+[2026-10-10T08:27:39.735Z] Timeout set to expire in 13 hr
+[2026-10-10T08:27:39.741Z] [Pipeline] {
+[2026-10-10T08:27:39.782Z] [Pipeline] stage
+[2026-10-10T08:27:39.788Z] [Pipeline] { (Declarative: Tool Install)
+[2026-10-10T08:27:39.850Z] [Pipeline] tool
+[2026-10-10T08:27:39.890Z] [Pipeline] envVarsForTool
+[2026-10-10T08:27:39.933Z] [Pipeline] tool
+[2026-10-10T08:27:39.972Z] [Pipeline] envVarsForTool
+[2026-10-10T08:27:40.008Z] [Pipeline] }
+[2026-10-10T08:27:40.050Z] [Pipeline] // stage
+[2026-10-10T08:27:40.080Z] [Pipeline] withEnv
+[2026-10-10T08:27:40.087Z] [Pipeline] {
+[2026-10-10T08:27:40.128Z] [Pipeline] stage
+[2026-10-10T08:27:40.134Z] [Pipeline] { (Filter unwanted branches)
+[2026-10-10T08:27:40.205Z] [Pipeline] tool
+[2026-10-10T08:27:40.246Z] [Pipeline] envVarsForTool
+[2026-10-10T08:27:40.288Z] [Pipeline] tool
+[2026-10-10T08:27:40.328Z] [Pipeline] envVarsForTool
+[2026-10-10T08:27:40.377Z] [Pipeline] withEnv
+[2026-10-10T08:27:40.383Z] [Pipeline] {
+[2026-10-10T08:27:40.426Z] [Pipeline] stage
+[2026-10-10T08:27:40.431Z] [Pipeline] { (Workaround JENKINS-41929 Parameters bug)
+[2026-10-10T08:27:40.470Z] [Pipeline] tool
+[2026-10-10T08:27:40.512Z] [Pipeline] envVarsForTool
+[2026-10-10T08:27:40.552Z] [Pipeline] tool
+[2026-10-10T08:27:40.592Z] [Pipeline] envVarsForTool
+[2026-10-10T08:27:40.662Z] [Pipeline] withEnv
+[2026-10-10T08:27:40.670Z] [Pipeline] {
+[2026-10-10T08:27:40.743Z] [Pipeline] echo
+[2026-10-10T08:27:40.749Z] Initialize parameters as environment variables due to https://issues.jenkins-ci.org/browse/JENKINS-41929
+[2026-10-10T08:27:41.228Z] [Pipeline] script
+[2026-10-10T08:27:41.236Z] [Pipeline] {
+[2026-10-10T08:27:41.265Z] [Pipeline] }
+[2026-10-10T08:27:41.304Z] [Pipeline] // script
+[2026-10-10T08:27:41.322Z] [Pipeline] }
+[2026-10-10T08:27:41.364Z] [Pipeline] // withEnv
+[2026-10-10T08:27:41.384Z] [Pipeline] }
+[2026-10-10T08:27:41.422Z] [Pipeline] // stage
+[2026-10-10T08:27:41.454Z] [Pipeline] stage
+[2026-10-10T08:27:41.460Z] [Pipeline] { (Echo environment)
+[2026-10-10T08:27:41.507Z] [Pipeline] withEnv
+[2026-10-10T08:27:41.513Z] [Pipeline] {
+[2026-10-10T08:27:41.549Z] [Pipeline] tool
+[2026-10-10T08:27:41.593Z] [Pipeline] envVarsForTool
+[2026-10-10T08:27:41.649Z] [Pipeline] tool
+[2026-10-10T08:27:41.690Z] [Pipeline] envVarsForTool
+[2026-10-10T08:27:41.740Z] [Pipeline] withEnv
+[2026-10-10T08:27:41.747Z] [Pipeline] {
+[2026-10-10T08:27:41.786Z] [Pipeline] sh
+[2026-10-10T08:27:42.048Z] + export PATH=/var/jenkins_home/workspace/ex-007-full/bin:/opt/java/openjdk/bin:/usr/share/maven/bin:/opt/java/openjdk/bin:/usr/share/maven/bin:/opt/java/openjdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+[2026-10-10T08:27:42.048Z] + env
+[2026-10-10T08:27:42.048Z] + sort
+[2026-10-10T08:27:42.048Z] BASE_IMAGES_REPO=null
+[2026-10-10T08:27:42.048Z] BRANCH_NAME=main
+[2026-10-10T08:27:42.048Z] BUILD_DISPLAY_NAME=#4
+[2026-10-10T08:27:42.048Z] BUILD_ID=4
+[2026-10-10T08:27:42.048Z] BUILD_NUMBER=4
+[2026-10-10T08:27:42.048Z] BUILD_TAG=jenkins-ex-007-full-4
+[2026-10-10T08:27:42.048Z] BUILD_URL=http://localhost:8080/job/ex-007-full/4/
+[2026-10-10T08:27:42.048Z] CASC_JENKINS_CONFIG=/var/jenkins_casc
+[2026-10-10T08:27:42.048Z] CI=true
+[2026-10-10T08:27:42.048Z] COLLECT_LOGS_ON_SUCCESS=false
+[2026-10-10T08:27:42.048Z] COPY_REFERENCE_FILE_LOG=/var/jenkins_home/copy_reference_file.log
+[2026-10-10T08:27:42.048Z] DB_IMAGE_NAME=test-images/database/enterprise
+[2026-10-10T08:27:42.048Z] DB_IMAGE_TAG=19.3.0.0
+[2026-10-10T08:27:42.048Z] EXECUTOR_NUMBER=12
+[2026-10-10T08:27:42.048Z] FMWINFRA_IMAGE_NAME=test-images/fmw-infrastructure_cpu
+[2026-10-10T08:27:42.048Z] FMWINFRA_IMAGE_TAG=14.1.2.0-jdk17-ol8
+[2026-10-10T08:27:42.048Z] GIT_BRANCH=origin/main
+[2026-10-10T08:27:42.048Z] GIT_COMMIT=a1028378bd770495180ddabca31e8d1399be7900
+[2026-10-10T08:27:42.048Z] GIT_PREVIOUS_COMMIT=a1028378bd770495180ddabca31e8d1399be7900
+[2026-10-10T08:27:42.048Z] GIT_URL=https://github.com/oracle/weblogic-kubernetes-operator.git
+[2026-10-10T08:27:42.048Z] GRAFANA_CHART_VERSION=6.38.6
+[2026-10-10T08:27:42.048Z] HELM_VERSION=3.11.2
+[2026-10-10T08:27:42.048Z] HOME=/var/jenkins_home
+[2026-10-10T08:27:42.048Z] HOSTNAME=15cfa073eff6
+[2026-10-10T08:27:42.048Z] HUDSON_COOKIE=9e7ffe76-dc2d-4e3b-a21b-33bb39c6b551
+[2026-10-10T08:27:42.048Z] HUDSON_HOME=/var/jenkins_home
+[2026-10-10T08:27:42.048Z] HUDSON_SERVER_COOKIE=12d24f1bb96ff3cf
+[2026-10-10T08:27:42.048Z] HUDSON_URL=http://localhost:8080/
+[2026-10-10T08:27:42.048Z] ISTIO_VERSION=1.27.2
+[2026-10-10T08:27:42.048Z] J2GHA=true
+[2026-10-10T08:27:42.048Z] J2GHA_ADMIN_PASSWORD=j2gha-local-only
+[2026-10-10T08:27:42.048Z] JAVA_HOME=/opt/java/openjdk
+[2026-10-10T08:27:42.048Z] JAVA_OPTS=-Djenkins.install.runSetupWizard=false -Dhudson.plugins.git.GitSCM.ALLOW_LOCAL_CHECKOUT=true -Dorg.jenkinsci.plugins.durabletask.BourneShellScript.HEARTBEAT_CHECK_INTERVAL=86400 -Xmx1g
+[2026-10-10T08:27:42.048Z] JENKINS_HOME=/var/jenkins_home
+[2026-10-10T08:27:42.048Z] JENKINS_INCREMENTALS_REPO_MIRROR=https://repo.jenkins-ci.org/incrementals
+[2026-10-10T08:27:42.048Z] JENKINS_NODE_COOKIE=5f52879c-6423-4459-a003-986908531e15
+[2026-10-10T08:27:42.048Z] JENKINS_SERVER_COOKIE=durable-91c85069d5e8939f9e18dae73ac4e66dd282a2df0bb21253a1e0fcd91dfe281d
+[2026-10-10T08:27:42.048Z] JENKINS_SLAVE_AGENT_PORT=50000
+[2026-10-10T08:27:42.048Z] JENKINS_UC=https://updates.jenkins.io
+[2026-10-10T08:27:42.048Z] JENKINS_UC_EXPERIMENTAL=https://updates.jenkins.io/experimental
+[2026-10-10T08:27:42.048Z] JENKINS_URL=http://localhost:8080/
+[2026-10-10T08:27:42.048Z] JENKINS_VERSION=2.580.1
+[2026-10-10T08:27:42.048Z] JOB_BASE_NAME=ex-007-full
+[2026-10-10T08:27:42.048Z] JOB_DISPLAY_URL=http://localhost:8080/job/ex-007-full/display/redirect
+[2026-10-10T08:27:42.048Z] JOB_NAME=ex-007-full
+[2026-10-10T08:27:42.048Z] JOB_URL=http://localhost:8080/job/ex-007-full/
+[2026-10-10T08:27:42.048Z] KIND_VERSION=0.32.0
+[2026-10-10T08:27:42.048Z] KUBE_VERSION=1.36.1
+[2026-10-10T08:27:42.048Z] LANG=C.UTF-8
+[2026-10-10T08:27:42.048Z] M2_HOME=/usr/share/maven
+[2026-10-10T08:27:42.048Z] MAVEN_HOME=/usr/share/maven
+[2026-10-10T08:27:42.048Z] MAVEN_PROFILE_NAME=wls-srg
+[2026-10-10T08:27:42.048Z] MONITORING_EXPORTER_BRANCH=main
+[2026-10-10T08:27:42.048Z] MONITORING_EXPORTER_WEBAPP_VERSION=2.3.16
+[2026-10-10T08:27:42.048Z] NODE_LABELS=jdk node java built-in ubuntu maven linux nodejs docker master
+[2026-10-10T08:27:42.048Z] NODE_NAME=built-in
+[2026-10-10T08:27:42.048Z] NUMBER_OF_THREADS=3
+[2026-10-10T08:27:42.048Z] PARALLEL_RUN=true
+[2026-10-10T08:27:42.048Z] PATH=/var/jenkins_home/workspace/ex-007-full/bin:/opt/java/openjdk/bin:/usr/share/maven/bin:/opt/java/openjdk/bin:/usr/share/maven/bin:/opt/java/openjdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+[2026-10-10T08:27:42.048Z] PROMETHEUS_CHART_VERSION=17.0.0
+[2026-10-10T08:27:42.048Z] PWD=/var/jenkins_home/workspace/ex-007-full
+[2026-10-10T08:27:42.048Z] REF=/usr/share/jenkins/ref
+[2026-10-10T08:27:42.048Z] REMOTECONSOLE_VERSION=2.4.7
+[2026-10-10T08:27:42.048Z] RUN_ARTIFACTS_DISPLAY_URL=http://localhost:8080/job/ex-007-full/4/display/redirect?page=artifacts
+[2026-10-10T08:27:42.048Z] RUN_CHANGES_DISPLAY_URL=http://localhost:8080/job/ex-007-full/4/display/redirect?page=changes
+[2026-10-10T08:27:42.048Z] RUN_DISPLAY_URL=http://localhost:8080/job/ex-007-full/4/display/redirect
+[2026-10-10T08:27:42.048Z] RUN_TESTS_DISPLAY_URL=http://localhost:8080/job/ex-007-full/4/display/redirect?page=tests
+[2026-10-10T08:27:42.048Z] SHLVL=0
+[2026-10-10T08:27:42.048Z] STAGE_NAME=Echo environment
+[2026-10-10T08:27:42.048Z] TEST_IMAGES_REPO=null
+[2026-10-10T08:27:42.048Z] WDT_DOWNLOAD_URL=https://github.com/oracle/weblogic-deploy-tooling/releases/latest
+[2026-10-10T08:27:42.048Z] WEBLOGIC_IMAGE_NAME=test-images/weblogic_cpu
+[2026-10-10T08:27:42.048Z] WEBLOGIC_IMAGE_TAG=14.1.2.0-generic-jdk17-ol8
+[2026-10-10T08:27:42.048Z] WIT_DOWNLOAD_URL=https://github.com/oracle/weblogic-image-tool/releases/latest
+[2026-10-10T08:27:42.048Z] WORKSPACE=/var/jenkins_home/workspace/ex-007-full
+[2026-10-10T08:27:42.048Z] WORKSPACE_TMP=/var/jenkins_home/workspace/ex-007-full@tmp
+[2026-10-10T08:27:42.048Z] kind_name=kind
+[2026-10-10T08:27:42.048Z] kind_network=kind
+[2026-10-10T08:27:42.048Z] kubeconfig_file=/var/jenkins_home/workspace/ex-007-full/staging/wl_k8s_test_results/kubeconfig
+[2026-10-10T08:27:42.048Z] ocir_creds=wkt-ocir-creds
+[2026-10-10T08:27:42.048Z] ocir_host=null
+[2026-10-10T08:27:42.048Z] outdir=/var/jenkins_home/workspace/ex-007-full/staging
+[2026-10-10T08:27:42.048Z] pv_root=/var/jenkins_home/workspace/ex-007-full/staging/k8s-pvroot
+[2026-10-10T08:27:42.048Z] registry_host=kind-registry
+[2026-10-10T08:27:42.048Z] registry_name=kind-registry
+[2026-10-10T08:27:42.048Z] registry_port=5000
+[2026-10-10T08:27:42.048Z] result_root=/var/jenkins_home/workspace/ex-007-full/staging/wl_k8s_test_results
+[2026-10-10T08:27:42.048Z] runtime_path=/var/jenkins_home/workspace/ex-007-full/bin:/opt/java/openjdk/bin:/usr/share/maven/bin:/opt/java/openjdk/bin:/usr/share/maven/bin:/opt/java/openjdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+[2026-10-10T08:27:42.048Z] start_time=2026-10-10 08:27:39
+[2026-10-10T08:27:42.048Z] wko_tenancy=null
+[2026-10-10T08:27:42.048Z] wle_download_url=https://github.com/oracle/weblogic-logging-exporter/releases/latest
+[2026-10-10T08:27:42.048Z] + java -version
+[2026-10-10T08:27:42.048Z] openjdk version "21.0.12.1" 2026-08-18 LTS
+[2026-10-10T08:27:42.048Z] OpenJDK Runtime Environment Temurin-21.0.12.1+1 (build 21.0.12.1+1-LTS)
+[2026-10-10T08:27:42.048Z] OpenJDK 64-Bit Server VM Temurin-21.0.12.1+1 (build 21.0.12.1+1-LTS, mixed mode)
+[2026-10-10T08:27:42.048Z] + mvn --version
+[2026-10-10T08:27:42.299Z] [1mApache Maven 3.9.9[m
+[2026-10-10T08:27:42.299Z] Maven home: /usr/share/maven
+[2026-10-10T08:27:42.299Z] Java version: 21.0.12.1, vendor: Eclipse Adoptium, runtime: /opt/java/openjdk
+[2026-10-10T08:27:42.299Z] Default locale: en, platform encoding: UTF-8
+[2026-10-10T08:27:42.299Z] OS name: "linux", version: "6.6.87.2-microsoft-standard-wsl2", arch: "amd64", family: "unix"
+[2026-10-10T08:27:42.299Z] + python --version
+[2026-10-10T08:27:42.299Z] Python 3.13.5
+[2026-10-10T08:27:42.299Z] + podman version
+[2026-10-10T08:27:42.299Z] /var/jenkins_home/workspace/ex-007-full@tmp/durable-56c2fd27/script.sh.copy: 7: podman: not found
+[2026-10-10T08:27:42.328Z] [Pipeline] }
+[2026-10-10T08:27:42.378Z] [Pipeline] // withEnv
+[2026-10-10T08:27:42.410Z] [Pipeline] }
+[2026-10-10T08:27:42.456Z] [Pipeline] // withEnv
+[2026-10-10T08:27:42.479Z] [Pipeline] }
+[2026-10-10T08:27:42.521Z] [Pipeline] // stage
+[2026-10-10T08:27:42.556Z] [Pipeline] stage
+[2026-10-10T08:27:42.561Z] [Pipeline] { (Build WebLogic Kubernetes Operator)
+[2026-10-10T08:27:42.587Z] Stage "Build WebLogic Kubernetes Operator" skipped due to earlier failure(s)
+[2026-10-10T08:27:42.611Z] [Pipeline] getContext
+[2026-10-10T08:27:42.629Z] [Pipeline] }
+[2026-10-10T08:27:42.670Z] [Pipeline] // stage
+[2026-10-10T08:27:42.704Z] [Pipeline] stage
+[2026-10-10T08:27:42.709Z] [Pipeline] { (Make Workspace bin directory)
+[2026-10-10T08:27:42.733Z] Stage "Make Workspace bin directory" skipped due to earlier failure(s)
+[2026-10-10T08:27:42.745Z] [Pipeline] getContext
+[2026-10-10T08:27:42.762Z] [Pipeline] }
+[2026-10-10T08:27:42.805Z] [Pipeline] // stage
+[2026-10-10T08:27:42.854Z] [Pipeline] stage
+[2026-10-10T08:27:42.861Z] [Pipeline] { (Install Helm)
+[2026-10-10T08:27:42.889Z] Stage "Install Helm" skipped due to earlier failure(s)
+[2026-10-10T08:27:42.902Z] [Pipeline] getContext
+[2026-10-10T08:27:42.922Z] [Pipeline] }
+[2026-10-10T08:27:42.989Z] [Pipeline] // stage
+[2026-10-10T08:27:43.016Z] [Pipeline] stage
+[2026-10-10T08:27:43.021Z] [Pipeline] { (Run Helm installation tests)
+[2026-10-10T08:27:43.041Z] Stage "Run Helm installation tests" skipped due to earlier failure(s)
+[2026-10-10T08:27:43.051Z] [Pipeline] getContext
+[2026-10-10T08:27:43.079Z] [Pipeline] }
+[2026-10-10T08:27:43.137Z] [Pipeline] // stage
+[2026-10-10T08:27:43.165Z] [Pipeline] stage
+[2026-10-10T08:27:43.171Z] [Pipeline] { (Install kubectl)
+[2026-10-10T08:27:43.192Z] Stage "Install kubectl" skipped due to earlier failure(s)
+[2026-10-10T08:27:43.203Z] [Pipeline] getContext
+[2026-10-10T08:27:43.218Z] [Pipeline] }
+[2026-10-10T08:27:43.261Z] [Pipeline] // stage
+[2026-10-10T08:27:43.297Z] [Pipeline] stage
+[2026-10-10T08:27:43.304Z] [Pipeline] { (Install kind)
+[2026-10-10T08:27:43.327Z] Stage "Install kind" skipped due to earlier failure(s)
+[2026-10-10T08:27:43.339Z] [Pipeline] getContext
+[2026-10-10T08:27:43.356Z] [Pipeline] }
+[2026-10-10T08:27:43.399Z] [Pipeline] // stage
+[2026-10-10T08:27:43.438Z] [Pipeline] stage
+[2026-10-10T08:27:43.445Z] [Pipeline] { (Preparing Integration Test Environment)
+[2026-10-10T08:27:43.472Z] Stage "Preparing Integration Test Environment" skipped due to earlier failure(s)
+[2026-10-10T08:27:43.489Z] [Pipeline] getContext
+[2026-10-10T08:27:43.511Z] [Pipeline] }
+[2026-10-10T08:27:43.555Z] [Pipeline] // stage
+[2026-10-10T08:27:43.593Z] [Pipeline] stage
+[2026-10-10T08:27:43.599Z] [Pipeline] { (Start registry container)
+[2026-10-10T08:27:43.621Z] Stage "Start registry container" skipped due to earlier failure(s)
+[2026-10-10T08:27:43.634Z] [Pipeline] getContext
+[2026-10-10T08:27:43.652Z] [Pipeline] }
+[2026-10-10T08:27:43.695Z] [Pipeline] // stage
+[2026-10-10T08:27:43.733Z] [Pipeline] stage
+[2026-10-10T08:27:43.739Z] [Pipeline] { (Create kind cluster)
+[2026-10-10T08:27:43.762Z] Stage "Create kind cluster" skipped due to earlier failure(s)
+[2026-10-10T08:27:43.774Z] [Pipeline] getContext
+[2026-10-10T08:27:43.794Z] [Pipeline] }
+[2026-10-10T08:27:43.837Z] [Pipeline] // stage
+[2026-10-10T08:27:43.873Z] [Pipeline] stage
+[2026-10-10T08:27:43.879Z] [Pipeline] { (Run integration tests)
+[2026-10-10T08:27:43.901Z] Stage "Run integration tests" skipped due to earlier failure(s)
+[2026-10-10T08:27:43.914Z] [Pipeline] getContext
+[2026-10-10T08:27:43.932Z] [Pipeline] }
+[2026-10-10T08:27:43.976Z] [Pipeline] // stage
+[2026-10-10T08:27:43.995Z] Post stage
+[2026-10-10T08:27:44.009Z] [Pipeline] sh
+[2026-10-10T08:27:44.272Z] + export PATH=/var/jenkins_home/workspace/ex-007-full/bin:/opt/java/openjdk/bin:/usr/share/maven/bin:/opt/java/openjdk/bin:/usr/share/maven/bin:/opt/java/openjdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+[2026-10-10T08:27:44.272Z] + podman container inspect -f {{.State.Running}} kind-registry
+[2026-10-10T08:27:44.272Z] + true
+[2026-10-10T08:27:44.272Z] + running=
+[2026-10-10T08:27:44.272Z] + [  = true ]
+[2026-10-10T08:27:44.272Z] + echo Remove old Kind cluster (if any)...
+[2026-10-10T08:27:44.272Z] Remove old Kind cluster (if any)...
+[2026-10-10T08:27:44.272Z] + kind delete cluster --name kind --kubeconfig /var/jenkins_home/workspace/ex-007-full/staging/wl_k8s_test_results/kubeconfig
+[2026-10-10T08:27:44.272Z] /var/jenkins_home/workspace/ex-007-full@tmp/durable-2339c2f1/script.sh.copy: 10: kind: not found
+[2026-10-10T08:27:44.272Z] + echo Failed to delete kind cluster kind
+[2026-10-10T08:27:44.272Z] Failed to delete kind cluster kind
+[2026-10-10T08:27:44.272Z] + whoami
+[2026-10-10T08:27:44.272Z] + sudo chown jenkins /var/jenkins_home/workspace/ex-007-full
+[2026-10-10T08:27:44.272Z] /var/jenkins_home/workspace/ex-007-full@tmp/durable-2339c2f1/script.sh.copy: 13: sudo: not found
+[2026-10-10T08:27:44.303Z] Error when executing always post condition:
+[2026-10-10T08:27:44.303Z] Also:   org.jenkinsci.plugins.workflow.actions.ErrorAction$ErrorId: a4ce7154-47a3-413d-afdd-b989157f77e5
+[2026-10-10T08:27:44.303Z] hudson.AbortException: script returned exit code 127
+[2026-10-10T08:27:44.303Z] 	at PluginClassLoader for workflow-durable-task-step//org.jenkinsci.plugins.workflow.steps.durable_task.DurableTaskStep$Execution.handleExit(DurableTaskStep.java:689)
+[2026-10-10T08:27:44.303Z] 	at PluginClassLoader for workflow-durable-task-step//org.jenkinsci.plugins.workflow.steps.durable_task.DurableTaskStep$Execution.check(DurableTaskStep.java:625)
+[2026-10-10T08:27:44.303Z] 	at PluginClassLoader for workflow-durable-task-step//org.jenkinsci.plugins.workflow.steps.durable_task.DurableTaskStep$Execution.run(DurableTaskStep.java:566)
+[2026-10-10T08:27:44.303Z] 	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Unknown Source)
+[2026-10-10T08:27:44.303Z] 	at java.base/java.util.concurrent.FutureTask.run(Unknown Source)
+[2026-10-10T08:27:44.303Z] 	at java.base/java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(Unknown Source)
+[2026-10-10T08:27:44.303Z] 	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+[2026-10-10T08:27:44.303Z] 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+[2026-10-10T08:27:44.303Z] 	at java.base/java.lang.Thread.run(Unknown Source)
+[2026-10-10T08:27:44.303Z] 
+[2026-10-10T08:27:44.316Z] [Pipeline] }
+[2026-10-10T08:27:44.370Z] [Pipeline] // withEnv
+[2026-10-10T08:27:44.394Z] [Pipeline] }
+[2026-10-10T08:27:44.449Z] [Pipeline] // stage
+[2026-10-10T08:27:44.483Z] [Pipeline] stage
+[2026-10-10T08:27:44.488Z] [Pipeline] { (Sync)
+[2026-10-10T08:27:44.507Z] Stage "Sync" skipped due to earlier failure(s)
+[2026-10-10T08:27:44.516Z] [Pipeline] getContext
+[2026-10-10T08:27:44.529Z] [Pipeline] }
+[2026-10-10T08:27:44.567Z] [Pipeline] // stage
+[2026-10-10T08:27:44.588Z] [Pipeline] }
+[2026-10-10T08:27:44.626Z] [Pipeline] // withEnv
+[2026-10-10T08:27:44.643Z] [Pipeline] }
+[2026-10-10T08:27:44.692Z] [Pipeline] // timeout
+[2026-10-10T08:27:44.725Z] [Pipeline] }
+[2026-10-10T08:27:44.766Z] [Pipeline] // withEnv
+[2026-10-10T08:27:44.799Z] [Pipeline] }
+[2026-10-10T08:27:44.855Z] [Pipeline] // withEnv
+[2026-10-10T08:27:44.878Z] [Pipeline] }
+[2026-10-10T08:27:44.932Z] [Pipeline] // node
+[2026-10-10T08:27:44.970Z] [Pipeline] End of Pipeline
+[2026-10-10T08:27:45.038Z] ERROR: script returned exit code 127
+[2026-10-10T08:27:45.060Z] Finished: FAILURE

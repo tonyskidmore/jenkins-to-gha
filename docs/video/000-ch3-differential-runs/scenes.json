@@ -1,0 +1,516 @@
+{
+  "meta": {
+    "title": "From Jenkins to GitHub Actions: chapter three, differential runs",
+    "chip": "Jenkins to GitHub Actions · Chapter three: differential runs",
+    "fps": 30,
+    "width": 1920,
+    "height": 1080,
+    "voice": {
+      "engine": "kokoro",
+      "voice": "bf_emma",
+      "lang_code": "b",
+      "speed": 1.0
+    },
+    "pronunciations": "pronunciations.json",
+    "prompt": "$ "
+  },
+  "captures": {
+    "trace": {
+      "file": "captures/run-trace.txt",
+      "label": "Trace-mode run"
+    },
+    "full": {
+      "file": "captures/run-full.txt",
+      "label": "Full-mode run"
+    },
+    "trace_checks": {
+      "file": "captures/trace-checks.txt",
+      "label": "Looking closer at the trace run"
+    },
+    "full_checks": {
+      "file": "captures/full-checks.txt",
+      "label": "Checking what act built"
+    }
+  },
+  "scenes": [
+    {
+      "id": "00-title",
+      "kind": "title",
+      "source": "examples/000/README.md Parts 5 and 6",
+      "narration": "From Jenkins to GitHub Actions. Chapter three: run both versions side by side, and compare what they do.",
+      "onScreen": [
+        "Same pipeline, two engines",
+        "Chapter three: differential runs, Jenkins versus act"
+      ]
+    },
+    {
+      "id": "01-note",
+      "kind": "disclaimer",
+      "source": "README Parts 5 and 6; source-facts.md",
+      "narration": "A quick note on what this chapter is. It runs one example pipeline on a throwaway Jenkins, and its converted copy on a local tool called act, which imitates GitHub Actions on this machine. The terminal output is replayed from real runs. This chapter assumes the earlier steps are done: the Jenkins is running, and the pipeline is already converted. Nothing here runs on GitHub itself.",
+      "onScreen": [
+        "Summary",
+        "One example pipeline, run twice, on this machine",
+        "Terminal output replayed from real runs; screenshots are real",
+        "Assumes: local Jenkins running, pipeline already converted",
+        "Not shown here: any run on GitHub itself"
+      ],
+      "data": {
+        "foot": "A match on act is encouraging evidence. It is not proof about real GitHub."
+      }
+    },
+    {
+      "id": "02-modes",
+      "kind": "explainer",
+      "source": "README Part 5 'What happened' and Part 6 intro",
+      "narration": "The harness can compare the two versions in two ways. Trace mode swaps every real action for a marker line, then compares the order of steps. It tests the flow: which stages run, which are skipped, what runs in parallel. Full mode runs the real commands on both sides, and compares the outcome and the files produced.",
+      "onScreen": [
+        {
+          "k": "Trace mode",
+          "v": "Every action becomes a marker line; compare the order of steps"
+        },
+        {
+          "k": "What it tests",
+          "v": "Flow: stages, conditions, parallel and matrix branches"
+        },
+        {
+          "k": "Full mode",
+          "v": "Real commands on both sides; compare outcome and files"
+        },
+        {
+          "k": "The engines",
+          "v": "Jenkins on one side, act, a local imitation of GitHub Actions, on the other"
+        }
+      ]
+    },
+    {
+      "id": "03-flow",
+      "kind": "flow",
+      "source": "README Part 5 bullets",
+      "narration": "A differential run has the same shape each time. Jenkins runs a lightly adjusted copy of the original pipeline. Act runs the converted workflow. The harness collects what happened on each side, and compares them.",
+      "data": {
+        "type": "chain",
+        "title": "One differential run",
+        "nodes": [
+          {
+            "label": "Original pipeline",
+            "sub": "lightly adjusted for the local Jenkins"
+          },
+          {
+            "label": "Jenkins",
+            "sub": "runs it as a job"
+          },
+          {
+            "label": "Converted workflow",
+            "sub": "run by act"
+          },
+          {
+            "label": "Compare",
+            "sub": "stage by stage"
+          }
+        ]
+      }
+    },
+    {
+      "id": "04-run-trace",
+      "kind": "terminal",
+      "source": "README Part 5 command and Expected; capture run-trace #0",
+      "capture": "trace",
+      "part": "Part 5 · the trace run",
+      "beats": [
+        {
+          "steps": [
+            0
+          ],
+          "narration": "Here is the trace-mode run. One command. It takes about a minute. Watch for the line from Jenkins, the line from act, and the verdict at the end.",
+          "highlight": [
+            {
+              "text": "Jenkins: success, forty-one marker events",
+              "tone": "info"
+            },
+            {
+              "text": "act: success, forty-one events, eleven job results",
+              "tone": "info"
+            },
+            {
+              "text": "Verdict: EQUIVALENT, one hundred percent",
+              "tone": "ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "05-console",
+      "kind": "screenshot",
+      "source": "README Part 5 Jenkins side bullet; shots/01-trace-console.png",
+      "narration": "On the Jenkins side, the job's console output shows the markers. Each line records the stage name and the kind of step that would have run. Nothing was built or published. These lines are what the harness compares.",
+      "data": {
+        "image": "shots/01-trace-console.png",
+        "url": "http://127.0.0.1:18080/job/ex-000-trace/50/console",
+        "title": "Jenkins console, trace job",
+        "annotations": [
+          {
+            "box": [
+              0.32,
+              0.335,
+              0.36,
+              0.4
+            ],
+            "label": "Marker lines: stage name and kind of step"
+          },
+          {
+            "box": [
+              0.1,
+              0.03,
+              0.18,
+              0.04
+            ],
+            "label": "The trace job, on the same Jenkins",
+            "tone": "info"
+          }
+        ]
+      }
+    },
+    {
+      "id": "05b-repair",
+      "kind": "explainer",
+      "source": "README Part 5, auto-repair bullet; capture run-trace #0 (auto-repair line)",
+      "narration": "One line in that output needs explaining. Auto-repair is the harness fixing its own test setup, not the pipeline. With the shell command stubbed out, a variable called Python version came back empty, and Jenkins complained about a missing property. The harness read the error, stubbed the property, and ran it again. It appears in the output because it happened.",
+      "onScreen": [
+        {
+          "k": "What it is",
+          "v": "The harness repairing its own test setup"
+        },
+        {
+          "k": "What went wrong",
+          "v": "A stubbed command returned nothing, so PYTHON_VERSION was missing"
+        },
+        {
+          "k": "The fix",
+          "v": "Read the Jenkins error, stub the property, run again"
+        },
+        {
+          "k": "Source",
+          "v": "README Part 5; the auto-repair line in the trace run output"
+        }
+      ]
+    },
+    {
+      "id": "06-trace-checks",
+      "kind": "terminal",
+      "source": "README Part 5 per-stage snippet and Jenkinsfile compare; capture trace-checks #0 to #4",
+      "capture": "trace_checks",
+      "part": "Part 5 · looking closer",
+      "beats": [
+        {
+          "steps": [
+            0,
+            1
+          ],
+          "narration": "First, count the markers in the Jenkins log. Forty-one, the same number the run reported. The first few show the stage name and the step kind.",
+          "highlight": [
+            {
+              "text": "Forty-one markers, as reported",
+              "tone": "ok"
+            }
+          ]
+        },
+        {
+          "steps": [
+            2
+          ],
+          "narration": "Next, the per-stage comparison. Each row is one stage, with the steps that ran. The first column says match for all ten, including the post actions and the matrix tests. Long rows are cut for the screen.",
+          "highlight": [
+            {
+              "text": "Every stage says match",
+              "tone": "ok"
+            },
+            {
+              "text": "Step lists are cut at the right edge",
+              "tone": "warn"
+            }
+          ]
+        },
+        {
+          "steps": [
+            3,
+            4,
+            5
+          ],
+          "narration": "Finally, how the original pipeline was adjusted for this test. The agent label, the discard option and the schedule trigger were changed or removed. The two counts show five lines changed or removed, and ninety-one added, the stubs, at the end.",
+          "highlight": [
+            {
+              "text": "Five lines changed or removed",
+              "tone": "info"
+            },
+            {
+              "text": "Ninety-one added: stubs at the end",
+              "tone": "info"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "07-full-intro",
+      "kind": "explainer",
+      "source": "README Part 6 intro",
+      "narration": "Now the real thing. In full mode nothing is stubbed, except the approval, which the harness approves automatically. Both sides generate the source, build the package and run the tests. The converted workflow can only do this because it passes files between jobs, as Jenkins does with its shared workspace.",
+      "onScreen": [
+        {
+          "k": "Stubbed",
+          "v": "Only the approval step, approved automatically"
+        },
+        {
+          "k": "Both sides",
+          "v": "Generate the source, build the package, run the tests"
+        },
+        {
+          "k": "File hand-off",
+          "v": "Stash and unstash in Jenkins; artifacts passed between jobs in the workflow"
+        },
+        {
+          "k": "Expect",
+          "v": "Zero marker events, because nothing is replaced"
+        }
+      ]
+    },
+    {
+      "id": "08-run-full",
+      "kind": "terminal",
+      "source": "README Part 6 command and Expected; capture run-full #0",
+      "capture": "full",
+      "part": "Part 6 · the full run",
+      "beats": [
+        {
+          "steps": [
+            0
+          ],
+          "narration": "The full-mode run. It took about two and a quarter minutes here, mostly act. Again Jenkins and act both succeed, with zero markers, because nothing is replaced. The verdict reads equivalent, with the outcome of each side shown.",
+          "highlight": [
+            {
+              "text": "Both sides: success",
+              "tone": "ok"
+            },
+            {
+              "text": "Verdict: EQUIVALENT, with each side's outcome",
+              "tone": "warn"
+            },
+            {
+              "text": "The words at None come from the tool, as printed",
+              "tone": "info"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "09-full-build",
+      "kind": "screenshot",
+      "source": "README Part 6; shots/03-full-build.png",
+      "narration": "On the Jenkins side, the full job finished green. It lists the five artifacts, reports the tests with no failures, and says it was approved by admin. This is what act has to match.",
+      "data": {
+        "image": "shots/03-full-build.png",
+        "url": "http://127.0.0.1:18080/job/ex-000-full/25/",
+        "title": "Jenkins: the full-mode build",
+        "annotations": [
+          {
+            "box": [
+              0.25,
+              0.16,
+              0.36,
+              0.2
+            ],
+            "label": "Five build artifacts"
+          },
+          {
+            "box": [
+              0.3,
+              0.59,
+              0.17,
+              0.04
+            ],
+            "label": "Tests: no failures",
+            "tone": "ok"
+          },
+          {
+            "box": [
+              0.3,
+              0.65,
+              0.2,
+              0.04
+            ],
+            "label": "Approved by admin, automatically",
+            "tone": "warn"
+          }
+        ]
+      }
+    },
+    {
+      "id": "10-full-stages",
+      "kind": "screenshot",
+      "source": "README Part 6; shots/04-full-stages.png",
+      "narration": "The Pipeline Overview shows every stage green, including the three matrix cells, with Deploy and Publish both having run. Now to check that act produced the same release.",
+      "data": {
+        "image": "shots/04-full-stages.png",
+        "url": "http://127.0.0.1:18080/job/ex-000-full/25/stages",
+        "title": "Jenkins: all stages green",
+        "annotations": [
+          {
+            "box": [
+              0.02,
+              0.2,
+              0.96,
+              0.45
+            ],
+            "label": "All stages ran, none skipped",
+            "tone": "ok"
+          }
+        ]
+      }
+    },
+    {
+      "id": "11-artifacts",
+      "kind": "terminal",
+      "source": "README Part 6 artifact checks; capture full-checks #0 to #6",
+      "capture": "full_checks",
+      "part": "Part 6 · what did act build?",
+      "beats": [
+        {
+          "steps": [
+            0
+          ],
+          "narration": "The files act saved are in a folder. There are archives for the stash, the test reports for each matrix cell, the workspace handed from job to job, and numbered artifact folders.",
+          "highlight": [
+            "Three numbered artifact folders"
+          ]
+        },
+        {
+          "steps": [
+            1,
+            2,
+            3
+          ],
+          "narration": "Unpack the two that matter. One holds the release, the other the deploy record. The numbers in the folder names change from run to run, and inside, the files keep their Jenkins folders.",
+          "highlight": [
+            {
+              "text": "Artifact numbers vary per run: 41 and 47 here",
+              "tone": "warn"
+            },
+            {
+              "text": "Files keep their Jenkins paths: dist and deploy",
+              "tone": "info"
+            }
+          ]
+        },
+        {
+          "steps": [
+            4
+          ],
+          "narration": "Check the archive against its checksum file. O K means the release is intact.",
+          "highlight": [
+            {
+              "text": "Checksum matches",
+              "tone": "ok"
+            }
+          ]
+        },
+        {
+          "steps": [
+            5
+          ],
+          "narration": "The build information file. Same service and version as Jenkins. Hold on to the Python version for later.",
+          "highlight": [
+            "Version one point four point zero"
+          ]
+        },
+        {
+          "steps": [
+            6
+          ],
+          "narration": "Now the deploy record from act. The change ticket says none, and the approver says unknown.",
+          "highlight": [
+            {
+              "text": "Change none, approver unknown",
+              "tone": "warn"
+            }
+          ]
+        },
+        {
+          "steps": [
+            7,
+            8
+          ],
+          "narration": "And the same record from Jenkins. The approver here is admin, taken from the approval. The Python version differs too, because the runner image differs.",
+          "highlight": [
+            {
+              "text": "Approver admin on Jenkins, unknown on act",
+              "tone": "warn"
+            },
+            {
+              "text": "Python differs: runner image differs",
+              "tone": "info"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "12-gap",
+      "kind": "compare",
+      "source": "README Part 6 Expected bullets; capture full-checks #5 to #8",
+      "narration": "Side by side, the two sides agree on the service, version, and checksum. They differ in two places. The approver, which GitHub environments cannot pass along, and the Python version. The guide says the approver gap was predicted by the migration report, and someone must decide what replaces it.",
+      "data": {
+        "head": [
+          "Record",
+          "Jenkins",
+          "act"
+        ],
+        "rows": [
+          [
+            "Version",
+            "1.4.0",
+            "1.4.0"
+          ],
+          [
+            "Checksum",
+            "not re-checked here",
+            "OK"
+          ],
+          [
+            "Change ticket",
+            "none",
+            "none"
+          ],
+          [
+            "Approver",
+            "admin",
+            "unknown"
+          ],
+          [
+            "Python version",
+            "3.13.5",
+            "3.12.3"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "99-summary",
+      "kind": "summary",
+      "source": "README Parts 5 and 6; findings in source-facts.md",
+      "title": "Chapter three: differential runs",
+      "narration": "To recap. In trace mode, Jenkins and act ran the same stages in the same order, forty-one steps each. In full mode both succeeded, and act built a release that passes its checksum. The deploy record shows the gap: the approver is unknown on act. The caveats. This is one example, run once, on a local imitation of GitHub Actions, not on GitHub. Timings are from this machine. Nothing here proves behaviour on real GitHub.",
+      "onScreen": [
+        "Trace mode: all ten stages matched, forty-one steps each",
+        "Full mode: both succeeded; act's release passes its checksum",
+        "Known gap: the approver is unknown on act, admin on Jenkins",
+        {
+          "text": "One example, one run, on act: not run on GitHub itself",
+          "tone": "warn"
+        }
+      ]
+    }
+  ]
+}

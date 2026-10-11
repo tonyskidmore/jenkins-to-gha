@@ -1,0 +1,270 @@
+{
+  "tier": "jenkins",
+  "mode": "full",
+  "scenario": {
+    "branch": "main",
+    "git_branch": "origin/main"
+  },
+  "localisation": {
+    "changes": [
+      "L4: agent -> any (was ?)",
+      "undefined property 'globals' (plugin/library global) replaced by a permissive stub",
+      "undefined property 'Artifactory' (plugin/library global) replaced by a permissive stub"
+    ],
+    "stubs": [
+      "build",
+      "mail",
+      "emailext",
+      "slackSend",
+      "office365ConnectorSend",
+      "githubNotify",
+      "setGitHubPullRequestStatus",
+      "publishChecks",
+      "s3Upload",
+      "s3Download",
+      "copyArtifacts",
+      "waitForQualityGate",
+      "recordIssues",
+      "publishCoverage",
+      "recordCoverage",
+      "jacoco",
+      "cobertura",
+      "milestone",
+      "properties",
+      "buildDiscarder",
+      "checkout(GIT_BRANCH kept)",
+      "withSonarQubeEnv",
+      "withAWS",
+      "withKubeConfig",
+      "withVault",
+      "azureCLI",
+      "container",
+      "sshagent",
+      "withDockerRegistry",
+      "configFileProvider",
+      "withMaven",
+      "withGradle",
+      "withPythonEnv",
+      "podTemplate",
+      "wrap",
+      "withDockerContainer",
+      "bumpVersion",
+      "closure",
+      "customizePublishingInfo",
+      "customizeVersion",
+      "detectSecrets",
+      "doVersionBump",
+      "getNewVersion",
+      "getTargetVersion",
+      "gitsh",
+      "mendScan",
+      "publishArtifactoryBuildInfo",
+      "publishArtifactoryBuildInfoScript",
+      "rtBuildInfo",
+      "rtPublishBuildInfo",
+      "scanCode",
+      "getDevVersion"
+    ],
+    "auto_repairs": {
+      "removed": [
+        [
+          "stub-property",
+          "globals"
+        ],
+        [
+          "env-globals",
+          "ARTIFACTORY_URL_UP"
+        ]
+      ],
+      "stubbed": [],
+      "ineffective": []
+    }
+  },
+  "attempts": [
+    {
+      "attempt": 0,
+      "phase": "register",
+      "build": 1,
+      "result": "FAILURE",
+      "note": "parameters could not be defined up front: this build ran with defaults"
+    },
+    {
+      "attempt": 0,
+      "phase": "run",
+      "build": 2,
+      "result": "FAILURE",
+      "seconds": 5.3,
+      "repairs": [
+        [
+          "stub-property",
+          "globals"
+        ]
+      ],
+      "stubs": []
+    },
+    {
+      "attempt": 1,
+      "phase": "register",
+      "build": 3,
+      "result": "FAILURE",
+      "note": "parameters could not be defined up front: this build ran with defaults"
+    },
+    {
+      "attempt": 1,
+      "phase": "run",
+      "build": 4,
+      "result": "FAILURE",
+      "seconds": 11.5,
+      "repairs": [
+        [
+          "env-globals",
+          "ARTIFACTORY_URL_UP"
+        ]
+      ],
+      "stubs": []
+    },
+    {
+      "attempt": 2,
+      "phase": "register",
+      "build": 5,
+      "result": "FAILURE",
+      "note": "parameters could not be defined up front: this build ran with defaults"
+    },
+    {
+      "attempt": 2,
+      "phase": "run",
+      "build": 6,
+      "result": "FAILURE",
+      "seconds": 262.2,
+      "repairs": [],
+      "stubs": []
+    }
+  ],
+  "result": "FAILURE",
+  "build": 6,
+  "duration_ms": 128959,
+  "stages": [
+    {
+      "name": "Declarative: Checkout SCM",
+      "status": "SUCCESS",
+      "durationMillis": 633
+    },
+    {
+      "name": "Detect Secrets",
+      "status": "SUCCESS",
+      "durationMillis": 98
+    },
+    {
+      "name": "Init",
+      "status": "SUCCESS",
+      "durationMillis": 144
+    },
+    {
+      "name": "QA",
+      "status": "FAILED",
+      "durationMillis": 126351
+    },
+    {
+      "name": "SonarQube analysis",
+      "status": "FAILED",
+      "durationMillis": 81
+    },
+    {
+      "name": "Publish[staging]",
+      "status": "FAILED",
+      "durationMillis": 81
+    },
+    {
+      "name": "Run Gauge tests",
+      "status": "FAILED",
+      "durationMillis": 81
+    },
+    {
+      "name": "Mend scan",
+      "status": "FAILED",
+      "durationMillis": 92
+    },
+    {
+      "name": "Update version and tag",
+      "status": "FAILED",
+      "durationMillis": 86
+    },
+    {
+      "name": "Publish[repository]",
+      "status": "FAILED",
+      "durationMillis": 83
+    }
+  ],
+  "traces": [
+    {
+      "stage": "Detect Secrets",
+      "step": "detectSecrets"
+    }
+  ],
+  "approved_inputs": [],
+  "error_tail": "[2026-10-10T08:57:28.310Z] hudson.AbortException: No test report files were found. Configuration error?\n[2026-10-10T08:57:28.310Z] \tat PluginClassLoader for junit//hudson.tasks.junit.JUnitParser$ParseResultCallable.invoke(JUnitParser.java:253)\n[2026-10-10T08:57:28.310Z] \tat hudson.FilePath.act(FilePath.java:1226)\n[2026-10-10T08:57:28.310Z] \tat hudson.FilePath.act(FilePath.java:1209)\n[2026-10-10T08:57:28.310Z] \tat PluginClassLoader for junit//hudson.tasks.junit.JUnitParser.parseResult(JUnitParser.java:146)\n[2026-10-10T08:57:28.310Z] \tat PluginClassLoader for junit//hudson.tasks.junit.JUnitResultArchiver.parse(JUnitResultArchiver.java:177)\n[2026-10-10T08:57:28.310Z] \tat PluginClassLoader for junit//hudson.tasks.junit.JUnitResultArchiver.parseAndSummarize(JUnitResultArchiver.java:282)\n[2026-10-10T08:57:28.310Z] \tat PluginClassLoader for junit//hudson.tasks.junit.pipeline.JUnitResultsStepExecution.run(JUnitResultsStepExecution.java:62)\n[2026-10-10T08:57:28.310Z] \tat PluginClassLoader for junit//hudson.tasks.junit.pipeline.JUnitResultsStepExecution.run(JUnitResultsStepExecution.java:27)\n[2026-10-10T08:57:28.310Z] \tat PluginClassLoader for workflow-step-api//org.jenkinsci.plugins.workflow.steps.SynchronousNonBlockingStepExecution.lambda$start$0(SynchronousNonBlockingStepExecution.java:49)\n[2026-10-10T08:57:28.310Z] \tat java.base/java.util.concurrent.Executors$RunnableAdapter.call(Unknown Source)\n[2026-10-10T08:57:28.310Z] \tat java.base/java.util.concurrent.FutureTask.run(Unknown Source)",
+  "outputs": {
+    "archived": [],
+    "tests": null
+  },
+  "provenance": {
+    "jenkinsfile_sha256": "b290837721dd3b2e00704c2c16e238d51796a276fdc06f134701254872f8e13a",
+    "scenario": {
+      "branch": "main",
+      "git_branch": "origin/main"
+    },
+    "mode": "full",
+    "localizer_version": 5,
+    "images": {
+      "jenkins": {
+        "ref": "j2gha/jenkins:local",
+        "present": true,
+        "id": "sha256:672c4b841b2c934f224d4f1b3523d77a1b651f8f491f8f04da47ca764eb86775",
+        "repo_digests": [],
+        "created": "2026-10-09T18:21:15.545465961Z",
+        "labels": {
+          "j2gha.base-image": "jenkins/jenkins:lts-jdk21@sha256:a660310e39ade10631f774bacd5219de767dfd08947ea5c32a739b5e5bb382c1",
+          "org.opencontainers.image.version": "2.580.1",
+          "org.opencontainers.image.revision": "457b9316d71b43cdf3e2ba6ec7c27efc40f5dc60",
+          "org.opencontainers.image.source": "https://github.com/jenkinsci/docker"
+        },
+        "jenkins_version": "2.580.1"
+      },
+      "act": {
+        "ref": "j2gha/act:local",
+        "present": true,
+        "id": "sha256:0781bb0384b914fba362a2a2483d55d30c3d3cc9b59598856146778aa88662a4",
+        "repo_digests": [],
+        "created": "2026-10-03T06:26:46.552472741Z",
+        "labels": {},
+        "act_version": "0.2.89"
+      },
+      "act_runner": {
+        "ref": "j2gha/act-runner:local",
+        "present": true,
+        "id": "sha256:134418998a1ca958b148ee6befb038aa3ff598bf147b39ce9e99b60a563a15be",
+        "repo_digests": [],
+        "created": "2026-10-09T18:54:04.157825772Z",
+        "labels": {
+          "j2gha.base-image": "catthehacker/ubuntu:act-latest@sha256:c58e2b364da03b0c804c7d660f2ecbedf2f221a382b9baa0b344b0144780ff43",
+          "org.opencontainers.image.version": "20260815",
+          "org.opencontainers.image.revision": "e2f8efe464c82732f78e967ee709c00b6af53643",
+          "org.opencontainers.image.source": "https://github.com/catthehacker/catthehacker/docker_images"
+        }
+      },
+      "jit_runner": {
+        "ref": "j2gha/runner:local",
+        "present": true,
+        "id": "sha256:4847cf6e3e915577d28244aedfbe1b633eafa060a49d4ef313129d6841e2e667",
+        "repo_digests": [],
+        "created": "2026-10-09T18:52:46.515242869Z",
+        "labels": {
+          "j2gha.base-image": "ghcr.io/actions/actions-runner:latest@sha256:4ffadc0002b2581327e06101fc8c06cd189232baf79fe561fac9caeb76f5e807",
+          "org.opencontainers.image.version": "24.04",
+          "org.opencontainers.image.source": "https://github.com/actions/runner"
+        }
+      }
+    }
+  },
+  "finished_at": "2026-10-10T08:57:30+00:00"
+}

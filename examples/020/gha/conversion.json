@@ -1,0 +1,288 @@
+{
+  "counts": {
+    "approximated": 3,
+    "manual": 25,
+    "mapped": 4,
+    "info": 1
+  },
+  "automation_pct": 18.1,
+  "items": [
+    {
+      "jenkins": "deleteDir",
+      "line": 22,
+      "stage": "",
+      "status": "mapped",
+      "gha": "run: workspace cleanup",
+      "note": "runners are ephemeral; kept for parity"
+    },
+    {
+      "jenkins": "dir",
+      "line": 35,
+      "stage": "install dependencies",
+      "status": "mapped",
+      "gha": "working-directory",
+      "note": ""
+    },
+    {
+      "jenkins": "dir",
+      "line": 41,
+      "stage": "tests",
+      "status": "mapped",
+      "gha": "working-directory",
+      "note": ""
+    },
+    {
+      "jenkins": "deleteDir",
+      "line": 64,
+      "stage": "",
+      "status": "mapped",
+      "gha": "run: workspace cleanup",
+      "note": "runners are ephemeral; kept for parity"
+    },
+    {
+      "jenkins": "(no pipeline timeout)",
+      "line": null,
+      "stage": null,
+      "status": "approximated",
+      "gha": "timeout-minutes: 60",
+      "note": "explicit job timeout added (GitHub's default is 360 minutes); set J2GHA_DEFAULT_TIMEOUT to change"
+    },
+    {
+      "jenkins": "agent label 'Globals.NONPROD_BUILDER_TAG'",
+      "line": 19,
+      "stage": "main, checkout, install dependencies, tests, build",
+      "status": "approximated",
+      "gha": "runs-on: ubuntu-latest",
+      "note": "use a self-hosted runner label if the agent provides special tooling/network"
+    },
+    {
+      "jenkins": "wrap",
+      "line": 28,
+      "stage": "checkout",
+      "status": "approximated",
+      "gha": "body inlined",
+      "note": "wrapper semantics not reproduced"
+    },
+    {
+      "jenkins": "decl Globals = new Globals(...)",
+      "line": 8,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment from a step"
+    },
+    {
+      "jenkins": "new Globals",
+      "line": 8,
+      "stage": "",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "decl CommonFunctions = new CommonFunctions(...)",
+      "line": 9,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment from a step"
+    },
+    {
+      "jenkins": "new CommonFunctions",
+      "line": 9,
+      "stage": "",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "decl GitFunctions = new GitFunctions(...)",
+      "line": 10,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment from a step"
+    },
+    {
+      "jenkins": "new GitFunctions",
+      "line": 10,
+      "stage": "",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "decl MobileFunctions = new MobileFunctions(...)",
+      "line": 11,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment from a step"
+    },
+    {
+      "jenkins": "new MobileFunctions",
+      "line": 11,
+      "stage": "",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "decl NVMFunctions = new NVMFunctions(...)",
+      "line": 12,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment from a step"
+    },
+    {
+      "jenkins": "new NVMFunctions",
+      "line": 12,
+      "stage": "",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "decl branch_name = ${env.BRANCH_NAME}",
+      "line": 14,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "decl ionic_app_id = Globals.MOBILE_APP_ID",
+      "line": 15,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "decl nodejs_installation = Globals.MOBILE_NODE_JS",
+      "line": 16,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "decl mobile_config_branch = master",
+      "line": 17,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "assign currentBuild.description = BRANCH: ${branch_name}",
+      "line": 20,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "assign env.WSPACE = pwd(...)",
+      "line": 24,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment from a step"
+    },
+    {
+      "jenkins": "pwd",
+      "line": 24,
+      "stage": "",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "policy step with no deterministic mapping"
+    },
+    {
+      "jenkins": "log",
+      "line": 30,
+      "stage": "checkout",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "git_check_out",
+      "line": 31,
+      "stage": "checkout",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "log",
+      "line": 34,
+      "stage": "install dependencies",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "run",
+      "line": 36,
+      "stage": "install dependencies",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "log",
+      "line": 40,
+      "stage": "tests",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "run",
+      "line": 42,
+      "stage": "tests",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "if (branch_name == \"develop\" || branch_name == \"origin)",
+      "line": 46,
+      "stage": "build",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "shout",
+      "line": 61,
+      "stage": "build",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "checkout: SCM environment (GIT_COMMIT, GIT_BRANCH, GIT_URL)",
+      "line": null,
+      "stage": null,
+      "status": "info",
+      "gha": "env",
+      "note": "Jenkins' git plugin exports them to every step after a checkout, so called scripts may read them; defined at workflow level even when the Jenkinsfile does not"
+    }
+  ],
+  "secrets": {},
+  "jobs": {
+    "main": {
+      "name": "main, checkout, install dependencies, tests, build",
+      "runs-on": "ubuntu-latest",
+      "steps": 19,
+      "matrix": false
+    }
+  },
+  "notes": [],
+  "handoff": {},
+  "source_sha256": "0f8dec4856c002713fb186ec727fd7572f96f422d2ed48ec131468da19bdab38",
+  "model_sha256": "b86e081a75b38539149bdc86794234681b7524b88267a6d6547a6056b08ed7b6"
+}

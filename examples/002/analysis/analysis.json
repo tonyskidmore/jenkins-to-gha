@@ -1,0 +1,595 @@
+{
+  "analysis_version": 1,
+  "parser": {
+    "engine": "groovy-ast (Jenkins-bundled Groovy 2.4, CONVERSION phase)",
+    "ok": true,
+    "errors": []
+  },
+  "dialect": "scripted",
+  "metrics": {
+    "artifact_steps": 12,
+    "classes": 0,
+    "conditionals": 11,
+    "credentials": 3,
+    "distinct_steps": 38,
+    "env_vars": 0,
+    "libraries": 0,
+    "loc": 228,
+    "max_stage_depth": 1,
+    "methods": 0,
+    "options": 2,
+    "parameters": 0,
+    "post_conditions": 0,
+    "shell_steps": 10,
+    "stages": 3,
+    "steps": 75,
+    "tools": 0,
+    "top_level_stages": 1,
+    "triggers": 0,
+    "unknown_steps": 3
+  },
+  "steps": {
+    "sh": {
+      "count": 8,
+      "category": "direct",
+      "lines": [
+        35,
+        42,
+        51,
+        54,
+        117,
+        129,
+        204,
+        231
+      ],
+      "gha": "run: (shell: bash)"
+    },
+    "recordIssues": {
+      "count": 6,
+      "category": "policy",
+      "lines": [
+        152,
+        160,
+        169,
+        174,
+        179,
+        184
+      ],
+      "gha": "SARIF upload / problem matchers"
+    },
+    "withCredentials": {
+      "count": 5,
+      "category": "policy",
+      "lines": [
+        29,
+        50,
+        53,
+        114,
+        202
+      ],
+      "gha": "secrets.* / environment secrets / OIDC"
+    },
+    "stage": {
+      "count": 4,
+      "category": "direct",
+      "lines": [
+        21,
+        78,
+        88,
+        137
+      ],
+      "gha": "job or step group"
+    },
+    "retry": {
+      "count": 3,
+      "category": "policy",
+      "lines": [
+        22,
+        74,
+        223
+      ],
+      "gha": "shell retry loop / retry action"
+    },
+    "node": {
+      "count": 3,
+      "category": "policy",
+      "lines": [
+        23,
+        75,
+        224
+      ],
+      "gha": "runs-on:"
+    },
+    "combinations": {
+      "count": 3,
+      "category": "groovy",
+      "lines": [
+        36,
+        62,
+        220
+      ],
+      "gha": null
+    },
+    "values": {
+      "count": 3,
+      "category": "groovy",
+      "lines": [
+        36,
+        62,
+        220
+      ],
+      "gha": null
+    },
+    "isUnix": {
+      "count": 3,
+      "category": "policy",
+      "lines": [
+        115,
+        128,
+        203
+      ],
+      "gha": "runner.os != 'Windows' (value used by Groovy: port the logic)"
+    },
+    "checkoutSCM": {
+      "count": 2,
+      "category": "groovy",
+      "lines": [
+        24,
+        79
+      ],
+      "gha": null
+    },
+    "last": {
+      "count": 2,
+      "category": "groovy",
+      "lines": [
+        38,
+        64
+      ],
+      "gha": null
+    },
+    "dir": {
+      "count": 2,
+      "category": "direct",
+      "lines": [
+        90,
+        193
+      ],
+      "gha": "working-directory:"
+    },
+    "readFile": {
+      "count": 2,
+      "category": "policy",
+      "lines": [
+        93,
+        192
+      ],
+      "gha": "run: cat > $GITHUB_OUTPUT (value used by Groovy: port the logic)"
+    },
+    "bat": {
+      "count": 2,
+      "category": "direct",
+      "lines": [
+        120,
+        206
+      ],
+      "gha": "run: (shell: cmd, windows runner)"
+    },
+    "withChecks": {
+      "count": 2,
+      "category": "unknown",
+      "lines": [
+        125,
+        229
+      ],
+      "gha": null
+    },
+    "archiveArtifacts": {
+      "count": 2,
+      "category": "direct",
+      "lines": [
+        138,
+        194
+      ],
+      "gha": "actions/upload-artifact"
+    },
+    "error": {
+      "count": 2,
+      "category": "direct",
+      "lines": [
+        141,
+        190
+      ],
+      "gha": "run: echo ::error:: && exit 1"
+    },
+    "properties": {
+      "count": 1,
+      "category": "policy",
+      "lines": [
+        11
+      ],
+      "gha": "on: (triggers/inputs) + concurrency"
+    },
+    "replaceAll": {
+      "count": 1,
+      "category": "groovy",
+      "lines": [
+        34
+      ],
+      "gha": null
+    },
+    "stash": {
+      "count": 1,
+      "category": "policy",
+      "lines": [
+        43
+      ],
+      "gha": "actions/upload-artifact (cross-job hand-off)"
+    },
+    "pwd": {
+      "count": 1,
+      "category": "policy",
+      "lines": [
+        82
+      ],
+      "gha": "$GITHUB_WORKSPACE / $PWD (value used by Groovy: port the logic)"
+    },
+    "timeout": {
+      "count": 1,
+      "category": "direct",
+      "lines": [
+        89
+      ],
+      "gha": "timeout-minutes:"
+    },
+    "unstash": {
+      "count": 1,
+      "category": "policy",
+      "lines": [
+        92
+      ],
+      "gha": "actions/download-artifact"
+    },
+    "trim": {
+      "count": 1,
+      "category": "groovy",
+      "lines": [
+        93
+      ],
+      "gha": null
+    },
+    "contains": {
+      "count": 1,
+      "category": "groovy",
+      "lines": [
+        111
+      ],
+      "gha": null
+    },
+    "add": {
+      "count": 1,
+      "category": "groovy",
+      "lines": [
+        123
+      ],
+      "gha": null
+    },
+    "realtimeJUnit": {
+      "count": 1,
+      "category": "unknown",
+      "lines": [
+        126
+      ],
+      "gha": null
+    },
+    "runMaven": {
+      "count": 1,
+      "category": "groovy",
+      "lines": [
+        127
+      ],
+      "gha": null
+    },
+    "split": {
+      "count": 1,
+      "category": "groovy",
+      "lines": [
+        144
+      ],
+      "gha": null
+    },
+    "discoverGitReferenceBuild": {
+      "count": 1,
+      "category": "unknown",
+      "lines": [
+        146
+      ],
+      "gha": null
+    },
+    "recordCoverage": {
+      "count": 1,
+      "category": "policy",
+      "lines": [
+        148
+      ],
+      "gha": "coverage report action / upload-artifact"
+    },
+    "echo": {
+      "count": 1,
+      "category": "direct",
+      "lines": [
+        151
+      ],
+      "gha": "run: echo"
+    },
+    "deleteDir": {
+      "count": 1,
+      "category": "direct",
+      "lines": [
+        226
+      ],
+      "gha": "run: rm -rf (runners are ephemeral)"
+    },
+    "checkout": {
+      "count": 1,
+      "category": "direct",
+      "lines": [
+        227
+      ],
+      "gha": "actions/checkout"
+    },
+    "withArtifactCachingProxy": {
+      "count": 1,
+      "category": "groovy",
+      "lines": [
+        230
+      ],
+      "gha": null
+    },
+    "junit": {
+      "count": 1,
+      "category": "policy",
+      "lines": [
+        233
+      ],
+      "gha": "upload JUnit XML + test reporting action"
+    },
+    "parallel": {
+      "count": 1,
+      "category": "policy",
+      "lines": [
+        251
+      ],
+      "gha": "separate jobs / strategy.matrix"
+    },
+    "maybePublishIncrementals": {
+      "count": 1,
+      "category": "groovy",
+      "lines": [
+        252
+      ],
+      "gha": null
+    }
+  },
+  "unknown_steps": [
+    {
+      "name": "discoverGitReferenceBuild",
+      "lines": [
+        146
+      ],
+      "count": 1
+    },
+    {
+      "name": "realtimeJUnit",
+      "lines": [
+        126
+      ],
+      "count": 1
+    },
+    {
+      "name": "withChecks",
+      "lines": [
+        125,
+        229
+      ],
+      "count": 2
+    }
+  ],
+  "agents": [
+    {
+      "kind": "label",
+      "label": "maven-21-nonspot",
+      "line": 23,
+      "scope": "scripted"
+    },
+    {
+      "kind": "label",
+      "label": "agentContainerLabel",
+      "line": 75,
+      "scope": "scripted"
+    },
+    {
+      "kind": "label",
+      "label": "docker-highmem",
+      "line": 224,
+      "scope": "scripted"
+    }
+  ],
+  "credentials": [
+    {
+      "id": "launchable-jenkins-jenkins",
+      "type": "string",
+      "lines": [
+        29,
+        114,
+        202
+      ]
+    },
+    {
+      "id": "launchable-jenkins-acceptance-test-harness",
+      "type": "string",
+      "lines": [
+        50
+      ]
+    },
+    {
+      "id": "launchable-jenkins-bom",
+      "type": "string",
+      "lines": [
+        53
+      ]
+    }
+  ],
+  "dsl_symbols": [
+    "checkStyle",
+    "esLint",
+    "excludeFile",
+    "java",
+    "javaDoc",
+    "kubernetesAgent",
+    "logRotator",
+    "nonresumable",
+    "spotBugs",
+    "styleLint"
+  ],
+  "libraries": [],
+  "methods": [],
+  "jenkins_model": {
+    "result": "failure",
+    "errors": [
+      "Jenkinsfile content '#!/usr/bin/env groovy\n\n/*\n * This Jenkinsfile is intended to run on https://ci.jenkins.io and may fail anywhere else.\n * It makes assumptions about plugins being installed, labels mapping to nodes that can build what is needed, etc.\n */\n\ndef failFast = false\ndef numBuildToKeep = env.CHANGE_ID ? '10' : '50'\n\nproperties([\n  buildDiscarder(logRotator(numToKeepStr: numBuildToKeep, artifactNumToKeepStr: '3')),\n  disableConcurrentBuilds(abortPrevious: true)\n])\n\ndef axes = [\n  platforms: ['linux', 'windows'],\n  jdks: [21, 25],\n]\n\nstage('Record build') {\n  retry(conditions: [kubernetesAgent(handleNonKubernetes: true), nonresumable()], count: 2) {\n    node('maven-21-nonspot') {\n      infra.checkoutSCM()\n\n      /*\n       * Record the primary build for this CI job.\n       */\n      withCredentials([string(credentialsId: 'launchable-jenkins-jenkins', variable: 'LAUNCHABLE_TOKEN')]) {\n        /*\n         * TODO Add the commits of the transitive closure of the Jenkins WAR under test to this build.\n         */\n        // Replace URL encoded characters with '-' because Launchable rejects '%2F' in build name\n        def launchableName = env.BUILD_TAG.replaceAll('(%[0-9A-Fa-f]{2})+', '-')\n        sh \"launchable verify && launchable record build --name ${launchableName} --source jenkinsci/jenkins=.\"\n        axes.values().combinations {\n          def (platform, jdk) = it\n          if (platform == 'windows' && jdk != axes.jdks.last()) {\n            return // unnecessary use of hardware\n          }\n          def sessionFile = \"launchable-session-${platform}-jdk${jdk}.txt\"\n          sh \"launchable record session --build ${launchableName} --flavor platform=${platform} --flavor jdk=${jdk} >${sessionFile}\"\n          stash name: sessionFile, includes: sessionFile\n        }\n      }\n\n      /*\n       * Record commits for use in downstream CI jobs that may consume this artifact.\n       */\n      withCredentials([string(credentialsId: 'launchable-jenkins-acceptance-test-harness', variable: 'LAUNCHABLE_TOKEN')]) {\n        sh 'launchable verify && launchable record commit'\n      }\n      withCredentials([string(credentialsId: 'launchable-jenkins-bom', variable: 'LAUNCHABLE_TOKEN')]) {\n        sh 'launchable verify && launchable record commit'\n      }\n    }\n  }\n}\n\ndef builds = [:]\n\naxes.values().combinations {\n  def (platform, jdk) = it\n  if (platform == 'windows' && jdk != axes.jdks.last()) {\n    return // unnecessary use of hardware\n  }\n  builds[\"${platform}-jdk${jdk}\"] = {\n    // see https://github.com/jenkins-infra/documentation/blob/master/ci.adoc#node-labels for information on what node types are available\n    def agentContainerLabel = 'maven-' + jdk\n    if (platform == 'windows') {\n      agentContainerLabel += '-windows'\n    }\n    agentContainerLabel += '-nonspot'\n    retry(conditions: [kubernetesAgent(handleNonKubernetes: true), nonresumable()], count: 2) {\n      node(agentContainerLabel) {\n        // First stage is actually checking out the source. Since we're using Multibranch\n        // currently, we can use \"checkout scm\".\n        stage(\"${platform.capitalize()} - JDK ${jdk} - Checkout\") {\n          infra.checkoutSCM()\n        }\n\n        def tmpDir = pwd(tmp: true)\n        def changelistF = \"${tmpDir}/changelist\"\n        def m2repo = \"${tmpDir}/m2repo\"\n        def session\n\n        // Now run the actual build.\n        stage(\"${platform.capitalize()} - JDK ${jdk} - Build / Test\") {\n          timeout(time: 6, unit: 'HOURS') {\n            dir(tmpDir) {\n              def sessionFile = \"launchable-session-${platform}-jdk${jdk}.txt\"\n              unstash sessionFile\n              session = readFile(sessionFile).trim()\n            }\n            def mavenOptions = [\n              '-Pdebug',\n              '-Penable-jacoco',\n              '--update-snapshots',\n              \"-Dmaven.repo.local=$m2repo\",\n              '-Dmaven.test.failure.ignore',\n              '-DforkCount=2',\n              '-Dspotbugs.failOnError=false',\n              '-Dcheckstyle.failOnViolation=false',\n              '-Dset.changelist',\n              'help:evaluate',\n              '-Dexpression=changelist',\n              \"-Doutput=$changelistF\",\n              'clean',\n              'install',\n            ]\n            if (env.CHANGE_ID && !pullRequest.labels.contains('full-test')) {\n              def excludesFile\n              def target = platform == 'windows' ? '30%' : '100%'\n              withCredentials([string(credentialsId: 'launchable-jenkins-jenkins', variable: 'LAUNCHABLE_TOKEN')]) {\n                if (isUnix()) {\n                  excludesFile = \"${tmpDir}/excludes.txt\"\n                  sh \"launchable verify && launchable subset --session ${session} --target ${target} --get-tests-from-previous-sessions --output-exclusion-rules maven >${excludesFile}\"\n                } else {\n                  excludesFile = \"${tmpDir}\\\\excludes.txt\"\n                  bat \"launchable verify && launchable subset --session ${session} --target ${target}% --get-tests-from-previous-sessions --output-exclusion-rules maven >${excludesFile}\"\n                }\n              }\n              mavenOptions.add(0, \"-Dsurefire.excludesFile=${excludesFile}\")\n            }\n            withChecks(name: 'Tests', includeStage: true) {\n              realtimeJUnit(healthScaleFactor: 20.0, testResults: '*/target/surefire-reports/*.xml,target/vitest-reports/*.xml') {\n                infra.runMaven(mavenOptions, jdk)\n                if (isUnix()) {\n                  sh 'git add . && git diff --exit-code HEAD'\n                }\n              }\n            }\n          }\n        }\n\n        // Once we've built, archive the artifacts and the test results.\n        stage(\"${platform.capitalize()} - JDK ${jdk} - Publish\") {\n          archiveArtifacts allowEmptyArchive: true, artifacts: '**/target/surefire-reports/*.dumpstream'\n          // cli and war have been migrated to JUnit 5\n          if (failFast && currentBuild.result == 'UNSTABLE') {\n            error 'There were test failures; halting early'\n          }\n          if (platform == 'linux' && jdk == axes['jdks'][0]) {\n            def folders = env.JOB_NAME.split('/')\n            if (folders.length > 1) {\n              discoverGitReferenceBuild(scm: folders[1])\n            }\n            recordCoverage(tools: [[parser: 'JACOCO', pattern: 'coverage/target/site/jacoco-aggregate/jacoco.xml']],\n            sourceCodeRetention: 'MODIFIED', sourceDirectories: [[path: 'core/src/main/java']])\n\n            echo \"Recording static analysis results for '${platform.capitalize()}'\"\n            recordIssues(\n                enabledForFailure: true,\n                tools: [java()],\n                filters: [excludeFile('.*Assert.java')],\n                sourceCodeEncoding: 'UTF-8',\n                skipBlames: true,\n                trendChartType: 'TOOLS_ONLY'\n                )\n            recordIssues(\n                enabledForFailure: true,\n                tools: [javaDoc()],\n                filters: [excludeFile('.*Assert.java')],\n                sourceCodeEncoding: 'UTF-8',\n                skipBlames: true,\n                trendChartType: 'TOOLS_ONLY',\n                qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]]\n            )\n            recordIssues([tool: spotBugs(pattern: '**/target/spotbugsXml.xml'),\n              sourceCodeEncoding: 'UTF-8',\n              skipBlames: true,\n              trendChartType: 'TOOLS_ONLY',\n              qualityGates: [[threshold: 1, type: 'NEW', unstable: true]]])\n            recordIssues([tool: checkStyle(pattern: '**/target/checkstyle-result.xml'),\n              sourceCodeEncoding: 'UTF-8',\n              skipBlames: true,\n              trendChartType: 'TOOLS_ONLY',\n              qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]]])\n            recordIssues([tool: esLint(pattern: '**/target/eslint-warnings.xml'),\n              sourceCodeEncoding: 'UTF-8',\n              skipBlames: true,\n              trendChartType: 'TOOLS_ONLY',\n              qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]]])\n            recordIssues([tool: styleLint(pattern: '**/target/stylelint-warnings.xml'),\n              sourceCodeEncoding: 'UTF-8',\n              skipBlames: true,\n              trendChartType: 'TOOLS_ONLY',\n              qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]]])\n            if (failFast && currentBuild.result == 'UNSTABLE') {\n              error 'Static analysis quality gates not passed; halting early'\n            }\n            def changelist = readFile(changelistF)\n            dir(m2repo) {\n              archiveArtifacts(\n                  artifacts: \"**/*$changelist/*$changelist*\",\n                  excludes: '**/*.lastUpdated,**/jenkins-coverage*/,**/jenkins-test*/',\n                  allowEmptyArchive: true, // in case we forgot to reincrementalify\n                  fingerprint: true\n                  )\n            }\n          }\n          withCredentials([string(credentialsId: 'launchable-jenkins-jenkins', variable: 'LAUNCHABLE_TOKEN')]) {\n            if (isUnix()) {\n              sh \"launchable verify && launchable record tests --session ${session} --flavor platform=${platform} --flavor jdk=${jdk} maven './**/target/surefire-reports'\"\n            } else {\n              bat \"launchable verify && launchable record tests --session ${session} --flavor platform=${platform} --flavor jdk=${jdk} maven ./**/target/surefire-reports\"\n            }\n          }\n        }\n      }\n    }\n  }\n}\n\ndef athAxes = [\n  platforms: ['linux'],\n  jdks: [21],\n  browsers: ['firefox'],\n]\nathAxes.values().combinations {\n  def (platform, jdk, browser) = it\n  builds[\"ath-${platform}-jdk${jdk}-${browser}\"] = {\n    retry(conditions: [agent(), nonresumable()], count: 2) {\n      node('docker-highmem') {\n        // Just to be safe\n        deleteDir()\n        checkout scm\n\n        withChecks(name: 'Tests', includeStage: true) {\n          infra.withArtifactCachingProxy {\n            sh \"bash ath.sh ${jdk} ${browser}\"\n          }\n          junit testResults: 'target/ath-reports/TEST-*.xml', testDataPublishers: [[$class: 'AttachmentPublisher']]\n        }\n        /*\n         * Currently disabled, as the fact that this is a manually created subset will confuse Launchable,\n         * which expects this to be a full build. When we implement subsetting, this can be re-enabled using\n         * Launchable's subset rather than our own.\n         */\n        /*\n         withCredentials([string(credentialsId: 'launchable-jenkins-acceptance-test-harness', variable: 'LAUNCHABLE_TOKEN')]) {\n         sh \"launchable verify && launchable record tests --no-build --flavor platform=${platform} --flavor jdk=${jdk} --flavor browser=${browser} maven './target/ath-reports'\"\n         }\n         */\n      }\n    }\n  }\n}\n\nbuilds.failFast = failFast\nparallel builds\ninfra.maybePublishIncrementals()\n' did not contain the 'pipeline' step"
+    ]
+  },
+  "findings": [
+    {
+      "id": "ScriptedPipeline",
+      "severity": "high",
+      "line": null,
+      "evidence": "node {}/stage() scripted pipeline",
+      "recommendation": "Re-model as Declarative or design GHA jobs around intent; automated conversion is best-effort"
+    },
+    {
+      "id": "DynamicParallel",
+      "severity": "high",
+      "line": 251,
+      "evidence": "parallel(builds)",
+      "recommendation": "Emit a bounded matrix from a planning job (fromJSON) instead of runtime fan-out",
+      "gate": true
+    },
+    {
+      "id": "DynamicAgentLabel",
+      "severity": "medium",
+      "line": 75,
+      "evidence": "node(agentContainerLabel)",
+      "recommendation": "Choose runs-on via matrix/inputs"
+    },
+    {
+      "id": "UnknownStep",
+      "severity": "medium",
+      "line": 125,
+      "evidence": "withChecks x2",
+      "recommendation": "Plugin or shared-library step with no catalog mapping - inspect implementation"
+    },
+    {
+      "id": "UnknownStep",
+      "severity": "medium",
+      "line": 126,
+      "evidence": "realtimeJUnit x1",
+      "recommendation": "Plugin or shared-library step with no catalog mapping - inspect implementation"
+    },
+    {
+      "id": "UnknownStep",
+      "severity": "medium",
+      "line": 146,
+      "evidence": "discoverGitReferenceBuild x1",
+      "recommendation": "Plugin or shared-library step with no catalog mapping - inspect implementation"
+    },
+    {
+      "id": "WindowsAgent",
+      "severity": "low",
+      "line": null,
+      "evidence": "bat/powershell or windows label",
+      "recommendation": "Target runs-on: windows-latest (2x minute multiplier on private repos)"
+    },
+    {
+      "id": "CredentialBinding",
+      "severity": "low",
+      "line": 29,
+      "evidence": "string 'launchable-jenkins-jenkins'",
+      "recommendation": "Create GitHub secret(s) or use OIDC; never inline values"
+    },
+    {
+      "id": "CredentialBinding",
+      "severity": "low",
+      "line": 50,
+      "evidence": "string 'launchable-jenkins-acceptance-test-harness'",
+      "recommendation": "Create GitHub secret(s) or use OIDC; never inline values"
+    },
+    {
+      "id": "CredentialBinding",
+      "severity": "low",
+      "line": 53,
+      "evidence": "string 'launchable-jenkins-bom'",
+      "recommendation": "Create GitHub secret(s) or use OIDC; never inline values"
+    }
+  ],
+  "hard_gates": [
+    {
+      "id": "DynamicParallel",
+      "severity": "high",
+      "line": 251,
+      "evidence": "parallel(builds)",
+      "recommendation": "Emit a bounded matrix from a planning job (fromJSON) instead of runtime fan-out",
+      "gate": true
+    }
+  ],
+  "styles": [
+    "scripted",
+    "parallel",
+    "credentials",
+    "parameters-triggers",
+    "artifacts-tests",
+    "windows"
+  ],
+  "coverage": {
+    "by_category": {
+      "direct": 24,
+      "policy": 29,
+      "groovy": 18,
+      "unknown": 4
+    },
+    "weighted_mapped_pct": 64.5
+  },
+  "complexity": {
+    "score": 56,
+    "classification": "significant-redesign",
+    "dimensions": {
+      "declarative_structure": 13.0,
+      "step_mapping": 8.9,
+      "plugin_coupling": 15,
+      "library_opacity": 4,
+      "runtime_coupling": 6.0,
+      "security_identity": 6,
+      "control_flow": 3.0
+    },
+    "hard_gates": [
+      "DynamicParallel"
+    ],
+    "weights": {
+      "declarative_structure": 20,
+      "step_mapping": 25,
+      "plugin_coupling": 15,
+      "library_opacity": 15,
+      "runtime_coupling": 10,
+      "security_identity": 10,
+      "control_flow": 5
+    }
+  },
+  "convertibility": "partial",
+  "ir_notes": [
+    "line 62: stage(s) '${platform.capitalize()} - JDK ${jdk} - Checkout', '${platform.capitalize()} - JDK ${jdk} - Build / Test', '${platform.capitalize()} - JDK ${jdk} - Publish' nested in 'combinations' (plugin/library block) kept as its nested steps, in an unnamed segment",
+    "line 251: parallel() over a runtime-built map 'builds' (dynamic fan-out)",
+    "10 statement(s) outside any stage kept in source order in 2 unnamed segment(s) (from line(s) 8, 60)"
+  ],
+  "source_sha256": "a90b1a7fa5039c2bf37e64d3c3b264ae251f278628eb320edc58d9794d63bbb8"
+}

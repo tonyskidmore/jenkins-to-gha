@@ -1,0 +1,525 @@
+[2026-10-10T08:13:19.133Z] Started by user admin
+[2026-10-10T08:13:19.325Z] [Pipeline] Start of Pipeline
+[2026-10-10T08:13:19.469Z] [Pipeline] node
+[2026-10-10T08:13:19.484Z] Running on Jenkins in /var/jenkins_home/workspace/ex-103-trace
+[2026-10-10T08:13:19.508Z] [Pipeline] {
+[2026-10-10T08:13:19.540Z] [Pipeline] stage
+[2026-10-10T08:13:19.545Z] [Pipeline] { (Declarative: Checkout SCM)
+[2026-10-10T08:13:19.589Z] [Pipeline] echo
+[2026-10-10T08:13:19.595Z] J2GHA-TRACE {"stage":"Declarative: Checkout SCM","step":"checkout"}
+[2026-10-10T08:13:19.601Z] [Pipeline] }
+[2026-10-10T08:13:19.634Z] [Pipeline] // stage
+[2026-10-10T08:13:19.662Z] [Pipeline] withEnv
+[2026-10-10T08:13:19.669Z] [Pipeline] {
+[2026-10-10T08:13:19.700Z] [Pipeline] echo
+[2026-10-10T08:13:19.705Z] J2GHA-TRACE {"stage":"","step":"feDetermineVersionFromGit"}
+[2026-10-10T08:13:19.734Z] [Pipeline] withEnv
+[2026-10-10T08:13:19.739Z] [Pipeline] {
+[2026-10-10T08:13:19.775Z] [Pipeline] timeout
+[2026-10-10T08:13:19.775Z] Timeout set to expire in 2 hr 0 min
+[2026-10-10T08:13:19.781Z] [Pipeline] {
+[2026-10-10T08:13:19.814Z] [Pipeline] stage
+[2026-10-10T08:13:19.821Z] [Pipeline] { (Check Commit Message)
+[2026-10-10T08:13:19.863Z] [Pipeline] script
+[2026-10-10T08:13:19.870Z] [Pipeline] {
+[2026-10-10T08:13:19.910Z] [Pipeline] echo
+[2026-10-10T08:13:19.919Z] J2GHA-TRACE {"stage":"Check Commit Message","step":"sh"}
+[2026-10-10T08:13:19.940Z] [Pipeline] }
+[2026-10-10T08:13:19.979Z] [Pipeline] // script
+[2026-10-10T08:13:19.996Z] [Pipeline] }
+[2026-10-10T08:13:20.030Z] [Pipeline] // stage
+[2026-10-10T08:13:20.060Z] [Pipeline] stage
+[2026-10-10T08:13:20.066Z] [Pipeline] { (Get Ready)
+[2026-10-10T08:13:20.104Z] [Pipeline] script
+[2026-10-10T08:13:20.126Z] [Pipeline] {
+[2026-10-10T08:13:20.167Z] [Pipeline] echo
+[2026-10-10T08:13:20.174Z] J2GHA-TRACE {"stage":"Get Ready","step":"notifyBitbucket"}
+[2026-10-10T08:13:20.179Z] [Pipeline] }
+[2026-10-10T08:13:20.214Z] [Pipeline] // script
+[2026-10-10T08:13:20.237Z] [Pipeline] echo
+[2026-10-10T08:13:20.242Z] J2GHA-TRACE {"stage":"Get Ready","step":"sh"}
+[2026-10-10T08:13:20.248Z] [Pipeline] }
+[2026-10-10T08:13:20.281Z] [Pipeline] // stage
+[2026-10-10T08:13:20.306Z] [Pipeline] stage
+[2026-10-10T08:13:20.312Z] [Pipeline] { (Run URDF tests)
+[2026-10-10T08:13:20.343Z] [Pipeline] node
+[2026-10-10T08:13:20.357Z] Running on Jenkins in /var/jenkins_home/workspace/ex-103-trace@2
+[2026-10-10T08:13:20.381Z] [Pipeline] {
+[2026-10-10T08:13:20.417Z] [Pipeline] echo
+[2026-10-10T08:13:20.423Z] J2GHA-TRACE {"stage":"Run URDF tests","step":"checkout"}
+[2026-10-10T08:13:20.455Z] [Pipeline] withEnv
+[2026-10-10T08:13:20.462Z] [Pipeline] {
+[2026-10-10T08:13:20.493Z] [Pipeline] echo
+[2026-10-10T08:13:20.499Z] J2GHA-TRACE {"stage":"Run URDF tests","step":"sh"}
+[2026-10-10T08:13:20.505Z] [Pipeline] }
+[2026-10-10T08:13:20.538Z] [Pipeline] // withEnv
+[2026-10-10T08:13:20.555Z] [Pipeline] }
+[2026-10-10T08:13:20.597Z] [Pipeline] // node
+[2026-10-10T08:13:20.614Z] [Pipeline] }
+[2026-10-10T08:13:20.653Z] [Pipeline] // stage
+[2026-10-10T08:13:20.678Z] [Pipeline] stage
+[2026-10-10T08:13:20.683Z] [Pipeline] { (Build robot URDFs and SRDFs)
+[2026-10-10T08:13:20.719Z] [Pipeline] parallel
+[2026-10-10T08:13:20.765Z] [Pipeline] { (Branch: Matrix - ROBOT = 'fp3')
+[2026-10-10T08:13:20.771Z] [Pipeline] { (Branch: Matrix - ROBOT = 'fr3')
+[2026-10-10T08:13:20.776Z] [Pipeline] { (Branch: Matrix - ROBOT = 'fr3v2')
+[2026-10-10T08:13:20.782Z] [Pipeline] { (Branch: Matrix - ROBOT = 'fr3v2_1')
+[2026-10-10T08:13:20.788Z] [Pipeline] { (Branch: Matrix - ROBOT = 'tmrv0_2')
+[2026-10-10T08:13:20.825Z] [Pipeline] stage
+[2026-10-10T08:13:20.831Z] [Pipeline] { (Matrix - ROBOT = 'fp3')
+[2026-10-10T08:13:20.849Z] [Pipeline] stage
+[2026-10-10T08:13:20.857Z] [Pipeline] { (Matrix - ROBOT = 'fr3')
+[2026-10-10T08:13:20.878Z] [Pipeline] stage
+[2026-10-10T08:13:20.886Z] [Pipeline] { (Matrix - ROBOT = 'fr3v2')
+[2026-10-10T08:13:20.904Z] [Pipeline] stage
+[2026-10-10T08:13:20.931Z] [Pipeline] { (Matrix - ROBOT = 'fr3v2_1')
+[2026-10-10T08:13:20.951Z] [Pipeline] stage
+[2026-10-10T08:13:20.956Z] [Pipeline] { (Matrix - ROBOT = 'tmrv0_2')
+[2026-10-10T08:13:20.996Z] [Pipeline] withEnv
+[2026-10-10T08:13:21.002Z] [Pipeline] {
+[2026-10-10T08:13:21.019Z] [Pipeline] withEnv
+[2026-10-10T08:13:21.024Z] [Pipeline] {
+[2026-10-10T08:13:21.040Z] [Pipeline] withEnv
+[2026-10-10T08:13:21.051Z] [Pipeline] {
+[2026-10-10T08:13:21.066Z] [Pipeline] withEnv
+[2026-10-10T08:13:21.074Z] [Pipeline] {
+[2026-10-10T08:13:21.096Z] [Pipeline] withEnv
+[2026-10-10T08:13:21.104Z] [Pipeline] {
+[2026-10-10T08:13:21.166Z] [Pipeline] stage
+[2026-10-10T08:13:21.179Z] [Pipeline] { (Build URDF and SRDF)
+[2026-10-10T08:13:21.196Z] [Pipeline] stage
+[2026-10-10T08:13:21.202Z] [Pipeline] { (Build URDF and SRDF)
+[2026-10-10T08:13:21.220Z] [Pipeline] stage
+[2026-10-10T08:13:21.226Z] [Pipeline] { (Build URDF and SRDF)
+[2026-10-10T08:13:21.239Z] [Pipeline] stage
+[2026-10-10T08:13:21.243Z] [Pipeline] { (Build URDF and SRDF)
+[2026-10-10T08:13:21.255Z] [Pipeline] stage
+[2026-10-10T08:13:21.260Z] [Pipeline] { (Build URDF and SRDF)
+[2026-10-10T08:13:21.297Z] [Pipeline] echo
+[2026-10-10T08:13:21.301Z] J2GHA-TRACE {"stage":"Build URDF and SRDF","step":"sh"}
+[2026-10-10T08:13:21.316Z] [Pipeline] dir
+[2026-10-10T08:13:21.316Z] Running in /var/jenkins_home/workspace/ex-103-trace/urdfs
+[2026-10-10T08:13:21.321Z] [Pipeline] {
+[2026-10-10T08:13:21.329Z] [Pipeline] echo
+[2026-10-10T08:13:21.333Z] J2GHA-TRACE {"stage":"Build URDF and SRDF","step":"sh"}
+[2026-10-10T08:13:21.346Z] [Pipeline] dir
+[2026-10-10T08:13:21.346Z] Running in /var/jenkins_home/workspace/ex-103-trace/urdfs
+[2026-10-10T08:13:21.350Z] [Pipeline] {
+[2026-10-10T08:13:21.362Z] [Pipeline] echo
+[2026-10-10T08:13:21.368Z] J2GHA-TRACE {"stage":"Build URDF and SRDF","step":"sh"}
+[2026-10-10T08:13:21.386Z] [Pipeline] dir
+[2026-10-10T08:13:21.386Z] Running in /var/jenkins_home/workspace/ex-103-trace/urdfs
+[2026-10-10T08:13:21.392Z] [Pipeline] {
+[2026-10-10T08:13:21.403Z] [Pipeline] echo
+[2026-10-10T08:13:21.408Z] J2GHA-TRACE {"stage":"Build URDF and SRDF","step":"sh"}
+[2026-10-10T08:13:21.422Z] [Pipeline] dir
+[2026-10-10T08:13:21.423Z] Running in /var/jenkins_home/workspace/ex-103-trace/urdfs
+[2026-10-10T08:13:21.428Z] [Pipeline] {
+[2026-10-10T08:13:21.439Z] [Pipeline] echo
+[2026-10-10T08:13:21.443Z] J2GHA-TRACE {"stage":"Build URDF and SRDF","step":"sh"}
+[2026-10-10T08:13:21.457Z] [Pipeline] dir
+[2026-10-10T08:13:21.457Z] Running in /var/jenkins_home/workspace/ex-103-trace/urdfs
+[2026-10-10T08:13:21.462Z] [Pipeline] {
+[2026-10-10T08:13:21.486Z] [Pipeline] echo
+[2026-10-10T08:13:21.492Z] J2GHA-TRACE {"stage":"Build URDF and SRDF","step":"stash"}
+[2026-10-10T08:13:21.505Z] [Pipeline] echo
+[2026-10-10T08:13:21.513Z] J2GHA-TRACE {"stage":"Build URDF and SRDF","step":"stash"}
+[2026-10-10T08:13:21.525Z] [Pipeline] echo
+[2026-10-10T08:13:21.532Z] J2GHA-TRACE {"stage":"Build URDF and SRDF","step":"stash"}
+[2026-10-10T08:13:21.545Z] [Pipeline] echo
+[2026-10-10T08:13:21.551Z] J2GHA-TRACE {"stage":"Build URDF and SRDF","step":"stash"}
+[2026-10-10T08:13:21.562Z] [Pipeline] echo
+[2026-10-10T08:13:21.568Z] J2GHA-TRACE {"stage":"Build URDF and SRDF","step":"stash"}
+[2026-10-10T08:13:21.579Z] [Pipeline] echo
+[2026-10-10T08:13:21.584Z] J2GHA-TRACE {"stage":"Build URDF and SRDF","step":"stash"}
+[2026-10-10T08:13:21.589Z] [Pipeline] }
+[2026-10-10T08:13:21.600Z] [Pipeline] echo
+[2026-10-10T08:13:21.605Z] J2GHA-TRACE {"stage":"Build URDF and SRDF","step":"stash"}
+[2026-10-10T08:13:21.611Z] [Pipeline] }
+[2026-10-10T08:13:21.620Z] [Pipeline] echo
+[2026-10-10T08:13:21.626Z] J2GHA-TRACE {"stage":"Build URDF and SRDF","step":"stash"}
+[2026-10-10T08:13:21.632Z] [Pipeline] }
+[2026-10-10T08:13:21.644Z] [Pipeline] echo
+[2026-10-10T08:13:21.649Z] J2GHA-TRACE {"stage":"Build URDF and SRDF","step":"stash"}
+[2026-10-10T08:13:21.654Z] [Pipeline] }
+[2026-10-10T08:13:21.664Z] [Pipeline] echo
+[2026-10-10T08:13:21.669Z] J2GHA-TRACE {"stage":"Build URDF and SRDF","step":"stash"}
+[2026-10-10T08:13:21.673Z] [Pipeline] }
+[2026-10-10T08:13:21.714Z] [Pipeline] // dir
+[2026-10-10T08:13:21.744Z] [Pipeline] // dir
+[2026-10-10T08:13:21.775Z] [Pipeline] // dir
+[2026-10-10T08:13:21.824Z] [Pipeline] // dir
+[2026-10-10T08:13:21.854Z] [Pipeline] // dir
+[2026-10-10T08:13:21.874Z] [Pipeline] }
+[2026-10-10T08:13:21.879Z] [Pipeline] }
+[2026-10-10T08:13:21.885Z] [Pipeline] }
+[2026-10-10T08:13:21.890Z] [Pipeline] }
+[2026-10-10T08:13:21.896Z] [Pipeline] }
+[2026-10-10T08:13:21.950Z] [Pipeline] // stage
+[2026-10-10T08:13:21.979Z] [Pipeline] // stage
+[2026-10-10T08:13:22.004Z] [Pipeline] // stage
+[2026-10-10T08:13:22.029Z] [Pipeline] // stage
+[2026-10-10T08:13:22.059Z] [Pipeline] // stage
+[2026-10-10T08:13:22.075Z] [Pipeline] }
+[2026-10-10T08:13:22.082Z] [Pipeline] }
+[2026-10-10T08:13:22.088Z] [Pipeline] }
+[2026-10-10T08:13:22.094Z] [Pipeline] }
+[2026-10-10T08:13:22.100Z] [Pipeline] }
+[2026-10-10T08:13:22.134Z] [Pipeline] // withEnv
+[2026-10-10T08:13:22.159Z] [Pipeline] // withEnv
+[2026-10-10T08:13:22.186Z] [Pipeline] // withEnv
+[2026-10-10T08:13:22.211Z] [Pipeline] // withEnv
+[2026-10-10T08:13:22.237Z] [Pipeline] // withEnv
+[2026-10-10T08:13:22.253Z] [Pipeline] }
+[2026-10-10T08:13:22.259Z] [Pipeline] }
+[2026-10-10T08:13:22.266Z] [Pipeline] }
+[2026-10-10T08:13:22.271Z] [Pipeline] }
+[2026-10-10T08:13:22.278Z] [Pipeline] }
+[2026-10-10T08:13:22.317Z] [Pipeline] // stage
+[2026-10-10T08:13:22.347Z] [Pipeline] // stage
+[2026-10-10T08:13:22.378Z] [Pipeline] // stage
+[2026-10-10T08:13:22.407Z] [Pipeline] // stage
+[2026-10-10T08:13:22.434Z] [Pipeline] // stage
+[2026-10-10T08:13:22.460Z] [Pipeline] }
+[2026-10-10T08:13:22.467Z] [Pipeline] }
+[2026-10-10T08:13:22.475Z] [Pipeline] }
+[2026-10-10T08:13:22.481Z] [Pipeline] }
+[2026-10-10T08:13:22.487Z] [Pipeline] }
+[2026-10-10T08:13:22.640Z] [Pipeline] // parallel
+[2026-10-10T08:13:22.684Z] [Pipeline] }
+[2026-10-10T08:13:22.721Z] [Pipeline] // stage
+[2026-10-10T08:13:22.752Z] [Pipeline] stage
+[2026-10-10T08:13:22.758Z] [Pipeline] { (Build End Effector URDFs)
+[2026-10-10T08:13:22.797Z] [Pipeline] parallel
+[2026-10-10T08:13:22.814Z] [Pipeline] { (Branch: Matrix - EE = 'franka_hand')
+[2026-10-10T08:13:22.820Z] [Pipeline] { (Branch: Matrix - EE = 'cobot_pump')
+[2026-10-10T08:13:22.864Z] [Pipeline] stage
+[2026-10-10T08:13:22.871Z] [Pipeline] { (Matrix - EE = 'franka_hand')
+[2026-10-10T08:13:22.892Z] [Pipeline] stage
+[2026-10-10T08:13:22.900Z] [Pipeline] { (Matrix - EE = 'cobot_pump')
+[2026-10-10T08:13:22.942Z] [Pipeline] withEnv
+[2026-10-10T08:13:22.947Z] [Pipeline] {
+[2026-10-10T08:13:22.961Z] [Pipeline] withEnv
+[2026-10-10T08:13:22.967Z] [Pipeline] {
+[2026-10-10T08:13:23.008Z] [Pipeline] stage
+[2026-10-10T08:13:23.015Z] [Pipeline] { (Build URDF)
+[2026-10-10T08:13:23.032Z] [Pipeline] stage
+[2026-10-10T08:13:23.039Z] [Pipeline] { (Build URDF)
+[2026-10-10T08:13:23.082Z] [Pipeline] echo
+[2026-10-10T08:13:23.088Z] J2GHA-TRACE {"stage":"Build URDF","step":"sh"}
+[2026-10-10T08:13:23.105Z] [Pipeline] dir
+[2026-10-10T08:13:23.105Z] Running in /var/jenkins_home/workspace/ex-103-trace/urdfs
+[2026-10-10T08:13:23.112Z] [Pipeline] {
+[2026-10-10T08:13:23.124Z] [Pipeline] echo
+[2026-10-10T08:13:23.129Z] J2GHA-TRACE {"stage":"Build URDF","step":"sh"}
+[2026-10-10T08:13:23.146Z] [Pipeline] dir
+[2026-10-10T08:13:23.146Z] Running in /var/jenkins_home/workspace/ex-103-trace/urdfs
+[2026-10-10T08:13:23.153Z] [Pipeline] {
+[2026-10-10T08:13:23.173Z] [Pipeline] echo
+[2026-10-10T08:13:23.179Z] J2GHA-TRACE {"stage":"Build URDF","step":"stash"}
+[2026-10-10T08:13:23.196Z] [Pipeline] }
+[2026-10-10T08:13:23.209Z] [Pipeline] echo
+[2026-10-10T08:13:23.215Z] J2GHA-TRACE {"stage":"Build URDF","step":"stash"}
+[2026-10-10T08:13:23.221Z] [Pipeline] }
+[2026-10-10T08:13:23.257Z] [Pipeline] // dir
+[2026-10-10T08:13:23.291Z] [Pipeline] // dir
+[2026-10-10T08:13:23.313Z] [Pipeline] }
+[2026-10-10T08:13:23.320Z] [Pipeline] }
+[2026-10-10T08:13:23.362Z] [Pipeline] // stage
+[2026-10-10T08:13:23.396Z] [Pipeline] // stage
+[2026-10-10T08:13:23.411Z] [Pipeline] }
+[2026-10-10T08:13:23.416Z] [Pipeline] }
+[2026-10-10T08:13:23.448Z] [Pipeline] // withEnv
+[2026-10-10T08:13:23.471Z] [Pipeline] // withEnv
+[2026-10-10T08:13:23.488Z] [Pipeline] }
+[2026-10-10T08:13:23.494Z] [Pipeline] }
+[2026-10-10T08:13:23.550Z] [Pipeline] // stage
+[2026-10-10T08:13:23.577Z] [Pipeline] // stage
+[2026-10-10T08:13:23.592Z] [Pipeline] }
+[2026-10-10T08:13:23.597Z] [Pipeline] }
+[2026-10-10T08:13:23.651Z] [Pipeline] // parallel
+[2026-10-10T08:13:23.666Z] [Pipeline] }
+[2026-10-10T08:13:23.697Z] [Pipeline] // stage
+[2026-10-10T08:13:23.721Z] [Pipeline] stage
+[2026-10-10T08:13:23.726Z] [Pipeline] { (Archive URDFs and SRDFs)
+[2026-10-10T08:13:23.759Z] [Pipeline] node
+[2026-10-10T08:13:23.771Z] Running on Jenkins in /var/jenkins_home/workspace/ex-103-trace@2
+[2026-10-10T08:13:23.788Z] [Pipeline] {
+[2026-10-10T08:13:23.817Z] [Pipeline] echo
+[2026-10-10T08:13:23.823Z] J2GHA-TRACE {"stage":"Archive URDFs and SRDFs","step":"checkout"}
+[2026-10-10T08:13:23.852Z] [Pipeline] withEnv
+[2026-10-10T08:13:23.858Z] [Pipeline] {
+[2026-10-10T08:13:23.902Z] [Pipeline] stage
+[2026-10-10T08:13:23.909Z] [Pipeline] { (Cleanup)
+[2026-10-10T08:13:23.953Z] [Pipeline] echo
+[2026-10-10T08:13:23.960Z] J2GHA-TRACE {"stage":"Cleanup","step":"sh"}
+[2026-10-10T08:13:23.968Z] [Pipeline] }
+[2026-10-10T08:13:24.004Z] [Pipeline] // stage
+[2026-10-10T08:13:24.034Z] [Pipeline] stage
+[2026-10-10T08:13:24.040Z] [Pipeline] { (Create directory structure)
+[2026-10-10T08:13:24.078Z] [Pipeline] echo
+[2026-10-10T08:13:24.083Z] J2GHA-TRACE {"stage":"Create directory structure","step":"sh"}
+[2026-10-10T08:13:24.107Z] [Pipeline] echo
+[2026-10-10T08:13:24.112Z] J2GHA-TRACE {"stage":"Create directory structure","step":"sh"}
+[2026-10-10T08:13:24.134Z] [Pipeline] echo
+[2026-10-10T08:13:24.140Z] J2GHA-TRACE {"stage":"Create directory structure","step":"sh"}
+[2026-10-10T08:13:24.146Z] [Pipeline] }
+[2026-10-10T08:13:24.178Z] [Pipeline] // stage
+[2026-10-10T08:13:24.206Z] [Pipeline] stage
+[2026-10-10T08:13:24.214Z] [Pipeline] { (Move robot urdfs and srdfs into correct robot arm directory)
+[2026-10-10T08:13:24.250Z] [Pipeline] parallel
+[2026-10-10T08:13:24.295Z] [Pipeline] { (Branch: Arm3R)
+[2026-10-10T08:13:24.300Z] [Pipeline] { (Branch: Arm3P)
+[2026-10-10T08:13:24.305Z] [Pipeline] { (Branch: Arm3Rv2)
+[2026-10-10T08:13:24.310Z] [Pipeline] { (Branch: Arm3Rv2.1)
+[2026-10-10T08:13:24.317Z] [Pipeline] { (Branch: TMRv0.2)
+[2026-10-10T08:13:24.376Z] [Pipeline] stage
+[2026-10-10T08:13:24.382Z] [Pipeline] { (Arm3R)
+[2026-10-10T08:13:24.403Z] [Pipeline] stage
+[2026-10-10T08:13:24.409Z] [Pipeline] { (Arm3P)
+[2026-10-10T08:13:24.427Z] [Pipeline] stage
+[2026-10-10T08:13:24.433Z] [Pipeline] { (Arm3Rv2)
+[2026-10-10T08:13:24.449Z] [Pipeline] stage
+[2026-10-10T08:13:24.454Z] [Pipeline] { (Arm3Rv2.1)
+[2026-10-10T08:13:24.468Z] [Pipeline] stage
+[2026-10-10T08:13:24.475Z] [Pipeline] { (TMRv0.2)
+[2026-10-10T08:13:24.518Z] [Pipeline] echo
+[2026-10-10T08:13:24.523Z] J2GHA-TRACE {"stage":"Arm3R","step":"sh"}
+[2026-10-10T08:13:24.538Z] [Pipeline] dir
+[2026-10-10T08:13:24.538Z] Running in /var/jenkins_home/workspace/ex-103-trace@2/dist/usr/share/robot-descriptions/robots/Arm3R
+[2026-10-10T08:13:24.544Z] [Pipeline] {
+[2026-10-10T08:13:24.554Z] [Pipeline] echo
+[2026-10-10T08:13:24.559Z] J2GHA-TRACE {"stage":"Arm3P","step":"sh"}
+[2026-10-10T08:13:24.577Z] [Pipeline] dir
+[2026-10-10T08:13:24.578Z] Running in /var/jenkins_home/workspace/ex-103-trace@2/dist/usr/share/robot-descriptions/robots/Arm3P
+[2026-10-10T08:13:24.584Z] [Pipeline] {
+[2026-10-10T08:13:24.596Z] [Pipeline] echo
+[2026-10-10T08:13:24.603Z] J2GHA-TRACE {"stage":"Arm3Rv2","step":"sh"}
+[2026-10-10T08:13:24.620Z] [Pipeline] dir
+[2026-10-10T08:13:24.620Z] Running in /var/jenkins_home/workspace/ex-103-trace@2/dist/usr/share/robot-descriptions/robots/Arm3Rv2
+[2026-10-10T08:13:24.626Z] [Pipeline] {
+[2026-10-10T08:13:24.637Z] [Pipeline] echo
+[2026-10-10T08:13:24.642Z] J2GHA-TRACE {"stage":"Arm3Rv2.1","step":"sh"}
+[2026-10-10T08:13:24.656Z] [Pipeline] dir
+[2026-10-10T08:13:24.656Z] Running in /var/jenkins_home/workspace/ex-103-trace@2/dist/usr/share/robot-descriptions/robots/Arm3Rv2.1
+[2026-10-10T08:13:24.661Z] [Pipeline] {
+[2026-10-10T08:13:24.671Z] [Pipeline] echo
+[2026-10-10T08:13:24.677Z] J2GHA-TRACE {"stage":"TMRv0.2","step":"sh"}
+[2026-10-10T08:13:24.693Z] [Pipeline] dir
+[2026-10-10T08:13:24.693Z] Running in /var/jenkins_home/workspace/ex-103-trace@2/dist/usr/share/robot-descriptions/robots/TMRv0.2
+[2026-10-10T08:13:24.699Z] [Pipeline] {
+[2026-10-10T08:13:24.728Z] [Pipeline] echo
+[2026-10-10T08:13:24.734Z] J2GHA-TRACE {"stage":"Arm3R","step":"unstash"}
+[2026-10-10T08:13:24.746Z] [Pipeline] echo
+[2026-10-10T08:13:24.752Z] J2GHA-TRACE {"stage":"Arm3P","step":"unstash"}
+[2026-10-10T08:13:24.764Z] [Pipeline] echo
+[2026-10-10T08:13:24.770Z] J2GHA-TRACE {"stage":"Arm3Rv2","step":"unstash"}
+[2026-10-10T08:13:24.781Z] [Pipeline] echo
+[2026-10-10T08:13:24.786Z] J2GHA-TRACE {"stage":"Arm3Rv2.1","step":"unstash"}
+[2026-10-10T08:13:24.798Z] [Pipeline] echo
+[2026-10-10T08:13:24.804Z] J2GHA-TRACE {"stage":"TMRv0.2","step":"unstash"}
+[2026-10-10T08:13:24.816Z] [Pipeline] echo
+[2026-10-10T08:13:24.821Z] J2GHA-TRACE {"stage":"Arm3R","step":"unstash"}
+[2026-10-10T08:13:24.833Z] [Pipeline] echo
+[2026-10-10T08:13:24.840Z] J2GHA-TRACE {"stage":"Arm3P","step":"unstash"}
+[2026-10-10T08:13:24.855Z] [Pipeline] echo
+[2026-10-10T08:13:24.862Z] J2GHA-TRACE {"stage":"Arm3Rv2","step":"unstash"}
+[2026-10-10T08:13:24.877Z] [Pipeline] echo
+[2026-10-10T08:13:24.884Z] J2GHA-TRACE {"stage":"Arm3Rv2.1","step":"unstash"}
+[2026-10-10T08:13:24.897Z] [Pipeline] echo
+[2026-10-10T08:13:24.903Z] J2GHA-TRACE {"stage":"TMRv0.2","step":"unstash"}
+[2026-10-10T08:13:24.916Z] [Pipeline] echo
+[2026-10-10T08:13:24.923Z] J2GHA-TRACE {"stage":"Arm3R","step":"sh"}
+[2026-10-10T08:13:24.935Z] [Pipeline] echo
+[2026-10-10T08:13:24.941Z] J2GHA-TRACE {"stage":"Arm3P","step":"sh"}
+[2026-10-10T08:13:24.954Z] [Pipeline] echo
+[2026-10-10T08:13:24.960Z] J2GHA-TRACE {"stage":"Arm3Rv2","step":"sh"}
+[2026-10-10T08:13:24.973Z] [Pipeline] echo
+[2026-10-10T08:13:24.978Z] J2GHA-TRACE {"stage":"Arm3Rv2.1","step":"sh"}
+[2026-10-10T08:13:24.993Z] [Pipeline] echo
+[2026-10-10T08:13:24.998Z] J2GHA-TRACE {"stage":"TMRv0.2","step":"sh"}
+[2026-10-10T08:13:25.022Z] [Pipeline] echo
+[2026-10-10T08:13:25.028Z] J2GHA-TRACE {"stage":"Arm3R","step":"sh"}
+[2026-10-10T08:13:25.034Z] [Pipeline] }
+[2026-10-10T08:13:25.047Z] [Pipeline] echo
+[2026-10-10T08:13:25.053Z] J2GHA-TRACE {"stage":"Arm3P","step":"sh"}
+[2026-10-10T08:13:25.059Z] [Pipeline] }
+[2026-10-10T08:13:25.070Z] [Pipeline] echo
+[2026-10-10T08:13:25.076Z] J2GHA-TRACE {"stage":"Arm3Rv2","step":"sh"}
+[2026-10-10T08:13:25.083Z] [Pipeline] }
+[2026-10-10T08:13:25.094Z] [Pipeline] echo
+[2026-10-10T08:13:25.100Z] J2GHA-TRACE {"stage":"Arm3Rv2.1","step":"sh"}
+[2026-10-10T08:13:25.105Z] [Pipeline] }
+[2026-10-10T08:13:25.115Z] [Pipeline] echo
+[2026-10-10T08:13:25.121Z] J2GHA-TRACE {"stage":"TMRv0.2","step":"sh"}
+[2026-10-10T08:13:25.126Z] [Pipeline] }
+[2026-10-10T08:13:25.188Z] [Pipeline] // dir
+[2026-10-10T08:13:25.218Z] [Pipeline] // dir
+[2026-10-10T08:13:25.246Z] [Pipeline] // dir
+[2026-10-10T08:13:25.270Z] [Pipeline] // dir
+[2026-10-10T08:13:25.296Z] [Pipeline] // dir
+[2026-10-10T08:13:25.310Z] [Pipeline] }
+[2026-10-10T08:13:25.314Z] [Pipeline] }
+[2026-10-10T08:13:25.319Z] [Pipeline] }
+[2026-10-10T08:13:25.325Z] [Pipeline] }
+[2026-10-10T08:13:25.330Z] [Pipeline] }
+[2026-10-10T08:13:25.364Z] [Pipeline] // stage
+[2026-10-10T08:13:25.392Z] [Pipeline] // stage
+[2026-10-10T08:13:25.426Z] [Pipeline] // stage
+[2026-10-10T08:13:25.457Z] [Pipeline] // stage
+[2026-10-10T08:13:25.492Z] [Pipeline] // stage
+[2026-10-10T08:13:25.510Z] [Pipeline] }
+[2026-10-10T08:13:25.516Z] [Pipeline] }
+[2026-10-10T08:13:25.526Z] [Pipeline] }
+[2026-10-10T08:13:25.531Z] [Pipeline] }
+[2026-10-10T08:13:25.537Z] [Pipeline] }
+[2026-10-10T08:13:25.682Z] [Pipeline] // parallel
+[2026-10-10T08:13:25.705Z] [Pipeline] }
+[2026-10-10T08:13:25.737Z] [Pipeline] // stage
+[2026-10-10T08:13:25.760Z] [Pipeline] stage
+[2026-10-10T08:13:25.764Z] [Pipeline] { (Copy meshes to dist)
+[2026-10-10T08:13:25.800Z] [Pipeline] script
+[2026-10-10T08:13:25.807Z] [Pipeline] {
+[2026-10-10T08:13:25.840Z] [Pipeline] echo
+[2026-10-10T08:13:25.847Z] J2GHA-TRACE {"stage":"Copy meshes to dist","step":"sh"}
+[2026-10-10T08:13:25.875Z] [Pipeline] echo
+[2026-10-10T08:13:25.882Z] J2GHA-TRACE {"stage":"Copy meshes to dist","step":"sh"}
+[2026-10-10T08:13:25.890Z] [Pipeline] }
+[2026-10-10T08:13:25.923Z] [Pipeline] // script
+[2026-10-10T08:13:25.942Z] [Pipeline] }
+[2026-10-10T08:13:25.975Z] [Pipeline] // stage
+[2026-10-10T08:13:26.029Z] [Pipeline] stage
+[2026-10-10T08:13:26.036Z] [Pipeline] { (Extract End Effector URDFs)
+[2026-10-10T08:13:26.080Z] [Pipeline] stage
+[2026-10-10T08:13:26.086Z] [Pipeline] { (Create End Effector directories)
+[2026-10-10T08:13:26.123Z] [Pipeline] echo
+[2026-10-10T08:13:26.129Z] J2GHA-TRACE {"stage":"Create End Effector directories","step":"sh"}
+[2026-10-10T08:13:26.153Z] [Pipeline] echo
+[2026-10-10T08:13:26.158Z] J2GHA-TRACE {"stage":"Create End Effector directories","step":"sh"}
+[2026-10-10T08:13:26.165Z] [Pipeline] }
+[2026-10-10T08:13:26.216Z] [Pipeline] // stage
+[2026-10-10T08:13:26.247Z] [Pipeline] stage
+[2026-10-10T08:13:26.253Z] [Pipeline] { (Copy meshes)
+[2026-10-10T08:13:26.288Z] [Pipeline] parallel
+[2026-10-10T08:13:26.304Z] [Pipeline] { (Branch: cobot_pump)
+[2026-10-10T08:13:26.310Z] [Pipeline] { (Branch: franka_hand)
+[2026-10-10T08:13:26.350Z] [Pipeline] stage
+[2026-10-10T08:13:26.356Z] [Pipeline] { (cobot_pump)
+[2026-10-10T08:13:26.397Z] [Pipeline] stage
+[2026-10-10T08:13:26.403Z] [Pipeline] { (franka_hand)
+[2026-10-10T08:13:26.449Z] [Pipeline] echo
+[2026-10-10T08:13:26.454Z] J2GHA-TRACE {"stage":"cobot_pump","step":"sh"}
+[2026-10-10T08:13:26.459Z] [Pipeline] }
+[2026-10-10T08:13:26.470Z] [Pipeline] echo
+[2026-10-10T08:13:26.474Z] J2GHA-TRACE {"stage":"franka_hand","step":"sh"}
+[2026-10-10T08:13:26.480Z] [Pipeline] }
+[2026-10-10T08:13:26.513Z] [Pipeline] // stage
+[2026-10-10T08:13:26.537Z] [Pipeline] // stage
+[2026-10-10T08:13:26.553Z] [Pipeline] }
+[2026-10-10T08:13:26.558Z] [Pipeline] }
+[2026-10-10T08:13:26.620Z] [Pipeline] // parallel
+[2026-10-10T08:13:26.637Z] [Pipeline] }
+[2026-10-10T08:13:26.670Z] [Pipeline] // stage
+[2026-10-10T08:13:26.698Z] [Pipeline] stage
+[2026-10-10T08:13:26.704Z] [Pipeline] { (Unstash URDF)
+[2026-10-10T08:13:26.748Z] [Pipeline] dir
+[2026-10-10T08:13:26.748Z] Running in /var/jenkins_home/workspace/ex-103-trace@2/dist/usr/share/robot-descriptions/end_effectors/cobot_pump
+[2026-10-10T08:13:26.754Z] [Pipeline] {
+[2026-10-10T08:13:26.785Z] [Pipeline] echo
+[2026-10-10T08:13:26.791Z] J2GHA-TRACE {"stage":"Unstash URDF","step":"unstash"}
+[2026-10-10T08:13:26.815Z] [Pipeline] echo
+[2026-10-10T08:13:26.821Z] J2GHA-TRACE {"stage":"Unstash URDF","step":"sh"}
+[2026-10-10T08:13:26.827Z] [Pipeline] }
+[2026-10-10T08:13:26.888Z] [Pipeline] // dir
+[2026-10-10T08:13:26.917Z] [Pipeline] dir
+[2026-10-10T08:13:26.918Z] Running in /var/jenkins_home/workspace/ex-103-trace@2/dist/usr/share/robot-descriptions/end_effectors/franka_hand
+[2026-10-10T08:13:26.924Z] [Pipeline] {
+[2026-10-10T08:13:26.955Z] [Pipeline] echo
+[2026-10-10T08:13:26.960Z] J2GHA-TRACE {"stage":"Unstash URDF","step":"unstash"}
+[2026-10-10T08:13:26.983Z] [Pipeline] echo
+[2026-10-10T08:13:26.991Z] J2GHA-TRACE {"stage":"Unstash URDF","step":"sh"}
+[2026-10-10T08:13:26.999Z] [Pipeline] }
+[2026-10-10T08:13:27.039Z] [Pipeline] // dir
+[2026-10-10T08:13:27.056Z] [Pipeline] }
+[2026-10-10T08:13:27.091Z] [Pipeline] // stage
+[2026-10-10T08:13:27.109Z] [Pipeline] }
+[2026-10-10T08:13:27.142Z] [Pipeline] // stage
+[2026-10-10T08:13:27.171Z] [Pipeline] stage
+[2026-10-10T08:13:27.177Z] [Pipeline] { (Create archive)
+[2026-10-10T08:13:27.216Z] [Pipeline] echo
+[2026-10-10T08:13:27.222Z] J2GHA-TRACE {"stage":"Create archive","step":"sh"}
+[2026-10-10T08:13:27.247Z] [Pipeline] echo
+[2026-10-10T08:13:27.253Z] J2GHA-TRACE {"stage":"Create archive","step":"sh"}
+[2026-10-10T08:13:27.271Z] [Pipeline] dir
+[2026-10-10T08:13:27.271Z] Running in /var/jenkins_home/workspace/ex-103-trace@2/dist
+[2026-10-10T08:13:27.277Z] [Pipeline] {
+[2026-10-10T08:13:27.306Z] [Pipeline] echo
+[2026-10-10T08:13:27.314Z] J2GHA-TRACE {"stage":"Create archive","step":"sh"}
+[2026-10-10T08:13:27.339Z] [Pipeline] echo
+[2026-10-10T08:13:27.345Z] J2GHA-TRACE {"stage":"Create archive","step":"archiveArtifacts"}
+[2026-10-10T08:13:27.351Z] [Pipeline] }
+[2026-10-10T08:13:27.392Z] [Pipeline] // dir
+[2026-10-10T08:13:27.411Z] [Pipeline] }
+[2026-10-10T08:13:27.460Z] [Pipeline] // stage
+[2026-10-10T08:13:27.487Z] [Pipeline] stage
+[2026-10-10T08:13:27.492Z] [Pipeline] { (Publish to artifactory)
+[2026-10-10T08:13:27.581Z] [Pipeline] echo
+[2026-10-10T08:13:27.586Z] J2GHA-TRACE {"stage":"Publish to artifactory","step":"fePublishOpkg"}
+[2026-10-10T08:13:27.611Z] [Pipeline] echo
+[2026-10-10T08:13:27.616Z] J2GHA-TRACE {"stage":"Publish to artifactory","step":"fePublishBuildInfo"}
+[2026-10-10T08:13:27.625Z] [Pipeline] }
+[2026-10-10T08:13:27.667Z] [Pipeline] // stage
+[2026-10-10T08:13:27.683Z] [Pipeline] }
+[2026-10-10T08:13:27.721Z] [Pipeline] // withEnv
+[2026-10-10T08:13:27.756Z] [Pipeline] }
+[2026-10-10T08:13:27.792Z] [Pipeline] // node
+[2026-10-10T08:13:27.805Z] [Pipeline] }
+[2026-10-10T08:13:27.833Z] [Pipeline] // stage
+[2026-10-10T08:13:27.858Z] [Pipeline] stage
+[2026-10-10T08:13:27.864Z] [Pipeline] { (Trigger upstream franka_ros2_ws builds)
+[2026-10-10T08:13:27.896Z] [Pipeline] parallel
+[2026-10-10T08:13:27.911Z] [Pipeline] { (Branch: humble)
+[2026-10-10T08:13:27.916Z] [Pipeline] { (Branch: jazzy)
+[2026-10-10T08:13:27.947Z] [Pipeline] stage
+[2026-10-10T08:13:27.952Z] [Pipeline] { (humble)
+[2026-10-10T08:13:27.969Z] [Pipeline] stage
+[2026-10-10T08:13:27.975Z] [Pipeline] { (jazzy)
+[2026-10-10T08:13:28.015Z] [Pipeline] echo
+[2026-10-10T08:13:28.021Z] J2GHA-TRACE {"stage":"humble","step":"build"}
+[2026-10-10T08:13:28.027Z] [Pipeline] }
+[2026-10-10T08:13:28.039Z] [Pipeline] echo
+[2026-10-10T08:13:28.044Z] J2GHA-TRACE {"stage":"jazzy","step":"build"}
+[2026-10-10T08:13:28.051Z] [Pipeline] }
+[2026-10-10T08:13:28.091Z] [Pipeline] // stage
+[2026-10-10T08:13:28.118Z] [Pipeline] // stage
+[2026-10-10T08:13:28.134Z] [Pipeline] }
+[2026-10-10T08:13:28.139Z] [Pipeline] }
+[2026-10-10T08:13:28.203Z] [Pipeline] // parallel
+[2026-10-10T08:13:28.218Z] [Pipeline] }
+[2026-10-10T08:13:28.252Z] [Pipeline] // stage
+[2026-10-10T08:13:28.278Z] [Pipeline] stage
+[2026-10-10T08:13:28.284Z] [Pipeline] { (Declarative: Post Actions)
+[2026-10-10T08:13:28.318Z] [Pipeline] echo
+[2026-10-10T08:13:28.323Z] J2GHA-TRACE {"stage":"Declarative: Post Actions","step":"sh"}
+[2026-10-10T08:13:28.341Z] [Pipeline] echo
+[2026-10-10T08:13:28.346Z] J2GHA-TRACE {"stage":"Declarative: Post Actions","step":"cleanWs"}
+[2026-10-10T08:13:28.369Z] [Pipeline] echo
+[2026-10-10T08:13:28.375Z] J2GHA-TRACE {"stage":"Declarative: Post Actions","step":"sh"}
+[2026-10-10T08:13:28.387Z] [Pipeline] script
+[2026-10-10T08:13:28.396Z] [Pipeline] {
+[2026-10-10T08:13:28.428Z] [Pipeline] echo
+[2026-10-10T08:13:28.435Z] J2GHA-TRACE {"stage":"Declarative: Post Actions","step":"feNotifySCM"}
+[2026-10-10T08:13:28.443Z] [Pipeline] }
+[2026-10-10T08:13:28.480Z] [Pipeline] // script
+[2026-10-10T08:13:28.502Z] [Pipeline] }
+[2026-10-10T08:13:28.533Z] [Pipeline] // stage
+[2026-10-10T08:13:28.561Z] [Pipeline] }
+[2026-10-10T08:13:28.606Z] [Pipeline] // timeout
+[2026-10-10T08:13:28.623Z] [Pipeline] }
+[2026-10-10T08:13:28.654Z] [Pipeline] // withEnv
+[2026-10-10T08:13:28.671Z] [Pipeline] }
+[2026-10-10T08:13:28.702Z] [Pipeline] // withEnv
+[2026-10-10T08:13:28.717Z] [Pipeline] }
+[2026-10-10T08:13:28.753Z] [Pipeline] // node
+[2026-10-10T08:13:28.769Z] [Pipeline] End of Pipeline
+[2026-10-10T08:13:28.850Z] Finished: SUCCESS

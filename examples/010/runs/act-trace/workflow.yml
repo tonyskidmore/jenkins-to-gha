@@ -1,0 +1,54 @@
+# j2gha act variant (trace) of examples/010
+name: 'j2gha 010: apicollective/apibuilder Jenkinsfile (j2gha)'
+on:
+  push:
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  BRANCH_NAME: main
+  TAG_NAME: ''
+  CHANGE_ID: ''
+  GIT_COMMIT: ${{ github.sha }}
+  GIT_BRANCH: origin/main
+  GIT_URL: ${{ github.server_url }}/${{ github.repository }}.git
+defaults:
+  run:
+    shell: bash
+jobs:
+  main:
+    name: main
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+    - name: try (line 14)
+      id: s1
+      run: echo "run=true" >> "$GITHUB_OUTPUT"
+    - name: checkoutWithTags (manual migration)
+      id: s2
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"","step":"checkoutWithTags"}'
+    - name: 'Checkout: echo'
+      id: s3
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Checkout","step":"echo"}'
+    - name: 'Checkout: checkout'
+      id: s4
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Checkout","step":"checkout"}'
+    - name: 'tagging: taggingv2 (manual migration)'
+      id: s5
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"tagging","step":"taggingv2"}'
+    - name: checkoutWithTags (manual migration)
+      id: s6
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"","step":"checkoutWithTags"}'
+    - name: mainJenkinsBuildArgo (manual migration)
+      id: s7
+      env:
+        ARGOCD_AUTH_TOKEN: j2gha-fake-secret
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"","step":"mainJenkinsBuildArgo"}'
+    - name: cleanWs
+      id: s9
+      if: (always()) && (steps.s1.outcome == 'success')
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"","step":"cleanWs"}'
+    - name: echo
+      id: s10
+      if: (always()) && (steps.s1.outcome == 'success')
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"","step":"echo"}'

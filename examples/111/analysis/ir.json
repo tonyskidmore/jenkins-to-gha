@@ -1,0 +1,132 @@
+{
+  "dialect": "declarative",
+  "line": 7,
+  "agent": {
+    "kind": "any",
+    "line": 8
+  },
+  "environment": {
+    "APPLICATION_NAME": {
+      "kind": "expression",
+      "value": "application",
+      "line": 17
+    }
+  },
+  "options": {
+    "timestamps": true,
+    "disableConcurrentBuilds": true,
+    "skipDefaultCheckout": true
+  },
+  "stages": [
+    {
+      "name": "Checkout",
+      "line": 21,
+      "steps": [
+        {
+          "name": "checkout",
+          "line": 23,
+          "args": [
+            "scm"
+          ],
+          "category": "direct",
+          "dynamic": true,
+          "variable_args": [
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Install",
+      "line": 27,
+      "steps": [
+        {
+          "name": "sh",
+          "line": 29,
+          "args": [
+            "echo install"
+          ],
+          "category": "direct"
+        }
+      ]
+    },
+    {
+      "name": "Test",
+      "line": 33,
+      "steps": [
+        {
+          "name": "sh",
+          "line": 35,
+          "args": [
+            "mkdir -p reports && printf '<testsuite name=\"unit\" tests=\"1\" failures=\"0\" errors=\"0\" skipped=\"0\"><testcase classname=\"unit\" name=\"smoke\"/></testsuite>\\n' > reports/junit-unit.xml"
+          ],
+          "category": "direct"
+        }
+      ]
+    },
+    {
+      "name": "Build",
+      "line": 39,
+      "steps": [
+        {
+          "name": "sh",
+          "line": 41,
+          "args": [
+            "mkdir -p dist && cp README.md dist/"
+          ],
+          "category": "direct"
+        }
+      ]
+    }
+  ],
+  "post": {
+    "always": [
+      {
+        "name": "junit",
+        "line": 48,
+        "named": {
+          "testResults": "**/junit-*.xml",
+          "allowEmptyResults": true
+        },
+        "category": "policy"
+      },
+      {
+        "name": "archiveArtifacts",
+        "line": 49,
+        "named": {
+          "artifacts": "dist/**",
+          "allowEmptyArchive": true
+        },
+        "category": "direct"
+      }
+    ],
+    "success": [
+      {
+        "name": "echo",
+        "line": 52,
+        "args": [
+          "${APPLICATION_NAME} completed successfully"
+        ],
+        "category": "direct",
+        "dynamic": true
+      }
+    ],
+    "failure": [
+      {
+        "name": "echo",
+        "line": 55,
+        "args": [
+          "${APPLICATION_NAME} failed"
+        ],
+        "category": "direct",
+        "dynamic": true
+      }
+    ]
+  },
+  "methods": [
+    "call"
+  ],
+  "notes": [
+    "pipeline {} is defined inside shared-library method 'call()'"
+  ]
+}

@@ -1,0 +1,114 @@
+[2026-10-10T09:16:58.498Z] Started by user admin
+[2026-10-10T09:16:58.729Z] [Pipeline] Start of Pipeline
+[2026-10-10T09:16:58.892Z] [Pipeline] node
+[2026-10-10T09:16:58.902Z] Running on Jenkins in /var/jenkins_home/workspace/ex-112-full
+[2026-10-10T09:16:58.919Z] [Pipeline] {
+[2026-10-10T09:16:58.973Z] [Pipeline] stage
+[2026-10-10T09:16:58.977Z] [Pipeline] { (Declarative: Checkout SCM)
+[2026-10-10T09:16:59.002Z] [Pipeline] checkout
+[2026-10-10T09:16:59.010Z] The recommended git tool is: NONE
+[2026-10-10T09:16:59.010Z] No credentials specified
+[2026-10-10T09:16:59.011Z]  > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/ex-112-full/.git # timeout=10
+[2026-10-10T09:16:59.017Z] Fetching changes from the remote Git repository
+[2026-10-10T09:16:59.020Z]  > git config remote.origin.url https://github.com/owen2016/devops-practices.git # timeout=10
+[2026-10-10T09:16:59.026Z] Fetching upstream changes from https://github.com/owen2016/devops-practices.git
+[2026-10-10T09:16:59.026Z]  > git --version # timeout=10
+[2026-10-10T09:16:59.031Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T09:16:59.032Z]  > git fetch --no-tags --force --progress -- https://github.com/owen2016/devops-practices.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:16:59.478Z]  > git rev-parse c04fb6c34767617e62b6e3d4b55903be74fd3c2a^{commit} # timeout=10
+[2026-10-10T09:16:59.485Z] Checking out Revision c04fb6c34767617e62b6e3d4b55903be74fd3c2a (detached)
+[2026-10-10T09:16:59.485Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T09:16:59.493Z]  > git checkout -f c04fb6c34767617e62b6e3d4b55903be74fd3c2a # timeout=10
+[2026-10-10T09:16:59.836Z] Commit message: "add jenkins docs"
+[2026-10-10T09:16:59.836Z]  > git rev-list --no-walk c04fb6c34767617e62b6e3d4b55903be74fd3c2a # timeout=10
+[2026-10-10T09:16:59.871Z] [Pipeline] }
+[2026-10-10T09:16:59.897Z] [Pipeline] // stage
+[2026-10-10T09:16:59.923Z] [Pipeline] withEnv
+[2026-10-10T09:16:59.929Z] [Pipeline] {
+[2026-10-10T09:16:59.970Z] [Pipeline] withEnv
+[2026-10-10T09:16:59.978Z] [Pipeline] {
+[2026-10-10T09:17:00.015Z] [Pipeline] stage
+[2026-10-10T09:17:00.020Z] [Pipeline] { (Init)
+[2026-10-10T09:17:00.054Z] [Pipeline] input
+[2026-10-10T09:17:00.072Z] Input requested
+[2026-10-10T09:17:01.060Z] Approved by admin
+[2026-10-10T09:17:01.111Z] [Pipeline] withEnv
+[2026-10-10T09:17:01.118Z] [Pipeline] {
+[2026-10-10T09:17:01.156Z] [Pipeline] }
+[2026-10-10T09:17:01.187Z] [Pipeline] // withEnv
+[2026-10-10T09:17:01.195Z] Stage "Init" skipped due to when conditional
+[2026-10-10T09:17:01.207Z] [Pipeline] getContext
+[2026-10-10T09:17:01.226Z] [Pipeline] }
+[2026-10-10T09:17:01.252Z] [Pipeline] // stage
+[2026-10-10T09:17:01.277Z] [Pipeline] stage
+[2026-10-10T09:17:01.284Z] [Pipeline] { (Parallel Stage)
+[2026-10-10T09:17:01.308Z] Stage "Parallel Stage" skipped due to when conditional
+[2026-10-10T09:17:01.321Z] [Pipeline] getContext
+[2026-10-10T09:17:01.361Z] [Pipeline] parallel
+[2026-10-10T09:17:01.376Z] [Pipeline] { (Branch: Branch A)
+[2026-10-10T09:17:01.380Z] [Pipeline] { (Branch: Branch B)
+[2026-10-10T09:17:01.412Z] [Pipeline] stage
+[2026-10-10T09:17:01.417Z] [Pipeline] { (Branch A)
+[2026-10-10T09:17:01.433Z] [Pipeline] stage
+[2026-10-10T09:17:01.451Z] [Pipeline] { (Branch B)
+[2026-10-10T09:17:01.470Z] Stage "Branch A" skipped due to when conditional
+[2026-10-10T09:17:01.482Z] [Pipeline] getContext
+[2026-10-10T09:17:01.510Z] [Pipeline] }
+[2026-10-10T09:17:01.511Z] Stage "Branch B" skipped due to when conditional
+[2026-10-10T09:17:01.523Z] [Pipeline] getContext
+[2026-10-10T09:17:01.548Z] [Pipeline] }
+[2026-10-10T09:17:01.575Z] [Pipeline] // stage
+[2026-10-10T09:17:01.593Z] [Pipeline] // stage
+[2026-10-10T09:17:01.604Z] [Pipeline] }
+[2026-10-10T09:17:01.609Z] [Pipeline] }
+[2026-10-10T09:17:01.678Z] [Pipeline] // parallel
+[2026-10-10T09:17:01.695Z] [Pipeline] }
+[2026-10-10T09:17:01.724Z] [Pipeline] // stage
+[2026-10-10T09:17:01.755Z] [Pipeline] stage
+[2026-10-10T09:17:01.762Z] [Pipeline] { (Build)
+[2026-10-10T09:17:01.794Z] [Pipeline] timeout
+[2026-10-10T09:17:01.794Z] Timeout set to expire in 1 hr 0 min
+[2026-10-10T09:17:01.804Z] [Pipeline] {
+[2026-10-10T09:17:01.839Z] [Pipeline] withEnv
+[2026-10-10T09:17:01.844Z] [Pipeline] {
+[2026-10-10T09:17:01.875Z] [Pipeline] echo
+[2026-10-10T09:17:01.880Z] Hello World Build
+[2026-10-10T09:17:01.891Z] [Pipeline] echo
+[2026-10-10T09:17:01.897Z] Hello Mr Jenkins
+[2026-10-10T09:17:01.908Z] [Pipeline] echo
+[2026-10-10T09:17:01.913Z] /usr/lib/maven/apache-maven-3.6.0
+[2026-10-10T09:17:01.924Z] [Pipeline] sh
+[2026-10-10T09:17:02.185Z] + python3 --version
+[2026-10-10T09:17:02.185Z] Python 3.13.5
+[2026-10-10T09:17:02.237Z] [Pipeline] sh
+[2026-10-10T09:17:02.511Z] + mkdir -p target
+[2026-10-10T09:17:02.511Z] + python3 -c print(42)
+[2026-10-10T09:17:02.535Z] [Pipeline] echo
+[2026-10-10T09:17:02.541Z] master
+[2026-10-10T09:17:02.548Z] [Pipeline] }
+[2026-10-10T09:17:02.578Z] [Pipeline] // withEnv
+[2026-10-10T09:17:02.595Z] [Pipeline] }
+[2026-10-10T09:17:02.623Z] [Pipeline] // timeout
+[2026-10-10T09:17:02.636Z] [Pipeline] }
+[2026-10-10T09:17:02.663Z] [Pipeline] // stage
+[2026-10-10T09:17:02.689Z] [Pipeline] stage
+[2026-10-10T09:17:02.696Z] [Pipeline] { (Deploy)
+[2026-10-10T09:17:02.727Z] [Pipeline] echo
+[2026-10-10T09:17:02.733Z] Hello World Deploy
+[2026-10-10T09:17:02.744Z] [Pipeline] sh
+[2026-10-10T09:17:03.005Z] + printf #!/bin/sh\necho deploy\n
+[2026-10-10T09:17:03.052Z] [Pipeline] sh
+[2026-10-10T09:17:03.321Z] + chmod 777 deploy.sh
+[2026-10-10T09:17:03.375Z] [Pipeline] sh
+[2026-10-10T09:17:03.655Z] + ./deploy.sh
+[2026-10-10T09:17:03.655Z] deploy
+[2026-10-10T09:17:03.690Z] [Pipeline] }
+[2026-10-10T09:17:03.743Z] [Pipeline] // stage
+[2026-10-10T09:17:03.768Z] [Pipeline] }
+[2026-10-10T09:17:03.809Z] [Pipeline] // withEnv
+[2026-10-10T09:17:03.821Z] [Pipeline] }
+[2026-10-10T09:17:03.845Z] [Pipeline] // withEnv
+[2026-10-10T09:17:03.857Z] [Pipeline] }
+[2026-10-10T09:17:03.885Z] [Pipeline] // node
+[2026-10-10T09:17:03.896Z] [Pipeline] End of Pipeline
+[2026-10-10T09:17:03.936Z] Finished: SUCCESS

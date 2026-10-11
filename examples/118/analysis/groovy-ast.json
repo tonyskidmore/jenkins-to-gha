@@ -1,0 +1,5169 @@
+{
+  "file": "118",
+  "ok": true,
+  "errors": [],
+  "imports": [
+    {
+      "name": "hudson.console.HyperlinkNote",
+      "alias": "HyperlinkNote",
+      "annotations": [],
+      "line": 5,
+      "col": 1,
+      "endLine": 5,
+      "endCol": 36
+    },
+    {
+      "name": "java.util.concurrent.CancellationException",
+      "alias": "CancellationException",
+      "annotations": [],
+      "line": 6,
+      "col": 1,
+      "endLine": 6,
+      "endCol": 50
+    },
+    {
+      "name": "hudson.AbortException",
+      "alias": "AbortException",
+      "annotations": [],
+      "line": 4,
+      "col": 1,
+      "endLine": 4,
+      "endCol": 29
+    },
+    {
+      "name": "org.jvnet.jenkins.plugins.nodelabelparameter.",
+      "alias": null,
+      "annotations": [],
+      "line": 7,
+      "col": 1,
+      "endLine": 7,
+      "endCol": 54
+    }
+  ],
+  "annotations": [],
+  "methods": [],
+  "classes": [],
+  "statements": [
+    {
+      "k": "call",
+      "name": "properties",
+      "args": [
+        {
+          "t": "list",
+          "v": [
+            {
+              "t": "call",
+              "call": {
+                "k": "call",
+                "name": "parameters",
+                "args": [
+                  {
+                    "t": "list",
+                    "v": [
+                      {
+                        "t": "call",
+                        "call": {
+                          "k": "call",
+                          "name": "booleanParam",
+                          "args": [],
+                          "named": {
+                            "name": {
+                              "t": "str",
+                              "v": "DRYRUN",
+                              "line": 10,
+                              "col": 24,
+                              "endLine": 10,
+                              "endCol": 32
+                            },
+                            "defaultValue": {
+                              "t": "bool",
+                              "v": false,
+                              "line": 10,
+                              "col": 48,
+                              "endLine": 10,
+                              "endCol": 53
+                            },
+                            "description": {
+                              "t": "str",
+                              "v": "j2gha-local: true lists and checks only, builds nothing",
+                              "line": 10,
+                              "col": 68,
+                              "endLine": 10,
+                              "endCol": 125
+                            }
+                          },
+                          "line": 10,
+                          "col": 5,
+                          "endLine": 10,
+                          "endCol": 126
+                        },
+                        "line": 10,
+                        "col": 5,
+                        "endLine": 10,
+                        "endCol": 126
+                      },
+                      {
+                        "t": "call",
+                        "call": {
+                          "k": "call",
+                          "name": "string",
+                          "args": [],
+                          "named": {
+                            "name": {
+                              "t": "str",
+                              "v": "VERSION",
+                              "line": 11,
+                              "col": 18,
+                              "endLine": 11,
+                              "endCol": 27
+                            },
+                            "defaultValue": {
+                              "t": "str",
+                              "v": "1.0.0",
+                              "line": 11,
+                              "col": 43,
+                              "endLine": 11,
+                              "endCol": 50
+                            },
+                            "description": {
+                              "t": "str",
+                              "v": "j2gha-local: release version named in the manifest commit",
+                              "line": 11,
+                              "col": 65,
+                              "endLine": 11,
+                              "endCol": 124
+                            }
+                          },
+                          "line": 11,
+                          "col": 5,
+                          "endLine": 11,
+                          "endCol": 125
+                        },
+                        "line": 11,
+                        "col": 5,
+                        "endLine": 11,
+                        "endCol": 125
+                      },
+                      {
+                        "t": "call",
+                        "call": {
+                          "k": "call",
+                          "name": "string",
+                          "args": [],
+                          "named": {
+                            "name": {
+                              "t": "str",
+                              "v": "olcs_transxchange_version",
+                              "line": 12,
+                              "col": 18,
+                              "endLine": 12,
+                              "endCol": 45
+                            },
+                            "defaultValue": {
+                              "t": "str",
+                              "v": "2.0.0",
+                              "line": 12,
+                              "col": 61,
+                              "endLine": 12,
+                              "endCol": 68
+                            },
+                            "description": {
+                              "t": "str",
+                              "v": "j2gha-local: txc package version",
+                              "line": 12,
+                              "col": 83,
+                              "endLine": 12,
+                              "endCol": 117
+                            }
+                          },
+                          "line": 12,
+                          "col": 5,
+                          "endLine": 12,
+                          "endCol": 118
+                        },
+                        "line": 12,
+                        "col": 5,
+                        "endLine": 12,
+                        "endCol": 118
+                      },
+                      {
+                        "t": "call",
+                        "call": {
+                          "k": "call",
+                          "name": "string",
+                          "args": [],
+                          "named": {
+                            "name": {
+                              "t": "str",
+                              "v": "olcs_auth_version",
+                              "line": 13,
+                              "col": 18,
+                              "endLine": 13,
+                              "endCol": 37
+                            },
+                            "defaultValue": {
+                              "t": "str",
+                              "v": "3.0.0",
+                              "line": 13,
+                              "col": 53,
+                              "endLine": 13,
+                              "endCol": 60
+                            },
+                            "description": {
+                              "t": "str",
+                              "v": "j2gha-local: openam package version",
+                              "line": 13,
+                              "col": 75,
+                              "endLine": 13,
+                              "endCol": 112
+                            }
+                          },
+                          "line": 13,
+                          "col": 5,
+                          "endLine": 14,
+                          "endCol": 1
+                        },
+                        "line": 13,
+                        "col": 5,
+                        "endLine": 14,
+                        "endCol": 1
+                      }
+                    ],
+                    "line": 9,
+                    "col": 24,
+                    "endLine": 14,
+                    "endCol": 2
+                  }
+                ],
+                "named": {},
+                "line": 9,
+                "col": 13,
+                "endLine": 14,
+                "endCol": 3
+              },
+              "line": 9,
+              "col": 13,
+              "endLine": 14,
+              "endCol": 3
+            }
+          ],
+          "line": 9,
+          "col": 12,
+          "endLine": 14,
+          "endCol": 4
+        }
+      ],
+      "named": {},
+      "line": 9,
+      "col": 1,
+      "endLine": 14,
+      "endCol": 136
+    },
+    {
+      "k": "call",
+      "name": "node",
+      "args": [
+        {
+          "t": "str",
+          "v": "master",
+          "line": 17,
+          "col": 6,
+          "endLine": 17,
+          "endCol": 14
+        }
+      ],
+      "named": {},
+      "line": 17,
+      "col": 1,
+      "endLine": 233,
+      "endCol": 2,
+      "body": [
+        {
+          "k": "decl",
+          "name": "VERSION",
+          "value": {
+            "t": "prop",
+            "text": "params.VERSION",
+            "calls": [],
+            "line": 19,
+            "col": 19,
+            "endLine": 19,
+            "endCol": 33
+          },
+          "annotations": [],
+          "line": 19,
+          "col": 5,
+          "endLine": 19,
+          "endCol": 33
+        },
+        {
+          "k": "decl",
+          "name": "GitRepo",
+          "value": {
+            "t": "gstr",
+            "v": "\"file://${env.WORKSPACE}/.gitlab/\"  // j2gha-local: the internal GitLab is unreachable; local repositories created in Get Repos stand in for it",
+            "vars": [
+              "{env.WORKSPACE}"
+            ],
+            "calls": [],
+            "line": 20,
+            "col": 19,
+            "endLine": 20,
+            "endCol": 162
+          },
+          "annotations": [],
+          "line": 20,
+          "col": 5,
+          "endLine": 20,
+          "endCol": 162
+        },
+        {
+          "k": "decl",
+          "name": "defaultS3Bucket",
+          "value": {
+            "t": "str",
+            "v": "devapp-olcs-pri-olcs-deploy-s3/",
+            "line": 21,
+            "col": 27,
+            "endLine": 21,
+            "endCol": 60
+          },
+          "annotations": [],
+          "line": 21,
+          "col": 5,
+          "endLine": 21,
+          "endCol": 60
+        },
+        {
+          "k": "decl",
+          "name": "templateS3Bucket",
+          "value": {
+            "t": "str",
+            "v": "devapp-shd-pri-file-deploy-s3/",
+            "line": 22,
+            "col": 28,
+            "endLine": 22,
+            "endCol": 60
+          },
+          "annotations": [],
+          "line": 22,
+          "col": 5,
+          "endLine": 22,
+          "endCol": 60
+        },
+        {
+          "k": "decl",
+          "name": "ldifLabel",
+          "value": {
+            "t": "str",
+            "v": "olcs-dir-ldif-version",
+            "line": 23,
+            "col": 21,
+            "endLine": 23,
+            "endCol": 44
+          },
+          "annotations": [],
+          "line": 23,
+          "col": 5,
+          "endLine": 23,
+          "endCol": 44
+        },
+        {
+          "k": "decl",
+          "name": "txcLabel",
+          "value": {
+            "t": "str",
+            "v": "olcs-transxchange-version",
+            "line": 24,
+            "col": 20,
+            "endLine": 24,
+            "endCol": 47
+          },
+          "annotations": [],
+          "line": 24,
+          "col": 5,
+          "endLine": 24,
+          "endCol": 47
+        },
+        {
+          "k": "decl",
+          "name": "txcFile",
+          "value": {
+            "t": "str",
+            "v": "txc",
+            "line": 25,
+            "col": 19,
+            "endLine": 25,
+            "endCol": 24
+          },
+          "annotations": [],
+          "line": 25,
+          "col": 5,
+          "endLine": 25,
+          "endCol": 24
+        },
+        {
+          "k": "decl",
+          "name": "authLabel",
+          "value": {
+            "t": "str",
+            "v": "olcs_auth_version",
+            "line": 26,
+            "col": 21,
+            "endLine": 26,
+            "endCol": 40
+          },
+          "annotations": [],
+          "line": 26,
+          "col": 5,
+          "endLine": 26,
+          "endCol": 40
+        },
+        {
+          "k": "decl",
+          "name": "authFile",
+          "value": {
+            "t": "str",
+            "v": "openam",
+            "line": 27,
+            "col": 20,
+            "endLine": 27,
+            "endCol": 28
+          },
+          "annotations": [],
+          "line": 27,
+          "col": 5,
+          "endLine": 27,
+          "endCol": 28
+        },
+        {
+          "k": "decl",
+          "name": "appVersionFile",
+          "value": {
+            "t": "str",
+            "v": "",
+            "line": 28,
+            "col": 26,
+            "endLine": 28,
+            "endCol": 28
+          },
+          "annotations": [],
+          "line": 28,
+          "col": 5,
+          "endLine": 28,
+          "endCol": 28
+        },
+        {
+          "k": "decl",
+          "name": "repos",
+          "value": {
+            "t": "list",
+            "v": [
+              {
+                "t": "list",
+                "v": [
+                  {
+                    "t": "str",
+                    "v": "olcs-ssweb-version",
+                    "line": 37,
+                    "col": 14,
+                    "endLine": 37,
+                    "endCol": 34
+                  },
+                  {
+                    "t": "str",
+                    "v": "olcs/olcs-selfserve",
+                    "line": 37,
+                    "col": 36,
+                    "endLine": 37,
+                    "endCol": 57
+                  },
+                  {
+                    "t": "concat",
+                    "parts": [
+                      {
+                        "t": "var",
+                        "name": "defaultS3Bucket",
+                        "line": 37,
+                        "col": 59,
+                        "endLine": 37,
+                        "endCol": 74
+                      },
+                      {
+                        "t": "str",
+                        "v": "selfserve/",
+                        "line": 37,
+                        "col": 77,
+                        "endLine": 37,
+                        "endCol": 89
+                      }
+                    ],
+                    "line": 37,
+                    "col": 59,
+                    "endLine": 37,
+                    "endCol": 89
+                  },
+                  {
+                    "t": "str",
+                    "v": "olcs-selfserve-",
+                    "line": 37,
+                    "col": 91,
+                    "endLine": 37,
+                    "endCol": 108
+                  },
+                  {
+                    "t": "str",
+                    "v": "Build_Selfserve",
+                    "line": 37,
+                    "col": 110,
+                    "endLine": 37,
+                    "endCol": 127
+                  }
+                ],
+                "line": 37,
+                "col": 13,
+                "endLine": 37,
+                "endCol": 128
+              },
+              {
+                "t": "list",
+                "v": [
+                  {
+                    "t": "str",
+                    "v": "olcs-static-version",
+                    "line": 38,
+                    "col": 14,
+                    "endLine": 38,
+                    "endCol": 35
+                  },
+                  {
+                    "t": "str",
+                    "v": "olcs/olcs-static",
+                    "line": 38,
+                    "col": 37,
+                    "endLine": 38,
+                    "endCol": 55
+                  },
+                  {
+                    "t": "concat",
+                    "parts": [
+                      {
+                        "t": "var",
+                        "name": "defaultS3Bucket",
+                        "line": 38,
+                        "col": 57,
+                        "endLine": 38,
+                        "endCol": 72
+                      },
+                      {
+                        "t": "str",
+                        "v": "staticcontent/",
+                        "line": 38,
+                        "col": 75,
+                        "endLine": 38,
+                        "endCol": 91
+                      }
+                    ],
+                    "line": 38,
+                    "col": 57,
+                    "endLine": 38,
+                    "endCol": 91
+                  },
+                  {
+                    "t": "str",
+                    "v": "olcs-static-",
+                    "line": 38,
+                    "col": 93,
+                    "endLine": 38,
+                    "endCol": 107
+                  },
+                  {
+                    "t": "str",
+                    "v": "Build_Static",
+                    "line": 38,
+                    "col": 109,
+                    "endLine": 38,
+                    "endCol": 123
+                  }
+                ],
+                "line": 38,
+                "col": 13,
+                "endLine": 38,
+                "endCol": 124
+              },
+              {
+                "t": "list",
+                "v": [
+                  {
+                    "t": "str",
+                    "v": "olcs-iuweb-version",
+                    "line": 39,
+                    "col": 14,
+                    "endLine": 39,
+                    "endCol": 34
+                  },
+                  {
+                    "t": "str",
+                    "v": "olcs/olcs-internal",
+                    "line": 39,
+                    "col": 36,
+                    "endLine": 39,
+                    "endCol": 56
+                  },
+                  {
+                    "t": "concat",
+                    "parts": [
+                      {
+                        "t": "var",
+                        "name": "defaultS3Bucket",
+                        "line": 39,
+                        "col": 58,
+                        "endLine": 39,
+                        "endCol": 73
+                      },
+                      {
+                        "t": "str",
+                        "v": "internal/",
+                        "line": 39,
+                        "col": 76,
+                        "endLine": 39,
+                        "endCol": 87
+                      }
+                    ],
+                    "line": 39,
+                    "col": 58,
+                    "endLine": 39,
+                    "endCol": 87
+                  },
+                  {
+                    "t": "str",
+                    "v": "olcs-internal-",
+                    "line": 39,
+                    "col": 89,
+                    "endLine": 39,
+                    "endCol": 105
+                  },
+                  {
+                    "t": "str",
+                    "v": "Build_Internal",
+                    "line": 39,
+                    "col": 107,
+                    "endLine": 39,
+                    "endCol": 123
+                  }
+                ],
+                "line": 39,
+                "col": 13,
+                "endLine": 39,
+                "endCol": 124
+              },
+              {
+                "t": "list",
+                "v": [
+                  {
+                    "t": "str",
+                    "v": "olcs-api-version",
+                    "line": 40,
+                    "col": 14,
+                    "endLine": 40,
+                    "endCol": 32
+                  },
+                  {
+                    "t": "str",
+                    "v": "olcs/olcs-backend",
+                    "line": 40,
+                    "col": 34,
+                    "endLine": 40,
+                    "endCol": 53
+                  },
+                  {
+                    "t": "concat",
+                    "parts": [
+                      {
+                        "t": "var",
+                        "name": "defaultS3Bucket",
+                        "line": 40,
+                        "col": 55,
+                        "endLine": 40,
+                        "endCol": 70
+                      },
+                      {
+                        "t": "str",
+                        "v": "api/",
+                        "line": 40,
+                        "col": 73,
+                        "endLine": 40,
+                        "endCol": 79
+                      }
+                    ],
+                    "line": 40,
+                    "col": 55,
+                    "endLine": 40,
+                    "endCol": 79
+                  },
+                  {
+                    "t": "str",
+                    "v": "olcs-backend-",
+                    "line": 40,
+                    "col": 81,
+                    "endLine": 40,
+                    "endCol": 96
+                  },
+                  {
+                    "t": "str",
+                    "v": "Build_Backend",
+                    "line": 40,
+                    "col": 98,
+                    "endLine": 40,
+                    "endCol": 113
+                  }
+                ],
+                "line": 40,
+                "col": 13,
+                "endLine": 40,
+                "endCol": 114
+              },
+              {
+                "t": "list",
+                "v": [
+                  {
+                    "t": "str",
+                    "v": "olcs-search-version",
+                    "line": 41,
+                    "col": 14,
+                    "endLine": 41,
+                    "endCol": 35
+                  },
+                  {
+                    "t": "str",
+                    "v": "olcs/olcs-elasticsearch",
+                    "line": 41,
+                    "col": 37,
+                    "endLine": 41,
+                    "endCol": 62
+                  },
+                  {
+                    "t": "concat",
+                    "parts": [
+                      {
+                        "t": "var",
+                        "name": "defaultS3Bucket",
+                        "line": 41,
+                        "col": 64,
+                        "endLine": 41,
+                        "endCol": 79
+                      },
+                      {
+                        "t": "str",
+                        "v": "search/elasticv5/",
+                        "line": 41,
+                        "col": 82,
+                        "endLine": 41,
+                        "endCol": 101
+                      }
+                    ],
+                    "line": 41,
+                    "col": 64,
+                    "endLine": 41,
+                    "endCol": 101
+                  },
+                  {
+                    "t": "str",
+                    "v": "olcs-elasticsearch-",
+                    "line": 41,
+                    "col": 103,
+                    "endLine": 41,
+                    "endCol": 124
+                  },
+                  {
+                    "t": "str",
+                    "v": "Build_Elastic",
+                    "line": 41,
+                    "col": 126,
+                    "endLine": 41,
+                    "endCol": 141
+                  }
+                ],
+                "line": 41,
+                "col": 13,
+                "endLine": 41,
+                "endCol": 142
+              },
+              {
+                "t": "list",
+                "v": [
+                  {
+                    "t": "str",
+                    "v": "olcs-address-base-version",
+                    "line": 42,
+                    "col": 14,
+                    "endLine": 42,
+                    "endCol": 41
+                  },
+                  {
+                    "t": "str",
+                    "v": "sc/address-base",
+                    "line": 42,
+                    "col": 43,
+                    "endLine": 42,
+                    "endCol": 60
+                  },
+                  {
+                    "t": "concat",
+                    "parts": [
+                      {
+                        "t": "var",
+                        "name": "defaultS3Bucket",
+                        "line": 42,
+                        "col": 62,
+                        "endLine": 42,
+                        "endCol": 77
+                      },
+                      {
+                        "t": "str",
+                        "v": "addressbase/",
+                        "line": 42,
+                        "col": 80,
+                        "endLine": 42,
+                        "endCol": 94
+                      }
+                    ],
+                    "line": 42,
+                    "col": 62,
+                    "endLine": 42,
+                    "endCol": 94
+                  },
+                  {
+                    "t": "str",
+                    "v": "address-scripts-",
+                    "line": 42,
+                    "col": 96,
+                    "endLine": 42,
+                    "endCol": 114
+                  },
+                  {
+                    "t": "str",
+                    "v": "Build_Address_Base",
+                    "line": 42,
+                    "col": 116,
+                    "endLine": 42,
+                    "endCol": 136
+                  }
+                ],
+                "line": 42,
+                "col": 13,
+                "endLine": 42,
+                "endCol": 137
+              },
+              {
+                "t": "list",
+                "v": [
+                  {
+                    "t": "str",
+                    "v": "olcs-address-service-version",
+                    "line": 43,
+                    "col": 14,
+                    "endLine": 43,
+                    "endCol": 44
+                  },
+                  {
+                    "t": "str",
+                    "v": "sc/address-service",
+                    "line": 43,
+                    "col": 46,
+                    "endLine": 43,
+                    "endCol": 66
+                  },
+                  {
+                    "t": "concat",
+                    "parts": [
+                      {
+                        "t": "var",
+                        "name": "defaultS3Bucket",
+                        "line": 43,
+                        "col": 68,
+                        "endLine": 43,
+                        "endCol": 83
+                      },
+                      {
+                        "t": "str",
+                        "v": "addressbase/",
+                        "line": 43,
+                        "col": 86,
+                        "endLine": 43,
+                        "endCol": 100
+                      }
+                    ],
+                    "line": 43,
+                    "col": 68,
+                    "endLine": 43,
+                    "endCol": 100
+                  },
+                  {
+                    "t": "str",
+                    "v": "address-service-",
+                    "line": 43,
+                    "col": 102,
+                    "endLine": 43,
+                    "endCol": 120
+                  },
+                  {
+                    "t": "str",
+                    "v": "Build_Address_Service",
+                    "line": 43,
+                    "col": 122,
+                    "endLine": 43,
+                    "endCol": 145
+                  }
+                ],
+                "line": 43,
+                "col": 13,
+                "endLine": 43,
+                "endCol": 146
+              },
+              {
+                "t": "list",
+                "v": [
+                  {
+                    "t": "str",
+                    "v": "olcs_dir_version",
+                    "line": 44,
+                    "col": 14,
+                    "endLine": 44,
+                    "endCol": 32
+                  },
+                  {
+                    "t": "str",
+                    "v": "olcs/olcs-oa",
+                    "line": 44,
+                    "col": 34,
+                    "endLine": 44,
+                    "endCol": 48
+                  },
+                  {
+                    "t": "concat",
+                    "parts": [
+                      {
+                        "t": "var",
+                        "name": "defaultS3Bucket",
+                        "line": 44,
+                        "col": 50,
+                        "endLine": 44,
+                        "endCol": 65
+                      },
+                      {
+                        "t": "str",
+                        "v": "opendj/",
+                        "line": 44,
+                        "col": 68,
+                        "endLine": 44,
+                        "endCol": 77
+                      }
+                    ],
+                    "line": 44,
+                    "col": 50,
+                    "endLine": 44,
+                    "endCol": 77
+                  },
+                  {
+                    "t": "str",
+                    "v": "opendj-",
+                    "line": 44,
+                    "col": 79,
+                    "endLine": 44,
+                    "endCol": 88
+                  },
+                  {
+                    "t": "str",
+                    "v": "Build_OpenDJ",
+                    "line": 44,
+                    "col": 90,
+                    "endLine": 44,
+                    "endCol": 104
+                  }
+                ],
+                "line": 44,
+                "col": 13,
+                "endLine": 44,
+                "endCol": 105
+              },
+              {
+                "t": "list",
+                "v": [
+                  {
+                    "t": "str",
+                    "v": "olcs_etl_version",
+                    "line": 45,
+                    "col": 14,
+                    "endLine": 45,
+                    "endCol": 32
+                  },
+                  {
+                    "t": "str",
+                    "v": "olcs/olcs-etl",
+                    "line": 45,
+                    "col": 34,
+                    "endLine": 45,
+                    "endCol": 49
+                  },
+                  {
+                    "t": "concat",
+                    "parts": [
+                      {
+                        "t": "var",
+                        "name": "defaultS3Bucket",
+                        "line": 45,
+                        "col": 51,
+                        "endLine": 45,
+                        "endCol": 66
+                      },
+                      {
+                        "t": "str",
+                        "v": "api/",
+                        "line": 45,
+                        "col": 69,
+                        "endLine": 45,
+                        "endCol": 75
+                      }
+                    ],
+                    "line": 45,
+                    "col": 51,
+                    "endLine": 45,
+                    "endCol": 75
+                  },
+                  {
+                    "t": "str",
+                    "v": "olcs-etl-",
+                    "line": 45,
+                    "col": 77,
+                    "endLine": 45,
+                    "endCol": 88
+                  },
+                  {
+                    "t": "str",
+                    "v": "Build_ETL",
+                    "line": 45,
+                    "col": 90,
+                    "endLine": 45,
+                    "endCol": 101
+                  }
+                ],
+                "line": 45,
+                "col": 13,
+                "endLine": 45,
+                "endCol": 102
+              },
+              {
+                "t": "list",
+                "v": [
+                  {
+                    "t": "str",
+                    "v": "olcs_templates_version",
+                    "line": 46,
+                    "col": 14,
+                    "endLine": 46,
+                    "endCol": 38
+                  },
+                  {
+                    "t": "str",
+                    "v": "olcs/olcs-templates",
+                    "line": 46,
+                    "col": 40,
+                    "endLine": 46,
+                    "endCol": 61
+                  },
+                  {
+                    "t": "var",
+                    "name": "templateS3Bucket",
+                    "line": 46,
+                    "col": 63,
+                    "endLine": 46,
+                    "endCol": 79
+                  },
+                  {
+                    "t": "str",
+                    "v": "olcs-templates-",
+                    "line": 46,
+                    "col": 81,
+                    "endLine": 46,
+                    "endCol": 98
+                  },
+                  {
+                    "t": "str",
+                    "v": "Build_Templates",
+                    "line": 46,
+                    "col": 100,
+                    "endLine": 46,
+                    "endCol": 117
+                  }
+                ],
+                "line": 46,
+                "col": 13,
+                "endLine": 47,
+                "endCol": 5
+              }
+            ],
+            "line": 36,
+            "col": 17,
+            "endLine": 47,
+            "endCol": 6
+          },
+          "annotations": [],
+          "line": 36,
+          "col": 5,
+          "endLine": 47,
+          "endCol": 6
+        },
+        {
+          "k": "assign",
+          "op": "=",
+          "target": "stageName",
+          "value": {
+            "t": "str",
+            "v": "App Branch Close and Tag (not currently integrated)",
+            "line": 49,
+            "col": 17,
+            "endLine": 49,
+            "endCol": 70
+          },
+          "line": 49,
+          "col": 5,
+          "endLine": 49,
+          "endCol": 70
+        },
+        {
+          "k": "call",
+          "name": "stage",
+          "args": [
+            {
+              "t": "var",
+              "name": "stageName",
+              "line": 50,
+              "col": 11,
+              "endLine": 50,
+              "endCol": 20
+            }
+          ],
+          "named": {},
+          "line": 50,
+          "col": 5,
+          "endLine": 56,
+          "endCol": 6,
+          "body": []
+        },
+        {
+          "k": "assign",
+          "op": "=",
+          "target": "stageName",
+          "value": {
+            "t": "str",
+            "v": "Get Repos",
+            "line": 58,
+            "col": 17,
+            "endLine": 58,
+            "endCol": 28
+          },
+          "line": 58,
+          "col": 5,
+          "endLine": 58,
+          "endCol": 28
+        },
+        {
+          "k": "call",
+          "name": "stage",
+          "args": [
+            {
+              "t": "var",
+              "name": "stageName",
+              "line": 59,
+              "col": 11,
+              "endLine": 59,
+              "endCol": 20
+            }
+          ],
+          "named": {},
+          "line": 59,
+          "col": 5,
+          "endLine": 79,
+          "endCol": 6,
+          "body": [
+            {
+              "k": "call",
+              "name": "deleteDir",
+              "args": [],
+              "named": {},
+              "line": 61,
+              "col": 9,
+              "endLine": 61,
+              "endCol": 20
+            },
+            {
+              "k": "for",
+              "variable": "forLoopDummyParameter",
+              "collection": "int i = 0; i < repos.size; i++",
+              "collectionCalls": [],
+              "body": [
+                {
+                  "k": "call",
+                  "name": "dir",
+                  "args": [
+                    {
+                      "t": "expr",
+                      "kind": "BinaryExpression",
+                      "text": "repos[i][0]",
+                      "calls": [],
+                      "line": 64,
+                      "col": 17,
+                      "endLine": 64,
+                      "endCol": 28
+                    }
+                  ],
+                  "named": {},
+                  "line": 64,
+                  "col": 13,
+                  "endLine": 76,
+                  "endCol": 14,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "sh",
+                      "args": [
+                        {
+                          "t": "gstr",
+                          "v": "\"git init -q -b master ${env.WORKSPACE}/.gitlab/${repos[i][1]}.git && cd ${env.WORKSPACE}/.gitlab/${repos[i][1]}.git && n=28 && for t in v1.0.0 v1.0.1; do n=\\$((n+1)) && GIT_AUTHOR_DATE=2018-03-\\${n}T12:00:00 GIT_COMMITTER_DATE=2018-03-\\${n}T12:00:00 git -c user.name=j2gha -c user.email=j2gha@localhost commit -q --allow-empty -m \\$t && git tag \\$t; done\"  // j2gha-local: stand-in for the GitLab repository: two tagged commits a day apart (rev-list orders by commit date), so the git describe commands below work unchanged",
+                          "vars": [
+                            "{env.WORKSPACE}",
+                            "repos[i][1]",
+                            "{env.WORKSPACE}",
+                            "repos[i][1]"
+                          ],
+                          "calls": [],
+                          "line": 65,
+                          "col": 20,
+                          "endLine": 65,
+                          "endCol": 544
+                        }
+                      ],
+                      "named": {},
+                      "line": 65,
+                      "col": 17,
+                      "endLine": 65,
+                      "endCol": 544
+                    },
+                    {
+                      "k": "call",
+                      "name": "checkout",
+                      "args": [],
+                      "named": {
+                        "$class": {
+                          "t": "str",
+                          "v": "GitSCM",
+                          "line": 66,
+                          "col": 62,
+                          "endLine": 66,
+                          "endCol": 70
+                        },
+                        "branches": {
+                          "t": "list",
+                          "v": [
+                            {
+                              "t": "map",
+                              "v": {
+                                "name": {
+                                  "t": "str",
+                                  "v": "refs/heads/master",
+                                  "line": 66,
+                                  "col": 90,
+                                  "endLine": 66,
+                                  "endCol": 109
+                                }
+                              },
+                              "line": 66,
+                              "col": 83,
+                              "endLine": 66,
+                              "endCol": 110
+                            }
+                          ],
+                          "line": 66,
+                          "col": 82,
+                          "endLine": 66,
+                          "endCol": 111
+                        },
+                        "doGenerateSubmoduleConfigurations": {
+                          "t": "bool",
+                          "v": false,
+                          "line": 67,
+                          "col": 62,
+                          "endLine": 67,
+                          "endCol": 67
+                        },
+                        "extensions": {
+                          "t": "list",
+                          "v": [],
+                          "line": 68,
+                          "col": 62,
+                          "endLine": 68,
+                          "endCol": 64
+                        },
+                        "submoduleCfg": {
+                          "t": "list",
+                          "v": [],
+                          "line": 69,
+                          "col": 62,
+                          "endLine": 69,
+                          "endCol": 64
+                        },
+                        "userRemoteConfigs": {
+                          "t": "list",
+                          "v": [
+                            {
+                              "t": "map",
+                              "v": {
+                                "credentialsId": {
+                                  "t": "str",
+                                  "v": "OLCS-Jenkins",
+                                  "line": 70,
+                                  "col": 79,
+                                  "endLine": 70,
+                                  "endCol": 93
+                                },
+                                "url": {
+                                  "t": "concat",
+                                  "parts": [
+                                    {
+                                      "t": "concat",
+                                      "parts": [
+                                        {
+                                          "t": "var",
+                                          "name": "GitRepo",
+                                          "line": 70,
+                                          "col": 100,
+                                          "endLine": 70,
+                                          "endCol": 107
+                                        },
+                                        {
+                                          "t": "expr",
+                                          "kind": "BinaryExpression",
+                                          "text": "repos[i][1]",
+                                          "calls": [],
+                                          "line": 70,
+                                          "col": 115,
+                                          "endLine": 70,
+                                          "endCol": 122
+                                        }
+                                      ],
+                                      "line": 70,
+                                      "col": 108,
+                                      "endLine": 70,
+                                      "endCol": 109
+                                    },
+                                    {
+                                      "t": "str",
+                                      "v": ".git",
+                                      "line": 70,
+                                      "col": 124,
+                                      "endLine": 70,
+                                      "endCol": 130
+                                    }
+                                  ],
+                                  "line": 70,
+                                  "col": 100,
+                                  "endLine": 70,
+                                  "endCol": 130
+                                }
+                              },
+                              "line": 70,
+                              "col": 63,
+                              "endLine": 70,
+                              "endCol": 131
+                            }
+                          ],
+                          "line": 70,
+                          "col": 62,
+                          "endLine": 71,
+                          "endCol": 17
+                        }
+                      },
+                      "line": 66,
+                      "col": 17,
+                      "endLine": 71,
+                      "endCol": 19
+                    },
+                    {
+                      "k": "call",
+                      "name": "sh",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "git describe --abbrev=0 --tags > result",
+                          "line": 73,
+                          "col": 20,
+                          "endLine": 73,
+                          "endCol": 61
+                        }
+                      ],
+                      "named": {},
+                      "line": 73,
+                      "col": 17,
+                      "endLine": 73,
+                      "endCol": 61
+                    },
+                    {
+                      "k": "decl",
+                      "name": "version",
+                      "value": {
+                        "t": "call",
+                        "call": {
+                          "k": "call",
+                          "name": "trim",
+                          "args": [],
+                          "named": {},
+                          "line": 74,
+                          "col": 31,
+                          "endLine": 74,
+                          "endCol": 56,
+                          "receiver": "readFile('result')",
+                          "receiverCalls": [
+                            {
+                              "k": "call",
+                              "name": "readFile",
+                              "args": [
+                                {
+                                  "t": "str",
+                                  "v": "result",
+                                  "line": 74,
+                                  "col": 40,
+                                  "endLine": 74,
+                                  "endCol": 48
+                                }
+                              ],
+                              "named": {},
+                              "line": 74,
+                              "col": 31,
+                              "endLine": 74,
+                              "endCol": 49
+                            }
+                          ]
+                        },
+                        "line": 74,
+                        "col": 31,
+                        "endLine": 74,
+                        "endCol": 56
+                      },
+                      "annotations": [],
+                      "line": 74,
+                      "col": 17,
+                      "endLine": 74,
+                      "endCol": 56
+                    },
+                    {
+                      "k": "assign",
+                      "op": "+=",
+                      "target": "repos[i]",
+                      "value": {
+                        "t": "var",
+                        "name": "version",
+                        "line": 75,
+                        "col": 29,
+                        "endLine": 75,
+                        "endCol": 36
+                      },
+                      "line": 75,
+                      "col": 17,
+                      "endLine": 75,
+                      "endCol": 65
+                    }
+                  ]
+                }
+              ],
+              "line": 63,
+              "col": 9,
+              "endLine": 78,
+              "endCol": 10
+            }
+          ]
+        },
+        {
+          "k": "assign",
+          "op": "=",
+          "target": "stageName",
+          "value": {
+            "t": "str",
+            "v": "Get App Release Tags",
+            "line": 81,
+            "col": 17,
+            "endLine": 81,
+            "endCol": 39
+          },
+          "line": 81,
+          "col": 5,
+          "endLine": 81,
+          "endCol": 39
+        },
+        {
+          "k": "call",
+          "name": "stage",
+          "args": [
+            {
+              "t": "var",
+              "name": "stageName",
+              "line": 82,
+              "col": 11,
+              "endLine": 82,
+              "endCol": 20
+            }
+          ],
+          "named": {},
+          "line": 82,
+          "col": 5,
+          "endLine": 114,
+          "endCol": 6,
+          "body": [
+            {
+              "k": "for",
+              "variable": "forLoopDummyParameter",
+              "collection": "int i = 0; i < repos.size; i++",
+              "collectionCalls": [],
+              "body": [
+                {
+                  "k": "if",
+                  "cond": "repos[i][0].contains('address')",
+                  "condCalls": [
+                    {
+                      "k": "call",
+                      "name": "contains",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "address",
+                          "line": 84,
+                          "col": 38,
+                          "endLine": 84,
+                          "endCol": 47
+                        }
+                      ],
+                      "named": {},
+                      "line": 84,
+                      "col": 17,
+                      "endLine": 84,
+                      "endCol": 48,
+                      "receiver": "repos[i][0]"
+                    }
+                  ],
+                  "then": [
+                    {
+                      "k": "if",
+                      "cond": "repos[i][5].equalsIgnoreCase(repos[i + 1][5])",
+                      "condCalls": [
+                        {
+                          "k": "call",
+                          "name": "equalsIgnoreCase",
+                          "args": [
+                            {
+                              "t": "expr",
+                              "kind": "BinaryExpression",
+                              "text": "repos[i + 1][5]",
+                              "calls": [],
+                              "line": 85,
+                              "col": 50,
+                              "endLine": 85,
+                              "endCol": 65
+                            }
+                          ],
+                          "named": {},
+                          "line": 85,
+                          "col": 21,
+                          "endLine": 85,
+                          "endCol": 66,
+                          "receiver": "repos[i][5]"
+                        }
+                      ],
+                      "then": [
+                        {
+                          "k": "assign",
+                          "op": "+=",
+                          "target": "appVersionFile",
+                          "value": {
+                            "t": "concat",
+                            "parts": [
+                              {
+                                "t": "concat",
+                                "parts": [
+                                  {
+                                    "t": "str",
+                                    "v": "olcs-address-version: '",
+                                    "line": 86,
+                                    "col": 39,
+                                    "endLine": 86,
+                                    "endCol": 64
+                                  },
+                                  {
+                                    "t": "expr",
+                                    "kind": "BinaryExpression",
+                                    "text": "repos[i][5]",
+                                    "calls": [],
+                                    "line": 86,
+                                    "col": 72,
+                                    "endLine": 86,
+                                    "endCol": 79
+                                  }
+                                ],
+                                "line": 86,
+                                "col": 65,
+                                "endLine": 86,
+                                "endCol": 66
+                              },
+                              {
+                                "t": "str",
+                                "v": "'\n",
+                                "line": 86,
+                                "col": 81,
+                                "endLine": 86,
+                                "endCol": 86
+                              }
+                            ],
+                            "line": 86,
+                            "col": 79,
+                            "endLine": 86,
+                            "endCol": 80
+                          },
+                          "line": 86,
+                          "col": 21,
+                          "endLine": 86,
+                          "endCol": 86
+                        },
+                        {
+                          "k": "assign",
+                          "op": "+=",
+                          "target": "i",
+                          "value": {
+                            "t": "num",
+                            "v": 1,
+                            "line": 87,
+                            "col": 26,
+                            "endLine": 87,
+                            "endCol": 27
+                          },
+                          "line": 87,
+                          "col": 21,
+                          "endLine": 87,
+                          "endCol": 68
+                        }
+                      ],
+                      "else": [
+                        {
+                          "k": "assign",
+                          "op": "+=",
+                          "target": "appVersionFile",
+                          "value": {
+                            "t": "concat",
+                            "parts": [
+                              {
+                                "t": "concat",
+                                "parts": [
+                                  {
+                                    "t": "str",
+                                    "v": "olcs-address-version: '",
+                                    "line": 89,
+                                    "col": 39,
+                                    "endLine": 89,
+                                    "endCol": 64
+                                  },
+                                  {
+                                    "t": "expr",
+                                    "kind": "BinaryExpression",
+                                    "text": "repos[i + 1][5]",
+                                    "calls": [],
+                                    "line": 89,
+                                    "col": 72,
+                                    "endLine": 89,
+                                    "endCol": 83
+                                  }
+                                ],
+                                "line": 89,
+                                "col": 65,
+                                "endLine": 89,
+                                "endCol": 66
+                              },
+                              {
+                                "t": "str",
+                                "v": "'\n",
+                                "line": 89,
+                                "col": 85,
+                                "endLine": 89,
+                                "endCol": 90
+                              }
+                            ],
+                            "line": 89,
+                            "col": 83,
+                            "endLine": 89,
+                            "endCol": 84
+                          },
+                          "line": 89,
+                          "col": 21,
+                          "endLine": 89,
+                          "endCol": 90
+                        },
+                        {
+                          "k": "assign",
+                          "op": "+=",
+                          "target": "i",
+                          "value": {
+                            "t": "num",
+                            "v": 1,
+                            "line": 90,
+                            "col": 26,
+                            "endLine": 90,
+                            "endCol": 27
+                          },
+                          "line": 90,
+                          "col": 21,
+                          "endLine": 90,
+                          "endCol": 27
+                        },
+                        {
+                          "k": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "t": "str",
+                              "v": "**** PROBLEM WITH ADDRESS TAGS****",
+                              "line": 91,
+                              "col": 27,
+                              "endLine": 91,
+                              "endCol": 63
+                            }
+                          ],
+                          "named": {},
+                          "line": 91,
+                          "col": 21,
+                          "endLine": 91,
+                          "endCol": 63
+                        }
+                      ],
+                      "line": 85,
+                      "col": 17,
+                      "endLine": 92,
+                      "endCol": 18
+                    }
+                  ],
+                  "else": [
+                    {
+                      "k": "assign",
+                      "op": "+=",
+                      "target": "appVersionFile",
+                      "value": {
+                        "t": "concat",
+                        "parts": [
+                          {
+                            "t": "concat",
+                            "parts": [
+                              {
+                                "t": "concat",
+                                "parts": [
+                                  {
+                                    "t": "expr",
+                                    "kind": "BinaryExpression",
+                                    "text": "repos[i][0]",
+                                    "calls": [],
+                                    "line": 95,
+                                    "col": 40,
+                                    "endLine": 95,
+                                    "endCol": 47
+                                  },
+                                  {
+                                    "t": "str",
+                                    "v": ": '",
+                                    "line": 95,
+                                    "col": 49,
+                                    "endLine": 95,
+                                    "endCol": 54
+                                  }
+                                ],
+                                "line": 95,
+                                "col": 47,
+                                "endLine": 95,
+                                "endCol": 48
+                              },
+                              {
+                                "t": "expr",
+                                "kind": "BinaryExpression",
+                                "text": "repos[i][5]",
+                                "calls": [],
+                                "line": 95,
+                                "col": 62,
+                                "endLine": 95,
+                                "endCol": 69
+                              }
+                            ],
+                            "line": 95,
+                            "col": 55,
+                            "endLine": 95,
+                            "endCol": 56
+                          },
+                          {
+                            "t": "str",
+                            "v": "'\n",
+                            "line": 95,
+                            "col": 71,
+                            "endLine": 95,
+                            "endCol": 76
+                          }
+                        ],
+                        "line": 95,
+                        "col": 69,
+                        "endLine": 95,
+                        "endCol": 70
+                      },
+                      "line": 95,
+                      "col": 17,
+                      "endLine": 95,
+                      "endCol": 76
+                    }
+                  ],
+                  "line": 84,
+                  "col": 13,
+                  "endLine": 96,
+                  "endCol": 14
+                }
+              ],
+              "line": 83,
+              "col": 9,
+              "endLine": 97,
+              "endCol": 10
+            },
+            {
+              "k": "call",
+              "name": "dir",
+              "args": [
+                {
+                  "t": "str",
+                  "v": "olcs-api-version",
+                  "line": 101,
+                  "col": 13,
+                  "endLine": 101,
+                  "endCol": 31
+                }
+              ],
+              "named": {},
+              "line": 101,
+              "col": 9,
+              "endLine": 105,
+              "endCol": 10,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "sh",
+                  "args": [
+                    {
+                      "t": "str",
+                      "v": "git describe --abbrev=0 --tags `git rev-list --tags --skip=1 --max-count=1` > result",
+                      "line": 102,
+                      "col": 16,
+                      "endLine": 102,
+                      "endCol": 102
+                    }
+                  ],
+                  "named": {},
+                  "line": 102,
+                  "col": 13,
+                  "endLine": 102,
+                  "endCol": 102
+                },
+                {
+                  "k": "decl",
+                  "name": "version",
+                  "value": {
+                    "t": "call",
+                    "call": {
+                      "k": "call",
+                      "name": "trim",
+                      "args": [],
+                      "named": {},
+                      "line": 103,
+                      "col": 27,
+                      "endLine": 103,
+                      "endCol": 52,
+                      "receiver": "readFile('result')",
+                      "receiverCalls": [
+                        {
+                          "k": "call",
+                          "name": "readFile",
+                          "args": [
+                            {
+                              "t": "str",
+                              "v": "result",
+                              "line": 103,
+                              "col": 36,
+                              "endLine": 103,
+                              "endCol": 44
+                            }
+                          ],
+                          "named": {},
+                          "line": 103,
+                          "col": 27,
+                          "endLine": 103,
+                          "endCol": 45
+                        }
+                      ]
+                    },
+                    "line": 103,
+                    "col": 27,
+                    "endLine": 103,
+                    "endCol": 52
+                  },
+                  "annotations": [],
+                  "line": 103,
+                  "col": 13,
+                  "endLine": 103,
+                  "endCol": 52
+                },
+                {
+                  "k": "assign",
+                  "op": "+=",
+                  "target": "appVersionFile",
+                  "value": {
+                    "t": "concat",
+                    "parts": [
+                      {
+                        "t": "concat",
+                        "parts": [
+                          {
+                            "t": "concat",
+                            "parts": [
+                              {
+                                "t": "var",
+                                "name": "ldifLabel",
+                                "line": 104,
+                                "col": 31,
+                                "endLine": 104,
+                                "endCol": 40
+                              },
+                              {
+                                "t": "str",
+                                "v": " : '",
+                                "line": 104,
+                                "col": 43,
+                                "endLine": 104,
+                                "endCol": 49
+                              }
+                            ],
+                            "line": 104,
+                            "col": 41,
+                            "endLine": 104,
+                            "endCol": 42
+                          },
+                          {
+                            "t": "var",
+                            "name": "version",
+                            "line": 104,
+                            "col": 52,
+                            "endLine": 104,
+                            "endCol": 59
+                          }
+                        ],
+                        "line": 104,
+                        "col": 50,
+                        "endLine": 104,
+                        "endCol": 51
+                      },
+                      {
+                        "t": "str",
+                        "v": "'\n",
+                        "line": 104,
+                        "col": 62,
+                        "endLine": 104,
+                        "endCol": 67
+                      }
+                    ],
+                    "line": 104,
+                    "col": 60,
+                    "endLine": 104,
+                    "endCol": 61
+                  },
+                  "line": 104,
+                  "col": 13,
+                  "endLine": 104,
+                  "endCol": 67
+                }
+              ]
+            },
+            {
+              "k": "assign",
+              "op": "+=",
+              "target": "appVersionFile",
+              "value": {
+                "t": "concat",
+                "parts": [
+                  {
+                    "t": "concat",
+                    "parts": [
+                      {
+                        "t": "concat",
+                        "parts": [
+                          {
+                            "t": "var",
+                            "name": "txcLabel",
+                            "line": 108,
+                            "col": 27,
+                            "endLine": 108,
+                            "endCol": 35
+                          },
+                          {
+                            "t": "str",
+                            "v": " : '",
+                            "line": 108,
+                            "col": 38,
+                            "endLine": 108,
+                            "endCol": 44
+                          }
+                        ],
+                        "line": 108,
+                        "col": 36,
+                        "endLine": 108,
+                        "endCol": 37
+                      },
+                      {
+                        "t": "prop",
+                        "text": "params.olcs_transxchange_version ",
+                        "calls": [],
+                        "line": 108,
+                        "col": 47,
+                        "endLine": 108,
+                        "endCol": 80
+                      }
+                    ],
+                    "line": 108,
+                    "col": 45,
+                    "endLine": 108,
+                    "endCol": 46
+                  },
+                  {
+                    "t": "str",
+                    "v": "'\n",
+                    "line": 108,
+                    "col": 82,
+                    "endLine": 108,
+                    "endCol": 87
+                  }
+                ],
+                "line": 108,
+                "col": 80,
+                "endLine": 108,
+                "endCol": 81
+              },
+              "line": 108,
+              "col": 9,
+              "endLine": 108,
+              "endCol": 87
+            },
+            {
+              "k": "assign",
+              "op": "+=",
+              "target": "appVersionFile",
+              "value": {
+                "t": "concat",
+                "parts": [
+                  {
+                    "t": "concat",
+                    "parts": [
+                      {
+                        "t": "concat",
+                        "parts": [
+                          {
+                            "t": "var",
+                            "name": "authLabel",
+                            "line": 111,
+                            "col": 27,
+                            "endLine": 111,
+                            "endCol": 36
+                          },
+                          {
+                            "t": "str",
+                            "v": " : '",
+                            "line": 111,
+                            "col": 39,
+                            "endLine": 111,
+                            "endCol": 45
+                          }
+                        ],
+                        "line": 111,
+                        "col": 37,
+                        "endLine": 111,
+                        "endCol": 38
+                      },
+                      {
+                        "t": "prop",
+                        "text": "params.olcs_auth_version ",
+                        "calls": [],
+                        "line": 111,
+                        "col": 48,
+                        "endLine": 111,
+                        "endCol": 73
+                      }
+                    ],
+                    "line": 111,
+                    "col": 46,
+                    "endLine": 111,
+                    "endCol": 47
+                  },
+                  {
+                    "t": "str",
+                    "v": "'\n",
+                    "line": 111,
+                    "col": 75,
+                    "endLine": 111,
+                    "endCol": 80
+                  }
+                ],
+                "line": 111,
+                "col": 73,
+                "endLine": 111,
+                "endCol": 74
+              },
+              "line": 111,
+              "col": 9,
+              "endLine": 111,
+              "endCol": 80
+            },
+            {
+              "k": "call",
+              "name": "print",
+              "args": [
+                {
+                  "t": "var",
+                  "name": "appVersionFile",
+                  "line": 113,
+                  "col": 15,
+                  "endLine": 113,
+                  "endCol": 29
+                }
+              ],
+              "named": {},
+              "line": 113,
+              "col": 9,
+              "endLine": 113,
+              "endCol": 29
+            }
+          ]
+        },
+        {
+          "k": "assign",
+          "op": "=",
+          "target": "stageName",
+          "value": {
+            "t": "str",
+            "v": "Check and Build Release Artefacts",
+            "line": 117,
+            "col": 17,
+            "endLine": 117,
+            "endCol": 52
+          },
+          "line": 117,
+          "col": 5,
+          "endLine": 117,
+          "endCol": 52
+        },
+        {
+          "k": "call",
+          "name": "stage",
+          "args": [
+            {
+              "t": "var",
+              "name": "stageName",
+              "line": 118,
+              "col": 11,
+              "endLine": 118,
+              "endCol": 20
+            }
+          ],
+          "named": {},
+          "line": 118,
+          "col": 5,
+          "endLine": 148,
+          "endCol": 2,
+          "body": [
+            {
+              "k": "decl",
+              "name": "message",
+              "value": {
+                "t": "str",
+                "v": "",
+                "line": 119,
+                "col": 23,
+                "endLine": 119,
+                "endCol": 25
+              },
+              "annotations": [],
+              "line": 119,
+              "col": 9,
+              "endLine": 119,
+              "endCol": 25
+            },
+            {
+              "k": "for",
+              "variable": "forLoopDummyParameter",
+              "collection": "int i = 0; i < repos.size; i++",
+              "collectionCalls": [],
+              "body": [
+                {
+                  "k": "decl",
+                  "name": "cmd",
+                  "value": {
+                    "t": "concat",
+                    "parts": [
+                      {
+                        "t": "concat",
+                        "parts": [
+                          {
+                            "t": "concat",
+                            "parts": [
+                              {
+                                "t": "str",
+                                "v": "echo \"2018-03-29 13:20      1024   s3://",
+                                "line": 123,
+                                "col": 19,
+                                "endLine": 123,
+                                "endCol": 61
+                              },
+                              {
+                                "t": "expr",
+                                "kind": "BinaryExpression",
+                                "text": "repos[i][2]",
+                                "calls": [],
+                                "line": 123,
+                                "col": 69,
+                                "endLine": 123,
+                                "endCol": 76
+                              }
+                            ],
+                            "line": 123,
+                            "col": 62,
+                            "endLine": 123,
+                            "endCol": 63
+                          },
+                          {
+                            "t": "expr",
+                            "kind": "BinaryExpression",
+                            "text": "repos[i][3]",
+                            "calls": [],
+                            "line": 123,
+                            "col": 83,
+                            "endLine": 123,
+                            "endCol": 90
+                          }
+                        ],
+                        "line": 123,
+                        "col": 76,
+                        "endLine": 123,
+                        "endCol": 77
+                      },
+                      {
+                        "t": "str",
+                        "v": "v1.0.0.tar.gz\" > result",
+                        "line": 123,
+                        "col": 92,
+                        "endLine": 123,
+                        "endCol": 117
+                      }
+                    ],
+                    "line": 123,
+                    "col": 90,
+                    "endLine": 123,
+                    "endCol": 91
+                  },
+                  "annotations": [],
+                  "line": 123,
+                  "col": 9,
+                  "endLine": 123,
+                  "endCol": 256
+                },
+                {
+                  "k": "call",
+                  "name": "sh",
+                  "args": [
+                    {
+                      "t": "gstr",
+                      "v": "\"${cmd}\"",
+                      "vars": [
+                        "{cmd}"
+                      ],
+                      "calls": [],
+                      "line": 124,
+                      "col": 12,
+                      "endLine": 124,
+                      "endCol": 20
+                    }
+                  ],
+                  "named": {},
+                  "line": 124,
+                  "col": 9,
+                  "endLine": 124,
+                  "endCol": 20
+                },
+                {
+                  "k": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "t": "call",
+                      "call": {
+                        "k": "call",
+                        "name": "trim",
+                        "args": [],
+                        "named": {},
+                        "line": 125,
+                        "col": 15,
+                        "endLine": 125,
+                        "endCol": 40,
+                        "receiver": "readFile('result')",
+                        "receiverCalls": [
+                          {
+                            "k": "call",
+                            "name": "readFile",
+                            "args": [
+                              {
+                                "t": "str",
+                                "v": "result",
+                                "line": 125,
+                                "col": 24,
+                                "endLine": 125,
+                                "endCol": 32
+                              }
+                            ],
+                            "named": {},
+                            "line": 125,
+                            "col": 15,
+                            "endLine": 125,
+                            "endCol": 33
+                          }
+                        ]
+                      },
+                      "line": 125,
+                      "col": 15,
+                      "endLine": 125,
+                      "endCol": 40
+                    }
+                  ],
+                  "named": {},
+                  "line": 125,
+                  "col": 9,
+                  "endLine": 125,
+                  "endCol": 40
+                },
+                {
+                  "k": "decl",
+                  "name": "cmd2",
+                  "value": {
+                    "t": "concat",
+                    "parts": [
+                      {
+                        "t": "concat",
+                        "parts": [
+                          {
+                            "t": "concat",
+                            "parts": [
+                              {
+                                "t": "str",
+                                "v": "grep ",
+                                "line": 126,
+                                "col": 20,
+                                "endLine": 126,
+                                "endCol": 27
+                              },
+                              {
+                                "t": "expr",
+                                "kind": "BinaryExpression",
+                                "text": "repos[i][3]",
+                                "calls": [],
+                                "line": 126,
+                                "col": 35,
+                                "endLine": 126,
+                                "endCol": 42
+                              }
+                            ],
+                            "line": 126,
+                            "col": 28,
+                            "endLine": 126,
+                            "endCol": 29
+                          },
+                          {
+                            "t": "expr",
+                            "kind": "BinaryExpression",
+                            "text": "repos[i][5]",
+                            "calls": [],
+                            "line": 126,
+                            "col": 49,
+                            "endLine": 126,
+                            "endCol": 56
+                          }
+                        ],
+                        "line": 126,
+                        "col": 42,
+                        "endLine": 126,
+                        "endCol": 43
+                      },
+                      {
+                        "t": "str",
+                        "v": ".tar.gz result > result2 || true",
+                        "line": 126,
+                        "col": 58,
+                        "endLine": 126,
+                        "endCol": 92
+                      }
+                    ],
+                    "line": 126,
+                    "col": 56,
+                    "endLine": 126,
+                    "endCol": 57
+                  },
+                  "annotations": [],
+                  "line": 126,
+                  "col": 9,
+                  "endLine": 126,
+                  "endCol": 92
+                },
+                {
+                  "k": "call",
+                  "name": "sh",
+                  "args": [
+                    {
+                      "t": "gstr",
+                      "v": "\"${cmd2}\"",
+                      "vars": [
+                        "{cmd2}"
+                      ],
+                      "calls": [],
+                      "line": 127,
+                      "col": 12,
+                      "endLine": 127,
+                      "endCol": 21
+                    }
+                  ],
+                  "named": {},
+                  "line": 127,
+                  "col": 9,
+                  "endLine": 127,
+                  "endCol": 21
+                },
+                {
+                  "k": "decl",
+                  "name": "file",
+                  "value": {
+                    "t": "call",
+                    "call": {
+                      "k": "call",
+                      "name": "trim",
+                      "args": [],
+                      "named": {},
+                      "line": 128,
+                      "col": 20,
+                      "endLine": 128,
+                      "endCol": 46,
+                      "receiver": "readFile('result2')",
+                      "receiverCalls": [
+                        {
+                          "k": "call",
+                          "name": "readFile",
+                          "args": [
+                            {
+                              "t": "str",
+                              "v": "result2",
+                              "line": 128,
+                              "col": 29,
+                              "endLine": 128,
+                              "endCol": 38
+                            }
+                          ],
+                          "named": {},
+                          "line": 128,
+                          "col": 20,
+                          "endLine": 128,
+                          "endCol": 39
+                        }
+                      ]
+                    },
+                    "line": 128,
+                    "col": 20,
+                    "endLine": 128,
+                    "endCol": 46
+                  },
+                  "annotations": [],
+                  "line": 128,
+                  "col": 9,
+                  "endLine": 128,
+                  "endCol": 46
+                },
+                {
+                  "k": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "t": "concat",
+                      "parts": [
+                        {
+                          "t": "str",
+                          "v": "File: ",
+                          "line": 129,
+                          "col": 15,
+                          "endLine": 129,
+                          "endCol": 23
+                        },
+                        {
+                          "t": "var",
+                          "name": "file",
+                          "line": 129,
+                          "col": 26,
+                          "endLine": 129,
+                          "endCol": 30
+                        }
+                      ],
+                      "line": 129,
+                      "col": 24,
+                      "endLine": 129,
+                      "endCol": 25
+                    }
+                  ],
+                  "named": {},
+                  "line": 129,
+                  "col": 9,
+                  "endLine": 129,
+                  "endCol": 30
+                },
+                {
+                  "k": "if",
+                  "cond": "file.contains(repos[i][3] + repos[i][5])",
+                  "condCalls": [
+                    {
+                      "k": "call",
+                      "name": "contains",
+                      "args": [
+                        {
+                          "t": "concat",
+                          "parts": [
+                            {
+                              "t": "expr",
+                              "kind": "BinaryExpression",
+                              "text": "repos[i][3]",
+                              "calls": [],
+                              "line": 130,
+                              "col": 32,
+                              "endLine": 130,
+                              "endCol": 39
+                            },
+                            {
+                              "t": "expr",
+                              "kind": "BinaryExpression",
+                              "text": "repos[i][5]",
+                              "calls": [],
+                              "line": 130,
+                              "col": 46,
+                              "endLine": 130,
+                              "endCol": 52
+                            }
+                          ],
+                          "line": 130,
+                          "col": 27,
+                          "endLine": 130,
+                          "endCol": 52
+                        }
+                      ],
+                      "named": {},
+                      "line": 130,
+                      "col": 13,
+                      "endLine": 130,
+                      "endCol": 53,
+                      "receiver": "file"
+                    }
+                  ],
+                  "then": [
+                    {
+                      "k": "assign",
+                      "op": "+=",
+                      "target": "message",
+                      "value": {
+                        "t": "concat",
+                        "parts": [
+                          {
+                            "t": "concat",
+                            "parts": [
+                              {
+                                "t": "concat",
+                                "parts": [
+                                  {
+                                    "t": "str",
+                                    "v": "Exists: ",
+                                    "line": 131,
+                                    "col": 24,
+                                    "endLine": 131,
+                                    "endCol": 34
+                                  },
+                                  {
+                                    "t": "expr",
+                                    "kind": "BinaryExpression",
+                                    "text": "repos[i][3]",
+                                    "calls": [],
+                                    "line": 131,
+                                    "col": 42,
+                                    "endLine": 131,
+                                    "endCol": 49
+                                  }
+                                ],
+                                "line": 131,
+                                "col": 35,
+                                "endLine": 131,
+                                "endCol": 36
+                              },
+                              {
+                                "t": "expr",
+                                "kind": "BinaryExpression",
+                                "text": "repos[i][5]",
+                                "calls": [],
+                                "line": 131,
+                                "col": 56,
+                                "endLine": 131,
+                                "endCol": 63
+                              }
+                            ],
+                            "line": 131,
+                            "col": 49,
+                            "endLine": 131,
+                            "endCol": 50
+                          },
+                          {
+                            "t": "str",
+                            "v": "\n",
+                            "line": 131,
+                            "col": 65,
+                            "endLine": 131,
+                            "endCol": 69
+                          }
+                        ],
+                        "line": 131,
+                        "col": 63,
+                        "endLine": 131,
+                        "endCol": 64
+                      },
+                      "line": 131,
+                      "col": 13,
+                      "endLine": 131,
+                      "endCol": 69
+                    }
+                  ],
+                  "else": [
+                    {
+                      "k": "if",
+                      "cond": "params.DRYRUN",
+                      "condCalls": [],
+                      "then": [
+                        {
+                          "k": "assign",
+                          "op": "+=",
+                          "target": "message",
+                          "value": {
+                            "t": "concat",
+                            "parts": [
+                              {
+                                "t": "concat",
+                                "parts": [
+                                  {
+                                    "t": "concat",
+                                    "parts": [
+                                      {
+                                        "t": "str",
+                                        "v": "MISSING: ",
+                                        "line": 134,
+                                        "col": 28,
+                                        "endLine": 134,
+                                        "endCol": 39
+                                      },
+                                      {
+                                        "t": "expr",
+                                        "kind": "BinaryExpression",
+                                        "text": "repos[i][3]",
+                                        "calls": [],
+                                        "line": 134,
+                                        "col": 47,
+                                        "endLine": 134,
+                                        "endCol": 54
+                                      }
+                                    ],
+                                    "line": 134,
+                                    "col": 40,
+                                    "endLine": 134,
+                                    "endCol": 41
+                                  },
+                                  {
+                                    "t": "expr",
+                                    "kind": "BinaryExpression",
+                                    "text": "repos[i][5]",
+                                    "calls": [],
+                                    "line": 134,
+                                    "col": 61,
+                                    "endLine": 134,
+                                    "endCol": 68
+                                  }
+                                ],
+                                "line": 134,
+                                "col": 54,
+                                "endLine": 134,
+                                "endCol": 55
+                              },
+                              {
+                                "t": "str",
+                                "v": "\n",
+                                "line": 134,
+                                "col": 70,
+                                "endLine": 134,
+                                "endCol": 74
+                              }
+                            ],
+                            "line": 134,
+                            "col": 68,
+                            "endLine": 134,
+                            "endCol": 69
+                          },
+                          "line": 134,
+                          "col": 17,
+                          "endLine": 134,
+                          "endCol": 74
+                        }
+                      ],
+                      "else": [
+                        {
+                          "k": "assign",
+                          "op": "+=",
+                          "target": "message",
+                          "value": {
+                            "t": "concat",
+                            "parts": [
+                              {
+                                "t": "concat",
+                                "parts": [
+                                  {
+                                    "t": "concat",
+                                    "parts": [
+                                      {
+                                        "t": "str",
+                                        "v": "Creating: ",
+                                        "line": 136,
+                                        "col": 28,
+                                        "endLine": 136,
+                                        "endCol": 40
+                                      },
+                                      {
+                                        "t": "expr",
+                                        "kind": "BinaryExpression",
+                                        "text": "repos[i][3]",
+                                        "calls": [],
+                                        "line": 136,
+                                        "col": 48,
+                                        "endLine": 136,
+                                        "endCol": 55
+                                      }
+                                    ],
+                                    "line": 136,
+                                    "col": 41,
+                                    "endLine": 136,
+                                    "endCol": 42
+                                  },
+                                  {
+                                    "t": "expr",
+                                    "kind": "BinaryExpression",
+                                    "text": "repos[i][5]",
+                                    "calls": [],
+                                    "line": 136,
+                                    "col": 62,
+                                    "endLine": 136,
+                                    "endCol": 69
+                                  }
+                                ],
+                                "line": 136,
+                                "col": 55,
+                                "endLine": 136,
+                                "endCol": 56
+                              },
+                              {
+                                "t": "str",
+                                "v": "\n",
+                                "line": 136,
+                                "col": 71,
+                                "endLine": 136,
+                                "endCol": 75
+                              }
+                            ],
+                            "line": 136,
+                            "col": 69,
+                            "endLine": 136,
+                            "endCol": 70
+                          },
+                          "line": 136,
+                          "col": 17,
+                          "endLine": 136,
+                          "endCol": 75
+                        },
+                        {
+                          "k": "call",
+                          "name": "build",
+                          "args": [],
+                          "named": {
+                            "job": {
+                              "t": "expr",
+                              "kind": "BinaryExpression",
+                              "text": "repos[i][4]",
+                              "calls": [],
+                              "line": 138,
+                              "col": 33,
+                              "endLine": 138,
+                              "endCol": 39
+                            },
+                            "parameters": {
+                              "t": "list",
+                              "v": [
+                                {
+                                  "t": "map",
+                                  "v": {
+                                    "$class": {
+                                      "t": "str",
+                                      "v": "StringParameterValue",
+                                      "line": 139,
+                                      "col": 30,
+                                      "endLine": 139,
+                                      "endCol": 52
+                                    },
+                                    "name": {
+                                      "t": "str",
+                                      "v": "TAG",
+                                      "line": 139,
+                                      "col": 60,
+                                      "endLine": 139,
+                                      "endCol": 65
+                                    },
+                                    "value": {
+                                      "t": "expr",
+                                      "kind": "BinaryExpression",
+                                      "text": "repos[i][5]",
+                                      "calls": [],
+                                      "line": 139,
+                                      "col": 74,
+                                      "endLine": 139,
+                                      "endCol": 85
+                                    }
+                                  },
+                                  "line": 139,
+                                  "col": 21,
+                                  "endLine": 139,
+                                  "endCol": 86
+                                },
+                                {
+                                  "t": "map",
+                                  "v": {
+                                    "$class": {
+                                      "t": "str",
+                                      "v": "StringParameterValue",
+                                      "line": 140,
+                                      "col": 30,
+                                      "endLine": 140,
+                                      "endCol": 52
+                                    },
+                                    "name": {
+                                      "t": "str",
+                                      "v": "TAR_SUFFIX",
+                                      "line": 140,
+                                      "col": 60,
+                                      "endLine": 140,
+                                      "endCol": 72
+                                    },
+                                    "value": {
+                                      "t": "expr",
+                                      "kind": "BinaryExpression",
+                                      "text": "repos[i][5]",
+                                      "calls": [],
+                                      "line": 140,
+                                      "col": 81,
+                                      "endLine": 140,
+                                      "endCol": 92
+                                    }
+                                  },
+                                  "line": 140,
+                                  "col": 21,
+                                  "endLine": 140,
+                                  "endCol": 93
+                                }
+                              ],
+                              "line": 138,
+                              "col": 53,
+                              "endLine": 140,
+                              "endCol": 94
+                            }
+                          },
+                          "line": 138,
+                          "col": 17,
+                          "endLine": 140,
+                          "endCol": 94
+                        },
+                        {
+                          "k": "call",
+                          "name": "print",
+                          "args": [
+                            {
+                              "t": "gstr",
+                              "v": "\"Built ${repos[i][3]} ${repos[i][4]} with ${repos[i][5]} \\n\"",
+                              "vars": [
+                                "repos[i][3]",
+                                "repos[i][4]",
+                                "repos[i][5]"
+                              ],
+                              "calls": [],
+                              "line": 141,
+                              "col": 23,
+                              "endLine": 141,
+                              "endCol": 83
+                            }
+                          ],
+                          "named": {},
+                          "line": 141,
+                          "col": 17,
+                          "endLine": 141,
+                          "endCol": 83
+                        }
+                      ],
+                      "line": 133,
+                      "col": 13,
+                      "endLine": 143,
+                      "endCol": 14
+                    }
+                  ],
+                  "line": 130,
+                  "col": 9,
+                  "endLine": 144,
+                  "endCol": 10
+                },
+                {
+                  "k": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "t": "concat",
+                      "parts": [
+                        {
+                          "t": "str",
+                          "v": "Completed ",
+                          "line": 145,
+                          "col": 15,
+                          "endLine": 145,
+                          "endCol": 27
+                        },
+                        {
+                          "t": "expr",
+                          "kind": "BinaryExpression",
+                          "text": "repos[i][0]",
+                          "calls": [],
+                          "line": 145,
+                          "col": 35,
+                          "endLine": 145,
+                          "endCol": 41
+                        }
+                      ],
+                      "line": 145,
+                      "col": 28,
+                      "endLine": 145,
+                      "endCol": 29
+                    }
+                  ],
+                  "named": {},
+                  "line": 145,
+                  "col": 9,
+                  "endLine": 145,
+                  "endCol": 41
+                }
+              ],
+              "line": 120,
+              "col": 5,
+              "endLine": 146,
+              "endCol": 6
+            },
+            {
+              "k": "call",
+              "name": "print",
+              "args": [
+                {
+                  "t": "var",
+                  "name": "message",
+                  "line": 147,
+                  "col": 11,
+                  "endLine": 147,
+                  "endCol": 18
+                }
+              ],
+              "named": {},
+              "line": 147,
+              "col": 5,
+              "endLine": 147,
+              "endCol": 18
+            }
+          ]
+        },
+        {
+          "k": "assign",
+          "op": "=",
+          "target": "stageName",
+          "value": {
+            "t": "str",
+            "v": "Check Artefacts from Input Params",
+            "line": 150,
+            "col": 17,
+            "endLine": 150,
+            "endCol": 52
+          },
+          "line": 150,
+          "col": 5,
+          "endLine": 150,
+          "endCol": 52
+        },
+        {
+          "k": "call",
+          "name": "stage",
+          "args": [
+            {
+              "t": "var",
+              "name": "stageName",
+              "line": 151,
+              "col": 11,
+              "endLine": 151,
+              "endCol": 20
+            }
+          ],
+          "named": {},
+          "line": 151,
+          "col": 5,
+          "endLine": 193,
+          "endCol": 6,
+          "body": [
+            {
+              "k": "decl",
+              "name": "message",
+              "value": {
+                "t": "str",
+                "v": "",
+                "line": 152,
+                "col": 23,
+                "endLine": 152,
+                "endCol": 25
+              },
+              "annotations": [],
+              "line": 152,
+              "col": 9,
+              "endLine": 152,
+              "endCol": 25
+            },
+            {
+              "k": "decl",
+              "name": "cmd",
+              "value": {
+                "t": "concat",
+                "parts": [
+                  {
+                    "t": "concat",
+                    "parts": [
+                      {
+                        "t": "concat",
+                        "parts": [
+                          {
+                            "t": "concat",
+                            "parts": [
+                              {
+                                "t": "concat",
+                                "parts": [
+                                  {
+                                    "t": "concat",
+                                    "parts": [
+                                      {
+                                        "t": "str",
+                                        "v": "echo \"2018-03-29 13:20      1024   s3://",
+                                        "line": 155,
+                                        "col": 19,
+                                        "endLine": 155,
+                                        "endCol": 61
+                                      },
+                                      {
+                                        "t": "var",
+                                        "name": "defaultS3Bucket",
+                                        "line": 155,
+                                        "col": 64,
+                                        "endLine": 155,
+                                        "endCol": 79
+                                      }
+                                    ],
+                                    "line": 155,
+                                    "col": 62,
+                                    "endLine": 155,
+                                    "endCol": 63
+                                  },
+                                  {
+                                    "t": "str",
+                                    "v": "openam/",
+                                    "line": 155,
+                                    "col": 82,
+                                    "endLine": 155,
+                                    "endCol": 91
+                                  }
+                                ],
+                                "line": 155,
+                                "col": 80,
+                                "endLine": 155,
+                                "endCol": 81
+                              },
+                              {
+                                "t": "var",
+                                "name": "authFile",
+                                "line": 155,
+                                "col": 94,
+                                "endLine": 155,
+                                "endCol": 102
+                              }
+                            ],
+                            "line": 155,
+                            "col": 92,
+                            "endLine": 155,
+                            "endCol": 93
+                          },
+                          {
+                            "t": "str",
+                            "v": "-",
+                            "line": 155,
+                            "col": 105,
+                            "endLine": 155,
+                            "endCol": 108
+                          }
+                        ],
+                        "line": 155,
+                        "col": 103,
+                        "endLine": 155,
+                        "endCol": 104
+                      },
+                      {
+                        "t": "prop",
+                        "text": "params.olcs_auth_version ",
+                        "calls": [],
+                        "line": 155,
+                        "col": 111,
+                        "endLine": 155,
+                        "endCol": 136
+                      }
+                    ],
+                    "line": 155,
+                    "col": 109,
+                    "endLine": 155,
+                    "endCol": 110
+                  },
+                  {
+                    "t": "str",
+                    "v": ".tar.gz\" > result",
+                    "line": 155,
+                    "col": 138,
+                    "endLine": 155,
+                    "endCol": 157
+                  }
+                ],
+                "line": 155,
+                "col": 136,
+                "endLine": 155,
+                "endCol": 137
+              },
+              "annotations": [],
+              "line": 155,
+              "col": 9,
+              "endLine": 155,
+              "endCol": 253
+            },
+            {
+              "k": "call",
+              "name": "sh",
+              "args": [
+                {
+                  "t": "gstr",
+                  "v": "\"${cmd}\"",
+                  "vars": [
+                    "{cmd}"
+                  ],
+                  "calls": [],
+                  "line": 156,
+                  "col": 12,
+                  "endLine": 156,
+                  "endCol": 20
+                }
+              ],
+              "named": {},
+              "line": 156,
+              "col": 9,
+              "endLine": 156,
+              "endCol": 20
+            },
+            {
+              "k": "call",
+              "name": "print",
+              "args": [
+                {
+                  "t": "call",
+                  "call": {
+                    "k": "call",
+                    "name": "trim",
+                    "args": [],
+                    "named": {},
+                    "line": 157,
+                    "col": 15,
+                    "endLine": 157,
+                    "endCol": 40,
+                    "receiver": "readFile('result')",
+                    "receiverCalls": [
+                      {
+                        "k": "call",
+                        "name": "readFile",
+                        "args": [
+                          {
+                            "t": "str",
+                            "v": "result",
+                            "line": 157,
+                            "col": 24,
+                            "endLine": 157,
+                            "endCol": 32
+                          }
+                        ],
+                        "named": {},
+                        "line": 157,
+                        "col": 15,
+                        "endLine": 157,
+                        "endCol": 33
+                      }
+                    ]
+                  },
+                  "line": 157,
+                  "col": 15,
+                  "endLine": 157,
+                  "endCol": 40
+                }
+              ],
+              "named": {},
+              "line": 157,
+              "col": 9,
+              "endLine": 157,
+              "endCol": 40
+            },
+            {
+              "k": "decl",
+              "name": "cmd2",
+              "value": {
+                "t": "concat",
+                "parts": [
+                  {
+                    "t": "concat",
+                    "parts": [
+                      {
+                        "t": "concat",
+                        "parts": [
+                          {
+                            "t": "concat",
+                            "parts": [
+                              {
+                                "t": "str",
+                                "v": "grep ",
+                                "line": 158,
+                                "col": 20,
+                                "endLine": 158,
+                                "endCol": 27
+                              },
+                              {
+                                "t": "var",
+                                "name": "authFile",
+                                "line": 158,
+                                "col": 30,
+                                "endLine": 158,
+                                "endCol": 38
+                              }
+                            ],
+                            "line": 158,
+                            "col": 28,
+                            "endLine": 158,
+                            "endCol": 29
+                          },
+                          {
+                            "t": "str",
+                            "v": "-",
+                            "line": 158,
+                            "col": 41,
+                            "endLine": 158,
+                            "endCol": 44
+                          }
+                        ],
+                        "line": 158,
+                        "col": 39,
+                        "endLine": 158,
+                        "endCol": 40
+                      },
+                      {
+                        "t": "prop",
+                        "text": "params.olcs_auth_version ",
+                        "calls": [],
+                        "line": 158,
+                        "col": 47,
+                        "endLine": 158,
+                        "endCol": 72
+                      }
+                    ],
+                    "line": 158,
+                    "col": 45,
+                    "endLine": 158,
+                    "endCol": 46
+                  },
+                  {
+                    "t": "str",
+                    "v": ".tar.gz result > result2 || true",
+                    "line": 158,
+                    "col": 74,
+                    "endLine": 158,
+                    "endCol": 108
+                  }
+                ],
+                "line": 158,
+                "col": 72,
+                "endLine": 158,
+                "endCol": 73
+              },
+              "annotations": [],
+              "line": 158,
+              "col": 9,
+              "endLine": 158,
+              "endCol": 108
+            },
+            {
+              "k": "call",
+              "name": "sh",
+              "args": [
+                {
+                  "t": "gstr",
+                  "v": "\"${cmd2}\"",
+                  "vars": [
+                    "{cmd2}"
+                  ],
+                  "calls": [],
+                  "line": 159,
+                  "col": 12,
+                  "endLine": 159,
+                  "endCol": 21
+                }
+              ],
+              "named": {},
+              "line": 159,
+              "col": 9,
+              "endLine": 159,
+              "endCol": 21
+            },
+            {
+              "k": "decl",
+              "name": "file",
+              "value": {
+                "t": "call",
+                "call": {
+                  "k": "call",
+                  "name": "trim",
+                  "args": [],
+                  "named": {},
+                  "line": 160,
+                  "col": 20,
+                  "endLine": 160,
+                  "endCol": 46,
+                  "receiver": "readFile('result2')",
+                  "receiverCalls": [
+                    {
+                      "k": "call",
+                      "name": "readFile",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "result2",
+                          "line": 160,
+                          "col": 29,
+                          "endLine": 160,
+                          "endCol": 38
+                        }
+                      ],
+                      "named": {},
+                      "line": 160,
+                      "col": 20,
+                      "endLine": 160,
+                      "endCol": 39
+                    }
+                  ]
+                },
+                "line": 160,
+                "col": 20,
+                "endLine": 160,
+                "endCol": 46
+              },
+              "annotations": [],
+              "line": 160,
+              "col": 9,
+              "endLine": 160,
+              "endCol": 46
+            },
+            {
+              "k": "call",
+              "name": "print",
+              "args": [
+                {
+                  "t": "concat",
+                  "parts": [
+                    {
+                      "t": "str",
+                      "v": "File: ",
+                      "line": 161,
+                      "col": 15,
+                      "endLine": 161,
+                      "endCol": 23
+                    },
+                    {
+                      "t": "var",
+                      "name": "file",
+                      "line": 161,
+                      "col": 26,
+                      "endLine": 161,
+                      "endCol": 30
+                    }
+                  ],
+                  "line": 161,
+                  "col": 24,
+                  "endLine": 161,
+                  "endCol": 25
+                }
+              ],
+              "named": {},
+              "line": 161,
+              "col": 9,
+              "endLine": 161,
+              "endCol": 30
+            },
+            {
+              "k": "if",
+              "cond": "file.contains(authFile + '-' + params.olcs_auth_version)",
+              "condCalls": [
+                {
+                  "k": "call",
+                  "name": "contains",
+                  "args": [
+                    {
+                      "t": "concat",
+                      "parts": [
+                        {
+                          "t": "concat",
+                          "parts": [
+                            {
+                              "t": "var",
+                              "name": "authFile",
+                              "line": 162,
+                              "col": 27,
+                              "endLine": 162,
+                              "endCol": 35
+                            },
+                            {
+                              "t": "str",
+                              "v": "-",
+                              "line": 162,
+                              "col": 38,
+                              "endLine": 162,
+                              "endCol": 41
+                            }
+                          ],
+                          "line": 162,
+                          "col": 36,
+                          "endLine": 162,
+                          "endCol": 37
+                        },
+                        {
+                          "t": "prop",
+                          "text": "params.olcs_auth_version",
+                          "calls": [],
+                          "line": 162,
+                          "col": 44,
+                          "endLine": 162,
+                          "endCol": 68
+                        }
+                      ],
+                      "line": 162,
+                      "col": 27,
+                      "endLine": 162,
+                      "endCol": 68
+                    }
+                  ],
+                  "named": {},
+                  "line": 162,
+                  "col": 13,
+                  "endLine": 162,
+                  "endCol": 69,
+                  "receiver": "file"
+                }
+              ],
+              "then": [
+                {
+                  "k": "assign",
+                  "op": "+=",
+                  "target": "message",
+                  "value": {
+                    "t": "concat",
+                    "parts": [
+                      {
+                        "t": "concat",
+                        "parts": [
+                          {
+                            "t": "concat",
+                            "parts": [
+                              {
+                                "t": "concat",
+                                "parts": [
+                                  {
+                                    "t": "str",
+                                    "v": "Exists: ",
+                                    "line": 163,
+                                    "col": 24,
+                                    "endLine": 163,
+                                    "endCol": 34
+                                  },
+                                  {
+                                    "t": "var",
+                                    "name": "authFile",
+                                    "line": 163,
+                                    "col": 37,
+                                    "endLine": 163,
+                                    "endCol": 45
+                                  }
+                                ],
+                                "line": 163,
+                                "col": 35,
+                                "endLine": 163,
+                                "endCol": 36
+                              },
+                              {
+                                "t": "str",
+                                "v": "-",
+                                "line": 163,
+                                "col": 48,
+                                "endLine": 163,
+                                "endCol": 51
+                              }
+                            ],
+                            "line": 163,
+                            "col": 46,
+                            "endLine": 163,
+                            "endCol": 47
+                          },
+                          {
+                            "t": "prop",
+                            "text": "params.olcs_auth_version ",
+                            "calls": [],
+                            "line": 163,
+                            "col": 54,
+                            "endLine": 163,
+                            "endCol": 79
+                          }
+                        ],
+                        "line": 163,
+                        "col": 52,
+                        "endLine": 163,
+                        "endCol": 53
+                      },
+                      {
+                        "t": "str",
+                        "v": "\n",
+                        "line": 163,
+                        "col": 81,
+                        "endLine": 163,
+                        "endCol": 85
+                      }
+                    ],
+                    "line": 163,
+                    "col": 79,
+                    "endLine": 163,
+                    "endCol": 80
+                  },
+                  "line": 163,
+                  "col": 13,
+                  "endLine": 163,
+                  "endCol": 85
+                }
+              ],
+              "else": [
+                {
+                  "k": "if",
+                  "cond": "params.DRYRUN",
+                  "condCalls": [],
+                  "then": [
+                    {
+                      "k": "assign",
+                      "op": "+=",
+                      "target": "message",
+                      "value": {
+                        "t": "concat",
+                        "parts": [
+                          {
+                            "t": "concat",
+                            "parts": [
+                              {
+                                "t": "concat",
+                                "parts": [
+                                  {
+                                    "t": "concat",
+                                    "parts": [
+                                      {
+                                        "t": "str",
+                                        "v": "MISSING: ",
+                                        "line": 166,
+                                        "col": 28,
+                                        "endLine": 166,
+                                        "endCol": 39
+                                      },
+                                      {
+                                        "t": "var",
+                                        "name": "authFile",
+                                        "line": 166,
+                                        "col": 42,
+                                        "endLine": 166,
+                                        "endCol": 50
+                                      }
+                                    ],
+                                    "line": 166,
+                                    "col": 40,
+                                    "endLine": 166,
+                                    "endCol": 41
+                                  },
+                                  {
+                                    "t": "str",
+                                    "v": "-",
+                                    "line": 166,
+                                    "col": 53,
+                                    "endLine": 166,
+                                    "endCol": 56
+                                  }
+                                ],
+                                "line": 166,
+                                "col": 51,
+                                "endLine": 166,
+                                "endCol": 52
+                              },
+                              {
+                                "t": "prop",
+                                "text": "params.olcs_auth_version ",
+                                "calls": [],
+                                "line": 166,
+                                "col": 59,
+                                "endLine": 166,
+                                "endCol": 84
+                              }
+                            ],
+                            "line": 166,
+                            "col": 57,
+                            "endLine": 166,
+                            "endCol": 58
+                          },
+                          {
+                            "t": "str",
+                            "v": "\n",
+                            "line": 166,
+                            "col": 86,
+                            "endLine": 166,
+                            "endCol": 90
+                          }
+                        ],
+                        "line": 166,
+                        "col": 84,
+                        "endLine": 166,
+                        "endCol": 85
+                      },
+                      "line": 166,
+                      "col": 17,
+                      "endLine": 166,
+                      "endCol": 90
+                    }
+                  ],
+                  "else": [
+                    {
+                      "k": "assign",
+                      "op": "+=",
+                      "target": "message",
+                      "value": {
+                        "t": "concat",
+                        "parts": [
+                          {
+                            "t": "concat",
+                            "parts": [
+                              {
+                                "t": "concat",
+                                "parts": [
+                                  {
+                                    "t": "concat",
+                                    "parts": [
+                                      {
+                                        "t": "str",
+                                        "v": "MISSING: ",
+                                        "line": 168,
+                                        "col": 28,
+                                        "endLine": 168,
+                                        "endCol": 39
+                                      },
+                                      {
+                                        "t": "var",
+                                        "name": "authFile",
+                                        "line": 168,
+                                        "col": 42,
+                                        "endLine": 168,
+                                        "endCol": 50
+                                      }
+                                    ],
+                                    "line": 168,
+                                    "col": 40,
+                                    "endLine": 168,
+                                    "endCol": 41
+                                  },
+                                  {
+                                    "t": "str",
+                                    "v": "-",
+                                    "line": 168,
+                                    "col": 53,
+                                    "endLine": 168,
+                                    "endCol": 56
+                                  }
+                                ],
+                                "line": 168,
+                                "col": 51,
+                                "endLine": 168,
+                                "endCol": 52
+                              },
+                              {
+                                "t": "prop",
+                                "text": "params.olcs_auth_version ",
+                                "calls": [],
+                                "line": 168,
+                                "col": 59,
+                                "endLine": 168,
+                                "endCol": 84
+                              }
+                            ],
+                            "line": 168,
+                            "col": 57,
+                            "endLine": 168,
+                            "endCol": 58
+                          },
+                          {
+                            "t": "str",
+                            "v": "\n",
+                            "line": 168,
+                            "col": 86,
+                            "endLine": 168,
+                            "endCol": 90
+                          }
+                        ],
+                        "line": 168,
+                        "col": 84,
+                        "endLine": 168,
+                        "endCol": 85
+                      },
+                      "line": 168,
+                      "col": 17,
+                      "endLine": 168,
+                      "endCol": 90
+                    },
+                    {
+                      "k": "call",
+                      "name": "error",
+                      "args": [
+                        {
+                          "t": "concat",
+                          "parts": [
+                            {
+                              "t": "str",
+                              "v": "Missing package:\n",
+                              "line": 169,
+                              "col": 23,
+                              "endLine": 169,
+                              "endCol": 43
+                            },
+                            {
+                              "t": "var",
+                              "name": "message",
+                              "line": 169,
+                              "col": 46,
+                              "endLine": 169,
+                              "endCol": 53
+                            }
+                          ],
+                          "line": 169,
+                          "col": 23,
+                          "endLine": 169,
+                          "endCol": 53
+                        }
+                      ],
+                      "named": {},
+                      "line": 169,
+                      "col": 17,
+                      "endLine": 169,
+                      "endCol": 54
+                    }
+                  ],
+                  "line": 165,
+                  "col": 13,
+                  "endLine": 170,
+                  "endCol": 14
+                }
+              ],
+              "line": 162,
+              "col": 9,
+              "endLine": 171,
+              "endCol": 10
+            },
+            {
+              "k": "decl",
+              "name": "cmd3",
+              "value": {
+                "t": "concat",
+                "parts": [
+                  {
+                    "t": "concat",
+                    "parts": [
+                      {
+                        "t": "concat",
+                        "parts": [
+                          {
+                            "t": "concat",
+                            "parts": [
+                              {
+                                "t": "concat",
+                                "parts": [
+                                  {
+                                    "t": "concat",
+                                    "parts": [
+                                      {
+                                        "t": "str",
+                                        "v": "echo \"2018-03-29 13:20      1024   s3://",
+                                        "line": 174,
+                                        "col": 20,
+                                        "endLine": 174,
+                                        "endCol": 62
+                                      },
+                                      {
+                                        "t": "var",
+                                        "name": "defaultS3Bucket",
+                                        "line": 174,
+                                        "col": 65,
+                                        "endLine": 174,
+                                        "endCol": 80
+                                      }
+                                    ],
+                                    "line": 174,
+                                    "col": 63,
+                                    "endLine": 174,
+                                    "endCol": 64
+                                  },
+                                  {
+                                    "t": "str",
+                                    "v": "api/",
+                                    "line": 174,
+                                    "col": 83,
+                                    "endLine": 174,
+                                    "endCol": 89
+                                  }
+                                ],
+                                "line": 174,
+                                "col": 81,
+                                "endLine": 174,
+                                "endCol": 82
+                              },
+                              {
+                                "t": "var",
+                                "name": "txcFile",
+                                "line": 174,
+                                "col": 92,
+                                "endLine": 174,
+                                "endCol": 99
+                              }
+                            ],
+                            "line": 174,
+                            "col": 90,
+                            "endLine": 174,
+                            "endCol": 91
+                          },
+                          {
+                            "t": "str",
+                            "v": "-",
+                            "line": 174,
+                            "col": 102,
+                            "endLine": 174,
+                            "endCol": 105
+                          }
+                        ],
+                        "line": 174,
+                        "col": 100,
+                        "endLine": 174,
+                        "endCol": 101
+                      },
+                      {
+                        "t": "prop",
+                        "text": "params.olcs_transxchange_version ",
+                        "calls": [],
+                        "line": 174,
+                        "col": 108,
+                        "endLine": 174,
+                        "endCol": 141
+                      }
+                    ],
+                    "line": 174,
+                    "col": 106,
+                    "endLine": 174,
+                    "endCol": 107
+                  },
+                  {
+                    "t": "str",
+                    "v": ".war\" > result",
+                    "line": 174,
+                    "col": 143,
+                    "endLine": 174,
+                    "endCol": 159
+                  }
+                ],
+                "line": 174,
+                "col": 141,
+                "endLine": 174,
+                "endCol": 142
+              },
+              "annotations": [],
+              "line": 174,
+              "col": 9,
+              "endLine": 174,
+              "endCol": 252
+            },
+            {
+              "k": "call",
+              "name": "sh",
+              "args": [
+                {
+                  "t": "gstr",
+                  "v": "\"${cmd3}\"",
+                  "vars": [
+                    "{cmd3}"
+                  ],
+                  "calls": [],
+                  "line": 175,
+                  "col": 12,
+                  "endLine": 175,
+                  "endCol": 21
+                }
+              ],
+              "named": {},
+              "line": 175,
+              "col": 9,
+              "endLine": 175,
+              "endCol": 21
+            },
+            {
+              "k": "call",
+              "name": "print",
+              "args": [
+                {
+                  "t": "call",
+                  "call": {
+                    "k": "call",
+                    "name": "trim",
+                    "args": [],
+                    "named": {},
+                    "line": 176,
+                    "col": 15,
+                    "endLine": 176,
+                    "endCol": 40,
+                    "receiver": "readFile('result')",
+                    "receiverCalls": [
+                      {
+                        "k": "call",
+                        "name": "readFile",
+                        "args": [
+                          {
+                            "t": "str",
+                            "v": "result",
+                            "line": 176,
+                            "col": 24,
+                            "endLine": 176,
+                            "endCol": 32
+                          }
+                        ],
+                        "named": {},
+                        "line": 176,
+                        "col": 15,
+                        "endLine": 176,
+                        "endCol": 33
+                      }
+                    ]
+                  },
+                  "line": 176,
+                  "col": 15,
+                  "endLine": 176,
+                  "endCol": 40
+                }
+              ],
+              "named": {},
+              "line": 176,
+              "col": 9,
+              "endLine": 176,
+              "endCol": 40
+            },
+            {
+              "k": "decl",
+              "name": "cmd4",
+              "value": {
+                "t": "concat",
+                "parts": [
+                  {
+                    "t": "concat",
+                    "parts": [
+                      {
+                        "t": "concat",
+                        "parts": [
+                          {
+                            "t": "concat",
+                            "parts": [
+                              {
+                                "t": "str",
+                                "v": "grep ",
+                                "line": 177,
+                                "col": 20,
+                                "endLine": 177,
+                                "endCol": 27
+                              },
+                              {
+                                "t": "var",
+                                "name": "txcFile",
+                                "line": 177,
+                                "col": 30,
+                                "endLine": 177,
+                                "endCol": 37
+                              }
+                            ],
+                            "line": 177,
+                            "col": 28,
+                            "endLine": 177,
+                            "endCol": 29
+                          },
+                          {
+                            "t": "str",
+                            "v": "-",
+                            "line": 177,
+                            "col": 40,
+                            "endLine": 177,
+                            "endCol": 43
+                          }
+                        ],
+                        "line": 177,
+                        "col": 38,
+                        "endLine": 177,
+                        "endCol": 39
+                      },
+                      {
+                        "t": "prop",
+                        "text": "params.olcs_transxchange_version ",
+                        "calls": [],
+                        "line": 177,
+                        "col": 46,
+                        "endLine": 177,
+                        "endCol": 79
+                      }
+                    ],
+                    "line": 177,
+                    "col": 44,
+                    "endLine": 177,
+                    "endCol": 45
+                  },
+                  {
+                    "t": "str",
+                    "v": ".war result > result2 || true",
+                    "line": 177,
+                    "col": 81,
+                    "endLine": 177,
+                    "endCol": 112
+                  }
+                ],
+                "line": 177,
+                "col": 79,
+                "endLine": 177,
+                "endCol": 80
+              },
+              "annotations": [],
+              "line": 177,
+              "col": 9,
+              "endLine": 177,
+              "endCol": 112
+            },
+            {
+              "k": "call",
+              "name": "sh",
+              "args": [
+                {
+                  "t": "gstr",
+                  "v": "\"${cmd4}\"",
+                  "vars": [
+                    "{cmd4}"
+                  ],
+                  "calls": [],
+                  "line": 178,
+                  "col": 12,
+                  "endLine": 178,
+                  "endCol": 21
+                }
+              ],
+              "named": {},
+              "line": 178,
+              "col": 9,
+              "endLine": 178,
+              "endCol": 21
+            },
+            {
+              "k": "decl",
+              "name": "file2",
+              "value": {
+                "t": "call",
+                "call": {
+                  "k": "call",
+                  "name": "trim",
+                  "args": [],
+                  "named": {},
+                  "line": 179,
+                  "col": 21,
+                  "endLine": 179,
+                  "endCol": 47,
+                  "receiver": "readFile('result2')",
+                  "receiverCalls": [
+                    {
+                      "k": "call",
+                      "name": "readFile",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "result2",
+                          "line": 179,
+                          "col": 30,
+                          "endLine": 179,
+                          "endCol": 39
+                        }
+                      ],
+                      "named": {},
+                      "line": 179,
+                      "col": 21,
+                      "endLine": 179,
+                      "endCol": 40
+                    }
+                  ]
+                },
+                "line": 179,
+                "col": 21,
+                "endLine": 179,
+                "endCol": 47
+              },
+              "annotations": [],
+              "line": 179,
+              "col": 9,
+              "endLine": 179,
+              "endCol": 47
+            },
+            {
+              "k": "call",
+              "name": "print",
+              "args": [
+                {
+                  "t": "concat",
+                  "parts": [
+                    {
+                      "t": "str",
+                      "v": "File: ",
+                      "line": 180,
+                      "col": 15,
+                      "endLine": 180,
+                      "endCol": 23
+                    },
+                    {
+                      "t": "var",
+                      "name": "file2",
+                      "line": 180,
+                      "col": 26,
+                      "endLine": 180,
+                      "endCol": 31
+                    }
+                  ],
+                  "line": 180,
+                  "col": 24,
+                  "endLine": 180,
+                  "endCol": 25
+                }
+              ],
+              "named": {},
+              "line": 180,
+              "col": 9,
+              "endLine": 180,
+              "endCol": 31
+            },
+            {
+              "k": "if",
+              "cond": "file2.contains(txcFile + '-' + params.olcs_transxchange_version)",
+              "condCalls": [
+                {
+                  "k": "call",
+                  "name": "contains",
+                  "args": [
+                    {
+                      "t": "concat",
+                      "parts": [
+                        {
+                          "t": "concat",
+                          "parts": [
+                            {
+                              "t": "var",
+                              "name": "txcFile",
+                              "line": 181,
+                              "col": 28,
+                              "endLine": 181,
+                              "endCol": 35
+                            },
+                            {
+                              "t": "str",
+                              "v": "-",
+                              "line": 181,
+                              "col": 38,
+                              "endLine": 181,
+                              "endCol": 41
+                            }
+                          ],
+                          "line": 181,
+                          "col": 36,
+                          "endLine": 181,
+                          "endCol": 37
+                        },
+                        {
+                          "t": "prop",
+                          "text": "params.olcs_transxchange_version",
+                          "calls": [],
+                          "line": 181,
+                          "col": 44,
+                          "endLine": 181,
+                          "endCol": 76
+                        }
+                      ],
+                      "line": 181,
+                      "col": 28,
+                      "endLine": 181,
+                      "endCol": 76
+                    }
+                  ],
+                  "named": {},
+                  "line": 181,
+                  "col": 13,
+                  "endLine": 181,
+                  "endCol": 77,
+                  "receiver": "file2"
+                }
+              ],
+              "then": [
+                {
+                  "k": "assign",
+                  "op": "+=",
+                  "target": "message",
+                  "value": {
+                    "t": "concat",
+                    "parts": [
+                      {
+                        "t": "concat",
+                        "parts": [
+                          {
+                            "t": "concat",
+                            "parts": [
+                              {
+                                "t": "concat",
+                                "parts": [
+                                  {
+                                    "t": "str",
+                                    "v": "Exists: ",
+                                    "line": 182,
+                                    "col": 24,
+                                    "endLine": 182,
+                                    "endCol": 34
+                                  },
+                                  {
+                                    "t": "var",
+                                    "name": "txcFile",
+                                    "line": 182,
+                                    "col": 37,
+                                    "endLine": 182,
+                                    "endCol": 44
+                                  }
+                                ],
+                                "line": 182,
+                                "col": 35,
+                                "endLine": 182,
+                                "endCol": 36
+                              },
+                              {
+                                "t": "str",
+                                "v": "-",
+                                "line": 182,
+                                "col": 47,
+                                "endLine": 182,
+                                "endCol": 50
+                              }
+                            ],
+                            "line": 182,
+                            "col": 45,
+                            "endLine": 182,
+                            "endCol": 46
+                          },
+                          {
+                            "t": "prop",
+                            "text": "params.olcs_transxchange_version ",
+                            "calls": [],
+                            "line": 182,
+                            "col": 53,
+                            "endLine": 182,
+                            "endCol": 86
+                          }
+                        ],
+                        "line": 182,
+                        "col": 51,
+                        "endLine": 182,
+                        "endCol": 52
+                      },
+                      {
+                        "t": "str",
+                        "v": "\n",
+                        "line": 182,
+                        "col": 88,
+                        "endLine": 182,
+                        "endCol": 92
+                      }
+                    ],
+                    "line": 182,
+                    "col": 86,
+                    "endLine": 182,
+                    "endCol": 87
+                  },
+                  "line": 182,
+                  "col": 13,
+                  "endLine": 182,
+                  "endCol": 92
+                }
+              ],
+              "else": [
+                {
+                  "k": "if",
+                  "cond": "params.DRYRUN",
+                  "condCalls": [],
+                  "then": [
+                    {
+                      "k": "assign",
+                      "op": "+=",
+                      "target": "message",
+                      "value": {
+                        "t": "concat",
+                        "parts": [
+                          {
+                            "t": "concat",
+                            "parts": [
+                              {
+                                "t": "concat",
+                                "parts": [
+                                  {
+                                    "t": "concat",
+                                    "parts": [
+                                      {
+                                        "t": "str",
+                                        "v": "MISSING: ",
+                                        "line": 185,
+                                        "col": 28,
+                                        "endLine": 185,
+                                        "endCol": 39
+                                      },
+                                      {
+                                        "t": "var",
+                                        "name": "txcFile",
+                                        "line": 185,
+                                        "col": 42,
+                                        "endLine": 185,
+                                        "endCol": 49
+                                      }
+                                    ],
+                                    "line": 185,
+                                    "col": 40,
+                                    "endLine": 185,
+                                    "endCol": 41
+                                  },
+                                  {
+                                    "t": "str",
+                                    "v": "-",
+                                    "line": 185,
+                                    "col": 52,
+                                    "endLine": 185,
+                                    "endCol": 55
+                                  }
+                                ],
+                                "line": 185,
+                                "col": 50,
+                                "endLine": 185,
+                                "endCol": 51
+                              },
+                              {
+                                "t": "prop",
+                                "text": "params.olcs_transxchange_version ",
+                                "calls": [],
+                                "line": 185,
+                                "col": 58,
+                                "endLine": 185,
+                                "endCol": 91
+                              }
+                            ],
+                            "line": 185,
+                            "col": 56,
+                            "endLine": 185,
+                            "endCol": 57
+                          },
+                          {
+                            "t": "str",
+                            "v": "\n",
+                            "line": 185,
+                            "col": 93,
+                            "endLine": 185,
+                            "endCol": 97
+                          }
+                        ],
+                        "line": 185,
+                        "col": 91,
+                        "endLine": 185,
+                        "endCol": 92
+                      },
+                      "line": 185,
+                      "col": 17,
+                      "endLine": 185,
+                      "endCol": 97
+                    }
+                  ],
+                  "else": [
+                    {
+                      "k": "assign",
+                      "op": "+=",
+                      "target": "message",
+                      "value": {
+                        "t": "concat",
+                        "parts": [
+                          {
+                            "t": "concat",
+                            "parts": [
+                              {
+                                "t": "concat",
+                                "parts": [
+                                  {
+                                    "t": "concat",
+                                    "parts": [
+                                      {
+                                        "t": "str",
+                                        "v": "MISSING: ",
+                                        "line": 187,
+                                        "col": 28,
+                                        "endLine": 187,
+                                        "endCol": 39
+                                      },
+                                      {
+                                        "t": "var",
+                                        "name": "txcFile",
+                                        "line": 187,
+                                        "col": 42,
+                                        "endLine": 187,
+                                        "endCol": 49
+                                      }
+                                    ],
+                                    "line": 187,
+                                    "col": 40,
+                                    "endLine": 187,
+                                    "endCol": 41
+                                  },
+                                  {
+                                    "t": "str",
+                                    "v": "-",
+                                    "line": 187,
+                                    "col": 52,
+                                    "endLine": 187,
+                                    "endCol": 55
+                                  }
+                                ],
+                                "line": 187,
+                                "col": 50,
+                                "endLine": 187,
+                                "endCol": 51
+                              },
+                              {
+                                "t": "prop",
+                                "text": "params.olcs_transxchange_version ",
+                                "calls": [],
+                                "line": 187,
+                                "col": 58,
+                                "endLine": 187,
+                                "endCol": 91
+                              }
+                            ],
+                            "line": 187,
+                            "col": 56,
+                            "endLine": 187,
+                            "endCol": 57
+                          },
+                          {
+                            "t": "str",
+                            "v": "\n",
+                            "line": 187,
+                            "col": 93,
+                            "endLine": 187,
+                            "endCol": 97
+                          }
+                        ],
+                        "line": 187,
+                        "col": 91,
+                        "endLine": 187,
+                        "endCol": 92
+                      },
+                      "line": 187,
+                      "col": 17,
+                      "endLine": 187,
+                      "endCol": 97
+                    },
+                    {
+                      "k": "call",
+                      "name": "error",
+                      "args": [
+                        {
+                          "t": "concat",
+                          "parts": [
+                            {
+                              "t": "str",
+                              "v": "Missing package:\n",
+                              "line": 188,
+                              "col": 23,
+                              "endLine": 188,
+                              "endCol": 43
+                            },
+                            {
+                              "t": "var",
+                              "name": "message",
+                              "line": 188,
+                              "col": 46,
+                              "endLine": 188,
+                              "endCol": 53
+                            }
+                          ],
+                          "line": 188,
+                          "col": 23,
+                          "endLine": 188,
+                          "endCol": 53
+                        }
+                      ],
+                      "named": {},
+                      "line": 188,
+                      "col": 17,
+                      "endLine": 188,
+                      "endCol": 54
+                    }
+                  ],
+                  "line": 184,
+                  "col": 13,
+                  "endLine": 189,
+                  "endCol": 14
+                }
+              ],
+              "line": 181,
+              "col": 9,
+              "endLine": 190,
+              "endCol": 10
+            },
+            {
+              "k": "call",
+              "name": "print",
+              "args": [
+                {
+                  "t": "var",
+                  "name": "message",
+                  "line": 192,
+                  "col": 15,
+                  "endLine": 192,
+                  "endCol": 22
+                }
+              ],
+              "named": {},
+              "line": 192,
+              "col": 9,
+              "endLine": 192,
+              "endCol": 22
+            }
+          ]
+        },
+        {
+          "k": "assign",
+          "op": "=",
+          "target": "stageName",
+          "value": {
+            "t": "str",
+            "v": "Check App Version against Built artefacts",
+            "line": 195,
+            "col": 17,
+            "endLine": 195,
+            "endCol": 60
+          },
+          "line": 195,
+          "col": 5,
+          "endLine": 195,
+          "endCol": 60
+        },
+        {
+          "k": "call",
+          "name": "stage",
+          "args": [
+            {
+              "t": "var",
+              "name": "stageName",
+              "line": 196,
+              "col": 11,
+              "endLine": 196,
+              "endCol": 20
+            }
+          ],
+          "named": {},
+          "line": 196,
+          "col": 5,
+          "endLine": 206,
+          "endCol": 6,
+          "body": [
+            {
+              "k": "if",
+              "cond": "params.DRYRUN",
+              "condCalls": [],
+              "then": [
+                {
+                  "k": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "t": "str",
+                      "v": "Not Running external check for DryRun",
+                      "line": 198,
+                      "col": 19,
+                      "endLine": 198,
+                      "endCol": 58
+                    }
+                  ],
+                  "named": {},
+                  "line": 198,
+                  "col": 13,
+                  "endLine": 198,
+                  "endCol": 58
+                }
+              ],
+              "else": [
+                {
+                  "k": "call",
+                  "name": "build",
+                  "args": [],
+                  "named": {
+                    "job": {
+                      "t": "str",
+                      "v": "Check App Release Tags",
+                      "line": 201,
+                      "col": 24,
+                      "endLine": 201,
+                      "endCol": 48
+                    },
+                    "parameters": {
+                      "t": "list",
+                      "v": [
+                        {
+                          "t": "map",
+                          "v": {
+                            "$class": {
+                              "t": "str",
+                              "v": "StringParameterValue",
+                              "line": 202,
+                              "col": 30,
+                              "endLine": 202,
+                              "endCol": 52
+                            },
+                            "name": {
+                              "t": "str",
+                              "v": "olcs_transxchange_version",
+                              "line": 202,
+                              "col": 60,
+                              "endLine": 202,
+                              "endCol": 87
+                            },
+                            "value": {
+                              "t": "prop",
+                              "text": "params.olcs_transxchange_version",
+                              "calls": [],
+                              "line": 202,
+                              "col": 96,
+                              "endLine": 202,
+                              "endCol": 128
+                            }
+                          },
+                          "line": 202,
+                          "col": 21,
+                          "endLine": 202,
+                          "endCol": 129
+                        },
+                        {
+                          "t": "map",
+                          "v": {
+                            "$class": {
+                              "t": "str",
+                              "v": "StringParameterValue",
+                              "line": 203,
+                              "col": 30,
+                              "endLine": 203,
+                              "endCol": 52
+                            },
+                            "name": {
+                              "t": "str",
+                              "v": "olcs_auth_version",
+                              "line": 203,
+                              "col": 60,
+                              "endLine": 203,
+                              "endCol": 79
+                            },
+                            "value": {
+                              "t": "prop",
+                              "text": "params.olcs_auth_version",
+                              "calls": [],
+                              "line": 203,
+                              "col": 88,
+                              "endLine": 203,
+                              "endCol": 112
+                            }
+                          },
+                          "line": 203,
+                          "col": 21,
+                          "endLine": 204,
+                          "endCol": 13
+                        }
+                      ],
+                      "line": 201,
+                      "col": 62,
+                      "endLine": 204,
+                      "endCol": 14
+                    }
+                  },
+                  "line": 201,
+                  "col": 13,
+                  "endLine": 204,
+                  "endCol": 14
+                }
+              ],
+              "line": 197,
+              "col": 9,
+              "endLine": 205,
+              "endCol": 10
+            }
+          ]
+        },
+        {
+          "k": "assign",
+          "op": "=",
+          "target": "stageName",
+          "value": {
+            "t": "str",
+            "v": "Create and Push Release Manifest",
+            "line": 209,
+            "col": 17,
+            "endLine": 209,
+            "endCol": 51
+          },
+          "line": 209,
+          "col": 5,
+          "endLine": 209,
+          "endCol": 51
+        },
+        {
+          "k": "call",
+          "name": "stage",
+          "args": [
+            {
+              "t": "var",
+              "name": "stageName",
+              "line": 210,
+              "col": 11,
+              "endLine": 210,
+              "endCol": 20
+            }
+          ],
+          "named": {},
+          "line": 210,
+          "col": 5,
+          "endLine": 232,
+          "endCol": 6,
+          "body": [
+            {
+              "k": "if",
+              "cond": "params.DRYRUN",
+              "condCalls": [],
+              "then": [
+                {
+                  "k": "call",
+                  "name": "print",
+                  "args": [
+                    {
+                      "t": "var",
+                      "name": "appVersionFile",
+                      "line": 212,
+                      "col": 19,
+                      "endLine": 212,
+                      "endCol": 33
+                    }
+                  ],
+                  "named": {},
+                  "line": 212,
+                  "col": 13,
+                  "endLine": 212,
+                  "endCol": 33
+                }
+              ],
+              "else": [
+                {
+                  "k": "call",
+                  "name": "dir",
+                  "args": [
+                    {
+                      "t": "str",
+                      "v": "app-version",
+                      "line": 214,
+                      "col": 17,
+                      "endLine": 214,
+                      "endCol": 30
+                    }
+                  ],
+                  "named": {},
+                  "line": 214,
+                  "col": 13,
+                  "endLine": 230,
+                  "endCol": 14,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "deleteDir",
+                      "args": [],
+                      "named": {},
+                      "line": 215,
+                      "col": 17,
+                      "endLine": 215,
+                      "endCol": 28
+                    },
+                    {
+                      "k": "call",
+                      "name": "sh",
+                      "args": [
+                        {
+                          "t": "gstr",
+                          "v": "\"git init -q -b develop ${env.WORKSPACE}/.gitlab/aws/app-version.git && cd ${env.WORKSPACE}/.gitlab/aws/app-version.git && mkdir hiera && touch hiera/app_version.eyaml && git add hiera && git -c user.name=j2gha -c user.email=j2gha@localhost commit -q -m develop\"  // j2gha-local: stand-in for the GitLab app-version repository (a develop branch with the hiera file), the target of the push below",
+                          "vars": [
+                            "{env.WORKSPACE}",
+                            "{env.WORKSPACE}"
+                          ],
+                          "calls": [],
+                          "line": 216,
+                          "col": 20,
+                          "endLine": 216,
+                          "endCol": 415
+                        }
+                      ],
+                      "named": {},
+                      "line": 216,
+                      "col": 17,
+                      "endLine": 216,
+                      "endCol": 415
+                    },
+                    {
+                      "k": "call",
+                      "name": "checkout",
+                      "args": [],
+                      "named": {
+                        "$class": {
+                          "t": "str",
+                          "v": "GitSCM",
+                          "line": 217,
+                          "col": 62,
+                          "endLine": 217,
+                          "endCol": 70
+                        },
+                        "branches": {
+                          "t": "list",
+                          "v": [
+                            {
+                              "t": "map",
+                              "v": {
+                                "name": {
+                                  "t": "str",
+                                  "v": "refs/heads/develop",
+                                  "line": 217,
+                                  "col": 90,
+                                  "endLine": 217,
+                                  "endCol": 110
+                                }
+                              },
+                              "line": 217,
+                              "col": 83,
+                              "endLine": 217,
+                              "endCol": 111
+                            }
+                          ],
+                          "line": 217,
+                          "col": 82,
+                          "endLine": 217,
+                          "endCol": 112
+                        },
+                        "doGenerateSubmoduleConfigurations": {
+                          "t": "bool",
+                          "v": false,
+                          "line": 218,
+                          "col": 62,
+                          "endLine": 218,
+                          "endCol": 67
+                        },
+                        "extensions": {
+                          "t": "list",
+                          "v": [],
+                          "line": 219,
+                          "col": 62,
+                          "endLine": 219,
+                          "endCol": 64
+                        },
+                        "submoduleCfg": {
+                          "t": "list",
+                          "v": [],
+                          "line": 220,
+                          "col": 62,
+                          "endLine": 220,
+                          "endCol": 64
+                        },
+                        "userRemoteConfigs": {
+                          "t": "list",
+                          "v": [
+                            {
+                              "t": "map",
+                              "v": {
+                                "credentialsId": {
+                                  "t": "str",
+                                  "v": "OLCS-Jenkins",
+                                  "line": 221,
+                                  "col": 79,
+                                  "endLine": 221,
+                                  "endCol": 93
+                                },
+                                "url": {
+                                  "t": "concat",
+                                  "parts": [
+                                    {
+                                      "t": "var",
+                                      "name": "GitRepo",
+                                      "line": 221,
+                                      "col": 100,
+                                      "endLine": 221,
+                                      "endCol": 107
+                                    },
+                                    {
+                                      "t": "str",
+                                      "v": "aws/app-version.git",
+                                      "line": 221,
+                                      "col": 110,
+                                      "endLine": 221,
+                                      "endCol": 131
+                                    }
+                                  ],
+                                  "line": 221,
+                                  "col": 100,
+                                  "endLine": 221,
+                                  "endCol": 131
+                                }
+                              },
+                              "line": 221,
+                              "col": 63,
+                              "endLine": 221,
+                              "endCol": 132
+                            }
+                          ],
+                          "line": 221,
+                          "col": 62,
+                          "endLine": 222,
+                          "endCol": 17
+                        }
+                      },
+                      "line": 217,
+                      "col": 17,
+                      "endLine": 222,
+                      "endCol": 19
+                    },
+                    {
+                      "k": "call",
+                      "name": "sh",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "ls -lrt",
+                          "line": 223,
+                          "col": 20,
+                          "endLine": 223,
+                          "endCol": 29
+                        }
+                      ],
+                      "named": {},
+                      "line": 223,
+                      "col": 17,
+                      "endLine": 223,
+                      "endCol": 29
+                    },
+                    {
+                      "k": "call",
+                      "name": "sh",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "git checkout -b release-candidate",
+                          "line": 224,
+                          "col": 20,
+                          "endLine": 224,
+                          "endCol": 55
+                        }
+                      ],
+                      "named": {},
+                      "line": 224,
+                      "col": 17,
+                      "endLine": 224,
+                      "endCol": 55
+                    },
+                    {
+                      "k": "call",
+                      "name": "writeFile",
+                      "args": [],
+                      "named": {
+                        "file": {
+                          "t": "str",
+                          "v": "hiera/app_version.eyaml",
+                          "line": 225,
+                          "col": 33,
+                          "endLine": 225,
+                          "endCol": 58
+                        },
+                        "text": {
+                          "t": "gstr",
+                          "v": "\"${appVersionFile}\"",
+                          "vars": [
+                            "{appVersionFile}"
+                          ],
+                          "calls": [],
+                          "line": 225,
+                          "col": 66,
+                          "endLine": 225,
+                          "endCol": 85
+                        }
+                      },
+                      "line": 225,
+                      "col": 17,
+                      "endLine": 225,
+                      "endCol": 85
+                    },
+                    {
+                      "k": "call",
+                      "name": "sh",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "git status",
+                          "line": 226,
+                          "col": 20,
+                          "endLine": 226,
+                          "endCol": 32
+                        }
+                      ],
+                      "named": {},
+                      "line": 226,
+                      "col": 17,
+                      "endLine": 226,
+                      "endCol": 32
+                    },
+                    {
+                      "k": "call",
+                      "name": "sh",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "git add hiera/app_version.eyaml",
+                          "line": 227,
+                          "col": 20,
+                          "endLine": 227,
+                          "endCol": 53
+                        }
+                      ],
+                      "named": {},
+                      "line": 227,
+                      "col": 17,
+                      "endLine": 227,
+                      "endCol": 53
+                    },
+                    {
+                      "k": "call",
+                      "name": "sh",
+                      "args": [
+                        {
+                          "t": "gstr",
+                          "v": "\"git -c user.name=j2gha -c user.email=j2gha@localhost commit -m \\\"Release ${VERSION}\\\"\"  // j2gha-local: the harness node has no git identity configured",
+                          "vars": [
+                            "{VERSION}"
+                          ],
+                          "calls": [],
+                          "line": 228,
+                          "col": 20,
+                          "endLine": 228,
+                          "endCol": 172
+                        }
+                      ],
+                      "named": {},
+                      "line": 228,
+                      "col": 17,
+                      "endLine": 228,
+                      "endCol": 172
+                    },
+                    {
+                      "k": "call",
+                      "name": "sh",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "git push --set-upstream origin release-candidate",
+                          "line": 229,
+                          "col": 20,
+                          "endLine": 229,
+                          "endCol": 70
+                        }
+                      ],
+                      "named": {},
+                      "line": 229,
+                      "col": 17,
+                      "endLine": 229,
+                      "endCol": 70
+                    }
+                  ]
+                }
+              ],
+              "line": 211,
+              "col": 9,
+              "endLine": 231,
+              "endCol": 10
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "source_sha256": "7942e105cb89fd92b94cd5cf9088d86144ca86aa6e5b93b948875646d1b633d0"
+}

@@ -1,0 +1,335 @@
+{
+  "meta": {
+    "title": "From Jenkins to GitHub Actions: chapter five, break the conversion",
+    "chip": "Jenkins to GitHub Actions · Chapter five: break the conversion",
+    "fps": 30,
+    "width": 1920,
+    "height": 1080,
+    "voice": {
+      "engine": "kokoro",
+      "voice": "bf_emma",
+      "lang_code": "b",
+      "speed": 1.0
+    },
+    "pronunciations": "pronunciations.json",
+    "prompt": "$ "
+  },
+  "captures": {
+    "brk": {
+      "file": "captures/break-and-restore.txt",
+      "label": "Break it, catch it, restore it"
+    }
+  },
+  "scenes": [
+    {
+      "id": "00-title",
+      "kind": "title",
+      "source": "examples/000/README.md Part 8",
+      "narration": "From Jenkins to GitHub Actions. Chapter five: break the conversion on purpose, and see whether the comparison notices.",
+      "onScreen": [
+        "A test that can fail",
+        "Chapter five: break the conversion"
+      ]
+    },
+    {
+      "id": "01-note",
+      "kind": "disclaimer",
+      "source": "README Part 8; source-facts.md",
+      "narration": "A quick note on what this chapter is. It edits one generated file for the example pipeline, runs the comparison on a local tool called act, then restores the file. The terminal output is replayed from real runs. This chapter assumes the earlier steps are done: the throwaway Jenkins is running, and the pipeline is converted and was compared once. Nothing here runs on GitHub itself.",
+      "onScreen": [
+        "Summary",
+        "One deliberate break, in one example, run on this machine",
+        "Terminal output replayed from real runs",
+        "Assumes: local Jenkins running, pipeline converted and compared",
+        "Not shown here: any run on GitHub itself"
+      ],
+      "data": {
+        "foot": "Catching one planted fault is encouraging. It does not prove every fault would be caught."
+      }
+    },
+    {
+      "id": "02-why",
+      "kind": "explainer",
+      "source": "README Part 8 intro and closing paragraph",
+      "narration": "Why do this? A comparison that always says yes is worthless. So we plant a fault. The pipeline deploys unless the deploy setting is none. We flip that rule around, so deploy runs only when the setting is none. The workflow will still run and go green. Will the harness notice anyway?",
+      "onScreen": [
+        {
+          "k": "The rule",
+          "v": "Deploy runs unless the deploy environment is none"
+        },
+        {
+          "k": "The sabotage",
+          "v": "Flip it: Deploy runs only when the environment is none"
+        },
+        {
+          "k": "The trap",
+          "v": "The workflow still runs, and still goes green"
+        },
+        {
+          "k": "The question",
+          "v": "Does the comparison notice a green run that skipped a stage?"
+        }
+      ]
+    },
+    {
+      "id": "03-flow",
+      "kind": "flow",
+      "source": "README Part 8 command sequence",
+      "narration": "Five moves. Break the converted file. Run the comparison. Read where it points. Restore the real conversion. Run the comparison again.",
+      "data": {
+        "type": "chain",
+        "title": "Break it, catch it, fix it",
+        "nodes": [
+          {
+            "label": "Break",
+            "sub": "flip the Deploy rule"
+          },
+          {
+            "label": "Run",
+            "sub": "act versus Jenkins"
+          },
+          {
+            "label": "Read",
+            "sub": "where does it differ?"
+          },
+          {
+            "label": "Restore",
+            "sub": "convert again"
+          },
+          {
+            "label": "Run again",
+            "sub": "back to equivalent?"
+          }
+        ]
+      }
+    },
+    {
+      "id": "04-sabotage",
+      "kind": "terminal",
+      "source": "README Part 8 first command; capture steps 0 to 2",
+      "capture": "brk",
+      "part": "Part 8 · plant the fault",
+      "beats": [
+        {
+          "steps": [
+            0
+          ],
+          "narration": "First, look at the rule in the generated workflow file. One line, in the small gate job before Deploy, says Deploy runs when the environment is not none. This extra look is ours, not the guide's.",
+          "highlight": [
+            {
+              "text": "Line thirteen eighty-five: not equal to none",
+              "tone": "info"
+            }
+          ]
+        },
+        {
+          "steps": [
+            1
+          ],
+          "narration": "Now the sabotage. One text substitution swaps not equal for equal. The file is generated and ignored by git, so nothing tracked changes. The command prints nothing.",
+          "highlight": [
+            {
+              "text": "No output: look at the file to be sure",
+              "tone": "warn"
+            }
+          ]
+        },
+        {
+          "steps": [
+            2
+          ],
+          "narration": "And the same look again. The rule now says equal to none. The change really happened.",
+          "highlight": [
+            {
+              "text": "Before: not equal. After: equal.",
+              "tone": "ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "05-run-broken",
+      "kind": "terminal",
+      "source": "README Part 8 Expected; capture step 3",
+      "capture": "brk",
+      "part": "Part 8 · run the comparison",
+      "beats": [
+        {
+          "steps": [
+            3
+          ],
+          "narration": "Now run the comparison. The file was edited by hand, so the run needs the edited model flag, and its result is marked and never counted. Act says success. Yet the verdict says differs, at ninety point two percent similarity.",
+          "highlight": [
+            {
+              "text": "act: success, thirty-seven events, not forty-one",
+              "tone": "info"
+            },
+            {
+              "text": "Verdict: DIFFERS, 90.2% step similarity",
+              "tone": "bad"
+            },
+            {
+              "text": "--edited-model: a hand-edited workflow, never counted",
+              "tone": "warn"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "06-why-differs",
+      "kind": "explainer",
+      "source": "README Part 8 closing paragraph; capture step 3",
+      "narration": "Notice what did not happen. Act reported success. Every job that ran was fine. A test that only asks whether it went green would have passed this broken workflow. The comparison caught it because it looks at which steps ran, not just how things ended.",
+      "onScreen": [
+        {
+          "k": "Green is not enough",
+          "v": "act reported success, even for the broken workflow"
+        },
+        {
+          "k": "What was compared",
+          "v": "Which steps ran, stage by stage, on each side"
+        },
+        {
+          "k": "Result",
+          "v": "DIFFERS at 90.2% similarity"
+        }
+      ]
+    },
+    {
+      "id": "07-pinpoint",
+      "kind": "terminal",
+      "source": "README Part 8 RESULTS.md excerpt; capture step 4",
+      "capture": "brk",
+      "part": "Part 8 · where it differs",
+      "beats": [
+        {
+          "steps": [
+            4
+          ],
+          "narration": "The results page says exactly where. The Deploy stage is missing on the act side. Jenkins ran four steps there: the approval, unstash, a shell command, and archiving. Act ran none. Long lines are wrapped for the screen.",
+          "highlight": [
+            {
+              "text": "Deploy: missing-stage",
+              "tone": "bad"
+            },
+            {
+              "text": "Jenkins: four steps. act: none.",
+              "tone": "info"
+            },
+            {
+              "text": "Matches the guide's text",
+              "tone": "ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "08-restore",
+      "kind": "terminal",
+      "source": "README Part 8 restore commands; capture steps 5 to 7",
+      "capture": "brk",
+      "part": "Part 8 · restore and confirm",
+      "beats": [
+        {
+          "steps": [
+            5
+          ],
+          "narration": "Restore by converting again. This regenerates the workflow from the analysis, and overwrites our sabotage. It prints one summary line.",
+          "highlight": [
+            {
+              "text": "Workflow regenerated",
+              "tone": "info"
+            }
+          ]
+        },
+        {
+          "steps": [
+            6
+          ],
+          "narration": "Check the rule. Not equal to none is back.",
+          "highlight": [
+            {
+              "text": "Original rule restored",
+              "tone": "ok"
+            }
+          ]
+        },
+        {
+          "steps": [
+            7
+          ],
+          "narration": "Run the comparison again. Forty-one events, the same as the earlier trace run, and the verdict is equivalent, one hundred percent. The harness agrees again.",
+          "highlight": [
+            {
+              "text": "Forty-one events: Deploy runs again",
+              "tone": "ok"
+            },
+            {
+              "text": "Verdict: EQUIVALENT, 100.0%",
+              "tone": "ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "09-compare",
+      "kind": "compare",
+      "source": "capture steps 3 and 7; README Part 8",
+      "narration": "Side by side. Same command, same example. The only difference is the one line we planted, and the verdict follows it.",
+      "data": {
+        "head": [
+          "",
+          "Broken",
+          "Restored"
+        ],
+        "rows": [
+          [
+            "Deploy rule",
+            "equal to none",
+            "not equal to none"
+          ],
+          [
+            "act result",
+            "success",
+            "success"
+          ],
+          [
+            "Trace events",
+            "37",
+            "41"
+          ],
+          [
+            "Verdict",
+            "DIFFERS",
+            "EQUIVALENT"
+          ],
+          [
+            "Step similarity",
+            "90.2%",
+            "100.0%"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "99-summary",
+      "kind": "summary",
+      "source": "README Part 8; findings in source-facts.md",
+      "title": "Chapter five: break the conversion",
+      "narration": "To recap. We flipped one rule in the converted workflow. Act still reported success, but the comparison said differs and named the missing Deploy stage. After restoring, it said equivalent again. The caveats. This is one planted fault, in one example, in trace mode, on a local imitation of GitHub Actions. Catching it is encouraging, not proof that every fault would be caught. Nothing here ran on GitHub.",
+      "onScreen": [
+        "Broken workflow: act succeeded, but the verdict was DIFFERS (90.2%)",
+        "The results page named the missing Deploy stage",
+        "Restored: EQUIVALENT again, 100.0%",
+        {
+          "text": "One planted fault, one example, trace mode, on act: not on GitHub",
+          "tone": "warn"
+        }
+      ]
+    }
+  ]
+}

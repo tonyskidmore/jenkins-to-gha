@@ -1,0 +1,103 @@
+[2026-10-10T08:21:54.435Z] Started by user admin
+[2026-10-10T08:21:54.581Z] [Pipeline] Start of Pipeline
+[2026-10-10T08:21:54.609Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named branch (to a value of type GStringImpl) which could lead to memory leaks or other issues.
+[2026-10-10T08:21:54.609Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named target_location (to a value of type GStringImpl) which could lead to memory leaks or other issues.
+[2026-10-10T08:21:54.609Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named git_repo_url (to a value of type GStringImpl) which could lead to memory leaks or other issues.
+[2026-10-10T08:21:54.609Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named plugin_check (to a value of type GStringImpl) which could lead to memory leaks or other issues.
+[2026-10-10T08:21:54.610Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named bucket (to a value of type GStringImpl) which could lead to memory leaks or other issues.
+[2026-10-10T08:21:54.610Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named file (to a value of type GStringImpl) which could lead to memory leaks or other issues.
+[2026-10-10T08:21:54.610Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named integration_test_check (to a value of type GStringImpl) which could lead to memory leaks or other issues.
+[2026-10-10T08:21:54.630Z] [Pipeline] node
+[2026-10-10T08:21:54.654Z] Running on Jenkins in /var/jenkins_home/workspace/ex-119-trace
+[2026-10-10T08:21:54.666Z] [Pipeline] {
+[2026-10-10T08:21:54.693Z] [Pipeline] echo
+[2026-10-10T08:21:54.700Z] J2GHA-TRACE {"stage":"","step":"deleteDir"}
+[2026-10-10T08:21:54.717Z] [Pipeline] stage
+[2026-10-10T08:21:54.724Z] [Pipeline] { (Git Checkout)
+[2026-10-10T08:21:54.767Z] [Pipeline] parallel
+[2026-10-10T08:21:54.779Z] [Pipeline] { (Branch: main)
+[2026-10-10T08:21:54.784Z] [Pipeline] { (Branch: plugin)
+[2026-10-10T08:21:54.802Z] [Pipeline] }
+[2026-10-10T08:21:54.808Z] [Pipeline] }
+[2026-10-10T08:21:54.853Z] [Pipeline] // parallel
+[2026-10-10T08:21:54.864Z] [Pipeline] }
+[2026-10-10T08:21:54.884Z] [Pipeline] // stage
+[2026-10-10T08:21:54.895Z] [Pipeline] pwd
+[2026-10-10T08:21:54.914Z] [Pipeline] dir
+[2026-10-10T08:21:54.914Z] Running in /var/jenkins_home/workspace/ex-119-trace
+[2026-10-10T08:21:54.920Z] [Pipeline] {
+[2026-10-10T08:21:54.938Z] [Pipeline] echo
+[2026-10-10T08:21:54.943Z] J2GHA-TRACE {"stage":"","step":"stash"}
+[2026-10-10T08:21:54.948Z] [Pipeline] }
+[2026-10-10T08:21:54.966Z] [Pipeline] // dir
+[2026-10-10T08:21:54.977Z] [Pipeline] }
+[2026-10-10T08:21:55.001Z] [Pipeline] // node
+[2026-10-10T08:21:55.022Z] [Pipeline] node
+[2026-10-10T08:21:55.038Z] Running on Jenkins in /var/jenkins_home/workspace/ex-119-trace
+[2026-10-10T08:21:55.048Z] [Pipeline] {
+[2026-10-10T08:21:55.073Z] [Pipeline] echo
+[2026-10-10T08:21:55.080Z] J2GHA-TRACE {"stage":"","step":"deleteDir"}
+[2026-10-10T08:21:55.087Z] [Pipeline] pwd
+[2026-10-10T08:21:55.112Z] [Pipeline] echo
+[2026-10-10T08:21:55.118Z] J2GHA-TRACE {"stage":"","step":"unstash"}
+[2026-10-10T08:21:55.135Z] [Pipeline] dir
+[2026-10-10T08:21:55.136Z] Running in /var/jenkins_home/workspace/ex-119-trace/j2gha-stub
+[2026-10-10T08:21:55.141Z] [Pipeline] {
+[2026-10-10T08:21:55.172Z] [Pipeline] stage
+[2026-10-10T08:21:55.178Z] [Pipeline] { (NPM Install)
+[2026-10-10T08:21:55.197Z] [Pipeline] }
+[2026-10-10T08:21:55.220Z] [Pipeline] // stage
+[2026-10-10T08:21:55.244Z] [Pipeline] stage
+[2026-10-10T08:21:55.250Z] [Pipeline] { (Security Check)
+[2026-10-10T08:21:55.269Z] [Pipeline] }
+[2026-10-10T08:21:55.293Z] [Pipeline] // stage
+[2026-10-10T08:21:55.318Z] [Pipeline] stage
+[2026-10-10T08:21:55.324Z] [Pipeline] { (SonarQube)
+[2026-10-10T08:21:55.344Z] [Pipeline] }
+[2026-10-10T08:21:55.368Z] [Pipeline] // stage
+[2026-10-10T08:21:55.393Z] [Pipeline] stage
+[2026-10-10T08:21:55.400Z] [Pipeline] { (Unit Tests)
+[2026-10-10T08:21:55.418Z] [Pipeline] }
+[2026-10-10T08:21:55.454Z] [Pipeline] // stage
+[2026-10-10T08:21:55.493Z] [Pipeline] stage
+[2026-10-10T08:21:55.500Z] [Pipeline] { (NPM Build)
+[2026-10-10T08:21:55.517Z] [Pipeline] }
+[2026-10-10T08:21:55.540Z] [Pipeline] // stage
+[2026-10-10T08:21:55.568Z] [Pipeline] stage
+[2026-10-10T08:21:55.575Z] [Pipeline] { (Cordova Platform)
+[2026-10-10T08:21:55.597Z] [Pipeline] }
+[2026-10-10T08:21:55.623Z] [Pipeline] // stage
+[2026-10-10T08:21:55.634Z] [Pipeline] }
+[2026-10-10T08:21:55.656Z] [Pipeline] // dir
+[2026-10-10T08:21:55.679Z] [Pipeline] dir
+[2026-10-10T08:21:55.679Z] Running in /var/jenkins_home/workspace/ex-119-trace/j2gha-stub/platforms/ios
+[2026-10-10T08:21:55.686Z] [Pipeline] {
+[2026-10-10T08:21:55.713Z] [Pipeline] stage
+[2026-10-10T08:21:55.720Z] [Pipeline] { (Build)
+[2026-10-10T08:21:55.737Z] [Pipeline] }
+[2026-10-10T08:21:55.759Z] [Pipeline] // stage
+[2026-10-10T08:21:55.777Z] [Pipeline] echo
+[2026-10-10T08:21:55.782Z] J2GHA-TRACE {"stage":"","step":"stash"}
+[2026-10-10T08:21:55.788Z] [Pipeline] }
+[2026-10-10T08:21:55.810Z] [Pipeline] // dir
+[2026-10-10T08:21:55.823Z] [Pipeline] }
+[2026-10-10T08:21:55.853Z] [Pipeline] // node
+[2026-10-10T08:21:55.878Z] [Pipeline] node
+[2026-10-10T08:21:55.893Z] Running on Jenkins in /var/jenkins_home/workspace/ex-119-trace
+[2026-10-10T08:21:55.903Z] [Pipeline] {
+[2026-10-10T08:21:55.927Z] [Pipeline] echo
+[2026-10-10T08:21:55.932Z] J2GHA-TRACE {"stage":"","step":"deleteDir"}
+[2026-10-10T08:21:55.951Z] [Pipeline] echo
+[2026-10-10T08:21:55.958Z] J2GHA-TRACE {"stage":"","step":"unstash"}
+[2026-10-10T08:21:55.976Z] [Pipeline] stage
+[2026-10-10T08:21:55.982Z] [Pipeline] { (Upload to S3)
+[2026-10-10T08:21:56.001Z] [Pipeline] }
+[2026-10-10T08:21:56.024Z] [Pipeline] // stage
+[2026-10-10T08:21:56.047Z] [Pipeline] stage
+[2026-10-10T08:21:56.054Z] [Pipeline] { (Generate bucket URL)
+[2026-10-10T08:21:56.072Z] [Pipeline] }
+[2026-10-10T08:21:56.094Z] [Pipeline] // stage
+[2026-10-10T08:21:56.106Z] [Pipeline] }
+[2026-10-10T08:21:56.135Z] [Pipeline] // node
+[2026-10-10T08:21:56.148Z] [Pipeline] End of Pipeline
+[2026-10-10T08:21:56.191Z] Finished: SUCCESS

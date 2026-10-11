@@ -1,0 +1,93 @@
+pipeline {
+  agent { label 'linux' }
+  options {
+    timeout(time: 30, unit: 'MINUTES')
+    disableConcurrentBuilds()
+  }
+  parameters {
+    booleanParam(name: 'DEPLOY', defaultValue: false, description: 'Deploy?')
+    choice(name: 'TARGET', choices: ['dev', 'prod'], description: 'Where')
+  }
+  triggers { cron('H 2 * * *') }
+  environment {
+    APP = 'demo'
+    REGISTRY_CREDS = credentials('registry')
+    SHORT_SHA = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
+  }
+  stages {
+    stage('Build') {
+      steps {
+        sh 'make build'
+        helper('lint')
+        stash name: 'dist', includes: 'dist/**'
+      }
+      post {
+        failure { echo 'build failed' }
+      }
+    }
+    stage('Test') {
+      parallel {
+        stage('Unit') {
+          steps {
+            sh 'make unit'
+            junit 'reports/unit/*.xml'
+          }
+        }
+        stage('Integration') {
+          agent { docker { image 'node:20' } }
+          steps {
+            unstash 'dist'
+            sh "npm test -- --app=${env.APP}"
+          }
+        }
+      }
+    }
+    stage('Matrix') {
+      matrix {
+        axes {
+          axis { name 'OS'; values 'linux', 'windows' }
+          axis { name 'JDK'; values '17', '21' }
+        }
+        excludes {
+          exclude {
+            axis { name 'OS'; values 'windows' }
+            axis { name 'JDK'; notValues '21' }
+          }
+        }
+        stages {
+          stage("${OS} build") {
+            steps { echo "building on ${OS} with ${JDK}" }
+          }
+        }
+      }
+    }
+    stage('Deploy') {
+      when {
+        allOf {
+          branch 'main'
+          expression { return params.DEPLOY }
+        }
+      }
+      steps {
+        withCredentials([usernamePassword(credentialsId: 'deployer', usernameVariable: 'U', passwordVariable: 'P')]) {
+          sh './deploy.sh "$U"'
+        }
+        script {
+          if (params.TARGET == 'prod') {
+            echo 'production'
+          } else {
+            echo 'not production'
+          }
+        }
+      }
+    }
+  }
+  post {
+    always { archiveArtifacts artifacts: 'dist/**', allowEmptyArchive: true }
+    failure { mail to: 'team@example.com', subject: 'failed' }
+  }
+}
+
+def helper(String target) {
+  sh "make ${target}"
+}

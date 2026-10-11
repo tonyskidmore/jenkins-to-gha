@@ -1,0 +1,905 @@
+{
+  "file": "112",
+  "ok": true,
+  "errors": [],
+  "imports": [],
+  "annotations": [],
+  "methods": [],
+  "classes": [],
+  "statements": [
+    {
+      "k": "call",
+      "name": "pipeline",
+      "args": [],
+      "named": {},
+      "line": 2,
+      "col": 1,
+      "endLine": 95,
+      "endCol": 2,
+      "body": [
+        {
+          "k": "call",
+          "name": "agent",
+          "args": [],
+          "named": {},
+          "line": 3,
+          "col": 5,
+          "endLine": 8,
+          "endCol": 6,
+          "body": [
+            {
+              "k": "call",
+              "name": "node",
+              "args": [],
+              "named": {},
+              "line": 4,
+              "col": 9,
+              "endLine": 7,
+              "endCol": 10,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "label",
+                  "args": [
+                    {
+                      "t": "str",
+                      "v": "java",
+                      "line": 6,
+                      "col": 19,
+                      "endLine": 6,
+                      "endCol": 25
+                    }
+                  ],
+                  "named": {},
+                  "line": 6,
+                  "col": 13,
+                  "endLine": 6,
+                  "endCol": 25
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "k": "call",
+          "name": "environment",
+          "args": [],
+          "named": {},
+          "line": 10,
+          "col": 5,
+          "endLine": 15,
+          "endCol": 6,
+          "body": [
+            {
+              "k": "assign",
+              "op": "=",
+              "target": "BRANCH",
+              "value": {
+                "t": "gstr",
+                "v": "\"${env.BRANCH_NAME}\"  // j2gha-local: was \"${BRANCH}\" (a job-config variable the harness cannot set)",
+                "vars": [
+                  "{env.BRANCH_NAME}"
+                ],
+                "calls": [],
+                "line": 11,
+                "col": 18,
+                "endLine": 11,
+                "endCol": 118
+              },
+              "line": 11,
+              "col": 9,
+              "endLine": 11,
+              "endCol": 118
+            },
+            {
+              "k": "assign",
+              "op": "=",
+              "target": "M2_HOME",
+              "value": {
+                "t": "str",
+                "v": "/usr/lib/maven/apache-maven-3.6.0",
+                "line": 12,
+                "col": 19,
+                "endLine": 12,
+                "endCol": 54
+              },
+              "line": 12,
+              "col": 9,
+              "endLine": 12,
+              "endCol": 54
+            },
+            {
+              "k": "assign",
+              "op": "=",
+              "target": "PATH",
+              "value": {
+                "t": "gstr",
+                "v": "\"${env.PATH}:${env.M2_HOME}/bin\"",
+                "vars": [
+                  "{env.PATH}",
+                  "{env.M2_HOME}"
+                ],
+                "calls": [],
+                "line": 14,
+                "col": 16,
+                "endLine": 14,
+                "endCol": 48
+              },
+              "line": 14,
+              "col": 9,
+              "endLine": 14,
+              "endCol": 48
+            }
+          ]
+        },
+        {
+          "k": "call",
+          "name": "parameters",
+          "args": [],
+          "named": {},
+          "line": 17,
+          "col": 5,
+          "endLine": 19,
+          "endCol": 6,
+          "body": [
+            {
+              "k": "call",
+              "name": "string",
+              "args": [],
+              "named": {
+                "name": {
+                  "t": "str",
+                  "v": "PERSON",
+                  "line": 18,
+                  "col": 22,
+                  "endLine": 18,
+                  "endCol": 30
+                },
+                "defaultValue": {
+                  "t": "str",
+                  "v": "Mr Jenkins",
+                  "line": 18,
+                  "col": 46,
+                  "endLine": 18,
+                  "endCol": 58
+                },
+                "description": {
+                  "t": "str",
+                  "v": "Who should I say hello to?",
+                  "line": 18,
+                  "col": 73,
+                  "endLine": 18,
+                  "endCol": 101
+                }
+              },
+              "line": 18,
+              "col": 9,
+              "endLine": 18,
+              "endCol": 102
+            }
+          ]
+        },
+        {
+          "k": "call",
+          "name": "stages",
+          "args": [],
+          "named": {},
+          "line": 20,
+          "col": 5,
+          "endLine": 94,
+          "endCol": 6,
+          "body": [
+            {
+              "k": "call",
+              "name": "stage",
+              "args": [
+                {
+                  "t": "str",
+                  "v": "Init",
+                  "line": 22,
+                  "col": 15,
+                  "endLine": 22,
+                  "endCol": 21
+                }
+              ],
+              "named": {},
+              "line": 22,
+              "col": 9,
+              "endLine": 39,
+              "endCol": 10,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "when",
+                  "args": [],
+                  "named": {},
+                  "line": 24,
+                  "col": 13,
+                  "endLine": 26,
+                  "endCol": 14,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "environment",
+                      "args": [],
+                      "named": {
+                        "name": {
+                          "t": "str",
+                          "v": "BRANCH",
+                          "line": 25,
+                          "col": 35,
+                          "endLine": 25,
+                          "endCol": 43
+                        },
+                        "value": {
+                          "t": "str",
+                          "v": "develop",
+                          "line": 25,
+                          "col": 52,
+                          "endLine": 25,
+                          "endCol": 61
+                        }
+                      },
+                      "line": 25,
+                      "col": 17,
+                      "endLine": 25,
+                      "endCol": 61
+                    }
+                  ]
+                },
+                {
+                  "k": "call",
+                  "name": "input",
+                  "args": [],
+                  "named": {},
+                  "line": 27,
+                  "col": 13,
+                  "endLine": 38,
+                  "endCol": 14,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "message",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "Should we continue?",
+                          "line": 29,
+                          "col": 25,
+                          "endLine": 29,
+                          "endCol": 46
+                        }
+                      ],
+                      "named": {},
+                      "line": 29,
+                      "col": 17,
+                      "endLine": 29,
+                      "endCol": 46
+                    },
+                    {
+                      "k": "call",
+                      "name": "ok",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "Yes, we should.",
+                          "line": 31,
+                          "col": 20,
+                          "endLine": 31,
+                          "endCol": 37
+                        }
+                      ],
+                      "named": {},
+                      "line": 31,
+                      "col": 17,
+                      "endLine": 31,
+                      "endCol": 37
+                    },
+                    {
+                      "k": "call",
+                      "name": "submitter",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "alice,bob",
+                          "line": 33,
+                          "col": 27,
+                          "endLine": 33,
+                          "endCol": 38
+                        }
+                      ],
+                      "named": {},
+                      "line": 33,
+                      "col": 17,
+                      "endLine": 33,
+                      "endCol": 38
+                    },
+                    {
+                      "k": "call",
+                      "name": "parameters",
+                      "args": [],
+                      "named": {},
+                      "line": 35,
+                      "col": 17,
+                      "endLine": 37,
+                      "endCol": 18,
+                      "body": [
+                        {
+                          "k": "call",
+                          "name": "string",
+                          "args": [],
+                          "named": {
+                            "name": {
+                              "t": "str",
+                              "v": "PERSON1",
+                              "line": 36,
+                              "col": 34,
+                              "endLine": 36,
+                              "endCol": 43
+                            },
+                            "defaultValue": {
+                              "t": "str",
+                              "v": "Mr Jenkins",
+                              "line": 36,
+                              "col": 59,
+                              "endLine": 36,
+                              "endCol": 71
+                            },
+                            "description": {
+                              "t": "str",
+                              "v": "Who should I say hello to?",
+                              "line": 36,
+                              "col": 86,
+                              "endLine": 36,
+                              "endCol": 114
+                            }
+                          },
+                          "line": 36,
+                          "col": 21,
+                          "endLine": 36,
+                          "endCol": 115
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "k": "call",
+              "name": "stage",
+              "args": [
+                {
+                  "t": "str",
+                  "v": "Parallel Stage",
+                  "line": 41,
+                  "col": 15,
+                  "endLine": 41,
+                  "endCol": 31
+                }
+              ],
+              "named": {},
+              "line": 41,
+              "col": 9,
+              "endLine": 60,
+              "endCol": 10,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "when",
+                  "args": [],
+                  "named": {},
+                  "line": 43,
+                  "col": 13,
+                  "endLine": 45,
+                  "endCol": 14,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "environment",
+                      "args": [],
+                      "named": {
+                        "name": {
+                          "t": "str",
+                          "v": "BRANCH",
+                          "line": 44,
+                          "col": 35,
+                          "endLine": 44,
+                          "endCol": 43
+                        },
+                        "value": {
+                          "t": "str",
+                          "v": "develop",
+                          "line": 44,
+                          "col": 52,
+                          "endLine": 44,
+                          "endCol": 61
+                        }
+                      },
+                      "line": 44,
+                      "col": 17,
+                      "endLine": 44,
+                      "endCol": 61
+                    }
+                  ]
+                },
+                {
+                  "k": "call",
+                  "name": "failFast",
+                  "args": [
+                    {
+                      "t": "bool",
+                      "v": true,
+                      "line": 47,
+                      "col": 22,
+                      "endLine": 47,
+                      "endCol": 26
+                    }
+                  ],
+                  "named": {},
+                  "line": 47,
+                  "col": 13,
+                  "endLine": 47,
+                  "endCol": 26
+                },
+                {
+                  "k": "call",
+                  "name": "parallel",
+                  "args": [],
+                  "named": {},
+                  "line": 48,
+                  "col": 13,
+                  "endLine": 59,
+                  "endCol": 14,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "stage",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "Branch A",
+                          "line": 49,
+                          "col": 23,
+                          "endLine": 49,
+                          "endCol": 33
+                        }
+                      ],
+                      "named": {},
+                      "line": 49,
+                      "col": 17,
+                      "endLine": 53,
+                      "endCol": 18,
+                      "body": [
+                        {
+                          "k": "call",
+                          "name": "steps",
+                          "args": [],
+                          "named": {},
+                          "line": 50,
+                          "col": 21,
+                          "endLine": 52,
+                          "endCol": 22,
+                          "body": [
+                            {
+                              "k": "call",
+                              "name": "echo",
+                              "args": [
+                                {
+                                  "t": "str",
+                                  "v": "On Branch A",
+                                  "line": 51,
+                                  "col": 30,
+                                  "endLine": 51,
+                                  "endCol": 43
+                                }
+                              ],
+                              "named": {},
+                              "line": 51,
+                              "col": 25,
+                              "endLine": 51,
+                              "endCol": 43
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "k": "call",
+                      "name": "stage",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "Branch B",
+                          "line": 54,
+                          "col": 23,
+                          "endLine": 54,
+                          "endCol": 33
+                        }
+                      ],
+                      "named": {},
+                      "line": 54,
+                      "col": 17,
+                      "endLine": 58,
+                      "endCol": 18,
+                      "body": [
+                        {
+                          "k": "call",
+                          "name": "steps",
+                          "args": [],
+                          "named": {},
+                          "line": 55,
+                          "col": 21,
+                          "endLine": 57,
+                          "endCol": 22,
+                          "body": [
+                            {
+                              "k": "call",
+                              "name": "echo",
+                              "args": [
+                                {
+                                  "t": "str",
+                                  "v": "On Branch B",
+                                  "line": 56,
+                                  "col": 30,
+                                  "endLine": 56,
+                                  "endCol": 43
+                                }
+                              ],
+                              "named": {},
+                              "line": 56,
+                              "col": 25,
+                              "endLine": 56,
+                              "endCol": 43
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "k": "call",
+              "name": "stage",
+              "args": [
+                {
+                  "t": "str",
+                  "v": "Build",
+                  "line": 62,
+                  "col": 15,
+                  "endLine": 62,
+                  "endCol": 22
+                }
+              ],
+              "named": {},
+              "line": 62,
+              "col": 9,
+              "endLine": 83,
+              "endCol": 10,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "environment",
+                  "args": [],
+                  "named": {},
+                  "line": 64,
+                  "col": 13,
+                  "endLine": 66,
+                  "endCol": 14,
+                  "body": [
+                    {
+                      "k": "assign",
+                      "op": "=",
+                      "target": "M2_HOME",
+                      "value": {
+                        "t": "str",
+                        "v": "/usr/lib/maven/apache-maven-3.6.0",
+                        "line": 65,
+                        "col": 27,
+                        "endLine": 65,
+                        "endCol": 62
+                      },
+                      "line": 65,
+                      "col": 17,
+                      "endLine": 65,
+                      "endCol": 62
+                    }
+                  ]
+                },
+                {
+                  "k": "call",
+                  "name": "options",
+                  "args": [],
+                  "named": {},
+                  "line": 68,
+                  "col": 13,
+                  "endLine": 70,
+                  "endCol": 14,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "timeout",
+                      "args": [],
+                      "named": {
+                        "time": {
+                          "t": "num",
+                          "v": 1,
+                          "line": 69,
+                          "col": 31,
+                          "endLine": 69,
+                          "endCol": 32
+                        },
+                        "unit": {
+                          "t": "str",
+                          "v": "HOURS",
+                          "line": 69,
+                          "col": 40,
+                          "endLine": 69,
+                          "endCol": 47
+                        }
+                      },
+                      "line": 69,
+                      "col": 17,
+                      "endLine": 69,
+                      "endCol": 49
+                    }
+                  ]
+                },
+                {
+                  "k": "call",
+                  "name": "steps",
+                  "args": [],
+                  "named": {},
+                  "line": 72,
+                  "col": 13,
+                  "endLine": 82,
+                  "endCol": 14,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "echo",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "Hello World Build",
+                          "line": 73,
+                          "col": 22,
+                          "endLine": 73,
+                          "endCol": 41
+                        }
+                      ],
+                      "named": {},
+                      "line": 73,
+                      "col": 17,
+                      "endLine": 73,
+                      "endCol": 41
+                    },
+                    {
+                      "k": "call",
+                      "name": "echo",
+                      "args": [
+                        {
+                          "t": "gstr",
+                          "v": "\"Hello ${params.PERSON}\"",
+                          "vars": [
+                            "{params.PERSON}"
+                          ],
+                          "calls": [],
+                          "line": 75,
+                          "col": 22,
+                          "endLine": 75,
+                          "endCol": 46
+                        }
+                      ],
+                      "named": {},
+                      "line": 75,
+                      "col": 17,
+                      "endLine": 75,
+                      "endCol": 46
+                    },
+                    {
+                      "k": "call",
+                      "name": "echo",
+                      "args": [
+                        {
+                          "t": "gstr",
+                          "v": "\"${env.M2_HOME}\"",
+                          "vars": [
+                            "{env.M2_HOME}"
+                          ],
+                          "calls": [],
+                          "line": 77,
+                          "col": 22,
+                          "endLine": 77,
+                          "endCol": 38
+                        }
+                      ],
+                      "named": {},
+                      "line": 77,
+                      "col": 17,
+                      "endLine": 77,
+                      "endCol": 38
+                    },
+                    {
+                      "k": "call",
+                      "name": "sh",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "python3 --version",
+                          "line": 79,
+                          "col": 20,
+                          "endLine": 79,
+                          "endCol": 39
+                        }
+                      ],
+                      "named": {},
+                      "line": 79,
+                      "col": 17,
+                      "endLine": 79,
+                      "endCol": 109
+                    },
+                    {
+                      "k": "call",
+                      "name": "sh",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "mkdir -p target && python3 -c \"print(42)\" > target/app.txt",
+                          "line": 80,
+                          "col": 20,
+                          "endLine": 80,
+                          "endCol": 80
+                        }
+                      ],
+                      "named": {},
+                      "line": 80,
+                      "col": 17,
+                      "endLine": 80,
+                      "endCol": 151
+                    },
+                    {
+                      "k": "call",
+                      "name": "echo",
+                      "args": [
+                        {
+                          "t": "gstr",
+                          "v": "\"${BRANCH}\"",
+                          "vars": [
+                            "{BRANCH}"
+                          ],
+                          "calls": [],
+                          "line": 81,
+                          "col": 22,
+                          "endLine": 81,
+                          "endCol": 33
+                        }
+                      ],
+                      "named": {},
+                      "line": 81,
+                      "col": 17,
+                      "endLine": 81,
+                      "endCol": 33
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "k": "call",
+              "name": "stage",
+              "args": [
+                {
+                  "t": "str",
+                  "v": "Deploy",
+                  "line": 84,
+                  "col": 15,
+                  "endLine": 84,
+                  "endCol": 23
+                }
+              ],
+              "named": {},
+              "line": 84,
+              "col": 9,
+              "endLine": 92,
+              "endCol": 10,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "steps",
+                  "args": [],
+                  "named": {},
+                  "line": 85,
+                  "col": 13,
+                  "endLine": 91,
+                  "endCol": 14,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "echo",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "Hello World Deploy",
+                          "line": 86,
+                          "col": 22,
+                          "endLine": 86,
+                          "endCol": 42
+                        }
+                      ],
+                      "named": {},
+                      "line": 86,
+                      "col": 17,
+                      "endLine": 86,
+                      "endCol": 42
+                    },
+                    {
+                      "k": "call",
+                      "name": "sh",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "printf \"#!/bin/sh\\necho deploy\\n\" > deploy.sh",
+                          "line": 87,
+                          "col": 20,
+                          "endLine": 87,
+                          "endCol": 69
+                        }
+                      ],
+                      "named": {},
+                      "line": 87,
+                      "col": 17,
+                      "endLine": 87,
+                      "endCol": 118
+                    },
+                    {
+                      "k": "call",
+                      "name": "sh",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "chmod 777 deploy.sh",
+                          "line": 88,
+                          "col": 20,
+                          "endLine": 88,
+                          "endCol": 41
+                        }
+                      ],
+                      "named": {},
+                      "line": 88,
+                      "col": 17,
+                      "endLine": 88,
+                      "endCol": 41
+                    },
+                    {
+                      "k": "call",
+                      "name": "sh",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "./deploy.sh",
+                          "line": 90,
+                          "col": 20,
+                          "endLine": 90,
+                          "endCol": 33
+                        }
+                      ],
+                      "named": {},
+                      "line": 90,
+                      "col": 17,
+                      "endLine": 90,
+                      "endCol": 33
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "source_sha256": "4a33da584cdcf0dc936256df8c47e9032852a0e789e8bb9c9419f958be038dec"
+}

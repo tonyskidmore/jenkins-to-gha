@@ -1,0 +1,1213 @@
+{
+  "dialect": "scripted",
+  "parameters": [
+    {
+      "kind": "booleanParam",
+      "name": "forceBuild",
+      "description": "Build even if the image is already present in the repository",
+      "line": 15
+    },
+    {
+      "kind": "booleanParam",
+      "name": "publish",
+      "description": "Publish built images",
+      "line": 16
+    },
+    {
+      "kind": "string",
+      "name": "h2oBranch",
+      "default": "master",
+      "description": "H2O-3 Branch used to load dependencies.",
+      "line": 17
+    },
+    {
+      "kind": "booleanParam",
+      "name": "noCache",
+      "default": true,
+      "description": "If set to true, the docker image is built from scratch, with no stages used from the cache.",
+      "line": 18
+    }
+  ],
+  "libraries": [
+    "test-shared-library@dai-updated"
+  ],
+  "stages": [
+    {
+      "line": 1,
+      "steps": [
+        {
+          "name": "<decl>",
+          "line": 1,
+          "named": {
+            "_target": "_"
+          },
+          "category": "dynamic",
+          "source": "_ = <not implemented yet for class: org.codehaus.groovy.ast.expr.EmptyExpression>",
+          "dynamic": true
+        },
+        {
+          "name": "<assign>",
+          "line": 4,
+          "named": {
+            "_target": "DEFAULT_LABEL",
+            "_literal": "h2o3_linux"
+          },
+          "category": "dynamic",
+          "source": "DEFAULT_LABEL = h2o3_linux",
+          "dynamic": true
+        },
+        {
+          "name": "<assign>",
+          "line": 6,
+          "named": {
+            "_target": "H2O_ECR",
+            "_literal": "353750902984.dkr.ecr.us-east-1.amazonaws.com"
+          },
+          "category": "dynamic",
+          "source": "H2O_ECR = 353750902984.dkr.ecr.us-east-1.amazonaws.com",
+          "dynamic": true
+        },
+        {
+          "name": "buildSummary",
+          "line": 9,
+          "args": [
+            "https://github.com/h2oai/h2o-3",
+            true
+          ],
+          "category": "unknown"
+        },
+        {
+          "name": "addStagesSummary",
+          "line": 11,
+          "args": [
+            "this",
+            "new StagesSummary(...)"
+          ],
+          "category": "unknown",
+          "receiver": "buildSummary.get()",
+          "dynamic": true,
+          "variable_args": [
+            0
+          ]
+        },
+        {
+          "name": "<assign>",
+          "line": 24,
+          "named": {
+            "_target": "JDK_VERSIONS"
+          },
+          "category": "dynamic",
+          "source": "JDK_VERSIONS = [8, 11, 17]",
+          "dynamic": true
+        },
+        {
+          "name": "<assign>",
+          "line": 25,
+          "named": {
+            "_target": "JDK_VERSIONS_PY_R"
+          },
+          "category": "dynamic",
+          "source": "JDK_VERSIONS_PY_R = [8, 11, 17]",
+          "dynamic": true
+        },
+        {
+          "name": "<decl>",
+          "line": 86,
+          "named": {
+            "_target": "pipelineContext"
+          },
+          "category": "dynamic",
+          "source": "pipelineContext = <not implemented yet for class: org.codehaus.groovy.ast.expr.EmptyExpression>",
+          "dynamic": true
+        },
+        {
+          "name": "<decl>",
+          "line": 90,
+          "named": {
+            "_target": "checkoutStageName",
+            "_literal": "Checkout and Init"
+          },
+          "category": "dynamic",
+          "source": "checkoutStageName = Checkout and Init",
+          "dynamic": true
+        },
+        {
+          "name": "stageWithSummary",
+          "line": 91,
+          "args": [
+            "checkoutStageName"
+          ],
+          "body": [
+            {
+              "name": "node",
+              "line": 92,
+              "args": [
+                "DEFAULT_LABEL"
+              ],
+              "body": [
+                {
+                  "name": "refreshStage",
+                  "line": 93,
+                  "args": [
+                    "checkoutStageName"
+                  ],
+                  "category": "unknown",
+                  "receiver": "buildSummary",
+                  "dynamic": true,
+                  "variable_args": [
+                    0
+                  ]
+                },
+                {
+                  "name": "cleanWs",
+                  "line": 94,
+                  "category": "direct"
+                },
+                {
+                  "name": "<decl>",
+                  "line": 95,
+                  "named": {
+                    "_target": "scmEnv"
+                  },
+                  "body": [
+                    {
+                      "name": "checkout",
+                      "line": 95,
+                      "args": [
+                        "scm"
+                      ],
+                      "category": "direct",
+                      "dynamic": true,
+                      "variable_args": [
+                        0
+                      ]
+                    }
+                  ],
+                  "category": "dynamic",
+                  "source": "scmEnv = checkout(...)",
+                  "dynamic": true
+                },
+                {
+                  "name": "<decl>",
+                  "line": 97,
+                  "named": {
+                    "_target": "pipelineContextFactory"
+                  },
+                  "body": [
+                    {
+                      "name": "load",
+                      "line": 97,
+                      "args": [
+                        "scripts/jenkins/groovy/pipelineContext.groovy"
+                      ],
+                      "category": "dynamic"
+                    }
+                  ],
+                  "category": "dynamic",
+                  "source": "pipelineContextFactory = load(...)",
+                  "dynamic": true
+                },
+                {
+                  "name": "<assign>",
+                  "line": 98,
+                  "named": {
+                    "_target": "pipelineContext"
+                  },
+                  "body": [
+                    {
+                      "name": "pipelineContextFactory",
+                      "line": 98,
+                      "args": [
+                        ".",
+                        "MODE_BUILD_DOCKER",
+                        "scmEnv",
+                        true
+                      ],
+                      "category": "unknown",
+                      "dynamic": true,
+                      "variable_args": [
+                        2
+                      ]
+                    }
+                  ],
+                  "category": "dynamic",
+                  "source": "pipelineContext = pipelineContextFactory(...)",
+                  "dynamic": true
+                },
+                {
+                  "name": "<decl>",
+                  "line": 99,
+                  "named": {
+                    "_target": "currentVersion"
+                  },
+                  "body": [
+                    {
+                      "name": "getDefaultImageVersion",
+                      "line": 99,
+                      "category": "unknown",
+                      "receiver": "pipelineContext.getBuildConfig()"
+                    }
+                  ],
+                  "category": "dynamic",
+                  "source": "currentVersion = pipelineContext.getBuildConfig().getDefaultImageVersion(...)",
+                  "dynamic": true
+                },
+                {
+                  "name": "<assign>",
+                  "line": 100,
+                  "named": {
+                    "_target": "currentBuild.displayName"
+                  },
+                  "category": "dynamic",
+                  "source": "currentBuild.displayName = v${currentVersion} #${currentBuild.number}",
+                  "dynamic": true
+                },
+                {
+                  "name": "dir",
+                  "line": 111,
+                  "args": [
+                    "docker"
+                  ],
+                  "body": [
+                    {
+                      "name": "withCredentials",
+                      "line": 112,
+                      "args": [
+                        [
+                          {
+                            "$class": "AmazonWebServicesCredentialsBinding",
+                            "accessKeyVariable": "AWS_ACCESS_KEY_ID",
+                            "credentialsId": "H2O-AWS_CT-JENKINS-SHARED-SERVICE-PROD",
+                            "secretKeyVariable": "AWS_SECRET_ACCESS_KEY"
+                          }
+                        ]
+                      ],
+                      "named": {
+                        "bindings": [
+                          {
+                            "type": "aws",
+                            "accessKeyVariable": "AWS_ACCESS_KEY_ID",
+                            "credentialsId": "H2O-AWS_CT-JENKINS-SHARED-SERVICE-PROD",
+                            "secretKeyVariable": "AWS_SECRET_ACCESS_KEY"
+                          }
+                        ]
+                      },
+                      "body": [
+                        {
+                          "name": "inside",
+                          "line": 113,
+                          "args": [
+                            "--entrypoint='' -e AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} -e AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}"
+                          ],
+                          "body": [
+                            {
+                              "name": "sh",
+                              "line": 114,
+                              "args": [
+                                "s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-8/x64-linux/jdk-8u311-linux-x64.tar.gz"
+                              ],
+                              "category": "direct"
+                            },
+                            {
+                              "name": "sh",
+                              "line": 115,
+                              "args": [
+                                "s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-10/x64-linux/jdk-10.0.2_linux-x64_bin.tar.gz"
+                              ],
+                              "category": "direct"
+                            },
+                            {
+                              "name": "sh",
+                              "line": 116,
+                              "args": [
+                                "s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-11/x64-linux/jdk-11.0.3_linux-x64_bin.tar.gz"
+                              ],
+                              "category": "direct"
+                            },
+                            {
+                              "name": "sh",
+                              "line": 117,
+                              "args": [
+                                "s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-12/x64-linux/jdk-12.0.2_linux-x64_bin.tar.gz"
+                              ],
+                              "category": "direct"
+                            },
+                            {
+                              "name": "sh",
+                              "line": 118,
+                              "args": [
+                                "s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-13/x64-linux/jdk-13.0.2_linux-x64_bin.tar.gz"
+                              ],
+                              "category": "direct"
+                            },
+                            {
+                              "name": "sh",
+                              "line": 119,
+                              "args": [
+                                "s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-14/x64-linux/jdk-14.0.2_linux-x64_bin.tar.gz"
+                              ],
+                              "category": "direct"
+                            },
+                            {
+                              "name": "sh",
+                              "line": 120,
+                              "args": [
+                                "s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-15/x64-linux/jdk-15.0.2_linux-x64_bin.tar.gz"
+                              ],
+                              "category": "direct"
+                            },
+                            {
+                              "name": "sh",
+                              "line": 121,
+                              "args": [
+                                "s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-16/x64-linux/jdk-16.0.2_linux-x64_bin.tar.gz"
+                              ],
+                              "category": "direct"
+                            },
+                            {
+                              "name": "sh",
+                              "line": 122,
+                              "args": [
+                                "s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-17/x64-linux/jdk-17.0.0_linux-x64_bin.tar.gz"
+                              ],
+                              "category": "direct"
+                            }
+                          ],
+                          "category": "policy",
+                          "receiver": "docker.image('d3fk/s3cmd')",
+                          "dynamic": true
+                        }
+                      ],
+                      "category": "policy"
+                    },
+                    {
+                      "name": "stash",
+                      "line": 125,
+                      "named": {
+                        "name": "docker-sources"
+                      },
+                      "category": "policy"
+                    }
+                  ],
+                  "category": "direct"
+                }
+              ],
+              "category": "policy",
+              "dynamic": true,
+              "variable_args": [
+                0
+              ]
+            }
+          ],
+          "category": "unknown",
+          "receiver": "buildSummary",
+          "dynamic": true,
+          "variable_args": [
+            0
+          ]
+        },
+        {
+          "name": "<assign>",
+          "line": 130,
+          "named": {
+            "_target": "PYTHON_VERSIONS"
+          },
+          "category": "dynamic",
+          "source": "PYTHON_VERSIONS = pipelineContext.getBuildConfig().PYTHON_VERSIONS",
+          "dynamic": true
+        },
+        {
+          "name": "<assign>",
+          "line": 131,
+          "named": {
+            "_target": "R_VERSIONS"
+          },
+          "category": "dynamic",
+          "source": "R_VERSIONS = pipelineContext.getBuildConfig().R_VERSIONS",
+          "dynamic": true
+        },
+        {
+          "name": "buildInParallel",
+          "line": 133,
+          "args": [
+            "pipelineContext",
+            [
+              "dev-base"
+            ]
+          ],
+          "category": "unknown",
+          "dynamic": true,
+          "variable_args": [
+            0
+          ]
+        },
+        {
+          "name": "buildInParallel",
+          "line": 134,
+          "args": [
+            "pipelineContext",
+            [
+              "dev-jdk-8-base",
+              "dev-jdk-others-base"
+            ]
+          ],
+          "category": "unknown",
+          "dynamic": true,
+          "variable_args": [
+            0
+          ]
+        },
+        {
+          "name": "buildInParallel",
+          "line": 136,
+          "args": [
+            "pipelineContext",
+            [
+              "dev-python-base"
+            ]
+          ],
+          "category": "unknown",
+          "dynamic": true,
+          "variable_args": [
+            0
+          ]
+        },
+        {
+          "name": "<decl>",
+          "line": 137,
+          "named": {
+            "_target": "pythonImages"
+          },
+          "category": "dynamic",
+          "source": "pythonImages = []",
+          "dynamic": true
+        },
+        {
+          "name": "each",
+          "line": 138,
+          "body": [
+            {
+              "name": "<assign>",
+              "line": 139,
+              "named": {
+                "_target": "pythonImages"
+              },
+              "category": "dynamic",
+              "source": "pythonImages = dev-python-${version}",
+              "dynamic": true
+            }
+          ],
+          "category": "groovy",
+          "receiver": "PYTHON_VERSIONS"
+        },
+        {
+          "name": "buildInParallel",
+          "line": 141,
+          "args": [
+            "pipelineContext",
+            "pythonImages"
+          ],
+          "category": "unknown",
+          "dynamic": true,
+          "variable_args": [
+            0,
+            1
+          ]
+        },
+        {
+          "name": "buildInParallel",
+          "line": 143,
+          "args": [
+            "pipelineContext",
+            [
+              "dev-r-base"
+            ]
+          ],
+          "category": "unknown",
+          "dynamic": true,
+          "variable_args": [
+            0
+          ]
+        },
+        {
+          "name": "<decl>",
+          "line": 144,
+          "named": {
+            "_target": "componentImages"
+          },
+          "category": "dynamic",
+          "source": "componentImages = []",
+          "dynamic": true
+        },
+        {
+          "name": "each",
+          "line": 145,
+          "body": [
+            {
+              "name": "<assign>",
+              "line": 146,
+              "named": {
+                "_target": "componentImages"
+              },
+              "category": "dynamic",
+              "source": "componentImages = dev-r-${version}",
+              "dynamic": true
+            }
+          ],
+          "category": "groovy",
+          "receiver": "R_VERSIONS"
+        },
+        {
+          "name": "each",
+          "line": 148,
+          "body": [
+            {
+              "name": "<assign>",
+              "line": 149,
+              "named": {
+                "_target": "componentImages"
+              },
+              "category": "dynamic",
+              "source": "componentImages = dev-jdk-${version}",
+              "dynamic": true
+            }
+          ],
+          "category": "groovy",
+          "receiver": "JDK_VERSIONS"
+        },
+        {
+          "name": "<assign>",
+          "line": 151,
+          "named": {
+            "_target": "componentImages",
+            "_literal": "dev-mojocompat"
+          },
+          "category": "dynamic",
+          "source": "componentImages = dev-mojocompat",
+          "dynamic": true
+        },
+        {
+          "name": "buildInParallel",
+          "line": 152,
+          "args": [
+            "pipelineContext",
+            "componentImages"
+          ],
+          "category": "unknown",
+          "dynamic": true,
+          "variable_args": [
+            0,
+            1
+          ]
+        },
+        {
+          "name": "buildInParallel",
+          "line": 154,
+          "args": [
+            "pipelineContext",
+            [
+              "dev-build-base"
+            ]
+          ],
+          "category": "unknown",
+          "dynamic": true,
+          "variable_args": [
+            0
+          ]
+        },
+        {
+          "name": "buildInParallel",
+          "line": 155,
+          "args": [
+            "pipelineContext",
+            [
+              "dev-build-hadoop"
+            ]
+          ],
+          "category": "unknown",
+          "dynamic": true,
+          "variable_args": [
+            0
+          ]
+        },
+        {
+          "name": "buildInParallel",
+          "line": 156,
+          "args": [
+            "pipelineContext",
+            [
+              "dev-release"
+            ]
+          ],
+          "category": "unknown",
+          "dynamic": true,
+          "variable_args": [
+            0
+          ]
+        },
+        {
+          "name": "<decl>",
+          "line": 158,
+          "named": {
+            "_target": "componentJdkImages"
+          },
+          "category": "dynamic",
+          "source": "componentJdkImages = []",
+          "dynamic": true
+        },
+        {
+          "name": "each",
+          "line": 159,
+          "body": [
+            {
+              "name": "each",
+              "line": 160,
+              "body": [
+                {
+                  "name": "<assign>",
+                  "line": 161,
+                  "named": {
+                    "_target": "componentJdkImages"
+                  },
+                  "category": "dynamic",
+                  "source": "componentJdkImages = dev-python-${version}-jdk-${jdkVersion}",
+                  "dynamic": true
+                }
+              ],
+              "category": "groovy",
+              "receiver": "JDK_VERSIONS_PY_R"
+            }
+          ],
+          "category": "groovy",
+          "receiver": "PYTHON_VERSIONS"
+        },
+        {
+          "name": "each",
+          "line": 164,
+          "body": [
+            {
+              "name": "each",
+              "line": 165,
+              "body": [
+                {
+                  "name": "<assign>",
+                  "line": 166,
+                  "named": {
+                    "_target": "componentJdkImages"
+                  },
+                  "category": "dynamic",
+                  "source": "componentJdkImages = dev-r-${version}-jdk-${jdkVersion}",
+                  "dynamic": true
+                }
+              ],
+              "category": "groovy",
+              "receiver": "JDK_VERSIONS_PY_R"
+            }
+          ],
+          "category": "groovy",
+          "receiver": "R_VERSIONS"
+        },
+        {
+          "name": "buildInParallel",
+          "line": 169,
+          "args": [
+            "pipelineContext",
+            "componentJdkImages"
+          ],
+          "category": "unknown",
+          "dynamic": true,
+          "variable_args": [
+            0,
+            1
+          ]
+        }
+      ]
+    }
+  ],
+  "methods": [
+    "stashDockerImage",
+    "unstashDockerImage",
+    "stashDockerImages",
+    "unstashDockerImages",
+    "buildInParallel",
+    "makeStage",
+    "dockerLoginH2OECR",
+    "imageExistsH2OECR"
+  ],
+  "method_defs": {
+    "stashDockerImage": {
+      "params": [
+        "image"
+      ],
+      "body": [
+        {
+          "name": "sh",
+          "line": 28,
+          "args": [
+            "docker save -o ${image}.tar ${H2O_ECR}/h2o-3/${image}"
+          ],
+          "category": "direct",
+          "dynamic": true
+        },
+        {
+          "name": "stash",
+          "line": 29,
+          "named": {
+            "includes": "${image}.tar",
+            "name": "docker-image-${image}"
+          },
+          "category": "policy",
+          "dynamic": true
+        },
+        {
+          "name": "sh",
+          "line": 30,
+          "args": [
+            "rm ${image}.tar"
+          ],
+          "category": "direct",
+          "dynamic": true
+        }
+      ]
+    },
+    "unstashDockerImage": {
+      "params": [
+        "image"
+      ],
+      "body": [
+        {
+          "name": "unstash",
+          "line": 34,
+          "args": [
+            "docker-image-${image}"
+          ],
+          "category": "policy",
+          "dynamic": true
+        },
+        {
+          "name": "sh",
+          "line": 35,
+          "args": [
+            "docker load -i ${image}.tar"
+          ],
+          "category": "direct",
+          "dynamic": true
+        },
+        {
+          "name": "sh",
+          "line": 36,
+          "args": [
+            "rm ${image}.tar"
+          ],
+          "category": "direct",
+          "dynamic": true
+        }
+      ]
+    },
+    "stashDockerImages": {
+      "params": [
+        "target"
+      ],
+      "body": [
+        {
+          "name": "<if>",
+          "line": 40,
+          "body": [
+            {
+              "name": "<assign>",
+              "line": 41,
+              "named": {
+                "_target": "toPersist"
+              },
+              "category": "dynamic",
+              "source": "toPersist = [dev-base, dev-jdk-8-base, dev-jdk-others-base, dev-python-3.7, dev-r-4.5.2, dev-build-base, dev-build-hadoop, dev-python-base, dev-r-base]",
+              "dynamic": true
+            },
+            {
+              "name": "<if>",
+              "line": 43,
+              "body": [
+                {
+                  "name": "stashDockerImage",
+                  "line": 44,
+                  "args": [
+                    "target"
+                  ],
+                  "category": "unknown",
+                  "dynamic": true,
+                  "variable_args": [
+                    0
+                  ]
+                }
+              ],
+              "category": "dynamic",
+              "source": "toPersist.contains(target)",
+              "dynamic": true
+            }
+          ],
+          "category": "dynamic",
+          "source": "!params.publish",
+          "dynamic": true
+        }
+      ]
+    },
+    "unstashDockerImages": {
+      "params": [
+        "target"
+      ],
+      "body": [
+        {
+          "name": "<if>",
+          "line": 50,
+          "body": [
+            {
+              "name": "<switch>",
+              "line": 51,
+              "body": [
+                {
+                  "name": "<if>",
+                  "line": 73,
+                  "named": {
+                    "_else": [
+                      {
+                        "name": "<if>",
+                        "line": 75,
+                        "named": {
+                          "_else": [
+                            {
+                              "name": "<if>",
+                              "line": 77,
+                              "body": [
+                                {
+                                  "name": "unstashDockerImage",
+                                  "line": 78,
+                                  "args": [
+                                    "dev-jdk-others-base"
+                                  ],
+                                  "category": "unknown"
+                                }
+                              ],
+                              "category": "dynamic",
+                              "source": "target ==~ /dev-jdk-\\d+/",
+                              "dynamic": true
+                            }
+                          ]
+                        },
+                        "body": [
+                          {
+                            "name": "unstashDockerImage",
+                            "line": 76,
+                            "args": [
+                              "dev-r-base"
+                            ],
+                            "category": "unknown"
+                          }
+                        ],
+                        "category": "dynamic",
+                        "source": "target.startsWith('dev-r-')",
+                        "dynamic": true
+                      }
+                    ]
+                  },
+                  "body": [
+                    {
+                      "name": "unstashDockerImage",
+                      "line": 74,
+                      "args": [
+                        "dev-python-base"
+                      ],
+                      "category": "unknown"
+                    }
+                  ],
+                  "category": "dynamic",
+                  "source": "target.startsWith('dev-python-')",
+                  "dynamic": true
+                },
+                {
+                  "name": "<break>",
+                  "line": 80,
+                  "category": "dynamic",
+                  "dynamic": true
+                },
+                {
+                  "name": "unstashDockerImage",
+                  "line": 54,
+                  "args": [
+                    "dev-base"
+                  ],
+                  "category": "unknown"
+                },
+                {
+                  "name": "<break>",
+                  "line": 55,
+                  "category": "dynamic",
+                  "dynamic": true
+                },
+                {
+                  "name": "unstashDockerImage",
+                  "line": 57,
+                  "args": [
+                    "dev-jdk-8-base"
+                  ],
+                  "category": "unknown"
+                },
+                {
+                  "name": "<break>",
+                  "line": 58,
+                  "category": "dynamic",
+                  "dynamic": true
+                },
+                {
+                  "name": "unstashDockerImage",
+                  "line": 61,
+                  "args": [
+                    "dev-python-3.7"
+                  ],
+                  "category": "unknown"
+                },
+                {
+                  "name": "<break>",
+                  "line": 62,
+                  "category": "dynamic",
+                  "dynamic": true
+                },
+                {
+                  "name": "unstashDockerImage",
+                  "line": 64,
+                  "args": [
+                    "dev-r-4.5.2"
+                  ],
+                  "category": "unknown"
+                },
+                {
+                  "name": "<break>",
+                  "line": 65,
+                  "category": "dynamic",
+                  "dynamic": true
+                },
+                {
+                  "name": "unstashDockerImage",
+                  "line": 67,
+                  "args": [
+                    "dev-build-base"
+                  ],
+                  "category": "unknown"
+                },
+                {
+                  "name": "<break>",
+                  "line": 68,
+                  "category": "dynamic",
+                  "dynamic": true
+                },
+                {
+                  "name": "unstashDockerImage",
+                  "line": 70,
+                  "args": [
+                    "dev-build-hadoop"
+                  ],
+                  "category": "unknown"
+                },
+                {
+                  "name": "<break>",
+                  "line": 71,
+                  "category": "dynamic",
+                  "dynamic": true
+                }
+              ],
+              "category": "dynamic",
+              "source": "target",
+              "dynamic": true
+            }
+          ],
+          "category": "dynamic",
+          "source": "!params.publish",
+          "dynamic": true
+        }
+      ]
+    },
+    "buildInParallel": {
+      "params": [
+        "pipelineContext",
+        "targets"
+      ],
+      "body": [
+        {
+          "name": "parallel",
+          "line": 174,
+          "args": [
+            "targets.collectEntries(...)"
+          ],
+          "category": "policy",
+          "dynamic": true
+        }
+      ]
+    },
+    "makeStage": {
+      "params": [
+        "pipelineContext",
+        "target"
+      ],
+      "body": [
+        {
+          "name": "<return>",
+          "line": 182,
+          "category": "dynamic",
+          "dynamic": true
+        }
+      ]
+    },
+    "dockerLoginH2OECR": {
+      "body": [
+        {
+          "name": "withCredentials",
+          "line": 214,
+          "args": [
+            [
+              {
+                "$class": "AmazonWebServicesCredentialsBinding",
+                "credentialsId": "H2O-AWS_CT-JENKINS-H2O-ECR"
+              }
+            ]
+          ],
+          "named": {
+            "bindings": [
+              {
+                "type": "aws",
+                "credentialsId": "H2O-AWS_CT-JENKINS-H2O-ECR"
+              }
+            ]
+          },
+          "body": [
+            {
+              "name": "<assign>",
+              "line": 215,
+              "named": {
+                "_target": "H2O_ECR_PWD"
+              },
+              "body": [
+                {
+                  "name": "sh",
+                  "line": 215,
+                  "named": {
+                    "script": "aws ecr get-login-password --region us-east-1",
+                    "returnStdout": true,
+                    "_chain": "trim"
+                  },
+                  "category": "direct"
+                }
+              ],
+              "category": "dynamic",
+              "source": "H2O_ECR_PWD = sh(script: 'aws ecr get-login-password --region us-east-1', returnStdout: true).trim(...)",
+              "dynamic": true
+            },
+            {
+              "name": "sh",
+              "line": 216,
+              "args": [
+                "\n            docker login --username AWS --password $H2O_ECR_PWD $H2O_ECR\n        "
+              ],
+              "category": "direct",
+              "dynamic": true
+            }
+          ],
+          "category": "policy"
+        }
+      ]
+    },
+    "imageExistsH2OECR": {
+      "params": [
+        "repository",
+        "tag"
+      ],
+      "body": [
+        {
+          "name": "<try>",
+          "line": 223,
+          "named": {
+            "_catch": [
+              {
+                "name": "<return>",
+                "line": 235,
+                "category": "dynamic",
+                "dynamic": true
+              }
+            ]
+          },
+          "body": [
+            {
+              "name": "<decl>",
+              "line": 224,
+              "named": {
+                "_target": "result",
+                "_literal": "-1"
+              },
+              "category": "dynamic",
+              "source": "result = -1",
+              "dynamic": true
+            },
+            {
+              "name": "withCredentials",
+              "line": 225,
+              "args": [
+                [
+                  {
+                    "$class": "AmazonWebServicesCredentialsBinding",
+                    "credentialsId": "H2O-AWS_CT-JENKINS-H2O-ECR"
+                  }
+                ]
+              ],
+              "named": {
+                "bindings": [
+                  {
+                    "type": "aws",
+                    "credentialsId": "H2O-AWS_CT-JENKINS-H2O-ECR"
+                  }
+                ]
+              },
+              "body": [
+                {
+                  "name": "<assign>",
+                  "line": 226,
+                  "named": {
+                    "_target": "result"
+                  },
+                  "body": [
+                    {
+                      "name": "sh",
+                      "line": 226,
+                      "named": {
+                        "script": "aws ecr batch-get-image --registry-id=353750902984 --repository-name='${repository}' --image-ids=imageTag='${tag}' --query 'images[].imageId.imageTag' --output text",
+                        "returnStdout": true,
+                        "_chain": "trim"
+                      },
+                      "category": "direct",
+                      "dynamic": true
+                    }
+                  ],
+                  "category": "dynamic",
+                  "source": "result = sh(\n\t\t\t\tscript: \"aws ecr batch-get-image --registry-id=353750902984 --repository-name='${repository}' --image-ids=imageTag='${tag}' --query 'images[].imageId.imageTag' --output text\",\n\t\t\t\treturnStdout: true\n\t\t\t).trim(...)",
+                  "dynamic": true
+                }
+              ],
+              "category": "policy"
+            },
+            {
+              "name": "<return>",
+              "line": 232,
+              "category": "dynamic",
+              "dynamic": true
+            }
+          ],
+          "category": "dynamic",
+          "dynamic": true
+        }
+      ]
+    }
+  },
+  "notes": [
+    "line 88: ansiColor {} dropped (native in GitHub Actions)",
+    "line 89: timestamps {} dropped (native in GitHub Actions)",
+    "31 statement(s) outside any stage kept in source order in 1 unnamed segment(s) (from line(s) 1)",
+    "no stage() blocks found - structure is opaque (library call or custom DSL)"
+  ]
+}

@@ -1,0 +1,4600 @@
+{
+  "file": "115",
+  "ok": true,
+  "errors": [],
+  "imports": [],
+  "annotations": [],
+  "methods": [
+    {
+      "name": "defaultInit",
+      "params": [],
+      "annotations": [],
+      "body": [
+        {
+          "k": "assign",
+          "op": "=",
+          "target": "bumpVersion",
+          "value": {
+            "t": "closure",
+            "params": [
+              "isDevRelease"
+            ],
+            "body": [
+              {
+                "k": "assign",
+                "op": "=",
+                "target": "newVersion",
+                "value": {
+                  "t": "call",
+                  "call": {
+                    "k": "call",
+                    "name": "getNewVersion",
+                    "args": [
+                      {
+                        "t": "var",
+                        "name": "isDevRelease",
+                        "line": 232,
+                        "col": 32,
+                        "endLine": 232,
+                        "endCol": 44
+                      }
+                    ],
+                    "named": {},
+                    "line": 232,
+                    "col": 18,
+                    "endLine": 232,
+                    "endCol": 45
+                  },
+                  "line": 232,
+                  "col": 18,
+                  "endLine": 232,
+                  "endCol": 45
+                },
+                "line": 232,
+                "col": 5,
+                "endLine": 232,
+                "endCol": 45
+              },
+              {
+                "k": "assign",
+                "op": "=",
+                "target": "env.NEW_SDK_VERSION ",
+                "value": {
+                  "t": "var",
+                  "name": "newVersion",
+                  "line": 234,
+                  "col": 27,
+                  "endLine": 234,
+                  "endCol": 37
+                },
+                "line": 234,
+                "col": 5,
+                "endLine": 234,
+                "endCol": 37
+              },
+              {
+                "k": "call",
+                "name": "doVersionBump",
+                "args": [
+                  {
+                    "t": "var",
+                    "name": "isDevRelease",
+                    "line": 235,
+                    "col": 19,
+                    "endLine": 235,
+                    "endCol": 31
+                  },
+                  {
+                    "t": "var",
+                    "name": "newVersion",
+                    "line": 235,
+                    "col": 33,
+                    "endLine": 235,
+                    "endCol": 43
+                  }
+                ],
+                "named": {},
+                "line": 235,
+                "col": 5,
+                "endLine": 235,
+                "endCol": 44
+              }
+            ],
+            "line": 231,
+            "col": 17,
+            "endLine": 236,
+            "endCol": 4
+          },
+          "line": 231,
+          "col": 3,
+          "endLine": 236,
+          "endCol": 4
+        },
+        {
+          "k": "assign",
+          "op": "=",
+          "target": "doVersionBump",
+          "value": {
+            "t": "closure",
+            "params": [
+              "isDevRelease",
+              "newVersion",
+              "allowDirty"
+            ],
+            "body": [
+              {
+                "k": "call",
+                "name": "sh",
+                "args": [
+                  {
+                    "t": "gstr",
+                    "v": "\"bump-my-version bump patch --new-version ${newVersion} ${allowDirty ? '--allow-dirty': ''} ${isDevRelease ? '--no-commit' : '--tag --tag-message \"Release {new_version}\"'}\"",
+                    "vars": [
+                      "{newVersion}",
+                      "{allowDirty ? '--allow-dirty': ''}",
+                      "{isDevRelease ? '--no-commit' : '--tag --tag-message \"Release {new_version}\"'}"
+                    ],
+                    "calls": [],
+                    "line": 239,
+                    "col": 8,
+                    "endLine": 239,
+                    "endCol": 180
+                  }
+                ],
+                "named": {},
+                "line": 239,
+                "col": 5,
+                "endLine": 239,
+                "endCol": 180
+              }
+            ],
+            "line": 238,
+            "col": 19,
+            "endLine": 240,
+            "endCol": 4
+          },
+          "line": 238,
+          "col": 3,
+          "endLine": 240,
+          "endCol": 4
+        },
+        {
+          "k": "assign",
+          "op": "=",
+          "target": "getNewVersion",
+          "value": {
+            "t": "closure",
+            "params": [
+              "isDevRelease"
+            ],
+            "body": [
+              {
+                "k": "return",
+                "value": {
+                  "t": "call",
+                  "call": {
+                    "k": "call",
+                    "name": "customizeVersion",
+                    "args": [
+                      {
+                        "t": "expr",
+                        "kind": "TernaryExpression",
+                        "text": "isDevRelease ? getDevVersion() : getTargetVersion()",
+                        "calls": [
+                          {
+                            "k": "call",
+                            "name": "getDevVersion",
+                            "args": [],
+                            "named": {},
+                            "line": 244,
+                            "col": 44,
+                            "endLine": 244,
+                            "endCol": 60
+                          },
+                          {
+                            "k": "call",
+                            "name": "getTargetVersion",
+                            "args": [],
+                            "named": {},
+                            "line": 244,
+                            "col": 62,
+                            "endLine": 244,
+                            "endCol": 80
+                          }
+                        ],
+                        "line": 244,
+                        "col": 29,
+                        "endLine": 244,
+                        "endCol": 80
+                      }
+                    ],
+                    "named": {},
+                    "line": 244,
+                    "col": 12,
+                    "endLine": 244,
+                    "endCol": 81
+                  },
+                  "line": 244,
+                  "col": 12,
+                  "endLine": 244,
+                  "endCol": 81
+                },
+                "line": 244,
+                "col": 5,
+                "endLine": 244,
+                "endCol": 81
+              }
+            ],
+            "line": 242,
+            "col": 19,
+            "endLine": 245,
+            "endCol": 4
+          },
+          "line": 242,
+          "col": 3,
+          "endLine": 245,
+          "endCol": 4
+        },
+        {
+          "k": "assign",
+          "op": "=",
+          "target": "getTargetVersion",
+          "value": {
+            "t": "closure",
+            "params": [],
+            "body": [
+              {
+                "k": "assign",
+                "op": "=",
+                "target": "version",
+                "value": {
+                  "t": "str",
+                  "v": "",
+                  "line": 248,
+                  "col": 15,
+                  "endLine": 248,
+                  "endCol": 17
+                },
+                "line": 248,
+                "col": 5,
+                "endLine": 248,
+                "endCol": 17
+              },
+              {
+                "k": "if",
+                "cond": "'NONE' != params.TARGET_VERSION",
+                "condCalls": [],
+                "then": [
+                  {
+                    "k": "assign",
+                    "op": "=",
+                    "target": "version",
+                    "value": {
+                      "t": "prop",
+                      "text": "params.TARGET_VERSION",
+                      "calls": [],
+                      "line": 250,
+                      "col": 17,
+                      "endLine": 250,
+                      "endCol": 38
+                    },
+                    "line": 250,
+                    "col": 7,
+                    "endLine": 250,
+                    "endCol": 38
+                  }
+                ],
+                "else": [
+                  {
+                    "k": "assign",
+                    "op": "=",
+                    "target": "version",
+                    "value": {
+                      "t": "call",
+                      "call": {
+                        "k": "call",
+                        "name": "sh",
+                        "args": [],
+                        "named": {
+                          "returnStdout": {
+                            "t": "bool",
+                            "v": true,
+                            "line": 253,
+                            "col": 34,
+                            "endLine": 253,
+                            "endCol": 38
+                          },
+                          "script": {
+                            "t": "str",
+                            "v": "bump-my-version show-bump --ascii | grep patch | rev | cut -f1 -d \" \" | rev",
+                            "line": 253,
+                            "col": 48,
+                            "endLine": 253,
+                            "endCol": 125
+                          }
+                        },
+                        "line": 253,
+                        "col": 20,
+                        "endLine": 253,
+                        "endCol": 125
+                      },
+                      "line": 253,
+                      "col": 20,
+                      "endLine": 253,
+                      "endCol": 125
+                    },
+                    "line": 253,
+                    "col": 7,
+                    "endLine": 253,
+                    "endCol": 125
+                  }
+                ],
+                "line": 249,
+                "col": 5,
+                "endLine": 254,
+                "endCol": 6
+              },
+              {
+                "k": "return",
+                "value": {
+                  "t": "call",
+                  "call": {
+                    "k": "call",
+                    "name": "trim",
+                    "args": [],
+                    "named": {},
+                    "line": 255,
+                    "col": 12,
+                    "endLine": 255,
+                    "endCol": 26,
+                    "receiver": "version"
+                  },
+                  "line": 255,
+                  "col": 12,
+                  "endLine": 255,
+                  "endCol": 26
+                },
+                "line": 255,
+                "col": 5,
+                "endLine": 255,
+                "endCol": 26
+              }
+            ],
+            "line": 247,
+            "col": 22,
+            "endLine": 256,
+            "endCol": 4
+          },
+          "line": 247,
+          "col": 3,
+          "endLine": 256,
+          "endCol": 4
+        },
+        {
+          "k": "assign",
+          "op": "=",
+          "target": "getDevVersion",
+          "value": {
+            "t": "closure",
+            "params": [],
+            "body": [
+              {
+                "k": "assign",
+                "op": "=",
+                "target": "devVersion",
+                "value": {
+                  "t": "call",
+                  "call": {
+                    "k": "call",
+                    "name": "getTargetVersion",
+                    "args": [],
+                    "named": {},
+                    "line": 259,
+                    "col": 18,
+                    "endLine": 259,
+                    "endCol": 36
+                  },
+                  "line": 259,
+                  "col": 18,
+                  "endLine": 259,
+                  "endCol": 36
+                },
+                "line": 259,
+                "col": 5,
+                "endLine": 259,
+                "endCol": 36
+              },
+              {
+                "k": "if",
+                "cond": "devVersion ==~ /${env.SVRE_RELEASE}/",
+                "condCalls": [],
+                "then": [
+                  {
+                    "k": "assign",
+                    "op": "+=",
+                    "target": "devVersion",
+                    "value": {
+                      "t": "str",
+                      "v": "-",
+                      "line": 262,
+                      "col": 21,
+                      "endLine": 262,
+                      "endCol": 24
+                    },
+                    "line": 262,
+                    "col": 7,
+                    "endLine": 262,
+                    "endCol": 24
+                  }
+                ],
+                "else": [
+                  {
+                    "k": "if",
+                    "cond": "devVersion ==~ /${env.SVRE_PRE_RELEASE}/",
+                    "condCalls": [],
+                    "then": [
+                      {
+                        "k": "assign",
+                        "op": "+=",
+                        "target": "devVersion",
+                        "value": {
+                          "t": "str",
+                          "v": ".",
+                          "line": 265,
+                          "col": 21,
+                          "endLine": 265,
+                          "endCol": 24
+                        },
+                        "line": 265,
+                        "col": 7,
+                        "endLine": 265,
+                        "endCol": 24
+                      }
+                    ],
+                    "else": [],
+                    "line": 263,
+                    "col": 12,
+                    "endLine": 266,
+                    "endCol": 6
+                  }
+                ],
+                "line": 260,
+                "col": 5,
+                "endLine": 266,
+                "endCol": 6
+              },
+              {
+                "k": "assign",
+                "op": "+=",
+                "target": "devVersion",
+                "value": {
+                  "t": "str",
+                  "v": "dev0",
+                  "line": 268,
+                  "col": 19,
+                  "endLine": 268,
+                  "endCol": 25
+                },
+                "line": 268,
+                "col": 5,
+                "endLine": 268,
+                "endCol": 25
+              },
+              {
+                "k": "assign",
+                "op": "+=",
+                "target": "devVersion",
+                "value": {
+                  "t": "gstr",
+                  "v": "\"+git${commitHash}.${currentBuild.startTimeInMillis}.${currentBuild.number}\"",
+                  "vars": [
+                    "{commitHash}",
+                    "{currentBuild.startTimeInMillis}",
+                    "{currentBuild.number}"
+                  ],
+                  "calls": [],
+                  "line": 270,
+                  "col": 19,
+                  "endLine": 270,
+                  "endCol": 95
+                },
+                "line": 270,
+                "col": 5,
+                "endLine": 270,
+                "endCol": 95
+              },
+              {
+                "k": "return",
+                "value": {
+                  "t": "var",
+                  "name": "devVersion",
+                  "line": 272,
+                  "col": 12,
+                  "endLine": 272,
+                  "endCol": 22
+                },
+                "line": 272,
+                "col": 5,
+                "endLine": 272,
+                "endCol": 22
+              }
+            ],
+            "line": 258,
+            "col": 19,
+            "endLine": 273,
+            "endCol": 4
+          },
+          "line": 258,
+          "col": 3,
+          "endLine": 273,
+          "endCol": 4
+        },
+        {
+          "k": "assign",
+          "op": "=",
+          "target": "customizeVersion",
+          "value": {
+            "t": "closure",
+            "params": [
+              "semverFormatVersion"
+            ],
+            "body": [
+              {
+                "k": "expr",
+                "kind": "VariableExpression",
+                "text": "semverFormatVersion",
+                "calls": [],
+                "line": 277,
+                "col": 5,
+                "endLine": 277,
+                "endCol": 24
+              }
+            ],
+            "line": 276,
+            "col": 22,
+            "endLine": 278,
+            "endCol": 4
+          },
+          "line": 276,
+          "col": 3,
+          "endLine": 278,
+          "endCol": 4
+        },
+        {
+          "k": "assign",
+          "op": "=",
+          "target": "publishArtifactoryBuildInfoScript",
+          "value": {
+            "t": "closure",
+            "params": [],
+            "body": [
+              {
+                "k": "call",
+                "name": "sh",
+                "args": [
+                  {
+                    "t": "str",
+                    "v": "./scripts/publish_buildinfo.sh",
+                    "line": 282,
+                    "col": 10,
+                    "endLine": 282,
+                    "endCol": 42
+                  }
+                ],
+                "named": {},
+                "line": 282,
+                "col": 7,
+                "endLine": 282,
+                "endCol": 42
+              }
+            ],
+            "line": 280,
+            "col": 39,
+            "endLine": 283,
+            "endCol": 4
+          },
+          "line": 280,
+          "col": 3,
+          "endLine": 283,
+          "endCol": 4
+        },
+        {
+          "k": "assign",
+          "op": "=",
+          "target": "publishArtifactoryBuildInfo",
+          "value": {
+            "t": "closure",
+            "params": [],
+            "body": [
+              {
+                "k": "call",
+                "name": "rtBuildInfo",
+                "args": [],
+                "named": {
+                  "buildName": {
+                    "t": "gstr",
+                    "v": "\"${env.BUILD_NAME}\"",
+                    "vars": [
+                      "{env.BUILD_NAME}"
+                    ],
+                    "calls": [],
+                    "line": 288,
+                    "col": 18,
+                    "endLine": 288,
+                    "endCol": 37
+                  },
+                  "buildNumber": {
+                    "t": "gstr",
+                    "v": "\"${env.BUILD_NUMBER}\"",
+                    "vars": [
+                      "{env.BUILD_NUMBER}"
+                    ],
+                    "calls": [],
+                    "line": 289,
+                    "col": 20,
+                    "endLine": 289,
+                    "endCol": 41
+                  },
+                  "includeEnvPatterns": {
+                    "t": "list",
+                    "v": [
+                      {
+                        "t": "str",
+                        "v": "BRANCH_NAME",
+                        "line": 290,
+                        "col": 28,
+                        "endLine": 290,
+                        "endCol": 41
+                      }
+                    ],
+                    "line": 290,
+                    "col": 27,
+                    "endLine": 290,
+                    "endCol": 42
+                  },
+                  "maxDays": {
+                    "t": "num",
+                    "v": 90,
+                    "line": 291,
+                    "col": 16,
+                    "endLine": 291,
+                    "endCol": 18
+                  },
+                  "deleteBuildArtifacts": {
+                    "t": "bool",
+                    "v": true,
+                    "line": 292,
+                    "col": 29,
+                    "endLine": 292,
+                    "endCol": 33
+                  },
+                  "asyncBuildRetention": {
+                    "t": "bool",
+                    "v": true,
+                    "line": 293,
+                    "col": 28,
+                    "endLine": 294,
+                    "endCol": 5
+                  }
+                },
+                "line": 287,
+                "col": 5,
+                "endLine": 294,
+                "endCol": 6
+              },
+              {
+                "k": "call",
+                "name": "rtPublishBuildInfo",
+                "args": [],
+                "named": {
+                  "buildName": {
+                    "t": "gstr",
+                    "v": "\"${env.BUILD_NAME}\"",
+                    "vars": [
+                      "{env.BUILD_NAME}"
+                    ],
+                    "calls": [],
+                    "line": 296,
+                    "col": 18,
+                    "endLine": 296,
+                    "endCol": 37
+                  },
+                  "buildNumber": {
+                    "t": "gstr",
+                    "v": "\"${env.BUILD_NUMBER}\"",
+                    "vars": [
+                      "{env.BUILD_NUMBER}"
+                    ],
+                    "calls": [],
+                    "line": 297,
+                    "col": 20,
+                    "endLine": 297,
+                    "endCol": 41
+                  },
+                  "serverId": {
+                    "t": "str",
+                    "v": "taas-artifactory-upload",
+                    "line": 298,
+                    "col": 17,
+                    "endLine": 299,
+                    "endCol": 5
+                  }
+                },
+                "line": 295,
+                "col": 5,
+                "endLine": 299,
+                "endCol": 6
+              },
+              {
+                "k": "call",
+                "name": "publishArtifactoryBuildInfoScript",
+                "args": [],
+                "named": {},
+                "line": 300,
+                "col": 5,
+                "endLine": 300,
+                "endCol": 40
+              }
+            ],
+            "line": 285,
+            "col": 33,
+            "endLine": 301,
+            "endCol": 4
+          },
+          "line": 285,
+          "col": 3,
+          "endLine": 301,
+          "endCol": 4
+        },
+        {
+          "k": "assign",
+          "op": "=",
+          "target": "scanCode",
+          "value": {
+            "t": "closure",
+            "params": [],
+            "body": [
+              {
+                "k": "call",
+                "name": "withSonarQubeEnv",
+                "args": [],
+                "named": {
+                  "installationName": {
+                    "t": "str",
+                    "v": "SonarQubeServer",
+                    "line": 304,
+                    "col": 40,
+                    "endLine": 304,
+                    "endCol": 57
+                  }
+                },
+                "line": 304,
+                "col": 5,
+                "endLine": 306,
+                "endCol": 6,
+                "body": [
+                  {
+                    "k": "call",
+                    "name": "sh",
+                    "args": [
+                      {
+                        "t": "gstr",
+                        "v": "\"${scannerHome}/bin/sonar-scanner -Dsonar.qualitygate.wait=true -Dsonar.projectKey=cloudant-${libName}-sdk -Dsonar.exclusions=examples/**\"",
+                        "vars": [
+                          "{scannerHome}",
+                          "{libName}"
+                        ],
+                        "calls": [],
+                        "line": 305,
+                        "col": 10,
+                        "endLine": 305,
+                        "endCol": 148
+                      }
+                    ],
+                    "named": {},
+                    "line": 305,
+                    "col": 7,
+                    "endLine": 305,
+                    "endCol": 148
+                  }
+                ]
+              }
+            ],
+            "line": 303,
+            "col": 14,
+            "endLine": 307,
+            "endCol": 4
+          },
+          "line": 303,
+          "col": 3,
+          "endLine": 307,
+          "endCol": 4
+        }
+      ],
+      "line": 229,
+      "col": 1,
+      "endLine": 308,
+      "endCol": 2
+    },
+    {
+      "name": "applyCustomizations",
+      "params": [],
+      "annotations": [],
+      "body": [
+        {
+          "k": "assign",
+          "op": "=",
+          "target": "libName",
+          "value": {
+            "t": "str",
+            "v": "node",
+            "line": 318,
+            "col": 13,
+            "endLine": 318,
+            "endCol": 19
+          },
+          "line": 318,
+          "col": 3,
+          "endLine": 318,
+          "endCol": 19
+        },
+        {
+          "k": "assign",
+          "op": "=",
+          "target": "bumpVersion",
+          "value": {
+            "t": "closure",
+            "params": [
+              "isDevRelease"
+            ],
+            "body": [
+              {
+                "k": "call",
+                "name": "withCredentials",
+                "args": [
+                  {
+                    "t": "list",
+                    "v": [
+                      {
+                        "t": "call",
+                        "call": {
+                          "k": "call",
+                          "name": "usernamePassword",
+                          "args": [],
+                          "named": {
+                            "usernameVariable": {
+                              "t": "str",
+                              "v": "NPMRC_USER",
+                              "line": 320,
+                              "col": 57,
+                              "endLine": 320,
+                              "endCol": 69
+                            },
+                            "passwordVariable": {
+                              "t": "str",
+                              "v": "NPMRC_TOKEN",
+                              "line": 320,
+                              "col": 89,
+                              "endLine": 320,
+                              "endCol": 102
+                            },
+                            "credentialsId": {
+                              "t": "str",
+                              "v": "artifactory",
+                              "line": 320,
+                              "col": 119,
+                              "endLine": 320,
+                              "endCol": 132
+                            }
+                          },
+                          "line": 320,
+                          "col": 22,
+                          "endLine": 320,
+                          "endCol": 133
+                        },
+                        "line": 320,
+                        "col": 22,
+                        "endLine": 320,
+                        "endCol": 133
+                      }
+                    ],
+                    "line": 320,
+                    "col": 21,
+                    "endLine": 320,
+                    "endCol": 134
+                  }
+                ],
+                "named": {},
+                "line": 320,
+                "col": 5,
+                "endLine": 333,
+                "endCol": 6,
+                "body": [
+                  {
+                    "k": "call",
+                    "name": "withEnv",
+                    "args": [
+                      {
+                        "t": "list",
+                        "v": [
+                          {
+                            "t": "concat",
+                            "parts": [
+                              {
+                                "t": "str",
+                                "v": "NPMRC_EMAIL=",
+                                "line": 321,
+                                "col": 16,
+                                "endLine": 321,
+                                "endCol": 30
+                              },
+                              {
+                                "t": "prop",
+                                "text": "env.NPMRC_USER",
+                                "calls": [],
+                                "line": 321,
+                                "col": 33,
+                                "endLine": 321,
+                                "endCol": 47
+                              }
+                            ],
+                            "line": 321,
+                            "col": 16,
+                            "endLine": 321,
+                            "endCol": 47
+                          }
+                        ],
+                        "line": 321,
+                        "col": 15,
+                        "endLine": 321,
+                        "endCol": 48
+                      }
+                    ],
+                    "named": {},
+                    "line": 321,
+                    "col": 7,
+                    "endLine": 332,
+                    "endCol": 8,
+                    "body": [
+                      {
+                        "k": "call",
+                        "name": "withNpmEnv",
+                        "args": [
+                          {
+                            "t": "var",
+                            "name": "registryArtifactoryDown",
+                            "line": 322,
+                            "col": 20,
+                            "endLine": 322,
+                            "endCol": 43
+                          }
+                        ],
+                        "named": {},
+                        "line": 322,
+                        "col": 9,
+                        "endLine": 331,
+                        "endCol": 10,
+                        "body": [
+                          {
+                            "k": "call",
+                            "name": "sh",
+                            "args": [
+                              {
+                                "t": "str",
+                                "v": "npm ci --no-audit",
+                                "line": 324,
+                                "col": 14,
+                                "endLine": 324,
+                                "endCol": 33
+                              }
+                            ],
+                            "named": {},
+                            "line": 324,
+                            "col": 11,
+                            "endLine": 324,
+                            "endCol": 33
+                          },
+                          {
+                            "k": "assign",
+                            "op": "=",
+                            "target": "newVersion",
+                            "value": {
+                              "t": "call",
+                              "call": {
+                                "k": "call",
+                                "name": "getNewVersion",
+                                "args": [
+                                  {
+                                    "t": "var",
+                                    "name": "isDevRelease",
+                                    "line": 326,
+                                    "col": 38,
+                                    "endLine": 326,
+                                    "endCol": 50
+                                  }
+                                ],
+                                "named": {},
+                                "line": 326,
+                                "col": 24,
+                                "endLine": 326,
+                                "endCol": 51
+                              },
+                              "line": 326,
+                              "col": 24,
+                              "endLine": 326,
+                              "endCol": 51
+                            },
+                            "line": 326,
+                            "col": 11,
+                            "endLine": 326,
+                            "endCol": 51
+                          },
+                          {
+                            "k": "call",
+                            "name": "sh",
+                            "args": [
+                              {
+                                "t": "gstr",
+                                "v": "\"npm version ${isDevRelease ? '--no-git-tag-version' : '-m \"Update version -> %s\"'} ${newVersion}\"",
+                                "vars": [
+                                  "{isDevRelease ? '--no-git-tag-version' : '-m \"Update version -> %s\"'}",
+                                  "{newVersion}"
+                                ],
+                                "calls": [],
+                                "line": 328,
+                                "col": 14,
+                                "endLine": 328,
+                                "endCol": 112
+                              }
+                            ],
+                            "named": {},
+                            "line": 328,
+                            "col": 11,
+                            "endLine": 328,
+                            "endCol": 112
+                          },
+                          {
+                            "k": "assign",
+                            "op": "=",
+                            "target": "env.NEW_SDK_VERSION ",
+                            "value": {
+                              "t": "call",
+                              "call": {
+                                "k": "call",
+                                "name": "sh",
+                                "args": [],
+                                "named": {
+                                  "returnStdout": {
+                                    "t": "bool",
+                                    "v": true,
+                                    "line": 330,
+                                    "col": 50,
+                                    "endLine": 330,
+                                    "endCol": 54
+                                  },
+                                  "script": {
+                                    "t": "str",
+                                    "v": "jq -j .version package.json",
+                                    "line": 330,
+                                    "col": 64,
+                                    "endLine": 330,
+                                    "endCol": 93
+                                  }
+                                },
+                                "line": 330,
+                                "col": 36,
+                                "endLine": 330,
+                                "endCol": 93
+                              },
+                              "line": 330,
+                              "col": 36,
+                              "endLine": 330,
+                              "endCol": 93
+                            },
+                            "line": 330,
+                            "col": 11,
+                            "endLine": 330,
+                            "endCol": 93
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "line": 319,
+            "col": 17,
+            "endLine": 334,
+            "endCol": 4
+          },
+          "line": 319,
+          "col": 3,
+          "endLine": 334,
+          "endCol": 4
+        },
+        {
+          "k": "assign",
+          "op": "=",
+          "target": "customizeVersion",
+          "value": {
+            "t": "closure",
+            "params": [
+              "semverFormatVersion"
+            ],
+            "body": [
+              {
+                "k": "call",
+                "name": "replace",
+                "args": [
+                  {
+                    "t": "str",
+                    "v": "+",
+                    "line": 339,
+                    "col": 33,
+                    "endLine": 339,
+                    "endCol": 36
+                  },
+                  {
+                    "t": "str",
+                    "v": ".",
+                    "line": 339,
+                    "col": 37,
+                    "endLine": 339,
+                    "endCol": 40
+                  }
+                ],
+                "named": {},
+                "line": 339,
+                "col": 5,
+                "endLine": 339,
+                "endCol": 41,
+                "receiver": "semverFormatVersion"
+              }
+            ],
+            "line": 336,
+            "col": 22,
+            "endLine": 340,
+            "endCol": 4
+          },
+          "line": 336,
+          "col": 3,
+          "endLine": 340,
+          "endCol": 4
+        },
+        {
+          "k": "assign",
+          "op": "=",
+          "target": "customizePublishingInfo",
+          "value": {
+            "t": "closure",
+            "params": [],
+            "body": [
+              {
+                "k": "assign",
+                "op": "=",
+                "target": "buildType",
+                "value": {
+                  "t": "str",
+                  "v": "GENERIC",
+                  "line": 344,
+                  "col": 17,
+                  "endLine": 344,
+                  "endCol": 26
+                },
+                "line": 344,
+                "col": 5,
+                "endLine": 344,
+                "endCol": 26
+              },
+              {
+                "k": "assign",
+                "op": "=",
+                "target": "artifactUrl",
+                "value": {
+                  "t": "gstr",
+                  "v": "\"${STAGE_ROOT}storage/cloudant-sdks-npm-local/@ibm-cloud/cloudant/-/@ibm-cloud/cloudant-${env.NEW_SDK_VERSION}.tgz\"",
+                  "vars": [
+                    "{STAGE_ROOT}",
+                    "{env.NEW_SDK_VERSION}"
+                  ],
+                  "calls": [],
+                  "line": 345,
+                  "col": 19,
+                  "endLine": 345,
+                  "endCol": 134
+                },
+                "line": 345,
+                "col": 5,
+                "endLine": 345,
+                "endCol": 134
+              },
+              {
+                "k": "assign",
+                "op": "=",
+                "target": "moduleId",
+                "value": {
+                  "t": "gstr",
+                  "v": "\"ibm-cloud:cloudant:${env.NEW_SDK_VERSION}\"",
+                  "vars": [
+                    "{env.NEW_SDK_VERSION}"
+                  ],
+                  "calls": [],
+                  "line": 346,
+                  "col": 16,
+                  "endLine": 346,
+                  "endCol": 59
+                },
+                "line": 346,
+                "col": 5,
+                "endLine": 346,
+                "endCol": 59
+              }
+            ],
+            "line": 342,
+            "col": 29,
+            "endLine": 347,
+            "endCol": 4
+          },
+          "line": 342,
+          "col": 3,
+          "endLine": 347,
+          "endCol": 4
+        }
+      ],
+      "line": 317,
+      "col": 1,
+      "endLine": 348,
+      "endCol": 2
+    },
+    {
+      "name": "getRegistryPublic",
+      "params": [],
+      "annotations": [],
+      "body": [
+        {
+          "k": "return",
+          "value": {
+            "t": "str",
+            "v": "https://registry.npmjs.org/",
+            "line": 354,
+            "col": 12,
+            "endLine": 354,
+            "endCol": 41
+          },
+          "line": 354,
+          "col": 5,
+          "endLine": 354,
+          "endCol": 41
+        }
+      ],
+      "line": 353,
+      "col": 1,
+      "endLine": 355,
+      "endCol": 2
+    },
+    {
+      "name": "getRegistryArtifactoryUp",
+      "params": [],
+      "annotations": [],
+      "body": [
+        {
+          "k": "return",
+          "value": {
+            "t": "str",
+            "v": "https://registry.npmjs.org/",
+            "line": 359,
+            "col": 12,
+            "endLine": 359,
+            "endCol": 41
+          },
+          "line": 359,
+          "col": 5,
+          "endLine": 359,
+          "endCol": 143
+        }
+      ],
+      "line": 358,
+      "col": 1,
+      "endLine": 360,
+      "endCol": 2
+    },
+    {
+      "name": "getRegistryArtifactoryDown",
+      "params": [],
+      "annotations": [],
+      "body": [
+        {
+          "k": "return",
+          "value": {
+            "t": "str",
+            "v": "https://registry.npmjs.org/",
+            "line": 364,
+            "col": 12,
+            "endLine": 364,
+            "endCol": 41
+          },
+          "line": 364,
+          "col": 5,
+          "endLine": 364,
+          "endCol": 145
+        }
+      ],
+      "line": 363,
+      "col": 1,
+      "endLine": 365,
+      "endCol": 2
+    },
+    {
+      "name": "noScheme",
+      "params": [
+        {
+          "name": "str",
+          "type": "Object",
+          "hasDefault": false
+        }
+      ],
+      "annotations": [],
+      "body": [
+        {
+          "k": "return",
+          "value": {
+            "t": "call",
+            "call": {
+              "k": "call",
+              "name": "substring",
+              "args": [
+                {
+                  "t": "concat",
+                  "parts": [
+                    {
+                      "t": "call",
+                      "call": {
+                        "k": "call",
+                        "name": "indexOf",
+                        "args": [
+                          {
+                            "t": "str",
+                            "v": ":",
+                            "line": 368,
+                            "col": 38,
+                            "endLine": 368,
+                            "endCol": 41
+                          }
+                        ],
+                        "named": {},
+                        "line": 368,
+                        "col": 26,
+                        "endLine": 368,
+                        "endCol": 43,
+                        "receiver": "str"
+                      },
+                      "line": 368,
+                      "col": 26,
+                      "endLine": 368,
+                      "endCol": 43
+                    },
+                    {
+                      "t": "num",
+                      "v": 1,
+                      "line": 368,
+                      "col": 45,
+                      "endLine": 368,
+                      "endCol": 46
+                    }
+                  ],
+                  "line": 368,
+                  "col": 26,
+                  "endLine": 368,
+                  "endCol": 46
+                }
+              ],
+              "named": {},
+              "line": 368,
+              "col": 12,
+              "endLine": 368,
+              "endCol": 47,
+              "receiver": "str"
+            },
+            "line": 368,
+            "col": 12,
+            "endLine": 368,
+            "endCol": 47
+          },
+          "line": 368,
+          "col": 5,
+          "endLine": 368,
+          "endCol": 47
+        }
+      ],
+      "line": 367,
+      "col": 1,
+      "endLine": 369,
+      "endCol": 2
+    },
+    {
+      "name": "withNpmEnv",
+      "params": [
+        {
+          "name": "registry",
+          "type": "Object",
+          "hasDefault": false
+        },
+        {
+          "name": "closure",
+          "type": "Object",
+          "hasDefault": false
+        }
+      ],
+      "annotations": [],
+      "body": [
+        {
+          "k": "call",
+          "name": "withEnv",
+          "args": [
+            {
+              "t": "list",
+              "v": [
+                {
+                  "t": "concat",
+                  "parts": [
+                    {
+                      "t": "str",
+                      "v": "NPMRC_REGISTRY=",
+                      "line": 372,
+                      "col": 12,
+                      "endLine": 372,
+                      "endCol": 29
+                    },
+                    {
+                      "t": "call",
+                      "call": {
+                        "k": "call",
+                        "name": "noScheme",
+                        "args": [
+                          {
+                            "t": "var",
+                            "name": "registry",
+                            "line": 372,
+                            "col": 41,
+                            "endLine": 372,
+                            "endCol": 49
+                          }
+                        ],
+                        "named": {},
+                        "line": 372,
+                        "col": 32,
+                        "endLine": 372,
+                        "endCol": 50
+                      },
+                      "line": 372,
+                      "col": 32,
+                      "endLine": 372,
+                      "endCol": 50
+                    }
+                  ],
+                  "line": 372,
+                  "col": 12,
+                  "endLine": 372,
+                  "endCol": 50
+                },
+                {
+                  "t": "concat",
+                  "parts": [
+                    {
+                      "t": "str",
+                      "v": "NPM_CONFIG_REGISTRY=",
+                      "line": 373,
+                      "col": 12,
+                      "endLine": 373,
+                      "endCol": 34
+                    },
+                    {
+                      "t": "var",
+                      "name": "registry",
+                      "line": 373,
+                      "col": 37,
+                      "endLine": 373,
+                      "endCol": 45
+                    }
+                  ],
+                  "line": 373,
+                  "col": 12,
+                  "endLine": 373,
+                  "endCol": 45
+                },
+                {
+                  "t": "str",
+                  "v": "NPM_CONFIG_USERCONFIG=/dev/null",
+                  "line": 374,
+                  "col": 12,
+                  "endLine": 374,
+                  "endCol": 45
+                }
+              ],
+              "line": 372,
+              "col": 11,
+              "endLine": 374,
+              "endCol": 46
+            }
+          ],
+          "named": {},
+          "line": 372,
+          "col": 3,
+          "endLine": 376,
+          "endCol": 4,
+          "body": [
+            {
+              "k": "call",
+              "name": "closure",
+              "args": [],
+              "named": {},
+              "line": 375,
+              "col": 5,
+              "endLine": 375,
+              "endCol": 14
+            }
+          ]
+        }
+      ],
+      "line": 371,
+      "col": 1,
+      "endLine": 377,
+      "endCol": 2
+    },
+    {
+      "name": "runTests",
+      "params": [],
+      "annotations": [],
+      "body": [
+        {
+          "k": "call",
+          "name": "withCredentials",
+          "args": [
+            {
+              "t": "list",
+              "v": [
+                {
+                  "t": "call",
+                  "call": {
+                    "k": "call",
+                    "name": "usernamePassword",
+                    "args": [],
+                    "named": {
+                      "usernameVariable": {
+                        "t": "str",
+                        "v": "NPMRC_USER",
+                        "line": 380,
+                        "col": 55,
+                        "endLine": 380,
+                        "endCol": 67
+                      },
+                      "passwordVariable": {
+                        "t": "str",
+                        "v": "NPMRC_TOKEN",
+                        "line": 380,
+                        "col": 87,
+                        "endLine": 380,
+                        "endCol": 100
+                      },
+                      "credentialsId": {
+                        "t": "str",
+                        "v": "artifactory",
+                        "line": 380,
+                        "col": 117,
+                        "endLine": 380,
+                        "endCol": 130
+                      }
+                    },
+                    "line": 380,
+                    "col": 20,
+                    "endLine": 380,
+                    "endCol": 131
+                  },
+                  "line": 380,
+                  "col": 20,
+                  "endLine": 380,
+                  "endCol": 131
+                }
+              ],
+              "line": 380,
+              "col": 19,
+              "endLine": 380,
+              "endCol": 132
+            }
+          ],
+          "named": {},
+          "line": 380,
+          "col": 3,
+          "endLine": 387,
+          "endCol": 4,
+          "body": [
+            {
+              "k": "call",
+              "name": "withEnv",
+              "args": [
+                {
+                  "t": "list",
+                  "v": [
+                    {
+                      "t": "concat",
+                      "parts": [
+                        {
+                          "t": "str",
+                          "v": "NPMRC_EMAIL=",
+                          "line": 381,
+                          "col": 14,
+                          "endLine": 381,
+                          "endCol": 28
+                        },
+                        {
+                          "t": "prop",
+                          "text": "env.NPMRC_USER",
+                          "calls": [],
+                          "line": 381,
+                          "col": 31,
+                          "endLine": 381,
+                          "endCol": 45
+                        }
+                      ],
+                      "line": 381,
+                      "col": 14,
+                      "endLine": 381,
+                      "endCol": 45
+                    }
+                  ],
+                  "line": 381,
+                  "col": 13,
+                  "endLine": 381,
+                  "endCol": 46
+                }
+              ],
+              "named": {},
+              "line": 381,
+              "col": 5,
+              "endLine": 386,
+              "endCol": 6,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "withNpmEnv",
+                  "args": [
+                    {
+                      "t": "var",
+                      "name": "registryArtifactoryDown",
+                      "line": 382,
+                      "col": 18,
+                      "endLine": 382,
+                      "endCol": 41
+                    }
+                  ],
+                  "named": {},
+                  "line": 382,
+                  "col": 7,
+                  "endLine": 385,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "sh",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "npm ci --no-audit",
+                          "line": 383,
+                          "col": 12,
+                          "endLine": 383,
+                          "endCol": 31
+                        }
+                      ],
+                      "named": {},
+                      "line": 383,
+                      "col": 9,
+                      "endLine": 383,
+                      "endCol": 31
+                    },
+                    {
+                      "k": "call",
+                      "name": "sh",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "npm run test-unit",
+                          "line": 384,
+                          "col": 12,
+                          "endLine": 384,
+                          "endCol": 31
+                        }
+                      ],
+                      "named": {},
+                      "line": 384,
+                      "col": 9,
+                      "endLine": 384,
+                      "endCol": 124
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "line": 379,
+      "col": 1,
+      "endLine": 388,
+      "endCol": 2
+    },
+    {
+      "name": "publishStaging",
+      "params": [],
+      "annotations": [],
+      "body": [
+        {
+          "k": "call",
+          "name": "withCredentials",
+          "args": [
+            {
+              "t": "list",
+              "v": [
+                {
+                  "t": "call",
+                  "call": {
+                    "k": "call",
+                    "name": "usernamePassword",
+                    "args": [],
+                    "named": {
+                      "usernameVariable": {
+                        "t": "str",
+                        "v": "NPMRC_USER",
+                        "line": 391,
+                        "col": 55,
+                        "endLine": 391,
+                        "endCol": 67
+                      },
+                      "passwordVariable": {
+                        "t": "str",
+                        "v": "NPMRC_TOKEN",
+                        "line": 391,
+                        "col": 87,
+                        "endLine": 391,
+                        "endCol": 100
+                      },
+                      "credentialsId": {
+                        "t": "str",
+                        "v": "artifactory",
+                        "line": 391,
+                        "col": 117,
+                        "endLine": 391,
+                        "endCol": 130
+                      }
+                    },
+                    "line": 391,
+                    "col": 20,
+                    "endLine": 391,
+                    "endCol": 131
+                  },
+                  "line": 391,
+                  "col": 20,
+                  "endLine": 391,
+                  "endCol": 131
+                }
+              ],
+              "line": 391,
+              "col": 19,
+              "endLine": 391,
+              "endCol": 132
+            }
+          ],
+          "named": {},
+          "line": 391,
+          "col": 3,
+          "endLine": 397,
+          "endCol": 4,
+          "body": [
+            {
+              "k": "call",
+              "name": "withEnv",
+              "args": [
+                {
+                  "t": "list",
+                  "v": [
+                    {
+                      "t": "concat",
+                      "parts": [
+                        {
+                          "t": "str",
+                          "v": "NPMRC_EMAIL=",
+                          "line": 392,
+                          "col": 14,
+                          "endLine": 392,
+                          "endCol": 28
+                        },
+                        {
+                          "t": "prop",
+                          "text": "env.NPMRC_USER",
+                          "calls": [],
+                          "line": 392,
+                          "col": 31,
+                          "endLine": 392,
+                          "endCol": 45
+                        }
+                      ],
+                      "line": 392,
+                      "col": 14,
+                      "endLine": 392,
+                      "endCol": 45
+                    }
+                  ],
+                  "line": 392,
+                  "col": 13,
+                  "endLine": 392,
+                  "endCol": 46
+                }
+              ],
+              "named": {},
+              "line": 392,
+              "col": 5,
+              "endLine": 396,
+              "endCol": 6,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "withNpmEnv",
+                  "args": [
+                    {
+                      "t": "var",
+                      "name": "registryArtifactoryUp",
+                      "line": 393,
+                      "col": 18,
+                      "endLine": 393,
+                      "endCol": 39
+                    }
+                  ],
+                  "named": {},
+                  "line": 393,
+                  "col": 7,
+                  "endLine": 395,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "publishNpm",
+                      "args": [
+                        {
+                          "t": "var",
+                          "name": "registryArtifactoryUp",
+                          "line": 394,
+                          "col": 20,
+                          "endLine": 394,
+                          "endCol": 41
+                        }
+                      ],
+                      "named": {},
+                      "line": 394,
+                      "col": 9,
+                      "endLine": 394,
+                      "endCol": 42
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "line": 390,
+      "col": 1,
+      "endLine": 398,
+      "endCol": 2
+    },
+    {
+      "name": "publishPublic",
+      "params": [],
+      "annotations": [],
+      "body": [
+        {
+          "k": "call",
+          "name": "withCredentials",
+          "args": [
+            {
+              "t": "list",
+              "v": [
+                {
+                  "t": "call",
+                  "call": {
+                    "k": "call",
+                    "name": "string",
+                    "args": [],
+                    "named": {
+                      "credentialsId": {
+                        "t": "str",
+                        "v": "npm-mail",
+                        "line": 401,
+                        "col": 42,
+                        "endLine": 401,
+                        "endCol": 52
+                      },
+                      "variable": {
+                        "t": "str",
+                        "v": "NPMRC_EMAIL",
+                        "line": 401,
+                        "col": 64,
+                        "endLine": 401,
+                        "endCol": 77
+                      }
+                    },
+                    "line": 401,
+                    "col": 20,
+                    "endLine": 401,
+                    "endCol": 78
+                  },
+                  "line": 401,
+                  "col": 20,
+                  "endLine": 401,
+                  "endCol": 78
+                },
+                {
+                  "t": "call",
+                  "call": {
+                    "k": "call",
+                    "name": "usernamePassword",
+                    "args": [],
+                    "named": {
+                      "credentialsId": {
+                        "t": "str",
+                        "v": "npm-creds",
+                        "line": 402,
+                        "col": 51,
+                        "endLine": 402,
+                        "endCol": 62
+                      },
+                      "passwordVariable": {
+                        "t": "str",
+                        "v": "NPMRC_TOKEN",
+                        "line": 402,
+                        "col": 82,
+                        "endLine": 402,
+                        "endCol": 95
+                      },
+                      "usernameVariable": {
+                        "t": "str",
+                        "v": "NPMRC_USER",
+                        "line": 402,
+                        "col": 115,
+                        "endLine": 402,
+                        "endCol": 127
+                      }
+                    },
+                    "line": 402,
+                    "col": 19,
+                    "endLine": 402,
+                    "endCol": 128
+                  },
+                  "line": 402,
+                  "col": 19,
+                  "endLine": 402,
+                  "endCol": 128
+                }
+              ],
+              "line": 401,
+              "col": 19,
+              "endLine": 402,
+              "endCol": 129
+            }
+          ],
+          "named": {},
+          "line": 401,
+          "col": 3,
+          "endLine": 406,
+          "endCol": 4,
+          "body": [
+            {
+              "k": "call",
+              "name": "withNpmEnv",
+              "args": [
+                {
+                  "t": "var",
+                  "name": "registryPublic",
+                  "line": 403,
+                  "col": 16,
+                  "endLine": 403,
+                  "endCol": 30
+                }
+              ],
+              "named": {},
+              "line": 403,
+              "col": 5,
+              "endLine": 405,
+              "endCol": 6,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "publishNpm",
+                  "args": [
+                    {
+                      "t": "var",
+                      "name": "registryPublic",
+                      "line": 404,
+                      "col": 18,
+                      "endLine": 404,
+                      "endCol": 32
+                    },
+                    {
+                      "t": "str",
+                      "v": "latest",
+                      "line": 404,
+                      "col": 34,
+                      "endLine": 404,
+                      "endCol": 42
+                    }
+                  ],
+                  "named": {},
+                  "line": 404,
+                  "col": 7,
+                  "endLine": 404,
+                  "endCol": 43
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "line": 400,
+      "col": 1,
+      "endLine": 407,
+      "endCol": 2
+    },
+    {
+      "name": "publishNpm",
+      "params": [
+        {
+          "name": "registry",
+          "type": "Object",
+          "hasDefault": false
+        },
+        {
+          "name": "tag",
+          "type": "Object",
+          "hasDefault": true
+        }
+      ],
+      "annotations": [],
+      "body": [
+        {
+          "k": "call",
+          "name": "sh",
+          "args": [
+            {
+              "t": "str",
+              "v": "npm run build",
+              "line": 410,
+              "col": 6,
+              "endLine": 410,
+              "endCol": 21
+            }
+          ],
+          "named": {},
+          "line": 410,
+          "col": 3,
+          "endLine": 410,
+          "endCol": 21
+        },
+        {
+          "k": "call",
+          "name": "sh",
+          "args": [
+            {
+              "t": "str",
+              "v": "npm pack ./dist",
+              "line": 411,
+              "col": 6,
+              "endLine": 411,
+              "endCol": 23
+            }
+          ],
+          "named": {},
+          "line": 411,
+          "col": 3,
+          "endLine": 411,
+          "endCol": 234
+        }
+      ],
+      "line": 409,
+      "col": 1,
+      "endLine": 412,
+      "endCol": 2
+    },
+    {
+      "name": "publishDocs",
+      "params": [],
+      "annotations": [],
+      "body": [
+        {
+          "k": "call",
+          "name": "sh",
+          "args": [
+            {
+              "t": "str",
+              "v": "./scripts/typedoc/publish-doc.sh",
+              "line": 415,
+              "col": 6,
+              "endLine": 415,
+              "endCol": 40
+            }
+          ],
+          "named": {},
+          "line": 415,
+          "col": 3,
+          "endLine": 415,
+          "endCol": 40
+        }
+      ],
+      "line": 414,
+      "col": 1,
+      "endLine": 416,
+      "endCol": 2
+    }
+  ],
+  "classes": [],
+  "statements": [
+    {
+      "k": "call",
+      "name": "pipeline",
+      "args": [],
+      "named": {},
+      "line": 3,
+      "col": 1,
+      "endLine": 212,
+      "endCol": 2,
+      "body": [
+        {
+          "k": "call",
+          "name": "agent",
+          "args": [],
+          "named": {},
+          "line": 4,
+          "col": 3,
+          "endLine": 8,
+          "endCol": 4,
+          "body": [
+            {
+              "k": "call",
+              "name": "kubernetes",
+              "args": [],
+              "named": {},
+              "line": 5,
+              "col": 5,
+              "endLine": 7,
+              "endCol": 6,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "yaml",
+                  "args": [
+                    {
+                      "t": "call",
+                      "call": {
+                        "k": "call",
+                        "name": "kubePodTemplate",
+                        "args": [],
+                        "named": {
+                          "name": {
+                            "t": "str",
+                            "v": "gauge.yaml",
+                            "line": 6,
+                            "col": 34,
+                            "endLine": 6,
+                            "endCol": 46
+                          }
+                        },
+                        "line": 6,
+                        "col": 12,
+                        "endLine": 6,
+                        "endCol": 47
+                      },
+                      "line": 6,
+                      "col": 12,
+                      "endLine": 6,
+                      "endCol": 47
+                    }
+                  ],
+                  "named": {},
+                  "line": 6,
+                  "col": 7,
+                  "endLine": 6,
+                  "endCol": 47
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "k": "call",
+          "name": "parameters",
+          "args": [],
+          "named": {},
+          "line": 9,
+          "col": 3,
+          "endLine": 15,
+          "endCol": 4,
+          "body": [
+            {
+              "k": "call",
+              "name": "validatingString",
+              "args": [],
+              "named": {
+                "name": {
+                  "t": "str",
+                  "v": "TARGET_VERSION",
+                  "line": 10,
+                  "col": 29,
+                  "endLine": 10,
+                  "endCol": 45
+                },
+                "defaultValue": {
+                  "t": "str",
+                  "v": "NONE",
+                  "line": 11,
+                  "col": 37,
+                  "endLine": 11,
+                  "endCol": 43
+                },
+                "description": {
+                  "t": "str",
+                  "v": "Tag to create after successful QA",
+                  "line": 12,
+                  "col": 36,
+                  "endLine": 12,
+                  "endCol": 71
+                },
+                "failedValidationMessage": {
+                  "t": "str",
+                  "v": "Tag name must be NONE or a semantic version release or pre-release (i.e. no build metadata)",
+                  "line": 13,
+                  "col": 48,
+                  "endLine": 13,
+                  "endCol": 141
+                },
+                "regex": {
+                  "t": "gstr",
+                  "v": "/NONE|${globals.SVRE_PRE_RELEASE}/",
+                  "vars": [
+                    "{globals.SVRE_PRE_RELEASE}"
+                  ],
+                  "calls": [],
+                  "line": 14,
+                  "col": 30,
+                  "endLine": 14,
+                  "endCol": 64
+                }
+              },
+              "line": 10,
+              "col": 5,
+              "endLine": 14,
+              "endCol": 65
+            }
+          ]
+        },
+        {
+          "k": "call",
+          "name": "environment",
+          "args": [],
+          "named": {},
+          "line": 16,
+          "col": 3,
+          "endLine": 20,
+          "endCol": 4,
+          "body": [
+            {
+              "k": "assign",
+              "op": "=",
+              "target": "ARTIFACTORY_CREDS",
+              "value": {
+                "t": "call",
+                "call": {
+                  "k": "call",
+                  "name": "credentials",
+                  "args": [
+                    {
+                      "t": "str",
+                      "v": "artifactory",
+                      "line": 17,
+                      "col": 37,
+                      "endLine": 17,
+                      "endCol": 50
+                    }
+                  ],
+                  "named": {},
+                  "line": 17,
+                  "col": 25,
+                  "endLine": 17,
+                  "endCol": 51
+                },
+                "line": 17,
+                "col": 25,
+                "endLine": 17,
+                "endCol": 51
+              },
+              "line": 17,
+              "col": 5,
+              "endLine": 17,
+              "endCol": 51
+            },
+            {
+              "k": "assign",
+              "op": "=",
+              "target": "ARTIFACTORY_URL_UP",
+              "value": {
+                "t": "gstr",
+                "v": "\"${Artifactory.server('taas-artifactory-upload').getUrl()}\"",
+                "vars": [
+                  "{Artifactory.server('taas-artifactory-upload').getUrl()}"
+                ],
+                "calls": [
+                  {
+                    "k": "call",
+                    "name": "getUrl",
+                    "args": [],
+                    "named": {},
+                    "line": 18,
+                    "col": 28,
+                    "endLine": 18,
+                    "endCol": 84,
+                    "receiver": "Artifactory.server('taas-artifactory-upload')",
+                    "receiverCalls": [
+                      {
+                        "k": "call",
+                        "name": "server",
+                        "args": [
+                          {
+                            "t": "str",
+                            "v": "taas-artifactory-upload",
+                            "line": 18,
+                            "col": 48,
+                            "endLine": 18,
+                            "endCol": 73
+                          }
+                        ],
+                        "named": {},
+                        "line": 18,
+                        "col": 29,
+                        "endLine": 18,
+                        "endCol": 74,
+                        "receiver": "Artifactory"
+                      }
+                    ]
+                  }
+                ],
+                "line": 18,
+                "col": 26,
+                "endLine": 18,
+                "endCol": 85
+              },
+              "line": 18,
+              "col": 5,
+              "endLine": 18,
+              "endCol": 85
+            },
+            {
+              "k": "assign",
+              "op": "=",
+              "target": "ARTIFACTORY_URL_DOWN",
+              "value": {
+                "t": "gstr",
+                "v": "\"${Artifactory.server('taas-artifactory').getUrl()}\"",
+                "vars": [
+                  "{Artifactory.server('taas-artifactory').getUrl()}"
+                ],
+                "calls": [
+                  {
+                    "k": "call",
+                    "name": "getUrl",
+                    "args": [],
+                    "named": {},
+                    "line": 19,
+                    "col": 30,
+                    "endLine": 19,
+                    "endCol": 79,
+                    "receiver": "Artifactory.server('taas-artifactory')",
+                    "receiverCalls": [
+                      {
+                        "k": "call",
+                        "name": "server",
+                        "args": [
+                          {
+                            "t": "str",
+                            "v": "taas-artifactory",
+                            "line": 19,
+                            "col": 50,
+                            "endLine": 19,
+                            "endCol": 68
+                          }
+                        ],
+                        "named": {},
+                        "line": 19,
+                        "col": 31,
+                        "endLine": 19,
+                        "endCol": 69,
+                        "receiver": "Artifactory"
+                      }
+                    ]
+                  }
+                ],
+                "line": 19,
+                "col": 28,
+                "endLine": 19,
+                "endCol": 80
+              },
+              "line": 19,
+              "col": 5,
+              "endLine": 19,
+              "endCol": 80
+            }
+          ]
+        },
+        {
+          "k": "call",
+          "name": "stages",
+          "args": [],
+          "named": {},
+          "line": 21,
+          "col": 3,
+          "endLine": 211,
+          "endCol": 4,
+          "body": [
+            {
+              "k": "call",
+              "name": "stage",
+              "args": [
+                {
+                  "t": "str",
+                  "v": "Detect Secrets",
+                  "line": 22,
+                  "col": 11,
+                  "endLine": 22,
+                  "endCol": 27
+                }
+              ],
+              "named": {},
+              "line": 22,
+              "col": 5,
+              "endLine": 26,
+              "endCol": 6,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "steps",
+                  "args": [],
+                  "named": {},
+                  "line": 23,
+                  "col": 7,
+                  "endLine": 25,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "detectSecrets",
+                      "args": [],
+                      "named": {},
+                      "line": 24,
+                      "col": 9,
+                      "endLine": 24,
+                      "endCol": 24
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "k": "call",
+              "name": "stage",
+              "args": [
+                {
+                  "t": "str",
+                  "v": "Init",
+                  "line": 28,
+                  "col": 11,
+                  "endLine": 28,
+                  "endCol": 17
+                }
+              ],
+              "named": {},
+              "line": 28,
+              "col": 5,
+              "endLine": 36,
+              "endCol": 6,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "steps",
+                  "args": [],
+                  "named": {},
+                  "line": 29,
+                  "col": 7,
+                  "endLine": 35,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "script",
+                      "args": [],
+                      "named": {},
+                      "line": 30,
+                      "col": 9,
+                      "endLine": 34,
+                      "endCol": 10,
+                      "body": [
+                        {
+                          "k": "call",
+                          "name": "defaultInit",
+                          "args": [],
+                          "named": {},
+                          "line": 31,
+                          "col": 11,
+                          "endLine": 31,
+                          "endCol": 24
+                        },
+                        {
+                          "k": "call",
+                          "name": "applyCustomizations",
+                          "args": [],
+                          "named": {},
+                          "line": 32,
+                          "col": 11,
+                          "endLine": 32,
+                          "endCol": 32
+                        },
+                        {
+                          "k": "assign",
+                          "op": "=",
+                          "target": "commitHash",
+                          "value": {
+                            "t": "gstr",
+                            "v": "\"${env.GIT_COMMIT.take(7)}\"",
+                            "vars": [
+                              "{env.GIT_COMMIT.take(7)}"
+                            ],
+                            "calls": [
+                              {
+                                "k": "call",
+                                "name": "take",
+                                "args": [
+                                  {
+                                    "t": "num",
+                                    "v": 7,
+                                    "line": 33,
+                                    "col": 47,
+                                    "endLine": 33,
+                                    "endCol": 48
+                                  }
+                                ],
+                                "named": {},
+                                "line": 33,
+                                "col": 26,
+                                "endLine": 33,
+                                "endCol": 50,
+                                "receiver": "env.GIT_COMMIT"
+                              }
+                            ],
+                            "line": 33,
+                            "col": 24,
+                            "endLine": 33,
+                            "endCol": 51
+                          },
+                          "line": 33,
+                          "col": 11,
+                          "endLine": 33,
+                          "endCol": 51
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "k": "call",
+              "name": "stage",
+              "args": [
+                {
+                  "t": "str",
+                  "v": "QA",
+                  "line": 37,
+                  "col": 11,
+                  "endLine": 37,
+                  "endCol": 15
+                }
+              ],
+              "named": {},
+              "line": 37,
+              "col": 5,
+              "endLine": 66,
+              "endCol": 6,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "steps",
+                  "args": [],
+                  "named": {},
+                  "line": 38,
+                  "col": 7,
+                  "endLine": 57,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "withEnv",
+                      "args": [
+                        {
+                          "t": "list",
+                          "v": [
+                            {
+                              "t": "str",
+                              "v": "DOCKER_HOST=",
+                              "line": 39,
+                              "col": 18,
+                              "endLine": 39,
+                              "endCol": 32
+                            },
+                            {
+                              "t": "str",
+                              "v": "SERVER_AUTH_TYPE=basic",
+                              "line": 40,
+                              "col": 11,
+                              "endLine": 40,
+                              "endCol": 35
+                            },
+                            {
+                              "t": "str",
+                              "v": "SERVER_URL=http://127.0.0.1:5984",
+                              "line": 41,
+                              "col": 11,
+                              "endLine": 41,
+                              "endCol": 45
+                            },
+                            {
+                              "t": "str",
+                              "v": "WIREMOCK_URL=http://127.0.0.1:8080",
+                              "line": 42,
+                              "col": 11,
+                              "endLine": 42,
+                              "endCol": 47
+                            },
+                            {
+                              "t": "str",
+                              "v": "WIREMOCK_PORT=8080",
+                              "line": 43,
+                              "col": 11,
+                              "endLine": 44,
+                              "endCol": 9
+                            }
+                          ],
+                          "line": 39,
+                          "col": 17,
+                          "endLine": 44,
+                          "endCol": 10
+                        }
+                      ],
+                      "named": {},
+                      "line": 39,
+                      "col": 9,
+                      "endLine": 56,
+                      "endCol": 10,
+                      "body": [
+                        {
+                          "k": "call",
+                          "name": "withCredentials",
+                          "args": [
+                            {
+                              "t": "list",
+                              "v": [
+                                {
+                                  "t": "call",
+                                  "call": {
+                                    "k": "call",
+                                    "name": "usernamePassword",
+                                    "args": [],
+                                    "named": {
+                                      "credentialsId": {
+                                        "t": "str",
+                                        "v": "container-test-server",
+                                        "line": 46,
+                                        "col": 45,
+                                        "endLine": 46,
+                                        "endCol": 68
+                                      },
+                                      "usernameVariable": {
+                                        "t": "str",
+                                        "v": "SERVER_USERNAME",
+                                        "line": 47,
+                                        "col": 48,
+                                        "endLine": 47,
+                                        "endCol": 65
+                                      },
+                                      "passwordVariable": {
+                                        "t": "str",
+                                        "v": "SERVER_PASSWORD",
+                                        "line": 48,
+                                        "col": 48,
+                                        "endLine": 48,
+                                        "endCol": 65
+                                      }
+                                    },
+                                    "line": 46,
+                                    "col": 13,
+                                    "endLine": 49,
+                                    "endCol": 13
+                                  },
+                                  "line": 46,
+                                  "col": 13,
+                                  "endLine": 49,
+                                  "endCol": 13
+                                }
+                              ],
+                              "line": 45,
+                              "col": 27,
+                              "endLine": 49,
+                              "endCol": 14
+                            }
+                          ],
+                          "named": {},
+                          "line": 45,
+                          "col": 11,
+                          "endLine": 55,
+                          "endCol": 12,
+                          "body": [
+                            {
+                              "k": "call",
+                              "name": "script",
+                              "args": [],
+                              "named": {},
+                              "line": 50,
+                              "col": 15,
+                              "endLine": 53,
+                              "endCol": 16,
+                              "body": [
+                                {
+                                  "k": "call",
+                                  "name": "sh",
+                                  "args": [
+                                    {
+                                      "t": "str",
+                                      "v": "echo ./scripts/setup_couch.sh",
+                                      "line": 51,
+                                      "col": 22,
+                                      "endLine": 51,
+                                      "endCol": 53
+                                    }
+                                  ],
+                                  "named": {},
+                                  "line": 51,
+                                  "col": 19,
+                                  "endLine": 51,
+                                  "endCol": 116
+                                },
+                                {
+                                  "k": "call",
+                                  "name": "sh",
+                                  "args": [
+                                    {
+                                      "t": "str",
+                                      "v": "echo ./scripts/setup_wiremock.sh",
+                                      "line": 52,
+                                      "col": 22,
+                                      "endLine": 52,
+                                      "endCol": 56
+                                    }
+                                  ],
+                                  "named": {},
+                                  "line": 52,
+                                  "col": 19,
+                                  "endLine": 52,
+                                  "endCol": 131
+                                }
+                              ]
+                            },
+                            {
+                              "k": "call",
+                              "name": "runTests",
+                              "args": [],
+                              "named": {},
+                              "line": 54,
+                              "col": 15,
+                              "endLine": 54,
+                              "endCol": 25
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "k": "call",
+                  "name": "post",
+                  "args": [],
+                  "named": {},
+                  "line": 59,
+                  "col": 7,
+                  "endLine": 65,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "always",
+                      "args": [],
+                      "named": {},
+                      "line": 60,
+                      "col": 9,
+                      "endLine": 64,
+                      "endCol": 10,
+                      "body": [
+                        {
+                          "k": "call",
+                          "name": "junit",
+                          "args": [],
+                          "named": {
+                            "testResults": {
+                              "t": "str",
+                              "v": "**/junitreports/*.xml",
+                              "line": 62,
+                              "col": 26,
+                              "endLine": 63,
+                              "endCol": 11
+                            }
+                          },
+                          "line": 61,
+                          "col": 11,
+                          "endLine": 63,
+                          "endCol": 12
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "k": "call",
+              "name": "stage",
+              "args": [
+                {
+                  "t": "str",
+                  "v": "SonarQube analysis",
+                  "line": 68,
+                  "col": 11,
+                  "endLine": 68,
+                  "endCol": 31
+                }
+              ],
+              "named": {},
+              "line": 68,
+              "col": 5,
+              "endLine": 90,
+              "endCol": 6,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "environment",
+                  "args": [],
+                  "named": {},
+                  "line": 69,
+                  "col": 7,
+                  "endLine": 71,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "assign",
+                      "op": "=",
+                      "target": "scannerHome",
+                      "value": {
+                        "t": "call",
+                        "call": {
+                          "k": "call",
+                          "name": "tool",
+                          "args": [
+                            {
+                              "t": "str",
+                              "v": "SonarQubeScanner",
+                              "line": 70,
+                              "col": 28,
+                              "endLine": 70,
+                              "endCol": 46
+                            }
+                          ],
+                          "named": {},
+                          "line": 70,
+                          "col": 28,
+                          "endLine": 70,
+                          "endCol": 46
+                        },
+                        "line": 70,
+                        "col": 28,
+                        "endLine": 70,
+                        "endCol": 46
+                      },
+                      "line": 70,
+                      "col": 9,
+                      "endLine": 70,
+                      "endCol": 46
+                    }
+                  ]
+                },
+                {
+                  "k": "call",
+                  "name": "when",
+                  "args": [],
+                  "named": {},
+                  "line": 73,
+                  "col": 7,
+                  "endLine": 86,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "anyOf",
+                      "args": [],
+                      "named": {},
+                      "line": 74,
+                      "col": 9,
+                      "endLine": 77,
+                      "endCol": 10,
+                      "body": [
+                        {
+                          "k": "call",
+                          "name": "changeRequest",
+                          "args": [],
+                          "named": {},
+                          "line": 75,
+                          "col": 11,
+                          "endLine": 75,
+                          "endCol": 26
+                        },
+                        {
+                          "k": "call",
+                          "name": "expression",
+                          "args": [],
+                          "named": {},
+                          "line": 76,
+                          "col": 11,
+                          "endLine": 76,
+                          "endCol": 47,
+                          "body": [
+                            {
+                              "k": "expr",
+                              "kind": "PropertyExpression",
+                              "text": "env.BRANCH_IS_PRIMARY ",
+                              "calls": [],
+                              "line": 76,
+                              "col": 24,
+                              "endLine": 76,
+                              "endCol": 46
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "k": "call",
+                      "name": "not",
+                      "args": [],
+                      "named": {},
+                      "line": 78,
+                      "col": 9,
+                      "endLine": 85,
+                      "endCol": 10,
+                      "body": [
+                        {
+                          "k": "call",
+                          "name": "allOf",
+                          "args": [],
+                          "named": {},
+                          "line": 79,
+                          "col": 11,
+                          "endLine": 84,
+                          "endCol": 12,
+                          "body": [
+                            {
+                              "k": "call",
+                              "name": "changeRequest",
+                              "args": [],
+                              "named": {
+                                "branch": {
+                                  "t": "str",
+                                  "v": "dependabot*",
+                                  "line": 80,
+                                  "col": 35,
+                                  "endLine": 80,
+                                  "endCol": 48
+                                },
+                                "comparator": {
+                                  "t": "str",
+                                  "v": "GLOB",
+                                  "line": 80,
+                                  "col": 62,
+                                  "endLine": 80,
+                                  "endCol": 68
+                                }
+                              },
+                              "line": 80,
+                              "col": 13,
+                              "endLine": 80,
+                              "endCol": 68
+                            },
+                            {
+                              "k": "call",
+                              "name": "not",
+                              "args": [],
+                              "named": {},
+                              "line": 81,
+                              "col": 13,
+                              "endLine": 83,
+                              "endCol": 14,
+                              "body": [
+                                {
+                                  "k": "call",
+                                  "name": "changeRequest",
+                                  "args": [],
+                                  "named": {
+                                    "branch": {
+                                      "t": "str",
+                                      "v": "^dependabot.*(?i)(ibm)[\\.-].+sdk-core.*$",
+                                      "line": 82,
+                                      "col": 37,
+                                      "endLine": 82,
+                                      "endCol": 79
+                                    },
+                                    "comparator": {
+                                      "t": "str",
+                                      "v": "REGEXP",
+                                      "line": 82,
+                                      "col": 93,
+                                      "endLine": 82,
+                                      "endCol": 101
+                                    }
+                                  },
+                                  "line": 82,
+                                  "col": 15,
+                                  "endLine": 82,
+                                  "endCol": 101
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "k": "call",
+                  "name": "steps",
+                  "args": [],
+                  "named": {},
+                  "line": 87,
+                  "col": 7,
+                  "endLine": 89,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "scanCode",
+                      "args": [],
+                      "named": {},
+                      "line": 88,
+                      "col": 9,
+                      "endLine": 88,
+                      "endCol": 19
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "k": "call",
+              "name": "stage",
+              "args": [
+                {
+                  "t": "str",
+                  "v": "Publish[staging]",
+                  "line": 92,
+                  "col": 11,
+                  "endLine": 92,
+                  "endCol": 29
+                }
+              ],
+              "named": {},
+              "line": 92,
+              "col": 5,
+              "endLine": 119,
+              "endCol": 6,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "when",
+                  "args": [],
+                  "named": {},
+                  "line": 93,
+                  "col": 7,
+                  "endLine": 97,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "not",
+                      "args": [],
+                      "named": {},
+                      "line": 94,
+                      "col": 9,
+                      "endLine": 96,
+                      "endCol": 10,
+                      "body": [
+                        {
+                          "k": "call",
+                          "name": "buildingTag",
+                          "args": [],
+                          "named": {},
+                          "line": 95,
+                          "col": 11,
+                          "endLine": 95,
+                          "endCol": 24
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "k": "call",
+                  "name": "environment",
+                  "args": [],
+                  "named": {},
+                  "line": 98,
+                  "col": 7,
+                  "endLine": 100,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "assign",
+                      "op": "=",
+                      "target": "STAGE_ROOT",
+                      "value": {
+                        "t": "gstr",
+                        "v": "\"${ARTIFACTORY_URL_UP}/api/\"",
+                        "vars": [
+                          "{ARTIFACTORY_URL_UP}"
+                        ],
+                        "calls": [],
+                        "line": 99,
+                        "col": 22,
+                        "endLine": 99,
+                        "endCol": 50
+                      },
+                      "line": 99,
+                      "col": 9,
+                      "endLine": 99,
+                      "endCol": 50
+                    }
+                  ]
+                },
+                {
+                  "k": "call",
+                  "name": "steps",
+                  "args": [],
+                  "named": {},
+                  "line": 101,
+                  "col": 7,
+                  "endLine": 112,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "bumpVersion",
+                      "args": [
+                        {
+                          "t": "bool",
+                          "v": true,
+                          "line": 102,
+                          "col": 21,
+                          "endLine": 102,
+                          "endCol": 25
+                        }
+                      ],
+                      "named": {},
+                      "line": 102,
+                      "col": 9,
+                      "endLine": 102,
+                      "endCol": 26
+                    },
+                    {
+                      "k": "call",
+                      "name": "customizePublishingInfo",
+                      "args": [],
+                      "named": {},
+                      "line": 103,
+                      "col": 9,
+                      "endLine": 103,
+                      "endCol": 34
+                    },
+                    {
+                      "k": "call",
+                      "name": "withEnv",
+                      "args": [
+                        {
+                          "t": "list",
+                          "v": [
+                            {
+                              "t": "gstr",
+                              "v": "\"LIB_NAME=${libName}\"",
+                              "vars": [
+                                "{libName}"
+                              ],
+                              "calls": [],
+                              "line": 104,
+                              "col": 18,
+                              "endLine": 104,
+                              "endCol": 39
+                            },
+                            {
+                              "t": "gstr",
+                              "v": "\"TYPE=${buildType}\"",
+                              "vars": [
+                                "{buildType}"
+                              ],
+                              "calls": [],
+                              "line": 105,
+                              "col": 11,
+                              "endLine": 105,
+                              "endCol": 30
+                            },
+                            {
+                              "t": "gstr",
+                              "v": "\"ARTIFACT_URL=${artifactUrl}\"",
+                              "vars": [
+                                "{artifactUrl}"
+                              ],
+                              "calls": [],
+                              "line": 106,
+                              "col": 11,
+                              "endLine": 106,
+                              "endCol": 40
+                            },
+                            {
+                              "t": "gstr",
+                              "v": "\"MODULE_ID=${moduleId}\"",
+                              "vars": [
+                                "{moduleId}"
+                              ],
+                              "calls": [],
+                              "line": 107,
+                              "col": 11,
+                              "endLine": 107,
+                              "endCol": 34
+                            },
+                            {
+                              "t": "gstr",
+                              "v": "\"BUILD_NAME=${env.JOB_NAME}\"",
+                              "vars": [
+                                "{env.JOB_NAME}"
+                              ],
+                              "calls": [],
+                              "line": 108,
+                              "col": 11,
+                              "endLine": 108,
+                              "endCol": 39
+                            }
+                          ],
+                          "line": 104,
+                          "col": 17,
+                          "endLine": 108,
+                          "endCol": 40
+                        }
+                      ],
+                      "named": {},
+                      "line": 104,
+                      "col": 9,
+                      "endLine": 111,
+                      "endCol": 10,
+                      "body": [
+                        {
+                          "k": "call",
+                          "name": "publishStaging",
+                          "args": [],
+                          "named": {},
+                          "line": 109,
+                          "col": 13,
+                          "endLine": 109,
+                          "endCol": 29
+                        },
+                        {
+                          "k": "call",
+                          "name": "publishArtifactoryBuildInfo",
+                          "args": [],
+                          "named": {},
+                          "line": 110,
+                          "col": 13,
+                          "endLine": 110,
+                          "endCol": 42
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "k": "call",
+                  "name": "post",
+                  "args": [],
+                  "named": {},
+                  "line": 114,
+                  "col": 7,
+                  "endLine": 118,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "always",
+                      "args": [],
+                      "named": {},
+                      "line": 115,
+                      "col": 9,
+                      "endLine": 117,
+                      "endCol": 10,
+                      "body": [
+                        {
+                          "k": "call",
+                          "name": "sh",
+                          "args": [
+                            {
+                              "t": "str",
+                              "v": "git reset --hard",
+                              "line": 116,
+                              "col": 14,
+                              "endLine": 116,
+                              "endCol": 32
+                            }
+                          ],
+                          "named": {},
+                          "line": 116,
+                          "col": 11,
+                          "endLine": 116,
+                          "endCol": 32
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "k": "call",
+              "name": "stage",
+              "args": [
+                {
+                  "t": "str",
+                  "v": "Run Gauge tests",
+                  "line": 121,
+                  "col": 11,
+                  "endLine": 121,
+                  "endCol": 28
+                }
+              ],
+              "named": {},
+              "line": 121,
+              "col": 5,
+              "endLine": 159,
+              "endCol": 6,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "when",
+                  "args": [],
+                  "named": {},
+                  "line": 122,
+                  "col": 7,
+                  "endLine": 126,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "not",
+                      "args": [],
+                      "named": {},
+                      "line": 123,
+                      "col": 9,
+                      "endLine": 125,
+                      "endCol": 10,
+                      "body": [
+                        {
+                          "k": "call",
+                          "name": "buildingTag",
+                          "args": [],
+                          "named": {},
+                          "line": 124,
+                          "col": 11,
+                          "endLine": 124,
+                          "endCol": 24
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "k": "call",
+                  "name": "steps",
+                  "args": [],
+                  "named": {},
+                  "line": 127,
+                  "col": 7,
+                  "endLine": 158,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "script",
+                      "args": [],
+                      "named": {},
+                      "line": 128,
+                      "col": 9,
+                      "endLine": 157,
+                      "endCol": 10,
+                      "body": [
+                        {
+                          "k": "assign",
+                          "op": "=",
+                          "target": "buildResults",
+                          "value": {
+                            "t": "null",
+                            "v": null,
+                            "line": 129,
+                            "col": 28,
+                            "endLine": 129,
+                            "endCol": 32
+                          },
+                          "line": 129,
+                          "col": 13,
+                          "endLine": 129,
+                          "endCol": 32
+                        },
+                        {
+                          "k": "assign",
+                          "op": "=",
+                          "target": "gaugeBranchName",
+                          "value": {
+                            "t": "prop",
+                            "text": "env.BRANCH_NAME",
+                            "calls": [],
+                            "line": 133,
+                            "col": 31,
+                            "endLine": 133,
+                            "endCol": 46
+                          },
+                          "line": 133,
+                          "col": 13,
+                          "endLine": 133,
+                          "endCol": 46
+                        },
+                        {
+                          "k": "assign",
+                          "op": "=",
+                          "target": "fallbackBranchName",
+                          "value": {
+                            "t": "expr",
+                            "kind": "ElvisOperatorExpression",
+                            "text": "?:",
+                            "calls": [],
+                            "line": 134,
+                            "col": 71,
+                            "endLine": 134,
+                            "endCol": 73
+                          },
+                          "line": 134,
+                          "col": 13,
+                          "endLine": 134,
+                          "endCol": 110
+                        },
+                        {
+                          "k": "if",
+                          "cond": "env.TAG_NAME || env.BRANCH_IS_PRIMARY",
+                          "condCalls": [],
+                          "then": [
+                            {
+                              "k": "assign",
+                              "op": "=",
+                              "target": "gaugeBranchName",
+                              "value": {
+                                "t": "prop",
+                                "text": "env.TARGET_GAUGE_RELEASE_BRANCH_NAME",
+                                "calls": [],
+                                "line": 139,
+                                "col": 33,
+                                "endLine": 139,
+                                "endCol": 69
+                              },
+                              "line": 139,
+                              "col": 15,
+                              "endLine": 139,
+                              "endCol": 69
+                            },
+                            {
+                              "k": "assign",
+                              "op": "=",
+                              "target": "fallbackBranchName",
+                              "value": {
+                                "t": "expr",
+                                "kind": "ElvisOperatorExpression",
+                                "text": "?:",
+                                "calls": [],
+                                "line": 140,
+                                "col": 49,
+                                "endLine": 140,
+                                "endCol": 51
+                              },
+                              "line": 140,
+                              "col": 15,
+                              "endLine": 140,
+                              "endCol": 67
+                            }
+                          ],
+                          "else": [],
+                          "line": 138,
+                          "col": 13,
+                          "endLine": 141,
+                          "endCol": 14
+                        },
+                        {
+                          "k": "try",
+                          "body": [
+                            {
+                              "k": "assign",
+                              "op": "=",
+                              "target": "buildResults",
+                              "value": {
+                                "t": "call",
+                                "call": {
+                                  "k": "call",
+                                  "name": "build",
+                                  "args": [],
+                                  "named": {
+                                    "job": {
+                                      "t": "gstr",
+                                      "v": "\"/${env.SDKS_GAUGE_PIPELINE_PROJECT}/${gaugeBranchName}\"",
+                                      "vars": [
+                                        "{env.SDKS_GAUGE_PIPELINE_PROJECT}",
+                                        "{gaugeBranchName}"
+                                      ],
+                                      "calls": [],
+                                      "line": 143,
+                                      "col": 39,
+                                      "endLine": 143,
+                                      "endCol": 95
+                                    },
+                                    "parameters": {
+                                      "t": "list",
+                                      "v": [
+                                        {
+                                          "t": "call",
+                                          "call": {
+                                            "k": "call",
+                                            "name": "string",
+                                            "args": [],
+                                            "named": {
+                                              "name": {
+                                                "t": "str",
+                                                "v": "SDK_RUN_LANG",
+                                                "line": 144,
+                                                "col": 30,
+                                                "endLine": 144,
+                                                "endCol": 44
+                                              },
+                                              "value": {
+                                                "t": "gstr",
+                                                "v": "\"$libName\"",
+                                                "vars": [
+                                                  "libName"
+                                                ],
+                                                "calls": [],
+                                                "line": 144,
+                                                "col": 53,
+                                                "endLine": 144,
+                                                "endCol": 63
+                                              }
+                                            },
+                                            "line": 144,
+                                            "col": 17,
+                                            "endLine": 144,
+                                            "endCol": 64
+                                          },
+                                          "line": 144,
+                                          "col": 17,
+                                          "endLine": 144,
+                                          "endCol": 64
+                                        },
+                                        {
+                                          "t": "call",
+                                          "call": {
+                                            "k": "call",
+                                            "name": "string",
+                                            "args": [],
+                                            "named": {
+                                              "name": {
+                                                "t": "gstr",
+                                                "v": "\"SDK_VERSION_${libName.toUpperCase()}\"",
+                                                "vars": [
+                                                  "{libName.toUpperCase()}"
+                                                ],
+                                                "calls": [
+                                                  {
+                                                    "k": "call",
+                                                    "name": "toUpperCase",
+                                                    "args": [],
+                                                    "named": {},
+                                                    "line": 145,
+                                                    "col": 44,
+                                                    "endLine": 145,
+                                                    "endCol": 67,
+                                                    "receiver": "libName"
+                                                  }
+                                                ],
+                                                "line": 145,
+                                                "col": 30,
+                                                "endLine": 145,
+                                                "endCol": 68
+                                              },
+                                              "value": {
+                                                "t": "gstr",
+                                                "v": "\"${env.NEW_SDK_VERSION}\"",
+                                                "vars": [
+                                                  "{env.NEW_SDK_VERSION}"
+                                                ],
+                                                "calls": [],
+                                                "line": 145,
+                                                "col": 77,
+                                                "endLine": 145,
+                                                "endCol": 101
+                                              }
+                                            },
+                                            "line": 145,
+                                            "col": 17,
+                                            "endLine": 145,
+                                            "endCol": 102
+                                          },
+                                          "line": 145,
+                                          "col": 17,
+                                          "endLine": 145,
+                                          "endCol": 102
+                                        }
+                                      ],
+                                      "line": 143,
+                                      "col": 109,
+                                      "endLine": 145,
+                                      "endCol": 103
+                                    }
+                                  },
+                                  "line": 143,
+                                  "col": 34,
+                                  "endLine": 145,
+                                  "endCol": 103
+                                },
+                                "line": 143,
+                                "col": 34,
+                                "endLine": 145,
+                                "endCol": 103
+                              },
+                              "line": 143,
+                              "col": 13,
+                              "endLine": 145,
+                              "endCol": 103
+                            }
+                          ],
+                          "catches": [
+                            {
+                              "type": "hudson.AbortException",
+                              "variable": "ae",
+                              "body": [
+                                {
+                                  "k": "if",
+                                  "cond": "ae.getMessage().contains(\"No item named /${env.SDKS_GAUGE_PIPELINE_PROJECT}/${gaugeBranchName} found\")",
+                                  "condCalls": [
+                                    {
+                                      "k": "call",
+                                      "name": "contains",
+                                      "args": [
+                                        {
+                                          "t": "gstr",
+                                          "v": "\"No item named /${env.SDKS_GAUGE_PIPELINE_PROJECT}/${gaugeBranchName} found\"",
+                                          "vars": [
+                                            "{env.SDKS_GAUGE_PIPELINE_PROJECT}",
+                                            "{gaugeBranchName}"
+                                          ],
+                                          "calls": [],
+                                          "line": 148,
+                                          "col": 42,
+                                          "endLine": 148,
+                                          "endCol": 118
+                                        }
+                                      ],
+                                      "named": {},
+                                      "line": 148,
+                                      "col": 17,
+                                      "endLine": 148,
+                                      "endCol": 119,
+                                      "receiver": "ae.getMessage()",
+                                      "receiverCalls": [
+                                        {
+                                          "k": "call",
+                                          "name": "getMessage",
+                                          "args": [],
+                                          "named": {},
+                                          "line": 148,
+                                          "col": 17,
+                                          "endLine": 148,
+                                          "endCol": 32,
+                                          "receiver": "ae"
+                                        }
+                                      ]
+                                    }
+                                  ],
+                                  "then": [
+                                    {
+                                      "k": "call",
+                                      "name": "echo",
+                                      "args": [
+                                        {
+                                          "t": "gstr",
+                                          "v": "\"No matching branch named '${gaugeBranchName}' in sdks-gauge, building ${fallbackBranchName} branch\"",
+                                          "vars": [
+                                            "{gaugeBranchName}",
+                                            "{fallbackBranchName}"
+                                          ],
+                                          "calls": [],
+                                          "line": 149,
+                                          "col": 20,
+                                          "endLine": 149,
+                                          "endCol": 120
+                                        }
+                                      ],
+                                      "named": {},
+                                      "line": 149,
+                                      "col": 15,
+                                      "endLine": 149,
+                                      "endCol": 120
+                                    },
+                                    {
+                                      "k": "call",
+                                      "name": "build",
+                                      "args": [],
+                                      "named": {
+                                        "job": {
+                                          "t": "gstr",
+                                          "v": "\"/${env.SDKS_GAUGE_PIPELINE_PROJECT}/${fallbackBranchName}\"",
+                                          "vars": [
+                                            "{env.SDKS_GAUGE_PIPELINE_PROJECT}",
+                                            "{fallbackBranchName}"
+                                          ],
+                                          "calls": [],
+                                          "line": 150,
+                                          "col": 26,
+                                          "endLine": 150,
+                                          "endCol": 85
+                                        },
+                                        "parameters": {
+                                          "t": "list",
+                                          "v": [
+                                            {
+                                              "t": "call",
+                                              "call": {
+                                                "k": "call",
+                                                "name": "string",
+                                                "args": [],
+                                                "named": {
+                                                  "name": {
+                                                    "t": "str",
+                                                    "v": "SDK_RUN_LANG",
+                                                    "line": 151,
+                                                    "col": 32,
+                                                    "endLine": 151,
+                                                    "endCol": 46
+                                                  },
+                                                  "value": {
+                                                    "t": "gstr",
+                                                    "v": "\"$libName\"",
+                                                    "vars": [
+                                                      "libName"
+                                                    ],
+                                                    "calls": [],
+                                                    "line": 151,
+                                                    "col": 55,
+                                                    "endLine": 151,
+                                                    "endCol": 65
+                                                  }
+                                                },
+                                                "line": 151,
+                                                "col": 19,
+                                                "endLine": 151,
+                                                "endCol": 66
+                                              },
+                                              "line": 151,
+                                              "col": 19,
+                                              "endLine": 151,
+                                              "endCol": 66
+                                            },
+                                            {
+                                              "t": "call",
+                                              "call": {
+                                                "k": "call",
+                                                "name": "string",
+                                                "args": [],
+                                                "named": {
+                                                  "name": {
+                                                    "t": "gstr",
+                                                    "v": "\"SDK_VERSION_${libName.toUpperCase()}\"",
+                                                    "vars": [
+                                                      "{libName.toUpperCase()}"
+                                                    ],
+                                                    "calls": [
+                                                      {
+                                                        "k": "call",
+                                                        "name": "toUpperCase",
+                                                        "args": [],
+                                                        "named": {},
+                                                        "line": 152,
+                                                        "col": 46,
+                                                        "endLine": 152,
+                                                        "endCol": 69,
+                                                        "receiver": "libName"
+                                                      }
+                                                    ],
+                                                    "line": 152,
+                                                    "col": 32,
+                                                    "endLine": 152,
+                                                    "endCol": 70
+                                                  },
+                                                  "value": {
+                                                    "t": "gstr",
+                                                    "v": "\"${env.NEW_SDK_VERSION}\"",
+                                                    "vars": [
+                                                      "{env.NEW_SDK_VERSION}"
+                                                    ],
+                                                    "calls": [],
+                                                    "line": 152,
+                                                    "col": 79,
+                                                    "endLine": 152,
+                                                    "endCol": 103
+                                                  }
+                                                },
+                                                "line": 152,
+                                                "col": 19,
+                                                "endLine": 152,
+                                                "endCol": 104
+                                              },
+                                              "line": 152,
+                                              "col": 19,
+                                              "endLine": 152,
+                                              "endCol": 104
+                                            }
+                                          ],
+                                          "line": 150,
+                                          "col": 99,
+                                          "endLine": 152,
+                                          "endCol": 105
+                                        }
+                                      },
+                                      "line": 150,
+                                      "col": 15,
+                                      "endLine": 152,
+                                      "endCol": 105
+                                    }
+                                  ],
+                                  "else": [
+                                    {
+                                      "k": "throw",
+                                      "text": "throw ae",
+                                      "calls": [],
+                                      "line": 154,
+                                      "col": 15,
+                                      "endLine": 154,
+                                      "endCol": 23
+                                    }
+                                  ],
+                                  "line": 148,
+                                  "col": 13,
+                                  "endLine": 155,
+                                  "endCol": 14
+                                }
+                              ],
+                              "line": 146,
+                              "col": 13,
+                              "endLine": 156,
+                              "endCol": 12
+                            }
+                          ],
+                          "finally": [],
+                          "line": 142,
+                          "col": 11,
+                          "endLine": 156,
+                          "endCol": 12
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "k": "call",
+              "name": "stage",
+              "args": [
+                {
+                  "t": "str",
+                  "v": "Mend scan",
+                  "line": 161,
+                  "col": 11,
+                  "endLine": 161,
+                  "endCol": 22
+                }
+              ],
+              "named": {},
+              "line": 161,
+              "col": 5,
+              "endLine": 171,
+              "endCol": 6,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "when",
+                  "args": [],
+                  "named": {},
+                  "line": 162,
+                  "col": 7,
+                  "endLine": 164,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "expression",
+                      "args": [],
+                      "named": {},
+                      "line": 163,
+                      "col": 9,
+                      "endLine": 163,
+                      "endCol": 45,
+                      "body": [
+                        {
+                          "k": "expr",
+                          "kind": "PropertyExpression",
+                          "text": "env.BRANCH_IS_PRIMARY ",
+                          "calls": [],
+                          "line": 163,
+                          "col": 22,
+                          "endLine": 163,
+                          "endCol": 44
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "k": "call",
+                  "name": "environment",
+                  "args": [],
+                  "named": {},
+                  "line": 165,
+                  "col": 7,
+                  "endLine": 167,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "assign",
+                      "op": "=",
+                      "target": "WS_PROJECTNAME",
+                      "value": {
+                        "t": "gstr",
+                        "v": "\"cloudant-${libName}-sdk\"",
+                        "vars": [
+                          "{libName}"
+                        ],
+                        "calls": [],
+                        "line": 166,
+                        "col": 24,
+                        "endLine": 166,
+                        "endCol": 49
+                      },
+                      "line": 166,
+                      "col": 9,
+                      "endLine": 166,
+                      "endCol": 49
+                    }
+                  ]
+                },
+                {
+                  "k": "call",
+                  "name": "steps",
+                  "args": [],
+                  "named": {},
+                  "line": 168,
+                  "col": 7,
+                  "endLine": 170,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "mendScan",
+                      "args": [],
+                      "named": {},
+                      "line": 169,
+                      "col": 9,
+                      "endLine": 169,
+                      "endCol": 19
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "k": "call",
+              "name": "stage",
+              "args": [
+                {
+                  "t": "str",
+                  "v": "Update version and tag",
+                  "line": 173,
+                  "col": 11,
+                  "endLine": 173,
+                  "endCol": 35
+                }
+              ],
+              "named": {},
+              "line": 173,
+              "col": 5,
+              "endLine": 192,
+              "endCol": 6,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "when",
+                  "args": [],
+                  "named": {},
+                  "line": 174,
+                  "col": 7,
+                  "endLine": 183,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "beforeAgent",
+                      "args": [
+                        {
+                          "t": "bool",
+                          "v": true,
+                          "line": 175,
+                          "col": 21,
+                          "endLine": 175,
+                          "endCol": 25
+                        }
+                      ],
+                      "named": {},
+                      "line": 175,
+                      "col": 9,
+                      "endLine": 175,
+                      "endCol": 25
+                    },
+                    {
+                      "k": "call",
+                      "name": "allOf",
+                      "args": [],
+                      "named": {},
+                      "line": 176,
+                      "col": 9,
+                      "endLine": 182,
+                      "endCol": 10,
+                      "body": [
+                        {
+                          "k": "call",
+                          "name": "branch",
+                          "args": [
+                            {
+                              "t": "str",
+                              "v": "main",
+                              "line": 178,
+                              "col": 18,
+                              "endLine": 178,
+                              "endCol": 24
+                            }
+                          ],
+                          "named": {},
+                          "line": 178,
+                          "col": 11,
+                          "endLine": 178,
+                          "endCol": 24
+                        },
+                        {
+                          "k": "call",
+                          "name": "not",
+                          "args": [],
+                          "named": {},
+                          "line": 179,
+                          "col": 11,
+                          "endLine": 181,
+                          "endCol": 12,
+                          "body": [
+                            {
+                              "k": "call",
+                              "name": "equals",
+                              "args": [],
+                              "named": {
+                                "expected": {
+                                  "t": "str",
+                                  "v": "NONE",
+                                  "line": 180,
+                                  "col": 30,
+                                  "endLine": 180,
+                                  "endCol": 36
+                                },
+                                "actual": {
+                                  "t": "gstr",
+                                  "v": "\"${params.TARGET_VERSION}\"",
+                                  "vars": [
+                                    "{params.TARGET_VERSION}"
+                                  ],
+                                  "calls": [],
+                                  "line": 180,
+                                  "col": 46,
+                                  "endLine": 180,
+                                  "endCol": 72
+                                }
+                              },
+                              "line": 180,
+                              "col": 13,
+                              "endLine": 180,
+                              "endCol": 72
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "k": "call",
+                  "name": "steps",
+                  "args": [],
+                  "named": {},
+                  "line": 184,
+                  "col": 7,
+                  "endLine": 191,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "gitsh",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "github.com",
+                          "line": 185,
+                          "col": 15,
+                          "endLine": 185,
+                          "endCol": 27
+                        }
+                      ],
+                      "named": {},
+                      "line": 185,
+                      "col": 9,
+                      "endLine": 190,
+                      "endCol": 10,
+                      "body": [
+                        {
+                          "k": "call",
+                          "name": "bumpVersion",
+                          "args": [
+                            {
+                              "t": "bool",
+                              "v": false,
+                              "line": 187,
+                              "col": 23,
+                              "endLine": 187,
+                              "endCol": 28
+                            }
+                          ],
+                          "named": {},
+                          "line": 187,
+                          "col": 11,
+                          "endLine": 187,
+                          "endCol": 29
+                        },
+                        {
+                          "k": "call",
+                          "name": "sh",
+                          "args": [
+                            {
+                              "t": "str",
+                              "v": "git push --tags origin HEAD:main",
+                              "line": 189,
+                              "col": 14,
+                              "endLine": 189,
+                              "endCol": 48
+                            }
+                          ],
+                          "named": {},
+                          "line": 189,
+                          "col": 11,
+                          "endLine": 189,
+                          "endCol": 48
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "k": "call",
+              "name": "stage",
+              "args": [
+                {
+                  "t": "str",
+                  "v": "Publish[repository]",
+                  "line": 193,
+                  "col": 11,
+                  "endLine": 193,
+                  "endCol": 32
+                }
+              ],
+              "named": {},
+              "line": 193,
+              "col": 5,
+              "endLine": 210,
+              "endCol": 6,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "when",
+                  "args": [],
+                  "named": {},
+                  "line": 195,
+                  "col": 7,
+                  "endLine": 203,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "beforeAgent",
+                      "args": [
+                        {
+                          "t": "bool",
+                          "v": true,
+                          "line": 196,
+                          "col": 21,
+                          "endLine": 196,
+                          "endCol": 25
+                        }
+                      ],
+                      "named": {},
+                      "line": 196,
+                      "col": 9,
+                      "endLine": 196,
+                      "endCol": 25
+                    },
+                    {
+                      "k": "call",
+                      "name": "allOf",
+                      "args": [],
+                      "named": {},
+                      "line": 197,
+                      "col": 9,
+                      "endLine": 202,
+                      "endCol": 10,
+                      "body": [
+                        {
+                          "k": "call",
+                          "name": "buildingTag",
+                          "args": [],
+                          "named": {},
+                          "line": 198,
+                          "col": 11,
+                          "endLine": 198,
+                          "endCol": 24
+                        },
+                        {
+                          "k": "call",
+                          "name": "anyOf",
+                          "args": [],
+                          "named": {},
+                          "line": 199,
+                          "col": 11,
+                          "endLine": 201,
+                          "endCol": 12,
+                          "body": [
+                            {
+                              "k": "call",
+                              "name": "tag",
+                              "args": [],
+                              "named": {
+                                "pattern": {
+                                  "t": "gstr",
+                                  "v": "/${env.SVRE_PRE_RELEASE_TAG}/",
+                                  "vars": [
+                                    "{env.SVRE_PRE_RELEASE_TAG}"
+                                  ],
+                                  "calls": [],
+                                  "line": 200,
+                                  "col": 26,
+                                  "endLine": 200,
+                                  "endCol": 55
+                                },
+                                "comparator": {
+                                  "t": "str",
+                                  "v": "REGEXP",
+                                  "line": 200,
+                                  "col": 69,
+                                  "endLine": 200,
+                                  "endCol": 77
+                                }
+                              },
+                              "line": 200,
+                              "col": 13,
+                              "endLine": 200,
+                              "endCol": 77
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "k": "call",
+                  "name": "steps",
+                  "args": [],
+                  "named": {},
+                  "line": 204,
+                  "col": 7,
+                  "endLine": 209,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "publishPublic",
+                      "args": [],
+                      "named": {},
+                      "line": 205,
+                      "col": 9,
+                      "endLine": 205,
+                      "endCol": 24
+                    },
+                    {
+                      "k": "call",
+                      "name": "gitsh",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "github.com",
+                          "line": 206,
+                          "col": 15,
+                          "endLine": 206,
+                          "endCol": 27
+                        }
+                      ],
+                      "named": {},
+                      "line": 206,
+                      "col": 9,
+                      "endLine": 208,
+                      "endCol": 10,
+                      "body": [
+                        {
+                          "k": "call",
+                          "name": "publishDocs",
+                          "args": [],
+                          "named": {},
+                          "line": 207,
+                          "col": 11,
+                          "endLine": 207,
+                          "endCol": 24
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "k": "decl",
+      "name": "libName",
+      "value": {
+        "t": "expr",
+        "kind": "EmptyExpression",
+        "text": "<not implemented yet for class: org.codehaus.groovy.ast.expr.EmptyExpression>",
+        "calls": []
+      },
+      "annotations": [],
+      "line": 215,
+      "col": 1,
+      "endLine": 215,
+      "endCol": 12
+    },
+    {
+      "k": "decl",
+      "name": "commitHash",
+      "value": {
+        "t": "expr",
+        "kind": "EmptyExpression",
+        "text": "<not implemented yet for class: org.codehaus.groovy.ast.expr.EmptyExpression>",
+        "calls": []
+      },
+      "annotations": [],
+      "line": 216,
+      "col": 1,
+      "endLine": 216,
+      "endCol": 15
+    },
+    {
+      "k": "decl",
+      "name": "bumpVersion",
+      "value": {
+        "t": "expr",
+        "kind": "EmptyExpression",
+        "text": "<not implemented yet for class: org.codehaus.groovy.ast.expr.EmptyExpression>",
+        "calls": []
+      },
+      "annotations": [],
+      "line": 217,
+      "col": 1,
+      "endLine": 217,
+      "endCol": 16
+    },
+    {
+      "k": "decl",
+      "name": "customizeVersion",
+      "value": {
+        "t": "expr",
+        "kind": "EmptyExpression",
+        "text": "<not implemented yet for class: org.codehaus.groovy.ast.expr.EmptyExpression>",
+        "calls": []
+      },
+      "annotations": [],
+      "line": 218,
+      "col": 1,
+      "endLine": 218,
+      "endCol": 21
+    },
+    {
+      "k": "decl",
+      "name": "getNewVersion",
+      "value": {
+        "t": "expr",
+        "kind": "EmptyExpression",
+        "text": "<not implemented yet for class: org.codehaus.groovy.ast.expr.EmptyExpression>",
+        "calls": []
+      },
+      "annotations": [],
+      "line": 219,
+      "col": 1,
+      "endLine": 219,
+      "endCol": 18
+    },
+    {
+      "k": "decl",
+      "name": "testVersionPrefix",
+      "value": {
+        "t": "expr",
+        "kind": "EmptyExpression",
+        "text": "<not implemented yet for class: org.codehaus.groovy.ast.expr.EmptyExpression>",
+        "calls": []
+      },
+      "annotations": [],
+      "line": 220,
+      "col": 1,
+      "endLine": 220,
+      "endCol": 22
+    },
+    {
+      "k": "decl",
+      "name": "customizePublishingInfo",
+      "value": {
+        "t": "expr",
+        "kind": "EmptyExpression",
+        "text": "<not implemented yet for class: org.codehaus.groovy.ast.expr.EmptyExpression>",
+        "calls": []
+      },
+      "annotations": [],
+      "line": 221,
+      "col": 1,
+      "endLine": 221,
+      "endCol": 28
+    },
+    {
+      "k": "decl",
+      "name": "publishArtifactoryBuildInfo",
+      "value": {
+        "t": "expr",
+        "kind": "EmptyExpression",
+        "text": "<not implemented yet for class: org.codehaus.groovy.ast.expr.EmptyExpression>",
+        "calls": []
+      },
+      "annotations": [],
+      "line": 222,
+      "col": 1,
+      "endLine": 222,
+      "endCol": 32
+    },
+    {
+      "k": "decl",
+      "name": "publishArtifactoryBuildInfoScript",
+      "value": {
+        "t": "expr",
+        "kind": "EmptyExpression",
+        "text": "<not implemented yet for class: org.codehaus.groovy.ast.expr.EmptyExpression>",
+        "calls": []
+      },
+      "annotations": [],
+      "line": 223,
+      "col": 1,
+      "endLine": 223,
+      "endCol": 38
+    },
+    {
+      "k": "decl",
+      "name": "artifactUrl",
+      "value": {
+        "t": "expr",
+        "kind": "EmptyExpression",
+        "text": "<not implemented yet for class: org.codehaus.groovy.ast.expr.EmptyExpression>",
+        "calls": []
+      },
+      "annotations": [],
+      "line": 224,
+      "col": 1,
+      "endLine": 224,
+      "endCol": 16
+    },
+    {
+      "k": "decl",
+      "name": "moduleId",
+      "value": {
+        "t": "expr",
+        "kind": "EmptyExpression",
+        "text": "<not implemented yet for class: org.codehaus.groovy.ast.expr.EmptyExpression>",
+        "calls": []
+      },
+      "annotations": [],
+      "line": 225,
+      "col": 1,
+      "endLine": 225,
+      "endCol": 13
+    },
+    {
+      "k": "decl",
+      "name": "buildType",
+      "value": {
+        "t": "expr",
+        "kind": "EmptyExpression",
+        "text": "<not implemented yet for class: org.codehaus.groovy.ast.expr.EmptyExpression>",
+        "calls": []
+      },
+      "annotations": [],
+      "line": 226,
+      "col": 1,
+      "endLine": 226,
+      "endCol": 14
+    },
+    {
+      "k": "decl",
+      "name": "scanCode",
+      "value": {
+        "t": "expr",
+        "kind": "EmptyExpression",
+        "text": "<not implemented yet for class: org.codehaus.groovy.ast.expr.EmptyExpression>",
+        "calls": []
+      },
+      "annotations": [],
+      "line": 227,
+      "col": 1,
+      "endLine": 227,
+      "endCol": 13
+    }
+  ],
+  "source_sha256": "757b651b8376f700b0e12459ce9b0a379044b69015ce5fd534d5473d94749007"
+}

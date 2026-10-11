@@ -1,0 +1,43 @@
+{
+  "skill_name": "jenkins-example-twin",
+  "evals": [
+    {
+      "id": 1,
+      "prompt": "A new example was just crawled into examples/021 (see its README for the citation). Make it run to completion in the harness: check whether it needs a twin, and if it does create examples/121 as its local twin with the fewest edits, a LOCAL.md listing every edit, and run it in full mode on Jenkins and act. Report the verdicts and what the twin establishes.",
+      "expected_output": "examples/121/ with Jenkinsfile (each edit marked j2gha-local), LOCAL.md (edit table, unchanged features, what it tests, expected converted-side outcome, scenario, results), source.json with derived_from, analysis/ and gha/; examples/021/Jenkinsfile untouched; a Jenkins full-mode SUCCESS record under examples/121/runs/jenkins-full and an act record with a verdict; the report names the verdict per tier and any converter gap found.",
+      "files": [],
+      "assertions": [
+        {
+          "text": "examples/021/Jenkinsfile is byte-identical to its committed version (the cited file is never edited)"
+        },
+        {
+          "text": "examples/121/Jenkinsfile exists and every line that differs from examples/021/Jenkinsfile carries a j2gha-local marker, or is marked on the line above when it ends in a shell continuation"
+        },
+        {
+          "text": "examples/121/LOCAL.md has an edit table with one row per changed or inserted line, an unchanged-features paragraph, a 'what this twin tests' paragraph, an expected converted-side outcome and the scenario command"
+        },
+        {
+          "text": "examples/121/source.json carries derived_from.example == '021'"
+        },
+        {
+          "text": "examples/121/runs/jenkins-full/result.json exists with result SUCCESS"
+        },
+        {
+          "text": "examples/121/runs/act-full/result.json exists with a comparison verdict, and LOCAL.md records the Jenkins result and the act verdict"
+        },
+        {
+          "text": "no stage, when gate, parallel/matrix block or post block of the original was deleted in the twin (structure preserved; only command text and literal values changed)"
+        },
+        {
+          "text": "replacement commands create the files that later stash/archive/junit/readFile steps use, rather than those steps being removed or given allowEmpty flags"
+        },
+        {
+          "text": "the final report names the per-tier verdict and states whether a converter gap or a hollow result is involved"
+        },
+        {
+          "text": "a failure before any stage caused by a harness stub (J2ghaAny in the error, an undetected credential, a missing wrapper) is fixed in the harness with a test, not edited around in the twin"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,708 @@
+[2026-10-10T09:06:26.478Z] Started by user admin
+[2026-10-10T09:06:26.663Z] [Pipeline] Start of Pipeline
+[2026-10-10T09:06:26.787Z] [Pipeline] node
+[2026-10-10T09:06:26.800Z] Running on Jenkins in /var/jenkins_home/workspace/ex-103-full
+[2026-10-10T09:06:26.836Z] [Pipeline] {
+[2026-10-10T09:06:26.877Z] [Pipeline] stage
+[2026-10-10T09:06:26.882Z] [Pipeline] { (Declarative: Checkout SCM)
+[2026-10-10T09:06:26.918Z] [Pipeline] checkout
+[2026-10-10T09:06:26.924Z] The recommended git tool is: NONE
+[2026-10-10T09:06:26.924Z] No credentials specified
+[2026-10-10T09:06:26.924Z]  > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/ex-103-full/.git # timeout=10
+[2026-10-10T09:06:26.929Z] Fetching changes from the remote Git repository
+[2026-10-10T09:06:26.930Z]  > git config remote.origin.url https://github.com/frankarobotics/franka_description.git # timeout=10
+[2026-10-10T09:06:26.936Z] Fetching upstream changes from https://github.com/frankarobotics/franka_description.git
+[2026-10-10T09:06:26.936Z]  > git --version # timeout=10
+[2026-10-10T09:06:26.941Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T09:06:26.941Z]  > git fetch --no-tags --force --progress -- https://github.com/frankarobotics/franka_description.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:06:27.452Z]  > git rev-parse 37c4be2ce36ae6d354339509a3d324063fc99968^{commit} # timeout=10
+[2026-10-10T09:06:27.458Z] Checking out Revision 37c4be2ce36ae6d354339509a3d324063fc99968 (detached)
+[2026-10-10T09:06:27.458Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T09:06:27.464Z]  > git checkout -f 37c4be2ce36ae6d354339509a3d324063fc99968 # timeout=10
+[2026-10-10T09:06:27.970Z] Commit message: "[git-lab migration] post-migration updates (Jenkinsfiles, submodule URLs)"
+[2026-10-10T09:06:27.970Z]  > git rev-list --no-walk 37c4be2ce36ae6d354339509a3d324063fc99968 # timeout=10
+[2026-10-10T09:06:28.072Z] [Pipeline] }
+[2026-10-10T09:06:28.112Z] [Pipeline] // stage
+[2026-10-10T09:06:28.140Z] [Pipeline] withEnv
+[2026-10-10T09:06:28.146Z] [Pipeline] {
+[2026-10-10T09:06:28.177Z] [Pipeline] echo
+[2026-10-10T09:06:28.182Z] J2GHA-TRACE {"stage":"","step":"feDetermineVersionFromGit"}
+[2026-10-10T09:06:28.214Z] [Pipeline] withEnv
+[2026-10-10T09:06:28.220Z] [Pipeline] {
+[2026-10-10T09:06:28.251Z] [Pipeline] timeout
+[2026-10-10T09:06:28.252Z] Timeout set to expire in 2 hr 0 min
+[2026-10-10T09:06:28.256Z] [Pipeline] {
+[2026-10-10T09:06:28.290Z] [Pipeline] stage
+[2026-10-10T09:06:28.295Z] [Pipeline] { (Check Commit Message)
+[2026-10-10T09:06:28.335Z] [Pipeline] script
+[2026-10-10T09:06:28.343Z] [Pipeline] {
+[2026-10-10T09:06:28.374Z] [Pipeline] sh
+[2026-10-10T09:06:28.635Z] + git log -1 --pretty=format:%s
+[2026-10-10T09:06:28.682Z] [Pipeline] }
+[2026-10-10T09:06:28.746Z] [Pipeline] // script
+[2026-10-10T09:06:28.762Z] [Pipeline] }
+[2026-10-10T09:06:28.792Z] [Pipeline] // stage
+[2026-10-10T09:06:28.821Z] [Pipeline] stage
+[2026-10-10T09:06:28.827Z] [Pipeline] { (Get Ready)
+[2026-10-10T09:06:28.861Z] [Pipeline] script
+[2026-10-10T09:06:28.867Z] [Pipeline] {
+[2026-10-10T09:06:28.902Z] [Pipeline] echo
+[2026-10-10T09:06:28.909Z] J2GHA-TRACE {"stage":"Get Ready","step":"notifyBitbucket"}
+[2026-10-10T09:06:28.916Z] [Pipeline] }
+[2026-10-10T09:06:28.951Z] [Pipeline] // script
+[2026-10-10T09:06:28.974Z] [Pipeline] sh
+[2026-10-10T09:06:29.235Z] + git clean -x -d -f
+[2026-10-10T09:06:29.281Z] [Pipeline] }
+[2026-10-10T09:06:29.325Z] [Pipeline] // stage
+[2026-10-10T09:06:29.358Z] [Pipeline] stage
+[2026-10-10T09:06:29.366Z] [Pipeline] { (Run URDF tests)
+[2026-10-10T09:06:29.399Z] [Pipeline] node
+[2026-10-10T09:06:29.413Z] Running on Jenkins in /var/jenkins_home/workspace/ex-103-full@2
+[2026-10-10T09:06:29.434Z] [Pipeline] {
+[2026-10-10T09:06:29.470Z] [Pipeline] checkout
+[2026-10-10T09:06:29.476Z] The recommended git tool is: NONE
+[2026-10-10T09:06:29.476Z] No credentials specified
+[2026-10-10T09:06:29.477Z]  > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/ex-103-full@2/.git # timeout=10
+[2026-10-10T09:06:29.484Z] Fetching changes from the remote Git repository
+[2026-10-10T09:06:29.486Z]  > git config remote.origin.url https://github.com/frankarobotics/franka_description.git # timeout=10
+[2026-10-10T09:06:29.494Z] Fetching upstream changes from https://github.com/frankarobotics/franka_description.git
+[2026-10-10T09:06:29.494Z]  > git --version # timeout=10
+[2026-10-10T09:06:29.502Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T09:06:29.502Z]  > git fetch --no-tags --force --progress -- https://github.com/frankarobotics/franka_description.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:06:29.983Z]  > git rev-parse 37c4be2ce36ae6d354339509a3d324063fc99968^{commit} # timeout=10
+[2026-10-10T09:06:29.997Z] Checking out Revision 37c4be2ce36ae6d354339509a3d324063fc99968 (detached)
+[2026-10-10T09:06:29.997Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T09:06:30.003Z]  > git checkout -f 37c4be2ce36ae6d354339509a3d324063fc99968 # timeout=10
+[2026-10-10T09:06:30.030Z] Commit message: "[git-lab migration] post-migration updates (Jenkinsfiles, submodule URLs)"
+[2026-10-10T09:06:30.069Z] [Pipeline] withEnv
+[2026-10-10T09:06:30.082Z] [Pipeline] {
+[2026-10-10T09:06:30.135Z] [Pipeline] sh
+[2026-10-10T09:06:30.401Z] + echo skipped: .ci/run_urdf_tests.sh (colcon build and test need ROS 2 Jazzy, provided by the .docker image)
+[2026-10-10T09:06:30.401Z] skipped: .ci/run_urdf_tests.sh (colcon build and test need ROS 2 Jazzy, provided by the .docker image)
+[2026-10-10T09:06:30.437Z] [Pipeline] }
+[2026-10-10T09:06:30.476Z] [Pipeline] // withEnv
+[2026-10-10T09:06:30.493Z] [Pipeline] }
+[2026-10-10T09:06:30.533Z] [Pipeline] // node
+[2026-10-10T09:06:30.550Z] [Pipeline] }
+[2026-10-10T09:06:30.583Z] [Pipeline] // stage
+[2026-10-10T09:06:30.608Z] [Pipeline] stage
+[2026-10-10T09:06:30.613Z] [Pipeline] { (Build robot URDFs and SRDFs)
+[2026-10-10T09:06:30.644Z] [Pipeline] parallel
+[2026-10-10T09:06:30.691Z] [Pipeline] { (Branch: Matrix - ROBOT = 'fp3')
+[2026-10-10T09:06:30.697Z] [Pipeline] { (Branch: Matrix - ROBOT = 'fr3')
+[2026-10-10T09:06:30.701Z] [Pipeline] { (Branch: Matrix - ROBOT = 'fr3v2')
+[2026-10-10T09:06:30.706Z] [Pipeline] { (Branch: Matrix - ROBOT = 'fr3v2_1')
+[2026-10-10T09:06:30.711Z] [Pipeline] { (Branch: Matrix - ROBOT = 'tmrv0_2')
+[2026-10-10T09:06:30.746Z] [Pipeline] stage
+[2026-10-10T09:06:30.751Z] [Pipeline] { (Matrix - ROBOT = 'fp3')
+[2026-10-10T09:06:30.764Z] [Pipeline] stage
+[2026-10-10T09:06:30.768Z] [Pipeline] { (Matrix - ROBOT = 'fr3')
+[2026-10-10T09:06:30.783Z] [Pipeline] stage
+[2026-10-10T09:06:30.788Z] [Pipeline] { (Matrix - ROBOT = 'fr3v2')
+[2026-10-10T09:06:30.803Z] [Pipeline] stage
+[2026-10-10T09:06:30.810Z] [Pipeline] { (Matrix - ROBOT = 'fr3v2_1')
+[2026-10-10T09:06:30.827Z] [Pipeline] stage
+[2026-10-10T09:06:30.834Z] [Pipeline] { (Matrix - ROBOT = 'tmrv0_2')
+[2026-10-10T09:06:30.876Z] [Pipeline] withEnv
+[2026-10-10T09:06:30.883Z] [Pipeline] {
+[2026-10-10T09:06:30.905Z] [Pipeline] withEnv
+[2026-10-10T09:06:30.912Z] [Pipeline] {
+[2026-10-10T09:06:30.926Z] [Pipeline] withEnv
+[2026-10-10T09:06:30.931Z] [Pipeline] {
+[2026-10-10T09:06:30.948Z] [Pipeline] withEnv
+[2026-10-10T09:06:30.953Z] [Pipeline] {
+[2026-10-10T09:06:30.969Z] [Pipeline] withEnv
+[2026-10-10T09:06:30.976Z] [Pipeline] {
+[2026-10-10T09:06:31.021Z] [Pipeline] stage
+[2026-10-10T09:06:31.027Z] [Pipeline] { (Build URDF and SRDF)
+[2026-10-10T09:06:31.043Z] [Pipeline] stage
+[2026-10-10T09:06:31.049Z] [Pipeline] { (Build URDF and SRDF)
+[2026-10-10T09:06:31.066Z] [Pipeline] stage
+[2026-10-10T09:06:31.073Z] [Pipeline] { (Build URDF and SRDF)
+[2026-10-10T09:06:31.089Z] [Pipeline] stage
+[2026-10-10T09:06:31.111Z] [Pipeline] { (Build URDF and SRDF)
+[2026-10-10T09:06:31.128Z] [Pipeline] stage
+[2026-10-10T09:06:31.134Z] [Pipeline] { (Build URDF and SRDF)
+[2026-10-10T09:06:31.178Z] [Pipeline] sh
+[2026-10-10T09:06:31.202Z] [Pipeline] sh
+[2026-10-10T09:06:31.225Z] [Pipeline] sh
+[2026-10-10T09:06:31.250Z] [Pipeline] sh
+[2026-10-10T09:06:31.275Z] [Pipeline] sh
+[2026-10-10T09:06:31.438Z] + mkdir -p urdfs
+[2026-10-10T09:06:31.438Z] + echo <robot name='fp3'/>
+[2026-10-10T09:06:31.438Z] + echo <robot name='fp3'/>
+[2026-10-10T09:06:31.463Z] + mkdir -p urdfs
+[2026-10-10T09:06:31.463Z] + echo <robot name='fr3'/>
+[2026-10-10T09:06:31.463Z] + echo <robot name='fr3'/>
+[2026-10-10T09:06:31.486Z] + mkdir -p urdfs
+[2026-10-10T09:06:31.486Z] + echo <robot name='fr3v2'/>
+[2026-10-10T09:06:31.486Z] + echo <robot name='fr3v2'/>
+[2026-10-10T09:06:31.511Z] + mkdir -p urdfs
+[2026-10-10T09:06:31.511Z] + echo <robot name='fr3v2_1'/>
+[2026-10-10T09:06:31.511Z] + echo <robot name='fr3v2_1'/>
+[2026-10-10T09:06:31.527Z] [Pipeline] dir
+[2026-10-10T09:06:31.527Z] Running in /var/jenkins_home/workspace/ex-103-full/urdfs
+[2026-10-10T09:06:31.535Z] [Pipeline] {
+[2026-10-10T09:06:31.535Z] + mkdir -p urdfs
+[2026-10-10T09:06:31.535Z] + echo <robot name='tmrv0_2'/>
+[2026-10-10T09:06:31.535Z] + echo <robot name='tmrv0_2'/>
+[2026-10-10T09:06:31.553Z] [Pipeline] dir
+[2026-10-10T09:06:31.553Z] Running in /var/jenkins_home/workspace/ex-103-full/urdfs
+[2026-10-10T09:06:31.559Z] [Pipeline] {
+[2026-10-10T09:06:31.609Z] [Pipeline] dir
+[2026-10-10T09:06:31.609Z] Running in /var/jenkins_home/workspace/ex-103-full/urdfs
+[2026-10-10T09:06:31.615Z] [Pipeline] {
+[2026-10-10T09:06:31.659Z] [Pipeline] dir
+[2026-10-10T09:06:31.659Z] Running in /var/jenkins_home/workspace/ex-103-full/urdfs
+[2026-10-10T09:06:31.665Z] [Pipeline] {
+[2026-10-10T09:06:31.675Z] [Pipeline] stash
+[2026-10-10T09:06:31.682Z] Stashed 1 file(s)
+[2026-10-10T09:06:31.690Z] [Pipeline] stash
+[2026-10-10T09:06:31.697Z] Stashed 1 file(s)
+[2026-10-10T09:06:31.732Z] [Pipeline] dir
+[2026-10-10T09:06:31.733Z] Running in /var/jenkins_home/workspace/ex-103-full/urdfs
+[2026-10-10T09:06:31.737Z] [Pipeline] {
+[2026-10-10T09:06:31.747Z] [Pipeline] stash
+[2026-10-10T09:06:31.753Z] Stashed 1 file(s)
+[2026-10-10T09:06:31.763Z] [Pipeline] stash
+[2026-10-10T09:06:31.769Z] Stashed 1 file(s)
+[2026-10-10T09:06:31.798Z] [Pipeline] stash
+[2026-10-10T09:06:31.805Z] Stashed 1 file(s)
+[2026-10-10T09:06:31.842Z] [Pipeline] stash
+[2026-10-10T09:06:31.848Z] Stashed 1 file(s)
+[2026-10-10T09:06:31.869Z] [Pipeline] stash
+[2026-10-10T09:06:31.874Z] Stashed 1 file(s)
+[2026-10-10T09:06:31.906Z] [Pipeline] stash
+[2026-10-10T09:06:31.912Z] Stashed 1 file(s)
+[2026-10-10T09:06:31.947Z] [Pipeline] stash
+[2026-10-10T09:06:31.956Z] Stashed 1 file(s)
+[2026-10-10T09:06:31.970Z] [Pipeline] stash
+[2026-10-10T09:06:31.979Z] Stashed 1 file(s)
+[2026-10-10T09:06:32.008Z] [Pipeline] }
+[2026-10-10T09:06:32.037Z] [Pipeline] }
+[2026-10-10T09:06:32.066Z] [Pipeline] }
+[2026-10-10T09:06:32.093Z] [Pipeline] }
+[2026-10-10T09:06:32.098Z] [Pipeline] }
+[2026-10-10T09:06:32.138Z] [Pipeline] // dir
+[2026-10-10T09:06:32.144Z] [Pipeline] }
+[2026-10-10T09:06:32.186Z] [Pipeline] // dir
+[2026-10-10T09:06:32.197Z] [Pipeline] }
+[2026-10-10T09:06:32.253Z] [Pipeline] // dir
+[2026-10-10T09:06:32.259Z] [Pipeline] }
+[2026-10-10T09:06:32.297Z] [Pipeline] // dir
+[2026-10-10T09:06:32.323Z] [Pipeline] // dir
+[2026-10-10T09:06:32.341Z] [Pipeline] }
+[2026-10-10T09:06:32.347Z] [Pipeline] }
+[2026-10-10T09:06:32.384Z] [Pipeline] // stage
+[2026-10-10T09:06:32.400Z] [Pipeline] }
+[2026-10-10T09:06:32.436Z] [Pipeline] // stage
+[2026-10-10T09:06:32.453Z] [Pipeline] }
+[2026-10-10T09:06:32.488Z] [Pipeline] // stage
+[2026-10-10T09:06:32.505Z] [Pipeline] }
+[2026-10-10T09:06:32.543Z] [Pipeline] // stage
+[2026-10-10T09:06:32.569Z] [Pipeline] // stage
+[2026-10-10T09:06:32.586Z] [Pipeline] }
+[2026-10-10T09:06:32.591Z] [Pipeline] }
+[2026-10-10T09:06:32.646Z] [Pipeline] // withEnv
+[2026-10-10T09:06:32.663Z] [Pipeline] }
+[2026-10-10T09:06:32.695Z] [Pipeline] // withEnv
+[2026-10-10T09:06:32.711Z] [Pipeline] }
+[2026-10-10T09:06:32.743Z] [Pipeline] // withEnv
+[2026-10-10T09:06:32.779Z] [Pipeline] }
+[2026-10-10T09:06:32.820Z] [Pipeline] // withEnv
+[2026-10-10T09:06:32.845Z] [Pipeline] // withEnv
+[2026-10-10T09:06:32.859Z] [Pipeline] }
+[2026-10-10T09:06:32.863Z] [Pipeline] }
+[2026-10-10T09:06:32.893Z] [Pipeline] // stage
+[2026-10-10T09:06:32.907Z] [Pipeline] }
+[2026-10-10T09:06:32.937Z] [Pipeline] // stage
+[2026-10-10T09:06:32.950Z] [Pipeline] }
+[2026-10-10T09:06:32.981Z] [Pipeline] // stage
+[2026-10-10T09:06:32.996Z] [Pipeline] }
+[2026-10-10T09:06:33.028Z] [Pipeline] // stage
+[2026-10-10T09:06:33.053Z] [Pipeline] // stage
+[2026-10-10T09:06:33.068Z] [Pipeline] }
+[2026-10-10T09:06:33.074Z] [Pipeline] }
+[2026-10-10T09:06:33.223Z] [Pipeline] // parallel
+[2026-10-10T09:06:33.240Z] [Pipeline] }
+[2026-10-10T09:06:33.273Z] [Pipeline] // stage
+[2026-10-10T09:06:33.301Z] [Pipeline] stage
+[2026-10-10T09:06:33.307Z] [Pipeline] { (Build End Effector URDFs)
+[2026-10-10T09:06:33.341Z] [Pipeline] parallel
+[2026-10-10T09:06:33.358Z] [Pipeline] { (Branch: Matrix - EE = 'franka_hand')
+[2026-10-10T09:06:33.364Z] [Pipeline] { (Branch: Matrix - EE = 'cobot_pump')
+[2026-10-10T09:06:33.401Z] [Pipeline] stage
+[2026-10-10T09:06:33.407Z] [Pipeline] { (Matrix - EE = 'franka_hand')
+[2026-10-10T09:06:33.423Z] [Pipeline] stage
+[2026-10-10T09:06:33.428Z] [Pipeline] { (Matrix - EE = 'cobot_pump')
+[2026-10-10T09:06:33.468Z] [Pipeline] withEnv
+[2026-10-10T09:06:33.473Z] [Pipeline] {
+[2026-10-10T09:06:33.488Z] [Pipeline] withEnv
+[2026-10-10T09:06:33.494Z] [Pipeline] {
+[2026-10-10T09:06:33.537Z] [Pipeline] stage
+[2026-10-10T09:06:33.542Z] [Pipeline] { (Build URDF)
+[2026-10-10T09:06:33.556Z] [Pipeline] stage
+[2026-10-10T09:06:33.562Z] [Pipeline] { (Build URDF)
+[2026-10-10T09:06:33.599Z] [Pipeline] sh
+[2026-10-10T09:06:33.623Z] [Pipeline] sh
+[2026-10-10T09:06:33.859Z] + mkdir -p urdfs
+[2026-10-10T09:06:33.860Z] + echo <robot name='franka_hand'/>
+[2026-10-10T09:06:33.883Z] + mkdir -p urdfs
+[2026-10-10T09:06:33.883Z] + echo <robot name='cobot_pump'/>
+[2026-10-10T09:06:33.906Z] [Pipeline] dir
+[2026-10-10T09:06:33.906Z] Running in /var/jenkins_home/workspace/ex-103-full/urdfs
+[2026-10-10T09:06:33.913Z] [Pipeline] {
+[2026-10-10T09:06:33.967Z] [Pipeline] dir
+[2026-10-10T09:06:33.967Z] Running in /var/jenkins_home/workspace/ex-103-full/urdfs
+[2026-10-10T09:06:33.972Z] [Pipeline] {
+[2026-10-10T09:06:33.983Z] [Pipeline] stash
+[2026-10-10T09:06:34.000Z] Stashed 1 file(s)
+[2026-10-10T09:06:34.011Z] [Pipeline] stash
+[2026-10-10T09:06:34.017Z] Stashed 1 file(s)
+[2026-10-10T09:06:34.044Z] [Pipeline] }
+[2026-10-10T09:06:34.049Z] [Pipeline] }
+[2026-10-10T09:06:34.083Z] [Pipeline] // dir
+[2026-10-10T09:06:34.109Z] [Pipeline] // dir
+[2026-10-10T09:06:34.125Z] [Pipeline] }
+[2026-10-10T09:06:34.131Z] [Pipeline] }
+[2026-10-10T09:06:34.167Z] [Pipeline] // stage
+[2026-10-10T09:06:34.191Z] [Pipeline] // stage
+[2026-10-10T09:06:34.209Z] [Pipeline] }
+[2026-10-10T09:06:34.215Z] [Pipeline] }
+[2026-10-10T09:06:34.249Z] [Pipeline] // withEnv
+[2026-10-10T09:06:34.273Z] [Pipeline] // withEnv
+[2026-10-10T09:06:34.290Z] [Pipeline] }
+[2026-10-10T09:06:34.296Z] [Pipeline] }
+[2026-10-10T09:06:34.330Z] [Pipeline] // stage
+[2026-10-10T09:06:34.357Z] [Pipeline] // stage
+[2026-10-10T09:06:34.375Z] [Pipeline] }
+[2026-10-10T09:06:34.382Z] [Pipeline] }
+[2026-10-10T09:06:34.449Z] [Pipeline] // parallel
+[2026-10-10T09:06:34.463Z] [Pipeline] }
+[2026-10-10T09:06:34.494Z] [Pipeline] // stage
+[2026-10-10T09:06:34.522Z] [Pipeline] stage
+[2026-10-10T09:06:34.527Z] [Pipeline] { (Archive URDFs and SRDFs)
+[2026-10-10T09:06:34.561Z] [Pipeline] node
+[2026-10-10T09:06:34.574Z] Running on Jenkins in /var/jenkins_home/workspace/ex-103-full@2
+[2026-10-10T09:06:34.592Z] [Pipeline] {
+[2026-10-10T09:06:34.625Z] [Pipeline] checkout
+[2026-10-10T09:06:34.631Z] The recommended git tool is: NONE
+[2026-10-10T09:06:34.631Z] No credentials specified
+[2026-10-10T09:06:34.631Z]  > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/ex-103-full@2/.git # timeout=10
+[2026-10-10T09:06:34.637Z] Fetching changes from the remote Git repository
+[2026-10-10T09:06:34.638Z]  > git config remote.origin.url https://github.com/frankarobotics/franka_description.git # timeout=10
+[2026-10-10T09:06:34.644Z] Fetching upstream changes from https://github.com/frankarobotics/franka_description.git
+[2026-10-10T09:06:34.644Z]  > git --version # timeout=10
+[2026-10-10T09:06:34.650Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T09:06:34.650Z]  > git fetch --no-tags --force --progress -- https://github.com/frankarobotics/franka_description.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:06:35.130Z]  > git rev-parse 37c4be2ce36ae6d354339509a3d324063fc99968^{commit} # timeout=10
+[2026-10-10T09:06:35.146Z] Checking out Revision 37c4be2ce36ae6d354339509a3d324063fc99968 (detached)
+[2026-10-10T09:06:35.146Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T09:06:35.158Z]  > git checkout -f 37c4be2ce36ae6d354339509a3d324063fc99968 # timeout=10
+[2026-10-10T09:06:35.178Z] Commit message: "[git-lab migration] post-migration updates (Jenkinsfiles, submodule URLs)"
+[2026-10-10T09:06:35.221Z] [Pipeline] withEnv
+[2026-10-10T09:06:35.227Z] [Pipeline] {
+[2026-10-10T09:06:35.261Z] [Pipeline] stage
+[2026-10-10T09:06:35.266Z] [Pipeline] { (Cleanup)
+[2026-10-10T09:06:35.300Z] [Pipeline] sh
+[2026-10-10T09:06:35.561Z] + rm -rf usr
+[2026-10-10T09:06:35.594Z] [Pipeline] }
+[2026-10-10T09:06:35.628Z] [Pipeline] // stage
+[2026-10-10T09:06:35.650Z] [Pipeline] stage
+[2026-10-10T09:06:35.655Z] [Pipeline] { (Create directory structure)
+[2026-10-10T09:06:35.692Z] [Pipeline] sh
+[2026-10-10T09:06:35.952Z] + mkdir -p dist/usr/share/robot-descriptions/meshes
+[2026-10-10T09:06:35.983Z] [Pipeline] sh
+[2026-10-10T09:06:36.245Z] + mkdir -p dist/usr/share/robot-descriptions/robots
+[2026-10-10T09:06:36.291Z] [Pipeline] sh
+[2026-10-10T09:06:36.558Z] + mkdir -p dist/usr/share/robot-descriptions/end_effectors
+[2026-10-10T09:06:36.600Z] [Pipeline] }
+[2026-10-10T09:06:36.642Z] [Pipeline] // stage
+[2026-10-10T09:06:36.673Z] [Pipeline] stage
+[2026-10-10T09:06:36.678Z] [Pipeline] { (Move robot urdfs and srdfs into correct robot arm directory)
+[2026-10-10T09:06:36.714Z] [Pipeline] parallel
+[2026-10-10T09:06:36.761Z] [Pipeline] { (Branch: Arm3R)
+[2026-10-10T09:06:36.767Z] [Pipeline] { (Branch: Arm3P)
+[2026-10-10T09:06:36.772Z] [Pipeline] { (Branch: Arm3Rv2)
+[2026-10-10T09:06:36.777Z] [Pipeline] { (Branch: Arm3Rv2.1)
+[2026-10-10T09:06:36.782Z] [Pipeline] { (Branch: TMRv0.2)
+[2026-10-10T09:06:36.818Z] [Pipeline] stage
+[2026-10-10T09:06:36.823Z] [Pipeline] { (Arm3R)
+[2026-10-10T09:06:36.838Z] [Pipeline] stage
+[2026-10-10T09:06:36.844Z] [Pipeline] { (Arm3P)
+[2026-10-10T09:06:36.859Z] [Pipeline] stage
+[2026-10-10T09:06:36.864Z] [Pipeline] { (Arm3Rv2)
+[2026-10-10T09:06:36.882Z] [Pipeline] stage
+[2026-10-10T09:06:36.889Z] [Pipeline] { (Arm3Rv2.1)
+[2026-10-10T09:06:36.909Z] [Pipeline] stage
+[2026-10-10T09:06:36.916Z] [Pipeline] { (TMRv0.2)
+[2026-10-10T09:06:36.956Z] [Pipeline] sh
+[2026-10-10T09:06:36.980Z] [Pipeline] sh
+[2026-10-10T09:06:37.005Z] [Pipeline] sh
+[2026-10-10T09:06:37.029Z] [Pipeline] sh
+[2026-10-10T09:06:37.052Z] [Pipeline] sh
+[2026-10-10T09:06:37.217Z] + mkdir -p dist/usr/share/robot-descriptions/robots/Arm3R
+[2026-10-10T09:06:37.240Z] + mkdir -p dist/usr/share/robot-descriptions/robots/Arm3P
+[2026-10-10T09:06:37.255Z] [Pipeline] dir
+[2026-10-10T09:06:37.255Z] Running in /var/jenkins_home/workspace/ex-103-full@2/dist/usr/share/robot-descriptions/robots/Arm3R
+[2026-10-10T09:06:37.263Z] [Pipeline] {
+[2026-10-10T09:06:37.265Z] + mkdir -p dist/usr/share/robot-descriptions/robots/Arm3Rv2
+[2026-10-10T09:06:37.290Z] + mkdir -p dist/usr/share/robot-descriptions/robots/Arm3Rv2.1
+[2026-10-10T09:06:37.310Z] [Pipeline] dir
+[2026-10-10T09:06:37.310Z] Running in /var/jenkins_home/workspace/ex-103-full@2/dist/usr/share/robot-descriptions/robots/Arm3P
+[2026-10-10T09:06:37.313Z] + mkdir -p dist/usr/share/robot-descriptions/robots/TMRv0.2
+[2026-10-10T09:06:37.317Z] [Pipeline] {
+[2026-10-10T09:06:37.343Z] [Pipeline] dir
+[2026-10-10T09:06:37.343Z] Running in /var/jenkins_home/workspace/ex-103-full@2/dist/usr/share/robot-descriptions/robots/Arm3Rv2
+[2026-10-10T09:06:37.349Z] [Pipeline] {
+[2026-10-10T09:06:37.360Z] [Pipeline] unstash
+[2026-10-10T09:06:37.412Z] [Pipeline] dir
+[2026-10-10T09:06:37.412Z] Running in /var/jenkins_home/workspace/ex-103-full@2/dist/usr/share/robot-descriptions/robots/Arm3Rv2.1
+[2026-10-10T09:06:37.418Z] [Pipeline] {
+[2026-10-10T09:06:37.434Z] [Pipeline] dir
+[2026-10-10T09:06:37.434Z] Running in /var/jenkins_home/workspace/ex-103-full@2/dist/usr/share/robot-descriptions/robots/TMRv0.2
+[2026-10-10T09:06:37.439Z] [Pipeline] {
+[2026-10-10T09:06:37.450Z] [Pipeline] unstash
+[2026-10-10T09:06:37.465Z] [Pipeline] unstash
+[2026-10-10T09:06:37.480Z] [Pipeline] unstash
+[2026-10-10T09:06:37.496Z] [Pipeline] unstash
+[2026-10-10T09:06:37.532Z] [Pipeline] unstash
+[2026-10-10T09:06:37.570Z] [Pipeline] unstash
+[2026-10-10T09:06:37.607Z] [Pipeline] unstash
+[2026-10-10T09:06:37.621Z] [Pipeline] unstash
+[2026-10-10T09:06:37.634Z] [Pipeline] unstash
+[2026-10-10T09:06:37.671Z] [Pipeline] sh
+[2026-10-10T09:06:37.714Z] [Pipeline] sh
+[2026-10-10T09:06:37.754Z] [Pipeline] sh
+[2026-10-10T09:06:37.777Z] [Pipeline] sh
+[2026-10-10T09:06:37.799Z] [Pipeline] sh
+[2026-10-10T09:06:37.931Z] + mv fr3.urdf robot.urdf
+[2026-10-10T09:06:37.953Z] [Pipeline] sh
+[2026-10-10T09:06:37.974Z] + mv fp3.urdf robot.urdf
+[2026-10-10T09:06:38.010Z] [Pipeline] sh
+[2026-10-10T09:06:38.014Z] + mv fr3v2.urdf robot.urdf
+[2026-10-10T09:06:38.037Z] + mv fr3v2_1.urdf robot.urdf
+[2026-10-10T09:06:38.061Z] + mv tmrv0_2.urdf robot.urdf
+[2026-10-10T09:06:38.099Z] [Pipeline] sh
+[2026-10-10T09:06:38.126Z] [Pipeline] sh
+[2026-10-10T09:06:38.161Z] [Pipeline] sh
+[2026-10-10T09:06:38.214Z] + mv fr3.srdf robot.srdf
+[2026-10-10T09:06:38.233Z] [Pipeline] }
+[2026-10-10T09:06:38.271Z] [Pipeline] // dir
+[2026-10-10T09:06:38.271Z] + mv fp3.srdf robot.srdf
+[2026-10-10T09:06:38.288Z] [Pipeline] }
+[2026-10-10T09:06:38.333Z] [Pipeline] // stage
+[2026-10-10T09:06:38.338Z] [Pipeline] }
+[2026-10-10T09:06:38.343Z] [Pipeline] }
+[2026-10-10T09:06:38.360Z] + mv fr3v2.srdf robot.srdf
+[2026-10-10T09:06:38.388Z] + mv fr3v2_1.srdf robot.srdf
+[2026-10-10T09:06:38.390Z] [Pipeline] // dir
+[2026-10-10T09:06:38.422Z] + mv tmrv0_2.srdf robot.srdf
+[2026-10-10T09:06:38.454Z] [Pipeline] }
+[2026-10-10T09:06:38.460Z] [Pipeline] }
+[2026-10-10T09:06:38.469Z] [Pipeline] }
+[2026-10-10T09:06:38.517Z] [Pipeline] }
+[2026-10-10T09:06:38.559Z] [Pipeline] // stage
+[2026-10-10T09:06:38.596Z] [Pipeline] // dir
+[2026-10-10T09:06:38.639Z] [Pipeline] // dir
+[2026-10-10T09:06:38.646Z] [Pipeline] }
+[2026-10-10T09:06:38.654Z] [Pipeline] }
+[2026-10-10T09:06:38.662Z] [Pipeline] }
+[2026-10-10T09:06:38.755Z] [Pipeline] // dir
+[2026-10-10T09:06:38.785Z] [Pipeline] }
+[2026-10-10T09:06:38.844Z] [Pipeline] // stage
+[2026-10-10T09:06:38.870Z] [Pipeline] // stage
+[2026-10-10T09:06:38.886Z] [Pipeline] }
+[2026-10-10T09:06:38.892Z] [Pipeline] }
+[2026-10-10T09:06:38.927Z] [Pipeline] // stage
+[2026-10-10T09:06:38.945Z] [Pipeline] }
+[2026-10-10T09:06:39.121Z] [Pipeline] // parallel
+[2026-10-10T09:06:39.144Z] [Pipeline] }
+[2026-10-10T09:06:39.184Z] [Pipeline] // stage
+[2026-10-10T09:06:39.210Z] [Pipeline] stage
+[2026-10-10T09:06:39.214Z] [Pipeline] { (Copy meshes to dist)
+[2026-10-10T09:06:39.247Z] [Pipeline] script
+[2026-10-10T09:06:39.259Z] [Pipeline] {
+[2026-10-10T09:06:39.287Z] [Pipeline] sh
+[2026-10-10T09:06:39.546Z] + mkdir -p dist/usr/share/robot-descriptions/meshes/robots
+[2026-10-10T09:06:39.591Z] [Pipeline] sh
+[2026-10-10T09:06:39.851Z] + cp -r meshes/robots/fp3 dist/usr/share/robot-descriptions/meshes/robots
+[2026-10-10T09:06:39.851Z] + cp -r meshes/robots/fr3 dist/usr/share/robot-descriptions/meshes/robots
+[2026-10-10T09:06:39.851Z] + cp -r meshes/robots/fr3v2 dist/usr/share/robot-descriptions/meshes/robots
+[2026-10-10T09:06:40.102Z] + cp -r meshes/robots/fr3v2_1 dist/usr/share/robot-descriptions/meshes/robots
+[2026-10-10T09:06:40.102Z] + cp -r meshes/robots/tmrv0_2 dist/usr/share/robot-descriptions/meshes/robots
+[2026-10-10T09:06:40.375Z] [Pipeline] }
+[2026-10-10T09:06:40.447Z] [Pipeline] // script
+[2026-10-10T09:06:40.486Z] [Pipeline] }
+[2026-10-10T09:06:40.538Z] [Pipeline] // stage
+[2026-10-10T09:06:40.569Z] [Pipeline] stage
+[2026-10-10T09:06:40.575Z] [Pipeline] { (Extract End Effector URDFs)
+[2026-10-10T09:06:40.617Z] [Pipeline] stage
+[2026-10-10T09:06:40.623Z] [Pipeline] { (Create End Effector directories)
+[2026-10-10T09:06:40.661Z] [Pipeline] sh
+[2026-10-10T09:06:40.922Z] + mkdir -p dist/usr/share/robot-descriptions/end_effectors/cobot_pump
+[2026-10-10T09:06:40.975Z] [Pipeline] sh
+[2026-10-10T09:06:41.239Z] + mkdir -p dist/usr/share/robot-descriptions/end_effectors/franka_hand
+[2026-10-10T09:06:41.285Z] [Pipeline] }
+[2026-10-10T09:06:41.354Z] [Pipeline] // stage
+[2026-10-10T09:06:41.388Z] [Pipeline] stage
+[2026-10-10T09:06:41.394Z] [Pipeline] { (Copy meshes)
+[2026-10-10T09:06:41.426Z] [Pipeline] parallel
+[2026-10-10T09:06:41.439Z] [Pipeline] { (Branch: cobot_pump)
+[2026-10-10T09:06:41.443Z] [Pipeline] { (Branch: franka_hand)
+[2026-10-10T09:06:41.485Z] [Pipeline] stage
+[2026-10-10T09:06:41.492Z] [Pipeline] { (cobot_pump)
+[2026-10-10T09:06:41.511Z] [Pipeline] stage
+[2026-10-10T09:06:41.517Z] [Pipeline] { (franka_hand)
+[2026-10-10T09:06:41.556Z] [Pipeline] sh
+[2026-10-10T09:06:41.578Z] [Pipeline] sh
+[2026-10-10T09:06:41.816Z] + mkdir -p dist/usr/share/robot-descriptions/meshes/robot_ee/cobot_pump
+[2026-10-10T09:06:41.816Z] + cp -r meshes/robot_ee/cobot_pump/collision meshes/robot_ee/cobot_pump/visual dist/usr/share/robot-descriptions/meshes/robot_ee/cobot_pump
+[2026-10-10T09:06:41.833Z] [Pipeline] }
+[2026-10-10T09:06:41.848Z] + mkdir -p dist/usr/share/robot-descriptions/meshes/robot_ee/franka_hand_white
+[2026-10-10T09:06:41.848Z] + cp -r meshes/robot_ee/franka_hand_white/collision meshes/robot_ee/franka_hand_white/visual dist/usr/share/robot-descriptions/meshes/robot_ee/franka_hand_white
+[2026-10-10T09:06:41.868Z] [Pipeline] // stage
+[2026-10-10T09:06:41.892Z] [Pipeline] }
+[2026-10-10T09:06:41.899Z] [Pipeline] }
+[2026-10-10T09:06:41.942Z] [Pipeline] // stage
+[2026-10-10T09:06:41.960Z] [Pipeline] }
+[2026-10-10T09:06:42.018Z] [Pipeline] // parallel
+[2026-10-10T09:06:42.035Z] [Pipeline] }
+[2026-10-10T09:06:42.068Z] [Pipeline] // stage
+[2026-10-10T09:06:42.097Z] [Pipeline] stage
+[2026-10-10T09:06:42.103Z] [Pipeline] { (Unstash URDF)
+[2026-10-10T09:06:42.142Z] [Pipeline] dir
+[2026-10-10T09:06:42.143Z] Running in /var/jenkins_home/workspace/ex-103-full@2/dist/usr/share/robot-descriptions/end_effectors/cobot_pump
+[2026-10-10T09:06:42.148Z] [Pipeline] {
+[2026-10-10T09:06:42.180Z] [Pipeline] unstash
+[2026-10-10T09:06:42.219Z] [Pipeline] sh
+[2026-10-10T09:06:42.481Z] + mv cobot_pump.urdf endeffector.urdf
+[2026-10-10T09:06:42.503Z] [Pipeline] }
+[2026-10-10T09:06:42.538Z] [Pipeline] // dir
+[2026-10-10T09:06:42.564Z] [Pipeline] dir
+[2026-10-10T09:06:42.564Z] Running in /var/jenkins_home/workspace/ex-103-full@2/dist/usr/share/robot-descriptions/end_effectors/franka_hand
+[2026-10-10T09:06:42.570Z] [Pipeline] {
+[2026-10-10T09:06:42.601Z] [Pipeline] unstash
+[2026-10-10T09:06:42.639Z] [Pipeline] sh
+[2026-10-10T09:06:42.899Z] + mv franka_hand.urdf endeffector.urdf
+[2026-10-10T09:06:42.916Z] [Pipeline] }
+[2026-10-10T09:06:42.952Z] [Pipeline] // dir
+[2026-10-10T09:06:42.968Z] [Pipeline] }
+[2026-10-10T09:06:43.004Z] [Pipeline] // stage
+[2026-10-10T09:06:43.022Z] [Pipeline] }
+[2026-10-10T09:06:43.054Z] [Pipeline] // stage
+[2026-10-10T09:06:43.081Z] [Pipeline] stage
+[2026-10-10T09:06:43.086Z] [Pipeline] { (Create archive)
+[2026-10-10T09:06:43.122Z] [Pipeline] sh
+[2026-10-10T09:06:43.384Z] + rm -rf dist/usr/share/robot-descriptions/robots/Arm3P@tmp dist/usr/share/robot-descriptions/robots/Arm3R@tmp dist/usr/share/robot-descriptions/robots/Arm3Rv2.1@tmp dist/usr/share/robot-descriptions/robots/Arm3Rv2@tmp dist/usr/share/robot-descriptions/robots/TMRv0.2@tmp
+[2026-10-10T09:06:43.451Z] [Pipeline] sh
+[2026-10-10T09:06:43.732Z] + rm -rf dist/usr/share/robot-descriptions/end_effectors/cobot_pump@tmp dist/usr/share/robot-descriptions/end_effectors/franka_hand@tmp
+[2026-10-10T09:06:43.794Z] [Pipeline] dir
+[2026-10-10T09:06:43.794Z] Running in /var/jenkins_home/workspace/ex-103-full@2/dist
+[2026-10-10T09:06:43.803Z] [Pipeline] {
+[2026-10-10T09:06:43.842Z] [Pipeline] sh
+[2026-10-10T09:06:44.103Z] + tar czvf robot-descriptions_j2gha-stub.tar.gz usr/share
+[2026-10-10T09:06:44.103Z] usr/share/
+[2026-10-10T09:06:44.103Z] usr/share/robot-descriptions/
+[2026-10-10T09:06:44.103Z] usr/share/robot-descriptions/meshes/
+[2026-10-10T09:06:44.103Z] usr/share/robot-descriptions/meshes/robots/
+[2026-10-10T09:06:44.103Z] usr/share/robot-descriptions/meshes/robots/tmrv0_2/
+[2026-10-10T09:06:44.103Z] usr/share/robot-descriptions/meshes/robots/tmrv0_2/collision/
+[2026-10-10T09:06:44.103Z] usr/share/robot-descriptions/meshes/robots/tmrv0_2/collision/tmrv0_2.stl
+[2026-10-10T09:06:44.103Z] usr/share/robot-descriptions/meshes/robots/tmrv0_2/visual/
+[2026-10-10T09:06:44.103Z] usr/share/robot-descriptions/meshes/robots/tmrv0_2/visual/tmrv0_2.dae
+[2026-10-10T09:06:45.014Z] usr/share/robot-descriptions/meshes/robots/fp3/
+[2026-10-10T09:06:45.014Z] usr/share/robot-descriptions/meshes/robots/fp3/collision/
+[2026-10-10T09:06:45.014Z] usr/share/robot-descriptions/meshes/robots/fp3/collision/link6.stl
+[2026-10-10T09:06:45.014Z] usr/share/robot-descriptions/meshes/robots/fp3/collision/link5.stl
+[2026-10-10T09:06:45.014Z] usr/share/robot-descriptions/meshes/robots/fp3/collision/link3.stl
+[2026-10-10T09:06:45.014Z] usr/share/robot-descriptions/meshes/robots/fp3/collision/link1.stl
+[2026-10-10T09:06:45.014Z] usr/share/robot-descriptions/meshes/robots/fp3/collision/link2.stl
+[2026-10-10T09:06:45.014Z] usr/share/robot-descriptions/meshes/robots/fp3/collision/link7.stl
+[2026-10-10T09:06:45.014Z] usr/share/robot-descriptions/meshes/robots/fp3/collision/link0.stl
+[2026-10-10T09:06:45.014Z] usr/share/robot-descriptions/meshes/robots/fp3/collision/link4.stl
+[2026-10-10T09:06:45.014Z] usr/share/robot-descriptions/meshes/robots/fp3/visual/
+[2026-10-10T09:06:45.014Z] usr/share/robot-descriptions/meshes/robots/fp3/visual/link5.dae
+[2026-10-10T09:06:45.265Z] usr/share/robot-descriptions/meshes/robots/fp3/visual/link4.dae
+[2026-10-10T09:06:45.515Z] usr/share/robot-descriptions/meshes/robots/fp3/visual/link7.dae
+[2026-10-10T09:06:45.767Z] usr/share/robot-descriptions/meshes/robots/fp3/visual/link0.dae
+[2026-10-10T09:06:46.317Z] usr/share/robot-descriptions/meshes/robots/fp3/visual/link6.dae
+[2026-10-10T09:06:46.868Z] usr/share/robot-descriptions/meshes/robots/fp3/visual/link2.dae
+[2026-10-10T09:06:46.868Z] usr/share/robot-descriptions/meshes/robots/fp3/visual/link1.dae
+[2026-10-10T09:06:46.868Z] usr/share/robot-descriptions/meshes/robots/fp3/visual/link3.dae
+[2026-10-10T09:06:47.119Z] usr/share/robot-descriptions/meshes/robots/fr3v2/
+[2026-10-10T09:06:47.119Z] usr/share/robot-descriptions/meshes/robots/fr3v2/collision/
+[2026-10-10T09:06:47.119Z] usr/share/robot-descriptions/meshes/robots/fr3v2/collision/link6.stl
+[2026-10-10T09:06:47.119Z] usr/share/robot-descriptions/meshes/robots/fr3v2/collision/link5.stl
+[2026-10-10T09:06:47.119Z] usr/share/robot-descriptions/meshes/robots/fr3v2/collision/link3.stl
+[2026-10-10T09:06:47.119Z] usr/share/robot-descriptions/meshes/robots/fr3v2/collision/link1.stl
+[2026-10-10T09:06:47.119Z] usr/share/robot-descriptions/meshes/robots/fr3v2/collision/link2.stl
+[2026-10-10T09:06:47.119Z] usr/share/robot-descriptions/meshes/robots/fr3v2/collision/link7.stl
+[2026-10-10T09:06:47.119Z] usr/share/robot-descriptions/meshes/robots/fr3v2/collision/link0.stl
+[2026-10-10T09:06:47.119Z] usr/share/robot-descriptions/meshes/robots/fr3v2/collision/link4.stl
+[2026-10-10T09:06:47.119Z] usr/share/robot-descriptions/meshes/robots/fr3v2/visual/
+[2026-10-10T09:06:47.119Z] usr/share/robot-descriptions/meshes/robots/fr3v2/visual/link5.dae
+[2026-10-10T09:06:47.119Z] usr/share/robot-descriptions/meshes/robots/fr3v2/visual/link4.dae
+[2026-10-10T09:06:47.370Z] usr/share/robot-descriptions/meshes/robots/fr3v2/visual/link7.dae
+[2026-10-10T09:06:47.620Z] usr/share/robot-descriptions/meshes/robots/fr3v2/visual/link0.dae
+[2026-10-10T09:06:48.171Z] usr/share/robot-descriptions/meshes/robots/fr3v2/visual/link6.dae
+[2026-10-10T09:06:49.082Z] usr/share/robot-descriptions/meshes/robots/fr3v2/visual/link2.dae
+[2026-10-10T09:06:49.082Z] usr/share/robot-descriptions/meshes/robots/fr3v2/visual/link1.dae
+[2026-10-10T09:06:49.082Z] usr/share/robot-descriptions/meshes/robots/fr3v2/visual/link3.dae
+[2026-10-10T09:06:49.333Z] usr/share/robot-descriptions/meshes/robots/fr3v2_1/
+[2026-10-10T09:06:49.333Z] usr/share/robot-descriptions/meshes/robots/fr3v2_1/collision/
+[2026-10-10T09:06:49.333Z] usr/share/robot-descriptions/meshes/robots/fr3v2_1/collision/link6.stl
+[2026-10-10T09:06:49.333Z] usr/share/robot-descriptions/meshes/robots/fr3v2_1/collision/link5.stl
+[2026-10-10T09:06:49.333Z] usr/share/robot-descriptions/meshes/robots/fr3v2_1/collision/link3.stl
+[2026-10-10T09:06:49.333Z] usr/share/robot-descriptions/meshes/robots/fr3v2_1/collision/link1.stl
+[2026-10-10T09:06:49.333Z] usr/share/robot-descriptions/meshes/robots/fr3v2_1/collision/link2.stl
+[2026-10-10T09:06:49.333Z] usr/share/robot-descriptions/meshes/robots/fr3v2_1/collision/link7.stl
+[2026-10-10T09:06:49.333Z] usr/share/robot-descriptions/meshes/robots/fr3v2_1/collision/link0.stl
+[2026-10-10T09:06:49.333Z] usr/share/robot-descriptions/meshes/robots/fr3v2_1/collision/link4.stl
+[2026-10-10T09:06:49.333Z] usr/share/robot-descriptions/meshes/robots/fr3v2_1/visual/
+[2026-10-10T09:06:49.333Z] usr/share/robot-descriptions/meshes/robots/fr3v2_1/visual/link5.dae
+[2026-10-10T09:06:49.333Z] usr/share/robot-descriptions/meshes/robots/fr3v2_1/visual/link4.dae
+[2026-10-10T09:06:49.333Z] usr/share/robot-descriptions/meshes/robots/fr3v2_1/visual/link7.dae
+[2026-10-10T09:06:49.884Z] usr/share/robot-descriptions/meshes/robots/fr3v2_1/visual/link0.dae
+[2026-10-10T09:06:50.435Z] usr/share/robot-descriptions/meshes/robots/fr3v2_1/visual/link6.dae
+[2026-10-10T09:06:50.987Z] usr/share/robot-descriptions/meshes/robots/fr3v2_1/visual/link2.dae
+[2026-10-10T09:06:51.237Z] usr/share/robot-descriptions/meshes/robots/fr3v2_1/visual/link1.dae
+[2026-10-10T09:06:51.237Z] usr/share/robot-descriptions/meshes/robots/fr3v2_1/visual/link3.dae
+[2026-10-10T09:06:51.237Z] usr/share/robot-descriptions/meshes/robots/fr3/
+[2026-10-10T09:06:51.237Z] usr/share/robot-descriptions/meshes/robots/fr3/collision/
+[2026-10-10T09:06:51.237Z] usr/share/robot-descriptions/meshes/robots/fr3/collision/link6.stl
+[2026-10-10T09:06:51.237Z] usr/share/robot-descriptions/meshes/robots/fr3/collision/link5.stl
+[2026-10-10T09:06:51.237Z] usr/share/robot-descriptions/meshes/robots/fr3/collision/link3.stl
+[2026-10-10T09:06:51.237Z] usr/share/robot-descriptions/meshes/robots/fr3/collision/link1.stl
+[2026-10-10T09:06:51.237Z] usr/share/robot-descriptions/meshes/robots/fr3/collision/link2.stl
+[2026-10-10T09:06:51.237Z] usr/share/robot-descriptions/meshes/robots/fr3/collision/link7.stl
+[2026-10-10T09:06:51.488Z] usr/share/robot-descriptions/meshes/robots/fr3/collision/link0.stl
+[2026-10-10T09:06:51.488Z] usr/share/robot-descriptions/meshes/robots/fr3/collision/link4.stl
+[2026-10-10T09:06:51.488Z] usr/share/robot-descriptions/meshes/robots/fr3/visual/
+[2026-10-10T09:06:51.488Z] usr/share/robot-descriptions/meshes/robots/fr3/visual/link5.dae
+[2026-10-10T09:06:51.488Z] usr/share/robot-descriptions/meshes/robots/fr3/visual/link4.dae
+[2026-10-10T09:06:51.738Z] usr/share/robot-descriptions/meshes/robots/fr3/visual/link7.dae
+[2026-10-10T09:06:51.989Z] usr/share/robot-descriptions/meshes/robots/fr3/visual/link0.dae
+[2026-10-10T09:06:52.539Z] usr/share/robot-descriptions/meshes/robots/fr3/visual/link6.dae
+[2026-10-10T09:06:53.091Z] usr/share/robot-descriptions/meshes/robots/fr3/visual/link2.dae
+[2026-10-10T09:06:53.091Z] usr/share/robot-descriptions/meshes/robots/fr3/visual/link1.dae
+[2026-10-10T09:06:53.091Z] usr/share/robot-descriptions/meshes/robots/fr3/visual/link3.dae
+[2026-10-10T09:06:53.208Z] usr/share/robot-descriptions/meshes/robot_ee/
+[2026-10-10T09:06:53.208Z] usr/share/robot-descriptions/meshes/robot_ee/franka_hand_white/
+[2026-10-10T09:06:53.208Z] usr/share/robot-descriptions/meshes/robot_ee/franka_hand_white/collision/
+[2026-10-10T09:06:53.208Z] usr/share/robot-descriptions/meshes/robot_ee/franka_hand_white/collision/hand.stl
+[2026-10-10T09:06:53.208Z] usr/share/robot-descriptions/meshes/robot_ee/franka_hand_white/visual/
+[2026-10-10T09:06:53.208Z] usr/share/robot-descriptions/meshes/robot_ee/franka_hand_white/visual/hand.dae
+[2026-10-10T09:06:53.208Z] usr/share/robot-descriptions/meshes/robot_ee/franka_hand_white/visual/finger.dae
+[2026-10-10T09:06:53.208Z] usr/share/robot-descriptions/meshes/robot_ee/cobot_pump/
+[2026-10-10T09:06:53.208Z] usr/share/robot-descriptions/meshes/robot_ee/cobot_pump/collision/
+[2026-10-10T09:06:53.208Z] usr/share/robot-descriptions/meshes/robot_ee/cobot_pump/collision/cobot_pump.stl
+[2026-10-10T09:06:53.459Z] usr/share/robot-descriptions/meshes/robot_ee/cobot_pump/visual/
+[2026-10-10T09:06:53.459Z] usr/share/robot-descriptions/meshes/robot_ee/cobot_pump/visual/cobot_pump.dae
+[2026-10-10T09:06:54.010Z] usr/share/robot-descriptions/robots/
+[2026-10-10T09:06:54.010Z] usr/share/robot-descriptions/robots/Arm3Rv2.1/
+[2026-10-10T09:06:54.010Z] usr/share/robot-descriptions/robots/Arm3Rv2.1/robot.srdf
+[2026-10-10T09:06:54.010Z] usr/share/robot-descriptions/robots/Arm3Rv2.1/robot.urdf
+[2026-10-10T09:06:54.010Z] usr/share/robot-descriptions/robots/Arm3Rv2/
+[2026-10-10T09:06:54.010Z] usr/share/robot-descriptions/robots/Arm3Rv2/robot.srdf
+[2026-10-10T09:06:54.010Z] usr/share/robot-descriptions/robots/Arm3Rv2/robot.urdf
+[2026-10-10T09:06:54.010Z] usr/share/robot-descriptions/robots/TMRv0.2/
+[2026-10-10T09:06:54.010Z] usr/share/robot-descriptions/robots/TMRv0.2/robot.srdf
+[2026-10-10T09:06:54.010Z] usr/share/robot-descriptions/robots/TMRv0.2/robot.urdf
+[2026-10-10T09:06:54.010Z] usr/share/robot-descriptions/robots/Arm3R/
+[2026-10-10T09:06:54.010Z] usr/share/robot-descriptions/robots/Arm3R/robot.srdf
+[2026-10-10T09:06:54.010Z] usr/share/robot-descriptions/robots/Arm3R/robot.urdf
+[2026-10-10T09:06:54.010Z] usr/share/robot-descriptions/robots/Arm3P/
+[2026-10-10T09:06:54.010Z] usr/share/robot-descriptions/robots/Arm3P/robot.srdf
+[2026-10-10T09:06:54.010Z] usr/share/robot-descriptions/robots/Arm3P/robot.urdf
+[2026-10-10T09:06:54.010Z] usr/share/robot-descriptions/end_effectors/
+[2026-10-10T09:06:54.010Z] usr/share/robot-descriptions/end_effectors/cobot_pump/
+[2026-10-10T09:06:54.010Z] usr/share/robot-descriptions/end_effectors/cobot_pump/endeffector.urdf
+[2026-10-10T09:06:54.010Z] usr/share/robot-descriptions/end_effectors/franka_hand/
+[2026-10-10T09:06:54.010Z] usr/share/robot-descriptions/end_effectors/franka_hand/endeffector.urdf
+[2026-10-10T09:06:54.010Z] + tar czf robot-descriptions_j2gha-stub_all.deb robot-descriptions_j2gha-stub.tar.gz
+[2026-10-10T09:06:55.872Z] + mv robot-descriptions_j2gha-stub_all.deb robot-descriptions_j2gha-stub_all.ipk
+[2026-10-10T09:06:55.872Z] + sha1sum robot-descriptions_j2gha-stub_all.ipk
+[2026-10-10T09:06:55.872Z] + printf %s archive created.
+[2026-10-10T09:06:55.872Z] version: %s
+[2026-10-10T09:06:55.872Z] sha1sum: %s
+[2026-10-10T09:06:55.872Z]  robot-descriptions j2gha-stub 1b3bf3cf00338bc0bd3f8873e276e5d0d2d00d54  robot-descriptions_j2gha-stub_all.ipk
+[2026-10-10T09:06:55.872Z] robot-descriptions archive created.
+[2026-10-10T09:06:55.872Z] version: j2gha-stub
+[2026-10-10T09:06:55.872Z] sha1sum: 1b3bf3cf00338bc0bd3f8873e276e5d0d2d00d54  robot-descriptions_j2gha-stub_all.ipk
+[2026-10-10T09:06:55.921Z] [Pipeline] archiveArtifacts
+[2026-10-10T09:06:55.930Z] Archiving artifacts
+[2026-10-10T09:06:55.991Z] [Pipeline] }
+[2026-10-10T09:06:56.025Z] [Pipeline] // dir
+[2026-10-10T09:06:56.042Z] [Pipeline] }
+[2026-10-10T09:06:56.074Z] [Pipeline] // stage
+[2026-10-10T09:06:56.104Z] [Pipeline] stage
+[2026-10-10T09:06:56.110Z] [Pipeline] { (Publish to artifactory)
+[2026-10-10T09:06:56.190Z] [Pipeline] echo
+[2026-10-10T09:06:56.196Z] J2GHA-TRACE {"stage":"Publish to artifactory","step":"fePublishOpkg"}
+[2026-10-10T09:06:56.217Z] [Pipeline] echo
+[2026-10-10T09:06:56.223Z] J2GHA-TRACE {"stage":"Publish to artifactory","step":"fePublishBuildInfo"}
+[2026-10-10T09:06:56.229Z] [Pipeline] }
+[2026-10-10T09:06:56.261Z] [Pipeline] // stage
+[2026-10-10T09:06:56.276Z] [Pipeline] }
+[2026-10-10T09:06:56.308Z] [Pipeline] // withEnv
+[2026-10-10T09:06:56.322Z] [Pipeline] }
+[2026-10-10T09:06:56.363Z] [Pipeline] // node
+[2026-10-10T09:06:56.380Z] [Pipeline] }
+[2026-10-10T09:06:56.412Z] [Pipeline] // stage
+[2026-10-10T09:06:56.439Z] [Pipeline] stage
+[2026-10-10T09:06:56.444Z] [Pipeline] { (Trigger upstream franka_ros2_ws builds)
+[2026-10-10T09:06:56.474Z] [Pipeline] parallel
+[2026-10-10T09:06:56.488Z] [Pipeline] { (Branch: humble)
+[2026-10-10T09:06:56.494Z] [Pipeline] { (Branch: jazzy)
+[2026-10-10T09:06:56.530Z] [Pipeline] stage
+[2026-10-10T09:06:56.535Z] [Pipeline] { (humble)
+[2026-10-10T09:06:56.546Z] [Pipeline] stage
+[2026-10-10T09:06:56.550Z] [Pipeline] { (jazzy)
+[2026-10-10T09:06:56.590Z] [Pipeline] echo
+[2026-10-10T09:06:56.596Z] J2GHA-TRACE {"stage":"humble","step":"build"}
+[2026-10-10T09:06:56.601Z] [Pipeline] }
+[2026-10-10T09:06:56.612Z] [Pipeline] echo
+[2026-10-10T09:06:56.617Z] J2GHA-TRACE {"stage":"jazzy","step":"build"}
+[2026-10-10T09:06:56.623Z] [Pipeline] }
+[2026-10-10T09:06:56.660Z] [Pipeline] // stage
+[2026-10-10T09:06:56.683Z] [Pipeline] // stage
+[2026-10-10T09:06:56.702Z] [Pipeline] }
+[2026-10-10T09:06:56.710Z] [Pipeline] }
+[2026-10-10T09:06:56.785Z] [Pipeline] // parallel
+[2026-10-10T09:06:56.799Z] [Pipeline] }
+[2026-10-10T09:06:56.832Z] [Pipeline] // stage
+[2026-10-10T09:06:56.863Z] [Pipeline] stage
+[2026-10-10T09:06:56.868Z] [Pipeline] { (Declarative: Post Actions)
+[2026-10-10T09:06:56.902Z] [Pipeline] sh
+[2026-10-10T09:06:57.161Z] + git clean -x -d -f
+[2026-10-10T09:06:57.161Z] Removing urdfs/
+[2026-10-10T09:06:57.187Z] [Pipeline] cleanWs
+[2026-10-10T09:06:57.194Z] [WS-CLEANUP] Deleting project workspace...
+[2026-10-10T09:06:57.194Z] [WS-CLEANUP] Deferred wipeout is used...
+[2026-10-10T09:06:57.202Z] [WS-CLEANUP] done
+[2026-10-10T09:06:57.226Z] [Pipeline] sh
+[2026-10-10T09:06:57.488Z] + du -h --max-depth=1 .
+[2026-10-10T09:06:57.488Z] 4.0K	.
+[2026-10-10T09:06:57.488Z] + ls -la
+[2026-10-10T09:06:57.488Z] total 8
+[2026-10-10T09:06:57.488Z] drwxr-xr-x   2 jenkins jenkins 4096 Oct 10 09:06 .
+[2026-10-10T09:06:57.488Z] drwxr-xr-x 125 jenkins jenkins 4096 Oct 10 09:06 ..
+[2026-10-10T09:06:57.545Z] [Pipeline] script
+[2026-10-10T09:06:57.560Z] [Pipeline] {
+[2026-10-10T09:06:57.606Z] [Pipeline] echo
+[2026-10-10T09:06:57.612Z] J2GHA-TRACE {"stage":"Declarative: Post Actions","step":"feNotifySCM"}
+[2026-10-10T09:06:57.618Z] [Pipeline] }
+[2026-10-10T09:06:57.655Z] [Pipeline] // script
+[2026-10-10T09:06:57.676Z] [Pipeline] }
+[2026-10-10T09:06:57.708Z] [Pipeline] // stage
+[2026-10-10T09:06:57.724Z] [Pipeline] }
+[2026-10-10T09:06:57.756Z] [Pipeline] // timeout
+[2026-10-10T09:06:57.771Z] [Pipeline] }
+[2026-10-10T09:06:57.800Z] [Pipeline] // withEnv
+[2026-10-10T09:06:57.818Z] [Pipeline] }
+[2026-10-10T09:06:57.851Z] [Pipeline] // withEnv
+[2026-10-10T09:06:57.868Z] [Pipeline] }
+[2026-10-10T09:06:57.907Z] [Pipeline] // node
+[2026-10-10T09:06:57.923Z] [Pipeline] End of Pipeline
+[2026-10-10T09:06:58.009Z] Finished: SUCCESS

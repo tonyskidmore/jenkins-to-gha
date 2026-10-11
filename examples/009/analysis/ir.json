@@ -1,0 +1,193 @@
+{
+  "dialect": "declarative",
+  "line": 11,
+  "agent": {
+    "kind": "any",
+    "line": 12
+  },
+  "environment": {
+    "GITHUB_TOKEN": {
+      "kind": "credentials",
+      "credential_id": "STELLARBOT_GITHUB_TOKEN",
+      "line": 24
+    }
+  },
+  "options": {
+    "buildDiscarder": "logRotator(...)"
+  },
+  "stages": [
+    {
+      "name": "checkout",
+      "line": 27,
+      "steps": [
+        {
+          "name": "script",
+          "line": 39,
+          "body": [
+            {
+              "name": "<if>",
+              "line": 40,
+              "body": [
+                {
+                  "name": "<decl>",
+                  "line": 41,
+                  "named": {
+                    "_target": "buildNumber"
+                  },
+                  "category": "dynamic",
+                  "source": "buildNumber = as",
+                  "dynamic": true
+                },
+                {
+                  "name": "<if>",
+                  "line": 42,
+                  "body": [
+                    {
+                      "name": "milestone",
+                      "line": 43,
+                      "args": [
+                        "buildNumber - 1"
+                      ],
+                      "category": "policy",
+                      "dynamic": true
+                    }
+                  ],
+                  "category": "dynamic",
+                  "source": "buildNumber > 1",
+                  "dynamic": true
+                },
+                {
+                  "name": "milestone",
+                  "line": 45,
+                  "args": [
+                    "buildNumber"
+                  ],
+                  "category": "policy",
+                  "dynamic": true,
+                  "variable_args": [
+                    0
+                  ]
+                }
+              ],
+              "category": "dynamic",
+              "source": "env.BRANCH_NAME",
+              "dynamic": true
+            }
+          ],
+          "category": "dynamic"
+        },
+        {
+          "name": "dir",
+          "line": 48,
+          "args": [
+            "hpx_${env.BUILD_ID}"
+          ],
+          "body": [
+            {
+              "name": "checkout",
+              "line": 49,
+              "args": [
+                "scm"
+              ],
+              "category": "direct",
+              "dynamic": true,
+              "variable_args": [
+                0
+              ]
+            },
+            {
+              "name": "echo",
+              "line": 50,
+              "args": [
+                "Running ${env.BUILD_ID} on ${env.JENKINS_URL} (base directory: ${env.WORKSPACE})"
+              ],
+              "category": "direct",
+              "dynamic": true
+            }
+          ],
+          "category": "direct",
+          "dynamic": true
+        }
+      ]
+    },
+    {
+      "name": "build",
+      "line": 54,
+      "matrix": {
+        "axes": {
+          "configuration_name": [
+            "gcc-12",
+            "gcc-13",
+            "gcc-14",
+            "gcc-15",
+            "clang-17-apex",
+            "clang-16",
+            "clang-17",
+            "clang-18",
+            "clang-19",
+            "clang-20",
+            "gcc-12-cuda-12",
+            "gcc-12-cuda-12-dgx",
+            "hipcc"
+          ],
+          "build_type": [
+            "Release",
+            "Debug"
+          ]
+        },
+        "stages": [
+          {
+            "name": "build",
+            "line": 67,
+            "steps": [
+              {
+                "name": "dir",
+                "line": 69,
+                "args": [
+                  "hpx_${env.BUILD_ID}"
+                ],
+                "body": [
+                  {
+                    "name": "sh",
+                    "line": 70,
+                    "args": [
+                      "\n                                #!/bin/bash -l\n                                .jenkins/lsu/entry.sh\n                                "
+                    ],
+                    "category": "direct"
+                  }
+                ],
+                "category": "direct",
+                "dynamic": true
+              }
+            ]
+          }
+        ],
+        "line": 55
+      }
+    }
+  ],
+  "post": {
+    "always": [
+      {
+        "name": "archiveArtifacts",
+        "line": 84,
+        "named": {
+          "artifacts": "hpx_${env.BUILD_ID}/jenkins-hpx-*",
+          "fingerprint": true
+        },
+        "category": "direct",
+        "dynamic": true
+      },
+      {
+        "name": "archiveArtifacts",
+        "line": 85,
+        "named": {
+          "artifacts": "hpx_${env.BUILD_ID}/build/*/Testing/**",
+          "fingerprint": true
+        },
+        "category": "direct",
+        "dynamic": true
+      }
+    ]
+  }
+}

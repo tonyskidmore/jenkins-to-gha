@@ -1,0 +1,233 @@
+pipeline {
+  agent any
+
+
+
+  options {
+    timeout(time: 60, unit: 'MINUTES')
+    /* j2gha: buildDiscarder removed */
+    disableConcurrentBuilds(abortPrevious: true)
+  }
+
+  /* j2gha: tools removed (trace) */
+
+
+
+
+  environment {
+    BUILD_TIMESTAMP = sh(returnStdout: true, script: 'date +%Y%m%d%H%M').trim()
+    MAIN_BRANCH = 'master'
+  }
+
+  parameters {
+    choice(
+      name: 'BUILD_TYPE',
+      choices: ['nightly', 'milestone', 'release'],
+      description: '''
+        Choose the type of build.
+        Note that a release build will <b>not</b> promote the build, but rather will promote the most recent milestone build.
+        '''
+    )
+
+    booleanParam(
+      name: 'ECLIPSE_SIGN',
+      defaultValue: true,
+      description: '''
+        Choose whether or not the bundles will be signed.
+        This is relevant only for nightly and milestone builds.
+      '''
+    )
+
+    booleanParam(
+      name: 'PROMOTE',
+      defaultValue: true,
+      description: 'Whether to promote the build to the download server.'
+    )
+  }
+
+  stages {
+    stage('Display Parameters') {
+      steps {
+        script {
+          env.BUILD_TYPE = params.BUILD_TYPE
+          if (env.BRANCH_NAME == env.MAIN_BRANCH) {
+            // Only sign the master branch.
+            //
+            env.ECLIPSE_SIGN = params.ECLIPSE_SIGN
+          } else {
+            // Do not sign PR builds.
+            env.ECLIPSE_SIGN =  false
+          }
+
+          // Only promote signed builds, i.e., do not sign or promote PR builds.
+          //
+          env.PROMOTE = params.PROMOTE && (env.ECLIPSE_SIGN == 'true')
+
+          def description = """
+BUILD_TIMESTAMP=${env.BUILD_TIMESTAMP}
+BUILD_TYPE=${env.BUILD_TYPE}
+ECLIPSE_SIGN=${env.ECLIPSE_SIGN}
+PROMOTE=${env.PROMOTE}
+BRANCH_NAME=${env.BRANCH_NAME}
+""".trim()
+          echo description
+          currentBuild.description = description.replace("\n", "<br/>")
+        }
+      }
+    }
+
+    stage('Build Nebula') {
+      steps {
+        script {
+          if (env.PROMOTE == 'true') {
+            // Only provide an agent context, which allows uploading to download.eclipse.org if we are promoting.
+            // PR builds are not permitted to promote.
+            //
+            sshagent(['projects-storage.eclipse.org-bot-ssh']) {
+              mvn()
+            }
+          } else {
+            mvn()
+            archiveArtifacts 'releng/org.eclipse.nebula.site/target/repository/**'
+          }
+        }
+      }
+    }
+  }
+
+  post {
+    always {
+      junit allowEmptyResults: true, testResults: '**/target/surefire-reports/*.xml'
+      recordIssues publishAllIssues: true, tools: [java(), mavenConsole(), javaDoc()]
+    }
+
+    failure {
+      archiveArtifacts '**'
+      mail to: 'ed.merks@gmail.com',
+      subject: "[Nebula CI] Build Failure ${currentBuild.fullDisplayName}",
+      mimeType: 'text/html',
+      body: "Project: ${env.JOB_NAME}<br/>Build Number: ${env.BUILD_NUMBER}<br/>Build URL: ${env.BUILD_URL}<br/>Console: ${env.BUILD_URL}/console"
+    }
+
+    fixed {
+      mail to: 'ed.merks@gmail.com',
+      subject: "[Nebula CI] Back to normal ${currentBuild.fullDisplayName}",
+      mimeType: 'text/html',
+      body: "Project: ${env.JOB_NAME}<br/>Build Number: ${env.BUILD_NUMBER}<br/>Build URL: ${env.BUILD_URL}<br/>Console: ${env.BUILD_URL}/console"
+    }
+
+    cleanup {
+      deleteDir()
+    }
+  }
+}
+
+def void mvn() {
+  wrap([$class: 'Xvnc', takeScreenshot: false, useXauthority: true]) {
+    // Only promoted builds will be signed.
+    //
+    sh '''
+      if [[ $PROMOTE == true ]]; then
+        promotion_argument='-Ppromote -Pbuild-server'
+      fi
+      mvn \
+        $promotion_argument \
+        --no-transfer-progress \
+        -Dproject.build.sourceEncoding=UTF-8 \
+        -Dbuild.id=${BUILD_TIMESTAMP} \
+        -Dgit.commit=$GIT_COMMIT \
+        -Dbuild.type=$BUILD_TYPE \
+        -Dorg.eclipse.justj.p2.manager.build.url=$JOB_URL \
+        clean \
+        verify
+      '''
+  }
+}
+
+// ---- j2gha localisation block (trace mode) - generated, not part of the original pipeline ----
+@groovy.transform.Field def scm = [$class: 'GitSCM', branches: [[name: 'main']], userRemoteConfigs: [[url: 'https://example.invalid/j2gha.git']]]
+class J2ghaAny implements Serializable { @NonCPS def propertyMissing(String n) { new J2ghaAny() }; @NonCPS def methodMissing(String n, Object a) { new J2ghaAny() }; @NonCPS String toString() { 'j2gha-stub' }; @NonCPS boolean asBoolean() { true }; @NonCPS boolean isEmpty() { false }; @NonCPS def getAt(Object k) { new J2ghaAny() }; @NonCPS Iterator iterator() { [].iterator() } }
+class J2ghaConfig extends LinkedHashMap { @NonCPS Object get(Object k) { super.containsKey(k) ? super.get(k) : new J2ghaAny() }; @NonCPS def methodMissing(String n, Object a) { new J2ghaAny() } }
+def j2ghaTrace(String kind) {
+  steps.echo('J2GHA-TRACE ' + groovy.json.JsonOutput.toJson([stage: (env.STAGE_NAME ?: ''), step: kind]))
+}
+def sh(Object... a) { j2ghaTrace('sh'); if (a && a[0] instanceof Map && a[0].returnStdout) { return '' }; if (a && a[0] instanceof Map && a[0].returnStatus) { return 0 }; return null }
+def bat(Object... a) { j2ghaTrace('bat'); if (a && a[0] instanceof Map && a[0].returnStdout) { return '' }; if (a && a[0] instanceof Map && a[0].returnStatus) { return 0 }; return null }
+def powershell(Object... a) { j2ghaTrace('powershell'); if (a && a[0] instanceof Map && (a[0].returnStdout)) { return '' }; return null }
+def pwsh(Object... a) { j2ghaTrace('pwsh'); return null }
+def echo(Object... a) { j2ghaTrace('echo'); steps.echo(String.valueOf(a ? a[0] : '')) }
+def checkout(Object... a) { j2ghaTrace('checkout'); return [GIT_COMMIT: '0000000000000000000000000000000000000000', GIT_BRANCH: (env.GIT_BRANCH ?: env.BRANCH_NAME)] }
+def git(Object... a) { j2ghaTrace('git'); return null }
+def archiveArtifacts(Object... a) { j2ghaTrace('archiveArtifacts'); return null }
+def archive(Object... a) { j2ghaTrace('archive'); return null }
+def junit(Object... a) { j2ghaTrace('junit'); return null }
+def stash(Object... a) { j2ghaTrace('stash'); return null }
+def unstash(Object... a) { j2ghaTrace('unstash'); return null }
+def input(Object... a) { j2ghaTrace('input'); return null }
+def build(Object... a) { j2ghaTrace('build'); return [result: 'SUCCESS', number: 1, currentResult: 'SUCCESS', absoluteUrl: '', getResult: { -> 'SUCCESS' }, buildVariables: [:]] }
+def error(Object... a) { j2ghaTrace('error'); steps.error(String.valueOf(a ? a[0] : 'error')) }
+def unstable(Object... a) { j2ghaTrace('unstable'); return null }
+def mail(Object... a) { j2ghaTrace('mail'); return null }
+def emailext(Object... a) { j2ghaTrace('emailext'); return null }
+def slackSend(Object... a) { j2ghaTrace('slackSend'); return null }
+def office365ConnectorSend(Object... a) { j2ghaTrace('office365ConnectorSend'); return null }
+def publishHTML(Object... a) { j2ghaTrace('publishHTML'); return null }
+def publishCoverage(Object... a) { j2ghaTrace('publishCoverage'); return null }
+def recordCoverage(Object... a) { j2ghaTrace('recordCoverage'); return null }
+def jacoco(Object... a) { j2ghaTrace('jacoco'); return null }
+def cobertura(Object... a) { j2ghaTrace('cobertura'); return null }
+def recordIssues(Object... a) { j2ghaTrace('recordIssues'); return null }
+def deleteDir(Object... a) { j2ghaTrace('deleteDir'); return null }
+def cleanWs(Object... a) { j2ghaTrace('cleanWs'); return null }
+def sleep(Object... a) { j2ghaTrace('sleep'); return null }
+def writeFile(Object... a) { j2ghaTrace('writeFile'); return null }
+def httpRequest(Object... a) { j2ghaTrace('httpRequest'); return [status: 200, content: '{}'] }
+def copyArtifacts(Object... a) { j2ghaTrace('copyArtifacts'); return null }
+def waitForQualityGate(Object... a) { j2ghaTrace('waitForQualityGate'); return null }
+def githubNotify(Object... a) { j2ghaTrace('githubNotify'); return null }
+def setGitHubPullRequestStatus(Object... a) { j2ghaTrace('setGitHubPullRequestStatus'); return null }
+def step(Object... a) { j2ghaTrace('step'); return null }
+def fingerprint(Object... a) { j2ghaTrace('fingerprint'); return null }
+def s3Upload(Object... a) { j2ghaTrace('s3Upload'); return null }
+def s3Download(Object... a) { j2ghaTrace('s3Download'); return null }
+def milestone(Object... a) { return null }
+def properties(Object... a) { return null }
+def buildDiscarder(Object... a) { return null }
+def readFile(Object... a) { return '' }
+def fileExists(Object... a) { return false }
+def findFiles(Object... a) { return [] }
+def readJSON(Object... a) { return new J2ghaConfig() }
+def readYaml(Object... a) { return new J2ghaConfig() }
+def readProperties(Object... a) { return new J2ghaConfig() }
+def readMavenPom(Object... a) { return new J2ghaAny() }
+def readCSV(Object... a) { return [] }
+def tool(Object... a) { return '/usr' }
+def load(Object... a) { return new J2ghaAny() }
+def evaluate(Object... a) { return new J2ghaAny() }
+def library(Object... a) { return new J2ghaAny() }
+def withCredentials(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def sshagent(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withDockerRegistry(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withMaven(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withSonarQubeEnv(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def container(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def wrap(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def ansiColor(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withAWS(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withKubeConfig(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withVault(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def configFileProvider(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withGradle(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def nodejs(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withPythonEnv(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def timestamps(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withDockerContainer(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withDockerServer(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def azureCLI(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def retry(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def podTemplate(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def lock(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def java(Object... a) { return new J2ghaAny() }
+def javaDoc(Object... a) { return new J2ghaAny() }
+def mavenConsole(Object... a) { return new J2ghaAny() }
+// ---- end of j2gha localisation block ----

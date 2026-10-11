@@ -1,0 +1,128 @@
+# j2gha selfhosted variant (full) of examples/005
+name: 'j2gha 005: opensearch-project/opensearch-migrations vars/defaultIntegPipeline.groovy (j2gha)'
+on:
+  push:
+    branches:
+    - j2gha/run/005-full-selfhosted-20261010100023
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  BRANCH_NAME: main
+  TAG_NAME: ''
+  CHANGE_ID: ''
+  GIT_COMMIT: ${{ github.event_name != 'workflow_dispatch' && '' || format('{0}', inputs.GIT_COMMIT) }}
+  GIT_BRANCH: ${{ github.event_name != 'workflow_dispatch' && '' || format('{0}', inputs.GIT_BRANCH) }}
+  GIT_REPO_URL: ${{ github.event_name != 'workflow_dispatch' && 'https://github.com/opensearch-project/opensearch-migrations.git'
+    || format('{0}', inputs.GIT_REPO_URL) }}
+  STAGE: ${{ github.event_name != 'workflow_dispatch' && '' || format('{0}', inputs.STAGE) }}
+  VERSION: ${{ github.event_name != 'workflow_dispatch' && '' || format('{0}', inputs.VERSION) }}
+defaults:
+  run:
+    shell: bash
+jobs:
+  checkout:
+    name: Checkout, Test Caller Identity, Setup E2E CDK Context, Build, Pre-Deploy Cleanup
+    runs-on:
+    - self-hosted
+    - j2gha-659f5171
+    timeout-minutes: 10
+    steps:
+    - name: 'Checkout: echo'
+      id: s1
+      run: |-
+        echo "
+                                    ================================================================
+                                    Default Integration Pipeline
+                                    ================================================================
+                                    Git:                    ${GIT_REPO_URL} @ ${checkoutBranch}
+                                    Stage:                  ${STAGE}
+                                    Version:                ${J2GHA_TODO_params_VERSION_____N_A__using_}
+                                    ================================================================
+                                "
+    - name: 'Checkout: Groovy if (manual)'
+      id: s2
+      run: 'echo "::warning::manual migration: Groovy condition at line 78: config.checkoutStep"'
+    - name: 'Test Caller Identity: Groovy if (manual)'
+      id: s3
+      run: 'echo "::warning::manual migration: Groovy condition at line 91: config.awsIdentityCheckStep"'
+    - name: 'Setup E2E CDK Context: Groovy if (manual)'
+      id: s4
+      run: 'echo "::warning::manual migration: Groovy condition at line 104: config.cdkContextStep"'
+    - name: 'Build: configureMavenCache (manual migration)'
+      id: s5
+      run: echo "::warning::Jenkins step 'configureMavenCache' requires manual migration"
+      timeout-minutes: 60
+    - name: 'Build: Groovy if (manual)'
+      id: s6
+      run: 'echo "::warning::manual migration: Groovy condition at line 122: config.buildStep"'
+      timeout-minutes: 60
+    - name: 'Pre-Deploy Cleanup: enter stage'
+      id: s7
+      if: vars.J2GHA_WHEN_L134 == 'true'
+      run: echo "run=true" >> "$GITHUB_OUTPUT"
+    - name: 'Pre-Deploy Cleanup: dir test'
+      id: s8
+      if: steps.s7.outputs.run == 'true'
+      run: mkdir -p -- "$J2GHA_DIR"
+      env:
+        J2GHA_DIR: test
+      timeout-minutes: 60
+    - name: 'Pre-Deploy Cleanup: preDeployStep (manual migration)'
+      id: s9
+      if: steps.s7.outputs.run == 'true'
+      run: echo "::warning::Jenkins step 'preDeployStep' requires manual migration"
+      working-directory: test
+      env:
+        MIGRATIONS_TEST_ACCOUNT_ID: j2gha-fake-secret
+      timeout-minutes: 60
+    - name: 'Deploy: dir test'
+      id: s10
+      run: mkdir -p -- "$J2GHA_DIR"
+      env:
+        J2GHA_DIR: test
+      timeout-minutes: 90
+    - name: 'Deploy: Groovy if (manual)'
+      id: s11
+      run: 'echo "::warning::manual migration: Groovy condition at line 163: config.deployStep"'
+      working-directory: test
+      timeout-minutes: 90
+    - name: 'Pre-Integ Test Cleanup: dir test'
+      id: s12
+      run: mkdir -p -- "$J2GHA_DIR"
+      env:
+        J2GHA_DIR: test
+      timeout-minutes: 10
+    - name: 'Pre-Integ Test Cleanup: Groovy if (manual)'
+      id: s13
+      run: 'echo "::warning::manual migration: Groovy condition at line 191: config.preIntegTestStep"'
+      working-directory: test
+      timeout-minutes: 10
+    - name: 'Integ Tests: dir test'
+      id: s14
+      run: mkdir -p -- "$J2GHA_DIR"
+      env:
+        J2GHA_DIR: test
+      timeout-minutes: 60
+    - name: 'Integ Tests: Groovy if (manual)'
+      id: s15
+      run: 'echo "::warning::manual migration: Groovy condition at line 210: config.integTestStep"'
+      working-directory: test
+      timeout-minutes: 60
+    - name: 'post: dir test'
+      id: s16
+      if: always()
+      run: mkdir -p -- "$J2GHA_DIR"
+      env:
+        J2GHA_DIR: test
+      timeout-minutes: 10
+    - name: 'Declarative: Post Actions: Groovy if (manual)'
+      id: s17
+      if: always()
+      run: 'echo "::warning::manual migration: Groovy condition at line 240: config.finishStep"'
+      working-directory: test
+      timeout-minutes: 10
+    - name: 'post: cleanupMavenCache (manual migration)'
+      id: s18
+      if: always()
+      run: echo "::warning::Jenkins step 'cleanupMavenCache' requires manual migration"

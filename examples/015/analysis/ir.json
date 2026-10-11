@@ -1,0 +1,1113 @@
+{
+  "dialect": "declarative",
+  "line": 3,
+  "agent": {
+    "kind": "kubernetes",
+    "yaml": "kubePodTemplate(...)",
+    "raw": {
+      "yaml": "kubePodTemplate(...)"
+    },
+    "line": 4
+  },
+  "environment": {
+    "ARTIFACTORY_CREDS": {
+      "kind": "credentials",
+      "credential_id": "artifactory",
+      "line": 17
+    },
+    "ARTIFACTORY_URL_UP": {
+      "kind": "expression",
+      "value": "${Artifactory.server('taas-artifactory-upload').getUrl()}",
+      "line": 18
+    },
+    "ARTIFACTORY_URL_DOWN": {
+      "kind": "expression",
+      "value": "${Artifactory.server('taas-artifactory').getUrl()}",
+      "line": 19
+    }
+  },
+  "parameters": [
+    {
+      "kind": "validatingString",
+      "name": "TARGET_VERSION",
+      "default": "NONE",
+      "description": "Tag to create after successful QA",
+      "line": 10
+    }
+  ],
+  "stages": [
+    {
+      "name": "Detect Secrets",
+      "line": 22,
+      "steps": [
+        {
+          "name": "detectSecrets",
+          "line": 24,
+          "category": "unknown"
+        }
+      ]
+    },
+    {
+      "name": "Init",
+      "line": 28,
+      "steps": [
+        {
+          "name": "script",
+          "line": 30,
+          "body": [
+            {
+              "name": "defaultInit",
+              "line": 31,
+              "category": "unknown"
+            },
+            {
+              "name": "applyCustomizations",
+              "line": 32,
+              "category": "unknown"
+            },
+            {
+              "name": "<assign>",
+              "line": 33,
+              "named": {
+                "_target": "commitHash"
+              },
+              "category": "dynamic",
+              "source": "commitHash = ${env.GIT_COMMIT.take(7)}",
+              "dynamic": true
+            }
+          ],
+          "category": "dynamic"
+        }
+      ]
+    },
+    {
+      "name": "QA",
+      "line": 37,
+      "steps": [
+        {
+          "name": "withEnv",
+          "line": 39,
+          "args": [
+            [
+              "DOCKER_HOST=",
+              "SERVER_AUTH_TYPE=basic",
+              "SERVER_URL=http://127.0.0.1:5984",
+              "WIREMOCK_URL=http://127.0.0.1:8080",
+              "WIREMOCK_PORT=8080"
+            ]
+          ],
+          "body": [
+            {
+              "name": "withCredentials",
+              "line": 45,
+              "args": [
+                [
+                  {
+                    "expr": "usernamePassword(...)"
+                  }
+                ]
+              ],
+              "named": {
+                "bindings": [
+                  {
+                    "type": "usernamePassword",
+                    "credentialsId": "container-test-server",
+                    "usernameVariable": "SERVER_USERNAME",
+                    "passwordVariable": "SERVER_PASSWORD"
+                  }
+                ]
+              },
+              "body": [
+                {
+                  "name": "script",
+                  "line": 50,
+                  "body": [
+                    {
+                      "name": "sh",
+                      "line": 51,
+                      "args": [
+                        "./scripts/setup_couch.sh"
+                      ],
+                      "category": "direct"
+                    },
+                    {
+                      "name": "sh",
+                      "line": 52,
+                      "args": [
+                        "./scripts/setup_wiremock.sh"
+                      ],
+                      "category": "direct"
+                    }
+                  ],
+                  "category": "dynamic"
+                },
+                {
+                  "name": "runTests",
+                  "line": 54,
+                  "category": "unknown"
+                }
+              ],
+              "category": "policy",
+              "dynamic": true
+            }
+          ],
+          "category": "direct"
+        }
+      ],
+      "post": {
+        "always": [
+          {
+            "name": "junit",
+            "line": 61,
+            "named": {
+              "testResults": "**/junitreports/*.xml"
+            },
+            "category": "policy"
+          }
+        ]
+      }
+    },
+    {
+      "name": "SonarQube analysis",
+      "line": 68,
+      "environment": {
+        "scannerHome": {
+          "kind": "call",
+          "value": "tool",
+          "line": 70
+        }
+      },
+      "when": {
+        "conditions": [
+          {
+            "kind": "anyOf",
+            "children": [
+              {
+                "kind": "changeRequest",
+                "line": 75
+              },
+              {
+                "kind": "expression",
+                "text": "env.BRANCH_IS_PRIMARY ",
+                "line": 76
+              }
+            ],
+            "line": 74
+          },
+          {
+            "kind": "not",
+            "children": [
+              {
+                "kind": "allOf",
+                "children": [
+                  {
+                    "kind": "changeRequest",
+                    "value": {
+                      "branch": "dependabot*",
+                      "comparator": "GLOB"
+                    },
+                    "line": 80
+                  },
+                  {
+                    "kind": "not",
+                    "children": [
+                      {
+                        "kind": "changeRequest",
+                        "value": {
+                          "branch": "^dependabot.*(?i)(ibm)[\\.-].+sdk-core.*$",
+                          "comparator": "REGEXP"
+                        },
+                        "line": 82
+                      }
+                    ],
+                    "line": 81
+                  }
+                ],
+                "line": 79
+              }
+            ],
+            "line": 78
+          }
+        ]
+      },
+      "steps": [
+        {
+          "name": "scanCode",
+          "line": 88,
+          "category": "unknown"
+        }
+      ]
+    },
+    {
+      "name": "Publish[staging]",
+      "line": 92,
+      "environment": {
+        "STAGE_ROOT": {
+          "kind": "expression",
+          "value": "${ARTIFACTORY_URL_UP}/api/",
+          "line": 99
+        }
+      },
+      "when": {
+        "conditions": [
+          {
+            "kind": "not",
+            "children": [
+              {
+                "kind": "buildingTag",
+                "line": 95
+              }
+            ],
+            "line": 94
+          }
+        ]
+      },
+      "steps": [
+        {
+          "name": "bumpVersion",
+          "line": 102,
+          "args": [
+            true
+          ],
+          "category": "unknown"
+        },
+        {
+          "name": "customizePublishingInfo",
+          "line": 103,
+          "category": "unknown"
+        },
+        {
+          "name": "withEnv",
+          "line": 104,
+          "args": [
+            [
+              {
+                "expr": "LIB_NAME=${libName}"
+              },
+              {
+                "expr": "TYPE=${buildType}"
+              },
+              {
+                "expr": "ARTIFACT_URL=${artifactUrl}"
+              },
+              {
+                "expr": "MODULE_ID=${moduleId}"
+              },
+              {
+                "expr": "BUILD_NAME=${env.JOB_NAME}"
+              }
+            ]
+          ],
+          "body": [
+            {
+              "name": "publishStaging",
+              "line": 109,
+              "category": "unknown"
+            },
+            {
+              "name": "publishArtifactoryBuildInfo",
+              "line": 110,
+              "category": "unknown"
+            }
+          ],
+          "category": "direct",
+          "dynamic": true
+        }
+      ],
+      "post": {
+        "always": [
+          {
+            "name": "sh",
+            "line": 116,
+            "args": [
+              "git reset --hard"
+            ],
+            "category": "direct"
+          }
+        ]
+      }
+    },
+    {
+      "name": "Run Gauge tests",
+      "line": 121,
+      "when": {
+        "conditions": [
+          {
+            "kind": "not",
+            "children": [
+              {
+                "kind": "buildingTag",
+                "line": 124
+              }
+            ],
+            "line": 123
+          }
+        ]
+      },
+      "steps": [
+        {
+          "name": "script",
+          "line": 128,
+          "body": [
+            {
+              "name": "<assign>",
+              "line": 129,
+              "named": {
+                "_target": "buildResults"
+              },
+              "category": "dynamic",
+              "source": "buildResults = null",
+              "dynamic": true
+            },
+            {
+              "name": "<assign>",
+              "line": 133,
+              "named": {
+                "_target": "gaugeBranchName"
+              },
+              "category": "dynamic",
+              "source": "gaugeBranchName = env.BRANCH_NAME",
+              "dynamic": true
+            },
+            {
+              "name": "<assign>",
+              "line": 134,
+              "named": {
+                "_target": "fallbackBranchName"
+              },
+              "category": "dynamic",
+              "source": "fallbackBranchName = ?:",
+              "dynamic": true
+            },
+            {
+              "name": "<if>",
+              "line": 138,
+              "body": [
+                {
+                  "name": "<assign>",
+                  "line": 139,
+                  "named": {
+                    "_target": "gaugeBranchName"
+                  },
+                  "category": "dynamic",
+                  "source": "gaugeBranchName = env.TARGET_GAUGE_RELEASE_BRANCH_NAME",
+                  "dynamic": true
+                },
+                {
+                  "name": "<assign>",
+                  "line": 140,
+                  "named": {
+                    "_target": "fallbackBranchName"
+                  },
+                  "category": "dynamic",
+                  "source": "fallbackBranchName = ?:",
+                  "dynamic": true
+                }
+              ],
+              "category": "dynamic",
+              "source": "env.TAG_NAME || env.BRANCH_IS_PRIMARY",
+              "dynamic": true
+            },
+            {
+              "name": "<try>",
+              "line": 142,
+              "named": {
+                "_catch": [
+                  {
+                    "name": "<if>",
+                    "line": 148,
+                    "named": {
+                      "_else": [
+                        {
+                          "name": "<throw>",
+                          "line": 154,
+                          "category": "dynamic",
+                          "source": "throw ae",
+                          "dynamic": true
+                        }
+                      ]
+                    },
+                    "body": [
+                      {
+                        "name": "echo",
+                        "line": 149,
+                        "args": [
+                          "No matching branch named '${gaugeBranchName}' in sdks-gauge, building ${fallbackBranchName} branch"
+                        ],
+                        "category": "direct",
+                        "dynamic": true
+                      },
+                      {
+                        "name": "build",
+                        "line": 150,
+                        "named": {
+                          "job": "/${env.SDKS_GAUGE_PIPELINE_PROJECT}/${fallbackBranchName}",
+                          "parameters": [
+                            "string(...)",
+                            "string(...)"
+                          ]
+                        },
+                        "category": "redesign",
+                        "dynamic": true
+                      }
+                    ],
+                    "category": "dynamic",
+                    "source": "ae.getMessage().contains(\"No item named /${env.SDKS_GAUGE_PIPELINE_PROJECT}/${gaugeBranchName} found\")",
+                    "dynamic": true
+                  }
+                ]
+              },
+              "body": [
+                {
+                  "name": "<assign>",
+                  "line": 143,
+                  "named": {
+                    "_target": "buildResults"
+                  },
+                  "body": [
+                    {
+                      "name": "build",
+                      "line": 143,
+                      "named": {
+                        "job": "/${env.SDKS_GAUGE_PIPELINE_PROJECT}/${gaugeBranchName}",
+                        "parameters": [
+                          "string(...)",
+                          "string(...)"
+                        ]
+                      },
+                      "category": "redesign",
+                      "dynamic": true
+                    }
+                  ],
+                  "category": "dynamic",
+                  "source": "buildResults = build(...)",
+                  "dynamic": true
+                }
+              ],
+              "category": "dynamic",
+              "dynamic": true
+            }
+          ],
+          "category": "dynamic"
+        }
+      ]
+    },
+    {
+      "name": "Mend scan",
+      "line": 161,
+      "environment": {
+        "WS_PROJECTNAME": {
+          "kind": "expression",
+          "value": "cloudant-${libName}-sdk",
+          "line": 166
+        }
+      },
+      "when": {
+        "conditions": [
+          {
+            "kind": "expression",
+            "text": "env.BRANCH_IS_PRIMARY ",
+            "line": 163
+          }
+        ]
+      },
+      "steps": [
+        {
+          "name": "mendScan",
+          "line": 169,
+          "category": "unknown"
+        }
+      ]
+    },
+    {
+      "name": "Update version and tag",
+      "line": 173,
+      "when": {
+        "conditions": [
+          {
+            "kind": "allOf",
+            "children": [
+              {
+                "kind": "branch",
+                "value": "main",
+                "line": 178
+              },
+              {
+                "kind": "not",
+                "children": [
+                  {
+                    "kind": "equals",
+                    "value": {
+                      "expected": "'NONE'",
+                      "actual": "${params.TARGET_VERSION}"
+                    },
+                    "line": 180
+                  }
+                ],
+                "line": 179
+              }
+            ],
+            "line": 176
+          }
+        ],
+        "before_agent": true
+      },
+      "steps": [
+        {
+          "name": "gitsh",
+          "line": 185,
+          "args": [
+            "github.com"
+          ],
+          "body": [
+            {
+              "name": "bumpVersion",
+              "line": 187,
+              "args": [
+                false
+              ],
+              "category": "unknown"
+            },
+            {
+              "name": "sh",
+              "line": 189,
+              "args": [
+                "git push --tags origin HEAD:main"
+              ],
+              "category": "direct"
+            }
+          ],
+          "category": "unknown"
+        }
+      ]
+    },
+    {
+      "name": "Publish[repository]",
+      "line": 193,
+      "when": {
+        "conditions": [
+          {
+            "kind": "allOf",
+            "children": [
+              {
+                "kind": "buildingTag",
+                "line": 198
+              },
+              {
+                "kind": "anyOf",
+                "children": [
+                  {
+                    "kind": "tag",
+                    "value": "/${env.SVRE_PRE_RELEASE_TAG}/",
+                    "comparator": "REGEXP",
+                    "line": 200
+                  }
+                ],
+                "line": 199
+              }
+            ],
+            "line": 197
+          }
+        ],
+        "before_agent": true
+      },
+      "steps": [
+        {
+          "name": "publishPublic",
+          "line": 205,
+          "category": "unknown"
+        },
+        {
+          "name": "gitsh",
+          "line": 206,
+          "args": [
+            "github.com"
+          ],
+          "body": [
+            {
+              "name": "publishDocs",
+              "line": 207,
+              "category": "unknown"
+            }
+          ],
+          "category": "unknown"
+        }
+      ]
+    }
+  ],
+  "methods": [
+    "defaultInit",
+    "applyCustomizations",
+    "getRegistryPublic",
+    "getRegistryArtifactoryUp",
+    "getRegistryArtifactoryDown",
+    "noScheme",
+    "withNpmEnv",
+    "runTests",
+    "publishStaging",
+    "publishPublic",
+    "publishNpm",
+    "publishDocs"
+  ],
+  "method_defs": {
+    "defaultInit": {
+      "body": [
+        {
+          "name": "<assign>",
+          "line": 231,
+          "named": {
+            "_target": "bumpVersion"
+          },
+          "category": "dynamic",
+          "source": "bumpVersion = ",
+          "dynamic": true
+        },
+        {
+          "name": "<assign>",
+          "line": 238,
+          "named": {
+            "_target": "doVersionBump"
+          },
+          "category": "dynamic",
+          "source": "doVersionBump = ",
+          "dynamic": true
+        },
+        {
+          "name": "<assign>",
+          "line": 242,
+          "named": {
+            "_target": "getNewVersion"
+          },
+          "category": "dynamic",
+          "source": "getNewVersion = ",
+          "dynamic": true
+        },
+        {
+          "name": "<assign>",
+          "line": 247,
+          "named": {
+            "_target": "getTargetVersion"
+          },
+          "category": "dynamic",
+          "source": "getTargetVersion = ",
+          "dynamic": true
+        },
+        {
+          "name": "<assign>",
+          "line": 258,
+          "named": {
+            "_target": "getDevVersion"
+          },
+          "category": "dynamic",
+          "source": "getDevVersion = ",
+          "dynamic": true
+        },
+        {
+          "name": "<assign>",
+          "line": 276,
+          "named": {
+            "_target": "customizeVersion"
+          },
+          "category": "dynamic",
+          "source": "customizeVersion = ",
+          "dynamic": true
+        },
+        {
+          "name": "<assign>",
+          "line": 280,
+          "named": {
+            "_target": "publishArtifactoryBuildInfoScript"
+          },
+          "category": "dynamic",
+          "source": "publishArtifactoryBuildInfoScript = ",
+          "dynamic": true
+        },
+        {
+          "name": "<assign>",
+          "line": 285,
+          "named": {
+            "_target": "publishArtifactoryBuildInfo"
+          },
+          "category": "dynamic",
+          "source": "publishArtifactoryBuildInfo = ",
+          "dynamic": true
+        },
+        {
+          "name": "<assign>",
+          "line": 303,
+          "named": {
+            "_target": "scanCode"
+          },
+          "category": "dynamic",
+          "source": "scanCode = ",
+          "dynamic": true
+        }
+      ]
+    },
+    "applyCustomizations": {
+      "body": [
+        {
+          "name": "<assign>",
+          "line": 318,
+          "named": {
+            "_target": "libName",
+            "_literal": "node"
+          },
+          "category": "dynamic",
+          "source": "libName = node",
+          "dynamic": true
+        },
+        {
+          "name": "<assign>",
+          "line": 319,
+          "named": {
+            "_target": "bumpVersion"
+          },
+          "category": "dynamic",
+          "source": "bumpVersion = ",
+          "dynamic": true
+        },
+        {
+          "name": "<assign>",
+          "line": 336,
+          "named": {
+            "_target": "customizeVersion"
+          },
+          "category": "dynamic",
+          "source": "customizeVersion = ",
+          "dynamic": true
+        },
+        {
+          "name": "<assign>",
+          "line": 342,
+          "named": {
+            "_target": "customizePublishingInfo"
+          },
+          "category": "dynamic",
+          "source": "customizePublishingInfo = ",
+          "dynamic": true
+        }
+      ]
+    },
+    "getRegistryPublic": {
+      "body": [
+        {
+          "name": "<return>",
+          "line": 354,
+          "category": "dynamic",
+          "dynamic": true
+        }
+      ]
+    },
+    "getRegistryArtifactoryUp": {
+      "body": [
+        {
+          "name": "<return>",
+          "line": 359,
+          "category": "dynamic",
+          "dynamic": true
+        }
+      ]
+    },
+    "getRegistryArtifactoryDown": {
+      "body": [
+        {
+          "name": "<return>",
+          "line": 364,
+          "category": "dynamic",
+          "dynamic": true
+        }
+      ]
+    },
+    "noScheme": {
+      "params": [
+        "str"
+      ],
+      "body": [
+        {
+          "name": "<return>",
+          "line": 368,
+          "category": "dynamic",
+          "dynamic": true
+        }
+      ]
+    },
+    "withNpmEnv": {
+      "params": [
+        "registry",
+        "closure"
+      ],
+      "body": [
+        {
+          "name": "withEnv",
+          "line": 372,
+          "args": [
+            [
+              {
+                "expr": "NPMRC_REGISTRY=${noScheme(...)}"
+              },
+              {
+                "expr": "NPM_CONFIG_REGISTRY=${registry}"
+              },
+              "NPM_CONFIG_USERCONFIG=.npmrc-jenkins"
+            ]
+          ],
+          "body": [
+            {
+              "name": "closure",
+              "line": 375,
+              "category": "unknown"
+            }
+          ],
+          "category": "direct",
+          "dynamic": true
+        }
+      ]
+    },
+    "runTests": {
+      "body": [
+        {
+          "name": "withCredentials",
+          "line": 380,
+          "args": [
+            [
+              {
+                "expr": "usernamePassword(...)"
+              }
+            ]
+          ],
+          "named": {
+            "bindings": [
+              {
+                "type": "usernamePassword",
+                "usernameVariable": "NPMRC_USER",
+                "passwordVariable": "NPMRC_TOKEN",
+                "credentialsId": "artifactory"
+              }
+            ]
+          },
+          "body": [
+            {
+              "name": "withEnv",
+              "line": 381,
+              "args": [
+                [
+                  {
+                    "expr": "NPMRC_EMAIL=${env.NPMRC_USER}"
+                  }
+                ]
+              ],
+              "body": [
+                {
+                  "name": "withNpmEnv",
+                  "line": 382,
+                  "args": [
+                    "registryArtifactoryDown"
+                  ],
+                  "body": [
+                    {
+                      "name": "sh",
+                      "line": 383,
+                      "args": [
+                        "npm ci --no-audit"
+                      ],
+                      "category": "direct"
+                    },
+                    {
+                      "name": "sh",
+                      "line": 384,
+                      "args": [
+                        "npm test"
+                      ],
+                      "category": "direct"
+                    }
+                  ],
+                  "category": "unknown",
+                  "dynamic": true,
+                  "variable_args": [
+                    0
+                  ]
+                }
+              ],
+              "category": "direct",
+              "dynamic": true
+            }
+          ],
+          "category": "policy",
+          "dynamic": true
+        }
+      ]
+    },
+    "publishStaging": {
+      "body": [
+        {
+          "name": "withCredentials",
+          "line": 391,
+          "args": [
+            [
+              {
+                "expr": "usernamePassword(...)"
+              }
+            ]
+          ],
+          "named": {
+            "bindings": [
+              {
+                "type": "usernamePassword",
+                "usernameVariable": "NPMRC_USER",
+                "passwordVariable": "NPMRC_TOKEN",
+                "credentialsId": "artifactory"
+              }
+            ]
+          },
+          "body": [
+            {
+              "name": "withEnv",
+              "line": 392,
+              "args": [
+                [
+                  {
+                    "expr": "NPMRC_EMAIL=${env.NPMRC_USER}"
+                  }
+                ]
+              ],
+              "body": [
+                {
+                  "name": "withNpmEnv",
+                  "line": 393,
+                  "args": [
+                    "registryArtifactoryUp"
+                  ],
+                  "body": [
+                    {
+                      "name": "publishNpm",
+                      "line": 394,
+                      "args": [
+                        "registryArtifactoryUp"
+                      ],
+                      "category": "unknown",
+                      "dynamic": true,
+                      "variable_args": [
+                        0
+                      ]
+                    }
+                  ],
+                  "category": "unknown",
+                  "dynamic": true,
+                  "variable_args": [
+                    0
+                  ]
+                }
+              ],
+              "category": "direct",
+              "dynamic": true
+            }
+          ],
+          "category": "policy",
+          "dynamic": true
+        }
+      ]
+    },
+    "publishPublic": {
+      "body": [
+        {
+          "name": "withCredentials",
+          "line": 401,
+          "args": [
+            [
+              {
+                "expr": "string(...)"
+              },
+              {
+                "expr": "usernamePassword(...)"
+              }
+            ]
+          ],
+          "named": {
+            "bindings": [
+              {
+                "type": "string",
+                "credentialsId": "npm-mail",
+                "variable": "NPMRC_EMAIL"
+              },
+              {
+                "type": "usernamePassword",
+                "credentialsId": "npm-creds",
+                "passwordVariable": "NPMRC_TOKEN",
+                "usernameVariable": "NPMRC_USER"
+              }
+            ]
+          },
+          "body": [
+            {
+              "name": "withNpmEnv",
+              "line": 403,
+              "args": [
+                "registryPublic"
+              ],
+              "body": [
+                {
+                  "name": "publishNpm",
+                  "line": 404,
+                  "args": [
+                    "registryPublic",
+                    "latest"
+                  ],
+                  "category": "unknown",
+                  "dynamic": true,
+                  "variable_args": [
+                    0
+                  ]
+                }
+              ],
+              "category": "unknown",
+              "dynamic": true,
+              "variable_args": [
+                0
+              ]
+            }
+          ],
+          "category": "policy",
+          "dynamic": true
+        }
+      ]
+    },
+    "publishNpm": {
+      "params": [
+        "registry",
+        "tag"
+      ],
+      "body": [
+        {
+          "name": "sh",
+          "line": 410,
+          "args": [
+            "npm run build"
+          ],
+          "category": "direct"
+        },
+        {
+          "name": "sh",
+          "line": 411,
+          "args": [
+            "npm publish --tag ${tag} ./dist"
+          ],
+          "category": "direct",
+          "dynamic": true
+        }
+      ]
+    },
+    "publishDocs": {
+      "body": [
+        {
+          "name": "sh",
+          "line": 415,
+          "args": [
+            "./scripts/typedoc/publish-doc.sh"
+          ],
+          "category": "direct"
+        }
+      ]
+    }
+  }
+}

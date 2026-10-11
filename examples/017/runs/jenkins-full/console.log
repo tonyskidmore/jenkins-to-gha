@@ -1,0 +1,195 @@
+[2026-10-10T09:00:11.597Z] Started by user admin
+[2026-10-10T09:00:11.963Z] [Pipeline] Start of Pipeline
+[2026-10-10T09:00:12.102Z] [Pipeline] ansiColor
+[2026-10-10T09:00:12.108Z] [Pipeline] {
+[2026-10-10T09:00:12.114Z] 
+[2026-10-10T09:00:12.149Z] [Pipeline] timestamps
+[2026-10-10T09:00:12.149Z] The timestamps step is unnecessary when timestamps are enabled for all Pipeline builds.
+[2026-10-10T09:00:12.155Z] [Pipeline] {
+[2026-10-10T09:00:12.192Z] [Pipeline] timeout
+[2026-10-10T09:00:12.192Z] Timeout set to expire in 1 hr 0 min
+[2026-10-10T09:00:12.198Z] [Pipeline] {
+[2026-10-10T09:00:12.233Z] [Pipeline] stage
+[2026-10-10T09:00:12.237Z] [Pipeline] { (Init)
+[2026-10-10T09:00:12.283Z] [Pipeline] node
+[2026-10-10T09:00:12.299Z] Running on Jenkins in /var/jenkins_home/workspace/ex-017-full
+[2026-10-10T09:00:12.320Z] [Pipeline] {
+[2026-10-10T09:00:12.354Z] [Pipeline] checkout
+[2026-10-10T09:00:12.360Z] The recommended git tool is: NONE
+[2026-10-10T09:00:12.360Z] No credentials specified
+[2026-10-10T09:00:12.360Z]  > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/ex-017-full/.git # timeout=10
+[2026-10-10T09:00:12.366Z] Fetching changes from the remote Git repository
+[2026-10-10T09:00:12.367Z]  > git config remote.origin.url https://github.com/dvsa/recalls-pipeline.git # timeout=10
+[2026-10-10T09:00:12.374Z] Fetching upstream changes from https://github.com/dvsa/recalls-pipeline.git
+[2026-10-10T09:00:12.374Z]  > git --version # timeout=10
+[2026-10-10T09:00:12.379Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T09:00:12.379Z]  > git fetch --no-tags --force --progress -- https://github.com/dvsa/recalls-pipeline.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:00:12.866Z]  > git rev-parse 356eb91d1ffcaf98f2e5a39ed57bd2a5e7f3ce08^{commit} # timeout=10
+[2026-10-10T09:00:12.880Z] Checking out Revision 356eb91d1ffcaf98f2e5a39ed57bd2a5e7f3ce08 (detached)
+[2026-10-10T09:00:12.880Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T09:00:12.891Z]  > git checkout -f 356eb91d1ffcaf98f2e5a39ed57bd2a5e7f3ce08 # timeout=10
+[2026-10-10T09:00:12.905Z] Commit message: "Hotfix for AWS randomly appending None when using text output"
+[2026-10-10T09:00:12.906Z]  > git rev-list --no-walk 356eb91d1ffcaf98f2e5a39ed57bd2a5e7f3ce08 # timeout=10
+[2026-10-10T09:00:12.991Z] [Pipeline] withEnv
+[2026-10-10T09:00:13.001Z] [Pipeline] {
+[2026-10-10T09:00:13.075Z] [Pipeline] stage
+[2026-10-10T09:00:13.085Z] [Pipeline] { (Init: Check DB data completion)
+[2026-10-10T09:00:13.125Z] Stage "Init: Check DB data completion" skipped due to when conditional
+[2026-10-10T09:00:13.138Z] [Pipeline] getContext
+[2026-10-10T09:00:13.154Z] [Pipeline] }
+[2026-10-10T09:00:13.199Z] [Pipeline] // stage
+[2026-10-10T09:00:13.227Z] [Pipeline] stage
+[2026-10-10T09:00:13.237Z] [Pipeline] { (Init: TF deployment bucket)
+[2026-10-10T09:00:13.284Z] [Pipeline] script
+[2026-10-10T09:00:13.292Z] [Pipeline] {
+[2026-10-10T09:00:13.331Z] [Pipeline] error
+[2026-10-10T09:00:13.348Z] [Pipeline] }
+[2026-10-10T09:00:13.394Z] [Pipeline] // script
+[2026-10-10T09:00:13.422Z] [Pipeline] }
+[2026-10-10T09:00:13.466Z] [Pipeline] // stage
+[2026-10-10T09:00:13.499Z] [Pipeline] stage
+[2026-10-10T09:00:13.504Z] [Pipeline] { (Init: Verify environment)
+[2026-10-10T09:00:13.528Z] Stage "Init: Verify environment" skipped due to earlier failure(s)
+[2026-10-10T09:00:13.543Z] [Pipeline] getContext
+[2026-10-10T09:00:13.564Z] [Pipeline] }
+[2026-10-10T09:00:13.609Z] [Pipeline] // stage
+[2026-10-10T09:00:13.631Z] [Pipeline] }
+[2026-10-10T09:00:13.673Z] [Pipeline] // withEnv
+[2026-10-10T09:00:13.694Z] [Pipeline] }
+[2026-10-10T09:00:13.745Z] [Pipeline] // node
+[2026-10-10T09:00:13.772Z] [Pipeline] }
+[2026-10-10T09:00:13.839Z] [Pipeline] // stage
+[2026-10-10T09:00:13.879Z] [Pipeline] stage
+[2026-10-10T09:00:13.885Z] [Pipeline] { (Build)
+[2026-10-10T09:00:13.908Z] Stage "Build" skipped due to earlier failure(s)
+[2026-10-10T09:00:13.917Z] [Pipeline] getContext
+[2026-10-10T09:00:13.942Z] [Pipeline] parallel
+[2026-10-10T09:00:13.997Z] [Pipeline] { (Branch: Build: CVR frontend)
+[2026-10-10T09:00:14.002Z] [Pipeline] { (Branch: Build: CVR backend)
+[2026-10-10T09:00:14.007Z] [Pipeline] { (Branch: Build: frontend assets)
+[2026-10-10T09:00:14.011Z] [Pipeline] { (Branch: Build: CVR data update module)
+[2026-10-10T09:00:14.044Z] [Pipeline] stage
+[2026-10-10T09:00:14.049Z] [Pipeline] { (Build: CVR frontend)
+[2026-10-10T09:00:14.060Z] [Pipeline] stage
+[2026-10-10T09:00:14.064Z] [Pipeline] { (Build: CVR backend)
+[2026-10-10T09:00:14.075Z] [Pipeline] stage
+[2026-10-10T09:00:14.080Z] [Pipeline] { (Build: frontend assets)
+[2026-10-10T09:00:14.092Z] [Pipeline] stage
+[2026-10-10T09:00:14.096Z] [Pipeline] { (Build: CVR data update module)
+[2026-10-10T09:00:14.116Z] Stage "Build: CVR frontend" skipped due to earlier failure(s)
+[2026-10-10T09:00:14.127Z] [Pipeline] getContext
+[2026-10-10T09:00:14.149Z] [Pipeline] }
+[2026-10-10T09:00:14.155Z] Stage "Build: CVR backend" skipped due to earlier failure(s)
+[2026-10-10T09:00:14.165Z] [Pipeline] getContext
+[2026-10-10T09:00:14.188Z] [Pipeline] }
+[2026-10-10T09:00:14.193Z] Stage "Build: frontend assets" skipped due to earlier failure(s)
+[2026-10-10T09:00:14.203Z] [Pipeline] getContext
+[2026-10-10T09:00:14.221Z] [Pipeline] }
+[2026-10-10T09:00:14.226Z] Stage "Build: CVR data update module" skipped due to earlier failure(s)
+[2026-10-10T09:00:14.235Z] [Pipeline] getContext
+[2026-10-10T09:00:14.255Z] [Pipeline] }
+[2026-10-10T09:00:14.302Z] [Pipeline] // stage
+[2026-10-10T09:00:14.337Z] [Pipeline] // stage
+[2026-10-10T09:00:14.368Z] [Pipeline] // stage
+[2026-10-10T09:00:14.400Z] [Pipeline] // stage
+[2026-10-10T09:00:14.420Z] [Pipeline] }
+[2026-10-10T09:00:14.432Z] Failed in branch Build: CVR frontend
+[2026-10-10T09:00:14.437Z] [Pipeline] }
+[2026-10-10T09:00:14.448Z] Failed in branch Build: CVR backend
+[2026-10-10T09:00:14.453Z] [Pipeline] }
+[2026-10-10T09:00:14.465Z] Failed in branch Build: frontend assets
+[2026-10-10T09:00:14.470Z] [Pipeline] }
+[2026-10-10T09:00:14.483Z] Failed in branch Build: CVR data update module
+[2026-10-10T09:00:14.616Z] [Pipeline] // parallel
+[2026-10-10T09:00:14.640Z] [Pipeline] }
+[2026-10-10T09:00:14.682Z] [Pipeline] // stage
+[2026-10-10T09:00:14.713Z] [Pipeline] stage
+[2026-10-10T09:00:14.720Z] [Pipeline] { (Deploy)
+[2026-10-10T09:00:14.741Z] Stage "Deploy" skipped due to earlier failure(s)
+[2026-10-10T09:00:14.752Z] [Pipeline] getContext
+[2026-10-10T09:00:14.788Z] [Pipeline] stage
+[2026-10-10T09:00:14.793Z] [Pipeline] { (Deploy: Upload CVR frontend package)
+[2026-10-10T09:00:14.813Z] Stage "Deploy" skipped due to earlier failure(s)
+[2026-10-10T09:00:14.823Z] [Pipeline] getContext
+[2026-10-10T09:00:14.839Z] [Pipeline] }
+[2026-10-10T09:00:14.879Z] [Pipeline] // stage
+[2026-10-10T09:00:14.911Z] [Pipeline] stage
+[2026-10-10T09:00:14.915Z] [Pipeline] { (Deploy: Upload CVR backend package)
+[2026-10-10T09:00:14.937Z] Stage "Deploy" skipped due to earlier failure(s)
+[2026-10-10T09:00:14.957Z] [Pipeline] getContext
+[2026-10-10T09:00:14.992Z] [Pipeline] }
+[2026-10-10T09:00:15.055Z] [Pipeline] // stage
+[2026-10-10T09:00:15.089Z] [Pipeline] stage
+[2026-10-10T09:00:15.095Z] [Pipeline] { (Deploy: Upload CVR data update package)
+[2026-10-10T09:00:15.114Z] Stage "Deploy" skipped due to earlier failure(s)
+[2026-10-10T09:00:15.126Z] [Pipeline] getContext
+[2026-10-10T09:00:15.145Z] [Pipeline] }
+[2026-10-10T09:00:15.199Z] [Pipeline] // stage
+[2026-10-10T09:00:15.248Z] [Pipeline] stage
+[2026-10-10T09:00:15.255Z] [Pipeline] { (Deploy: Terraform CVR)
+[2026-10-10T09:00:15.278Z] Stage "Deploy" skipped due to earlier failure(s)
+[2026-10-10T09:00:15.288Z] [Pipeline] getContext
+[2026-10-10T09:00:15.302Z] [Pipeline] }
+[2026-10-10T09:00:15.343Z] [Pipeline] // stage
+[2026-10-10T09:00:15.379Z] [Pipeline] stage
+[2026-10-10T09:00:15.385Z] [Pipeline] { (Deploy: Upload CVR frontend assets)
+[2026-10-10T09:00:15.409Z] Stage "Deploy" skipped due to earlier failure(s)
+[2026-10-10T09:00:15.419Z] [Pipeline] getContext
+[2026-10-10T09:00:15.435Z] [Pipeline] }
+[2026-10-10T09:00:15.472Z] [Pipeline] // stage
+[2026-10-10T09:00:15.503Z] [Pipeline] stage
+[2026-10-10T09:00:15.508Z] [Pipeline] { (Deploy: Manifest)
+[2026-10-10T09:00:15.528Z] Stage "Deploy" skipped due to earlier failure(s)
+[2026-10-10T09:00:15.539Z] [Pipeline] getContext
+[2026-10-10T09:00:15.559Z] [Pipeline] }
+[2026-10-10T09:00:15.607Z] [Pipeline] // stage
+[2026-10-10T09:00:15.629Z] [Pipeline] }
+[2026-10-10T09:00:15.670Z] [Pipeline] // stage
+[2026-10-10T09:00:15.704Z] [Pipeline] stage
+[2026-10-10T09:00:15.710Z] [Pipeline] { (Load test data to DB)
+[2026-10-10T09:00:15.749Z] Stage "Load test data to DB" skipped due to earlier failure(s)
+[2026-10-10T09:00:15.762Z] [Pipeline] getContext
+[2026-10-10T09:00:15.782Z] [Pipeline] }
+[2026-10-10T09:00:15.827Z] [Pipeline] // stage
+[2026-10-10T09:00:15.854Z] [Pipeline] stage
+[2026-10-10T09:00:15.858Z] [Pipeline] { (Tests)
+[2026-10-10T09:00:15.877Z] Stage "Tests" skipped due to earlier failure(s)
+[2026-10-10T09:00:15.886Z] [Pipeline] getContext
+[2026-10-10T09:00:15.898Z] [Pipeline] }
+[2026-10-10T09:00:15.947Z] [Pipeline] // stage
+[2026-10-10T09:00:15.982Z] [Pipeline] stage
+[2026-10-10T09:00:15.987Z] [Pipeline] { (Declarative: Post Actions)
+[2026-10-10T09:00:16.032Z] [Pipeline] node
+[2026-10-10T09:00:16.044Z] Running on Jenkins in /var/jenkins_home/workspace/ex-017-full
+[2026-10-10T09:00:16.063Z] [Pipeline] {
+[2026-10-10T09:00:16.093Z] [Pipeline] script
+[2026-10-10T09:00:16.103Z] [Pipeline] {
+[2026-10-10T09:00:16.129Z] [Pipeline] }
+[2026-10-10T09:00:16.165Z] [Pipeline] // script
+[2026-10-10T09:00:16.180Z] [Pipeline] }
+[2026-10-10T09:00:16.225Z] [Pipeline] // node
+[2026-10-10T09:00:16.256Z] [Pipeline] node
+[2026-10-10T09:00:16.282Z] Running on Jenkins in /var/jenkins_home/workspace/ex-017-full
+[2026-10-10T09:00:16.293Z] [Pipeline] {
+[2026-10-10T09:00:16.325Z] [Pipeline] script
+[2026-10-10T09:00:16.332Z] [Pipeline] {
+[2026-10-10T09:00:16.359Z] [Pipeline] }
+[2026-10-10T09:00:16.398Z] [Pipeline] // script
+[2026-10-10T09:00:16.413Z] [Pipeline] }
+[2026-10-10T09:00:16.456Z] [Pipeline] // node
+[2026-10-10T09:00:16.485Z] [Pipeline] script
+[2026-10-10T09:00:16.492Z] [Pipeline] {
+[2026-10-10T09:00:16.519Z] [Pipeline] }
+[2026-10-10T09:00:16.555Z] [Pipeline] // script
+[2026-10-10T09:00:16.572Z] [Pipeline] }
+[2026-10-10T09:00:16.611Z] [Pipeline] // stage
+[2026-10-10T09:00:16.628Z] [Pipeline] }
+[2026-10-10T09:00:16.673Z] [Pipeline] // timeout
+[2026-10-10T09:00:16.698Z] [Pipeline] }
+[2026-10-10T09:00:16.738Z] [Pipeline] // timestamps
+[2026-10-10T09:00:16.762Z] [Pipeline] }
+[2026-10-10T09:00:16.774Z] 
+[2026-10-10T09:00:16.809Z] [Pipeline] // ansiColor
+[2026-10-10T09:00:16.843Z] [Pipeline] End of Pipeline
+[2026-10-10T09:00:16.871Z] ERROR: Failure while retrieving AWS account ID
+[2026-10-10T09:00:16.892Z] Finished: FAILURE

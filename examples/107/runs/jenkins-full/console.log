@@ -1,0 +1,695 @@
+[2026-10-10T09:10:43.403Z] Started by user admin
+[2026-10-10T09:10:43.580Z] [Pipeline] Start of Pipeline
+[2026-10-10T09:10:43.745Z] [Pipeline] node
+[2026-10-10T09:10:43.754Z] Running on Jenkins in /var/jenkins_home/workspace/ex-107-full
+[2026-10-10T09:10:43.775Z] [Pipeline] {
+[2026-10-10T09:10:43.811Z] [Pipeline] stage
+[2026-10-10T09:10:43.817Z] [Pipeline] { (Declarative: Checkout SCM)
+[2026-10-10T09:10:43.853Z] [Pipeline] checkout
+[2026-10-10T09:10:43.859Z] The recommended git tool is: NONE
+[2026-10-10T09:10:43.859Z] No credentials specified
+[2026-10-10T09:10:43.859Z]  > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/ex-107-full/.git # timeout=10
+[2026-10-10T09:10:43.865Z] Fetching changes from the remote Git repository
+[2026-10-10T09:10:43.867Z]  > git config remote.origin.url https://github.com/oracle/weblogic-kubernetes-operator.git # timeout=10
+[2026-10-10T09:10:43.873Z] Fetching upstream changes from https://github.com/oracle/weblogic-kubernetes-operator.git
+[2026-10-10T09:10:43.873Z]  > git --version # timeout=10
+[2026-10-10T09:10:43.878Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T09:10:43.878Z]  > git fetch --no-tags --force --progress -- https://github.com/oracle/weblogic-kubernetes-operator.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:10:44.414Z]  > git rev-parse a1028378bd770495180ddabca31e8d1399be7900^{commit} # timeout=10
+[2026-10-10T09:10:44.422Z] Checking out Revision a1028378bd770495180ddabca31e8d1399be7900 (detached)
+[2026-10-10T09:10:44.422Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T09:10:44.429Z]  > git checkout -f a1028378bd770495180ddabca31e8d1399be7900 # timeout=10
+[2026-10-10T09:10:44.486Z] Commit message: "v8->v9 conversion race condition with new domain creation."
+[2026-10-10T09:10:44.486Z]  > git rev-list --no-walk a1028378bd770495180ddabca31e8d1399be7900 # timeout=10
+[2026-10-10T09:10:44.519Z] [Pipeline] }
+[2026-10-10T09:10:44.553Z] [Pipeline] // stage
+[2026-10-10T09:10:44.583Z] [Pipeline] withEnv
+[2026-10-10T09:10:44.588Z] [Pipeline] {
+[2026-10-10T09:10:44.627Z] [Pipeline] sh
+[2026-10-10T09:10:44.887Z] + date +%Y-%m-%d %H:%M:%S
+[2026-10-10T09:10:44.964Z] [Pipeline] withEnv
+[2026-10-10T09:10:44.973Z] [Pipeline] {
+[2026-10-10T09:10:45.024Z] [Pipeline] timeout
+[2026-10-10T09:10:45.024Z] Timeout set to expire in 13 hr
+[2026-10-10T09:10:45.029Z] [Pipeline] {
+[2026-10-10T09:10:45.099Z] [Pipeline] stage
+[2026-10-10T09:10:45.105Z] [Pipeline] { (Declarative: Tool Install)
+[2026-10-10T09:10:45.146Z] [Pipeline] tool
+[2026-10-10T09:10:45.184Z] [Pipeline] envVarsForTool
+[2026-10-10T09:10:45.224Z] [Pipeline] tool
+[2026-10-10T09:10:45.262Z] [Pipeline] envVarsForTool
+[2026-10-10T09:10:45.296Z] [Pipeline] }
+[2026-10-10T09:10:45.331Z] [Pipeline] // stage
+[2026-10-10T09:10:45.359Z] [Pipeline] withEnv
+[2026-10-10T09:10:45.365Z] [Pipeline] {
+[2026-10-10T09:10:45.404Z] [Pipeline] stage
+[2026-10-10T09:10:45.409Z] [Pipeline] { (Filter unwanted branches)
+[2026-10-10T09:10:45.472Z] [Pipeline] tool
+[2026-10-10T09:10:45.511Z] [Pipeline] envVarsForTool
+[2026-10-10T09:10:45.555Z] [Pipeline] tool
+[2026-10-10T09:10:45.600Z] [Pipeline] envVarsForTool
+[2026-10-10T09:10:45.648Z] [Pipeline] withEnv
+[2026-10-10T09:10:45.654Z] [Pipeline] {
+[2026-10-10T09:10:45.693Z] [Pipeline] stage
+[2026-10-10T09:10:45.699Z] [Pipeline] { (Workaround JENKINS-41929 Parameters bug)
+[2026-10-10T09:10:45.737Z] [Pipeline] tool
+[2026-10-10T09:10:45.795Z] [Pipeline] envVarsForTool
+[2026-10-10T09:10:45.859Z] [Pipeline] tool
+[2026-10-10T09:10:45.903Z] [Pipeline] envVarsForTool
+[2026-10-10T09:10:45.937Z] [Pipeline] withEnv
+[2026-10-10T09:10:45.941Z] [Pipeline] {
+[2026-10-10T09:10:45.971Z] [Pipeline] echo
+[2026-10-10T09:10:45.977Z] Initialize parameters as environment variables due to https://issues.jenkins-ci.org/browse/JENKINS-41929
+[2026-10-10T09:10:46.444Z] [Pipeline] script
+[2026-10-10T09:10:46.452Z] [Pipeline] {
+[2026-10-10T09:10:46.474Z] [Pipeline] }
+[2026-10-10T09:10:46.504Z] [Pipeline] // script
+[2026-10-10T09:10:46.520Z] [Pipeline] }
+[2026-10-10T09:10:46.558Z] [Pipeline] // withEnv
+[2026-10-10T09:10:46.577Z] [Pipeline] }
+[2026-10-10T09:10:46.612Z] [Pipeline] // stage
+[2026-10-10T09:10:46.642Z] [Pipeline] stage
+[2026-10-10T09:10:46.648Z] [Pipeline] { (Echo environment)
+[2026-10-10T09:10:46.694Z] [Pipeline] withEnv
+[2026-10-10T09:10:46.700Z] [Pipeline] {
+[2026-10-10T09:10:46.738Z] [Pipeline] tool
+[2026-10-10T09:10:46.782Z] [Pipeline] envVarsForTool
+[2026-10-10T09:10:46.823Z] [Pipeline] tool
+[2026-10-10T09:10:46.864Z] [Pipeline] envVarsForTool
+[2026-10-10T09:10:46.917Z] [Pipeline] withEnv
+[2026-10-10T09:10:46.923Z] [Pipeline] {
+[2026-10-10T09:10:46.958Z] [Pipeline] sh
+[2026-10-10T09:10:47.220Z] + export PATH=/var/jenkins_home/workspace/ex-107-full/bin:/opt/java/openjdk/bin:/usr/share/maven/bin:/opt/java/openjdk/bin:/usr/share/maven/bin:/opt/java/openjdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+[2026-10-10T09:10:47.220Z] + env
+[2026-10-10T09:10:47.220Z] + sort
+[2026-10-10T09:10:47.220Z] BASE_IMAGES_REPO=null
+[2026-10-10T09:10:47.220Z] BRANCH_NAME=main
+[2026-10-10T09:10:47.220Z] BUILD_DISPLAY_NAME=#6
+[2026-10-10T09:10:47.220Z] BUILD_ID=6
+[2026-10-10T09:10:47.220Z] BUILD_NUMBER=6
+[2026-10-10T09:10:47.220Z] BUILD_TAG=jenkins-ex-107-full-6
+[2026-10-10T09:10:47.220Z] BUILD_URL=http://localhost:8080/job/ex-107-full/6/
+[2026-10-10T09:10:47.220Z] CASC_JENKINS_CONFIG=/var/jenkins_casc
+[2026-10-10T09:10:47.220Z] CI=true
+[2026-10-10T09:10:47.220Z] COLLECT_LOGS_ON_SUCCESS=false
+[2026-10-10T09:10:47.220Z] COPY_REFERENCE_FILE_LOG=/var/jenkins_home/copy_reference_file.log
+[2026-10-10T09:10:47.220Z] DB_IMAGE_NAME=test-images/database/enterprise
+[2026-10-10T09:10:47.220Z] DB_IMAGE_TAG=19.3.0.0
+[2026-10-10T09:10:47.220Z] EXECUTOR_NUMBER=8
+[2026-10-10T09:10:47.220Z] FMWINFRA_IMAGE_NAME=test-images/fmw-infrastructure_cpu
+[2026-10-10T09:10:47.220Z] FMWINFRA_IMAGE_TAG=14.1.2.0-jdk17-ol8
+[2026-10-10T09:10:47.220Z] GIT_BRANCH=origin/main
+[2026-10-10T09:10:47.220Z] GIT_COMMIT=a1028378bd770495180ddabca31e8d1399be7900
+[2026-10-10T09:10:47.220Z] GIT_PREVIOUS_COMMIT=a1028378bd770495180ddabca31e8d1399be7900
+[2026-10-10T09:10:47.220Z] GIT_PREVIOUS_SUCCESSFUL_COMMIT=a1028378bd770495180ddabca31e8d1399be7900
+[2026-10-10T09:10:47.220Z] GIT_URL=https://github.com/oracle/weblogic-kubernetes-operator.git
+[2026-10-10T09:10:47.220Z] GRAFANA_CHART_VERSION=6.38.6
+[2026-10-10T09:10:47.220Z] HELM_VERSION=3.11.2
+[2026-10-10T09:10:47.220Z] HOME=/var/jenkins_home
+[2026-10-10T09:10:47.220Z] HOSTNAME=15cfa073eff6
+[2026-10-10T09:10:47.220Z] HUDSON_COOKIE=2c8c596b-f497-48a3-b089-e4bd62dafbe1
+[2026-10-10T09:10:47.220Z] HUDSON_HOME=/var/jenkins_home
+[2026-10-10T09:10:47.220Z] HUDSON_SERVER_COOKIE=12d24f1bb96ff3cf
+[2026-10-10T09:10:47.220Z] HUDSON_URL=http://localhost:8080/
+[2026-10-10T09:10:47.220Z] ISTIO_VERSION=1.27.2
+[2026-10-10T09:10:47.220Z] J2GHA=true
+[2026-10-10T09:10:47.220Z] J2GHA_ADMIN_PASSWORD=j2gha-local-only
+[2026-10-10T09:10:47.220Z] JAVA_HOME=/opt/java/openjdk
+[2026-10-10T09:10:47.220Z] JAVA_OPTS=-Djenkins.install.runSetupWizard=false -Dhudson.plugins.git.GitSCM.ALLOW_LOCAL_CHECKOUT=true -Dorg.jenkinsci.plugins.durabletask.BourneShellScript.HEARTBEAT_CHECK_INTERVAL=86400 -Xmx1g
+[2026-10-10T09:10:47.220Z] JENKINS_HOME=/var/jenkins_home
+[2026-10-10T09:10:47.220Z] JENKINS_INCREMENTALS_REPO_MIRROR=https://repo.jenkins-ci.org/incrementals
+[2026-10-10T09:10:47.220Z] JENKINS_NODE_COOKIE=50b4b3e5-1ec6-458d-9da9-0a48f9e6b5d0
+[2026-10-10T09:10:47.220Z] JENKINS_SERVER_COOKIE=durable-9aed581b381c6c0ce40cfc02cf2a1e6dfc0e266d52fb46becdcd524b58879471
+[2026-10-10T09:10:47.220Z] JENKINS_SLAVE_AGENT_PORT=50000
+[2026-10-10T09:10:47.220Z] JENKINS_UC=https://updates.jenkins.io
+[2026-10-10T09:10:47.220Z] JENKINS_UC_EXPERIMENTAL=https://updates.jenkins.io/experimental
+[2026-10-10T09:10:47.220Z] JENKINS_URL=http://localhost:8080/
+[2026-10-10T09:10:47.220Z] JENKINS_VERSION=2.580.1
+[2026-10-10T09:10:47.220Z] JOB_BASE_NAME=ex-107-full
+[2026-10-10T09:10:47.220Z] JOB_DISPLAY_URL=http://localhost:8080/job/ex-107-full/display/redirect
+[2026-10-10T09:10:47.220Z] JOB_NAME=ex-107-full
+[2026-10-10T09:10:47.220Z] JOB_URL=http://localhost:8080/job/ex-107-full/
+[2026-10-10T09:10:47.220Z] KIND_VERSION=0.32.0
+[2026-10-10T09:10:47.220Z] KUBE_VERSION=1.36.1
+[2026-10-10T09:10:47.220Z] LANG=C.UTF-8
+[2026-10-10T09:10:47.220Z] M2_HOME=/usr/share/maven
+[2026-10-10T09:10:47.220Z] MAVEN_HOME=/usr/share/maven
+[2026-10-10T09:10:47.220Z] MAVEN_PROFILE_NAME=wls-srg
+[2026-10-10T09:10:47.220Z] MONITORING_EXPORTER_BRANCH=main
+[2026-10-10T09:10:47.220Z] MONITORING_EXPORTER_WEBAPP_VERSION=2.3.16
+[2026-10-10T09:10:47.220Z] NODE_LABELS=jdk node java built-in ubuntu maven linux nodejs docker master
+[2026-10-10T09:10:47.220Z] NODE_NAME=built-in
+[2026-10-10T09:10:47.220Z] NUMBER_OF_THREADS=3
+[2026-10-10T09:10:47.220Z] PARALLEL_RUN=true
+[2026-10-10T09:10:47.220Z] PATH=/var/jenkins_home/workspace/ex-107-full/bin:/opt/java/openjdk/bin:/usr/share/maven/bin:/opt/java/openjdk/bin:/usr/share/maven/bin:/opt/java/openjdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+[2026-10-10T09:10:47.220Z] PROMETHEUS_CHART_VERSION=17.0.0
+[2026-10-10T09:10:47.220Z] PWD=/var/jenkins_home/workspace/ex-107-full
+[2026-10-10T09:10:47.220Z] REF=/usr/share/jenkins/ref
+[2026-10-10T09:10:47.220Z] REMOTECONSOLE_VERSION=2.4.7
+[2026-10-10T09:10:47.220Z] RUN_ARTIFACTS_DISPLAY_URL=http://localhost:8080/job/ex-107-full/6/display/redirect?page=artifacts
+[2026-10-10T09:10:47.220Z] RUN_CHANGES_DISPLAY_URL=http://localhost:8080/job/ex-107-full/6/display/redirect?page=changes
+[2026-10-10T09:10:47.220Z] RUN_DISPLAY_URL=http://localhost:8080/job/ex-107-full/6/display/redirect
+[2026-10-10T09:10:47.220Z] RUN_TESTS_DISPLAY_URL=http://localhost:8080/job/ex-107-full/6/display/redirect?page=tests
+[2026-10-10T09:10:47.220Z] SHLVL=0
+[2026-10-10T09:10:47.220Z] STAGE_NAME=Echo environment
+[2026-10-10T09:10:47.220Z] TEST_IMAGES_REPO=null
+[2026-10-10T09:10:47.220Z] WDT_DOWNLOAD_URL=https://github.com/oracle/weblogic-deploy-tooling/releases/latest
+[2026-10-10T09:10:47.220Z] WEBLOGIC_IMAGE_NAME=test-images/weblogic_cpu
+[2026-10-10T09:10:47.220Z] WEBLOGIC_IMAGE_TAG=14.1.2.0-generic-jdk17-ol8
+[2026-10-10T09:10:47.220Z] WIT_DOWNLOAD_URL=https://github.com/oracle/weblogic-image-tool/releases/latest
+[2026-10-10T09:10:47.220Z] WORKSPACE=/var/jenkins_home/workspace/ex-107-full
+[2026-10-10T09:10:47.220Z] WORKSPACE_TMP=/var/jenkins_home/workspace/ex-107-full@tmp
+[2026-10-10T09:10:47.220Z] kind_name=kind
+[2026-10-10T09:10:47.220Z] kind_network=kind
+[2026-10-10T09:10:47.220Z] kubeconfig_file=/var/jenkins_home/workspace/ex-107-full/staging/wl_k8s_test_results/kubeconfig
+[2026-10-10T09:10:47.220Z] ocir_creds=wkt-ocir-creds
+[2026-10-10T09:10:47.220Z] ocir_host=null
+[2026-10-10T09:10:47.220Z] outdir=/var/jenkins_home/workspace/ex-107-full/staging
+[2026-10-10T09:10:47.220Z] pv_root=/var/jenkins_home/workspace/ex-107-full/staging/k8s-pvroot
+[2026-10-10T09:10:47.220Z] registry_host=kind-registry
+[2026-10-10T09:10:47.220Z] registry_name=kind-registry
+[2026-10-10T09:10:47.220Z] registry_port=5000
+[2026-10-10T09:10:47.220Z] result_root=/var/jenkins_home/workspace/ex-107-full/staging/wl_k8s_test_results
+[2026-10-10T09:10:47.220Z] runtime_path=/var/jenkins_home/workspace/ex-107-full/bin:/opt/java/openjdk/bin:/usr/share/maven/bin:/opt/java/openjdk/bin:/usr/share/maven/bin:/opt/java/openjdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+[2026-10-10T09:10:47.220Z] start_time=2026-10-10 09:10:44
+[2026-10-10T09:10:47.220Z] wko_tenancy=null
+[2026-10-10T09:10:47.220Z] wle_download_url=https://github.com/oracle/weblogic-logging-exporter/releases/latest
+[2026-10-10T09:10:47.220Z] + java -version
+[2026-10-10T09:10:47.220Z] openjdk version "21.0.12.1" 2026-08-18 LTS
+[2026-10-10T09:10:47.220Z] OpenJDK Runtime Environment Temurin-21.0.12.1+1 (build 21.0.12.1+1-LTS)
+[2026-10-10T09:10:47.220Z] OpenJDK 64-Bit Server VM Temurin-21.0.12.1+1 (build 21.0.12.1+1-LTS, mixed mode)
+[2026-10-10T09:10:47.220Z] + mvn --version
+[2026-10-10T09:10:47.471Z] [1mApache Maven 3.9.9[m
+[2026-10-10T09:10:47.471Z] Maven home: /usr/share/maven
+[2026-10-10T09:10:47.471Z] Java version: 21.0.12.1, vendor: Eclipse Adoptium, runtime: /opt/java/openjdk
+[2026-10-10T09:10:47.471Z] Default locale: en, platform encoding: UTF-8
+[2026-10-10T09:10:47.471Z] OS name: "linux", version: "6.6.87.2-microsoft-standard-wsl2", arch: "amd64", family: "unix"
+[2026-10-10T09:10:47.471Z] + python --version
+[2026-10-10T09:10:47.471Z] Python 3.13.5
+[2026-10-10T09:10:47.471Z] + echo podman version
+[2026-10-10T09:10:47.471Z] podman version
+[2026-10-10T09:10:47.471Z] + ulimit -a
+[2026-10-10T09:10:47.471Z] time(seconds)        unlimited
+[2026-10-10T09:10:47.471Z] file(blocks)         unlimited
+[2026-10-10T09:10:47.471Z] data(kbytes)         unlimited
+[2026-10-10T09:10:47.471Z] stack(kbytes)        8192
+[2026-10-10T09:10:47.471Z] coredump(blocks)     0
+[2026-10-10T09:10:47.471Z] memory(kbytes)       unlimited
+[2026-10-10T09:10:47.471Z] locked memory(kbytes) unlimited
+[2026-10-10T09:10:47.471Z] process              unlimited
+[2026-10-10T09:10:47.471Z] nofiles              1048576
+[2026-10-10T09:10:47.471Z] vmemory(kbytes)      unlimited
+[2026-10-10T09:10:47.471Z] locks                unlimited
+[2026-10-10T09:10:47.471Z] rtprio               0
+[2026-10-10T09:10:47.471Z] + ulimit -aH
+[2026-10-10T09:10:47.471Z] time(seconds)        unlimited
+[2026-10-10T09:10:47.471Z] file(blocks)         unlimited
+[2026-10-10T09:10:47.471Z] data(kbytes)         unlimited
+[2026-10-10T09:10:47.471Z] stack(kbytes)        unlimited
+[2026-10-10T09:10:47.471Z] coredump(blocks)     unlimited
+[2026-10-10T09:10:47.471Z] memory(kbytes)       unlimited
+[2026-10-10T09:10:47.471Z] locked memory(kbytes) unlimited
+[2026-10-10T09:10:47.471Z] process              unlimited
+[2026-10-10T09:10:47.471Z] nofiles              1048576
+[2026-10-10T09:10:47.471Z] vmemory(kbytes)      unlimited
+[2026-10-10T09:10:47.471Z] locks                unlimited
+[2026-10-10T09:10:47.471Z] rtprio               0
+[2026-10-10T09:10:47.522Z] [Pipeline] script
+[2026-10-10T09:10:47.534Z] [Pipeline] {
+[2026-10-10T09:10:47.573Z] [Pipeline] echo
+[2026-10-10T09:10:47.578Z] Kind Image = kindest/node:v1.36.1@sha256:3489c7674813ba5d8b1a9977baea8a6e553784dab7b84759d1014dbd78f7ebd5
+[2026-10-10T09:10:47.593Z] [Pipeline] }
+[2026-10-10T09:10:47.626Z] [Pipeline] // script
+[2026-10-10T09:10:47.647Z] [Pipeline] }
+[2026-10-10T09:10:47.685Z] [Pipeline] // withEnv
+[2026-10-10T09:10:47.701Z] [Pipeline] }
+[2026-10-10T09:10:47.735Z] [Pipeline] // withEnv
+[2026-10-10T09:10:47.752Z] [Pipeline] }
+[2026-10-10T09:10:47.791Z] [Pipeline] // stage
+[2026-10-10T09:10:47.819Z] [Pipeline] stage
+[2026-10-10T09:10:47.824Z] [Pipeline] { (Build WebLogic Kubernetes Operator)
+[2026-10-10T09:10:47.863Z] [Pipeline] tool
+[2026-10-10T09:10:47.915Z] [Pipeline] envVarsForTool
+[2026-10-10T09:10:47.961Z] [Pipeline] tool
+[2026-10-10T09:10:48.002Z] [Pipeline] envVarsForTool
+[2026-10-10T09:10:48.043Z] [Pipeline] withEnv
+[2026-10-10T09:10:48.048Z] [Pipeline] {
+[2026-10-10T09:10:48.083Z] [Pipeline] sh
+[2026-10-10T09:10:48.345Z] + mkdir -p operator/target
+[2026-10-10T09:10:48.346Z] + echo built
+[2026-10-10T09:10:48.392Z] [Pipeline] }
+[2026-10-10T09:10:48.449Z] [Pipeline] // withEnv
+[2026-10-10T09:10:48.471Z] [Pipeline] }
+[2026-10-10T09:10:48.513Z] [Pipeline] // stage
+[2026-10-10T09:10:48.542Z] [Pipeline] stage
+[2026-10-10T09:10:48.547Z] [Pipeline] { (Make Workspace bin directory)
+[2026-10-10T09:10:48.585Z] [Pipeline] tool
+[2026-10-10T09:10:48.630Z] [Pipeline] envVarsForTool
+[2026-10-10T09:10:48.677Z] [Pipeline] tool
+[2026-10-10T09:10:48.717Z] [Pipeline] envVarsForTool
+[2026-10-10T09:10:48.763Z] [Pipeline] withEnv
+[2026-10-10T09:10:48.768Z] [Pipeline] {
+[2026-10-10T09:10:48.803Z] [Pipeline] sh
+[2026-10-10T09:10:49.065Z] + mkdir -m777 -p /var/jenkins_home/workspace/ex-107-full/bin
+[2026-10-10T09:10:49.116Z] [Pipeline] sh
+[2026-10-10T09:10:49.381Z] + printf %s\n #!/bin/sh [ -p /dev/stdin ] && cat >/dev/null echo "podman $* (j2gha-local stub)"
+[2026-10-10T09:10:49.381Z] + chmod +x /var/jenkins_home/workspace/ex-107-full/bin/podman
+[2026-10-10T09:10:49.424Z] [Pipeline] }
+[2026-10-10T09:10:49.473Z] [Pipeline] // withEnv
+[2026-10-10T09:10:49.496Z] [Pipeline] }
+[2026-10-10T09:10:49.545Z] [Pipeline] // stage
+[2026-10-10T09:10:49.577Z] [Pipeline] stage
+[2026-10-10T09:10:49.583Z] [Pipeline] { (Install Helm)
+[2026-10-10T09:10:49.626Z] [Pipeline] withEnv
+[2026-10-10T09:10:49.632Z] [Pipeline] {
+[2026-10-10T09:10:49.668Z] [Pipeline] tool
+[2026-10-10T09:10:49.706Z] [Pipeline] envVarsForTool
+[2026-10-10T09:10:49.747Z] [Pipeline] tool
+[2026-10-10T09:10:49.786Z] [Pipeline] envVarsForTool
+[2026-10-10T09:10:49.832Z] [Pipeline] withEnv
+[2026-10-10T09:10:49.838Z] [Pipeline] {
+[2026-10-10T09:10:49.871Z] [Pipeline] sh
+[2026-10-10T09:10:50.134Z] + export PATH=/var/jenkins_home/workspace/ex-107-full/bin:/opt/java/openjdk/bin:/usr/share/maven/bin:/opt/java/openjdk/bin:/usr/share/maven/bin:/opt/java/openjdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+[2026-10-10T09:10:50.134Z] + mkdir -p linux-amd64
+[2026-10-10T09:10:50.134Z] + printf %s\n #!/bin/sh [ -p /dev/stdin ] && cat >/dev/null echo "helm $* (j2gha-local stub v${HELM_VERSION})"
+[2026-10-10T09:10:50.134Z] + chmod +x linux-amd64/helm
+[2026-10-10T09:10:50.134Z] + tar zcf helm.tar.gz linux-amd64
+[2026-10-10T09:10:50.134Z] + rm -rf linux-amd64
+[2026-10-10T09:10:50.134Z] + tar zxf helm.tar.gz
+[2026-10-10T09:10:50.134Z] + mv linux-amd64/helm /var/jenkins_home/workspace/ex-107-full/bin/helm
+[2026-10-10T09:10:50.134Z] + rm -rf linux-amd64
+[2026-10-10T09:10:50.134Z] + helm version
+[2026-10-10T09:10:50.134Z] helm version (j2gha-local stub v3.11.2)
+[2026-10-10T09:10:50.161Z] [Pipeline] }
+[2026-10-10T09:10:50.197Z] [Pipeline] // withEnv
+[2026-10-10T09:10:50.212Z] [Pipeline] }
+[2026-10-10T09:10:50.246Z] [Pipeline] // withEnv
+[2026-10-10T09:10:50.265Z] [Pipeline] }
+[2026-10-10T09:10:50.301Z] [Pipeline] // stage
+[2026-10-10T09:10:50.330Z] [Pipeline] stage
+[2026-10-10T09:10:50.336Z] [Pipeline] { (Run Helm installation tests)
+[2026-10-10T09:10:50.373Z] [Pipeline] tool
+[2026-10-10T09:10:50.412Z] [Pipeline] envVarsForTool
+[2026-10-10T09:10:50.465Z] [Pipeline] tool
+[2026-10-10T09:10:50.510Z] [Pipeline] envVarsForTool
+[2026-10-10T09:10:50.556Z] [Pipeline] withEnv
+[2026-10-10T09:10:50.561Z] [Pipeline] {
+[2026-10-10T09:10:50.594Z] [Pipeline] sh
+[2026-10-10T09:10:50.856Z] + export PATH=/var/jenkins_home/workspace/ex-107-full/bin:/opt/java/openjdk/bin:/usr/share/maven/bin:/opt/java/openjdk/bin:/usr/share/maven/bin:/opt/java/openjdk/bin:/usr/share/maven/bin:/opt/java/openjdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+[2026-10-10T09:10:50.856Z] + echo mvn -pl kubernetes -P helm-installation-test verify
+[2026-10-10T09:10:50.856Z] mvn -pl kubernetes -P helm-installation-test verify
+[2026-10-10T09:10:50.905Z] [Pipeline] }
+[2026-10-10T09:10:50.958Z] [Pipeline] // withEnv
+[2026-10-10T09:10:50.975Z] [Pipeline] }
+[2026-10-10T09:10:51.013Z] [Pipeline] // stage
+[2026-10-10T09:10:51.049Z] [Pipeline] stage
+[2026-10-10T09:10:51.056Z] [Pipeline] { (Install kubectl)
+[2026-10-10T09:10:51.097Z] [Pipeline] withEnv
+[2026-10-10T09:10:51.102Z] [Pipeline] {
+[2026-10-10T09:10:51.135Z] [Pipeline] tool
+[2026-10-10T09:10:51.183Z] [Pipeline] envVarsForTool
+[2026-10-10T09:10:51.226Z] [Pipeline] tool
+[2026-10-10T09:10:51.265Z] [Pipeline] envVarsForTool
+[2026-10-10T09:10:51.307Z] [Pipeline] withEnv
+[2026-10-10T09:10:51.313Z] [Pipeline] {
+[2026-10-10T09:10:51.345Z] [Pipeline] sh
+[2026-10-10T09:10:51.606Z] + export PATH=/var/jenkins_home/workspace/ex-107-full/bin:/opt/java/openjdk/bin:/usr/share/maven/bin:/opt/java/openjdk/bin:/usr/share/maven/bin:/opt/java/openjdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+[2026-10-10T09:10:51.606Z] + printf %s\n #!/bin/sh [ -p /dev/stdin ] && cat >/dev/null echo "kubectl $* (j2gha-local stub v${KUBE_VERSION})"
+[2026-10-10T09:10:51.606Z] + chmod +x /var/jenkins_home/workspace/ex-107-full/bin/kubectl
+[2026-10-10T09:10:51.606Z] + kubectl version --client=true
+[2026-10-10T09:10:51.606Z] kubectl version --client=true (j2gha-local stub v1.36.1)
+[2026-10-10T09:10:51.642Z] [Pipeline] }
+[2026-10-10T09:10:51.688Z] [Pipeline] // withEnv
+[2026-10-10T09:10:51.706Z] [Pipeline] }
+[2026-10-10T09:10:51.742Z] [Pipeline] // withEnv
+[2026-10-10T09:10:51.760Z] [Pipeline] }
+[2026-10-10T09:10:51.797Z] [Pipeline] // stage
+[2026-10-10T09:10:51.824Z] [Pipeline] stage
+[2026-10-10T09:10:51.828Z] [Pipeline] { (Install kind)
+[2026-10-10T09:10:51.871Z] [Pipeline] withEnv
+[2026-10-10T09:10:51.876Z] [Pipeline] {
+[2026-10-10T09:10:51.912Z] [Pipeline] tool
+[2026-10-10T09:10:51.950Z] [Pipeline] envVarsForTool
+[2026-10-10T09:10:51.989Z] [Pipeline] tool
+[2026-10-10T09:10:52.027Z] [Pipeline] envVarsForTool
+[2026-10-10T09:10:51.946Z] [Pipeline] withEnv
+[2026-10-10T09:10:51.953Z] [Pipeline] {
+[2026-10-10T09:10:51.989Z] [Pipeline] sh
+[2026-10-10T09:10:52.249Z] + export PATH=/var/jenkins_home/workspace/ex-107-full/bin:/opt/java/openjdk/bin:/usr/share/maven/bin:/opt/java/openjdk/bin:/usr/share/maven/bin:/opt/java/openjdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+[2026-10-10T09:10:52.249Z] + printf %s\n #!/bin/sh [ -p /dev/stdin ] && cat >/dev/null echo "kind $* (j2gha-local stub v${KIND_VERSION})"
+[2026-10-10T09:10:52.249Z] + chmod +x /var/jenkins_home/workspace/ex-107-full/bin/kind
+[2026-10-10T09:10:52.249Z] + kind version
+[2026-10-10T09:10:52.249Z] kind version (j2gha-local stub v0.32.0)
+[2026-10-10T09:10:52.269Z] [Pipeline] }
+[2026-10-10T09:10:52.333Z] [Pipeline] // withEnv
+[2026-10-10T09:10:52.361Z] [Pipeline] }
+[2026-10-10T09:10:52.413Z] [Pipeline] // withEnv
+[2026-10-10T09:10:52.431Z] [Pipeline] }
+[2026-10-10T09:10:52.463Z] [Pipeline] // stage
+[2026-10-10T09:10:52.491Z] [Pipeline] stage
+[2026-10-10T09:10:52.496Z] [Pipeline] { (Preparing Integration Test Environment)
+[2026-10-10T09:10:52.534Z] [Pipeline] tool
+[2026-10-10T09:10:52.570Z] [Pipeline] envVarsForTool
+[2026-10-10T09:10:52.609Z] [Pipeline] tool
+[2026-10-10T09:10:52.646Z] [Pipeline] envVarsForTool
+[2026-10-10T09:10:52.689Z] [Pipeline] withEnv
+[2026-10-10T09:10:52.694Z] [Pipeline] {
+[2026-10-10T09:10:52.725Z] [Pipeline] sh
+[2026-10-10T09:10:52.985Z] + mkdir -m777 -p /var/jenkins_home/workspace/ex-107-full/staging/wl_k8s_test_results
+[2026-10-10T09:10:53.036Z] [Pipeline] echo
+[2026-10-10T09:10:53.043Z] Results will be in /var/jenkins_home/workspace/ex-107-full/staging/wl_k8s_test_results
+[2026-10-10T09:10:53.054Z] [Pipeline] sh
+[2026-10-10T09:10:53.315Z] + mkdir -m777 -p /var/jenkins_home/workspace/ex-107-full/staging/k8s-pvroot
+[2026-10-10T09:10:53.371Z] [Pipeline] echo
+[2026-10-10T09:10:53.378Z] Persistent volume files, if any, will be in /var/jenkins_home/workspace/ex-107-full/staging/k8s-pvroot
+[2026-10-10T09:10:53.383Z] [Pipeline] }
+[2026-10-10T09:10:53.423Z] [Pipeline] // withEnv
+[2026-10-10T09:10:53.438Z] [Pipeline] }
+[2026-10-10T09:10:53.472Z] [Pipeline] // stage
+[2026-10-10T09:10:53.504Z] [Pipeline] stage
+[2026-10-10T09:10:53.510Z] [Pipeline] { (Start registry container)
+[2026-10-10T09:10:53.555Z] [Pipeline] withEnv
+[2026-10-10T09:10:53.560Z] [Pipeline] {
+[2026-10-10T09:10:53.593Z] [Pipeline] tool
+[2026-10-10T09:10:53.629Z] [Pipeline] envVarsForTool
+[2026-10-10T09:10:53.668Z] [Pipeline] tool
+[2026-10-10T09:10:53.707Z] [Pipeline] envVarsForTool
+[2026-10-10T09:10:53.757Z] [Pipeline] withEnv
+[2026-10-10T09:10:53.764Z] [Pipeline] {
+[2026-10-10T09:10:53.802Z] [Pipeline] sh
+[2026-10-10T09:10:54.062Z] + export PATH=/var/jenkins_home/workspace/ex-107-full/bin:/opt/java/openjdk/bin:/usr/share/maven/bin:/opt/java/openjdk/bin:/usr/share/maven/bin:/opt/java/openjdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+[2026-10-10T09:10:54.063Z] + podman container inspect -f {{.State.Running}} kind-registry
+[2026-10-10T09:10:54.063Z] + running=podman container inspect -f {{.State.Running}} kind-registry (j2gha-local stub)
+[2026-10-10T09:10:54.063Z] + [ podman container inspect -f {{.State.Running}} kind-registry (j2gha-local stub) = true ]
+[2026-10-10T09:10:54.063Z] + podman run -d --restart=always -p 127.0.0.1:5000:5000 --name kind-registry null/null/test-images/docker/registry:2.8.2
+[2026-10-10T09:10:54.063Z] podman run -d --restart=always -p 127.0.0.1:5000:5000 --name kind-registry null/null/test-images/docker/registry:2.8.2 (j2gha-local stub)
+[2026-10-10T09:10:54.063Z] + echo Registry Host: kind-registry
+[2026-10-10T09:10:54.063Z] Registry Host: kind-registry
+[2026-10-10T09:10:54.102Z] [Pipeline] }
+[2026-10-10T09:10:54.150Z] [Pipeline] // withEnv
+[2026-10-10T09:10:54.169Z] [Pipeline] }
+[2026-10-10T09:10:54.212Z] [Pipeline] // withEnv
+[2026-10-10T09:10:54.237Z] [Pipeline] }
+[2026-10-10T09:10:54.287Z] [Pipeline] // stage
+[2026-10-10T09:10:54.313Z] [Pipeline] stage
+[2026-10-10T09:10:54.318Z] [Pipeline] { (Create kind cluster)
+[2026-10-10T09:10:54.354Z] [Pipeline] sh
+[2026-10-10T09:10:54.614Z] + echo -n kindest/node:v1.36.1@sha256:3489c7674813ba5d8b1a9977baea8a6e553784dab7b84759d1014dbd78f7ebd5
+[2026-10-10T09:10:54.676Z] [Pipeline] withEnv
+[2026-10-10T09:10:54.687Z] [Pipeline] {
+[2026-10-10T09:10:54.751Z] [Pipeline] tool
+[2026-10-10T09:10:54.817Z] [Pipeline] envVarsForTool
+[2026-10-10T09:10:54.869Z] [Pipeline] tool
+[2026-10-10T09:10:54.908Z] [Pipeline] envVarsForTool
+[2026-10-10T09:10:54.951Z] [Pipeline] withEnv
+[2026-10-10T09:10:54.956Z] [Pipeline] {
+[2026-10-10T09:10:54.996Z] [Pipeline] sh
+[2026-10-10T09:10:55.259Z] + export PATH=/var/jenkins_home/workspace/ex-107-full/bin:/opt/java/openjdk/bin:/usr/share/maven/bin:/opt/java/openjdk/bin:/usr/share/maven/bin:/opt/java/openjdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+[2026-10-10T09:10:55.259Z] + export KIND_EXPERIMENTAL_PROVIDER=podman
+[2026-10-10T09:10:55.259Z] + podman version
+[2026-10-10T09:10:55.259Z] podman version (j2gha-local stub)
+[2026-10-10T09:10:55.259Z] + cat /etc/systemd/system/user@.service.d/delegate.conf
+[2026-10-10T09:10:55.259Z] cat: /etc/systemd/system/user@.service.d/delegate.conf: No such file or directory
+[2026-10-10T09:10:55.259Z] + true
+[2026-10-10T09:10:55.259Z] + cat /etc/modules-load.d/iptables.conf
+[2026-10-10T09:10:55.259Z] cat: /etc/modules-load.d/iptables.conf: No such file or directory
+[2026-10-10T09:10:55.259Z] + true
+[2026-10-10T09:10:55.259Z] + lsmod
+[2026-10-10T09:10:55.259Z] /var/jenkins_home/workspace/ex-107-full@tmp/durable-1550dca0/script.sh.copy: 8: lsmod: not found
+[2026-10-10T09:10:55.259Z] + grep -E ^ip_tables|^iptable_filter|^iptable_nat|^ip6
+[2026-10-10T09:10:55.259Z] + true
+[2026-10-10T09:10:55.259Z] + kind delete cluster --name kind --kubeconfig /var/jenkins_home/workspace/ex-107-full/staging/wl_k8s_test_results/kubeconfig
+[2026-10-10T09:10:55.259Z] kind delete cluster --name kind --kubeconfig /var/jenkins_home/workspace/ex-107-full/staging/wl_k8s_test_results/kubeconfig (j2gha-local stub v0.32.0)
+[2026-10-10T09:10:55.259Z] + echo Deleted orphaned kind cluster kind
+[2026-10-10T09:10:55.259Z] Deleted orphaned kind cluster kind
+[2026-10-10T09:10:55.259Z] + echo running sudo sysctl -w vm.max_map_count=262144
+[2026-10-10T09:10:55.259Z] running sudo sysctl -w vm.max_map_count=262144
+[2026-10-10T09:10:55.259Z] + echo sudo sysctl -w vm.max_map_count=262144
+[2026-10-10T09:10:55.259Z] sudo sysctl -w vm.max_map_count=262144
+[2026-10-10T09:10:55.259Z] + cat
+[2026-10-10T09:10:55.259Z] + kind create cluster --name kind --kubeconfig /var/jenkins_home/workspace/ex-107-full/staging/wl_k8s_test_results/kubeconfig --config=-
+[2026-10-10T09:10:55.259Z] kind create cluster --name kind --kubeconfig /var/jenkins_home/workspace/ex-107-full/staging/wl_k8s_test_results/kubeconfig --config=- (j2gha-local stub v0.32.0)
+[2026-10-10T09:10:55.259Z] + export KUBECONFIG=/var/jenkins_home/workspace/ex-107-full/staging/wl_k8s_test_results/kubeconfig
+[2026-10-10T09:10:55.259Z] + kubectl cluster-info --context kind-kind
+[2026-10-10T09:10:55.259Z] kubectl cluster-info --context kind-kind (j2gha-local stub v1.36.1)
+[2026-10-10T09:10:55.259Z] + kind get nodes --name kind
+[2026-10-10T09:10:55.259Z] + REGISTRY_DIR=/etc/containerd/certs.d/localhost:5000
+[2026-10-10T09:10:55.259Z] + podman exec kind mkdir -p /etc/containerd/certs.d/localhost:5000
+[2026-10-10T09:10:55.259Z] podman exec kind mkdir -p /etc/containerd/certs.d/localhost:5000 (j2gha-local stub)
+[2026-10-10T09:10:55.260Z] + cat
+[2026-10-10T09:10:55.260Z] + podman exec -i kind cp /dev/stdin /etc/containerd/certs.d/localhost:5000/hosts.toml
+[2026-10-10T09:10:55.260Z] podman exec -i kind cp /dev/stdin /etc/containerd/certs.d/localhost:5000/hosts.toml (j2gha-local stub)
+[2026-10-10T09:10:55.260Z] + REGISTRY_DIR=/etc/containerd/certs.d/localhost:5000
+[2026-10-10T09:10:55.260Z] + podman exec get mkdir -p /etc/containerd/certs.d/localhost:5000
+[2026-10-10T09:10:55.260Z] podman exec get mkdir -p /etc/containerd/certs.d/localhost:5000 (j2gha-local stub)
+[2026-10-10T09:10:55.260Z] + cat
+[2026-10-10T09:10:55.260Z] + podman exec -i get cp /dev/stdin /etc/containerd/certs.d/localhost:5000/hosts.toml
+[2026-10-10T09:10:55.260Z] podman exec -i get cp /dev/stdin /etc/containerd/certs.d/localhost:5000/hosts.toml (j2gha-local stub)
+[2026-10-10T09:10:55.260Z] + REGISTRY_DIR=/etc/containerd/certs.d/localhost:5000
+[2026-10-10T09:10:55.260Z] + podman exec nodes mkdir -p /etc/containerd/certs.d/localhost:5000
+[2026-10-10T09:10:55.260Z] podman exec nodes mkdir -p /etc/containerd/certs.d/localhost:5000 (j2gha-local stub)
+[2026-10-10T09:10:55.260Z] + cat
+[2026-10-10T09:10:55.260Z] + podman exec -i nodes cp /dev/stdin /etc/containerd/certs.d/localhost:5000/hosts.toml
+[2026-10-10T09:10:55.260Z] podman exec -i nodes cp /dev/stdin /etc/containerd/certs.d/localhost:5000/hosts.toml (j2gha-local stub)
+[2026-10-10T09:10:55.260Z] + REGISTRY_DIR=/etc/containerd/certs.d/localhost:5000
+[2026-10-10T09:10:55.260Z] + podman exec --name mkdir -p /etc/containerd/certs.d/localhost:5000
+[2026-10-10T09:10:55.260Z] podman exec --name mkdir -p /etc/containerd/certs.d/localhost:5000 (j2gha-local stub)
+[2026-10-10T09:10:55.260Z] + cat
+[2026-10-10T09:10:55.260Z] + podman exec -i --name cp /dev/stdin /etc/containerd/certs.d/localhost:5000/hosts.toml
+[2026-10-10T09:10:55.260Z] podman exec -i --name cp /dev/stdin /etc/containerd/certs.d/localhost:5000/hosts.toml (j2gha-local stub)
+[2026-10-10T09:10:55.260Z] + REGISTRY_DIR=/etc/containerd/certs.d/localhost:5000
+[2026-10-10T09:10:55.260Z] + podman exec kind mkdir -p /etc/containerd/certs.d/localhost:5000
+[2026-10-10T09:10:55.260Z] podman exec kind mkdir -p /etc/containerd/certs.d/localhost:5000 (j2gha-local stub)
+[2026-10-10T09:10:55.260Z] + cat
+[2026-10-10T09:10:55.260Z] + podman exec -i kind cp /dev/stdin /etc/containerd/certs.d/localhost:5000/hosts.toml
+[2026-10-10T09:10:55.260Z] podman exec -i kind cp /dev/stdin /etc/containerd/certs.d/localhost:5000/hosts.toml (j2gha-local stub)
+[2026-10-10T09:10:55.260Z] + REGISTRY_DIR=/etc/containerd/certs.d/localhost:5000
+[2026-10-10T09:10:55.260Z] + podman exec (j2gha-local mkdir -p /etc/containerd/certs.d/localhost:5000
+[2026-10-10T09:10:55.260Z] podman exec (j2gha-local mkdir -p /etc/containerd/certs.d/localhost:5000 (j2gha-local stub)
+[2026-10-10T09:10:55.260Z] + cat
+[2026-10-10T09:10:55.260Z] + podman exec -i (j2gha-local cp /dev/stdin /etc/containerd/certs.d/localhost:5000/hosts.toml
+[2026-10-10T09:10:55.260Z] podman exec -i (j2gha-local cp /dev/stdin /etc/containerd/certs.d/localhost:5000/hosts.toml (j2gha-local stub)
+[2026-10-10T09:10:55.260Z] + REGISTRY_DIR=/etc/containerd/certs.d/localhost:5000
+[2026-10-10T09:10:55.260Z] + podman exec stub mkdir -p /etc/containerd/certs.d/localhost:5000
+[2026-10-10T09:10:55.260Z] podman exec stub mkdir -p /etc/containerd/certs.d/localhost:5000 (j2gha-local stub)
+[2026-10-10T09:10:55.260Z] + cat
+[2026-10-10T09:10:55.260Z] + podman exec -i stub cp /dev/stdin /etc/containerd/certs.d/localhost:5000/hosts.toml
+[2026-10-10T09:10:55.260Z] podman exec -i stub cp /dev/stdin /etc/containerd/certs.d/localhost:5000/hosts.toml (j2gha-local stub)
+[2026-10-10T09:10:55.260Z] + REGISTRY_DIR=/etc/containerd/certs.d/localhost:5000
+[2026-10-10T09:10:55.260Z] + podman exec v0.32.0) mkdir -p /etc/containerd/certs.d/localhost:5000
+[2026-10-10T09:10:55.260Z] podman exec v0.32.0) mkdir -p /etc/containerd/certs.d/localhost:5000 (j2gha-local stub)
+[2026-10-10T09:10:55.260Z] + cat
+[2026-10-10T09:10:55.260Z] + podman exec -i v0.32.0) cp /dev/stdin /etc/containerd/certs.d/localhost:5000/hosts.toml
+[2026-10-10T09:10:55.260Z] podman exec -i v0.32.0) cp /dev/stdin /etc/containerd/certs.d/localhost:5000/hosts.toml (j2gha-local stub)
+[2026-10-10T09:10:55.260Z] + podman info
+[2026-10-10T09:10:55.260Z] podman info (j2gha-local stub)
+[2026-10-10T09:10:55.260Z] + kubectl describe node
+[2026-10-10T09:10:55.260Z] kubectl describe node (j2gha-local stub v1.36.1)
+[2026-10-10T09:10:55.260Z] + kind get nodes --name kind
+[2026-10-10T09:10:55.260Z] + kubectl annotate node kind tilt.dev/registry=localhost:5000
+[2026-10-10T09:10:55.260Z] kubectl annotate node kind tilt.dev/registry=localhost:5000 (j2gha-local stub v1.36.1)
+[2026-10-10T09:10:55.260Z] + kubectl annotate node get tilt.dev/registry=localhost:5000
+[2026-10-10T09:10:55.260Z] kubectl annotate node get tilt.dev/registry=localhost:5000 (j2gha-local stub v1.36.1)
+[2026-10-10T09:10:55.260Z] + kubectl annotate node nodes tilt.dev/registry=localhost:5000
+[2026-10-10T09:10:55.260Z] kubectl annotate node nodes tilt.dev/registry=localhost:5000 (j2gha-local stub v1.36.1)
+[2026-10-10T09:10:55.260Z] + kubectl annotate node --name tilt.dev/registry=localhost:5000
+[2026-10-10T09:10:55.260Z] kubectl annotate node --name tilt.dev/registry=localhost:5000 (j2gha-local stub v1.36.1)
+[2026-10-10T09:10:55.260Z] + kubectl annotate node kind tilt.dev/registry=localhost:5000
+[2026-10-10T09:10:55.260Z] kubectl annotate node kind tilt.dev/registry=localhost:5000 (j2gha-local stub v1.36.1)
+[2026-10-10T09:10:55.260Z] + kubectl annotate node (j2gha-local tilt.dev/registry=localhost:5000
+[2026-10-10T09:10:55.260Z] kubectl annotate node (j2gha-local tilt.dev/registry=localhost:5000 (j2gha-local stub v1.36.1)
+[2026-10-10T09:10:55.260Z] + kubectl annotate node stub tilt.dev/registry=localhost:5000
+[2026-10-10T09:10:55.260Z] kubectl annotate node stub tilt.dev/registry=localhost:5000 (j2gha-local stub v1.36.1)
+[2026-10-10T09:10:55.260Z] + kubectl annotate node v0.32.0) tilt.dev/registry=localhost:5000
+[2026-10-10T09:10:55.260Z] kubectl annotate node v0.32.0) tilt.dev/registry=localhost:5000 (j2gha-local stub v1.36.1)
+[2026-10-10T09:10:55.260Z] + podman exec -it kind-worker bash -c sysctl vm.max_map_count
+[2026-10-10T09:10:55.260Z] podman exec -it kind-worker bash -c sysctl vm.max_map_count (j2gha-local stub)
+[2026-10-10T09:10:55.260Z] + cat
+[2026-10-10T09:10:55.260Z] + kubectl apply -f -
+[2026-10-10T09:10:55.260Z] kubectl apply -f - (j2gha-local stub v1.36.1)
+[2026-10-10T09:10:55.297Z] [Pipeline] }
+[2026-10-10T09:10:55.349Z] [Pipeline] // withEnv
+[2026-10-10T09:10:55.373Z] [Pipeline] }
+[2026-10-10T09:10:55.428Z] [Pipeline] // withEnv
+[2026-10-10T09:10:55.451Z] [Pipeline] }
+[2026-10-10T09:10:55.501Z] [Pipeline] // stage
+[2026-10-10T09:10:55.531Z] [Pipeline] stage
+[2026-10-10T09:10:55.539Z] [Pipeline] { (Run integration tests)
+[2026-10-10T09:10:55.583Z] [Pipeline] withEnv
+[2026-10-10T09:10:55.589Z] [Pipeline] {
+[2026-10-10T09:10:55.623Z] [Pipeline] tool
+[2026-10-10T09:10:55.663Z] [Pipeline] envVarsForTool
+[2026-10-10T09:10:55.716Z] [Pipeline] tool
+[2026-10-10T09:10:55.771Z] [Pipeline] envVarsForTool
+[2026-10-10T09:10:55.815Z] [Pipeline] withEnv
+[2026-10-10T09:10:55.819Z] [Pipeline] {
+[2026-10-10T09:10:55.848Z] [Pipeline] script
+[2026-10-10T09:10:55.854Z] [Pipeline] {
+[2026-10-10T09:10:55.885Z] [Pipeline] sh
+[2026-10-10T09:10:56.147Z] + [ -z  ]
+[2026-10-10T09:10:56.148Z] + [ wls-srg = integration-tests ]
+[2026-10-10T09:10:56.193Z] [Pipeline] }
+[2026-10-10T09:10:56.240Z] [Pipeline] // script
+[2026-10-10T09:10:56.265Z] [Pipeline] sh
+[2026-10-10T09:10:56.526Z] + export PATH=/var/jenkins_home/workspace/ex-107-full/bin:/opt/java/openjdk/bin:/usr/share/maven/bin:/opt/java/openjdk/bin:/usr/share/maven/bin:/opt/java/openjdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+[2026-10-10T09:10:56.526Z] + export KUBECONFIG=/var/jenkins_home/workspace/ex-107-full/staging/wl_k8s_test_results/kubeconfig
+[2026-10-10T09:10:56.526Z] + mkdir -m777 -p /var/jenkins_home/workspace/ex-107-full/.mvn
+[2026-10-10T09:10:56.526Z] + :
+[2026-10-10T09:10:56.526Z] + kubectl get node kind-worker -o jsonpath={.status.addresses[?(@.type == "InternalIP")].address}
+[2026-10-10T09:10:56.526Z] + K8S_NODEPORT_HOST=kubectl get node kind-worker -o jsonpath={.status.addresses[?(@.type == "InternalIP")].address} (j2gha-local stub v1.36.1)
+[2026-10-10T09:10:56.526Z] + [ wls-srg == kind-sequential ]
+[2026-10-10T09:10:56.526Z] /var/jenkins_home/workspace/ex-107-full@tmp/durable-88b43a09/script.sh.copy: 7: [: wls-srg: unexpected operator
+[2026-10-10T09:10:56.526Z] + [ wls-srg == kind-upgrade ]
+[2026-10-10T09:10:56.526Z] /var/jenkins_home/workspace/ex-107-full@tmp/durable-88b43a09/script.sh.copy: 9: [: wls-srg: unexpected operator
+[2026-10-10T09:10:56.526Z] + [ -n  ]
+[2026-10-10T09:10:56.526Z] + echo -Dwko.it.wle.download.url=https://github.com/oracle/weblogic-logging-exporter/releases/latest
+[2026-10-10T09:10:56.526Z] + echo -Dwko.it.result.root=/var/jenkins_home/workspace/ex-107-full/staging/wl_k8s_test_results
+[2026-10-10T09:10:56.526Z] + echo -Dwko.it.pv.root=/var/jenkins_home/workspace/ex-107-full/staging/k8s-pvroot
+[2026-10-10T09:10:56.526Z] + echo -Dwko.it.k8s.nodeport.host=kubectl get node kind-worker -o jsonpath={.status.addresses[?(@.type == "InternalIP")].address} (j2gha-local stub v1.36.1)
+[2026-10-10T09:10:56.526Z] + echo -Dwko.it.kind.repo=localhost:5000
+[2026-10-10T09:10:56.526Z] + echo -Dwko.it.istio.version=1.27.2
+[2026-10-10T09:10:56.526Z] + echo -DPARALLEL_CLASSES=true
+[2026-10-10T09:10:56.526Z] + echo -DNUMBER_OF_THREADS=3
+[2026-10-10T09:10:56.526Z] + echo -Dwko.it.wdt.download.url=https://github.com/oracle/weblogic-deploy-tooling/releases/latest
+[2026-10-10T09:10:56.526Z] + echo -Dwko.it.wit.download.url=https://github.com/oracle/weblogic-image-tool/releases/latest
+[2026-10-10T09:10:56.526Z] + echo -Dwko.it.base.images.repo=null
+[2026-10-10T09:10:56.526Z] + echo -Dwko.it.base.images.tenancy=null
+[2026-10-10T09:10:56.526Z] + echo -Dwko.it.test.images.repo=null
+[2026-10-10T09:10:56.526Z] + echo -Dwko.it.test.images.tenancy=null
+[2026-10-10T09:10:56.526Z] + echo -Dwko.it.weblogic.image.name=test-images/weblogic_cpu
+[2026-10-10T09:10:56.526Z] + echo -Dwko.it.weblogic.image.tag=14.1.2.0-generic-jdk17-ol8
+[2026-10-10T09:10:56.526Z] + echo -Dwko.it.fmwinfra.image.name=test-images/fmw-infrastructure_cpu
+[2026-10-10T09:10:56.526Z] + echo -Dwko.it.fmwinfra.image.tag=14.1.2.0-jdk17-ol8
+[2026-10-10T09:10:56.526Z] + echo -Dwko.it.db.image.name=test-images/database/enterprise
+[2026-10-10T09:10:56.526Z] + echo -Dwko.it.db.image.tag=19.3.0.0
+[2026-10-10T09:10:56.526Z] + echo -Dwko.it.monitoring.exporter.branch=main
+[2026-10-10T09:10:56.526Z] + echo -Dwko.it.monitoring.exporter.webapp.version=2.3.16
+[2026-10-10T09:10:56.526Z] + echo -Dwko.it.prometheus.chart.version=17.0.0
+[2026-10-10T09:10:56.526Z] + echo -Dwko.it.grafana.chart.version=6.38.6
+[2026-10-10T09:10:56.526Z] + echo -Dwko.it.collect.logs.on.success=false
+[2026-10-10T09:10:56.526Z] + echo -DWLSIMG_BUILDER=podman
+[2026-10-10T09:10:56.526Z] + echo -Dwko.it.remoteconsole.version=2.4.7
+[2026-10-10T09:10:56.526Z] + echo -Djdk.httpclient.allowRestrictedHeaders=host
+[2026-10-10T09:10:56.526Z] + echo -DOPERATOR_LOG_LEVEL=
+[2026-10-10T09:10:56.526Z] + echo -Dwko.it.install.weblogic=true
+[2026-10-10T09:10:56.526Z] + echo /var/jenkins_home/workspace/ex-107-full/.mvn/maven.config contents:
+[2026-10-10T09:10:56.526Z] /var/jenkins_home/workspace/ex-107-full/.mvn/maven.config contents:
+[2026-10-10T09:10:56.526Z] + cat /var/jenkins_home/workspace/ex-107-full/.mvn/maven.config
+[2026-10-10T09:10:56.526Z] -Dwko.it.wle.download.url=https://github.com/oracle/weblogic-logging-exporter/releases/latest
+[2026-10-10T09:10:56.526Z] -Dwko.it.result.root=/var/jenkins_home/workspace/ex-107-full/staging/wl_k8s_test_results
+[2026-10-10T09:10:56.526Z] -Dwko.it.pv.root=/var/jenkins_home/workspace/ex-107-full/staging/k8s-pvroot
+[2026-10-10T09:10:56.526Z] -Dwko.it.k8s.nodeport.host=kubectl get node kind-worker -o jsonpath={.status.addresses[?(@.type == "InternalIP")].address} (j2gha-local stub v1.36.1)
+[2026-10-10T09:10:56.526Z] -Dwko.it.kind.repo=localhost:5000
+[2026-10-10T09:10:56.526Z] -Dwko.it.istio.version=1.27.2
+[2026-10-10T09:10:56.526Z] -DPARALLEL_CLASSES=true
+[2026-10-10T09:10:56.526Z] -DNUMBER_OF_THREADS=3
+[2026-10-10T09:10:56.526Z] -Dwko.it.wdt.download.url=https://github.com/oracle/weblogic-deploy-tooling/releases/latest
+[2026-10-10T09:10:56.526Z] -Dwko.it.wit.download.url=https://github.com/oracle/weblogic-image-tool/releases/latest
+[2026-10-10T09:10:56.526Z] -Dwko.it.base.images.repo=null
+[2026-10-10T09:10:56.526Z] -Dwko.it.base.images.tenancy=null
+[2026-10-10T09:10:56.526Z] -Dwko.it.test.images.repo=null
+[2026-10-10T09:10:56.526Z] -Dwko.it.test.images.tenancy=null
+[2026-10-10T09:10:56.526Z] -Dwko.it.weblogic.image.name=test-images/weblogic_cpu
+[2026-10-10T09:10:56.526Z] -Dwko.it.weblogic.image.tag=14.1.2.0-generic-jdk17-ol8
+[2026-10-10T09:10:56.526Z] -Dwko.it.fmwinfra.image.name=test-images/fmw-infrastructure_cpu
+[2026-10-10T09:10:56.526Z] -Dwko.it.fmwinfra.image.tag=14.1.2.0-jdk17-ol8
+[2026-10-10T09:10:56.526Z] -Dwko.it.db.image.name=test-images/database/enterprise
+[2026-10-10T09:10:56.526Z] -Dwko.it.db.image.tag=19.3.0.0
+[2026-10-10T09:10:56.526Z] -Dwko.it.monitoring.exporter.branch=main
+[2026-10-10T09:10:56.526Z] -Dwko.it.monitoring.exporter.webapp.version=2.3.16
+[2026-10-10T09:10:56.526Z] -Dwko.it.prometheus.chart.version=17.0.0
+[2026-10-10T09:10:56.526Z] -Dwko.it.grafana.chart.version=6.38.6
+[2026-10-10T09:10:56.526Z] -Dwko.it.collect.logs.on.success=false
+[2026-10-10T09:10:56.526Z] -DWLSIMG_BUILDER=podman
+[2026-10-10T09:10:56.526Z] -Dwko.it.remoteconsole.version=2.4.7
+[2026-10-10T09:10:56.526Z] -Djdk.httpclient.allowRestrictedHeaders=host
+[2026-10-10T09:10:56.526Z] -DOPERATOR_LOG_LEVEL=
+[2026-10-10T09:10:56.526Z] -Dwko.it.install.weblogic=true
+[2026-10-10T09:10:56.526Z] + cp /var/jenkins_home/workspace/ex-107-full/.mvn/maven.config /var/jenkins_home/workspace/ex-107-full/staging/wl_k8s_test_results
+[2026-10-10T09:10:56.561Z] [Pipeline] withCredentials
+[2026-10-10T09:10:56.574Z] Masking supported pattern matches of $OCIR_PASS
+[2026-10-10T09:10:56.591Z] [Pipeline] {
+[2026-10-10T09:10:56.614Z] [Pipeline] sh
+[2026-10-10T09:10:56.875Z] + export PATH=/var/jenkins_home/workspace/ex-107-full/bin:/opt/java/openjdk/bin:/usr/share/maven/bin:/opt/java/openjdk/bin:/usr/share/maven/bin:/opt/java/openjdk/bin:/usr/share/maven/bin:/opt/java/openjdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+[2026-10-10T09:10:56.875Z] + export KUBECONFIG=/var/jenkins_home/workspace/ex-107-full/staging/wl_k8s_test_results/kubeconfig
+[2026-10-10T09:10:56.875Z] + export BASE_IMAGES_REPO_USERNAME=j2gha-user
+[2026-10-10T09:10:56.875Z] + export BASE_IMAGES_REPO_PASSWORD=****
+[2026-10-10T09:10:56.875Z] + export BASE_IMAGES_REPO_EMAIL=noreply@oracle.com
+[2026-10-10T09:10:56.875Z] + export TEST_IMAGES_REPO_USERNAME=j2gha-user
+[2026-10-10T09:10:56.875Z] + export TEST_IMAGES_REPO_PASSWORD=****
+[2026-10-10T09:10:56.875Z] + export TEST_IMAGES_REPO_EMAIL=noreply@oracle.com
+[2026-10-10T09:10:56.875Z] + mkdir -p integration-tests/target/failsafe-reports /var/jenkins_home/workspace/ex-107-full/staging/wl_k8s_test_results/diagnostics/ItLocalTwin /var/jenkins_home/workspace/ex-107-full/staging/wl_k8s_test_results/workdir/liftandshiftworkdir
+[2026-10-10T09:10:56.875Z] + printf %s\n <?xml version="1.0" encoding="UTF-8"?> <testsuite name="ItLocalTwin" tests="2" failures="0" errors="0" skipped="0" time="0.2">   <testcase name="testOperatorBuilds" classname="ItLocalTwin" time="0.1"/>   <testcase name="testHelmChart" classname="ItLocalTwin" time="0.1"/> </testsuite>
+[2026-10-10T09:10:56.875Z] + echo operator diagnostics for profile wls-srg
+[2026-10-10T09:10:56.875Z] + echo lift-and-shift work directory
+[2026-10-10T09:10:56.875Z] + echo mvn -pl integration-tests -P wls-srg verify
+[2026-10-10T09:10:56.875Z] + tee /var/jenkins_home/workspace/ex-107-full/staging/wl_k8s_test_results/kindtest.log
+[2026-10-10T09:10:56.875Z] mvn -pl integration-tests -P wls-srg verify
+[2026-10-10T09:10:56.901Z] [Pipeline] }
+[2026-10-10T09:10:56.941Z] [Pipeline] // withCredentials
+[2026-10-10T09:10:56.953Z] Post stage
+[2026-10-10T09:10:56.967Z] [Pipeline] sh
+[2026-10-10T09:10:57.234Z] + export PATH=/var/jenkins_home/workspace/ex-107-full/bin:/opt/java/openjdk/bin:/usr/share/maven/bin:/opt/java/openjdk/bin:/usr/share/maven/bin:/opt/java/openjdk/bin:/usr/share/maven/bin:/opt/java/openjdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+[2026-10-10T09:10:57.234Z] + export KUBECONFIG=/var/jenkins_home/workspace/ex-107-full/staging/wl_k8s_test_results/kubeconfig
+[2026-10-10T09:10:57.234Z] + mkdir -m777 -p /var/jenkins_home/workspace/ex-107-full/staging/wl_k8s_test_results/kubelogs
+[2026-10-10T09:10:57.234Z] + kind export logs /var/jenkins_home/workspace/ex-107-full/staging/wl_k8s_test_results/kubelogs --name kind --verbosity 99
+[2026-10-10T09:10:57.234Z] kind export logs /var/jenkins_home/workspace/ex-107-full/staging/wl_k8s_test_results/kubelogs --name kind --verbosity 99 (j2gha-local stub v0.32.0)
+[2026-10-10T09:10:57.234Z] + podman exec kind-worker journalctl --utc --dmesg --system
+[2026-10-10T09:10:57.234Z] + podman exec kind-control-plane journalctl --utc --dmesg --system
+[2026-10-10T09:10:57.234Z] + journalctl --utc --dmesg --system --since 2026-10-10 09:10:44
+[2026-10-10T09:10:57.234Z] No journal files were found.
+[2026-10-10T09:10:57.234Z] + mkdir -m777 -p /var/jenkins_home/workspace/ex-107-full/logdir/jenkins-ex-107-full-6/wl_k8s_test_results
+[2026-10-10T09:10:57.234Z] + mv -f /var/jenkins_home/workspace/ex-107-full/staging/wl_k8s_test_results/diagnostics /var/jenkins_home/workspace/ex-107-full/staging/wl_k8s_test_results/journalctl-compute.out /var/jenkins_home/workspace/ex-107-full/staging/wl_k8s_test_results/journalctl-kind-control-plane.out /var/jenkins_home/workspace/ex-107-full/staging/wl_k8s_test_results/journalctl-kind-worker.out /var/jenkins_home/workspace/ex-107-full/staging/wl_k8s_test_results/kindtest.log /var/jenkins_home/workspace/ex-107-full/staging/wl_k8s_test_results/kubelogs /var/jenkins_home/workspace/ex-107-full/staging/wl_k8s_test_results/maven.config /var/jenkins_home/workspace/ex-107-full/staging/wl_k8s_test_results/workdir /var/jenkins_home/workspace/ex-107-full/logdir/jenkins-ex-107-full-6/wl_k8s_test_results
+[2026-10-10T09:10:57.303Z] [Pipeline] archiveArtifacts
+[2026-10-10T09:10:57.319Z] Archiving artifacts
+[2026-10-10T09:10:57.367Z] [Pipeline] junit
+[2026-10-10T09:10:57.374Z] Recording test results
+[2026-10-10T09:10:57.382Z] [Checks API] No suitable checks publisher found.
+[2026-10-10T09:10:57.409Z] [Pipeline] }
+[2026-10-10T09:10:57.445Z] [Pipeline] // withEnv
+[2026-10-10T09:10:57.463Z] [Pipeline] }
+[2026-10-10T09:10:57.501Z] [Pipeline] // withEnv
+[2026-10-10T09:10:57.519Z] [Pipeline] }
+[2026-10-10T09:10:57.554Z] [Pipeline] // stage
+[2026-10-10T09:10:57.566Z] Post stage
+[2026-10-10T09:10:57.580Z] [Pipeline] sh
+[2026-10-10T09:10:57.841Z] + export PATH=/var/jenkins_home/workspace/ex-107-full/bin:/opt/java/openjdk/bin:/usr/share/maven/bin:/opt/java/openjdk/bin:/usr/share/maven/bin:/opt/java/openjdk/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
+[2026-10-10T09:10:57.841Z] + podman container inspect -f {{.State.Running}} kind-registry
+[2026-10-10T09:10:57.841Z] + running=podman container inspect -f {{.State.Running}} kind-registry (j2gha-local stub)
+[2026-10-10T09:10:57.841Z] + [ podman container inspect -f {{.State.Running}} kind-registry (j2gha-local stub) = true ]
+[2026-10-10T09:10:57.841Z] + echo Remove old Kind cluster (if any)...
+[2026-10-10T09:10:57.841Z] Remove old Kind cluster (if any)...
+[2026-10-10T09:10:57.841Z] + kind delete cluster --name kind --kubeconfig /var/jenkins_home/workspace/ex-107-full/staging/wl_k8s_test_results/kubeconfig
+[2026-10-10T09:10:57.841Z] kind delete cluster --name kind --kubeconfig /var/jenkins_home/workspace/ex-107-full/staging/wl_k8s_test_results/kubeconfig (j2gha-local stub v0.32.0)
+[2026-10-10T09:10:57.841Z] + whoami
+[2026-10-10T09:10:57.841Z] + chown jenkins /var/jenkins_home/workspace/ex-107-full
+[2026-10-10T09:10:57.871Z] [Pipeline] }
+[2026-10-10T09:10:57.924Z] [Pipeline] // withEnv
+[2026-10-10T09:10:57.941Z] [Pipeline] }
+[2026-10-10T09:10:57.978Z] [Pipeline] // stage
+[2026-10-10T09:10:58.001Z] [Pipeline] stage
+[2026-10-10T09:10:58.005Z] [Pipeline] { (Sync)
+[2026-10-10T09:10:58.071Z] [Pipeline] tool
+[2026-10-10T09:10:58.121Z] [Pipeline] envVarsForTool
+[2026-10-10T09:10:58.165Z] [Pipeline] tool
+[2026-10-10T09:10:58.203Z] [Pipeline] envVarsForTool
+[2026-10-10T09:10:58.247Z] [Pipeline] withEnv
+[2026-10-10T09:10:58.252Z] [Pipeline] {
+[2026-10-10T09:10:58.287Z] [Pipeline] echo
+[2026-10-10T09:10:58.292Z] J2GHA-TRACE {"stage":"Sync","step":"build"}
+[2026-10-10T09:10:58.298Z] [Pipeline] }
+[2026-10-10T09:10:58.334Z] [Pipeline] // withEnv
+[2026-10-10T09:10:58.353Z] [Pipeline] }
+[2026-10-10T09:10:58.388Z] [Pipeline] // stage
+[2026-10-10T09:10:58.406Z] [Pipeline] }
+[2026-10-10T09:10:58.444Z] [Pipeline] // withEnv
+[2026-10-10T09:10:58.465Z] [Pipeline] }
+[2026-10-10T09:10:58.504Z] [Pipeline] // timeout
+[2026-10-10T09:10:58.523Z] [Pipeline] }
+[2026-10-10T09:10:58.555Z] [Pipeline] // withEnv
+[2026-10-10T09:10:58.572Z] [Pipeline] }
+[2026-10-10T09:10:58.601Z] [Pipeline] // withEnv
+[2026-10-10T09:10:58.618Z] [Pipeline] }
+[2026-10-10T09:10:58.657Z] [Pipeline] // node
+[2026-10-10T09:10:58.674Z] [Pipeline] End of Pipeline
+[2026-10-10T09:10:58.738Z] Finished: SUCCESS

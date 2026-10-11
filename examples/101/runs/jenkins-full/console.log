@@ -1,0 +1,297 @@
+[2026-10-10T09:03:12.826Z] Started by user admin
+[2026-10-10T09:03:13.421Z] [Pipeline] Start of Pipeline
+[2026-10-10T09:03:13.441Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named DOCKER_IMAGE_BASE (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:03:13.441Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named ERLANG_VERSION (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:03:13.441Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named MINIMUM_ERLANG_VERSION (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:03:13.441Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named MAXIMUM_ERLANG_VERSION (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:03:13.441Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named INTERMEDIATE_ERLANG_VERSION (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:03:13.441Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named DEFAULT_GNU_MAKE_EUNIT_OPTS (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:03:13.453Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named docs_changed (to a value of type GStringImpl) which could lead to memory leaks or other issues.
+[2026-10-10T09:03:13.453Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named github_changed (to a value of type GStringImpl) which could lead to memory leaks or other issues.
+[2026-10-10T09:03:13.453Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named other_changes (to a value of type GStringImpl) which could lead to memory leaks or other issues.
+[2026-10-10T09:03:13.453Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named meta (to a value of type LinkedHashMap) which could lead to memory leaks or other issues.
+[2026-10-10T09:03:13.453Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named containerClouseauConfig (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:03:13.689Z] [Pipeline] withEnv
+[2026-10-10T09:03:13.700Z] [Pipeline] {
+[2026-10-10T09:03:13.743Z] [Pipeline] timeout
+[2026-10-10T09:03:13.743Z] Timeout set to expire in 4 hr 0 min
+[2026-10-10T09:03:13.749Z] [Pipeline] {
+[2026-10-10T09:03:13.775Z] [Pipeline] timestamps
+[2026-10-10T09:03:13.775Z] The timestamps step is unnecessary when timestamps are enabled for all Pipeline builds.
+[2026-10-10T09:03:13.780Z] [Pipeline] {
+[2026-10-10T09:03:13.812Z] [Pipeline] stage
+[2026-10-10T09:03:13.818Z] [Pipeline] { (Setup Env)
+[2026-10-10T09:03:13.876Z] [Pipeline] node
+[2026-10-10T09:03:13.890Z] Running on Jenkins in /var/jenkins_home/workspace/ex-101-full
+[2026-10-10T09:03:13.912Z] [Pipeline] {
+[2026-10-10T09:03:13.939Z] [Pipeline] checkout
+[2026-10-10T09:03:13.945Z] The recommended git tool is: NONE
+[2026-10-10T09:03:13.945Z] No credentials specified
+[2026-10-10T09:03:13.945Z] Cloning the remote Git repository
+[2026-10-10T09:03:13.945Z] Avoid fetching tags
+[2026-10-10T09:03:13.945Z] Cloning repository https://github.com/apache/couchdb.git
+[2026-10-10T09:03:13.945Z]  > git init /var/jenkins_home/workspace/ex-101-full # timeout=10
+[2026-10-10T09:03:13.960Z] Fetching upstream changes from https://github.com/apache/couchdb.git
+[2026-10-10T09:03:13.960Z]  > git --version # timeout=10
+[2026-10-10T09:03:13.967Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T09:03:13.967Z]  > git fetch --no-tags --force --progress -- https://github.com/apache/couchdb.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:03:21.565Z]  > git config remote.origin.url https://github.com/apache/couchdb.git # timeout=10
+[2026-10-10T09:03:21.573Z]  > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:03:21.581Z] Avoid second fetch
+[2026-10-10T09:03:21.581Z]  > git rev-parse d072d90125e39c41b8e4947a89691c6e5ad23c77^{commit} # timeout=10
+[2026-10-10T09:03:21.588Z] Checking out Revision d072d90125e39c41b8e4947a89691c6e5ad23c77 (detached)
+[2026-10-10T09:03:21.588Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T09:03:21.595Z]  > git checkout -f d072d90125e39c41b8e4947a89691c6e5ad23c77 # timeout=10
+[2026-10-10T09:03:21.910Z] Commit message: "Update Erlang to 27.3.4.18"
+[2026-10-10T09:03:21.910Z]  > git rev-list --no-walk d072d90125e39c41b8e4947a89691c6e5ad23c77 # timeout=10
+[2026-10-10T09:03:21.955Z] [Pipeline] withEnv
+[2026-10-10T09:03:21.961Z] [Pipeline] {
+[2026-10-10T09:03:21.992Z] [Pipeline] script
+[2026-10-10T09:03:22.001Z] [Pipeline] {
+[2026-10-10T09:03:22.062Z] [Pipeline] sh
+[2026-10-10T09:03:22.324Z] + git diff --name-only origin/null
+[2026-10-10T09:03:22.324Z] + grep -q ^src/docs/
+[2026-10-10T09:03:22.324Z] fatal: ambiguous argument 'origin/null': unknown revision or path not in the working tree.
+[2026-10-10T09:03:22.324Z] Use '--' to separate paths from revisions, like this:
+[2026-10-10T09:03:22.324Z] 'git <command> [<revision>...] -- [<file>...]'
+[2026-10-10T09:03:22.359Z] [Pipeline] sh
+[2026-10-10T09:03:22.620Z] + git diff --name-only origin/null
+[2026-10-10T09:03:22.620Z] + grep -q ^.github
+[2026-10-10T09:03:22.621Z] fatal: ambiguous argument 'origin/null': unknown revision or path not in the working tree.
+[2026-10-10T09:03:22.621Z] Use '--' to separate paths from revisions, like this:
+[2026-10-10T09:03:22.621Z] 'git <command> [<revision>...] -- [<file>...]'
+[2026-10-10T09:03:22.639Z] [Pipeline] }
+[2026-10-10T09:03:22.669Z] [Pipeline] // script
+[2026-10-10T09:03:22.677Z] Post stage
+[2026-10-10T09:03:22.701Z] [Pipeline] sh
+[2026-10-10T09:03:22.962Z] + rm -rf /var/jenkins_home/workspace/ex-101-full/BUGS.md /var/jenkins_home/workspace/ex-101-full/COMMITTERS.md /var/jenkins_home/workspace/ex-101-full/CONTRIBUTING.md /var/jenkins_home/workspace/ex-101-full/CONTRIBUTORS.in /var/jenkins_home/workspace/ex-101-full/INSTALL.Unix.md /var/jenkins_home/workspace/ex-101-full/INSTALL.Windows.md /var/jenkins_home/workspace/ex-101-full/LICENSE /var/jenkins_home/workspace/ex-101-full/Makefile /var/jenkins_home/workspace/ex-101-full/Makefile.win /var/jenkins_home/workspace/ex-101-full/NOTICE /var/jenkins_home/workspace/ex-101-full/README-DEV.rst /var/jenkins_home/workspace/ex-101-full/README.rst /var/jenkins_home/workspace/ex-101-full/bin /var/jenkins_home/workspace/ex-101-full/build-aux /var/jenkins_home/workspace/ex-101-full/config /var/jenkins_home/workspace/ex-101-full/configure /var/jenkins_home/workspace/ex-101-full/configure.ps1 /var/jenkins_home/workspace/ex-101-full/dev /var/jenkins_home/workspace/ex-101-full/erlang_ls.config /var/jenkins_home/workspace/ex-101-full/extra /var/jenkins_home/workspace/ex-101-full/make.cmd /var/jenkins_home/workspace/ex-101-full/mise.toml /var/jenkins_home/workspace/ex-101-full/mix.exs /var/jenkins_home/workspace/ex-101-full/rebar.config.script /var/jenkins_home/workspace/ex-101-full/rel /var/jenkins_home/workspace/ex-101-full/setup_eunit.template /var/jenkins_home/workspace/ex-101-full/share /var/jenkins_home/workspace/ex-101-full/src /var/jenkins_home/workspace/ex-101-full/support /var/jenkins_home/workspace/ex-101-full/test /var/jenkins_home/workspace/ex-101-full/version.mk /var/jenkins_home/workspace/ex-101-full/.asf.yaml /var/jenkins_home/workspace/ex-101-full/.credo.exs /var/jenkins_home/workspace/ex-101-full/.devcontainer /var/jenkins_home/workspace/ex-101-full/.elp.toml /var/jenkins_home/workspace/ex-101-full/.formatter.exs /var/jenkins_home/workspace/ex-101-full/.git /var/jenkins_home/workspace/ex-101-full/.gitattributes /var/jenkins_home/workspace/ex-101-full/.github /var/jenkins_home/workspace/ex-101-full/.gitignore /var/jenkins_home/workspace/ex-101-full/.mailmap /var/jenkins_home/workspace/ex-101-full/.readthedocs.yaml
+[2026-10-10T09:03:22.979Z] [Pipeline] }
+[2026-10-10T09:03:23.001Z] [Pipeline] // withEnv
+[2026-10-10T09:03:23.014Z] [Pipeline] }
+[2026-10-10T09:03:23.048Z] [Pipeline] // node
+[2026-10-10T09:03:23.076Z] [Pipeline] }
+[2026-10-10T09:03:23.101Z] [Pipeline] // stage
+[2026-10-10T09:03:23.127Z] [Pipeline] stage
+[2026-10-10T09:03:23.132Z] [Pipeline] { (Build Docs)
+[2026-10-10T09:03:23.157Z] Stage "Build Docs" skipped due to when conditional
+[2026-10-10T09:03:23.169Z] [Pipeline] getContext
+[2026-10-10T09:03:23.186Z] [Pipeline] }
+[2026-10-10T09:03:23.212Z] [Pipeline] // stage
+[2026-10-10T09:03:23.237Z] [Pipeline] stage
+[2026-10-10T09:03:23.242Z] [Pipeline] { (Build Release Tarball)
+[2026-10-10T09:03:23.271Z] [Pipeline] node
+[2026-10-10T09:03:23.282Z] Running on Jenkins in /var/jenkins_home/workspace/ex-101-full
+[2026-10-10T09:03:23.297Z] [Pipeline] {
+[2026-10-10T09:03:23.325Z] [Pipeline] checkout
+[2026-10-10T09:03:23.332Z] The recommended git tool is: NONE
+[2026-10-10T09:03:23.332Z] No credentials specified
+[2026-10-10T09:03:23.332Z] Cloning the remote Git repository
+[2026-10-10T09:03:23.332Z] Avoid fetching tags
+[2026-10-10T09:03:23.332Z] Cloning repository https://github.com/apache/couchdb.git
+[2026-10-10T09:03:23.332Z]  > git init /var/jenkins_home/workspace/ex-101-full # timeout=10
+[2026-10-10T09:03:23.346Z] Fetching upstream changes from https://github.com/apache/couchdb.git
+[2026-10-10T09:03:23.346Z]  > git --version # timeout=10
+[2026-10-10T09:03:23.352Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T09:03:23.352Z]  > git fetch --no-tags --force --progress -- https://github.com/apache/couchdb.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:03:30.083Z]  > git config remote.origin.url https://github.com/apache/couchdb.git # timeout=10
+[2026-10-10T09:03:30.090Z]  > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:03:30.100Z] Avoid second fetch
+[2026-10-10T09:03:30.100Z]  > git rev-parse d072d90125e39c41b8e4947a89691c6e5ad23c77^{commit} # timeout=10
+[2026-10-10T09:03:30.107Z] Checking out Revision d072d90125e39c41b8e4947a89691c6e5ad23c77 (detached)
+[2026-10-10T09:03:30.107Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T09:03:30.115Z]  > git checkout -f d072d90125e39c41b8e4947a89691c6e5ad23c77 # timeout=10
+[2026-10-10T09:03:30.406Z] Commit message: "Update Erlang to 27.3.4.18"
+[2026-10-10T09:03:30.434Z] [Pipeline] withEnv
+[2026-10-10T09:03:30.440Z] [Pipeline] {
+[2026-10-10T09:03:30.468Z] [Pipeline] sh
+[2026-10-10T09:03:30.733Z] + rm -rf apache-couchdb-*
+[2026-10-10T09:03:30.757Z] [Pipeline] sh
+[2026-10-10T09:03:31.019Z] + echo skipped: ./configure --spidermonkey-version 128 --with-nouveau
+[2026-10-10T09:03:31.019Z] skipped: ./configure --spidermonkey-version 128 --with-nouveau
+[2026-10-10T09:03:31.040Z] [Pipeline] sh
+[2026-10-10T09:03:31.300Z] + echo skipped: make erlfmt-check
+[2026-10-10T09:03:31.300Z] skipped: make erlfmt-check
+[2026-10-10T09:03:31.323Z] [Pipeline] sh
+[2026-10-10T09:03:31.583Z] + echo skipped: make elixir-source-checks
+[2026-10-10T09:03:31.583Z] skipped: make elixir-source-checks
+[2026-10-10T09:03:31.614Z] [Pipeline] sh
+[2026-10-10T09:03:31.877Z] + echo skipped: make python-black
+[2026-10-10T09:03:31.877Z] skipped: make python-black
+[2026-10-10T09:03:31.901Z] [Pipeline] sh
+[2026-10-10T09:03:32.163Z] + . ./version.mk
+[2026-10-10T09:03:32.163Z] + vsn_major=3
+[2026-10-10T09:03:32.163Z] + vsn_minor=5
+[2026-10-10T09:03:32.163Z] + vsn_patch=2
+[2026-10-10T09:03:32.163Z] + rel=apache-couchdb-3.5.2
+[2026-10-10T09:03:32.163Z] + rm -rf apache-couchdb-3.5.2
+[2026-10-10T09:03:32.163Z] + mkdir -p apache-couchdb-3.5.2
+[2026-10-10T09:03:32.163Z] + cp LICENSE NOTICE version.mk apache-couchdb-3.5.2/
+[2026-10-10T09:03:32.163Z] + printf %s
+[2026-10-10T09:03:32.163Z]  #!/bin/sh echo "configure (j2gha-local stand-in): $*"
+[2026-10-10T09:03:32.163Z] + chmod +x apache-couchdb-3.5.2/configure
+[2026-10-10T09:03:32.163Z] + printf %s
+[2026-10-10T09:03:32.163Z]  <testsuite name='couch_tests' tests='2' failures='0' errors='0'> <testcase classname='couch_tests' name='basic'/> <testcase classname='couch_tests' name='config'/> </testsuite>
+[2026-10-10T09:03:32.163Z] + printf %s
+[2026-10-10T09:03:32.163Z]  .RECIPEPREFIX := > all xref elixir elixir-search mango-test weatherreport-test nouveau-test quickjs-test262 build-report: >@echo "make $@ (j2gha-local stand-in)" eunit: >mkdir -p .eunit && cp eunit-report.xml .eunit/couch_tests.xml
+[2026-10-10T09:03:32.163Z] + tar czf apache-couchdb-3.5.2.tar.gz apache-couchdb-3.5.2
+[2026-10-10T09:03:32.163Z] + rm -rf apache-couchdb-3.5.2
+[2026-10-10T09:03:32.163Z] + echo Done: apache-couchdb-3.5.2.tar.gz
+[2026-10-10T09:03:32.163Z] Done: apache-couchdb-3.5.2.tar.gz
+[2026-10-10T09:03:32.176Z] Post stage
+[2026-10-10T09:03:32.192Z] [Pipeline] stash
+[2026-10-10T09:03:32.201Z] Stashed 1 file(s)
+[2026-10-10T09:03:32.242Z] [Pipeline] archiveArtifacts
+[2026-10-10T09:03:32.250Z] Archiving artifacts
+[2026-10-10T09:03:32.251Z] Recording fingerprints
+[2026-10-10T09:03:32.286Z] [Pipeline] sh
+[2026-10-10T09:03:32.548Z] + rm -rf /var/jenkins_home/workspace/ex-101-full/BUGS.md /var/jenkins_home/workspace/ex-101-full/COMMITTERS.md /var/jenkins_home/workspace/ex-101-full/CONTRIBUTING.md /var/jenkins_home/workspace/ex-101-full/CONTRIBUTORS.in /var/jenkins_home/workspace/ex-101-full/INSTALL.Unix.md /var/jenkins_home/workspace/ex-101-full/INSTALL.Windows.md /var/jenkins_home/workspace/ex-101-full/LICENSE /var/jenkins_home/workspace/ex-101-full/Makefile /var/jenkins_home/workspace/ex-101-full/Makefile.win /var/jenkins_home/workspace/ex-101-full/NOTICE /var/jenkins_home/workspace/ex-101-full/README-DEV.rst /var/jenkins_home/workspace/ex-101-full/README.rst /var/jenkins_home/workspace/ex-101-full/apache-couchdb-3.5.2.tar.gz /var/jenkins_home/workspace/ex-101-full/bin /var/jenkins_home/workspace/ex-101-full/build-aux /var/jenkins_home/workspace/ex-101-full/config /var/jenkins_home/workspace/ex-101-full/configure /var/jenkins_home/workspace/ex-101-full/configure.ps1 /var/jenkins_home/workspace/ex-101-full/dev /var/jenkins_home/workspace/ex-101-full/erlang_ls.config /var/jenkins_home/workspace/ex-101-full/extra /var/jenkins_home/workspace/ex-101-full/make.cmd /var/jenkins_home/workspace/ex-101-full/mise.toml /var/jenkins_home/workspace/ex-101-full/mix.exs /var/jenkins_home/workspace/ex-101-full/rebar.config.script /var/jenkins_home/workspace/ex-101-full/rel /var/jenkins_home/workspace/ex-101-full/setup_eunit.template /var/jenkins_home/workspace/ex-101-full/share /var/jenkins_home/workspace/ex-101-full/src /var/jenkins_home/workspace/ex-101-full/support /var/jenkins_home/workspace/ex-101-full/test /var/jenkins_home/workspace/ex-101-full/version.mk /var/jenkins_home/workspace/ex-101-full/.asf.yaml /var/jenkins_home/workspace/ex-101-full/.credo.exs /var/jenkins_home/workspace/ex-101-full/.devcontainer /var/jenkins_home/workspace/ex-101-full/.elp.toml /var/jenkins_home/workspace/ex-101-full/.formatter.exs /var/jenkins_home/workspace/ex-101-full/.git /var/jenkins_home/workspace/ex-101-full/.gitattributes /var/jenkins_home/workspace/ex-101-full/.github /var/jenkins_home/workspace/ex-101-full/.gitignore /var/jenkins_home/workspace/ex-101-full/.mailmap /var/jenkins_home/workspace/ex-101-full/.readthedocs.yaml
+[2026-10-10T09:03:32.567Z] [Pipeline] }
+[2026-10-10T09:03:32.594Z] [Pipeline] // withEnv
+[2026-10-10T09:03:32.609Z] [Pipeline] }
+[2026-10-10T09:03:32.644Z] [Pipeline] // node
+[2026-10-10T09:03:32.658Z] [Pipeline] }
+[2026-10-10T09:03:32.685Z] [Pipeline] // stage
+[2026-10-10T09:03:32.712Z] [Pipeline] stage
+[2026-10-10T09:03:32.720Z] [Pipeline] { (Test and Package)
+[2026-10-10T09:03:32.759Z] [Pipeline] script
+[2026-10-10T09:03:32.768Z] [Pipeline] {
+[2026-10-10T09:03:32.788Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named parallelStagesMap (to a value of type LinkedHashMap) which could lead to memory leaks or other issues.
+[2026-10-10T09:03:32.800Z] [Pipeline] parallel
+[2026-10-10T09:03:32.807Z] [Pipeline] { (Branch: base)
+[2026-10-10T09:03:32.854Z] [Pipeline] stage
+[2026-10-10T09:03:32.859Z] [Pipeline] { (base)
+[2026-10-10T09:03:32.891Z] [Pipeline] node
+[2026-10-10T09:03:32.904Z] Running on Jenkins in /var/jenkins_home/workspace/ex-101-full
+[2026-10-10T09:03:32.921Z] [Pipeline] {
+[2026-10-10T09:03:32.956Z] [Pipeline] timeout
+[2026-10-10T09:03:32.957Z] Timeout set to expire in 3 hr 0 min
+[2026-10-10T09:03:32.962Z] [Pipeline] {
+[2026-10-10T09:03:32.998Z] [Pipeline] stage
+[2026-10-10T09:03:33.003Z] [Pipeline] { (Debian x86_64 - build & test)
+[2026-10-10T09:03:33.030Z] [Pipeline] sh
+[2026-10-10T09:03:33.296Z] + rm -rf base apache-couchdb-*
+[2026-10-10T09:03:33.321Z] [Pipeline] unstash
+[2026-10-10T09:03:33.357Z] [Pipeline] sh
+[2026-10-10T09:03:33.624Z] + mkdir -p base/build
+[2026-10-10T09:03:33.649Z] [Pipeline] sh
+[2026-10-10T09:03:33.915Z] + tar -xf apache-couchdb-3.5.2.tar.gz -C base/build --strip-components=1
+[2026-10-10T09:03:33.939Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named quickjs_tests262 (to a value of type Boolean) which could lead to memory leaks or other issues.
+[2026-10-10T09:03:33.970Z] [Pipeline] dir
+[2026-10-10T09:03:33.970Z] Running in /var/jenkins_home/workspace/ex-101-full/base/build
+[2026-10-10T09:03:33.981Z] [Pipeline] {
+[2026-10-10T09:03:34.010Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named result (to a value of type GStringImpl) which could lead to memory leaks or other issues.
+[2026-10-10T09:03:34.010Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named result (to a value of type GStringImpl) which could lead to memory leaks or other issues.
+[2026-10-10T09:03:34.010Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named result (to a value of type GStringImpl) which could lead to memory leaks or other issues.
+[2026-10-10T09:03:34.024Z] [Pipeline] sh
+[2026-10-10T09:03:34.287Z] + ./configure --skip-deps --spidermonkey-version 128 --with-nouveau --with-clouseau
+[2026-10-10T09:03:34.287Z] configure (j2gha-local stand-in): --skip-deps --spidermonkey-version 128 --with-nouveau --with-clouseau
+[2026-10-10T09:03:34.339Z] [Pipeline] sh
+[2026-10-10T09:03:34.602Z] + make
+[2026-10-10T09:03:34.602Z] make all (j2gha-local stand-in)
+[2026-10-10T09:03:34.627Z] [Pipeline] sh
+[2026-10-10T09:03:34.888Z] + make xref
+[2026-10-10T09:03:34.889Z] make xref (j2gha-local stand-in)
+[2026-10-10T09:03:34.939Z] [Pipeline] retry
+[2026-10-10T09:03:34.945Z] [Pipeline] {
+[2026-10-10T09:03:34.974Z] [Pipeline] sh
+[2026-10-10T09:03:35.235Z] + make -j2 --output-sync=target eunit
+[2026-10-10T09:03:35.235Z] mkdir -p .eunit && cp eunit-report.xml .eunit/couch_tests.xml
+[2026-10-10T09:03:35.255Z] [Pipeline] }
+[2026-10-10T09:03:35.289Z] [Pipeline] // retry
+[2026-10-10T09:03:35.317Z] [Pipeline] retry
+[2026-10-10T09:03:35.323Z] [Pipeline] {
+[2026-10-10T09:03:35.369Z] [Pipeline] sh
+[2026-10-10T09:03:35.629Z] + make elixir
+[2026-10-10T09:03:35.629Z] make elixir (j2gha-local stand-in)
+[2026-10-10T09:03:35.651Z] [Pipeline] }
+[2026-10-10T09:03:35.688Z] [Pipeline] // retry
+[2026-10-10T09:03:35.712Z] [Pipeline] writeFile
+[2026-10-10T09:03:35.752Z] [Pipeline] retry
+[2026-10-10T09:03:35.759Z] [Pipeline] {
+[2026-10-10T09:03:35.798Z] [Pipeline] sh
+[2026-10-10T09:03:36.061Z] + env CLOUSEAU_JAVA_HOME=/opt/java/openjdk timeout 5m make elixir-search ERLANG_COOKIE=crumbles
+[2026-10-10T09:03:36.061Z] make elixir-search (j2gha-local stand-in)
+[2026-10-10T09:03:36.088Z] [Pipeline] }
+[2026-10-10T09:03:36.119Z] [Pipeline] // retry
+[2026-10-10T09:03:36.144Z] [Pipeline] retry
+[2026-10-10T09:03:36.150Z] [Pipeline] {
+[2026-10-10T09:03:36.181Z] [Pipeline] sh
+[2026-10-10T09:03:36.441Z] + env CLOUSEAU_JAVA_HOME=/opt/java/openjdk timeout 5m make mango-test ERLANG_COOKIE=crumbles
+[2026-10-10T09:03:36.441Z] make mango-test (j2gha-local stand-in)
+[2026-10-10T09:03:36.485Z] [Pipeline] }
+[2026-10-10T09:03:36.540Z] [Pipeline] // retry
+[2026-10-10T09:03:36.568Z] [Pipeline] retry
+[2026-10-10T09:03:36.574Z] [Pipeline] {
+[2026-10-10T09:03:36.601Z] [Pipeline] sh
+[2026-10-10T09:03:36.862Z] + make weatherreport-test
+[2026-10-10T09:03:36.862Z] make weatherreport-test (j2gha-local stand-in)
+[2026-10-10T09:03:36.883Z] [Pipeline] }
+[2026-10-10T09:03:36.915Z] [Pipeline] // retry
+[2026-10-10T09:03:36.940Z] [Pipeline] retry
+[2026-10-10T09:03:36.945Z] [Pipeline] {
+[2026-10-10T09:03:36.973Z] [Pipeline] sh
+[2026-10-10T09:03:37.233Z] + make nouveau-test
+[2026-10-10T09:03:37.233Z] make nouveau-test (j2gha-local stand-in)
+[2026-10-10T09:03:37.257Z] [Pipeline] }
+[2026-10-10T09:03:37.306Z] [Pipeline] // retry
+[2026-10-10T09:03:37.322Z] [Pipeline] }
+[2026-10-10T09:03:37.351Z] [Pipeline] // dir
+[2026-10-10T09:03:37.370Z] [Pipeline] junit
+[2026-10-10T09:03:37.377Z] Recording test results
+[2026-10-10T09:03:37.393Z] [Checks API] No suitable checks publisher found.
+[2026-10-10T09:03:37.416Z] [Pipeline] sh
+[2026-10-10T09:03:37.677Z] + rm -rf /var/jenkins_home/workspace/ex-101-full/apache-couchdb-3.5.2.tar.gz /var/jenkins_home/workspace/ex-101-full/base /var/jenkins_home/workspace/ex-101-full/.[a-zA-Z0-9]*
+[2026-10-10T09:03:37.721Z] [Pipeline] }
+[2026-10-10T09:03:37.776Z] [Pipeline] // stage
+[2026-10-10T09:03:37.801Z] [Pipeline] stage
+[2026-10-10T09:03:37.809Z] [Pipeline] { (Debian x86_64 - package)
+[2026-10-10T09:03:37.841Z] [Pipeline] unstash
+[2026-10-10T09:03:37.877Z] [Pipeline] sh
+[2026-10-10T09:03:38.144Z] + mkdir -p base/couchdb
+[2026-10-10T09:03:38.188Z] [Pipeline] sh
+[2026-10-10T09:03:38.463Z] + tar -xf apache-couchdb-3.5.2.tar.gz -C base/couchdb
+[2026-10-10T09:03:38.522Z] [Pipeline] sh
+[2026-10-10T09:03:38.798Z] + cd base
+[2026-10-10T09:03:38.798Z] + mkdir -p couchdb-pkg
+[2026-10-10T09:03:38.826Z] [Pipeline] dir
+[2026-10-10T09:03:38.827Z] Running in /var/jenkins_home/workspace/ex-101-full/base/couchdb-pkg
+[2026-10-10T09:03:38.832Z] [Pipeline] {
+[2026-10-10T09:03:38.859Z] [Pipeline] sh
+[2026-10-10T09:03:39.125Z] + echo couchdb package (j2gha-local stand-in)
+[2026-10-10T09:03:39.169Z] [Pipeline] }
+[2026-10-10T09:03:39.229Z] [Pipeline] // dir
+[2026-10-10T09:03:39.251Z] [Pipeline] sh
+[2026-10-10T09:03:39.518Z] + rm -rf pkgs/base
+[2026-10-10T09:03:39.519Z] + mkdir -p pkgs/base
+[2026-10-10T09:03:39.519Z] + arch
+[2026-10-10T09:03:39.519Z] + mv base/rpmbuild/RPMS/x86_64/*rpm pkgs/base
+[2026-10-10T09:03:39.519Z] mv: cannot stat 'base/rpmbuild/RPMS/x86_64/*rpm': No such file or directory
+[2026-10-10T09:03:39.519Z] + true
+[2026-10-10T09:03:39.519Z] + mv base/couchdb/couchdb_3.5.2_amd64.deb pkgs/base
+[2026-10-10T09:03:39.577Z] [Pipeline] archiveArtifacts
+[2026-10-10T09:03:39.591Z] Archiving artifacts
+[2026-10-10T09:03:39.592Z] Recording fingerprints
+[2026-10-10T09:03:39.625Z] [Pipeline] sh
+[2026-10-10T09:03:39.887Z] + rm -rf /var/jenkins_home/workspace/ex-101-full/apache-couchdb-3.5.2.tar.gz /var/jenkins_home/workspace/ex-101-full/base /var/jenkins_home/workspace/ex-101-full/pkgs /var/jenkins_home/workspace/ex-101-full/.[a-zA-Z0-9]*
+[2026-10-10T09:03:39.924Z] [Pipeline] }
+[2026-10-10T09:03:39.969Z] [Pipeline] // stage
+[2026-10-10T09:03:39.986Z] [Pipeline] }
+[2026-10-10T09:03:40.024Z] [Pipeline] // timeout
+[2026-10-10T09:03:40.038Z] [Pipeline] }
+[2026-10-10T09:03:40.080Z] [Pipeline] // node
+[2026-10-10T09:03:40.094Z] [Pipeline] }
+[2026-10-10T09:03:40.132Z] [Pipeline] // stage
+[2026-10-10T09:03:40.148Z] [Pipeline] }
+[2026-10-10T09:03:40.178Z] [Pipeline] // parallel
+[2026-10-10T09:03:40.193Z] [Pipeline] }
+[2026-10-10T09:03:40.222Z] [Pipeline] // script
+[2026-10-10T09:03:40.237Z] [Pipeline] }
+[2026-10-10T09:03:40.266Z] [Pipeline] // stage
+[2026-10-10T09:03:40.281Z] [Pipeline] }
+[2026-10-10T09:03:40.310Z] [Pipeline] // timestamps
+[2026-10-10T09:03:40.324Z] [Pipeline] }
+[2026-10-10T09:03:40.355Z] [Pipeline] // timeout
+[2026-10-10T09:03:40.369Z] [Pipeline] }
+[2026-10-10T09:03:40.397Z] [Pipeline] // withEnv
+[2026-10-10T09:03:40.411Z] [Pipeline] End of Pipeline
+[2026-10-10T09:03:40.462Z] Finished: SUCCESS

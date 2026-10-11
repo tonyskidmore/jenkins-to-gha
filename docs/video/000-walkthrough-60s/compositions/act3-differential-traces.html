@@ -1,0 +1,381 @@
+<template id="act3-template">
+  <div
+    data-composition-id="act3"
+    data-width="1920"
+    data-height="1080"
+    data-duration="15"
+  >
+    <div class="act3-container">
+      <!-- Section Header -->
+      <div id="act3-header" class="header-section">
+        <div class="act-badge">PARTS 5 & 6 · DIFFERENTIAL TRACE MODE</div>
+        <h1 class="act-title">Side-by-Side Control Flow & Trace Verification</h1>
+        <p class="act-desc">Differential execution compares 41 deterministic trace events between Jenkins and GitHub Actions runner environments.</p>
+      </div>
+
+      <!-- Split Terminal + Verdict Overlay Container -->
+      <div class="terminal-stage">
+        <!-- Dual Pane Split Terminal -->
+        <div class="split-terminal">
+          <!-- Left Terminal: Jenkins -->
+          <div class="term-pane term-jenkins">
+            <div class="term-header">
+              <div class="term-title">
+                <span class="term-dot blue-dot"></span>
+                <strong>Jenkins Baseline Execution Trace</strong>
+              </div>
+              <span class="term-tag">7 of 41 trace events</span>
+            </div>
+            <div class="term-body">
+              <div class="term-line"><span class="t-time">00:00</span> <span class="t-event text-blue">J2GHA-TRACE</span> {&quot;stage&quot;:&quot;Prepare sources&quot;,&quot;step&quot;:&quot;deleteDir&quot;}</div>
+              <div class="term-line"><span class="t-time">00:00</span> <span class="t-event text-blue">J2GHA-TRACE</span> {&quot;stage&quot;:&quot;Build&quot;,&quot;step&quot;:&quot;sh&quot;}</div>
+              <div class="term-line"><span class="t-time">00:01</span> <span class="t-event text-blue">J2GHA-TRACE</span> {&quot;stage&quot;:&quot;Unit tests&quot;,&quot;step&quot;:&quot;sh&quot;}</div>
+              <div class="term-line"><span class="t-time">00:01</span> <span class="t-event text-blue">J2GHA-TRACE</span> {&quot;stage&quot;:&quot;Lint&quot;,&quot;step&quot;:&quot;sh&quot;}</div>
+              <div class="term-line"><span class="t-time">00:02</span> <span class="t-event text-blue">J2GHA-TRACE</span> {&quot;stage&quot;:&quot;Contract tests&quot;,&quot;step&quot;:&quot;sh&quot;}</div>
+              <div class="term-line"><span class="t-time">00:03</span> <span class="t-event text-blue">J2GHA-TRACE</span> {&quot;stage&quot;:&quot;Publish&quot;,&quot;step&quot;:&quot;archiveArtifacts&quot;}</div>
+              <div class="term-line"><span class="t-time">00:03</span> <span class="t-event text-amber">J2GHA-TRACE</span> {&quot;stage&quot;:&quot;Deploy&quot;,&quot;step&quot;:&quot;input&quot;}</div>
+            </div>
+          </div>
+
+          <!-- Match Divider Connector -->
+          <div class="match-divider">
+            <div class="match-line"></div>
+            <div class="match-icon">⇄</div>
+            <div class="match-line"></div>
+          </div>
+
+          <!-- Right Terminal: GHA (act) -->
+          <div class="term-pane term-gha">
+            <div class="term-header">
+              <div class="term-title">
+                <span class="term-dot purple-dot"></span>
+                <strong>GitHub Actions Trace (act runner)</strong>
+              </div>
+              <span class="term-tag">the same 7, from act</span>
+            </div>
+            <div class="term-body">
+              <div class="term-line"><span class="t-time">00:01</span> <span class="t-event text-purple">J2GHA-TRACE</span> {&quot;stage&quot;:&quot;Prepare sources&quot;,&quot;step&quot;:&quot;deleteDir&quot;}</div>
+              <div class="term-line"><span class="t-time">00:02</span> <span class="t-event text-purple">J2GHA-TRACE</span> {&quot;stage&quot;:&quot;Build&quot;,&quot;step&quot;:&quot;sh&quot;}</div>
+              <div class="term-line"><span class="t-time">00:10</span> <span class="t-event text-purple">J2GHA-TRACE</span> {&quot;stage&quot;:&quot;Unit tests&quot;,&quot;step&quot;:&quot;sh&quot;}</div>
+              <div class="term-line"><span class="t-time">00:10</span> <span class="t-event text-purple">J2GHA-TRACE</span> {&quot;stage&quot;:&quot;Lint&quot;,&quot;step&quot;:&quot;sh&quot;}</div>
+              <div class="term-line"><span class="t-time">00:17</span> <span class="t-event text-purple">J2GHA-TRACE</span> {&quot;stage&quot;:&quot;Contract tests&quot;,&quot;step&quot;:&quot;sh&quot;}</div>
+              <div class="term-line"><span class="t-time">00:24</span> <span class="t-event text-purple">J2GHA-TRACE</span> {&quot;stage&quot;:&quot;Publish&quot;,&quot;step&quot;:&quot;archiveArtifacts&quot;}</div>
+              <div class="term-line"><span class="t-time">00:28</span> <span class="t-event text-amber">J2GHA-TRACE</span> {&quot;stage&quot;:&quot;Deploy&quot;,&quot;step&quot;:&quot;input&quot;}</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Floating Verdict Badge -->
+        <div id="verdict-card" class="verdict-overlay" data-layout-allow-occlusion="true" data-layout-allow-overlap="true">
+          <div class="verdict-content">
+            <div class="verdict-badge-header">
+              <span class="verdict-check">✓</span>
+              <span class="verdict-heading">EQUIVALENT</span>
+              <span class="verdict-score">100.0% STEP SIMILARITY</span>
+            </div>
+            <div class="verdict-details">
+              <div class="verdict-metric">
+                <span class="v-num">41 / 41</span>
+                <span class="v-desc">Trace Events Matched</span>
+              </div>
+              <div class="v-sep"></div>
+              <div class="verdict-metric">
+                <span class="v-num">0</span>
+                <span class="v-desc">Control Flow Divergences</span>
+              </div>
+              <div class="v-sep"></div>
+              <div class="verdict-metric">
+                <span class="v-num">10 / 10</span>
+                <span class="v-desc">Stages Matched</span>
+              </div>
+            </div>
+            <div class="gap-note">
+              <span>Known gap (full mode): the converted deploy record has no approver; act wrote "approver": "unknown" where Jenkins wrote "admin".</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <style>
+      [data-composition-id="act3"] .act3-container {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        padding: 110px 64px 120px 64px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      [data-composition-id="act3"] .header-section {
+        margin-bottom: 24px;
+      }
+      [data-composition-id="act3"] .act-badge {
+        display: inline-block;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #10b981;
+        background: rgba(16, 185, 129, 0.12);
+        border: 1px solid rgba(16, 185, 129, 0.3);
+        padding: 4px 14px;
+        border-radius: 9999px;
+        margin-bottom: 10px;
+      }
+      [data-composition-id="act3"] .act-title {
+        font-size: 38px;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        color: #f8fafc;
+        margin-bottom: 8px;
+      }
+      [data-composition-id="act3"] .act-desc {
+        font-size: 18px;
+        color: #94a3b8;
+        max-width: 1150px;
+        line-height: 1.45;
+      }
+
+      [data-composition-id="act3"] .terminal-stage {
+        position: relative;
+        width: 100%;
+        height: 480px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      [data-composition-id="act3"] .split-terminal {
+        position: absolute;
+        inset: 0;
+        display: grid;
+        grid-template-columns: 1fr 60px 1fr;
+        align-items: center;
+        gap: 12px;
+      }
+      [data-composition-id="act3"] .term-pane {
+        background: rgba(15, 23, 42, 0.85);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        overflow: hidden;
+        backdrop-filter: blur(16px);
+        box-shadow: 0 16px 36px rgba(0, 0, 0, 0.5);
+      }
+      [data-composition-id="act3"] .term-header {
+        height: 44px;
+        background: rgba(30, 41, 59, 0.7);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 18px;
+      }
+      [data-composition-id="act3"] .term-title {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 14px;
+        color: #f8fafc;
+      }
+      [data-composition-id="act3"] .term-dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+      }
+      [data-composition-id="act3"] .blue-dot {
+        background: #38bdf8;
+        box-shadow: 0 0 10px #38bdf8;
+      }
+      [data-composition-id="act3"] .purple-dot {
+        background: #c084fc;
+        box-shadow: 0 0 10px #c084fc;
+      }
+      [data-composition-id="act3"] .term-tag {
+        font-size: 11.5px;
+        color: #94a3b8;
+        font-family: 'JetBrains Mono', monospace;
+      }
+      [data-composition-id="act3"] .term-body {
+        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 13.5px;
+        background: rgba(8, 11, 18, 0.6);
+      }
+      [data-composition-id="act3"] .term-line {
+        display: flex;
+        gap: 12px;
+        color: #cbd5e1;
+      }
+      [data-composition-id="act3"] .t-time {
+        color: #94a3b8;
+      }
+      [data-composition-id="act3"] .text-blue { color: #38bdf8; font-weight: 700; }
+      [data-composition-id="act3"] .text-purple { color: #c084fc; font-weight: 700; }
+      [data-composition-id="act3"] .text-amber { color: #fbbf24; font-weight: 700; }
+
+      [data-composition-id="act3"] .match-divider {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+      [data-composition-id="act3"] .match-line {
+        width: 2px;
+        height: 80px;
+        background: rgba(255, 255, 255, 0.1);
+      }
+      [data-composition-id="act3"] .match-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: rgba(16, 185, 129, 0.15);
+        border: 1px solid rgba(16, 185, 129, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #10b981;
+        font-weight: 800;
+        font-size: 16px;
+      }
+
+      /* Floating Verdict Overlay */
+      [data-composition-id="act3"] .verdict-overlay {
+        position: relative;
+        width: 820px;
+        background: rgba(15, 23, 42, 0.95);
+        border: 2px solid #10b981;
+        border-radius: 20px;
+        padding: 24px 32px;
+        box-shadow: 0 24px 64px rgba(16, 185, 129, 0.25), 0 0 0 1px rgba(16, 185, 129, 0.4);
+        backdrop-filter: blur(20px);
+        opacity: 0;
+      }
+      [data-composition-id="act3"] .verdict-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+      [data-composition-id="act3"] .verdict-badge-header {
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        margin-bottom: 20px;
+      }
+      [data-composition-id="act3"] .verdict-check {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        background: #047857;
+        color: #ffffff;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 800;
+        font-size: 20px;
+        box-shadow: 0 0 16px #047857;
+      }
+      [data-composition-id="act3"] .verdict-heading {
+        font-size: 28px;
+        font-weight: 900;
+        letter-spacing: -0.02em;
+        color: #f8fafc;
+      }
+      [data-composition-id="act3"] .verdict-score {
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: 0.06em;
+        background: #047857;
+        color: #ffffff;
+        padding: 4px 12px;
+        border-radius: 9999px;
+      }
+      [data-composition-id="act3"] .verdict-details {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 32px;
+        margin-bottom: 16px;
+      }
+      [data-composition-id="act3"] .verdict-metric {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      [data-composition-id="act3"] .v-num {
+        font-size: 24px;
+        font-weight: 800;
+        font-family: 'JetBrains Mono', monospace;
+        color: #f1f5f9;
+      }
+      [data-composition-id="act3"] .v-desc {
+        font-size: 12.5px;
+        color: #94a3b8;
+      }
+      [data-composition-id="act3"] .v-sep {
+        width: 1px;
+        height: 36px;
+        background: rgba(255, 255, 255, 0.12);
+      }
+      [data-composition-id="act3"] .gap-note {
+        font-size: 12px;
+        color: #cbd5e1;
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 8px;
+        padding: 6px 14px;
+      }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script>
+      (function() {
+        const tl = gsap.timeline({ paused: true });
+
+        // Staggered entrance for header and split terminal
+        tl.fromTo('[data-composition-id="act3"] #act3-header', 
+          { opacity: 0, y: -20 }, 
+          { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, 
+          0.2
+        );
+        tl.fromTo('[data-composition-id="act3"] .split-terminal', 
+          { opacity: 0, scale: 0.98 }, 
+          { opacity: 1, scale: 1, duration: 0.7, ease: "power3.out" }, 
+          0.5
+        );
+
+        // At 5.3s: Animate the split terminal out and set display: none
+        tl.to('[data-composition-id="act3"] .split-terminal', 
+          { opacity: 0, scale: 0.95, duration: 0.5, ease: "power2.in" }, 
+          5.3
+        );
+        tl.set('[data-composition-id="act3"] .split-terminal', { display: "none" }, 5.8);
+
+        // At 5.8s: Reveal the 100% equivalent verdict card
+        tl.fromTo('[data-composition-id="act3"] #verdict-card', 
+          { opacity: 0, scale: 0.9, y: 20 }, 
+          { opacity: 1, scale: 1, y: 0, duration: 0.6, ease: "back.out(1.2)" }, 
+          5.8
+        );
+
+        // Subtle pulse on the verdict card
+        tl.to('[data-composition-id="act3"] #verdict-card', 
+          { boxShadow: "0 28px 72px rgba(16, 185, 129, 0.35)", duration: 0.8, yoyo: true, repeat: 3 }, 
+          7.0
+        );
+
+        // Exit transition before 15.0s
+        tl.to('[data-composition-id="act3"] .act3-container', 
+          { opacity: 0, scale: 0.96, duration: 0.4, ease: "power2.in" }, 
+          14.6
+        );
+
+        window.__timelines = window.__timelines || {};
+        window.__timelines["act3"] = tl;
+      })();
+    </script>
+  </div>
+</template>

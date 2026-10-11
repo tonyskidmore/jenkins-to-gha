@@ -1,0 +1,55 @@
+pipeline {
+  agent any
+  environment {
+    TOKEN = credentials('github_token')
+  }
+  stages {
+    stage('Build') {
+      when { branch 'main' }
+      steps {
+        script {
+          if (params.LINT == 'yes') { sh 'make lint' }
+        }
+        sh 'make build'
+        withEnv(["COPY=${env.ORIGINAL}", 'STATIC=${KEEP}', 'PATH+TOOLS=/opt/tools/bin', 'STAMP=' + env.BUILD_ID]) {
+          sh 'printf "%s" "$COPY"'
+        }
+        retry(2) {
+          sh '''
+            false
+            echo SHOULD_NOT_RUN
+          '''
+        }
+      }
+      post {
+        always { echo 'build always' }
+        success { echo 'build ok' }
+        cleanup { echo 'build cleanup' }
+      }
+    }
+    stage('Fan') {
+      when { not { branch 'skip-*' } }
+      environment { REGION = 'eu' }
+      options { timeout(time: 2, unit: 'MINUTES') }
+      parallel {
+        stage('A') { steps { sh 'echo a $REGION' } }
+        stage('B') { steps { sh 'echo b' } }
+      }
+      post { always { echo 'fan cleanup' } }
+    }
+    stage('Cells') {
+      environment { SUITE = 'all' }
+      matrix {
+        axes { axis { name 'OS'; values 'linux', 'mac' } }
+        environment { CELL_VAR = 'cell' }
+        options { timeout(time: 3, unit: 'MINUTES') }
+        stages { stage('Test') { steps { sh 'make test' } } }
+      }
+      post { failure { echo 'cells failed' } }
+    }
+  }
+  post {
+    always { sh './notify.sh' }
+    cleanup { sh './release-lock.sh' }
+  }
+}

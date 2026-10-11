@@ -1,0 +1,131 @@
+{
+  "tier": "act",
+  "mode": "full",
+  "result": "failure",
+  "exit_code": 1,
+  "seconds": 18.0,
+  "jobs": {
+    "setup": {
+      "result": "failure"
+    },
+    "post": {
+      "result": "success"
+    }
+  },
+  "traces": [],
+  "failed_steps": [
+    "Build: tar --exclude='./.git' --exclude='./Jenkinsfile' --exclude='*.tar.gz'",
+    "Restore pipeline workspace (approval)"
+  ],
+  "error_tail": [
+    "{\"level\":\"info\",\"msg\":\"Using docker host 'unix:///var/run/docker.sock', and daemon socket '-'\",\"time\":\"2026-10-10T08:27:07Z\"}",
+    "{\"level\":\"info\",\"msg\":\"Start server on http://172.17.0.3:34567\",\"time\":\"2026-10-10T08:27:07Z\"}",
+    "Error: Job 'Setup, Build, Publish, DEV Deploy, PRE Deploy' failed"
+  ],
+  "outputs": {
+    "archived": [],
+    "tests": null,
+    "injected": [
+      {
+        "path": ".github/workflows/j2gha.yml",
+        "size": 22170,
+        "sha256": "3deaa18af28c9a0ce0214b56213e6faa625aaaf41af02a273020dfde0c3ad8a5"
+      }
+    ]
+  },
+  "variant_notes": {
+    "dropped_jobs": [],
+    "matrix_jobs": 4,
+    "jobs": 4
+  },
+  "provenance": {
+    "jenkinsfile_sha256": "90058ba0317b7c9aea122c345c7828513f6757a748da88a211ab4eb23c661122",
+    "scenario": {
+      "branch": "master",
+      "git_branch": "origin/master"
+    },
+    "mode": "full",
+    "model_sha256": "8a419b0db5c568ec43b4d4f80d2d03e9a1ef77b908cf807f138c946fb823db7c",
+    "images": {
+      "jenkins": {
+        "ref": "j2gha/jenkins:local",
+        "present": true,
+        "id": "sha256:672c4b841b2c934f224d4f1b3523d77a1b651f8f491f8f04da47ca764eb86775",
+        "repo_digests": [],
+        "created": "2026-10-09T18:21:15.545465961Z",
+        "labels": {
+          "j2gha.base-image": "jenkins/jenkins:lts-jdk21@sha256:a660310e39ade10631f774bacd5219de767dfd08947ea5c32a739b5e5bb382c1",
+          "org.opencontainers.image.version": "2.580.1",
+          "org.opencontainers.image.revision": "457b9316d71b43cdf3e2ba6ec7c27efc40f5dc60",
+          "org.opencontainers.image.source": "https://github.com/jenkinsci/docker"
+        },
+        "jenkins_version": "2.580.1"
+      },
+      "act": {
+        "ref": "j2gha/act:local",
+        "present": true,
+        "id": "sha256:0781bb0384b914fba362a2a2483d55d30c3d3cc9b59598856146778aa88662a4",
+        "repo_digests": [],
+        "created": "2026-10-03T06:26:46.552472741Z",
+        "labels": {},
+        "act_version": "0.2.89"
+      },
+      "act_runner": {
+        "ref": "j2gha/act-runner:local",
+        "present": true,
+        "id": "sha256:134418998a1ca958b148ee6befb038aa3ff598bf147b39ce9e99b60a563a15be",
+        "repo_digests": [],
+        "created": "2026-10-09T18:54:04.157825772Z",
+        "labels": {
+          "j2gha.base-image": "catthehacker/ubuntu:act-latest@sha256:c58e2b364da03b0c804c7d660f2ecbedf2f221a382b9baa0b344b0144780ff43",
+          "org.opencontainers.image.version": "20260815",
+          "org.opencontainers.image.revision": "e2f8efe464c82732f78e967ee709c00b6af53643",
+          "org.opencontainers.image.source": "https://github.com/catthehacker/catthehacker/docker_images"
+        }
+      },
+      "jit_runner": {
+        "ref": "j2gha/runner:local",
+        "present": true,
+        "id": "sha256:4847cf6e3e915577d28244aedfbe1b633eafa060a49d4ef313129d6841e2e667",
+        "repo_digests": [],
+        "created": "2026-10-09T18:52:46.515242869Z",
+        "labels": {
+          "j2gha.base-image": "ghcr.io/actions/actions-runner:latest@sha256:4ffadc0002b2581327e06101fc8c06cd189232baf79fe561fac9caeb76f5e807",
+          "org.opencontainers.image.version": "24.04",
+          "org.opencontainers.image.source": "https://github.com/actions/runner"
+        }
+      }
+    }
+  },
+  "finished_at": "2026-10-10T08:27:24+00:00",
+  "comparison": {
+    "mode": "full",
+    "verdict": "differs",
+    "equivalent": false,
+    "similarity_pct": 0.0,
+    "jenkins_result": "FAILURE",
+    "gha_result": "failure",
+    "jenkins_failed_stage": "Publish",
+    "gha_failed_stage": "Build",
+    "gha_failed_step": "Build: tar --exclude='./.git' --exclude='./Jenkinsfile' --exclude='*.tar.gz'",
+    "stages": [],
+    "outputs": {
+      "tests": {
+        "status": "none"
+      },
+      "archived": {
+        "status": "none",
+        "jenkins": 0,
+        "gha": 0,
+        "missing": [],
+        "extra": [],
+        "copies": 0,
+        "content_same": 0,
+        "content_differs": [],
+        "content_unknown": 0,
+        "proven": false
+      },
+      "verdict": "same"
+    }
+  }
+}

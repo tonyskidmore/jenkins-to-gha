@@ -1,0 +1,280 @@
+{
+  "analysis_version": 1,
+  "parser": {
+    "engine": "groovy-ast (Jenkins-bundled Groovy 2.4, CONVERSION phase)",
+    "ok": true,
+    "errors": []
+  },
+  "dialect": "declarative",
+  "metrics": {
+    "artifact_steps": 2,
+    "classes": 0,
+    "conditionals": 6,
+    "credentials": 1,
+    "distinct_steps": 10,
+    "downstream_builds": 1,
+    "env_vars": 23,
+    "libraries": 0,
+    "loads": 1,
+    "loc": 662,
+    "max_stage_depth": 2,
+    "methods": 0,
+    "options": 1,
+    "parameters": 25,
+    "post_conditions": 2,
+    "script_blocks": 3,
+    "script_statements": 25,
+    "shell_steps": 16,
+    "stages": 14,
+    "steps": 33,
+    "tools": 2,
+    "top_level_stages": 2,
+    "triggers": 0,
+    "unknown_steps": 0,
+    "when_conditions": 3
+  },
+  "steps": {
+    "sh": {
+      "count": 16,
+      "category": "direct",
+      "lines": [
+        234,
+        275,
+        282,
+        291,
+        307,
+        321,
+        337,
+        350,
+        352,
+        362,
+        385,
+        551
+      ],
+      "gha": "run: (shell: bash)"
+    },
+    "echo": {
+      "count": 4,
+      "category": "direct",
+      "lines": [
+        218,
+        261,
+        351,
+        353
+      ],
+      "gha": "run: echo"
+    },
+    "error": {
+      "count": 3,
+      "category": "direct",
+      "lines": [
+        254,
+        259,
+        559
+      ],
+      "gha": "run: echo ::error:: && exit 1"
+    },
+    "withMaven": {
+      "count": 3,
+      "category": "policy",
+      "lines": [
+        274,
+        306,
+        614
+      ],
+      "gha": "actions/setup-java (cache: maven)"
+    },
+    "get": {
+      "count": 2,
+      "category": "groovy",
+      "lines": [
+        248,
+        250
+      ],
+      "gha": null
+    },
+    "evaluate": {
+      "count": 1,
+      "category": "dynamic",
+      "lines": [
+        219
+      ],
+      "gha": "manual"
+    },
+    "withCredentials": {
+      "count": 1,
+      "category": "policy",
+      "lines": [
+        615
+      ],
+      "gha": "secrets.* / environment secrets / OIDC"
+    },
+    "archiveArtifacts": {
+      "count": 1,
+      "category": "direct",
+      "lines": [
+        657
+      ],
+      "gha": "actions/upload-artifact"
+    },
+    "junit": {
+      "count": 1,
+      "category": "policy",
+      "lines": [
+        659
+      ],
+      "gha": "upload JUnit XML + test reporting action"
+    },
+    "build": {
+      "count": 1,
+      "category": "redesign",
+      "lines": [
+        696
+      ],
+      "gha": "workflow_call / workflow_dispatch / repository_dispatch"
+    }
+  },
+  "unknown_steps": [],
+  "agents": [
+    {
+      "kind": "label",
+      "label": "large-ol9u4",
+      "image": null,
+      "line": 36,
+      "scope": "pipeline"
+    }
+  ],
+  "credentials": [
+    {
+      "id": "wkt-ocir-creds",
+      "type": "usernamePassword",
+      "lines": [
+        616
+      ],
+      "expr": "${ocir_creds}"
+    }
+  ],
+  "dsl_symbols": [
+    "call"
+  ],
+  "libraries": [],
+  "methods": [],
+  "jenkins_model": {
+    "result": "success",
+    "errors": [],
+    "stages": [
+      "Filter unwanted branches",
+      "Workaround JENKINS-41929 Parameters bug",
+      "Echo environment",
+      "Build WebLogic Kubernetes Operator",
+      "Make Workspace bin directory",
+      "Install Helm",
+      "Run Helm installation tests",
+      "Install kubectl",
+      "Install kind",
+      "Preparing Integration Test Environment",
+      "Start registry container",
+      "Create kind cluster",
+      "Run integration tests",
+      "Sync"
+    ],
+    "agent": "label",
+    "discrepancies": []
+  },
+  "findings": [
+    {
+      "id": "ExternalGroovyLoad",
+      "severity": "high",
+      "line": 219,
+      "evidence": "evaluate(${def script = \"\"; params.each { k, v -> script += \"env.${k} = '''${v}'''\n\" }; return script})",
+      "recommendation": "Inline the loaded logic as scripts/composite actions",
+      "gate": true
+    },
+    {
+      "id": "ScriptBlocks",
+      "severity": "medium",
+      "line": null,
+      "evidence": "3 script{} block(s), 25 Groovy statements",
+      "recommendation": "Move imperative logic into versioned shell/Python scripts or composite actions"
+    },
+    {
+      "id": "DownstreamBuild",
+      "severity": "medium",
+      "line": 696,
+      "evidence": "build job: wkt-sync",
+      "recommendation": "Use workflow_call (reusable workflow) or workflow_dispatch/repository_dispatch"
+    },
+    {
+      "id": "ToolsDirective",
+      "severity": "low",
+      "line": null,
+      "evidence": "maven 'maven-3.8.7', jdk 'jdk25'",
+      "recommendation": "Map Jenkins global tool names to actions/setup-* versions"
+    },
+    {
+      "id": "CredentialBinding",
+      "severity": "low",
+      "line": 616,
+      "evidence": "usernamePassword 'wkt-ocir-creds'",
+      "recommendation": "Create GitHub secret(s) or use OIDC; never inline values"
+    }
+  ],
+  "hard_gates": [
+    {
+      "id": "ExternalGroovyLoad",
+      "severity": "high",
+      "line": 219,
+      "evidence": "evaluate(${def script = \"\"; params.each { k, v -> script += \"env.${k} = '''${v}'''\n\" }; return script})",
+      "recommendation": "Inline the loaded logic as scripts/composite actions",
+      "gate": true
+    }
+  ],
+  "styles": [
+    "declarative",
+    "when-post",
+    "credentials",
+    "parameters-triggers",
+    "artifacts-tests",
+    "downstream-build",
+    "dynamic-groovy",
+    "tools"
+  ],
+  "coverage": {
+    "by_category": {
+      "direct": 24,
+      "policy": 5,
+      "groovy": 2,
+      "dynamic": 1,
+      "redesign": 1
+    },
+    "weighted_mapped_pct": 75.4
+  },
+  "complexity": {
+    "score": 46,
+    "classification": "significant-redesign",
+    "dimensions": {
+      "declarative_structure": 10,
+      "step_mapping": 6.2,
+      "plugin_coupling": 3.0,
+      "library_opacity": 0.0,
+      "runtime_coupling": 4.0,
+      "security_identity": 2,
+      "control_flow": 0.0
+    },
+    "hard_gates": [
+      "ExternalGroovyLoad"
+    ],
+    "weights": {
+      "declarative_structure": 20,
+      "step_mapping": 25,
+      "plugin_coupling": 15,
+      "library_opacity": 15,
+      "runtime_coupling": 10,
+      "security_identity": 10,
+      "control_flow": 5
+    }
+  },
+  "convertibility": "partial",
+  "ir_notes": [],
+  "source_sha256": "e7b6565ebf56715564b7b7ed51fc250dd2d46768a727caf489c990bb97326287"
+}

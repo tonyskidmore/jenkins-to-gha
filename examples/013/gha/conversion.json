@@ -1,0 +1,347 @@
+{
+  "counts": {
+    "mapped": 13,
+    "approximated": 16,
+    "manual": 8,
+    "dropped": 2,
+    "info": 1
+  },
+  "automation_pct": 62.1,
+  "items": [
+    {
+      "jenkins": "options: disableConcurrentBuilds",
+      "line": null,
+      "stage": null,
+      "status": "mapped",
+      "gha": "concurrency",
+      "note": "GHA keeps only the latest pending run per group"
+    },
+    {
+      "jenkins": "post always",
+      "line": null,
+      "stage": null,
+      "status": "mapped",
+      "gha": "if: always()",
+      "note": ""
+    },
+    {
+      "jenkins": "post failure",
+      "line": null,
+      "stage": null,
+      "status": "mapped",
+      "gha": "if: failure()",
+      "note": ""
+    },
+    {
+      "jenkins": "post cleanup",
+      "line": null,
+      "stage": null,
+      "status": "mapped",
+      "gha": "if: always()",
+      "note": ""
+    },
+    {
+      "jenkins": "environment MAIN_BRANCH",
+      "line": 19,
+      "stage": null,
+      "status": "mapped",
+      "gha": "env",
+      "note": ""
+    },
+    {
+      "jenkins": "parameters: choice BUILD_TYPE",
+      "line": 23,
+      "stage": null,
+      "status": "mapped",
+      "gha": "on.workflow_dispatch.inputs",
+      "note": ""
+    },
+    {
+      "jenkins": "parameters: booleanParam ECLIPSE_SIGN",
+      "line": 32,
+      "stage": null,
+      "status": "mapped",
+      "gha": "on.workflow_dispatch.inputs",
+      "note": ""
+    },
+    {
+      "jenkins": "parameters: booleanParam PROMOTE",
+      "line": 41,
+      "stage": null,
+      "status": "mapped",
+      "gha": "on.workflow_dispatch.inputs",
+      "note": ""
+    },
+    {
+      "jenkins": "echo",
+      "line": 73,
+      "stage": "Display Parameters",
+      "status": "mapped",
+      "gha": "run: echo",
+      "note": ""
+    },
+    {
+      "jenkins": "archiveArtifacts",
+      "line": 91,
+      "stage": "Build Nebula",
+      "status": "mapped",
+      "gha": "actions/upload-artifact@v4",
+      "note": ""
+    },
+    {
+      "jenkins": "archiveArtifacts",
+      "line": 105,
+      "stage": "Declarative: Post Actions",
+      "status": "mapped",
+      "gha": "actions/upload-artifact@v4",
+      "note": ""
+    },
+    {
+      "jenkins": "deleteDir",
+      "line": 120,
+      "stage": "Declarative: Post Actions",
+      "status": "mapped",
+      "gha": "run: workspace cleanup",
+      "note": "runners are ephemeral; kept for parity"
+    },
+    {
+      "jenkins": "sh",
+      "line": 129,
+      "stage": "Build Nebula",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "tools maven 'apache-maven-latest'",
+      "line": null,
+      "stage": null,
+      "status": "approximated",
+      "gha": "runner-provided Maven",
+      "note": "GitHub-hosted Ubuntu runners include Maven; pin a version with a setup action if required"
+    },
+    {
+      "jenkins": "tools jdk 'temurin-jdk21-latest'",
+      "line": null,
+      "stage": null,
+      "status": "approximated",
+      "gha": "actions/setup-java@v4",
+      "note": "Jenkins tool name mapped by version heuristics"
+    },
+    {
+      "jenkins": "post fixed",
+      "line": null,
+      "stage": null,
+      "status": "dropped",
+      "gha": "-",
+      "note": "no GHA equivalent"
+    },
+    {
+      "jenkins": "options: timeout",
+      "line": null,
+      "stage": null,
+      "status": "approximated",
+      "gha": "timeout-minutes: 60 (per job)",
+      "note": "Jenkins timeout covers the whole pipeline"
+    },
+    {
+      "jenkins": "options: buildDiscarder",
+      "line": null,
+      "stage": null,
+      "status": "dropped",
+      "gha": "-",
+      "note": "use artifact retention-days / repo settings"
+    },
+    {
+      "jenkins": "agent label 'ubuntu-latest'",
+      "line": 2,
+      "stage": "Display Parameters, Build Nebula",
+      "status": "approximated",
+      "gha": "runs-on: ubuntu-latest",
+      "note": "use a self-hosted runner label if the agent provides special tooling/network"
+    },
+    {
+      "jenkins": "environment BUILD_TIMESTAMP",
+      "line": 18,
+      "stage": null,
+      "status": "approximated",
+      "gha": "evaluated by shell at runtime",
+      "note": "pipeline-level: written to $GITHUB_ENV; stage-level: exported before each run step"
+    },
+    {
+      "jenkins": "script {}",
+      "line": 51,
+      "stage": "Display Parameters",
+      "status": "approximated",
+      "gha": "inner steps translated individually",
+      "note": "imperative Groovy is not executed; review control flow"
+    },
+    {
+      "jenkins": "if (env.BRANCH_NAME == env.MAIN_BRANCH)",
+      "line": 53,
+      "stage": "Display Parameters",
+      "status": "approximated",
+      "gha": "if: env.BRANCH_NAME == env.MAIN_BRANCH",
+      "note": ""
+    },
+    {
+      "jenkins": "script {}",
+      "line": 81,
+      "stage": "Build Nebula",
+      "status": "approximated",
+      "gha": "inner steps translated individually",
+      "note": "imperative Groovy is not executed; review control flow"
+    },
+    {
+      "jenkins": "if (env.PROMOTE == 'true')",
+      "line": 82,
+      "stage": "Build Nebula",
+      "status": "approximated",
+      "gha": "if: env.PROMOTE == 'true'",
+      "note": ""
+    },
+    {
+      "jenkins": "sshagent",
+      "line": 86,
+      "stage": "Build Nebula",
+      "status": "approximated",
+      "gha": "webfactory/ssh-agent (recommended)",
+      "note": "keys exposed as env; load into an agent with an approved action"
+    },
+    {
+      "jenkins": "mvn() (local helper method)",
+      "line": 87,
+      "stage": "Build Nebula",
+      "status": "approximated",
+      "gha": "inlined",
+      "note": "body of the Jenkinsfile helper method inlined"
+    },
+    {
+      "jenkins": "mvn() (local helper method)",
+      "line": 90,
+      "stage": "Build Nebula",
+      "status": "approximated",
+      "gha": "inlined",
+      "note": "body of the Jenkinsfile helper method inlined"
+    },
+    {
+      "jenkins": "junit",
+      "line": 100,
+      "stage": "Declarative: Post Actions",
+      "status": "approximated",
+      "gha": "upload-artifact + step summary",
+      "note": "no native test UI; failing tests cannot mark the run UNSTABLE"
+    },
+    {
+      "jenkins": "recordIssues",
+      "line": 101,
+      "stage": "Declarative: Post Actions",
+      "status": "approximated",
+      "gha": "echo placeholder",
+      "note": "use an approved reporting action (SARIF/coverage)"
+    },
+    {
+      "jenkins": "mail",
+      "line": 106,
+      "stage": "Declarative: Post Actions",
+      "status": "approximated",
+      "gha": "notification placeholder",
+      "note": "use an approved notification action (e.g. slackapi/slack-github-action)"
+    },
+    {
+      "jenkins": "wrap",
+      "line": 126,
+      "stage": "Build Nebula",
+      "status": "approximated",
+      "gha": "body inlined",
+      "note": "wrapper semantics not reproduced"
+    },
+    {
+      "jenkins": "assign env.BUILD_TYPE = params.BUILD_TYPE",
+      "line": 52,
+      "stage": "Display Parameters",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "assign env.ECLIPSE_SIGN = params.ECLIPSE_SIGN",
+      "line": 56,
+      "stage": "Display Parameters",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "assign env.ECLIPSE_SIGN = False",
+      "line": 59,
+      "stage": "Display Parameters",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "assign env.PROMOTE = params.PROMOTE && (env.ECLIPSE_SIGN ",
+      "line": 64,
+      "stage": "Display Parameters",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "decl description = \"\"\"\nBUILD_TIMESTAMP=${env.BUILD_TIME",
+      "line": 66,
+      "stage": "Display Parameters",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment from a step"
+    },
+    {
+      "jenkins": "trim",
+      "line": 66,
+      "stage": "Display Parameters",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy method / helper call - port logic to a script"
+    },
+    {
+      "jenkins": "assign currentBuild.description = description.replace(...",
+      "line": 74,
+      "stage": "Display Parameters",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment from a step"
+    },
+    {
+      "jenkins": "replace",
+      "line": 74,
+      "stage": "Display Parameters",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy method / helper call - port logic to a script"
+    },
+    {
+      "jenkins": "checkout: SCM environment (GIT_COMMIT, GIT_BRANCH, GIT_URL)",
+      "line": null,
+      "stage": null,
+      "status": "info",
+      "gha": "env",
+      "note": "Jenkins' git plugin exports them to every step after a checkout, so called scripts may read them; defined at workflow level even when the Jenkinsfile does not"
+    }
+  ],
+  "secrets": {
+    "PROJECTS_STORAGE_ECLIPSE_ORG_BOT_SSH": "Jenkins credential 'projects-storage.eclipse.org-bot-ssh'"
+  },
+  "jobs": {
+    "display-parameters": {
+      "name": "Display Parameters, Build Nebula",
+      "runs-on": "ubuntu-latest",
+      "steps": 17,
+      "matrix": false
+    }
+  },
+  "notes": [],
+  "handoff": {},
+  "source_sha256": "5f4a16f03565490a467c9c3aa3e09336699dcd375d817cc7bd8aedf194c72bda",
+  "model_sha256": "83b776d902f27e2c0d442c9b155668f2fc13ad6dc027851af4edf62e7cab64cb"
+}

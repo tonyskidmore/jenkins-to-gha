@@ -1,0 +1,382 @@
+{
+  "result": "success",
+  "json": {
+    "pipeline": {
+      "stages": [
+        {
+          "name": "Display Parameters",
+          "branches": [
+            {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "script",
+                  "arguments": [
+                    {
+                      "key": "scriptBlock",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "env.BUILD_TYPE = params.BUILD_TYPE\n          if (env.BRANCH_NAME == env.MAIN_BRANCH) {\n            // Only sign the master branch.\n            //\n            env.ECLIPSE_SIGN = params.ECLIPSE_SIGN\n          } else {\n            // Do not sign PR builds.\n            env.ECLIPSE_SIGN =  false\n          }\n\n          // Only promote signed builds, i.e., do not sign or promote PR builds.\n          //\n          env.PROMOTE = params.PROMOTE && (env.ECLIPSE_SIGN == 'true')\n\n          def description = \"\"\"\nBUILD_TIMESTAMP=${env.BUILD_TIMESTAMP}\nBUILD_TYPE=${env.BUILD_TYPE}\nECLIPSE_SIGN=${env.ECLIPSE_SIGN}\nPROMOTE=${env.PROMOTE}\nBRANCH_NAME=${env.BRANCH_NAME}\n\"\"\".trim()\n          echo description\n          currentBuild.description = description.replace(\"\\n\", \"<br/>\")"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Build Nebula",
+          "branches": [
+            {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "script",
+                  "arguments": [
+                    {
+                      "key": "scriptBlock",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "if (env.PROMOTE == 'true') {\n            // Only provide an agent context, which allows uploading to download.eclipse.org if we are promoting.\n            // PR builds are not permitted to promote.\n            //\n            sshagent(['projects-storage.eclipse.org-bot-ssh']) {\n              mvn()\n            }\n          } else {\n            mvn()\n            archiveArtifacts 'releng/org.eclipse.nebula.site/target/repository/**'\n          }"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "post": {
+        "conditions": [
+          {
+            "condition": "always",
+            "branch": {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "junit",
+                  "arguments": [
+                    {
+                      "key": "allowEmptyResults",
+                      "value": {
+                        "isLiteral": true,
+                        "value": true
+                      }
+                    },
+                    {
+                      "key": "testResults",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "**/target/surefire-reports/*.xml"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "recordIssues",
+                  "arguments": [
+                    {
+                      "key": "publishAllIssues",
+                      "value": {
+                        "isLiteral": true,
+                        "value": true
+                      }
+                    },
+                    {
+                      "key": "tools",
+                      "value": {
+                        "isLiteral": false,
+                        "value": "${[java(), mavenConsole(), javaDoc()]}"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "condition": "failure",
+            "branch": {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "archiveArtifacts",
+                  "arguments": [
+                    {
+                      "key": "artifacts",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "**"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "mail",
+                  "arguments": [
+                    {
+                      "key": "to",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "ed.merks@gmail.com"
+                      }
+                    },
+                    {
+                      "key": "subject",
+                      "value": {
+                        "isLiteral": false,
+                        "value": "\"[Nebula CI] Build Failure ${currentBuild.fullDisplayName}\""
+                      }
+                    },
+                    {
+                      "key": "mimeType",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "text/html"
+                      }
+                    },
+                    {
+                      "key": "body",
+                      "value": {
+                        "isLiteral": false,
+                        "value": "\"Project: ${env.JOB_NAME}<br/>Build Number: ${env.BUILD_NUMBER}<br/>Build URL: ${env.BUILD_URL}<br/>Console: ${env.BUILD_URL}/console\""
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "condition": "fixed",
+            "branch": {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "mail",
+                  "arguments": [
+                    {
+                      "key": "to",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "ed.merks@gmail.com"
+                      }
+                    },
+                    {
+                      "key": "subject",
+                      "value": {
+                        "isLiteral": false,
+                        "value": "\"[Nebula CI] Back to normal ${currentBuild.fullDisplayName}\""
+                      }
+                    },
+                    {
+                      "key": "mimeType",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "text/html"
+                      }
+                    },
+                    {
+                      "key": "body",
+                      "value": {
+                        "isLiteral": false,
+                        "value": "\"Project: ${env.JOB_NAME}<br/>Build Number: ${env.BUILD_NUMBER}<br/>Build URL: ${env.BUILD_URL}<br/>Console: ${env.BUILD_URL}/console\""
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "condition": "cleanup",
+            "branch": {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "deleteDir",
+                  "arguments": []
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "environment": [
+        {
+          "key": "BUILD_TIMESTAMP",
+          "value": {
+            "isLiteral": false,
+            "value": "${sh(returnStdout: true, script: 'date +%Y%m%d%H%M').trim()}"
+          }
+        },
+        {
+          "key": "MAIN_BRANCH",
+          "value": {
+            "isLiteral": true,
+            "value": "master"
+          }
+        }
+      ],
+      "agent": {
+        "type": "label",
+        "argument": {
+          "isLiteral": true,
+          "value": "ubuntu-latest"
+        }
+      },
+      "tools": [
+        {
+          "key": "maven",
+          "value": {
+            "isLiteral": true,
+            "value": "apache-maven-latest"
+          }
+        },
+        {
+          "key": "jdk",
+          "value": {
+            "isLiteral": true,
+            "value": "temurin-jdk21-latest"
+          }
+        }
+      ],
+      "options": {
+        "options": [
+          {
+            "name": "timeout",
+            "arguments": [
+              {
+                "key": "time",
+                "value": {
+                  "isLiteral": true,
+                  "value": 60
+                }
+              },
+              {
+                "key": "unit",
+                "value": {
+                  "isLiteral": true,
+                  "value": "MINUTES"
+                }
+              }
+            ]
+          },
+          {
+            "name": "buildDiscarder",
+            "arguments": [
+              {
+                "name": "logRotator",
+                "arguments": [
+                  {
+                    "key": "numToKeepStr",
+                    "value": {
+                      "isLiteral": true,
+                      "value": "10"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "disableConcurrentBuilds",
+            "arguments": [
+              {
+                "key": "abortPrevious",
+                "value": {
+                  "isLiteral": true,
+                  "value": true
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "parameters": {
+        "parameters": [
+          {
+            "name": "choice",
+            "arguments": [
+              {
+                "key": "name",
+                "value": {
+                  "isLiteral": true,
+                  "value": "BUILD_TYPE"
+                }
+              },
+              {
+                "key": "choices",
+                "value": {
+                  "isLiteral": false,
+                  "value": "${['nightly', 'milestone', 'release']}"
+                }
+              },
+              {
+                "key": "description",
+                "value": {
+                  "isLiteral": true,
+                  "value": "\n        Choose the type of build.\n        Note that a release build will <b>not</b> promote the build, but rather will promote the most recent milestone build.\n        "
+                }
+              }
+            ]
+          },
+          {
+            "name": "booleanParam",
+            "arguments": [
+              {
+                "key": "name",
+                "value": {
+                  "isLiteral": true,
+                  "value": "ECLIPSE_SIGN"
+                }
+              },
+              {
+                "key": "defaultValue",
+                "value": {
+                  "isLiteral": true,
+                  "value": true
+                }
+              },
+              {
+                "key": "description",
+                "value": {
+                  "isLiteral": true,
+                  "value": "\n        Choose whether or not the bundles will be signed.\n        This is relevant only for nightly and milestone builds.\n      "
+                }
+              }
+            ]
+          },
+          {
+            "name": "booleanParam",
+            "arguments": [
+              {
+                "key": "name",
+                "value": {
+                  "isLiteral": true,
+                  "value": "PROMOTE"
+                }
+              },
+              {
+                "key": "defaultValue",
+                "value": {
+                  "isLiteral": true,
+                  "value": true
+                }
+              },
+              {
+                "key": "description",
+                "value": {
+                  "isLiteral": true,
+                  "value": "Whether to promote the build to the download server."
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

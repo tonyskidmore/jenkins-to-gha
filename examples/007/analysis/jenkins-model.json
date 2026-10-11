@@ -1,0 +1,1514 @@
+{
+  "result": "success",
+  "json": {
+    "pipeline": {
+      "stages": [
+        {
+          "when": {
+            "conditions": [
+              {
+                "name": "anyOf",
+                "children": [
+                  {
+                    "name": "changeRequest",
+                    "arguments": []
+                  },
+                  {
+                    "name": "branch",
+                    "arguments": {
+                      "isLiteral": true,
+                      "value": "main"
+                    }
+                  },
+                  {
+                    "name": "branch",
+                    "arguments": {
+                      "isLiteral": true,
+                      "value": "release/4.0"
+                    }
+                  },
+                  {
+                    "name": "branch",
+                    "arguments": {
+                      "isLiteral": true,
+                      "value": "release/3.4"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "post": {
+            "conditions": [
+              {
+                "condition": "always",
+                "branch": {
+                  "name": "default",
+                  "steps": [
+                    {
+                      "name": "sh",
+                      "arguments": [
+                        {
+                          "key": "script",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "\n                        export PATH=\"${WORKSPACE}/bin:${PATH}\"\n                        running=\"$(podman container inspect -f '{{.State.Running}}' \"${registry_name}\" 2>/dev/null || true)\"\n                        if [ \"${running}\" = 'true' ]; then\n                            echo \"Stopping the registry container ${registry_name}\"\n                            podman stop \"${registry_name}\"\n                            podman rm --force \"${registry_name}\"\n                        fi\n                        echo 'Remove old Kind cluster (if any)...'\n                        if ! kind delete cluster --name ${kind_name} --kubeconfig \"${kubeconfig_file}\"; then\n                            echo \"Failed to delete kind cluster ${kind_name}\"\n                        fi\n                        sudo chown $(whoami) ${WORKSPACE}\n                    "
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "name": "Filter unwanted branches",
+          "stages": [
+            {
+              "name": "Workaround JENKINS-41929 Parameters bug",
+              "branches": [
+                {
+                  "name": "default",
+                  "steps": [
+                    {
+                      "name": "echo",
+                      "arguments": [
+                        {
+                          "key": "message",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "Initialize parameters as environment variables due to https://issues.jenkins-ci.org/browse/JENKINS-41929"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "name": "evaluate",
+                      "arguments": {
+                        "isLiteral": false,
+                        "value": "\"\"\"${def script = \"\"; params.each { k, v -> script += \"env.${k} = '''${v}'''\\n\" }; return script}\"\"\""
+                      }
+                    },
+                    {
+                      "name": "script",
+                      "arguments": [
+                        {
+                          "key": "scriptBlock",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "if (env.CHANGE_ID) {\n                                // An automatic change-request build may be queued with the previous Jenkinsfile's\n                                // parameter default. Always use the default from the Jenkinsfile being tested.\n                                env.MONITORING_EXPORTER_WEBAPP_VERSION = default_monitoring_exporter_webapp_version\n                            }"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "environment": [
+                {
+                  "key": "runtime_path",
+                  "value": {
+                    "isLiteral": false,
+                    "value": "\"${WORKSPACE}/bin:${PATH}\""
+                  }
+                }
+              ],
+              "name": "Echo environment",
+              "branches": [
+                {
+                  "name": "default",
+                  "steps": [
+                    {
+                      "name": "sh",
+                      "arguments": [
+                        {
+                          "key": "script",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "\n                            export PATH=${runtime_path}\n                            env|sort\n                            java -version\n                            mvn --version\n                            python --version\n                            podman version\n                            ulimit -a\n                            ulimit -aH\n                        "
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "name": "script",
+                      "arguments": [
+                        {
+                          "key": "scriptBlock",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "def knd = params.KIND_VERSION\n                            def k8s = params.KUBE_VERSION\n                            if (knd != null && k8s != null) {\n                                def k8s_map = kind_k8s_map.get(knd)\n                                if (k8s_map != null) {\n                                    _kind_image = k8s_map.get(k8s)\n                                }\n                                if (_kind_image == null) {\n                                    currentBuild.result = 'ABORTED'\n                                    error('Unable to compute _kind_image for Kind version ' +\n                                            knd + ' and Kubernetes version ' + k8s)\n                                }\n                            } else {\n                                currentBuild.result = 'ABORTED'\n                                error('KIND_VERSION or KUBE_VERSION were null')\n                            }\n                            echo \"Kind Image = ${_kind_image}\"\n                            if (env.JOB_NAME == 'wko-kind-k8sversion') {\n                                currentBuild.description = \"${GIT_BRANCH} ${KUBE_VERSION}\"\n                            } else {\n                                currentBuild.description = \"${GIT_BRANCH} ${MAVEN_PROFILE_NAME}\"\n                            }"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Build WebLogic Kubernetes Operator",
+              "branches": [
+                {
+                  "name": "default",
+                  "steps": [
+                    {
+                      "name": "withMaven",
+                      "arguments": [
+                        {
+                          "key": "globalMavenSettingsConfig",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "wkt-maven-settings-xml"
+                          }
+                        },
+                        {
+                          "key": "publisherStrategy",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "EXPLICIT"
+                          }
+                        }
+                      ],
+                      "children": [
+                        {
+                          "name": "sh",
+                          "arguments": [
+                            {
+                              "key": "script",
+                              "value": {
+                                "isLiteral": true,
+                                "value": "mvn -DtrimStackTrace=false clean install"
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Make Workspace bin directory",
+              "branches": [
+                {
+                  "name": "default",
+                  "steps": [
+                    {
+                      "name": "sh",
+                      "arguments": [
+                        {
+                          "key": "script",
+                          "value": {
+                            "isLiteral": false,
+                            "value": "\"mkdir -m777 -p ${WORKSPACE}/bin\""
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "environment": [
+                {
+                  "key": "runtime_path",
+                  "value": {
+                    "isLiteral": false,
+                    "value": "\"${WORKSPACE}/bin:${PATH}\""
+                  }
+                }
+              ],
+              "name": "Install Helm",
+              "branches": [
+                {
+                  "name": "default",
+                  "steps": [
+                    {
+                      "name": "sh",
+                      "arguments": [
+                        {
+                          "key": "script",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "\n                            export PATH=${runtime_path}\n                            oci os object get --namespace=${wko_tenancy} --bucket-name=wko-system-test-files                                 --name=helm/helm-v${HELM_VERSION}.tar.gz --file=helm.tar.gz                                 --auth=instance_principal\n                            tar zxf helm.tar.gz\n                            mv linux-amd64/helm ${WORKSPACE}/bin/helm\n                            rm -rf linux-amd64\n                            helm version\n                        "
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Run Helm installation tests",
+              "branches": [
+                {
+                  "name": "default",
+                  "steps": [
+                    {
+                      "name": "withMaven",
+                      "arguments": [
+                        {
+                          "key": "globalMavenSettingsConfig",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "wkt-maven-settings-xml"
+                          }
+                        },
+                        {
+                          "key": "publisherStrategy",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "EXPLICIT"
+                          }
+                        }
+                      ],
+                      "children": [
+                        {
+                          "name": "sh",
+                          "arguments": [
+                            {
+                              "key": "script",
+                              "value": {
+                                "isLiteral": true,
+                                "value": "\n                              export PATH=\"${WORKSPACE}/bin:${PATH}\"\n                              mvn -pl kubernetes -P helm-installation-test verify\n                            "
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "environment": [
+                {
+                  "key": "runtime_path",
+                  "value": {
+                    "isLiteral": false,
+                    "value": "\"${WORKSPACE}/bin:${PATH}\""
+                  }
+                },
+                {
+                  "key": "KUBE_VERSION",
+                  "value": {
+                    "isLiteral": false,
+                    "value": "\"${params.KUBE_VERSION}\""
+                  }
+                }
+              ],
+              "name": "Install kubectl",
+              "branches": [
+                {
+                  "name": "default",
+                  "steps": [
+                    {
+                      "name": "sh",
+                      "arguments": [
+                        {
+                          "key": "script",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "\n                            export PATH=${runtime_path}\n                            oci os object get --namespace=${wko_tenancy} --bucket-name=wko-system-test-files                                 --name=kubectl/kubectl-v${KUBE_VERSION} --file=${WORKSPACE}/bin/kubectl                                 --auth=instance_principal\n                            chmod +x ${WORKSPACE}/bin/kubectl\n                            kubectl version --client=true\n                        "
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "environment": [
+                {
+                  "key": "runtime_path",
+                  "value": {
+                    "isLiteral": false,
+                    "value": "\"${WORKSPACE}/bin:${PATH}\""
+                  }
+                }
+              ],
+              "name": "Install kind",
+              "branches": [
+                {
+                  "name": "default",
+                  "steps": [
+                    {
+                      "name": "sh",
+                      "arguments": [
+                        {
+                          "key": "script",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "\n                            export PATH=${runtime_path}\n                            oci os object get --namespace=${wko_tenancy} --bucket-name=wko-system-test-files                                 --name=kind/kind-v${KIND_VERSION} --file=${WORKSPACE}/bin/kind                                 --auth=instance_principal\n                            chmod +x \"${WORKSPACE}/bin/kind\"\n                            kind version\n                        "
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Preparing Integration Test Environment",
+              "branches": [
+                {
+                  "name": "default",
+                  "steps": [
+                    {
+                      "name": "sh",
+                      "arguments": [
+                        {
+                          "key": "script",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "mkdir -m777 -p ${result_root}"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "name": "echo",
+                      "arguments": [
+                        {
+                          "key": "message",
+                          "value": {
+                            "isLiteral": false,
+                            "value": "\"Results will be in ${result_root}\""
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "name": "sh",
+                      "arguments": [
+                        {
+                          "key": "script",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "mkdir -m777 -p ${pv_root}"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "name": "echo",
+                      "arguments": [
+                        {
+                          "key": "message",
+                          "value": {
+                            "isLiteral": false,
+                            "value": "\"Persistent volume files, if any, will be in ${pv_root}\""
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "environment": [
+                {
+                  "key": "runtime_path",
+                  "value": {
+                    "isLiteral": false,
+                    "value": "\"${WORKSPACE}/bin:${PATH}\""
+                  }
+                }
+              ],
+              "name": "Start registry container",
+              "branches": [
+                {
+                  "name": "default",
+                  "steps": [
+                    {
+                      "name": "sh",
+                      "arguments": [
+                        {
+                          "key": "script",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "\n                            export PATH=${runtime_path}\n\n                            running=\"$(podman container inspect -f '{{.State.Running}}' \"${registry_name}\" 2>/dev/null || true)\"\n                            if [ \"${running}\" = 'true' ]; then\n                              echo \"Stopping the registry container ${registry_name}\"\n                              podman stop \"${registry_name}\"\n                              podman rm --force \"${registry_name}\"\n                            fi\n        \n                            podman run -d --restart=always -p \"127.0.0.1:${registry_port}:5000\" --name \"${registry_name}\"                                 ${ocir_host}/${wko_tenancy}/test-images/docker/registry:2.8.2\n                            echo \"Registry Host: ${registry_host}\"\n                        "
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "environment": [
+                {
+                  "key": "runtime_path",
+                  "value": {
+                    "isLiteral": false,
+                    "value": "\"${WORKSPACE}/bin:${PATH}\""
+                  }
+                },
+                {
+                  "key": "kind_image",
+                  "value": {
+                    "isLiteral": false,
+                    "value": "${sh(script: \"echo -n ${_kind_image}\", returnStdout: true).trim()}"
+                  }
+                }
+              ],
+              "name": "Create kind cluster",
+              "branches": [
+                {
+                  "name": "default",
+                  "steps": [
+                    {
+                      "name": "sh",
+                      "arguments": [
+                        {
+                          "key": "script",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "\n                            export PATH=${runtime_path}\n                            export KIND_EXPERIMENTAL_PROVIDER=podman\n\n                            podman version\n                            cat /etc/systemd/system/user@.service.d/delegate.conf\n                            cat /etc/modules-load.d/iptables.conf\n                            lsmod|grep -E \"^ip_tables|^iptable_filter|^iptable_nat|^ip6\"\n\n                            if kind delete cluster --name ${kind_name} --kubeconfig \"${kubeconfig_file}\"; then\n                                echo \"Deleted orphaned kind cluster ${kind_name}\"\n                            fi\n                            # settings needed by elastic logging tests\n                            echo \"running sudo sysctl -w vm.max_map_count=262144\"\n                            sudo sysctl -w vm.max_map_count=262144\n                            cat <<EOF | kind create cluster --name \"${kind_name}\" --kubeconfig \"${kubeconfig_file}\" --config=-\nkind: Cluster\napiVersion: kind.x-k8s.io/v1alpha4\ncontainerdConfigPatches:\n- |-\n  [plugins.\"io.containerd.grpc.v1.cri\".registry]\n    config_path = \"/etc/containerd/certs.d\"\nnodes:\n  - role: control-plane\n    image: ${kind_image}\n  - role: worker\n    image: ${kind_image}\n    extraPortMappings:\n      - containerPort: 30511\n        hostPort: 1511    \n      - containerPort: 32480\n        hostPort: 2480\n      - containerPort: 32490\n        hostPort: 2490    \n      - containerPort: 30080\n        hostPort: 2080\n      - containerPort: 30443\n        hostPort: 2043\n      - containerPort: 30180\n        hostPort: 2090\n      - containerPort: 30143\n        hostPort: 2053\n      - containerPort: 31000\n        hostPort: 2100\n      - containerPort: 31004\n        hostPort: 2104\n      - containerPort: 31008\n        hostPort: 2108\n      - containerPort: 31012\n        hostPort: 2112\n      - containerPort: 31016\n        hostPort: 2116\n      - containerPort: 31020\n        hostPort: 2120\n      - containerPort: 31024\n        hostPort: 2124\n      - containerPort: 31028\n        hostPort: 2128\n      - containerPort: 31032\n        hostPort: 2132\n      - containerPort: 31036\n        hostPort: 2136\n      - containerPort: 31040\n        hostPort: 2140\n      - containerPort: 31044\n        hostPort: 2144\n      - containerPort: 31048\n        hostPort: 2148\n      - containerPort: 31052\n        hostPort: 2152\n      - containerPort: 31056\n        hostPort: 2156\n      - containerPort: 31060\n        hostPort: 2160\n      - containerPort: 31064\n        hostPort: 2164\n      - containerPort: 31068\n        hostPort: 2168\n      - containerPort: 31072\n        hostPort: 2172\n      - containerPort: 31076\n        hostPort: 2176\n      - containerPort: 31080\n        hostPort: 2180\n      - containerPort: 31084\n        hostPort: 2184\n      - containerPort: 31088\n        hostPort: 2188\n      - containerPort: 31092\n        hostPort: 2192\n      - containerPort: 31096 \n        hostPort: 2196\n      - containerPort: 31100\n        hostPort: 2200\n      - containerPort: 31104 \n        hostPort: 2204\n      - containerPort: 31108\n        hostPort: 2208\n      - containerPort: 31112\n        hostPort: 2212\n      - containerPort: 31116\n        hostPort: 2216\n      - containerPort: 31120\n        hostPort: 2220\n      - containerPort: 31124\n        hostPort: 2224\n      - containerPort: 31128\n        hostPort: 2228\n      - containerPort: 31132\n        hostPort: 8001\n      - containerPort: 31136\n        hostPort: 2232\n    extraMounts:\n      - hostPath: ${pv_root}\n        containerPath: ${pv_root}\nkubeadmConfigPatches:\n- |\n  kind: KubeletConfiguration\n  localStorageCapacityIsolation: true\nEOF\n\n                            export KUBECONFIG=${kubeconfig_file}\n                            kubectl cluster-info --context \"kind-${kind_name}\"\n\n                            # Configure local registry access on each node using hosts.toml\n                            for node in $(kind get nodes --name \"${kind_name}\"); do\n                                REGISTRY_DIR=\"/etc/containerd/certs.d/localhost:${registry_port}\"\n                                podman exec \"${node}\" mkdir -p \"${REGISTRY_DIR}\"\n                                cat <<EOF | podman exec -i \"${node}\" cp /dev/stdin \"${REGISTRY_DIR}/hosts.toml\"\n[host.\"http://${registry_host}:${registry_port}\"]\nEOF\n                            done\n\n                            podman info\n                            kubectl describe node\n\n                            for node in $(kind get nodes --name \"${kind_name}\"); do\n                                kubectl annotate node ${node} tilt.dev/registry=localhost:${registry_port};\n                            done\n                            podman exec -it kind-worker bash -c \"sysctl vm.max_map_count\"\n\n                            # Document the local registry\n                            # https://github.com/kubernetes/enhancements/tree/master/keps/sig-cluster-lifecycle/generic/1755-communicating-a-local-registry\n                            cat <<EOF | kubectl apply -f -\napiVersion: v1\nkind: ConfigMap\nmetadata:\n  name: local-registry-hosting\n  namespace: kube-public\ndata:\n  localRegistryHosting.v1: |\n    host: \"localhost:${registry_port}\"\n    help: \"https://kind.sigs.k8s.io/docs/user/local-registry/\"\nEOF\n                        "
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "post": {
+                "conditions": [
+                  {
+                    "condition": "always",
+                    "branch": {
+                      "name": "default",
+                      "steps": [
+                        {
+                          "name": "sh",
+                          "arguments": [
+                            {
+                              "key": "script",
+                              "value": {
+                                "isLiteral": true,
+                                "value": "\n                                export PATH=\"${WORKSPACE}/bin:${PATH}\"\n                                export KUBECONFIG=${kubeconfig_file}\n                                mkdir -m777 -p ${result_root}/kubelogs\n                                if ! kind export logs \"${result_root}/kubelogs\" --name \"${kind_name}\" --verbosity 99; then\n                                    echo \"Failed to export kind logs for kind cluster ${kind_name}\"\n                                fi\n                                if ! podman exec kind-worker journalctl --utc --dmesg --system > \"${result_root}/journalctl-kind-worker.out\"; then\n                                    echo \"Failed to run journalctl for kind worker\"\n                                fi\n                                if ! podman exec kind-control-plane journalctl --utc --dmesg --system > \"${result_root}/journalctl-kind-control-plane.out\"; then\n                                    echo \"Failed to run journalctl for kind control plane\"\n                                fi\n                                if ! journalctl --utc --dmesg --system --since \"$start_time\" > \"${result_root}/journalctl-compute.out\"; then\n                                    echo \"Failed to run journalctl for compute node\"\n                                fi\n\n                                mkdir -m777 -p \"${WORKSPACE}/logdir/${BUILD_TAG}/wl_k8s_test_results\"\n                                sudo mv -f ${result_root}/* \"${WORKSPACE}/logdir/${BUILD_TAG}/wl_k8s_test_results\"\n                            "
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "name": "archiveArtifacts",
+                          "arguments": [
+                            {
+                              "key": "artifacts",
+                              "value": {
+                                "isLiteral": false,
+                                "value": "\"logdir/${BUILD_TAG}/wl_k8s_test_results/diagnostics/**/*,logdir/${BUILD_TAG}/wl_k8s_test_results/workdir/liftandshiftworkdir/**/*,integration-tests/target/failsafe-reports/*.xml\""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "name": "junit",
+                          "arguments": [
+                            {
+                              "key": "testResults",
+                              "value": {
+                                "isLiteral": true,
+                                "value": "integration-tests/target/failsafe-reports/*.xml"
+                              }
+                            },
+                            {
+                              "key": "allowEmptyResults",
+                              "value": {
+                                "isLiteral": true,
+                                "value": true
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              "environment": [
+                {
+                  "key": "runtime_path",
+                  "value": {
+                    "isLiteral": false,
+                    "value": "\"${WORKSPACE}/bin:${PATH}\""
+                  }
+                }
+              ],
+              "name": "Run integration tests",
+              "branches": [
+                {
+                  "name": "default",
+                  "steps": [
+                    {
+                      "name": "script",
+                      "arguments": [
+                        {
+                          "key": "scriptBlock",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "def res = 0\n                            res = sh(script: '''\n                                    if [ -z \"${IT_TEST}\" ] && [ \"${MAVEN_PROFILE_NAME}\" = \"integration-tests\" ]; then\n                                       echo 'ERROR: All tests cannot be run with integration-tests profile'\n                                       exit 1\n                                    fi\n                                ''', returnStatus: true)\n                            if (res != 0 ) {\n                                currentBuild.result = 'ABORTED'\n                                error('Profile/ItTests Validation Failed')\n                            }"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "name": "sh",
+                      "arguments": [
+                        {
+                          "key": "script",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "\n                            export PATH=${runtime_path}\n                            export KUBECONFIG=${kubeconfig_file}\n                            mkdir -m777 -p \"${WORKSPACE}/.mvn\"\n                            : > \"${WORKSPACE}/.mvn/maven.config\"\n                            K8S_NODEPORT_HOST=$(kubectl get node kind-worker -o jsonpath='{.status.addresses[?(@.type == \"InternalIP\")].address}')\n                            if [ \"${MAVEN_PROFILE_NAME}\" == \"kind-sequential\" ]; then\n                                PARALLEL_RUN='false'\n                            elif [ \"${MAVEN_PROFILE_NAME}\" == \"kind-upgrade\" ]; then\n                                PARALLEL_RUN='false'\n                            fi\n                            if [ -n \"${IT_TEST}\" ]; then\n                                echo 'Overriding MAVEN_PROFILE_NAME to integration-test when running individual test(s)'\n                                MAVEN_PROFILE_NAME=\"integration-tests\"\n                                echo \"-Dit.test=\"${IT_TEST}\"\" >> ${WORKSPACE}/.mvn/maven.config\n                            fi\n                            echo \"-Dwko.it.wle.download.url=\"${wle_download_url}\"\"                                     >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-Dwko.it.result.root=\"${result_root}\"\"                                               >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-Dwko.it.pv.root=\"${pv_root}\"\"                                                       >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-Dwko.it.k8s.nodeport.host=\"${K8S_NODEPORT_HOST}\"\"                                   >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-Dwko.it.kind.repo=\"localhost:${registry_port}\"\"                                     >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-Dwko.it.istio.version=\"${ISTIO_VERSION}\"\"                                           >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-DPARALLEL_CLASSES=\"${PARALLEL_RUN}\"\"                                                >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-DNUMBER_OF_THREADS=\"${NUMBER_OF_THREADS}\"\"                                          >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-Dwko.it.wdt.download.url=\"${WDT_DOWNLOAD_URL}\"\"                                     >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-Dwko.it.wit.download.url=\"${WIT_DOWNLOAD_URL}\"\"                                     >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-Dwko.it.base.images.repo=\"${BASE_IMAGES_REPO}\"\"                                     >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-Dwko.it.base.images.tenancy=\"${wko_tenancy}\"\"                                       >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-Dwko.it.test.images.repo=\"${TEST_IMAGES_REPO}\"\"                                     >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-Dwko.it.test.images.tenancy=\"${wko_tenancy}\"\"                                       >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-Dwko.it.weblogic.image.name=\"${WEBLOGIC_IMAGE_NAME}\"\"                               >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-Dwko.it.weblogic.image.tag=\"${WEBLOGIC_IMAGE_TAG}\"\"                                 >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-Dwko.it.fmwinfra.image.name=\"${FMWINFRA_IMAGE_NAME}\"\"                               >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-Dwko.it.fmwinfra.image.tag=\"${FMWINFRA_IMAGE_TAG}\"\"                                 >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-Dwko.it.db.image.name=\"${DB_IMAGE_NAME}\"\"                                           >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-Dwko.it.db.image.tag=\"${DB_IMAGE_TAG}\"\"                                             >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-Dwko.it.monitoring.exporter.branch=\"${MONITORING_EXPORTER_BRANCH}\"\"                 >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-Dwko.it.monitoring.exporter.webapp.version=\"${MONITORING_EXPORTER_WEBAPP_VERSION}\"\" >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-Dwko.it.prometheus.chart.version=\"${PROMETHEUS_CHART_VERSION}\"\"                     >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-Dwko.it.grafana.chart.version=\"${GRAFANA_CHART_VERSION}\"\"                           >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-Dwko.it.collect.logs.on.success=\"${COLLECT_LOGS_ON_SUCCESS}\"\"                       >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-DWLSIMG_BUILDER=\"podman\"\"                                                           >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-Dwko.it.remoteconsole.version=\"${REMOTECONSOLE_VERSION}\"\"                           >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-Djdk.httpclient.allowRestrictedHeaders=\"host\"\"                                      >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-DOPERATOR_LOG_LEVEL=\"${OPERATOR_LOG_LEVEL}\"\"                                        >> ${WORKSPACE}/.mvn/maven.config\n\t\t\t    echo \"-Dwko.it.install.weblogic=\"true\"\"                                                    >> ${WORKSPACE}/.mvn/maven.config\n\n                            echo \"${WORKSPACE}/.mvn/maven.config contents:\"\n                            cat \"${WORKSPACE}/.mvn/maven.config\"\n                            cp \"${WORKSPACE}/.mvn/maven.config\" \"${result_root}\"\n                        "
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "name": "withMaven",
+                      "arguments": [
+                        {
+                          "key": "globalMavenSettingsConfig",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "wkt-maven-settings-xml"
+                          }
+                        },
+                        {
+                          "key": "publisherStrategy",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "EXPLICIT"
+                          }
+                        }
+                      ],
+                      "children": [
+                        {
+                          "name": "withCredentials",
+                          "arguments": {
+                            "isLiteral": false,
+                            "value": "${[\n                                usernamePassword(credentialsId: \"${ocir_creds}\", usernameVariable: 'OCIR_USER', passwordVariable: 'OCIR_PASS')\n                            ]}"
+                          },
+                          "children": [
+                            {
+                              "name": "sh",
+                              "arguments": [
+                                {
+                                  "key": "script",
+                                  "value": {
+                                    "isLiteral": true,
+                                    "value": "\n                                    export PATH=\"${WORKSPACE}/bin:${PATH}\"\n                                    export KUBECONFIG=${kubeconfig_file}\n                                    export BASE_IMAGES_REPO_USERNAME=\"${OCIR_USER}\"\n                                    export BASE_IMAGES_REPO_PASSWORD=\"${OCIR_PASS}\"\n                                    export BASE_IMAGES_REPO_EMAIL=\"noreply@oracle.com\"\n                                    export TEST_IMAGES_REPO_USERNAME=\"${OCIR_USER}\"\n                                    export TEST_IMAGES_REPO_PASSWORD=\"${OCIR_PASS}\"\n                                    export TEST_IMAGES_REPO_EMAIL=\"noreply@oracle.com\"\n                                    if ! time mvn -pl integration-tests -P ${MAVEN_PROFILE_NAME} verify 2>&1 | tee \"${result_root}/kindtest.log\"; then\n                                        echo \"integration-tests failed\"\n                                        exit 1\n                                    fi\n                                "
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "when": {
+            "conditions": [
+              {
+                "name": "anyOf",
+                "children": [
+                  {
+                    "name": "branch",
+                    "arguments": {
+                      "isLiteral": true,
+                      "value": "main"
+                    }
+                  },
+                  {
+                    "name": "branch",
+                    "arguments": {
+                      "isLiteral": true,
+                      "value": "release/4.0"
+                    }
+                  },
+                  {
+                    "name": "branch",
+                    "arguments": {
+                      "isLiteral": true,
+                      "value": "release/3.4"
+                    }
+                  }
+                ]
+              },
+              {
+                "name": "anyOf",
+                "children": [
+                  {
+                    "name": "not",
+                    "children": [
+                      {
+                        "name": "triggeredBy",
+                        "arguments": {
+                          "isLiteral": true,
+                          "value": "TimerTrigger"
+                        }
+                      }
+                    ]
+                  },
+                  {
+                    "name": "tag",
+                    "arguments": {
+                      "isLiteral": true,
+                      "value": "v*"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "name": "Sync",
+          "branches": [
+            {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "build",
+                  "arguments": [
+                    {
+                      "key": "job",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "wkt-sync"
+                      }
+                    },
+                    {
+                      "key": "parameters",
+                      "value": {
+                        "isLiteral": false,
+                        "value": "${[ string(name: 'REPOSITORY', value: 'weblogic-kubernetes-operator') ]}"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "environment": [
+        {
+          "key": "ocir_host",
+          "value": {
+            "isLiteral": false,
+            "value": "\"${env.WKT_OCIR_HOST}\""
+          }
+        },
+        {
+          "key": "wko_tenancy",
+          "value": {
+            "isLiteral": false,
+            "value": "\"${env.WKT_TENANCY}\""
+          }
+        },
+        {
+          "key": "ocir_creds",
+          "value": {
+            "isLiteral": true,
+            "value": "wkt-ocir-creds"
+          }
+        },
+        {
+          "key": "outdir",
+          "value": {
+            "isLiteral": false,
+            "value": "\"${WORKSPACE}/staging\""
+          }
+        },
+        {
+          "key": "result_root",
+          "value": {
+            "isLiteral": false,
+            "value": "\"${outdir}/wl_k8s_test_results\""
+          }
+        },
+        {
+          "key": "pv_root",
+          "value": {
+            "isLiteral": false,
+            "value": "\"${outdir}/k8s-pvroot\""
+          }
+        },
+        {
+          "key": "kubeconfig_file",
+          "value": {
+            "isLiteral": false,
+            "value": "\"${result_root}/kubeconfig\""
+          }
+        },
+        {
+          "key": "kind_name",
+          "value": {
+            "isLiteral": true,
+            "value": "kind"
+          }
+        },
+        {
+          "key": "kind_network",
+          "value": {
+            "isLiteral": true,
+            "value": "kind"
+          }
+        },
+        {
+          "key": "registry_name",
+          "value": {
+            "isLiteral": true,
+            "value": "kind-registry"
+          }
+        },
+        {
+          "key": "registry_host",
+          "value": {
+            "isLiteral": false,
+            "value": "\"${registry_name}\""
+          }
+        },
+        {
+          "key": "registry_port",
+          "value": {
+            "isLiteral": true,
+            "value": "5000"
+          }
+        },
+        {
+          "key": "start_time",
+          "value": {
+            "isLiteral": false,
+            "value": "${sh(script: 'date +\"%Y-%m-%d %H:%M:%S\"', returnStdout: true).trim()}"
+          }
+        },
+        {
+          "key": "wle_download_url",
+          "value": {
+            "isLiteral": true,
+            "value": "https://github.com/oracle/weblogic-logging-exporter/releases/latest"
+          }
+        }
+      ],
+      "agent": {
+        "type": "label",
+        "argument": {
+          "isLiteral": true,
+          "value": "large-ol9u4"
+        }
+      },
+      "tools": [
+        {
+          "key": "maven",
+          "value": {
+            "isLiteral": true,
+            "value": "maven-3.8.7"
+          }
+        },
+        {
+          "key": "jdk",
+          "value": {
+            "isLiteral": true,
+            "value": "jdk25"
+          }
+        }
+      ],
+      "options": {
+        "options": [
+          {
+            "name": "timeout",
+            "arguments": [
+              {
+                "key": "time",
+                "value": {
+                  "isLiteral": true,
+                  "value": 800
+                }
+              },
+              {
+                "key": "unit",
+                "value": {
+                  "isLiteral": true,
+                  "value": "MINUTES"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "parameters": {
+        "parameters": [
+          {
+            "name": "choice",
+            "arguments": [
+              {
+                "key": "name",
+                "value": {
+                  "isLiteral": true,
+                  "value": "MAVEN_PROFILE_NAME"
+                }
+              },
+              {
+                "key": "description",
+                "value": {
+                  "isLiteral": true,
+                  "value": "Profile to use in mvn command to run the tests. Possible values are wls-srg (the default), integration-tests, toolkits-srg, kind-sequential and kind-upgrade. Refer to weblogic-kubernetes-operator/integration-tests/pom.xml on the branch."
+                }
+              },
+              {
+                "key": "choices",
+                "value": {
+                  "isLiteral": false,
+                  "value": "${[\n                        'wls-srg',\n                        'integration-tests',\n                        'kind-sequential',\n                        'kind-upgrade',\n                        'toolkits-srg'\n                ]}"
+                }
+              }
+            ]
+          },
+          {
+            "name": "string",
+            "arguments": [
+              {
+                "key": "name",
+                "value": {
+                  "isLiteral": true,
+                  "value": "IT_TEST"
+                }
+              },
+              {
+                "key": "description",
+                "value": {
+                  "isLiteral": true,
+                  "value": "Comma separated list of individual It test classes to be run e.g., ItParameterizedDomain, ItMiiUpdateDomainConfig, ItMiiDynamicUpdate*, ItMiiMultiMode"
+                }
+              },
+              {
+                "key": "defaultValue",
+                "value": {
+                  "isLiteral": true,
+                  "value": ""
+                }
+              }
+            ]
+          },
+          {
+            "name": "string",
+            "arguments": [
+              {
+                "key": "name",
+                "value": {
+                  "isLiteral": true,
+                  "value": "OPERATOR_LOG_LEVEL"
+                }
+              },
+              {
+                "key": "description",
+                "value": {
+                  "isLiteral": true,
+                  "value": "The default log level is not set"
+                }
+              },
+              {
+                "key": "defaultValue",
+                "value": {
+                  "isLiteral": true,
+                  "value": ""
+                }
+              }
+            ]
+          },
+          {
+            "name": "choice",
+            "arguments": [
+              {
+                "key": "name",
+                "value": {
+                  "isLiteral": true,
+                  "value": "KIND_VERSION"
+                }
+              },
+              {
+                "key": "description",
+                "value": {
+                  "isLiteral": true,
+                  "value": "Kind version."
+                }
+              },
+              {
+                "key": "choices",
+                "value": {
+                  "isLiteral": false,
+                  "value": "${[\n                   '0.32.0',\n                   '0.31.0',\n                   '0.30.0'\n               ]}"
+                }
+              }
+            ]
+          },
+          {
+            "name": "choice",
+            "arguments": [
+              {
+                "key": "name",
+                "value": {
+                  "isLiteral": true,
+                  "value": "KUBE_VERSION"
+                }
+              },
+              {
+                "key": "description",
+                "value": {
+                  "isLiteral": true,
+                  "value": "Kubernetes version. Supported values depend on the Kind version. Kind 0.31.0: 1.35.0, 1.35, 1.34.3, 1.34, 1.33.7, 1.33, 1.32.11, 1.32, 1.31.14, 1.31. Kind 0.30.0: 1.34.0, 1.34, 1.33.4, 1.33, 1.32.8, 1.32, 1.31.12, 1.31 "
+                }
+              },
+              {
+                "key": "choices",
+                "value": {
+                  "isLiteral": false,
+                  "value": "${[\n                    // The first item in the list is the default value...\n                    '1.36.1',\n                    '1.35.0',\n                    '1.35',\n                    '1.34.3',\n                    '1.34',\n                    '1.33.7',\n                    '1.33',\n                    '1.32.11',\n                    '1.32',\n                    '1.31.14',\n                    '1.31',\n                    '1.34.0',\n                    '1.33.4',\n                    '1.32.8',\n                    '1.31.12'\n               ]}"
+                }
+              }
+            ]
+          },
+          {
+            "name": "string",
+            "arguments": [
+              {
+                "key": "name",
+                "value": {
+                  "isLiteral": true,
+                  "value": "HELM_VERSION"
+                }
+              },
+              {
+                "key": "description",
+                "value": {
+                  "isLiteral": true,
+                  "value": "Helm version"
+                }
+              },
+              {
+                "key": "defaultValue",
+                "value": {
+                  "isLiteral": true,
+                  "value": "3.11.2"
+                }
+              }
+            ]
+          },
+          {
+            "name": "choice",
+            "arguments": [
+              {
+                "key": "name",
+                "value": {
+                  "isLiteral": true,
+                  "value": "ISTIO_VERSION"
+                }
+              },
+              {
+                "key": "description",
+                "value": {
+                  "isLiteral": true,
+                  "value": "Istio version"
+                }
+              },
+              {
+                "key": "choices",
+                "value": {
+                  "isLiteral": false,
+                  "value": "${[\n                   '1.27.2',\n                   '1.27.0',\n                   '1.23.0',\n                   '1.17.2',\n                   '1.16.1',\n                   '1.13.2',\n                   '1.12.6',\n                   '1.11.1'\n               ]}"
+                }
+              }
+            ]
+          },
+          {
+            "name": "booleanParam",
+            "arguments": [
+              {
+                "key": "name",
+                "value": {
+                  "isLiteral": true,
+                  "value": "PARALLEL_RUN"
+                }
+              },
+              {
+                "key": "description",
+                "value": {
+                  "isLiteral": true,
+                  "value": "Runs tests in parallel. Default is true, test classes run in parallel."
+                }
+              },
+              {
+                "key": "defaultValue",
+                "value": {
+                  "isLiteral": true,
+                  "value": true
+                }
+              }
+            ]
+          },
+          {
+            "name": "string",
+            "arguments": [
+              {
+                "key": "name",
+                "value": {
+                  "isLiteral": true,
+                  "value": "NUMBER_OF_THREADS"
+                }
+              },
+              {
+                "key": "description",
+                "value": {
+                  "isLiteral": true,
+                  "value": "Number of threads to run the classes in parallel, default is 3."
+                }
+              },
+              {
+                "key": "defaultValue",
+                "value": {
+                  "isLiteral": true,
+                  "value": "3"
+                }
+              }
+            ]
+          },
+          {
+            "name": "string",
+            "arguments": [
+              {
+                "key": "name",
+                "value": {
+                  "isLiteral": true,
+                  "value": "WDT_DOWNLOAD_URL"
+                }
+              },
+              {
+                "key": "description",
+                "value": {
+                  "isLiteral": true,
+                  "value": "URL to download WDT."
+                }
+              },
+              {
+                "key": "defaultValue",
+                "value": {
+                  "isLiteral": true,
+                  "value": "https://github.com/oracle/weblogic-deploy-tooling/releases/latest"
+                }
+              }
+            ]
+          },
+          {
+            "name": "string",
+            "arguments": [
+              {
+                "key": "name",
+                "value": {
+                  "isLiteral": true,
+                  "value": "WIT_DOWNLOAD_URL"
+                }
+              },
+              {
+                "key": "description",
+                "value": {
+                  "isLiteral": true,
+                  "value": "URL to download WIT."
+                }
+              },
+              {
+                "key": "defaultValue",
+                "value": {
+                  "isLiteral": true,
+                  "value": "https://github.com/oracle/weblogic-image-tool/releases/latest"
+                }
+              }
+            ]
+          },
+          {
+            "name": "string",
+            "arguments": [
+              {
+                "key": "name",
+                "value": {
+                  "isLiteral": true,
+                  "value": "REMOTECONSOLE_VERSION"
+                }
+              },
+              {
+                "key": "description",
+                "value": {
+                  "isLiteral": true,
+                  "value": "RemoteConsole version."
+                }
+              },
+              {
+                "key": "defaultValue",
+                "value": {
+                  "isLiteral": true,
+                  "value": "2.4.7"
+                }
+              }
+            ]
+          },
+          {
+            "name": "string",
+            "arguments": [
+              {
+                "key": "name",
+                "value": {
+                  "isLiteral": true,
+                  "value": "TEST_IMAGES_REPO"
+                }
+              },
+              {
+                "key": "description",
+                "value": {
+                  "isLiteral": true,
+                  "value": ""
+                }
+              },
+              {
+                "key": "defaultValue",
+                "value": {
+                  "isLiteral": false,
+                  "value": "\"${env.WKT_OCIR_HOST}\""
+                }
+              }
+            ]
+          },
+          {
+            "name": "choice",
+            "arguments": [
+              {
+                "key": "name",
+                "value": {
+                  "isLiteral": true,
+                  "value": "BASE_IMAGES_REPO"
+                }
+              },
+              {
+                "key": "choices",
+                "value": {
+                  "isLiteral": false,
+                  "value": "${[\"${env.WKT_OCIR_HOST}\", 'container-registry.oracle.com']}"
+                }
+              },
+              {
+                "key": "description",
+                "value": {
+                  "isLiteral": true,
+                  "value": "Repository to pull the base images. Make sure to modify the image names if you are modifying this parameter value."
+                }
+              }
+            ]
+          },
+          {
+            "name": "string",
+            "arguments": [
+              {
+                "key": "name",
+                "value": {
+                  "isLiteral": true,
+                  "value": "WEBLOGIC_IMAGE_NAME"
+                }
+              },
+              {
+                "key": "description",
+                "value": {
+                  "isLiteral": true,
+                  "value": "WebLogic base image name. Default is the image name in BASE_IMAGES_REPO. Use middleware/weblogic for OCR."
+                }
+              },
+              {
+                "key": "defaultValue",
+                "value": {
+                  "isLiteral": true,
+                  "value": "test-images/weblogic_cpu"
+                }
+              }
+            ]
+          },
+          {
+            "name": "string",
+            "arguments": [
+              {
+                "key": "name",
+                "value": {
+                  "isLiteral": true,
+                  "value": "WEBLOGIC_IMAGE_TAG"
+                }
+              },
+              {
+                "key": "description",
+                "value": {
+                  "isLiteral": true,
+                  "value": "14.1.2.0-generic-jdk17-ol8, 14.1.2.0-generic-jdk17-ol9, 14.1.2.0-generic-jdk21-ol8, 14.1.2.0-generic-jdk21-ol9, 12.2.1.4-generic-jdk8-ol7, 12.2.1.4-generic-jdk8-ol8, 12.2.1.4-generic-jdk8-ol9, 12.2.1.4-slim-jdk8-ol7,12.2.1.4-slim-jdk8-ol7, 12.2.1.4-slim-jdk8-ol7, 14.1.1.0-generic-jdk8-ol7, 14.1.1.0-generic-jdk8-ol8, 14.1.1.0-generic-jdk8-ol9, 14.1.1.0-generic-jdk11-ol8, 14.1.1.0-generic-jdk11-ol9, 14.1.1.0-slim-jdk11-ol7, 14.1.1.0-slim-jdk11-ol8, 14.1.1.0-slim-jdk8-ol7, 14.1.1.0-slim-jdk8-ol8"
+                }
+              },
+              {
+                "key": "defaultValue",
+                "value": {
+                  "isLiteral": true,
+                  "value": "14.1.2.0-generic-jdk17-ol8"
+                }
+              }
+            ]
+          },
+          {
+            "name": "string",
+            "arguments": [
+              {
+                "key": "name",
+                "value": {
+                  "isLiteral": true,
+                  "value": "FMWINFRA_IMAGE_NAME"
+                }
+              },
+              {
+                "key": "description",
+                "value": {
+                  "isLiteral": true,
+                  "value": "FWM Infra image name. Default is the image name in BASE_IMAGES_REPO. Use middleware/fmw-infrastructure for OCR."
+                }
+              },
+              {
+                "key": "defaultValue",
+                "value": {
+                  "isLiteral": true,
+                  "value": "test-images/fmw-infrastructure_cpu"
+                }
+              }
+            ]
+          },
+          {
+            "name": "string",
+            "arguments": [
+              {
+                "key": "name",
+                "value": {
+                  "isLiteral": true,
+                  "value": "FMWINFRA_IMAGE_TAG"
+                }
+              },
+              {
+                "key": "description",
+                "value": {
+                  "isLiteral": true,
+                  "value": "14.1.2.0-jdk17-ol8, 14.1.2.0-jdk17-ol9, 14.1.2.0-jdk21-ol8, 14.1.2.0-jdk21-ol9,12.2.1.4-jdk8-ol8, 12.2.1.4-jdk8-ol9"
+                }
+              },
+              {
+                "key": "defaultValue",
+                "value": {
+                  "isLiteral": true,
+                  "value": "14.1.2.0-jdk17-ol8"
+                }
+              }
+            ]
+          },
+          {
+            "name": "string",
+            "arguments": [
+              {
+                "key": "name",
+                "value": {
+                  "isLiteral": true,
+                  "value": "DB_IMAGE_NAME"
+                }
+              },
+              {
+                "key": "description",
+                "value": {
+                  "isLiteral": true,
+                  "value": "Oracle DB image name. Default is the image name in BASE_IMAGES_REPO, use database/enterprise for OCR."
+                }
+              },
+              {
+                "key": "defaultValue",
+                "value": {
+                  "isLiteral": true,
+                  "value": "test-images/database/enterprise"
+                }
+              }
+            ]
+          },
+          {
+            "name": "string",
+            "arguments": [
+              {
+                "key": "name",
+                "value": {
+                  "isLiteral": true,
+                  "value": "DB_IMAGE_TAG"
+                }
+              },
+              {
+                "key": "description",
+                "value": {
+                  "isLiteral": true,
+                  "value": "Oracle DB image tag"
+                }
+              },
+              {
+                "key": "defaultValue",
+                "value": {
+                  "isLiteral": true,
+                  "value": "19.3.0.0"
+                }
+              }
+            ]
+          },
+          {
+            "name": "string",
+            "arguments": [
+              {
+                "key": "name",
+                "value": {
+                  "isLiteral": true,
+                  "value": "MONITORING_EXPORTER_BRANCH"
+                }
+              },
+              {
+                "key": "description",
+                "value": {
+                  "isLiteral": true,
+                  "value": ""
+                }
+              },
+              {
+                "key": "defaultValue",
+                "value": {
+                  "isLiteral": true,
+                  "value": "main"
+                }
+              }
+            ]
+          },
+          {
+            "name": "string",
+            "arguments": [
+              {
+                "key": "name",
+                "value": {
+                  "isLiteral": true,
+                  "value": "MONITORING_EXPORTER_WEBAPP_VERSION"
+                }
+              },
+              {
+                "key": "description",
+                "value": {
+                  "isLiteral": true,
+                  "value": ""
+                }
+              },
+              {
+                "key": "defaultValue",
+                "value": {
+                  "isLiteral": false,
+                  "value": "${default_monitoring_exporter_webapp_version}"
+                }
+              }
+            ]
+          },
+          {
+            "name": "string",
+            "arguments": [
+              {
+                "key": "name",
+                "value": {
+                  "isLiteral": true,
+                  "value": "PROMETHEUS_CHART_VERSION"
+                }
+              },
+              {
+                "key": "description",
+                "value": {
+                  "isLiteral": true,
+                  "value": ""
+                }
+              },
+              {
+                "key": "defaultValue",
+                "value": {
+                  "isLiteral": true,
+                  "value": "17.0.0"
+                }
+              }
+            ]
+          },
+          {
+            "name": "string",
+            "arguments": [
+              {
+                "key": "name",
+                "value": {
+                  "isLiteral": true,
+                  "value": "GRAFANA_CHART_VERSION"
+                }
+              },
+              {
+                "key": "description",
+                "value": {
+                  "isLiteral": true,
+                  "value": ""
+                }
+              },
+              {
+                "key": "defaultValue",
+                "value": {
+                  "isLiteral": true,
+                  "value": "6.38.6"
+                }
+              }
+            ]
+          },
+          {
+            "name": "booleanParam",
+            "arguments": [
+              {
+                "key": "name",
+                "value": {
+                  "isLiteral": true,
+                  "value": "COLLECT_LOGS_ON_SUCCESS"
+                }
+              },
+              {
+                "key": "description",
+                "value": {
+                  "isLiteral": true,
+                  "value": "Collect logs for successful runs. Default is false."
+                }
+              },
+              {
+                "key": "defaultValue",
+                "value": {
+                  "isLiteral": true,
+                  "value": false
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

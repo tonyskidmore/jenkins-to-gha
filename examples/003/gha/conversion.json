@@ -1,0 +1,880 @@
+{
+  "counts": {
+    "mapped": 40,
+    "manual": 13,
+    "approximated": 44,
+    "info": 1,
+    "dropped": 1
+  },
+  "automation_pct": 68.6,
+  "items": [
+    {
+      "jenkins": "post always",
+      "line": null,
+      "stage": null,
+      "status": "mapped",
+      "gha": "final job if: always()",
+      "note": ""
+    },
+    {
+      "jenkins": "post (workspace-dependent steps)",
+      "line": null,
+      "stage": null,
+      "status": "mapped",
+      "gha": "final job",
+      "note": "cleanWs run in the restored pipeline workspace (j2gha-ws-* artifacts)"
+    },
+    {
+      "jenkins": "environment DEPENDENCIES_DIR",
+      "line": 14,
+      "stage": null,
+      "status": "mapped",
+      "gha": "env",
+      "note": ""
+    },
+    {
+      "jenkins": "environment ARTIFACT_FILENAME",
+      "line": 16,
+      "stage": null,
+      "status": "mapped",
+      "gha": "env",
+      "note": ""
+    },
+    {
+      "jenkins": "environment DIST_DIR",
+      "line": 17,
+      "stage": null,
+      "status": "mapped",
+      "gha": "env",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 53,
+      "stage": "Get Ready",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 65,
+      "stage": "Run URDF tests",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "stage 'Build robot URDFs and SRDFs' matrix (ROBOT[5])",
+      "line": 70,
+      "stage": "Build robot URDFs and SRDFs",
+      "status": "mapped",
+      "gha": "strategy.matrix",
+      "note": ""
+    },
+    {
+      "jenkins": "dir",
+      "line": 81,
+      "stage": "Build URDF and SRDF",
+      "status": "mapped",
+      "gha": "working-directory",
+      "note": ""
+    },
+    {
+      "jenkins": "stage 'Build End Effector URDFs' matrix (EE[2])",
+      "line": 92,
+      "stage": "Build End Effector URDFs",
+      "status": "mapped",
+      "gha": "strategy.matrix",
+      "note": ""
+    },
+    {
+      "jenkins": "dir",
+      "line": 103,
+      "stage": "Build URDF",
+      "status": "mapped",
+      "gha": "working-directory",
+      "note": ""
+    },
+    {
+      "jenkins": "agent docker 'franka/build/ubuntu-24.04:0.27.0'",
+      "line": 113,
+      "stage": "Archive URDFs and SRDFs",
+      "status": "mapped",
+      "gha": "job container",
+      "note": "job containers run as root; reuseNode has no equivalent"
+    },
+    {
+      "jenkins": "sh",
+      "line": 123,
+      "stage": "Cleanup",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "dir",
+      "line": 138,
+      "stage": "Arm3R",
+      "status": "mapped",
+      "gha": "working-directory",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 141,
+      "stage": "Arm3R",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 142,
+      "stage": "Arm3R",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "dir",
+      "line": 149,
+      "stage": "Arm3P",
+      "status": "mapped",
+      "gha": "working-directory",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 152,
+      "stage": "Arm3P",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 153,
+      "stage": "Arm3P",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "dir",
+      "line": 160,
+      "stage": "Arm3Rv2",
+      "status": "mapped",
+      "gha": "working-directory",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 163,
+      "stage": "Arm3Rv2",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 164,
+      "stage": "Arm3Rv2",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "dir",
+      "line": 171,
+      "stage": "Arm3Rv2.1",
+      "status": "mapped",
+      "gha": "working-directory",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 174,
+      "stage": "Arm3Rv2.1",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 175,
+      "stage": "Arm3Rv2.1",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "dir",
+      "line": 182,
+      "stage": "TMRv0.2",
+      "status": "mapped",
+      "gha": "working-directory",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 185,
+      "stage": "TMRv0.2",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 186,
+      "stage": "TMRv0.2",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 214,
+      "stage": "cobot_pump",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 222,
+      "stage": "franka_hand",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "dir",
+      "line": 232,
+      "stage": "Unstash URDF",
+      "status": "mapped",
+      "gha": "working-directory",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 234,
+      "stage": "Unstash URDF",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "dir",
+      "line": 236,
+      "stage": "Unstash URDF",
+      "status": "mapped",
+      "gha": "working-directory",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 238,
+      "stage": "Unstash URDF",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "dir",
+      "line": 249,
+      "stage": "Create archive",
+      "status": "mapped",
+      "gha": "working-directory",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 250,
+      "stage": "Create archive",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "archiveArtifacts",
+      "line": 264,
+      "stage": "Create archive",
+      "status": "mapped",
+      "gha": "actions/upload-artifact@v4",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 315,
+      "stage": "Declarative: Post Actions",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "cleanWs",
+      "line": 316,
+      "stage": "Declarative: Post Actions",
+      "status": "mapped",
+      "gha": "run: workspace cleanup",
+      "note": "runners are ephemeral; kept for parity"
+    },
+    {
+      "jenkins": "sh",
+      "line": 317,
+      "stage": "Declarative: Post Actions",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "options: timeout",
+      "line": null,
+      "stage": null,
+      "status": "approximated",
+      "gha": "timeout-minutes: 120 (per job)",
+      "note": "Jenkins timeout covers the whole pipeline"
+    },
+    {
+      "jenkins": "options: buildDiscarder",
+      "line": null,
+      "stage": null,
+      "status": "dropped",
+      "gha": "-",
+      "note": "use artifact retention-days / repo settings"
+    },
+    {
+      "jenkins": "agent label 'docker'",
+      "line": 7,
+      "stage": "Check Commit Message, Get Ready",
+      "status": "approximated",
+      "gha": "runs-on: ubuntu-latest",
+      "note": "use a self-hosted runner label if the agent provides special tooling/network"
+    },
+    {
+      "jenkins": "script {}",
+      "line": 36,
+      "stage": "Check Commit Message",
+      "status": "approximated",
+      "gha": "inner steps translated individually",
+      "note": "imperative Groovy is not executed; review control flow"
+    },
+    {
+      "jenkins": "decl commitMsg = sh(returnStdout: true, script: 'git lo",
+      "line": 37,
+      "stage": "Check Commit Message",
+      "status": "approximated",
+      "gha": "run step (captured output not propagated)",
+      "note": "write values to $GITHUB_OUTPUT/$GITHUB_ENV"
+    },
+    {
+      "jenkins": "sh",
+      "line": 37,
+      "stage": "Check Commit Message",
+      "status": "approximated",
+      "gha": "run",
+      "note": "Groovy interpolation of non-env values needs review"
+    },
+    {
+      "jenkins": "script {}",
+      "line": 49,
+      "stage": "Get Ready",
+      "status": "approximated",
+      "gha": "inner steps translated individually",
+      "note": "imperative Groovy is not executed; review control flow"
+    },
+    {
+      "jenkins": "agent dockerfile 'Dockerfile'",
+      "line": 58,
+      "stage": "Run URDF tests",
+      "status": "approximated",
+      "gha": "docker build + docker run wrapper",
+      "note": "steps run via `docker run` in the built image"
+    },
+    {
+      "jenkins": "sh",
+      "line": 80,
+      "stage": "Build URDF and SRDF",
+      "status": "approximated",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "stash 'ROBOT_${ROBOT}_urdf'",
+      "line": 82,
+      "stage": "Build URDF and SRDF",
+      "status": "approximated",
+      "gha": "actions/upload-artifact@v4",
+      "note": "artifact hand-off between jobs; file permissions are not preserved; no matching files fails the step, as the stash does in Jenkins (if-no-files-found: error)"
+    },
+    {
+      "jenkins": "stash 'ROBOT_${ROBOT}_srdf'",
+      "line": 83,
+      "stage": "Build URDF and SRDF",
+      "status": "approximated",
+      "gha": "actions/upload-artifact@v4",
+      "note": "artifact hand-off between jobs; file permissions are not preserved; no matching files fails the step, as the stash does in Jenkins (if-no-files-found: error)"
+    },
+    {
+      "jenkins": "sh",
+      "line": 102,
+      "stage": "Build URDF",
+      "status": "approximated",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "stash 'EE_${EE}_urdf'",
+      "line": 104,
+      "stage": "Build URDF",
+      "status": "approximated",
+      "gha": "actions/upload-artifact@v4",
+      "note": "artifact hand-off between jobs; file permissions are not preserved; no matching files fails the step, as the stash does in Jenkins (if-no-files-found: error)"
+    },
+    {
+      "jenkins": "sh",
+      "line": 128,
+      "stage": "Create directory structure",
+      "status": "approximated",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 129,
+      "stage": "Create directory structure",
+      "status": "approximated",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 130,
+      "stage": "Create directory structure",
+      "status": "approximated",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "stage 'Move robot urdfs and srdfs into correct robot arm directory' nested parallel",
+      "line": 133,
+      "stage": "Move robot urdfs and srdfs into correct robot arm directory",
+      "status": "approximated",
+      "gha": "sequential steps",
+      "note": "nested parallel branches serialised inside one job"
+    },
+    {
+      "jenkins": "sh",
+      "line": 137,
+      "stage": "Arm3R",
+      "status": "approximated",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "unstash 'ROBOT_fr3_urdf'",
+      "line": 139,
+      "stage": "Arm3R",
+      "status": "approximated",
+      "gha": "actions/download-artifact@v4",
+      "note": ""
+    },
+    {
+      "jenkins": "unstash 'ROBOT_fr3_srdf'",
+      "line": 140,
+      "stage": "Arm3R",
+      "status": "approximated",
+      "gha": "actions/download-artifact@v4",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 148,
+      "stage": "Arm3P",
+      "status": "approximated",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "unstash 'ROBOT_fp3_urdf'",
+      "line": 150,
+      "stage": "Arm3P",
+      "status": "approximated",
+      "gha": "actions/download-artifact@v4",
+      "note": ""
+    },
+    {
+      "jenkins": "unstash 'ROBOT_fp3_srdf'",
+      "line": 151,
+      "stage": "Arm3P",
+      "status": "approximated",
+      "gha": "actions/download-artifact@v4",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 159,
+      "stage": "Arm3Rv2",
+      "status": "approximated",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "unstash 'ROBOT_fr3v2_urdf'",
+      "line": 161,
+      "stage": "Arm3Rv2",
+      "status": "approximated",
+      "gha": "actions/download-artifact@v4",
+      "note": ""
+    },
+    {
+      "jenkins": "unstash 'ROBOT_fr3v2_srdf'",
+      "line": 162,
+      "stage": "Arm3Rv2",
+      "status": "approximated",
+      "gha": "actions/download-artifact@v4",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 170,
+      "stage": "Arm3Rv2.1",
+      "status": "approximated",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "unstash 'ROBOT_fr3v2_1_urdf'",
+      "line": 172,
+      "stage": "Arm3Rv2.1",
+      "status": "approximated",
+      "gha": "actions/download-artifact@v4",
+      "note": ""
+    },
+    {
+      "jenkins": "unstash 'ROBOT_fr3v2_1_srdf'",
+      "line": 173,
+      "stage": "Arm3Rv2.1",
+      "status": "approximated",
+      "gha": "actions/download-artifact@v4",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 181,
+      "stage": "TMRv0.2",
+      "status": "approximated",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "unstash 'ROBOT_tmrv0_2_urdf'",
+      "line": 183,
+      "stage": "TMRv0.2",
+      "status": "approximated",
+      "gha": "actions/download-artifact@v4",
+      "note": ""
+    },
+    {
+      "jenkins": "unstash 'ROBOT_tmrv0_2_srdf'",
+      "line": 184,
+      "stage": "TMRv0.2",
+      "status": "approximated",
+      "gha": "actions/download-artifact@v4",
+      "note": ""
+    },
+    {
+      "jenkins": "script {}",
+      "line": 194,
+      "stage": "Copy meshes to dist",
+      "status": "approximated",
+      "gha": "inner steps translated individually",
+      "note": "imperative Groovy is not executed; review control flow"
+    },
+    {
+      "jenkins": "sh",
+      "line": 195,
+      "stage": "Copy meshes to dist",
+      "status": "approximated",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 198,
+      "stage": "Copy meshes to dist",
+      "status": "approximated",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 206,
+      "stage": "Create End Effector directories",
+      "status": "approximated",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 207,
+      "stage": "Create End Effector directories",
+      "status": "approximated",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "stage 'Copy meshes' nested parallel",
+      "line": 210,
+      "stage": "Copy meshes",
+      "status": "approximated",
+      "gha": "sequential steps",
+      "note": "nested parallel branches serialised inside one job"
+    },
+    {
+      "jenkins": "unstash 'EE_cobot_pump_urdf'",
+      "line": 233,
+      "stage": "Unstash URDF",
+      "status": "approximated",
+      "gha": "actions/download-artifact@v4",
+      "note": ""
+    },
+    {
+      "jenkins": "unstash 'EE_franka_hand_urdf'",
+      "line": 237,
+      "stage": "Unstash URDF",
+      "status": "approximated",
+      "gha": "actions/download-artifact@v4",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 246,
+      "stage": "Create archive",
+      "status": "approximated",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 247,
+      "stage": "Create archive",
+      "status": "approximated",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "stage 'Publish to artifactory' when",
+      "line": 270,
+      "stage": "Publish to artifactory",
+      "status": "approximated",
+      "gha": "if: (!((job.status) == ('UNSTABLE'))) && ((env.TAG_NAME != '' || env.BRANCH_NAME == env.BRANCH_NAME))",
+      "note": "evaluated once at stage entry against env"
+    },
+    {
+      "jenkins": "stage 'Trigger upstream franka_ros2_ws builds' parallel (2 branches)",
+      "line": 287,
+      "stage": "Trigger upstream franka_ros2_ws builds",
+      "status": "approximated",
+      "gha": "parallel jobs with needs",
+      "note": "branches run as separate jobs: the pipeline workspace is handed on to them and from them to later stages (j2gha-ws-* artifacts), but branches running at the same time do not see each other's files, and a file two branches write takes the later branch's version"
+    },
+    {
+      "jenkins": "script {}",
+      "line": 318,
+      "stage": "Declarative: Post Actions",
+      "status": "approximated",
+      "gha": "inner steps translated individually",
+      "note": "imperative Groovy is not executed; review control flow"
+    },
+    {
+      "jenkins": "options: gitLabConnection",
+      "line": null,
+      "stage": null,
+      "status": "manual",
+      "gha": "-",
+      "note": "no GHA equivalent"
+    },
+    {
+      "jenkins": "environment VERSION = feDetermineVersionFromGit(...)",
+      "line": 15,
+      "stage": null,
+      "status": "manual",
+      "gha": "env",
+      "note": "value computed by a library/plugin function - compute in a step and write to $GITHUB_ENV"
+    },
+    {
+      "jenkins": "decl skipKeywords = [wip, [skip ci], [skip-ci], [ci ski",
+      "line": 38,
+      "stage": "Check Commit Message",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "if (skipKeywords.any { commitMsg.toLowerCase().contain)",
+      "line": 39,
+      "stage": "Check Commit Message",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "notifyBitbucket",
+      "line": 50,
+      "stage": "Get Ready",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "decl robs = [fp3, fr3, fr3v2, fr3v2_1, tmrv0_2]",
+      "line": 196,
+      "stage": "Copy meshes to dist",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "decl copyCmd = robs.collect { \"cp -r meshes/robots/${it",
+      "line": 197,
+      "stage": "Copy meshes to dist",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment from a step"
+    },
+    {
+      "jenkins": "collect",
+      "line": 197,
+      "stage": "Copy meshes to dist",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy method / helper call - port logic to a script"
+    },
+    {
+      "jenkins": "fePublishOpkg",
+      "line": 280,
+      "stage": "Publish to artifactory",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "fePublishBuildInfo",
+      "line": 281,
+      "stage": "Publish to artifactory",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "build job: FCI/franka_ros2_ws/humble",
+      "line": 291,
+      "stage": "humble",
+      "status": "manual",
+      "gha": "workflow_call / workflow_dispatch",
+      "note": "downstream Jenkins job must be migrated; trigger with `gh workflow run` or a reusable workflow"
+    },
+    {
+      "jenkins": "build job: FCI/franka_ros2_ws/jazzy",
+      "line": 299,
+      "stage": "jazzy",
+      "status": "manual",
+      "gha": "workflow_call / workflow_dispatch",
+      "note": "downstream Jenkins job must be migrated; trigger with `gh workflow run` or a reusable workflow"
+    },
+    {
+      "jenkins": "feNotifySCM",
+      "line": 319,
+      "stage": "Declarative: Post Actions",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "checkout: SCM environment (GIT_COMMIT, GIT_BRANCH, GIT_URL)",
+      "line": null,
+      "stage": null,
+      "status": "info",
+      "gha": "env",
+      "note": "Jenkins' git plugin exports them to every step after a checkout, so called scripts may read them; defined at workflow level even when the Jenkinsfile does not"
+    }
+  ],
+  "secrets": {},
+  "jobs": {
+    "check-commit-message": {
+      "name": "Check Commit Message, Get Ready",
+      "runs-on": "ubuntu-latest",
+      "steps": 8,
+      "matrix": false
+    },
+    "run-urdf-tests": {
+      "name": "Run URDF tests",
+      "runs-on": "ubuntu-latest",
+      "steps": 7,
+      "matrix": false
+    },
+    "build-robot-urdfs-and-srdfs": {
+      "name": "Build robot URDFs and SRDFs",
+      "runs-on": "ubuntu-latest",
+      "steps": 8,
+      "matrix": true
+    },
+    "build-end-effector-urdfs": {
+      "name": "Build End Effector URDFs",
+      "runs-on": "ubuntu-latest",
+      "steps": 7,
+      "matrix": true
+    },
+    "archive-urdfs-and-srdfs": {
+      "name": "Archive URDFs and SRDFs",
+      "runs-on": "ubuntu-latest",
+      "steps": 60,
+      "matrix": false
+    },
+    "trigger-upstream-franka_ros2_ws-builds-h": {
+      "name": "Trigger upstream franka_ros2_ws builds / humble",
+      "runs-on": "ubuntu-latest",
+      "steps": 9,
+      "matrix": false
+    },
+    "trigger-upstream-franka_ros2_ws-builds-j": {
+      "name": "Trigger upstream franka_ros2_ws builds / jazzy",
+      "runs-on": "ubuntu-latest",
+      "steps": 9,
+      "matrix": false
+    },
+    "post": {
+      "name": "post",
+      "runs-on": "ubuntu-latest",
+      "steps": 10,
+      "matrix": false
+    }
+  },
+  "notes": [],
+  "handoff": {
+    "handed_on": [
+      "check-commit-message",
+      "run-urdf-tests",
+      "archive-urdfs-and-srdfs",
+      "trigger-upstream-franka_ros2_ws-builds-h",
+      "trigger-upstream-franka_ros2_ws-builds-j"
+    ],
+    "merged": [
+      "trigger-upstream-franka_ros2_ws-builds-h",
+      "trigger-upstream-franka_ros2_ws-builds-j"
+    ],
+    "restored_by": [
+      "run-urdf-tests",
+      "build-robot-urdfs-and-srdfs",
+      "build-end-effector-urdfs",
+      "archive-urdfs-and-srdfs",
+      "trigger-upstream-franka_ros2_ws-builds-h",
+      "trigger-upstream-franka_ros2_ws-builds-j",
+      "post"
+    ]
+  },
+  "source_sha256": "17668ca3bbda47464b862bd666338201af7a49b6a78e54f8ccf22dbe4c29528f",
+  "model_sha256": "957c6fe4601cf5f26ddc02c2d3e604d608bd66f71c25bdbb217c50931c4f2cd4"
+}

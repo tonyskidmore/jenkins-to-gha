@@ -1,0 +1,51 @@
+
+@@CMD@@ grep -c J2GHA-TRACE $JC
+41
+@@END@@ rc=0 ms=4
+
+@@CMD@@ grep -m4 J2GHA-TRACE $JC | cut -c28-
+J2GHA-TRACE {"stage":"","step":"sh"}
+J2GHA-TRACE {"stage":"Prepare sources","step":"deleteDir"}
+J2GHA-TRACE {"stage":"Prepare sources","step":"sh"}
+J2GHA-TRACE {"stage":"Prepare sources","step":"sh"}
+@@END@@ rc=0 ms=4
+
+@@CMD@@ python3 $S | cut -c1-70
+match     (pipeline environment)     ['sh']
+match     Build                      ['sh', 'writeFile', 'stash', 'sta
+match     Contract tests             ['unstash', 'unstash', 'unstash',
+match     Declarative: Post Actions  ['echo', 'echo']
+match     Deploy                     ['input', 'unstash', 'sh', 'archi
+match     Integration tests          ['unstash', 'unstash', 'sh', 'jun
+match     Lint                       ['unstash', 'sh', 'archiveArtifac
+match     Prepare sources            ['deleteDir', 'sh', 'sh']
+match     Publish                    ['unstash', 'sh', 'archiveArtifac
+match     Unit tests                 ['unstash', 'sh', 'junit', 'publi
+@@END@@ rc=0 ms=56
+
+@@CMD@@ diff -U0 $O $L | grep -E "^(@@|[-+][^-+])" | cut -c1-70 | head -16
+@@ -8 +8 @@
+-    agent { label 'linux' }
++    agent any
+@@ -11 +11 @@
+-        buildDiscarder(logRotator(numToKeepStr: '20'))
++        /* j2gha: buildDiscarder removed */
+@@ -18,3 +18,3 @@
+-    triggers {
+-        cron('H 2 * * 1-5')
+-    }
++    /* j2gha: triggers removed */
+@@ -483,0 +484,86 @@
++// ---- j2gha localisation block (trace mode) - generated, not part o
++@groovy.transform.Field def scm = [$class: 'GitSCM', branches: [[name
++class J2ghaAny implements Serializable { @NonCPS def propertyMissing(
++class J2ghaConfig extends LinkedHashMap { @NonCPS Object get(Object k
+@@END@@ rc=0 ms=7
+
+@@CMD@@ diff $O $L | grep -c "^<"
+5
+@@END@@ rc=0 ms=4
+
+@@CMD@@ diff $O $L | grep -c "^>"
+91
+@@END@@ rc=0 ms=5

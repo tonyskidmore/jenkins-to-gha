@@ -1,0 +1,622 @@
+{
+  "analysis_version": 1,
+  "parser": {
+    "engine": "groovy-ast (Jenkins-bundled Groovy 2.4, CONVERSION phase)",
+    "ok": true,
+    "errors": []
+  },
+  "dialect": "scripted",
+  "metrics": {
+    "artifact_steps": 4,
+    "classes": 0,
+    "conditionals": 8,
+    "credentials": 2,
+    "distinct_steps": 38,
+    "env_vars": 0,
+    "libraries": 1,
+    "loads": 1,
+    "loc": 198,
+    "loops": 8,
+    "max_stage_depth": 1,
+    "methods": 8,
+    "options": 0,
+    "parameters": 4,
+    "post_conditions": 0,
+    "shell_steps": 17,
+    "stages": 1,
+    "steps": 91,
+    "tools": 0,
+    "top_level_stages": 0,
+    "triggers": 0,
+    "try_catch": 1,
+    "unknown_steps": 2
+  },
+  "steps": {
+    "sh": {
+      "count": 17,
+      "category": "direct",
+      "lines": [
+        114,
+        115,
+        116,
+        117,
+        118,
+        119,
+        120,
+        121,
+        122,
+        28,
+        30,
+        35
+      ],
+      "gha": "run: (shell: bash)"
+    },
+    "buildInParallel": {
+      "count": 10,
+      "category": "local",
+      "lines": [
+        133,
+        134,
+        136,
+        141,
+        143,
+        152,
+        154,
+        155,
+        156,
+        169
+      ],
+      "gha": null
+    },
+    "unstashDockerImage": {
+      "count": 9,
+      "category": "local",
+      "lines": [
+        54,
+        57,
+        61,
+        64,
+        67,
+        70,
+        74,
+        76,
+        78
+      ],
+      "gha": null
+    },
+    "each": {
+      "count": 7,
+      "category": "groovy",
+      "lines": [
+        138,
+        145,
+        148,
+        159,
+        160,
+        164,
+        165
+      ],
+      "gha": null
+    },
+    "getBuildConfig": {
+      "count": 5,
+      "category": "groovy",
+      "lines": [
+        99,
+        130,
+        131,
+        192,
+        198
+      ],
+      "gha": null
+    },
+    "withCredentials": {
+      "count": 3,
+      "category": "policy",
+      "lines": [
+        112,
+        214,
+        225
+      ],
+      "gha": "secrets.* / environment secrets / OIDC"
+    },
+    "stageWithSummary": {
+      "count": 2,
+      "category": "groovy",
+      "lines": [
+        91,
+        184
+      ],
+      "gha": null
+    },
+    "node": {
+      "count": 2,
+      "category": "policy",
+      "lines": [
+        92,
+        186
+      ],
+      "gha": "runs-on:"
+    },
+    "refreshStage": {
+      "count": 2,
+      "category": "groovy",
+      "lines": [
+        93,
+        187
+      ],
+      "gha": null
+    },
+    "dir": {
+      "count": 2,
+      "category": "direct",
+      "lines": [
+        111,
+        188
+      ],
+      "gha": "working-directory:"
+    },
+    "stash": {
+      "count": 2,
+      "category": "policy",
+      "lines": [
+        125,
+        29
+      ],
+      "gha": "actions/upload-artifact (cross-job hand-off)"
+    },
+    "unstash": {
+      "count": 2,
+      "category": "policy",
+      "lines": [
+        34,
+        193
+      ],
+      "gha": "actions/download-artifact"
+    },
+    "startsWith": {
+      "count": 2,
+      "category": "groovy",
+      "lines": [
+        73,
+        75
+      ],
+      "gha": null
+    },
+    "trim": {
+      "count": 2,
+      "category": "groovy",
+      "lines": [
+        215,
+        226
+      ],
+      "gha": null
+    },
+    "buildSummary": {
+      "count": 1,
+      "category": "unknown",
+      "lines": [
+        9
+      ],
+      "gha": null
+    },
+    "addStagesSummary": {
+      "count": 1,
+      "category": "groovy",
+      "lines": [
+        11
+      ],
+      "gha": null
+    },
+    "get": {
+      "count": 1,
+      "category": "groovy",
+      "lines": [
+        11
+      ],
+      "gha": null
+    },
+    "properties": {
+      "count": 1,
+      "category": "policy",
+      "lines": [
+        13
+      ],
+      "gha": "on: (triggers/inputs) + concurrency"
+    },
+    "ansiColor": {
+      "count": 1,
+      "category": "noop",
+      "lines": [
+        88
+      ],
+      "gha": "(GHA logs support ANSI natively)"
+    },
+    "timestamps": {
+      "count": 1,
+      "category": "noop",
+      "lines": [
+        89
+      ],
+      "gha": "(GHA logs are timestamped)"
+    },
+    "cleanWs": {
+      "count": 1,
+      "category": "direct",
+      "lines": [
+        94
+      ],
+      "gha": "ephemeral runner / run: rm -rf"
+    },
+    "checkout": {
+      "count": 1,
+      "category": "direct",
+      "lines": [
+        95
+      ],
+      "gha": "actions/checkout"
+    },
+    "load": {
+      "count": 1,
+      "category": "dynamic",
+      "lines": [
+        97
+      ],
+      "gha": "manual: inline or composite action"
+    },
+    "pipelineContextFactory": {
+      "count": 1,
+      "category": "unknown",
+      "lines": [
+        98
+      ],
+      "gha": null
+    },
+    "getDefaultImageVersion": {
+      "count": 1,
+      "category": "groovy",
+      "lines": [
+        99
+      ],
+      "gha": null
+    },
+    "docker.image.inside": {
+      "count": 1,
+      "category": "policy",
+      "lines": [
+        113
+      ],
+      "gha": "container: / docker run"
+    },
+    "docker.image": {
+      "count": 1,
+      "category": "policy",
+      "lines": [
+        113
+      ],
+      "gha": "container: / docker run"
+    },
+    "contains": {
+      "count": 1,
+      "category": "groovy",
+      "lines": [
+        43
+      ],
+      "gha": null
+    },
+    "stashDockerImage": {
+      "count": 1,
+      "category": "local",
+      "lines": [
+        44
+      ],
+      "gha": null
+    },
+    "parallel": {
+      "count": 1,
+      "category": "policy",
+      "lines": [
+        174
+      ],
+      "gha": "separate jobs / strategy.matrix"
+    },
+    "collectEntries": {
+      "count": 1,
+      "category": "groovy",
+      "lines": [
+        174
+      ],
+      "gha": null
+    },
+    "makeStage": {
+      "count": 1,
+      "category": "local",
+      "lines": [
+        176
+      ],
+      "gha": null
+    },
+    "deleteDir": {
+      "count": 1,
+      "category": "direct",
+      "lines": [
+        189
+      ],
+      "gha": "run: rm -rf (runners are ephemeral)"
+    },
+    "dockerLoginH2OECR": {
+      "count": 1,
+      "category": "local",
+      "lines": [
+        190
+      ],
+      "gha": null
+    },
+    "unstashDockerImages": {
+      "count": 1,
+      "category": "local",
+      "lines": [
+        191
+      ],
+      "gha": null
+    },
+    "imageExistsH2OECR": {
+      "count": 1,
+      "category": "local",
+      "lines": [
+        192
+      ],
+      "gha": null
+    },
+    "println": {
+      "count": 1,
+      "category": "groovy",
+      "lines": [
+        204
+      ],
+      "gha": null
+    },
+    "stashDockerImages": {
+      "count": 1,
+      "category": "local",
+      "lines": [
+        206
+      ],
+      "gha": null
+    }
+  },
+  "unknown_steps": [
+    {
+      "name": "buildSummary",
+      "lines": [
+        9
+      ],
+      "count": 1
+    },
+    {
+      "name": "pipelineContextFactory",
+      "lines": [
+        98
+      ],
+      "count": 1
+    }
+  ],
+  "agents": [
+    {
+      "kind": "label",
+      "label": "DEFAULT_LABEL",
+      "line": 92,
+      "scope": "scripted"
+    },
+    {
+      "kind": "docker",
+      "image": "docker.image('d3fk/s3cmd')",
+      "line": 113,
+      "scope": "step"
+    },
+    {
+      "kind": "label",
+      "label": "DEFAULT_LABEL",
+      "line": 186,
+      "scope": "scripted"
+    }
+  ],
+  "credentials": [
+    {
+      "id": "H2O-AWS_CT-JENKINS-SHARED-SERVICE-PROD",
+      "type": "aws",
+      "lines": [
+        112
+      ]
+    },
+    {
+      "id": "H2O-AWS_CT-JENKINS-H2O-ECR",
+      "type": "aws",
+      "lines": [
+        214,
+        225
+      ]
+    }
+  ],
+  "dsl_symbols": [
+    "booleanParam",
+    "new StagesSummary"
+  ],
+  "libraries": [
+    "test-shared-library@dai-updated"
+  ],
+  "methods": [
+    "stashDockerImage",
+    "unstashDockerImage",
+    "stashDockerImages",
+    "unstashDockerImages",
+    "buildInParallel",
+    "makeStage",
+    "dockerLoginH2OECR",
+    "imageExistsH2OECR"
+  ],
+  "jenkins_model": {
+    "result": "failure",
+    "errors": [
+      "Jenkinsfile content '@Library('test-shared-library@dai-updated') _\nimport ai.h2o.ci.buildsummary.StagesSummary\n\nDEFAULT_LABEL = 'h2o3_linux'\n\nH2O_ECR='353750902984.dkr.ecr.us-east-1.amazonaws.com'\n\n// initialize build summary\nbuildSummary('https://github.com/h2oai/h2o-3', true)\n// use default StagesSummary implementation\nbuildSummary.get().addStagesSummary(this, new StagesSummary())\n\nproperties([\n    parameters([\n        booleanParam(defaultValue: false, description: 'Build even if the image is already present in the repository', name: 'forceBuild'),\n        booleanParam(defaultValue: false, description: 'Publish built images', name: 'publish'),\n        string(defaultValue: 'master', description: 'H2O-3 Branch used to load dependencies.', name: 'h2oBranch'),\n        booleanParam(name: 'noCache', defaultValue: true, description: 'If set to true, the docker image is built from scratch, with no stages used from the cache.')\n    ])\n])\n\n// IMAGE_NAME_PREFIX = 'harbor.h2o.ai/opsh2oai/h2o-3'\n\nJDK_VERSIONS = ['8', '11', '17']\nJDK_VERSIONS_PY_R = ['8', '11', '17'] // stable, last-supported, latest\n\ndef stashDockerImage(image) {\n\tsh \"docker save -o ${image}.tar ${H2O_ECR}/h2o-3/${image}\"\n\tstash includes: \"${image}.tar\", name: \"docker-image-${image}\"\n\tsh \"rm ${image}.tar\"\n}\n\ndef unstashDockerImage(image) {\n\tunstash \"docker-image-${image}\"\n\tsh \"docker load -i ${image}.tar\"\n\tsh \"rm ${image}.tar\"\n}\n\ndef stashDockerImages(target){\n\tif (!params.publish) {  // when publish this is noop since we can retrieve the image from registry\n\t\ttoPersist = [\"dev-base\", \"dev-jdk-8-base\", \"dev-jdk-others-base\", \"dev-python-3.7\", \"dev-r-4.5.2\",\n\t\t\t\t\t \"dev-build-base\", \"dev-build-hadoop\", \"dev-python-base\", \"dev-r-base\"]\n\t\tif (toPersist.contains(target)) {\n\t\t\tstashDockerImage(target)\n\t\t}\n\t}\n}\n\ndef unstashDockerImages(target){\n\tif (!params.publish) {  // when publish this is noop since we can retrieve the image from registry\n\t\tswitch (target) {\n\t\t\tcase 'dev-jdk-8-base':\n\t\t\tcase 'dev-jdk-others-base':\n\t\t\t\tunstashDockerImage(\"dev-base\")\n\t\t\t\tbreak\n\t\t\tcase 'dev-python-base':\n\t\t\t\tunstashDockerImage(\"dev-jdk-8-base\")\n\t\t\t\tbreak\n\t\t\tcase 'dev-r-base':\n\t\t\tcase 'dev-mojocompat':\n\t\t\t\tunstashDockerImage(\"dev-python-3.7\")\n\t\t\t\tbreak\n\t\t\tcase 'dev-build-base':\n\t\t\t\tunstashDockerImage(\"dev-r-4.5.2\")\n\t\t\t\tbreak\n\t\t\tcase 'dev-build-hadoop':\n\t\t\t\tunstashDockerImage(\"dev-build-base\")\n\t\t\t\tbreak\n\t\t\tcase 'dev-release':\n\t\t\t\tunstashDockerImage(\"dev-build-hadoop\")\n\t\t\t\tbreak\n\t\t\tdefault:\n\t\t\t\tif (target.startsWith('dev-python-')) {\n\t\t\t\t\tunstashDockerImage(\"dev-python-base\")\n\t\t\t\t} else if (target.startsWith('dev-r-')) {\n\t\t\t\t\tunstashDockerImage(\"dev-r-base\")\n\t\t\t\t} else if (target ==~ /dev-jdk-\\d+/) { \n\t\t\t\t\tunstashDockerImage(\"dev-jdk-others-base\")\n\t\t\t\t}\n\t\t\t\tbreak\n\t\t}\n\t}\n}\n\n\ndef pipelineContext\n\nansiColor('xterm') {\n    timestamps {\n        def checkoutStageName = 'Checkout and Init'\n        buildSummary.stageWithSummary(checkoutStageName) {\n            node (DEFAULT_LABEL) {\n                buildSummary.refreshStage(checkoutStageName)\n                cleanWs()\n                def scmEnv = checkout scm\n\n                def final pipelineContextFactory = load('scripts/jenkins/groovy/pipelineContext.groovy')\n                pipelineContext = pipelineContextFactory('.', 'MODE_BUILD_DOCKER', scmEnv, true)\n                def currentVersion = pipelineContext.getBuildConfig().getDefaultImageVersion()\n                currentBuild.displayName = \"v${currentVersion} #${currentBuild.number}\"\n\n                // if (params.publish && !params.forceBuild) {\n\t\t\t\t// \tdockerLoginH2OECR()\n                //     if (imageExistsH2OECR(\"h2o-3/dev-base\", \"${currentVersion}\")) {\n                //         error \"Image already exists. Use forceBuild if you wish to overwrite.\"\n                //     }\n                // } else {\n                //     manager.addBadge(\"warning.gif\", \"forceBuild enabled\")\n                // }\n\n                dir('docker') {\n                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'H2O-AWS_CT-JENKINS-SHARED-SERVICE-PROD', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {\n                        docker.image('d3fk/s3cmd').inside(\"--entrypoint='' -e AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} -e AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}\") {\n                            sh \"s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-8/x64-linux/jdk-8u311-linux-x64.tar.gz\"\n                            sh \"s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-10/x64-linux/jdk-10.0.2_linux-x64_bin.tar.gz\"\n                            sh \"s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-11/x64-linux/jdk-11.0.3_linux-x64_bin.tar.gz\"\n                            sh \"s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-12/x64-linux/jdk-12.0.2_linux-x64_bin.tar.gz\"\n                            sh \"s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-13/x64-linux/jdk-13.0.2_linux-x64_bin.tar.gz\"\n                            sh \"s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-14/x64-linux/jdk-14.0.2_linux-x64_bin.tar.gz\"\n                            sh \"s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-15/x64-linux/jdk-15.0.2_linux-x64_bin.tar.gz\"\n                            sh \"s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-16/x64-linux/jdk-16.0.2_linux-x64_bin.tar.gz\"\n                            sh \"s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-17/x64-linux/jdk-17.0.0_linux-x64_bin.tar.gz\"\n                        }\n                    }\n                    stash name: 'docker-sources'\n                }\n            }\n        }\n\n\t\tPYTHON_VERSIONS = pipelineContext.getBuildConfig().PYTHON_VERSIONS\n\t\tR_VERSIONS = pipelineContext.getBuildConfig().R_VERSIONS\n\t\t\n        buildInParallel(pipelineContext, ['dev-base'])\n        buildInParallel(pipelineContext, ['dev-jdk-8-base', 'dev-jdk-others-base'])\n\n        buildInParallel(pipelineContext, ['dev-python-base'])\n        def pythonImages = []\n        PYTHON_VERSIONS.each {version ->\n            pythonImages += \"dev-python-${version}\"\n        }\n        buildInParallel(pipelineContext, pythonImages)\n\n        buildInParallel(pipelineContext, ['dev-r-base'])\n        def componentImages = []\n        R_VERSIONS.each {version ->\n            componentImages += \"dev-r-${version}\"\n        }\n        JDK_VERSIONS.each {version ->\n            componentImages += \"dev-jdk-${version}\"\n        }\n        componentImages += \"dev-mojocompat\"\n        buildInParallel(pipelineContext, componentImages)\n\n        buildInParallel(pipelineContext, [\"dev-build-base\"])\n        buildInParallel(pipelineContext, [\"dev-build-hadoop\"],)\n        buildInParallel(pipelineContext, [\"dev-release\"])\n\n        def componentJdkImages = []\n        PYTHON_VERSIONS.each {version ->\n            JDK_VERSIONS_PY_R.each {jdkVersion ->\n                componentJdkImages += \"dev-python-${version}-jdk-${jdkVersion}\"\n            }\n        }\n        R_VERSIONS.each {version ->\n            JDK_VERSIONS_PY_R.each {jdkVersion ->\n                componentJdkImages += \"dev-r-${version}-jdk-${jdkVersion}\"\n            }\n        }\n        buildInParallel(pipelineContext, componentJdkImages)\n    }\n}\n\nprivate buildInParallel(final pipelineContext, final targets) {\n    parallel(targets.collectEntries { target ->\n        [\n                (target): makeStage(pipelineContext, target),\n        ]\n    })\n}\n\nprivate Closure makeStage(final pipelineContext, String target) {\n    return {\n        def buildImageStageName = \"Build $target\"\n        buildSummary.stageWithSummary(buildImageStageName) {\n            final String noCache = params.noCache ? \"--no-cache\" : \"\"\n            node (DEFAULT_LABEL) {\n                buildSummary.refreshStage(buildImageStageName)\n                dir (target) {\n                    deleteDir()\n                    dockerLoginH2OECR()\n\t\t\t\t\tunstashDockerImages(target)\n                    if(!imageExistsH2OECR(\"h2o-3/${target}\", \"${pipelineContext.getBuildConfig().getDefaultImageVersion()}\") || params.forceBuild){\n                        unstash 'docker-sources'\n                        sh \"\"\"\n                            make \\\n                                CI=1 \\\n                                H2O_BRANCH=${params.h2oBranch} \\\n                                VERSION=${pipelineContext.getBuildConfig().getDefaultImageVersion()} \\\n                                PUSH=${params.publish} \\\n                                NO_CACHE=${noCache} \\\n                                ${target}\n                        \"\"\"\n                    } else {\n                        println \"${H2O_ECR}/h2o-3/${target} already exists\"\n                    }  \n                    stashDockerImages(target)\n                }\n            }\n        }\n    }\n}\n\ndef dockerLoginH2OECR(){\n    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: \"H2O-AWS_CT-JENKINS-H2O-ECR\"]]) {\n        H2O_ECR_PWD = sh(script: 'aws ecr get-login-password --region us-east-1', returnStdout: true).trim()\n        sh \"\"\"\n            docker login --username AWS --password $H2O_ECR_PWD $H2O_ECR\n        \"\"\"\n    }\n}\n\ndef imageExistsH2OECR(String repository, String tag) {\n\ttry {\n\t\tdef result = \"-1\"\n\t\twithCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: \"H2O-AWS_CT-JENKINS-H2O-ECR\"]]) {\n\t\t\tresult = sh(\n\t\t\t\tscript: \"aws ecr batch-get-image --registry-id=353750902984 --repository-name='${repository}' --image-ids=imageTag='${tag}' --query 'images[].imageId.imageTag' --output text\",\n\t\t\t\treturnStdout: true\n\t\t\t).trim()\n\t\t}\n    \n\t\treturn result == tag\n\t} catch (Exception e) {\n\t\t// We didn't find the image. Exception can be thrown due to status code 254 that corresponds to \"The repository with name 'h2o-3/xyz' does not exist in the registry with id 'xxx'\"\n\t\treturn false\n\t}\n}\n\n' did not contain the 'pipeline' step"
+    ]
+  },
+  "findings": [
+    {
+      "id": "ScriptedPipeline",
+      "severity": "high",
+      "line": null,
+      "evidence": "node {}/stage() scripted pipeline",
+      "recommendation": "Re-model as Declarative or design GHA jobs around intent; automated conversion is best-effort"
+    },
+    {
+      "id": "SharedLibrary",
+      "severity": "high",
+      "line": null,
+      "evidence": "test-shared-library@dai-updated",
+      "recommendation": "Library steps are opaque to static analysis; map them to composite actions/reusable workflows",
+      "gate": true
+    },
+    {
+      "id": "ExternalGroovyLoad",
+      "severity": "high",
+      "line": 97,
+      "evidence": "load(scripts/jenkins/groovy/pipelineContext.groovy)",
+      "recommendation": "Inline the loaded logic as scripts/composite actions",
+      "gate": true
+    },
+    {
+      "id": "DynamicParallel",
+      "severity": "high",
+      "line": 174,
+      "evidence": "parallel(targets.collectEntries(...))",
+      "recommendation": "Emit a bounded matrix from a planning job (fromJSON) instead of runtime fan-out",
+      "gate": true
+    },
+    {
+      "id": "UnknownStep",
+      "severity": "medium",
+      "line": 9,
+      "evidence": "buildSummary x1",
+      "recommendation": "Plugin or shared-library step with no catalog mapping - inspect implementation"
+    },
+    {
+      "id": "DynamicAgentLabel",
+      "severity": "medium",
+      "line": 92,
+      "evidence": "node(DEFAULT_LABEL)",
+      "recommendation": "Choose runs-on via matrix/inputs"
+    },
+    {
+      "id": "UnknownStep",
+      "severity": "medium",
+      "line": 98,
+      "evidence": "pipelineContextFactory x1",
+      "recommendation": "Plugin or shared-library step with no catalog mapping - inspect implementation"
+    },
+    {
+      "id": "DynamicAgentLabel",
+      "severity": "medium",
+      "line": 186,
+      "evidence": "node(DEFAULT_LABEL)",
+      "recommendation": "Choose runs-on via matrix/inputs"
+    },
+    {
+      "id": "CredentialBinding",
+      "severity": "low",
+      "line": 112,
+      "evidence": "aws 'H2O-AWS_CT-JENKINS-SHARED-SERVICE-PROD'",
+      "recommendation": "Create GitHub secret(s) or use OIDC; never inline values"
+    },
+    {
+      "id": "CredentialBinding",
+      "severity": "low",
+      "line": 214,
+      "evidence": "aws 'H2O-AWS_CT-JENKINS-H2O-ECR'",
+      "recommendation": "Create GitHub secret(s) or use OIDC; never inline values"
+    }
+  ],
+  "hard_gates": [
+    {
+      "id": "SharedLibrary",
+      "severity": "high",
+      "line": null,
+      "evidence": "test-shared-library@dai-updated",
+      "recommendation": "Library steps are opaque to static analysis; map them to composite actions/reusable workflows",
+      "gate": true
+    },
+    {
+      "id": "ExternalGroovyLoad",
+      "severity": "high",
+      "line": 97,
+      "evidence": "load(scripts/jenkins/groovy/pipelineContext.groovy)",
+      "recommendation": "Inline the loaded logic as scripts/composite actions",
+      "gate": true
+    },
+    {
+      "id": "DynamicParallel",
+      "severity": "high",
+      "line": 174,
+      "evidence": "parallel(targets.collectEntries(...))",
+      "recommendation": "Emit a bounded matrix from a planning job (fromJSON) instead of runtime fan-out",
+      "gate": true
+    }
+  ],
+  "styles": [
+    "scripted",
+    "shared-library",
+    "parallel",
+    "docker-agent",
+    "credentials",
+    "parameters-triggers",
+    "artifacts-tests",
+    "dynamic-groovy"
+  ],
+  "coverage": {
+    "by_category": {
+      "direct": 22,
+      "local": 25,
+      "groovy": 26,
+      "policy": 13,
+      "unknown": 2,
+      "noop": 2,
+      "dynamic": 1
+    },
+    "weighted_mapped_pct": 73.9
+  },
+  "complexity": {
+    "score": 60,
+    "classification": "significant-redesign",
+    "dimensions": {
+      "declarative_structure": 13.0,
+      "step_mapping": 6.5,
+      "plugin_coupling": 12.0,
+      "library_opacity": 13,
+      "runtime_coupling": 6.0,
+      "security_identity": 4,
+      "control_flow": 5
+    },
+    "hard_gates": [
+      "DynamicParallel",
+      "ExternalGroovyLoad",
+      "SharedLibrary"
+    ],
+    "weights": {
+      "declarative_structure": 20,
+      "step_mapping": 25,
+      "plugin_coupling": 15,
+      "library_opacity": 15,
+      "runtime_coupling": 10,
+      "security_identity": 10,
+      "control_flow": 5
+    }
+  },
+  "convertibility": "partial",
+  "ir_notes": [
+    "line 88: ansiColor {} dropped (native in GitHub Actions)",
+    "line 89: timestamps {} dropped (native in GitHub Actions)",
+    "31 statement(s) outside any stage kept in source order in 1 unnamed segment(s) (from line(s) 1)",
+    "no stage() blocks found - structure is opaque (library call or custom DSL)"
+  ],
+  "source_sha256": "1dcbd88fe1d74224b8517b5f21aa521efa5fdbd2a8075a220bb0d9ec8b146c18"
+}

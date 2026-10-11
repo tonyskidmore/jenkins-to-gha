@@ -1,0 +1,188 @@
+{
+  "counts": {
+    "manual": 8,
+    "approximated": 8,
+    "mapped": 3,
+    "info": 1
+  },
+  "automation_pct": 41.1,
+  "items": [
+    {
+      "jenkins": "checkout scm",
+      "line": 15,
+      "stage": "checkout",
+      "status": "mapped",
+      "gha": "actions/checkout@v4",
+      "note": ""
+    },
+    {
+      "jenkins": "withCredentials aws 'jenkins-iam'",
+      "line": 19,
+      "stage": "Get IPA from AWS S3",
+      "status": "mapped",
+      "gha": "secrets -> step env",
+      "note": ""
+    },
+    {
+      "jenkins": "withCredentials usernameColonPassword 'browserstack-uploader'",
+      "line": 26,
+      "stage": "install ipa in browserstack",
+      "status": "mapped",
+      "gha": "secrets -> step env",
+      "note": ""
+    },
+    {
+      "jenkins": "(no pipeline timeout)",
+      "line": null,
+      "stage": null,
+      "status": "approximated",
+      "gha": "timeout-minutes: 60",
+      "note": "explicit job timeout added (GitHub's default is 360 minutes); set J2GHA_DEFAULT_TIMEOUT to change"
+    },
+    {
+      "jenkins": "node (in steps)",
+      "line": 5,
+      "stage": "",
+      "status": "approximated",
+      "gha": "inlined",
+      "note": "nested agent allocation flattened"
+    },
+    {
+      "jenkins": "sh",
+      "line": 20,
+      "stage": "Get IPA from AWS S3",
+      "status": "approximated",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 25,
+      "stage": "install ipa in browserstack",
+      "status": "approximated",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "assign APP_ID = sh(script: 'curl -u $BROWSERSTACK_CREDS -",
+      "line": 27,
+      "stage": "install ipa in browserstack",
+      "status": "approximated",
+      "gha": "run step (captured output not propagated)",
+      "note": "write values to $GITHUB_OUTPUT/$GITHUB_ENV"
+    },
+    {
+      "jenkins": "sh",
+      "line": 27,
+      "stage": "install ipa in browserstack",
+      "status": "approximated",
+      "gha": "run",
+      "note": "Groovy interpolation of non-env values needs review"
+    },
+    {
+      "jenkins": "sh",
+      "line": 33,
+      "stage": "test",
+      "status": "approximated",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "publishHTML",
+      "line": 38,
+      "stage": "create report",
+      "status": "approximated",
+      "gha": "actions/upload-artifact@v4",
+      "note": "HTML report published as artifact"
+    },
+    {
+      "jenkins": "decl label = jenkins-node-${UUID.randomUUID().toString(",
+      "line": 1,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "podTemplate",
+      "line": 2,
+      "stage": "",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "redesign step with no deterministic mapping"
+    },
+    {
+      "jenkins": "container (kubernetes)",
+      "line": 6,
+      "stage": "",
+      "status": "manual",
+      "gha": "steps inlined",
+      "note": "map the pod container image to a job container or docker run"
+    },
+    {
+      "jenkins": "withFolderProperties",
+      "line": 8,
+      "stage": "",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "assign LBRANCH = \"${env.BRANCH}\".toLowerCase(...)",
+      "line": 9,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment from a step"
+    },
+    {
+      "jenkins": "toLowerCase",
+      "line": 9,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy method / helper call - port logic to a script"
+    },
+    {
+      "jenkins": "assign APP_ID = ",
+      "line": 12,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "browserstack",
+      "line": 32,
+      "stage": "test",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "checkout: SCM environment (GIT_COMMIT, GIT_BRANCH, GIT_URL)",
+      "line": null,
+      "stage": null,
+      "status": "info",
+      "gha": "env",
+      "note": "Jenkins' git plugin exports them to every step after a checkout, so called scripts may read them; defined at workflow level even when the Jenkinsfile does not"
+    }
+  ],
+  "secrets": {
+    "JENKINS_IAM_USR": "Jenkins credential 'jenkins-iam'",
+    "JENKINS_IAM_PSW": "Jenkins credential 'jenkins-iam'",
+    "BROWSERSTACK_UPLOADER": "Jenkins credential 'browserstack-uploader'"
+  },
+  "jobs": {
+    "main": {
+      "name": "main",
+      "runs-on": "ubuntu-latest",
+      "steps": 10,
+      "matrix": false
+    }
+  },
+  "notes": [],
+  "handoff": {},
+  "source_sha256": "668476e41272bc046daf8622e298b91d122b4fdaf5aad8c6804ae053b7025ca7",
+  "model_sha256": "2f705a335fe1acf149e69ec83f7968da0f103c300200009e55748a2b540eb771"
+}

@@ -1,0 +1,718 @@
+[2026-10-10T09:32:14.243Z] Started by user admin
+[2026-10-10T09:32:14.426Z] [Pipeline] Start of Pipeline
+[2026-10-10T09:32:14.449Z] [Pipeline] properties
+[2026-10-10T09:32:14.505Z] [Pipeline] node
+[2026-10-10T09:32:14.516Z] Running on Jenkins in /var/jenkins_home/workspace/ex-118-full
+[2026-10-10T09:32:14.533Z] [Pipeline] {
+[2026-10-10T09:32:14.555Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named stageName (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:32:14.579Z] [Pipeline] stage
+[2026-10-10T09:32:14.585Z] [Pipeline] { (App Branch Close and Tag (not currently integrated))
+[2026-10-10T09:32:14.605Z] [Pipeline] }
+[2026-10-10T09:32:14.631Z] [Pipeline] // stage
+[2026-10-10T09:32:14.639Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named stageName (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:32:14.657Z] [Pipeline] stage
+[2026-10-10T09:32:14.663Z] [Pipeline] { (Get Repos)
+[2026-10-10T09:32:14.689Z] [Pipeline] deleteDir
+[2026-10-10T09:32:14.897Z] [Pipeline] dir
+[2026-10-10T09:32:14.898Z] Running in /var/jenkins_home/workspace/ex-118-full/olcs-ssweb-version
+[2026-10-10T09:32:14.905Z] [Pipeline] {
+[2026-10-10T09:32:14.934Z] [Pipeline] sh
+[2026-10-10T09:32:15.199Z] + git init -q -b master /var/jenkins_home/workspace/ex-118-full/.gitlab/olcs/olcs-selfserve.git
+[2026-10-10T09:32:15.199Z] + cd /var/jenkins_home/workspace/ex-118-full/.gitlab/olcs/olcs-selfserve.git
+[2026-10-10T09:32:15.199Z] + n=28
+[2026-10-10T09:32:15.199Z] + n=29
+[2026-10-10T09:32:15.199Z] + GIT_AUTHOR_DATE=2018-03-29T12:00:00 GIT_COMMITTER_DATE=2018-03-29T12:00:00 git -c user.name=j2gha -c user.email=j2gha@localhost commit -q --allow-empty -m v1.0.0
+[2026-10-10T09:32:15.199Z] + git tag v1.0.0
+[2026-10-10T09:32:15.199Z] + n=30
+[2026-10-10T09:32:15.199Z] + GIT_AUTHOR_DATE=2018-03-30T12:00:00 GIT_COMMITTER_DATE=2018-03-30T12:00:00 git -c user.name=j2gha -c user.email=j2gha@localhost commit -q --allow-empty -m v1.0.1
+[2026-10-10T09:32:15.199Z] + git tag v1.0.1
+[2026-10-10T09:32:15.226Z] [Pipeline] checkout
+[2026-10-10T09:32:15.232Z] The recommended git tool is: NONE
+[2026-10-10T09:32:15.233Z] Warning: CredentialId "OLCS-Jenkins" could not be found.
+[2026-10-10T09:32:15.233Z] Cloning the remote Git repository
+[2026-10-10T09:32:15.233Z] Cloning repository file:///var/jenkins_home/workspace/ex-118-full/.gitlab/olcs/olcs-selfserve.git
+[2026-10-10T09:32:15.233Z]  > git init /var/jenkins_home/workspace/ex-118-full/olcs-ssweb-version # timeout=10
+[2026-10-10T09:32:15.248Z] Fetching upstream changes from file:///var/jenkins_home/workspace/ex-118-full/.gitlab/olcs/olcs-selfserve.git
+[2026-10-10T09:32:15.248Z]  > git --version # timeout=10
+[2026-10-10T09:32:15.254Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T09:32:15.254Z]  > git fetch --tags --force --progress -- file:///var/jenkins_home/workspace/ex-118-full/.gitlab/olcs/olcs-selfserve.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:32:15.288Z]  > git config remote.origin.url file:///var/jenkins_home/workspace/ex-118-full/.gitlab/olcs/olcs-selfserve.git # timeout=10
+[2026-10-10T09:32:15.295Z]  > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:32:15.303Z] Avoid second fetch
+[2026-10-10T09:32:15.303Z]  > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+[2026-10-10T09:32:15.310Z] Checking out Revision 30a3e6796c85014e0704b37b7352fede14794f4e (refs/remotes/origin/master)
+[2026-10-10T09:32:15.310Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T09:32:15.317Z]  > git checkout -f 30a3e6796c85014e0704b37b7352fede14794f4e # timeout=10
+[2026-10-10T09:32:15.325Z] Commit message: "v1.0.1"
+[2026-10-10T09:32:15.325Z]  > git rev-list --no-walk 30a3e6796c85014e0704b37b7352fede14794f4e # timeout=10
+[2026-10-10T09:32:15.360Z] [Pipeline] sh
+[2026-10-10T09:32:15.621Z] + git describe --abbrev=0 --tags
+[2026-10-10T09:32:15.644Z] [Pipeline] readFile
+[2026-10-10T09:32:15.669Z] [Pipeline] }
+[2026-10-10T09:32:15.693Z] [Pipeline] // dir
+[2026-10-10T09:32:15.715Z] [Pipeline] dir
+[2026-10-10T09:32:15.715Z] Running in /var/jenkins_home/workspace/ex-118-full/olcs-static-version
+[2026-10-10T09:32:15.720Z] [Pipeline] {
+[2026-10-10T09:32:15.746Z] [Pipeline] sh
+[2026-10-10T09:32:16.009Z] + git init -q -b master /var/jenkins_home/workspace/ex-118-full/.gitlab/olcs/olcs-static.git
+[2026-10-10T09:32:16.009Z] + cd /var/jenkins_home/workspace/ex-118-full/.gitlab/olcs/olcs-static.git
+[2026-10-10T09:32:16.009Z] + n=28
+[2026-10-10T09:32:16.009Z] + n=29
+[2026-10-10T09:32:16.009Z] + GIT_AUTHOR_DATE=2018-03-29T12:00:00 GIT_COMMITTER_DATE=2018-03-29T12:00:00 git -c user.name=j2gha -c user.email=j2gha@localhost commit -q --allow-empty -m v1.0.0
+[2026-10-10T09:32:16.009Z] + git tag v1.0.0
+[2026-10-10T09:32:16.009Z] + n=30
+[2026-10-10T09:32:16.009Z] + GIT_AUTHOR_DATE=2018-03-30T12:00:00 GIT_COMMITTER_DATE=2018-03-30T12:00:00 git -c user.name=j2gha -c user.email=j2gha@localhost commit -q --allow-empty -m v1.0.1
+[2026-10-10T09:32:16.009Z] + git tag v1.0.1
+[2026-10-10T09:32:16.047Z] [Pipeline] checkout
+[2026-10-10T09:32:16.056Z] The recommended git tool is: NONE
+[2026-10-10T09:32:16.056Z] Warning: CredentialId "OLCS-Jenkins" could not be found.
+[2026-10-10T09:32:16.057Z] Cloning the remote Git repository
+[2026-10-10T09:32:16.057Z] Cloning repository file:///var/jenkins_home/workspace/ex-118-full/.gitlab/olcs/olcs-static.git
+[2026-10-10T09:32:16.057Z]  > git init /var/jenkins_home/workspace/ex-118-full/olcs-static-version # timeout=10
+[2026-10-10T09:32:16.077Z] Fetching upstream changes from file:///var/jenkins_home/workspace/ex-118-full/.gitlab/olcs/olcs-static.git
+[2026-10-10T09:32:16.077Z]  > git --version # timeout=10
+[2026-10-10T09:32:16.085Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T09:32:16.085Z]  > git fetch --tags --force --progress -- file:///var/jenkins_home/workspace/ex-118-full/.gitlab/olcs/olcs-static.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:32:16.117Z]  > git config remote.origin.url file:///var/jenkins_home/workspace/ex-118-full/.gitlab/olcs/olcs-static.git # timeout=10
+[2026-10-10T09:32:16.124Z]  > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:32:16.131Z] Avoid second fetch
+[2026-10-10T09:32:16.131Z]  > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+[2026-10-10T09:32:16.138Z] Checking out Revision 30a3e6796c85014e0704b37b7352fede14794f4e (refs/remotes/origin/master)
+[2026-10-10T09:32:16.138Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T09:32:16.144Z]  > git checkout -f 30a3e6796c85014e0704b37b7352fede14794f4e # timeout=10
+[2026-10-10T09:32:16.152Z] Commit message: "v1.0.1"
+[2026-10-10T09:32:16.152Z]  > git rev-list --no-walk 30a3e6796c85014e0704b37b7352fede14794f4e # timeout=10
+[2026-10-10T09:32:16.182Z] [Pipeline] sh
+[2026-10-10T09:32:16.305Z] + git describe --abbrev=0 --tags
+[2026-10-10T09:32:16.328Z] [Pipeline] readFile
+[2026-10-10T09:32:16.353Z] [Pipeline] }
+[2026-10-10T09:32:16.377Z] [Pipeline] // dir
+[2026-10-10T09:32:16.402Z] [Pipeline] dir
+[2026-10-10T09:32:16.402Z] Running in /var/jenkins_home/workspace/ex-118-full/olcs-iuweb-version
+[2026-10-10T09:32:16.408Z] [Pipeline] {
+[2026-10-10T09:32:16.434Z] [Pipeline] sh
+[2026-10-10T09:32:16.696Z] + git init -q -b master /var/jenkins_home/workspace/ex-118-full/.gitlab/olcs/olcs-internal.git
+[2026-10-10T09:32:16.696Z] + cd /var/jenkins_home/workspace/ex-118-full/.gitlab/olcs/olcs-internal.git
+[2026-10-10T09:32:16.696Z] + n=28
+[2026-10-10T09:32:16.696Z] + n=29
+[2026-10-10T09:32:16.696Z] + GIT_AUTHOR_DATE=2018-03-29T12:00:00 GIT_COMMITTER_DATE=2018-03-29T12:00:00 git -c user.name=j2gha -c user.email=j2gha@localhost commit -q --allow-empty -m v1.0.0
+[2026-10-10T09:32:16.696Z] + git tag v1.0.0
+[2026-10-10T09:32:16.696Z] + n=30
+[2026-10-10T09:32:16.696Z] + GIT_AUTHOR_DATE=2018-03-30T12:00:00 GIT_COMMITTER_DATE=2018-03-30T12:00:00 git -c user.name=j2gha -c user.email=j2gha@localhost commit -q --allow-empty -m v1.0.1
+[2026-10-10T09:32:16.696Z] + git tag v1.0.1
+[2026-10-10T09:32:16.719Z] [Pipeline] checkout
+[2026-10-10T09:32:16.726Z] The recommended git tool is: NONE
+[2026-10-10T09:32:16.726Z] Warning: CredentialId "OLCS-Jenkins" could not be found.
+[2026-10-10T09:32:16.742Z] Cloning the remote Git repository
+[2026-10-10T09:32:16.742Z] Cloning repository file:///var/jenkins_home/workspace/ex-118-full/.gitlab/olcs/olcs-internal.git
+[2026-10-10T09:32:16.742Z]  > git init /var/jenkins_home/workspace/ex-118-full/olcs-iuweb-version # timeout=10
+[2026-10-10T09:32:16.755Z] Fetching upstream changes from file:///var/jenkins_home/workspace/ex-118-full/.gitlab/olcs/olcs-internal.git
+[2026-10-10T09:32:16.755Z]  > git --version # timeout=10
+[2026-10-10T09:32:16.761Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T09:32:16.762Z]  > git fetch --tags --force --progress -- file:///var/jenkins_home/workspace/ex-118-full/.gitlab/olcs/olcs-internal.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:32:16.790Z]  > git config remote.origin.url file:///var/jenkins_home/workspace/ex-118-full/.gitlab/olcs/olcs-internal.git # timeout=10
+[2026-10-10T09:32:16.798Z]  > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:32:16.805Z] Avoid second fetch
+[2026-10-10T09:32:16.806Z]  > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+[2026-10-10T09:32:16.812Z] Checking out Revision 30a3e6796c85014e0704b37b7352fede14794f4e (refs/remotes/origin/master)
+[2026-10-10T09:32:16.812Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T09:32:16.818Z]  > git checkout -f 30a3e6796c85014e0704b37b7352fede14794f4e # timeout=10
+[2026-10-10T09:32:16.827Z] Commit message: "v1.0.1"
+[2026-10-10T09:32:16.827Z]  > git rev-list --no-walk 30a3e6796c85014e0704b37b7352fede14794f4e # timeout=10
+[2026-10-10T09:32:16.949Z] [Pipeline] sh
+[2026-10-10T09:32:17.215Z] + git describe --abbrev=0 --tags
+[2026-10-10T09:32:17.239Z] [Pipeline] readFile
+[2026-10-10T09:32:17.262Z] [Pipeline] }
+[2026-10-10T09:32:17.285Z] [Pipeline] // dir
+[2026-10-10T09:32:17.314Z] [Pipeline] dir
+[2026-10-10T09:32:17.315Z] Running in /var/jenkins_home/workspace/ex-118-full/olcs-api-version
+[2026-10-10T09:32:17.322Z] [Pipeline] {
+[2026-10-10T09:32:17.350Z] [Pipeline] sh
+[2026-10-10T09:32:17.611Z] + git init -q -b master /var/jenkins_home/workspace/ex-118-full/.gitlab/olcs/olcs-backend.git
+[2026-10-10T09:32:17.611Z] + cd /var/jenkins_home/workspace/ex-118-full/.gitlab/olcs/olcs-backend.git
+[2026-10-10T09:32:17.611Z] + n=28
+[2026-10-10T09:32:17.611Z] + n=29
+[2026-10-10T09:32:17.611Z] + GIT_AUTHOR_DATE=2018-03-29T12:00:00 GIT_COMMITTER_DATE=2018-03-29T12:00:00 git -c user.name=j2gha -c user.email=j2gha@localhost commit -q --allow-empty -m v1.0.0
+[2026-10-10T09:32:17.611Z] + git tag v1.0.0
+[2026-10-10T09:32:17.611Z] + n=30
+[2026-10-10T09:32:17.611Z] + GIT_AUTHOR_DATE=2018-03-30T12:00:00 GIT_COMMITTER_DATE=2018-03-30T12:00:00 git -c user.name=j2gha -c user.email=j2gha@localhost commit -q --allow-empty -m v1.0.1
+[2026-10-10T09:32:17.611Z] + git tag v1.0.1
+[2026-10-10T09:32:17.633Z] [Pipeline] checkout
+[2026-10-10T09:32:17.640Z] The recommended git tool is: NONE
+[2026-10-10T09:32:17.640Z] Warning: CredentialId "OLCS-Jenkins" could not be found.
+[2026-10-10T09:32:17.641Z] Cloning the remote Git repository
+[2026-10-10T09:32:17.641Z] Cloning repository file:///var/jenkins_home/workspace/ex-118-full/.gitlab/olcs/olcs-backend.git
+[2026-10-10T09:32:17.641Z]  > git init /var/jenkins_home/workspace/ex-118-full/olcs-api-version # timeout=10
+[2026-10-10T09:32:17.654Z] Fetching upstream changes from file:///var/jenkins_home/workspace/ex-118-full/.gitlab/olcs/olcs-backend.git
+[2026-10-10T09:32:17.654Z]  > git --version # timeout=10
+[2026-10-10T09:32:17.660Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T09:32:17.660Z]  > git fetch --tags --force --progress -- file:///var/jenkins_home/workspace/ex-118-full/.gitlab/olcs/olcs-backend.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:32:17.689Z]  > git config remote.origin.url file:///var/jenkins_home/workspace/ex-118-full/.gitlab/olcs/olcs-backend.git # timeout=10
+[2026-10-10T09:32:17.698Z]  > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:32:17.707Z] Avoid second fetch
+[2026-10-10T09:32:17.707Z]  > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+[2026-10-10T09:32:17.715Z] Checking out Revision 30a3e6796c85014e0704b37b7352fede14794f4e (refs/remotes/origin/master)
+[2026-10-10T09:32:17.715Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T09:32:17.723Z]  > git checkout -f 30a3e6796c85014e0704b37b7352fede14794f4e # timeout=10
+[2026-10-10T09:32:17.733Z] Commit message: "v1.0.1"
+[2026-10-10T09:32:17.733Z]  > git rev-list --no-walk 30a3e6796c85014e0704b37b7352fede14794f4e # timeout=10
+[2026-10-10T09:32:17.772Z] [Pipeline] sh
+[2026-10-10T09:32:18.036Z] + git describe --abbrev=0 --tags
+[2026-10-10T09:32:18.061Z] [Pipeline] readFile
+[2026-10-10T09:32:18.086Z] [Pipeline] }
+[2026-10-10T09:32:18.110Z] [Pipeline] // dir
+[2026-10-10T09:32:18.132Z] [Pipeline] dir
+[2026-10-10T09:32:18.132Z] Running in /var/jenkins_home/workspace/ex-118-full/olcs-search-version
+[2026-10-10T09:32:18.137Z] [Pipeline] {
+[2026-10-10T09:32:18.159Z] [Pipeline] sh
+[2026-10-10T09:32:18.419Z] + git init -q -b master /var/jenkins_home/workspace/ex-118-full/.gitlab/olcs/olcs-elasticsearch.git
+[2026-10-10T09:32:18.419Z] + cd /var/jenkins_home/workspace/ex-118-full/.gitlab/olcs/olcs-elasticsearch.git
+[2026-10-10T09:32:18.419Z] + n=28
+[2026-10-10T09:32:18.419Z] + n=29
+[2026-10-10T09:32:18.419Z] + GIT_AUTHOR_DATE=2018-03-29T12:00:00 GIT_COMMITTER_DATE=2018-03-29T12:00:00 git -c user.name=j2gha -c user.email=j2gha@localhost commit -q --allow-empty -m v1.0.0
+[2026-10-10T09:32:18.419Z] + git tag v1.0.0
+[2026-10-10T09:32:18.419Z] + n=30
+[2026-10-10T09:32:18.419Z] + GIT_AUTHOR_DATE=2018-03-30T12:00:00 GIT_COMMITTER_DATE=2018-03-30T12:00:00 git -c user.name=j2gha -c user.email=j2gha@localhost commit -q --allow-empty -m v1.0.1
+[2026-10-10T09:32:18.419Z] + git tag v1.0.1
+[2026-10-10T09:32:18.443Z] [Pipeline] checkout
+[2026-10-10T09:32:18.450Z] The recommended git tool is: NONE
+[2026-10-10T09:32:18.450Z] Warning: CredentialId "OLCS-Jenkins" could not be found.
+[2026-10-10T09:32:18.451Z] Cloning the remote Git repository
+[2026-10-10T09:32:18.451Z] Cloning repository file:///var/jenkins_home/workspace/ex-118-full/.gitlab/olcs/olcs-elasticsearch.git
+[2026-10-10T09:32:18.451Z]  > git init /var/jenkins_home/workspace/ex-118-full/olcs-search-version # timeout=10
+[2026-10-10T09:32:18.465Z] Fetching upstream changes from file:///var/jenkins_home/workspace/ex-118-full/.gitlab/olcs/olcs-elasticsearch.git
+[2026-10-10T09:32:18.465Z]  > git --version # timeout=10
+[2026-10-10T09:32:18.472Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T09:32:18.472Z]  > git fetch --tags --force --progress -- file:///var/jenkins_home/workspace/ex-118-full/.gitlab/olcs/olcs-elasticsearch.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:32:18.506Z]  > git config remote.origin.url file:///var/jenkins_home/workspace/ex-118-full/.gitlab/olcs/olcs-elasticsearch.git # timeout=10
+[2026-10-10T09:32:18.514Z]  > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:32:18.523Z] Avoid second fetch
+[2026-10-10T09:32:18.523Z]  > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+[2026-10-10T09:32:18.531Z] Checking out Revision 30a3e6796c85014e0704b37b7352fede14794f4e (refs/remotes/origin/master)
+[2026-10-10T09:32:18.531Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T09:32:18.539Z]  > git checkout -f 30a3e6796c85014e0704b37b7352fede14794f4e # timeout=10
+[2026-10-10T09:32:18.548Z] Commit message: "v1.0.1"
+[2026-10-10T09:32:18.548Z]  > git rev-list --no-walk 30a3e6796c85014e0704b37b7352fede14794f4e # timeout=10
+[2026-10-10T09:32:18.583Z] [Pipeline] sh
+[2026-10-10T09:32:18.843Z] + git describe --abbrev=0 --tags
+[2026-10-10T09:32:18.865Z] [Pipeline] readFile
+[2026-10-10T09:32:18.890Z] [Pipeline] }
+[2026-10-10T09:32:18.915Z] [Pipeline] // dir
+[2026-10-10T09:32:18.940Z] [Pipeline] dir
+[2026-10-10T09:32:18.940Z] Running in /var/jenkins_home/workspace/ex-118-full/olcs-address-base-version
+[2026-10-10T09:32:18.945Z] [Pipeline] {
+[2026-10-10T09:32:18.972Z] [Pipeline] sh
+[2026-10-10T09:32:19.235Z] + git init -q -b master /var/jenkins_home/workspace/ex-118-full/.gitlab/sc/address-base.git
+[2026-10-10T09:32:19.235Z] + cd /var/jenkins_home/workspace/ex-118-full/.gitlab/sc/address-base.git
+[2026-10-10T09:32:19.235Z] + n=28
+[2026-10-10T09:32:19.235Z] + n=29
+[2026-10-10T09:32:19.235Z] + GIT_AUTHOR_DATE=2018-03-29T12:00:00 GIT_COMMITTER_DATE=2018-03-29T12:00:00 git -c user.name=j2gha -c user.email=j2gha@localhost commit -q --allow-empty -m v1.0.0
+[2026-10-10T09:32:19.235Z] + git tag v1.0.0
+[2026-10-10T09:32:19.235Z] + n=30
+[2026-10-10T09:32:19.235Z] + GIT_AUTHOR_DATE=2018-03-30T12:00:00 GIT_COMMITTER_DATE=2018-03-30T12:00:00 git -c user.name=j2gha -c user.email=j2gha@localhost commit -q --allow-empty -m v1.0.1
+[2026-10-10T09:32:19.235Z] + git tag v1.0.1
+[2026-10-10T09:32:19.258Z] [Pipeline] checkout
+[2026-10-10T09:32:19.264Z] The recommended git tool is: NONE
+[2026-10-10T09:32:19.264Z] Warning: CredentialId "OLCS-Jenkins" could not be found.
+[2026-10-10T09:32:19.265Z] Cloning the remote Git repository
+[2026-10-10T09:32:19.265Z] Cloning repository file:///var/jenkins_home/workspace/ex-118-full/.gitlab/sc/address-base.git
+[2026-10-10T09:32:19.265Z]  > git init /var/jenkins_home/workspace/ex-118-full/olcs-address-base-version # timeout=10
+[2026-10-10T09:32:19.279Z] Fetching upstream changes from file:///var/jenkins_home/workspace/ex-118-full/.gitlab/sc/address-base.git
+[2026-10-10T09:32:19.279Z]  > git --version # timeout=10
+[2026-10-10T09:32:19.285Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T09:32:19.285Z]  > git fetch --tags --force --progress -- file:///var/jenkins_home/workspace/ex-118-full/.gitlab/sc/address-base.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:32:19.314Z]  > git config remote.origin.url file:///var/jenkins_home/workspace/ex-118-full/.gitlab/sc/address-base.git # timeout=10
+[2026-10-10T09:32:19.320Z]  > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:32:19.328Z] Avoid second fetch
+[2026-10-10T09:32:19.328Z]  > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+[2026-10-10T09:32:19.335Z] Checking out Revision 30a3e6796c85014e0704b37b7352fede14794f4e (refs/remotes/origin/master)
+[2026-10-10T09:32:19.335Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T09:32:19.342Z]  > git checkout -f 30a3e6796c85014e0704b37b7352fede14794f4e # timeout=10
+[2026-10-10T09:32:19.350Z] Commit message: "v1.0.1"
+[2026-10-10T09:32:19.350Z]  > git rev-list --no-walk 30a3e6796c85014e0704b37b7352fede14794f4e # timeout=10
+[2026-10-10T09:32:19.382Z] [Pipeline] sh
+[2026-10-10T09:32:19.643Z] + git describe --abbrev=0 --tags
+[2026-10-10T09:32:19.667Z] [Pipeline] readFile
+[2026-10-10T09:32:19.692Z] [Pipeline] }
+[2026-10-10T09:32:19.717Z] [Pipeline] // dir
+[2026-10-10T09:32:19.741Z] [Pipeline] dir
+[2026-10-10T09:32:19.741Z] Running in /var/jenkins_home/workspace/ex-118-full/olcs-address-service-version
+[2026-10-10T09:32:19.746Z] [Pipeline] {
+[2026-10-10T09:32:19.772Z] [Pipeline] sh
+[2026-10-10T09:32:20.033Z] + git init -q -b master /var/jenkins_home/workspace/ex-118-full/.gitlab/sc/address-service.git
+[2026-10-10T09:32:20.033Z] + cd /var/jenkins_home/workspace/ex-118-full/.gitlab/sc/address-service.git
+[2026-10-10T09:32:20.033Z] + n=28
+[2026-10-10T09:32:20.033Z] + n=29
+[2026-10-10T09:32:20.033Z] + GIT_AUTHOR_DATE=2018-03-29T12:00:00 GIT_COMMITTER_DATE=2018-03-29T12:00:00 git -c user.name=j2gha -c user.email=j2gha@localhost commit -q --allow-empty -m v1.0.0
+[2026-10-10T09:32:20.033Z] + git tag v1.0.0
+[2026-10-10T09:32:20.033Z] + n=30
+[2026-10-10T09:32:20.033Z] + GIT_AUTHOR_DATE=2018-03-30T12:00:00 GIT_COMMITTER_DATE=2018-03-30T12:00:00 git -c user.name=j2gha -c user.email=j2gha@localhost commit -q --allow-empty -m v1.0.1
+[2026-10-10T09:32:20.033Z] + git tag v1.0.1
+[2026-10-10T09:32:20.056Z] [Pipeline] checkout
+[2026-10-10T09:32:20.063Z] The recommended git tool is: NONE
+[2026-10-10T09:32:20.063Z] Warning: CredentialId "OLCS-Jenkins" could not be found.
+[2026-10-10T09:32:20.063Z] Cloning the remote Git repository
+[2026-10-10T09:32:20.063Z] Cloning repository file:///var/jenkins_home/workspace/ex-118-full/.gitlab/sc/address-service.git
+[2026-10-10T09:32:20.063Z]  > git init /var/jenkins_home/workspace/ex-118-full/olcs-address-service-version # timeout=10
+[2026-10-10T09:32:20.078Z] Fetching upstream changes from file:///var/jenkins_home/workspace/ex-118-full/.gitlab/sc/address-service.git
+[2026-10-10T09:32:20.078Z]  > git --version # timeout=10
+[2026-10-10T09:32:20.085Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T09:32:20.085Z]  > git fetch --tags --force --progress -- file:///var/jenkins_home/workspace/ex-118-full/.gitlab/sc/address-service.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:32:20.124Z]  > git config remote.origin.url file:///var/jenkins_home/workspace/ex-118-full/.gitlab/sc/address-service.git # timeout=10
+[2026-10-10T09:32:20.133Z]  > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:32:20.144Z] Avoid second fetch
+[2026-10-10T09:32:20.144Z]  > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+[2026-10-10T09:32:20.155Z] Checking out Revision 30a3e6796c85014e0704b37b7352fede14794f4e (refs/remotes/origin/master)
+[2026-10-10T09:32:20.155Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T09:32:20.163Z]  > git checkout -f 30a3e6796c85014e0704b37b7352fede14794f4e # timeout=10
+[2026-10-10T09:32:20.174Z] Commit message: "v1.0.1"
+[2026-10-10T09:32:20.174Z]  > git rev-list --no-walk 30a3e6796c85014e0704b37b7352fede14794f4e # timeout=10
+[2026-10-10T09:32:20.215Z] [Pipeline] sh
+[2026-10-10T09:32:20.478Z] + git describe --abbrev=0 --tags
+[2026-10-10T09:32:20.504Z] [Pipeline] readFile
+[2026-10-10T09:32:20.531Z] [Pipeline] }
+[2026-10-10T09:32:20.553Z] [Pipeline] // dir
+[2026-10-10T09:32:20.573Z] [Pipeline] dir
+[2026-10-10T09:32:20.574Z] Running in /var/jenkins_home/workspace/ex-118-full/olcs_dir_version
+[2026-10-10T09:32:20.579Z] [Pipeline] {
+[2026-10-10T09:32:20.602Z] [Pipeline] sh
+[2026-10-10T09:32:20.864Z] + git init -q -b master /var/jenkins_home/workspace/ex-118-full/.gitlab/olcs/olcs-oa.git
+[2026-10-10T09:32:20.864Z] + cd /var/jenkins_home/workspace/ex-118-full/.gitlab/olcs/olcs-oa.git
+[2026-10-10T09:32:20.864Z] + n=28
+[2026-10-10T09:32:20.864Z] + n=29
+[2026-10-10T09:32:20.864Z] + GIT_AUTHOR_DATE=2018-03-29T12:00:00 GIT_COMMITTER_DATE=2018-03-29T12:00:00 git -c user.name=j2gha -c user.email=j2gha@localhost commit -q --allow-empty -m v1.0.0
+[2026-10-10T09:32:20.864Z] + git tag v1.0.0
+[2026-10-10T09:32:20.864Z] + n=30
+[2026-10-10T09:32:20.864Z] + GIT_AUTHOR_DATE=2018-03-30T12:00:00 GIT_COMMITTER_DATE=2018-03-30T12:00:00 git -c user.name=j2gha -c user.email=j2gha@localhost commit -q --allow-empty -m v1.0.1
+[2026-10-10T09:32:20.864Z] + git tag v1.0.1
+[2026-10-10T09:32:20.896Z] [Pipeline] checkout
+[2026-10-10T09:32:20.903Z] The recommended git tool is: NONE
+[2026-10-10T09:32:20.903Z] Warning: CredentialId "OLCS-Jenkins" could not be found.
+[2026-10-10T09:32:20.903Z] Cloning the remote Git repository
+[2026-10-10T09:32:20.904Z] Cloning repository file:///var/jenkins_home/workspace/ex-118-full/.gitlab/olcs/olcs-oa.git
+[2026-10-10T09:32:20.904Z]  > git init /var/jenkins_home/workspace/ex-118-full/olcs_dir_version # timeout=10
+[2026-10-10T09:32:20.919Z] Fetching upstream changes from file:///var/jenkins_home/workspace/ex-118-full/.gitlab/olcs/olcs-oa.git
+[2026-10-10T09:32:20.919Z]  > git --version # timeout=10
+[2026-10-10T09:32:20.925Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T09:32:20.925Z]  > git fetch --tags --force --progress -- file:///var/jenkins_home/workspace/ex-118-full/.gitlab/olcs/olcs-oa.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:32:20.952Z]  > git config remote.origin.url file:///var/jenkins_home/workspace/ex-118-full/.gitlab/olcs/olcs-oa.git # timeout=10
+[2026-10-10T09:32:20.959Z]  > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:32:20.966Z] Avoid second fetch
+[2026-10-10T09:32:20.966Z]  > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+[2026-10-10T09:32:20.974Z] Checking out Revision 30a3e6796c85014e0704b37b7352fede14794f4e (refs/remotes/origin/master)
+[2026-10-10T09:32:20.974Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T09:32:20.979Z]  > git checkout -f 30a3e6796c85014e0704b37b7352fede14794f4e # timeout=10
+[2026-10-10T09:32:20.988Z] Commit message: "v1.0.1"
+[2026-10-10T09:32:20.988Z]  > git rev-list --no-walk 30a3e6796c85014e0704b37b7352fede14794f4e # timeout=10
+[2026-10-10T09:32:21.022Z] [Pipeline] sh
+[2026-10-10T09:32:21.283Z] + git describe --abbrev=0 --tags
+[2026-10-10T09:32:21.302Z] [Pipeline] readFile
+[2026-10-10T09:32:21.327Z] [Pipeline] }
+[2026-10-10T09:32:21.352Z] [Pipeline] // dir
+[2026-10-10T09:32:21.376Z] [Pipeline] dir
+[2026-10-10T09:32:21.377Z] Running in /var/jenkins_home/workspace/ex-118-full/olcs_etl_version
+[2026-10-10T09:32:21.382Z] [Pipeline] {
+[2026-10-10T09:32:21.407Z] [Pipeline] sh
+[2026-10-10T09:32:21.669Z] + git init -q -b master /var/jenkins_home/workspace/ex-118-full/.gitlab/olcs/olcs-etl.git
+[2026-10-10T09:32:21.669Z] + cd /var/jenkins_home/workspace/ex-118-full/.gitlab/olcs/olcs-etl.git
+[2026-10-10T09:32:21.669Z] + n=28
+[2026-10-10T09:32:21.669Z] + n=29
+[2026-10-10T09:32:21.669Z] + GIT_AUTHOR_DATE=2018-03-29T12:00:00 GIT_COMMITTER_DATE=2018-03-29T12:00:00 git -c user.name=j2gha -c user.email=j2gha@localhost commit -q --allow-empty -m v1.0.0
+[2026-10-10T09:32:21.669Z] + git tag v1.0.0
+[2026-10-10T09:32:21.669Z] + n=30
+[2026-10-10T09:32:21.669Z] + GIT_AUTHOR_DATE=2018-03-30T12:00:00 GIT_COMMITTER_DATE=2018-03-30T12:00:00 git -c user.name=j2gha -c user.email=j2gha@localhost commit -q --allow-empty -m v1.0.1
+[2026-10-10T09:32:21.669Z] + git tag v1.0.1
+[2026-10-10T09:32:21.691Z] [Pipeline] checkout
+[2026-10-10T09:32:21.698Z] The recommended git tool is: NONE
+[2026-10-10T09:32:21.698Z] Warning: CredentialId "OLCS-Jenkins" could not be found.
+[2026-10-10T09:32:21.698Z] Cloning the remote Git repository
+[2026-10-10T09:32:21.698Z] Cloning repository file:///var/jenkins_home/workspace/ex-118-full/.gitlab/olcs/olcs-etl.git
+[2026-10-10T09:32:21.698Z]  > git init /var/jenkins_home/workspace/ex-118-full/olcs_etl_version # timeout=10
+[2026-10-10T09:32:21.712Z] Fetching upstream changes from file:///var/jenkins_home/workspace/ex-118-full/.gitlab/olcs/olcs-etl.git
+[2026-10-10T09:32:21.712Z]  > git --version # timeout=10
+[2026-10-10T09:32:21.717Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T09:32:21.718Z]  > git fetch --tags --force --progress -- file:///var/jenkins_home/workspace/ex-118-full/.gitlab/olcs/olcs-etl.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:32:21.746Z]  > git config remote.origin.url file:///var/jenkins_home/workspace/ex-118-full/.gitlab/olcs/olcs-etl.git # timeout=10
+[2026-10-10T09:32:21.752Z]  > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:32:21.760Z] Avoid second fetch
+[2026-10-10T09:32:21.760Z]  > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+[2026-10-10T09:32:21.767Z] Checking out Revision 30a3e6796c85014e0704b37b7352fede14794f4e (refs/remotes/origin/master)
+[2026-10-10T09:32:21.767Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T09:32:21.773Z]  > git checkout -f 30a3e6796c85014e0704b37b7352fede14794f4e # timeout=10
+[2026-10-10T09:32:21.782Z] Commit message: "v1.0.1"
+[2026-10-10T09:32:21.782Z]  > git rev-list --no-walk 30a3e6796c85014e0704b37b7352fede14794f4e # timeout=10
+[2026-10-10T09:32:21.815Z] [Pipeline] sh
+[2026-10-10T09:32:22.076Z] + git describe --abbrev=0 --tags
+[2026-10-10T09:32:22.106Z] [Pipeline] readFile
+[2026-10-10T09:32:22.133Z] [Pipeline] }
+[2026-10-10T09:32:22.157Z] [Pipeline] // dir
+[2026-10-10T09:32:22.177Z] [Pipeline] dir
+[2026-10-10T09:32:22.177Z] Running in /var/jenkins_home/workspace/ex-118-full/olcs_templates_version
+[2026-10-10T09:32:22.181Z] [Pipeline] {
+[2026-10-10T09:32:22.206Z] [Pipeline] sh
+[2026-10-10T09:32:22.469Z] + git init -q -b master /var/jenkins_home/workspace/ex-118-full/.gitlab/olcs/olcs-templates.git
+[2026-10-10T09:32:22.469Z] + cd /var/jenkins_home/workspace/ex-118-full/.gitlab/olcs/olcs-templates.git
+[2026-10-10T09:32:22.469Z] + n=28
+[2026-10-10T09:32:22.469Z] + n=29
+[2026-10-10T09:32:22.469Z] + GIT_AUTHOR_DATE=2018-03-29T12:00:00 GIT_COMMITTER_DATE=2018-03-29T12:00:00 git -c user.name=j2gha -c user.email=j2gha@localhost commit -q --allow-empty -m v1.0.0
+[2026-10-10T09:32:22.469Z] + git tag v1.0.0
+[2026-10-10T09:32:22.469Z] + n=30
+[2026-10-10T09:32:22.469Z] + GIT_AUTHOR_DATE=2018-03-30T12:00:00 GIT_COMMITTER_DATE=2018-03-30T12:00:00 git -c user.name=j2gha -c user.email=j2gha@localhost commit -q --allow-empty -m v1.0.1
+[2026-10-10T09:32:22.469Z] + git tag v1.0.1
+[2026-10-10T09:32:22.493Z] [Pipeline] checkout
+[2026-10-10T09:32:22.500Z] The recommended git tool is: NONE
+[2026-10-10T09:32:22.500Z] Warning: CredentialId "OLCS-Jenkins" could not be found.
+[2026-10-10T09:32:22.501Z] Cloning the remote Git repository
+[2026-10-10T09:32:22.501Z] Cloning repository file:///var/jenkins_home/workspace/ex-118-full/.gitlab/olcs/olcs-templates.git
+[2026-10-10T09:32:22.501Z]  > git init /var/jenkins_home/workspace/ex-118-full/olcs_templates_version # timeout=10
+[2026-10-10T09:32:22.515Z] Fetching upstream changes from file:///var/jenkins_home/workspace/ex-118-full/.gitlab/olcs/olcs-templates.git
+[2026-10-10T09:32:22.515Z]  > git --version # timeout=10
+[2026-10-10T09:32:22.521Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T09:32:22.521Z]  > git fetch --tags --force --progress -- file:///var/jenkins_home/workspace/ex-118-full/.gitlab/olcs/olcs-templates.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:32:22.549Z]  > git config remote.origin.url file:///var/jenkins_home/workspace/ex-118-full/.gitlab/olcs/olcs-templates.git # timeout=10
+[2026-10-10T09:32:22.555Z]  > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:32:22.562Z] Avoid second fetch
+[2026-10-10T09:32:22.562Z]  > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+[2026-10-10T09:32:22.569Z] Checking out Revision 30a3e6796c85014e0704b37b7352fede14794f4e (refs/remotes/origin/master)
+[2026-10-10T09:32:22.569Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T09:32:22.575Z]  > git checkout -f 30a3e6796c85014e0704b37b7352fede14794f4e # timeout=10
+[2026-10-10T09:32:22.584Z] Commit message: "v1.0.1"
+[2026-10-10T09:32:22.584Z]  > git rev-list --no-walk 30a3e6796c85014e0704b37b7352fede14794f4e # timeout=10
+[2026-10-10T09:32:22.616Z] [Pipeline] sh
+[2026-10-10T09:32:22.877Z] + git describe --abbrev=0 --tags
+[2026-10-10T09:32:22.902Z] [Pipeline] readFile
+[2026-10-10T09:32:22.925Z] [Pipeline] }
+[2026-10-10T09:32:22.952Z] [Pipeline] // dir
+[2026-10-10T09:32:22.963Z] [Pipeline] }
+[2026-10-10T09:32:22.986Z] [Pipeline] // stage
+[2026-10-10T09:32:22.993Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named stageName (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:32:23.010Z] [Pipeline] stage
+[2026-10-10T09:32:23.018Z] [Pipeline] { (Get App Release Tags)
+[2026-10-10T09:32:23.058Z] [Pipeline] dir
+[2026-10-10T09:32:23.058Z] Running in /var/jenkins_home/workspace/ex-118-full/olcs-api-version
+[2026-10-10T09:32:23.065Z] [Pipeline] {
+[2026-10-10T09:32:23.090Z] [Pipeline] sh
+[2026-10-10T09:32:23.352Z] + git rev-list --tags --skip=1 --max-count=1
+[2026-10-10T09:32:23.352Z] + git describe --abbrev=0 --tags c32ef93f70788fc689fdf22bb15ec925c401c8ca
+[2026-10-10T09:32:23.374Z] [Pipeline] readFile
+[2026-10-10T09:32:23.399Z] [Pipeline] }
+[2026-10-10T09:32:23.423Z] [Pipeline] // dir
+[2026-10-10T09:32:23.441Z] [Pipeline] echo
+[2026-10-10T09:32:23.446Z] olcs-ssweb-version: 'v1.0.1'
+[2026-10-10T09:32:23.446Z] olcs-static-version: 'v1.0.1'
+[2026-10-10T09:32:23.446Z] olcs-iuweb-version: 'v1.0.1'
+[2026-10-10T09:32:23.446Z] olcs-api-version: 'v1.0.1'
+[2026-10-10T09:32:23.446Z] olcs-search-version: 'v1.0.1'
+[2026-10-10T09:32:23.446Z] olcs-address-version: 'v1.0.1'
+[2026-10-10T09:32:23.446Z] olcs_dir_version: 'v1.0.1'
+[2026-10-10T09:32:23.446Z] olcs_etl_version: 'v1.0.1'
+[2026-10-10T09:32:23.446Z] olcs_templates_version: 'v1.0.1'
+[2026-10-10T09:32:23.446Z] olcs-dir-ldif-version : 'v1.0.0'
+[2026-10-10T09:32:23.446Z] olcs-transxchange-version : '2.0.0'
+[2026-10-10T09:32:23.446Z] olcs_auth_version : '3.0.0'
+[2026-10-10T09:32:23.446Z] 
+[2026-10-10T09:32:23.452Z] [Pipeline] }
+[2026-10-10T09:32:23.476Z] [Pipeline] // stage
+[2026-10-10T09:32:23.483Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named stageName (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:32:23.500Z] [Pipeline] stage
+[2026-10-10T09:32:23.506Z] [Pipeline] { (Check and Build Release Artefacts)
+[2026-10-10T09:32:23.532Z] [Pipeline] sh
+[2026-10-10T09:32:23.793Z] + echo 2018-03-29 13:20      1024   s3://devapp-olcs-pri-olcs-deploy-s3/selfserve/olcs-selfserve-v1.0.0.tar.gz
+[2026-10-10T09:32:23.816Z] [Pipeline] readFile
+[2026-10-10T09:32:23.848Z] [Pipeline] echo
+[2026-10-10T09:32:23.853Z] 2018-03-29 13:20      1024   s3://devapp-olcs-pri-olcs-deploy-s3/selfserve/olcs-selfserve-v1.0.0.tar.gz
+[2026-10-10T09:32:23.874Z] [Pipeline] sh
+[2026-10-10T09:32:24.139Z] + grep olcs-selfserve-v1.0.1.tar.gz result
+[2026-10-10T09:32:24.139Z] + true
+[2026-10-10T09:32:24.161Z] [Pipeline] readFile
+[2026-10-10T09:32:24.191Z] [Pipeline] echo
+[2026-10-10T09:32:24.197Z] File: 
+[2026-10-10T09:32:24.216Z] [Pipeline] echo
+[2026-10-10T09:32:24.222Z] J2GHA-TRACE {"stage":"Check and Build Release Artefacts","step":"build"}
+[2026-10-10T09:32:24.233Z] [Pipeline] echo
+[2026-10-10T09:32:24.239Z] Built olcs-selfserve- Build_Selfserve with v1.0.1 
+[2026-10-10T09:32:24.239Z] 
+[2026-10-10T09:32:24.250Z] [Pipeline] echo
+[2026-10-10T09:32:24.256Z] Completed olcs-ssweb-version
+[2026-10-10T09:32:24.275Z] [Pipeline] sh
+[2026-10-10T09:32:24.535Z] + echo 2018-03-29 13:20      1024   s3://devapp-olcs-pri-olcs-deploy-s3/staticcontent/olcs-static-v1.0.0.tar.gz
+[2026-10-10T09:32:24.556Z] [Pipeline] readFile
+[2026-10-10T09:32:24.588Z] [Pipeline] echo
+[2026-10-10T09:32:24.593Z] 2018-03-29 13:20      1024   s3://devapp-olcs-pri-olcs-deploy-s3/staticcontent/olcs-static-v1.0.0.tar.gz
+[2026-10-10T09:32:24.603Z] [Pipeline] sh
+[2026-10-10T09:32:24.863Z] + grep olcs-static-v1.0.1.tar.gz result
+[2026-10-10T09:32:24.863Z] + true
+[2026-10-10T09:32:24.886Z] [Pipeline] readFile
+[2026-10-10T09:32:24.916Z] [Pipeline] echo
+[2026-10-10T09:32:24.922Z] File: 
+[2026-10-10T09:32:24.942Z] [Pipeline] echo
+[2026-10-10T09:32:24.948Z] J2GHA-TRACE {"stage":"Check and Build Release Artefacts","step":"build"}
+[2026-10-10T09:32:24.959Z] [Pipeline] echo
+[2026-10-10T09:32:24.964Z] Built olcs-static- Build_Static with v1.0.1 
+[2026-10-10T09:32:24.964Z] 
+[2026-10-10T09:32:24.975Z] [Pipeline] echo
+[2026-10-10T09:32:24.981Z] Completed olcs-static-version
+[2026-10-10T09:32:24.999Z] [Pipeline] sh
+[2026-10-10T09:32:25.259Z] + echo 2018-03-29 13:20      1024   s3://devapp-olcs-pri-olcs-deploy-s3/internal/olcs-internal-v1.0.0.tar.gz
+[2026-10-10T09:32:25.280Z] [Pipeline] readFile
+[2026-10-10T09:32:25.310Z] [Pipeline] echo
+[2026-10-10T09:32:25.316Z] 2018-03-29 13:20      1024   s3://devapp-olcs-pri-olcs-deploy-s3/internal/olcs-internal-v1.0.0.tar.gz
+[2026-10-10T09:32:25.328Z] [Pipeline] sh
+[2026-10-10T09:32:25.588Z] + grep olcs-internal-v1.0.1.tar.gz result
+[2026-10-10T09:32:25.588Z] + true
+[2026-10-10T09:32:25.626Z] [Pipeline] readFile
+[2026-10-10T09:32:25.669Z] [Pipeline] echo
+[2026-10-10T09:32:25.675Z] File: 
+[2026-10-10T09:32:25.697Z] [Pipeline] echo
+[2026-10-10T09:32:25.702Z] J2GHA-TRACE {"stage":"Check and Build Release Artefacts","step":"build"}
+[2026-10-10T09:32:25.713Z] [Pipeline] echo
+[2026-10-10T09:32:25.718Z] Built olcs-internal- Build_Internal with v1.0.1 
+[2026-10-10T09:32:25.718Z] 
+[2026-10-10T09:32:25.727Z] [Pipeline] echo
+[2026-10-10T09:32:25.732Z] Completed olcs-iuweb-version
+[2026-10-10T09:32:25.749Z] [Pipeline] sh
+[2026-10-10T09:32:26.010Z] + echo 2018-03-29 13:20      1024   s3://devapp-olcs-pri-olcs-deploy-s3/api/olcs-backend-v1.0.0.tar.gz
+[2026-10-10T09:32:26.033Z] [Pipeline] readFile
+[2026-10-10T09:32:26.064Z] [Pipeline] echo
+[2026-10-10T09:32:26.069Z] 2018-03-29 13:20      1024   s3://devapp-olcs-pri-olcs-deploy-s3/api/olcs-backend-v1.0.0.tar.gz
+[2026-10-10T09:32:26.081Z] [Pipeline] sh
+[2026-10-10T09:32:26.341Z] + grep olcs-backend-v1.0.1.tar.gz result
+[2026-10-10T09:32:26.342Z] + true
+[2026-10-10T09:32:26.360Z] [Pipeline] readFile
+[2026-10-10T09:32:26.391Z] [Pipeline] echo
+[2026-10-10T09:32:26.397Z] File: 
+[2026-10-10T09:32:26.416Z] [Pipeline] echo
+[2026-10-10T09:32:26.422Z] J2GHA-TRACE {"stage":"Check and Build Release Artefacts","step":"build"}
+[2026-10-10T09:32:26.433Z] [Pipeline] echo
+[2026-10-10T09:32:26.439Z] Built olcs-backend- Build_Backend with v1.0.1 
+[2026-10-10T09:32:26.439Z] 
+[2026-10-10T09:32:26.450Z] [Pipeline] echo
+[2026-10-10T09:32:26.455Z] Completed olcs-api-version
+[2026-10-10T09:32:26.474Z] [Pipeline] sh
+[2026-10-10T09:32:26.734Z] + echo 2018-03-29 13:20      1024   s3://devapp-olcs-pri-olcs-deploy-s3/search/elasticv5/olcs-elasticsearch-v1.0.0.tar.gz
+[2026-10-10T09:32:26.757Z] [Pipeline] readFile
+[2026-10-10T09:32:26.791Z] [Pipeline] echo
+[2026-10-10T09:32:26.798Z] 2018-03-29 13:20      1024   s3://devapp-olcs-pri-olcs-deploy-s3/search/elasticv5/olcs-elasticsearch-v1.0.0.tar.gz
+[2026-10-10T09:32:26.810Z] [Pipeline] sh
+[2026-10-10T09:32:27.071Z] + grep olcs-elasticsearch-v1.0.1.tar.gz result
+[2026-10-10T09:32:27.071Z] + true
+[2026-10-10T09:32:27.094Z] [Pipeline] readFile
+[2026-10-10T09:32:27.124Z] [Pipeline] echo
+[2026-10-10T09:32:27.128Z] File: 
+[2026-10-10T09:32:27.146Z] [Pipeline] echo
+[2026-10-10T09:32:27.149Z] J2GHA-TRACE {"stage":"Check and Build Release Artefacts","step":"build"}
+[2026-10-10T09:32:27.159Z] [Pipeline] echo
+[2026-10-10T09:32:27.164Z] Built olcs-elasticsearch- Build_Elastic with v1.0.1 
+[2026-10-10T09:32:27.164Z] 
+[2026-10-10T09:32:27.173Z] [Pipeline] echo
+[2026-10-10T09:32:27.177Z] Completed olcs-search-version
+[2026-10-10T09:32:27.196Z] [Pipeline] sh
+[2026-10-10T09:32:27.458Z] + echo 2018-03-29 13:20      1024   s3://devapp-olcs-pri-olcs-deploy-s3/addressbase/address-scripts-v1.0.0.tar.gz
+[2026-10-10T09:32:27.498Z] [Pipeline] readFile
+[2026-10-10T09:32:27.529Z] [Pipeline] echo
+[2026-10-10T09:32:27.534Z] 2018-03-29 13:20      1024   s3://devapp-olcs-pri-olcs-deploy-s3/addressbase/address-scripts-v1.0.0.tar.gz
+[2026-10-10T09:32:27.544Z] [Pipeline] sh
+[2026-10-10T09:32:27.805Z] + grep address-scripts-v1.0.1.tar.gz result
+[2026-10-10T09:32:27.805Z] + true
+[2026-10-10T09:32:27.830Z] [Pipeline] readFile
+[2026-10-10T09:32:27.860Z] [Pipeline] echo
+[2026-10-10T09:32:27.865Z] File: 
+[2026-10-10T09:32:27.883Z] [Pipeline] echo
+[2026-10-10T09:32:27.888Z] J2GHA-TRACE {"stage":"Check and Build Release Artefacts","step":"build"}
+[2026-10-10T09:32:27.901Z] [Pipeline] echo
+[2026-10-10T09:32:27.907Z] Built address-scripts- Build_Address_Base with v1.0.1 
+[2026-10-10T09:32:27.907Z] 
+[2026-10-10T09:32:27.920Z] [Pipeline] echo
+[2026-10-10T09:32:27.927Z] Completed olcs-address-base-version
+[2026-10-10T09:32:27.946Z] [Pipeline] sh
+[2026-10-10T09:32:28.208Z] + echo 2018-03-29 13:20      1024   s3://devapp-olcs-pri-olcs-deploy-s3/addressbase/address-service-v1.0.0.tar.gz
+[2026-10-10T09:32:28.232Z] [Pipeline] readFile
+[2026-10-10T09:32:28.270Z] [Pipeline] echo
+[2026-10-10T09:32:28.278Z] 2018-03-29 13:20      1024   s3://devapp-olcs-pri-olcs-deploy-s3/addressbase/address-service-v1.0.0.tar.gz
+[2026-10-10T09:32:28.292Z] [Pipeline] sh
+[2026-10-10T09:32:28.553Z] + grep address-service-v1.0.1.tar.gz result
+[2026-10-10T09:32:28.553Z] + true
+[2026-10-10T09:32:28.576Z] [Pipeline] readFile
+[2026-10-10T09:32:28.607Z] [Pipeline] echo
+[2026-10-10T09:32:28.612Z] File: 
+[2026-10-10T09:32:28.631Z] [Pipeline] echo
+[2026-10-10T09:32:28.638Z] J2GHA-TRACE {"stage":"Check and Build Release Artefacts","step":"build"}
+[2026-10-10T09:32:28.648Z] [Pipeline] echo
+[2026-10-10T09:32:28.652Z] Built address-service- Build_Address_Service with v1.0.1 
+[2026-10-10T09:32:28.652Z] 
+[2026-10-10T09:32:28.661Z] [Pipeline] echo
+[2026-10-10T09:32:28.671Z] Completed olcs-address-service-version
+[2026-10-10T09:32:28.692Z] [Pipeline] sh
+[2026-10-10T09:32:28.954Z] + echo 2018-03-29 13:20      1024   s3://devapp-olcs-pri-olcs-deploy-s3/opendj/opendj-v1.0.0.tar.gz
+[2026-10-10T09:32:28.977Z] [Pipeline] readFile
+[2026-10-10T09:32:29.009Z] [Pipeline] echo
+[2026-10-10T09:32:29.015Z] 2018-03-29 13:20      1024   s3://devapp-olcs-pri-olcs-deploy-s3/opendj/opendj-v1.0.0.tar.gz
+[2026-10-10T09:32:29.027Z] [Pipeline] sh
+[2026-10-10T09:32:29.290Z] + grep opendj-v1.0.1.tar.gz result
+[2026-10-10T09:32:29.290Z] + true
+[2026-10-10T09:32:29.312Z] [Pipeline] readFile
+[2026-10-10T09:32:29.343Z] [Pipeline] echo
+[2026-10-10T09:32:29.349Z] File: 
+[2026-10-10T09:32:29.376Z] [Pipeline] echo
+[2026-10-10T09:32:29.402Z] J2GHA-TRACE {"stage":"Check and Build Release Artefacts","step":"build"}
+[2026-10-10T09:32:29.413Z] [Pipeline] echo
+[2026-10-10T09:32:29.418Z] Built opendj- Build_OpenDJ with v1.0.1 
+[2026-10-10T09:32:29.418Z] 
+[2026-10-10T09:32:29.428Z] [Pipeline] echo
+[2026-10-10T09:32:29.433Z] Completed olcs_dir_version
+[2026-10-10T09:32:29.451Z] [Pipeline] sh
+[2026-10-10T09:32:29.711Z] + echo 2018-03-29 13:20      1024   s3://devapp-olcs-pri-olcs-deploy-s3/api/olcs-etl-v1.0.0.tar.gz
+[2026-10-10T09:32:29.734Z] [Pipeline] readFile
+[2026-10-10T09:32:29.762Z] [Pipeline] echo
+[2026-10-10T09:32:29.768Z] 2018-03-29 13:20      1024   s3://devapp-olcs-pri-olcs-deploy-s3/api/olcs-etl-v1.0.0.tar.gz
+[2026-10-10T09:32:29.779Z] [Pipeline] sh
+[2026-10-10T09:32:30.040Z] + grep olcs-etl-v1.0.1.tar.gz result
+[2026-10-10T09:32:30.040Z] + true
+[2026-10-10T09:32:30.062Z] [Pipeline] readFile
+[2026-10-10T09:32:30.094Z] [Pipeline] echo
+[2026-10-10T09:32:30.099Z] File: 
+[2026-10-10T09:32:30.120Z] [Pipeline] echo
+[2026-10-10T09:32:30.126Z] J2GHA-TRACE {"stage":"Check and Build Release Artefacts","step":"build"}
+[2026-10-10T09:32:30.137Z] [Pipeline] echo
+[2026-10-10T09:32:30.142Z] Built olcs-etl- Build_ETL with v1.0.1 
+[2026-10-10T09:32:30.143Z] 
+[2026-10-10T09:32:30.153Z] [Pipeline] echo
+[2026-10-10T09:32:30.159Z] Completed olcs_etl_version
+[2026-10-10T09:32:30.178Z] [Pipeline] sh
+[2026-10-10T09:32:30.439Z] + echo 2018-03-29 13:20      1024   s3://devapp-shd-pri-file-deploy-s3/olcs-templates-v1.0.0.tar.gz
+[2026-10-10T09:32:30.462Z] [Pipeline] readFile
+[2026-10-10T09:32:30.494Z] [Pipeline] echo
+[2026-10-10T09:32:30.499Z] 2018-03-29 13:20      1024   s3://devapp-shd-pri-file-deploy-s3/olcs-templates-v1.0.0.tar.gz
+[2026-10-10T09:32:30.526Z] [Pipeline] sh
+[2026-10-10T09:32:30.788Z] + grep olcs-templates-v1.0.1.tar.gz result
+[2026-10-10T09:32:30.788Z] + true
+[2026-10-10T09:32:30.813Z] [Pipeline] readFile
+[2026-10-10T09:32:30.854Z] [Pipeline] echo
+[2026-10-10T09:32:30.861Z] File: 
+[2026-10-10T09:32:30.883Z] [Pipeline] echo
+[2026-10-10T09:32:30.890Z] J2GHA-TRACE {"stage":"Check and Build Release Artefacts","step":"build"}
+[2026-10-10T09:32:30.902Z] [Pipeline] echo
+[2026-10-10T09:32:30.908Z] Built olcs-templates- Build_Templates with v1.0.1 
+[2026-10-10T09:32:30.909Z] 
+[2026-10-10T09:32:30.946Z] [Pipeline] echo
+[2026-10-10T09:32:30.953Z] Completed olcs_templates_version
+[2026-10-10T09:32:30.966Z] [Pipeline] echo
+[2026-10-10T09:32:30.971Z] Creating: olcs-selfserve-v1.0.1
+[2026-10-10T09:32:30.971Z] Creating: olcs-static-v1.0.1
+[2026-10-10T09:32:30.971Z] Creating: olcs-internal-v1.0.1
+[2026-10-10T09:32:30.971Z] Creating: olcs-backend-v1.0.1
+[2026-10-10T09:32:30.971Z] Creating: olcs-elasticsearch-v1.0.1
+[2026-10-10T09:32:30.971Z] Creating: address-scripts-v1.0.1
+[2026-10-10T09:32:30.971Z] Creating: address-service-v1.0.1
+[2026-10-10T09:32:30.971Z] Creating: opendj-v1.0.1
+[2026-10-10T09:32:30.971Z] Creating: olcs-etl-v1.0.1
+[2026-10-10T09:32:30.971Z] Creating: olcs-templates-v1.0.1
+[2026-10-10T09:32:30.971Z] 
+[2026-10-10T09:32:30.976Z] [Pipeline] }
+[2026-10-10T09:32:31.001Z] [Pipeline] // stage
+[2026-10-10T09:32:31.007Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named stageName (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:32:31.020Z] [Pipeline] stage
+[2026-10-10T09:32:31.025Z] [Pipeline] { (Check Artefacts from Input Params)
+[2026-10-10T09:32:31.045Z] [Pipeline] sh
+[2026-10-10T09:32:31.306Z] + echo 2018-03-29 13:20      1024   s3://devapp-olcs-pri-olcs-deploy-s3/openam/openam-3.0.0.tar.gz
+[2026-10-10T09:32:31.328Z] [Pipeline] readFile
+[2026-10-10T09:32:31.358Z] [Pipeline] echo
+[2026-10-10T09:32:31.364Z] 2018-03-29 13:20      1024   s3://devapp-olcs-pri-olcs-deploy-s3/openam/openam-3.0.0.tar.gz
+[2026-10-10T09:32:31.375Z] [Pipeline] sh
+[2026-10-10T09:32:31.635Z] + grep openam-3.0.0.tar.gz result
+[2026-10-10T09:32:31.658Z] [Pipeline] readFile
+[2026-10-10T09:32:31.688Z] [Pipeline] echo
+[2026-10-10T09:32:31.694Z] File: 2018-03-29 13:20      1024   s3://devapp-olcs-pri-olcs-deploy-s3/openam/openam-3.0.0.tar.gz
+[2026-10-10T09:32:31.706Z] [Pipeline] sh
+[2026-10-10T09:32:31.968Z] + echo 2018-03-29 13:20      1024   s3://devapp-olcs-pri-olcs-deploy-s3/api/txc-2.0.0.war
+[2026-10-10T09:32:32.020Z] [Pipeline] readFile
+[2026-10-10T09:32:32.086Z] [Pipeline] echo
+[2026-10-10T09:32:32.094Z] 2018-03-29 13:20      1024   s3://devapp-olcs-pri-olcs-deploy-s3/api/txc-2.0.0.war
+[2026-10-10T09:32:32.110Z] [Pipeline] sh
+[2026-10-10T09:32:32.377Z] + grep txc-2.0.0.war result
+[2026-10-10T09:32:32.428Z] [Pipeline] readFile
+[2026-10-10T09:32:32.491Z] [Pipeline] echo
+[2026-10-10T09:32:32.500Z] File: 2018-03-29 13:20      1024   s3://devapp-olcs-pri-olcs-deploy-s3/api/txc-2.0.0.war
+[2026-10-10T09:32:32.516Z] [Pipeline] echo
+[2026-10-10T09:32:32.522Z] Exists: openam-3.0.0
+[2026-10-10T09:32:32.522Z] Exists: txc-2.0.0
+[2026-10-10T09:32:32.522Z] 
+[2026-10-10T09:32:32.528Z] [Pipeline] }
+[2026-10-10T09:32:32.555Z] [Pipeline] // stage
+[2026-10-10T09:32:32.563Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named stageName (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:32:32.578Z] [Pipeline] stage
+[2026-10-10T09:32:32.583Z] [Pipeline] { (Check App Version against Built artefacts)
+[2026-10-10T09:32:32.605Z] [Pipeline] echo
+[2026-10-10T09:32:32.609Z] J2GHA-TRACE {"stage":"Check App Version against Built artefacts","step":"build"}
+[2026-10-10T09:32:32.614Z] [Pipeline] }
+[2026-10-10T09:32:32.634Z] [Pipeline] // stage
+[2026-10-10T09:32:32.642Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named stageName (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:32:32.658Z] [Pipeline] stage
+[2026-10-10T09:32:32.664Z] [Pipeline] { (Create and Push Release Manifest)
+[2026-10-10T09:32:32.704Z] [Pipeline] dir
+[2026-10-10T09:32:32.704Z] Running in /var/jenkins_home/workspace/ex-118-full/app-version
+[2026-10-10T09:32:32.712Z] [Pipeline] {
+[2026-10-10T09:32:32.733Z] [Pipeline] deleteDir
+[2026-10-10T09:32:32.764Z] [Pipeline] sh
+[2026-10-10T09:32:33.024Z] + git init -q -b develop /var/jenkins_home/workspace/ex-118-full/.gitlab/aws/app-version.git
+[2026-10-10T09:32:33.024Z] + cd /var/jenkins_home/workspace/ex-118-full/.gitlab/aws/app-version.git
+[2026-10-10T09:32:33.024Z] + mkdir hiera
+[2026-10-10T09:32:33.024Z] + touch hiera/app_version.eyaml
+[2026-10-10T09:32:33.024Z] + git add hiera
+[2026-10-10T09:32:33.024Z] + git -c user.name=j2gha -c user.email=j2gha@localhost commit -q -m develop
+[2026-10-10T09:32:33.054Z] [Pipeline] checkout
+[2026-10-10T09:32:33.064Z] The recommended git tool is: NONE
+[2026-10-10T09:32:33.064Z] Warning: CredentialId "OLCS-Jenkins" could not be found.
+[2026-10-10T09:32:33.065Z] Cloning the remote Git repository
+[2026-10-10T09:32:33.065Z] Cloning repository file:///var/jenkins_home/workspace/ex-118-full/.gitlab/aws/app-version.git
+[2026-10-10T09:32:33.065Z]  > git init /var/jenkins_home/workspace/ex-118-full/app-version # timeout=10
+[2026-10-10T09:32:33.083Z] Fetching upstream changes from file:///var/jenkins_home/workspace/ex-118-full/.gitlab/aws/app-version.git
+[2026-10-10T09:32:33.083Z]  > git --version # timeout=10
+[2026-10-10T09:32:33.090Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T09:32:33.090Z]  > git fetch --tags --force --progress -- file:///var/jenkins_home/workspace/ex-118-full/.gitlab/aws/app-version.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:32:33.126Z]  > git config remote.origin.url file:///var/jenkins_home/workspace/ex-118-full/.gitlab/aws/app-version.git # timeout=10
+[2026-10-10T09:32:33.134Z]  > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:32:33.143Z] Avoid second fetch
+[2026-10-10T09:32:33.143Z]  > git rev-parse refs/remotes/origin/develop^{commit} # timeout=10
+[2026-10-10T09:32:33.149Z] Checking out Revision 57567a72ede2551575e178e3b5b3d18c39ce718e (refs/remotes/origin/develop)
+[2026-10-10T09:32:33.149Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T09:32:33.155Z]  > git checkout -f 57567a72ede2551575e178e3b5b3d18c39ce718e # timeout=10
+[2026-10-10T09:32:33.164Z] Commit message: "develop"
+[2026-10-10T09:32:33.164Z]  > git rev-list --no-walk 85fca07740a6137a9646c534ad6612b69e63c21a # timeout=10
+[2026-10-10T09:32:33.170Z] First time build. Skipping changelog.
+[2026-10-10T09:32:33.190Z] [Pipeline] sh
+[2026-10-10T09:32:33.451Z] + ls -lrt
+[2026-10-10T09:32:33.451Z] total 4
+[2026-10-10T09:32:33.451Z] drwxr-xr-x 2 jenkins jenkins 4096 Oct 10 09:32 hiera
+[2026-10-10T09:32:33.501Z] [Pipeline] sh
+[2026-10-10T09:32:33.769Z] + git checkout -b release-candidate
+[2026-10-10T09:32:33.769Z] Switched to a new branch 'release-candidate'
+[2026-10-10T09:32:33.793Z] [Pipeline] writeFile
+[2026-10-10T09:32:33.824Z] [Pipeline] sh
+[2026-10-10T09:32:34.084Z] + git status
+[2026-10-10T09:32:34.084Z] On branch release-candidate
+[2026-10-10T09:32:34.084Z] Changes not staged for commit:
+[2026-10-10T09:32:34.084Z]   (use "git add <file>..." to update what will be committed)
+[2026-10-10T09:32:34.084Z]   (use "git restore <file>..." to discard changes in working directory)
+[2026-10-10T09:32:34.084Z] 	modified:   hiera/app_version.eyaml
+[2026-10-10T09:32:34.084Z] 
+[2026-10-10T09:32:34.084Z] no changes added to commit (use "git add" and/or "git commit -a")
+[2026-10-10T09:32:34.133Z] [Pipeline] sh
+[2026-10-10T09:32:34.402Z] + git add hiera/app_version.eyaml
+[2026-10-10T09:32:34.452Z] [Pipeline] sh
+[2026-10-10T09:32:34.721Z] + git -c user.name=j2gha -c user.email=j2gha@localhost commit -m Release 1.0.0
+[2026-10-10T09:32:34.721Z] [release-candidate 37fdab0] Release 1.0.0
+[2026-10-10T09:32:34.721Z]  1 file changed, 12 insertions(+)
+[2026-10-10T09:32:34.769Z] [Pipeline] sh
+[2026-10-10T09:32:35.041Z] + git push --set-upstream origin release-candidate
+[2026-10-10T09:32:35.041Z] To file:///var/jenkins_home/workspace/ex-118-full/.gitlab/aws/app-version.git
+[2026-10-10T09:32:35.041Z]  * [new branch]      release-candidate -> release-candidate
+[2026-10-10T09:32:35.041Z] branch 'release-candidate' set up to track 'origin/release-candidate'.
+[2026-10-10T09:32:35.078Z] [Pipeline] }
+[2026-10-10T09:32:35.159Z] [Pipeline] // dir
+[2026-10-10T09:32:35.173Z] [Pipeline] }
+[2026-10-10T09:32:35.198Z] [Pipeline] // stage
+[2026-10-10T09:32:35.213Z] [Pipeline] }
+[2026-10-10T09:32:35.246Z] [Pipeline] // node
+[2026-10-10T09:32:35.260Z] [Pipeline] End of Pipeline
+[2026-10-10T09:32:35.319Z] Finished: SUCCESS

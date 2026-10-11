@@ -1,0 +1,161 @@
+{
+  "counts": {
+    "mapped": 12,
+    "manual": 1,
+    "approximated": 2,
+    "info": 1,
+    "dropped": 1
+  },
+  "automation_pct": 87.5,
+  "items": [
+    {
+      "jenkins": "options: disableConcurrentBuilds",
+      "line": null,
+      "stage": null,
+      "status": "mapped",
+      "gha": "concurrency",
+      "note": "GHA keeps only the latest pending run per group"
+    },
+    {
+      "jenkins": "post always",
+      "line": null,
+      "stage": null,
+      "status": "mapped",
+      "gha": "if: always()",
+      "note": ""
+    },
+    {
+      "jenkins": "post failure",
+      "line": null,
+      "stage": null,
+      "status": "mapped",
+      "gha": "if: failure()",
+      "note": ""
+    },
+    {
+      "jenkins": "post success",
+      "line": null,
+      "stage": null,
+      "status": "mapped",
+      "gha": "if: success()",
+      "note": ""
+    },
+    {
+      "jenkins": "options: skipDefaultCheckout",
+      "line": null,
+      "stage": null,
+      "status": "mapped",
+      "gha": "no checkout step",
+      "note": ""
+    },
+    {
+      "jenkins": "checkout scm",
+      "line": 23,
+      "stage": "Checkout",
+      "status": "mapped",
+      "gha": "actions/checkout@v4",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 29,
+      "stage": "Install",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 35,
+      "stage": "Test",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 41,
+      "stage": "Build",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "archiveArtifacts",
+      "line": 49,
+      "stage": "Declarative: Post Actions",
+      "status": "mapped",
+      "gha": "actions/upload-artifact@v4",
+      "note": ""
+    },
+    {
+      "jenkins": "echo",
+      "line": 52,
+      "stage": "Declarative: Post Actions",
+      "status": "mapped",
+      "gha": "run: echo",
+      "note": ""
+    },
+    {
+      "jenkins": "echo",
+      "line": 55,
+      "stage": "Declarative: Post Actions",
+      "status": "mapped",
+      "gha": "run: echo",
+      "note": ""
+    },
+    {
+      "jenkins": "(no pipeline timeout)",
+      "line": null,
+      "stage": null,
+      "status": "approximated",
+      "gha": "timeout-minutes: 60",
+      "note": "explicit job timeout added (GitHub's default is 360 minutes); set J2GHA_DEFAULT_TIMEOUT to change"
+    },
+    {
+      "jenkins": "options: timestamps",
+      "line": null,
+      "stage": null,
+      "status": "dropped",
+      "gha": "-",
+      "note": "native in GitHub Actions"
+    },
+    {
+      "jenkins": "junit",
+      "line": 48,
+      "stage": "Declarative: Post Actions",
+      "status": "approximated",
+      "gha": "upload-artifact + step summary",
+      "note": "no native test UI; failing tests cannot mark the run UNSTABLE"
+    },
+    {
+      "jenkins": "environment APPLICATION_NAME",
+      "line": 17,
+      "stage": null,
+      "status": "manual",
+      "gha": "env",
+      "note": "runtime Groovy expression `application` - compute in a step and write to $GITHUB_ENV"
+    },
+    {
+      "jenkins": "checkout: SCM environment (GIT_COMMIT, GIT_BRANCH, GIT_URL)",
+      "line": null,
+      "stage": null,
+      "status": "info",
+      "gha": "env",
+      "note": "Jenkins' git plugin exports them to every step after a checkout, so called scripts may read them; defined at workflow level even when the Jenkinsfile does not"
+    }
+  ],
+  "secrets": {},
+  "jobs": {
+    "checkout": {
+      "name": "Checkout, Install, Test, Build",
+      "runs-on": "ubuntu-latest",
+      "steps": 10,
+      "matrix": false
+    }
+  },
+  "notes": [],
+  "handoff": {},
+  "source_sha256": "589df16b65c937871124b833e9f203043f1d4662cf9f66ee105b2ea2d625aab7",
+  "model_sha256": "8f203a41784f3e482910f865f45e1e32f083257b6c3051df5b7abe3776157651"
+}

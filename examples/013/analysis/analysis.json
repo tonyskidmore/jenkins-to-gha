@@ -1,0 +1,247 @@
+{
+  "analysis_version": 1,
+  "parser": {
+    "engine": "groovy-ast (Jenkins-bundled Groovy 2.4, CONVERSION phase)",
+    "ok": true,
+    "errors": []
+  },
+  "dialect": "declarative",
+  "metrics": {
+    "artifact_steps": 4,
+    "classes": 0,
+    "conditionals": 2,
+    "credentials": 1,
+    "distinct_steps": 12,
+    "env_vars": 2,
+    "libraries": 0,
+    "loc": 120,
+    "max_stage_depth": 1,
+    "methods": 1,
+    "options": 3,
+    "parameters": 3,
+    "post_conditions": 4,
+    "script_blocks": 2,
+    "script_statements": 15,
+    "shell_steps": 1,
+    "stages": 2,
+    "steps": 15,
+    "tools": 2,
+    "top_level_stages": 2,
+    "triggers": 0,
+    "unknown_steps": 0
+  },
+  "steps": {
+    "mvn": {
+      "count": 2,
+      "category": "local",
+      "lines": [
+        87,
+        90
+      ],
+      "gha": null
+    },
+    "archiveArtifacts": {
+      "count": 2,
+      "category": "direct",
+      "lines": [
+        91,
+        105
+      ],
+      "gha": "actions/upload-artifact"
+    },
+    "mail": {
+      "count": 2,
+      "category": "policy",
+      "lines": [
+        106,
+        113
+      ],
+      "gha": "email action / GitHub notifications"
+    },
+    "trim": {
+      "count": 1,
+      "category": "groovy",
+      "lines": [
+        66
+      ],
+      "gha": null
+    },
+    "echo": {
+      "count": 1,
+      "category": "direct",
+      "lines": [
+        73
+      ],
+      "gha": "run: echo"
+    },
+    "replace": {
+      "count": 1,
+      "category": "groovy",
+      "lines": [
+        74
+      ],
+      "gha": null
+    },
+    "sshagent": {
+      "count": 1,
+      "category": "policy",
+      "lines": [
+        86
+      ],
+      "gha": "webfactory/ssh-agent"
+    },
+    "junit": {
+      "count": 1,
+      "category": "policy",
+      "lines": [
+        100
+      ],
+      "gha": "upload JUnit XML + test reporting action"
+    },
+    "recordIssues": {
+      "count": 1,
+      "category": "policy",
+      "lines": [
+        101
+      ],
+      "gha": "SARIF upload / problem matchers"
+    },
+    "deleteDir": {
+      "count": 1,
+      "category": "direct",
+      "lines": [
+        120
+      ],
+      "gha": "run: rm -rf (runners are ephemeral)"
+    },
+    "wrap": {
+      "count": 1,
+      "category": "policy",
+      "lines": [
+        126
+      ],
+      "gha": "depends on wrapped build wrapper"
+    },
+    "sh": {
+      "count": 1,
+      "category": "direct",
+      "lines": [
+        129
+      ],
+      "gha": "run: (shell: bash)"
+    }
+  },
+  "unknown_steps": [],
+  "agents": [
+    {
+      "kind": "label",
+      "label": "ubuntu-latest",
+      "image": null,
+      "line": 2,
+      "scope": "pipeline"
+    }
+  ],
+  "credentials": [
+    {
+      "id": "projects-storage.eclipse.org-bot-ssh",
+      "type": "sshUserPrivateKey",
+      "lines": [
+        86
+      ]
+    }
+  ],
+  "dsl_symbols": [
+    "java",
+    "javaDoc",
+    "mavenConsole"
+  ],
+  "libraries": [],
+  "methods": [
+    "mvn"
+  ],
+  "jenkins_model": {
+    "result": "success",
+    "errors": [],
+    "stages": [
+      "Display Parameters",
+      "Build Nebula"
+    ],
+    "agent": "label",
+    "discrepancies": []
+  },
+  "findings": [
+    {
+      "id": "ScriptBlocks",
+      "severity": "medium",
+      "line": null,
+      "evidence": "2 script{} block(s), 15 Groovy statements",
+      "recommendation": "Move imperative logic into versioned shell/Python scripts or composite actions"
+    },
+    {
+      "id": "PostConditionGap",
+      "severity": "low",
+      "line": null,
+      "evidence": "post { fixed }",
+      "recommendation": "No GHA equivalent (needs previous-run status / UNSTABLE); approximated or dropped"
+    },
+    {
+      "id": "ToolsDirective",
+      "severity": "low",
+      "line": null,
+      "evidence": "maven 'apache-maven-latest', jdk 'temurin-jdk21-latest'",
+      "recommendation": "Map Jenkins global tool names to actions/setup-* versions"
+    },
+    {
+      "id": "CredentialBinding",
+      "severity": "low",
+      "line": 86,
+      "evidence": "sshUserPrivateKey 'projects-storage.eclipse.org-bot-ssh'",
+      "recommendation": "Create GitHub secret(s) or use OIDC; never inline values"
+    }
+  ],
+  "hard_gates": [],
+  "styles": [
+    "declarative",
+    "when-post",
+    "credentials",
+    "parameters-triggers",
+    "artifacts-tests",
+    "dynamic-groovy",
+    "tools"
+  ],
+  "coverage": {
+    "by_category": {
+      "local": 2,
+      "direct": 5,
+      "policy": 6,
+      "groovy": 2
+    },
+    "weighted_mapped_pct": 76.2
+  },
+  "complexity": {
+    "score": 23,
+    "classification": "assisted",
+    "dimensions": {
+      "declarative_structure": 7.8,
+      "step_mapping": 5.9,
+      "plugin_coupling": 3.8,
+      "library_opacity": 0.0,
+      "runtime_coupling": 4.0,
+      "security_identity": 2,
+      "control_flow": 0.0
+    },
+    "hard_gates": [],
+    "weights": {
+      "declarative_structure": 20,
+      "step_mapping": 25,
+      "plugin_coupling": 15,
+      "library_opacity": 15,
+      "runtime_coupling": 10,
+      "security_identity": 10,
+      "control_flow": 5
+    }
+  },
+  "convertibility": "automatic",
+  "ir_notes": [],
+  "source_sha256": "5f4a16f03565490a467c9c3aa3e09336699dcd375d817cc7bd8aedf194c72bda"
+}

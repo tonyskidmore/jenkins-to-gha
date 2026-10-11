@@ -1,0 +1,133 @@
+[2026-10-10T08:25:59.127Z] Started by user admin
+[2026-10-10T08:25:59.376Z] [Pipeline] Start of Pipeline
+[2026-10-10T08:25:59.536Z] [Pipeline] node
+[2026-10-10T08:25:59.557Z] Running on Jenkins in /var/jenkins_home/workspace/ex-004-full
+[2026-10-10T08:25:59.590Z] [Pipeline] {
+[2026-10-10T08:25:59.633Z] [Pipeline] stage
+[2026-10-10T08:25:59.642Z] [Pipeline] { (Declarative: Checkout SCM)
+[2026-10-10T08:25:59.674Z] [Pipeline] checkout
+[2026-10-10T08:25:59.681Z] The recommended git tool is: NONE
+[2026-10-10T08:25:59.681Z] No credentials specified
+[2026-10-10T08:25:59.682Z] Cloning the remote Git repository
+[2026-10-10T08:25:59.682Z] Avoid fetching tags
+[2026-10-10T08:25:59.682Z] Cloning repository https://github.com/EclipseFdn/open-vsx.org.git
+[2026-10-10T08:25:59.682Z]  > git init /var/jenkins_home/workspace/ex-004-full # timeout=10
+[2026-10-10T08:25:59.697Z] Fetching upstream changes from https://github.com/EclipseFdn/open-vsx.org.git
+[2026-10-10T08:25:59.697Z]  > git --version # timeout=10
+[2026-10-10T08:25:59.703Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T08:25:59.704Z]  > git fetch --no-tags --force --progress -- https://github.com/EclipseFdn/open-vsx.org.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T08:26:02.008Z]  > git config remote.origin.url https://github.com/EclipseFdn/open-vsx.org.git # timeout=10
+[2026-10-10T08:26:02.017Z]  > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T08:26:02.029Z] Avoid second fetch
+[2026-10-10T08:26:02.029Z]  > git rev-parse 4d48d2d9d80c31817c6026a1b269589601f34de6^{commit} # timeout=10
+[2026-10-10T08:26:02.038Z] Checking out Revision 4d48d2d9d80c31817c6026a1b269589601f34de6 (detached)
+[2026-10-10T08:26:02.038Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T08:26:02.047Z]  > git checkout -f 4d48d2d9d80c31817c6026a1b269589601f34de6 # timeout=10
+[2026-10-10T08:26:02.118Z] Commit message: "ci(staging): deploy aws-main to eks-staging-openvsx"
+[2026-10-10T08:26:02.119Z] First time build. Skipping changelog.
+[2026-10-10T08:26:02.147Z] [Pipeline] }
+[2026-10-10T08:26:02.173Z] [Pipeline] // stage
+[2026-10-10T08:26:02.209Z] [Pipeline] withEnv
+[2026-10-10T08:26:02.215Z] [Pipeline] {
+[2026-10-10T08:26:02.251Z] [Pipeline] sh
+[2026-10-10T08:26:02.516Z] + [ null =  ]
+[2026-10-10T08:26:02.516Z] + git rev-parse --short 4d48d2d9d80c31817c6026a1b269589601f34de6
+[2026-10-10T08:26:02.516Z] + printf 4d48d2d-1
+[2026-10-10T08:26:02.552Z] [Pipeline] withEnv
+[2026-10-10T08:26:02.558Z] [Pipeline] {
+[2026-10-10T08:26:02.596Z] [Pipeline] timeout
+[2026-10-10T08:26:02.597Z] Timeout set to expire in 30 min
+[2026-10-10T08:26:02.603Z] [Pipeline] {
+[2026-10-10T08:26:02.650Z] [Pipeline] stage
+[2026-10-10T08:26:02.656Z] [Pipeline] { (Build docker image)
+[2026-10-10T08:26:02.706Z] [Pipeline] node
+[2026-10-10T08:26:02.721Z] Running on Jenkins in /var/jenkins_home/workspace/ex-004-full@2
+[2026-10-10T08:26:02.732Z] [Pipeline] {
+[2026-10-10T08:26:02.763Z] [Pipeline] checkout
+[2026-10-10T08:26:02.778Z] The recommended git tool is: NONE
+[2026-10-10T08:26:02.779Z] No credentials specified
+[2026-10-10T08:26:02.779Z] Cloning the remote Git repository
+[2026-10-10T08:26:02.779Z] Avoid fetching tags
+[2026-10-10T08:26:02.780Z] Cloning repository https://github.com/EclipseFdn/open-vsx.org.git
+[2026-10-10T08:26:02.780Z]  > git init /var/jenkins_home/workspace/ex-004-full@2 # timeout=10
+[2026-10-10T08:26:02.802Z] Fetching upstream changes from https://github.com/EclipseFdn/open-vsx.org.git
+[2026-10-10T08:26:02.802Z]  > git --version # timeout=10
+[2026-10-10T08:26:02.810Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T08:26:02.810Z]  > git fetch --no-tags --force --progress -- https://github.com/EclipseFdn/open-vsx.org.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T08:26:04.675Z]  > git config remote.origin.url https://github.com/EclipseFdn/open-vsx.org.git # timeout=10
+[2026-10-10T08:26:04.684Z]  > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T08:26:04.694Z] Avoid second fetch
+[2026-10-10T08:26:04.694Z]  > git rev-parse 4d48d2d9d80c31817c6026a1b269589601f34de6^{commit} # timeout=10
+[2026-10-10T08:26:04.703Z] Checking out Revision 4d48d2d9d80c31817c6026a1b269589601f34de6 (detached)
+[2026-10-10T08:26:04.703Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T08:26:04.711Z]  > git checkout -f 4d48d2d9d80c31817c6026a1b269589601f34de6 # timeout=10
+[2026-10-10T08:26:04.772Z] Commit message: "ci(staging): deploy aws-main to eks-staging-openvsx"
+[2026-10-10T08:26:04.797Z] [Pipeline] withEnv
+[2026-10-10T08:26:04.804Z] [Pipeline] {
+[2026-10-10T08:26:04.830Z] [Pipeline] sh
+[2026-10-10T08:26:05.094Z] + docker build --pull -t ghcr.io/eclipsefdn/openvsx-website:4d48d2d-1 .
+[2026-10-10T08:26:05.094Z] DEPRECATED: The legacy builder is deprecated and will be removed in a future release.
+[2026-10-10T08:26:05.094Z]             Install the buildx component to build images with BuildKit:
+[2026-10-10T08:26:05.094Z]             https://docs.docker.com/go/buildx/
+[2026-10-10T08:26:05.094Z] 
+[2026-10-10T08:26:05.094Z] Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?
+[2026-10-10T08:26:05.122Z] [Pipeline] }
+[2026-10-10T08:26:05.161Z] [Pipeline] // withEnv
+[2026-10-10T08:26:05.183Z] [Pipeline] }
+[2026-10-10T08:26:05.233Z] [Pipeline] // node
+[2026-10-10T08:26:05.256Z] [Pipeline] }
+[2026-10-10T08:26:05.295Z] [Pipeline] // stage
+[2026-10-10T08:26:05.326Z] [Pipeline] stage
+[2026-10-10T08:26:05.331Z] [Pipeline] { (Push docker image)
+[2026-10-10T08:26:05.346Z] Stage "Push docker image" skipped due to earlier failure(s)
+[2026-10-10T08:26:05.357Z] [Pipeline] getContext
+[2026-10-10T08:26:05.376Z] [Pipeline] }
+[2026-10-10T08:26:05.417Z] [Pipeline] // stage
+[2026-10-10T08:26:05.452Z] [Pipeline] stage
+[2026-10-10T08:26:05.458Z] [Pipeline] { (Deploy test)
+[2026-10-10T08:26:05.476Z] Stage "Deploy test" skipped due to earlier failure(s)
+[2026-10-10T08:26:05.488Z] [Pipeline] getContext
+[2026-10-10T08:26:05.504Z] [Pipeline] }
+[2026-10-10T08:26:05.538Z] [Pipeline] // stage
+[2026-10-10T08:26:05.572Z] [Pipeline] stage
+[2026-10-10T08:26:05.578Z] [Pipeline] { (Deploy staging)
+[2026-10-10T08:26:05.594Z] Stage "Deploy staging" skipped due to earlier failure(s)
+[2026-10-10T08:26:05.606Z] [Pipeline] getContext
+[2026-10-10T08:26:05.631Z] [Pipeline] }
+[2026-10-10T08:26:05.697Z] [Pipeline] // stage
+[2026-10-10T08:26:05.742Z] [Pipeline] stage
+[2026-10-10T08:26:05.748Z] [Pipeline] { (Deploy production)
+[2026-10-10T08:26:05.768Z] Stage "Deploy production" skipped due to earlier failure(s)
+[2026-10-10T08:26:05.780Z] [Pipeline] getContext
+[2026-10-10T08:26:05.793Z] [Pipeline] }
+[2026-10-10T08:26:05.821Z] [Pipeline] // stage
+[2026-10-10T08:26:05.850Z] [Pipeline] stage
+[2026-10-10T08:26:05.855Z] [Pipeline] { (Deploy aws-staging)
+[2026-10-10T08:26:05.870Z] Stage "Deploy aws-staging" skipped due to earlier failure(s)
+[2026-10-10T08:26:05.878Z] [Pipeline] getContext
+[2026-10-10T08:26:05.892Z] [Pipeline] }
+[2026-10-10T08:26:05.923Z] [Pipeline] // stage
+[2026-10-10T08:26:05.949Z] [Pipeline] stage
+[2026-10-10T08:26:05.955Z] [Pipeline] { (Deploy aws-production)
+[2026-10-10T08:26:05.969Z] Stage "Deploy aws-production" skipped due to earlier failure(s)
+[2026-10-10T08:26:05.979Z] [Pipeline] getContext
+[2026-10-10T08:26:05.995Z] [Pipeline] }
+[2026-10-10T08:26:06.028Z] [Pipeline] // stage
+[2026-10-10T08:26:06.059Z] [Pipeline] stage
+[2026-10-10T08:26:06.065Z] [Pipeline] { (Declarative: Post Actions)
+[2026-10-10T08:26:06.102Z] [Pipeline] echo
+[2026-10-10T08:26:06.108Z] J2GHA-TRACE {"stage":"Declarative: Post Actions","step":"mail"}
+[2026-10-10T08:26:06.124Z] [Pipeline] deleteDir
+[2026-10-10T08:26:06.154Z] [Pipeline] }
+[2026-10-10T08:26:06.180Z] [Pipeline] // stage
+[2026-10-10T08:26:06.195Z] [Pipeline] }
+[2026-10-10T08:26:06.231Z] [Pipeline] // timeout
+[2026-10-10T08:26:06.252Z] [Pipeline] }
+[2026-10-10T08:26:06.292Z] [Pipeline] // withEnv
+[2026-10-10T08:26:06.317Z] [Pipeline] }
+[2026-10-10T08:26:06.351Z] [Pipeline] // withEnv
+[2026-10-10T08:26:06.370Z] [Pipeline] }
+[2026-10-10T08:26:06.407Z] [Pipeline] // node
+[2026-10-10T08:26:06.440Z] [Pipeline] End of Pipeline
+[2026-10-10T08:26:06.462Z] ERROR: script returned exit code 1
+[2026-10-10T08:26:06.483Z] Finished: FAILURE

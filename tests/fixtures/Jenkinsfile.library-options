@@ -1,0 +1,22 @@
+import org.example.PipelineDefaults
+
+pipeline {
+  agent any
+  options {
+    timeout(time: 1, unit: 'HOURS')
+    gitLabConnection(PipelineDefaults.GITLAB_CONNECTION)
+  }
+  parameters {
+    string(name: 'REGION', defaultValue: 'eu', description: 'region')
+    string(name: 'BRANCH', defaultValue: defaultBranch(), description: 'a String default: stringified, not removed')
+    choice(name: 'PROJECT', choices: billingProjects(), description: 'from the library')
+    choice(name: 'LEVEL', choices: ['low', 'high'].join('\n'), description: 'a Groovy call')
+  }
+  stages {
+    stage('Build') {
+      steps {
+        echo 'build'
+      }
+    }
+  }
+}

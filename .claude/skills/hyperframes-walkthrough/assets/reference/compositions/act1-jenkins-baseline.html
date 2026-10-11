@@ -1,0 +1,547 @@
+<template id="act1-template">
+  <div
+    data-composition-id="act1"
+    data-width="1920"
+    data-height="1080"
+    data-duration="15"
+  >
+    <div class="act1-container">
+      <!-- Left Column: Pipeline Architecture Card -->
+      <div id="act1-left-col" class="left-col">
+        <div class="act-header">
+          <div class="act-badge">PART 1 OF 7 · BASELINE</div>
+          <h1 class="act-title">Run Original Jenkinsfile on Jenkins</h1>
+          <p class="act-desc">Real-world inventory service pipeline establishing baseline behavior before migration.</p>
+        </div>
+
+        <div class="card spec-card">
+          <div class="card-title-row">
+            <span class="card-icon">⚡</span>
+            <span class="card-heading">Pipeline Architecture</span>
+            <span class="tag tag-amber">Declarative</span>
+          </div>
+          <div class="feature-list">
+            <div class="feature-item">
+              <span class="feat-bullet">✦</span>
+              <div>
+                <strong>Parallel Stages:</strong>
+                <span class="feat-sub">Unit tests, lint and integration tests side by side</span>
+              </div>
+            </div>
+            <div class="feature-item">
+              <span class="feat-bullet">✦</span>
+              <div>
+                <strong>Matrix Execution:</strong>
+                <span class="feat-sub">Contract tests across backend × report format (3 cells)</span>
+              </div>
+            </div>
+            <div class="feature-item">
+              <span class="feat-bullet">✦</span>
+              <div>
+                <strong>Manual Deployment Gate:</strong>
+                <span class="feat-sub">Interactive input prompt requiring Change Ticket</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Baseline Artifacts Box -->
+        <div id="act1-artifacts" class="card artifact-card">
+          <div class="card-title-row">
+            <span class="card-icon">📦</span>
+            <span class="card-heading">Verified Baseline Evidence</span>
+            <span class="tag tag-green">Success</span>
+          </div>
+          <div class="artifact-grid">
+            <div class="art-cell">
+              <span class="art-label">Tarball Artifact</span>
+              <span class="art-val">inventory-service-1.4.0.tar.gz</span>
+            </div>
+            <div class="art-cell">
+              <span class="art-label">Build Info File</span>
+              <span class="art-val">BUILD_INFO.txt</span>
+            </div>
+            <div class="art-cell">
+              <span class="art-label">Unit Test Results</span>
+              <span class="art-val text-green">21 passed · 0 failures</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Column: Jenkins Mockup Browser Frame -->
+      <div id="act1-right-col" class="right-col">
+        <div class="browser-window">
+          <div class="browser-header">
+            <div class="window-dots">
+              <span class="dot dot-red"></span>
+              <span class="dot dot-yellow"></span>
+              <span class="dot dot-green"></span>
+            </div>
+            <div class="browser-url-bar">
+              <span class="lock-icon">🔒</span>
+              <span class="url-text">
+                <span id="url-job" class="url-step">127.0.0.1:18080/job/inventory-service/</span>
+                <span id="url-stages" class="url-step">127.0.0.1:18080/job/inventory-service/1/stages</span>
+                <span id="url-input" class="url-step">127.0.0.1:18080/job/inventory-service/1/input/</span>
+              </span>
+            </div>
+            <span class="live-pill"><span class="live-dot"></span>LIVE CAPTURE</span>
+            <span class="browser-tag">Jenkins 2.580.1</span>
+          </div>
+          <div class="browser-body">
+            <!-- Real screen capture of build #1 (capture/jenkins.mjs + build-clip.mjs). The camera wrapper is
+                 untimed so GSAP owns its transform; the timed <video> itself is never animated. -->
+            <div id="jenkins-cam" class="jenkins-cam">
+              <video
+                id="jenkins-run"
+                class="jenkins-video"
+                src="./assets/clips/jenkins_run.mp4"
+                data-start="0.6"
+                data-duration="14.4"
+                data-media-start="0"
+                muted
+                playsinline
+              ></video>
+            </div>
+
+            <!-- Playback speed: honest about the fast-forwarded stretch -->
+            <div id="speed-badge" class="speed-badge">
+              <span id="speed-real" class="speed-txt">▶ real time</span>
+              <span id="speed-fast" class="speed-txt">▶▶ 3× speed</span>
+            </div>
+
+            <!-- Paused-at-gate pill -->
+            <div id="gate-pill" class="gate-pill">
+              <span class="appr-pulse"></span>Paused at the Deploy gate
+            </div>
+
+            <!-- Floating Manual Approval Callout -->
+            <div id="approval-callout" class="approval-card">
+              <div class="approval-header">
+                <span class="appr-pulse"></span>
+                <strong>Manual gate approved on camera</strong>
+              </div>
+              <div class="appr-body">
+                <div>Parameter: <code>CHANGE_TICKET: "CHG-1234"</code></div>
+                <div>Approved by: <code>admin</code> (manual human sign-off)</div>
+              </div>
+            </div>
+
+            <!-- All Green Completion Banner -->
+            <div id="act1-complete-banner" class="complete-banner">
+              <span class="check-circle">✓</span>
+              <span>Build #1 finished: SUCCESS</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <style>
+      [data-composition-id="act1"] .act1-container {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        padding: 120px 64px 130px 64px;
+        display: grid;
+        grid-template-columns: 780px 1fr;
+        gap: 48px;
+        align-items: center;
+      }
+      [data-composition-id="act1"] .left-col {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+      [data-composition-id="act1"] .act-header {
+        margin-bottom: 4px;
+      }
+      [data-composition-id="act1"] .act-badge {
+        display: inline-block;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #f59e0b;
+        background: rgba(245, 158, 11, 0.12);
+        border: 1px solid rgba(245, 158, 11, 0.3);
+        padding: 4px 14px;
+        border-radius: 9999px;
+        margin-bottom: 12px;
+      }
+      [data-composition-id="act1"] .act-title {
+        font-size: 38px;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        color: #f8fafc;
+        line-height: 1.15;
+        margin-bottom: 8px;
+      }
+      [data-composition-id="act1"] .act-desc {
+        font-size: 18px;
+        color: #94a3b8;
+        line-height: 1.45;
+      }
+      [data-composition-id="act1"] .card {
+        background: rgba(15, 23, 42, 0.7);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 18px;
+        padding: 24px;
+        backdrop-filter: blur(16px);
+        box-shadow: 0 16px 32px rgba(0, 0, 0, 0.4);
+      }
+      [data-composition-id="act1"] .card-title-row {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 16px;
+      }
+      [data-composition-id="act1"] .card-icon {
+        font-size: 20px;
+      }
+      [data-composition-id="act1"] .card-heading {
+        font-size: 18px;
+        font-weight: 700;
+        color: #f1f5f9;
+        flex: 1;
+      }
+      [data-composition-id="act1"] .tag {
+        font-size: 12px;
+        font-weight: 700;
+        padding: 4px 10px;
+        border-radius: 6px;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+      }
+      [data-composition-id="act1"] .tag-amber {
+        background: rgba(245, 158, 11, 0.15);
+        color: #fbbf24;
+        border: 1px solid rgba(245, 158, 11, 0.3);
+      }
+      [data-composition-id="act1"] .tag-green {
+        background: rgba(16, 185, 129, 0.15);
+        color: #34d399;
+        border: 1px solid rgba(16, 185, 129, 0.3);
+      }
+      [data-composition-id="act1"] .feature-list {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      [data-composition-id="act1"] .feature-item {
+        display: flex;
+        gap: 12px;
+        font-size: 15px;
+        color: #e2e8f0;
+      }
+      [data-composition-id="act1"] .feat-bullet {
+        color: #38bdf8;
+      }
+      [data-composition-id="act1"] .feat-sub {
+        display: block;
+        color: #94a3b8;
+        font-size: 13.5px;
+        margin-top: 2px;
+      }
+      [data-composition-id="act1"] .artifact-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 8px;
+      }
+      [data-composition-id="act1"] .art-cell {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(0, 0, 0, 0.25);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        padding: 8px 14px;
+        border-radius: 8px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 13px;
+      }
+      [data-composition-id="act1"] .art-label {
+        color: #94a3b8;
+        font-family: 'Inter', sans-serif;
+      }
+      [data-composition-id="act1"] .art-val {
+        color: #f8fafc;
+      }
+      [data-composition-id="act1"] .text-green {
+        color: #10b981;
+      }
+
+      /* Browser Mockup */
+      [data-composition-id="act1"] .browser-window {
+        background: rgba(15, 23, 42, 0.85);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        border-radius: 18px;
+        overflow: hidden;
+        box-shadow: 0 24px 48px rgba(0, 0, 0, 0.6);
+        display: flex;
+        flex-direction: column;
+      }
+      [data-composition-id="act1"] .browser-header {
+        height: 48px;
+        background: rgba(30, 41, 59, 0.8);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        display: flex;
+        align-items: center;
+        padding: 0 18px;
+        gap: 16px;
+      }
+      [data-composition-id="act1"] .window-dots {
+        display: flex;
+        gap: 8px;
+      }
+      [data-composition-id="act1"] .dot {
+        width: 12px;
+        height: 12px;
+        border-radius: 50%;
+      }
+      [data-composition-id="act1"] .dot-red { background: #ef4444; }
+      [data-composition-id="act1"] .dot-yellow { background: #f59e0b; }
+      [data-composition-id="act1"] .dot-green { background: #10b981; }
+      [data-composition-id="act1"] .browser-url-bar {
+        flex: 1;
+        background: rgba(15, 23, 42, 0.6);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 8px;
+        padding: 4px 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 11px;
+        color: #94a3b8;
+      }
+      [data-composition-id="act1"] .browser-tag {
+        font-size: 12px;
+        font-weight: 600;
+        color: #94a3b8;
+      }
+      [data-composition-id="act1"] .browser-body {
+        position: relative;
+        width: 100%;
+        height: 520px;
+        background: #0f172a;
+        overflow: hidden;
+      }
+      [data-composition-id="act1"] .jenkins-cam {
+        position: absolute;
+        inset: 0;
+        transform-origin: 50% 0%;
+        background: #ffffff;
+      }
+      [data-composition-id="act1"] .jenkins-video {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+      [data-composition-id="act1"] .url-text {
+        position: relative;
+        flex: 1;
+        height: 16px;
+      }
+      [data-composition-id="act1"] .url-step {
+        position: absolute;
+        left: 0;
+        top: 0;
+        white-space: nowrap;
+        opacity: 0;
+      }
+      [data-composition-id="act1"] #url-job {
+        opacity: 1;
+      }
+      [data-composition-id="act1"] .live-pill {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        color: #fca5a5;
+        background: rgba(239, 68, 68, 0.14);
+        border: 1px solid rgba(239, 68, 68, 0.4);
+        padding: 3px 9px;
+        border-radius: 9999px;
+      }
+      [data-composition-id="act1"] .live-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 50%;
+        background: #ef4444;
+        box-shadow: 0 0 8px #ef4444;
+      }
+      [data-composition-id="act1"] .speed-badge {
+        position: absolute;
+        bottom: 14px;
+        left: 14px;
+        width: 128px;
+        height: 30px;
+        background: rgba(15, 23, 42, 0.88);
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        border-radius: 8px;
+        box-shadow: 0 6px 14px rgba(0, 0, 0, 0.35);
+        opacity: 0;
+      }
+      [data-composition-id="act1"] .speed-txt {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 13px;
+        font-weight: 700;
+        color: #e2e8f0;
+      }
+      [data-composition-id="act1"] #speed-fast {
+        color: #fbbf24;
+        opacity: 0;
+      }
+      [data-composition-id="act1"] .gate-pill {
+        position: absolute;
+        top: 14px;
+        right: 14px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: rgba(15, 23, 42, 0.92);
+        border: 1px solid rgba(245, 158, 11, 0.55);
+        color: #fbbf24;
+        font-weight: 700;
+        font-size: 14px;
+        padding: 8px 14px;
+        border-radius: 10px;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.35);
+        opacity: 0;
+      }
+      [data-composition-id="act1"] .approval-card {
+        position: absolute;
+        bottom: 24px;
+        right: 24px;
+        width: 460px;
+        background: rgba(15, 23, 42, 0.92);
+        border: 1px solid rgba(245, 158, 11, 0.4);
+        border-radius: 12px;
+        padding: 14px 20px;
+        backdrop-filter: blur(12px);
+        box-shadow: 0 12px 24px rgba(0,0,0,0.5);
+      }
+      [data-composition-id="act1"] .approval-header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 14px;
+        color: #fbbf24;
+        margin-bottom: 6px;
+      }
+      [data-composition-id="act1"] .appr-pulse {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #f59e0b;
+        box-shadow: 0 0 10px #f59e0b;
+      }
+      [data-composition-id="act1"] .appr-body {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 12.5px;
+        color: #cbd5e1;
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+      }
+      [data-composition-id="act1"] .complete-banner {
+        position: absolute;
+        top: 24px;
+        right: 24px;
+        background: rgba(16, 185, 129, 0.95);
+        color: white;
+        border-radius: 10px;
+        padding: 10px 18px;
+        font-weight: 700;
+        font-size: 14px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        box-shadow: 0 10px 20px rgba(16, 185, 129, 0.3);
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      [data-composition-id="act1"] .check-circle {
+        font-size: 16px;
+      }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script>
+      (function() {
+        const tl = gsap.timeline({ paused: true });
+
+        // Initial entrance
+        tl.fromTo('[data-composition-id="act1"] #act1-left-col', 
+          { opacity: 0, x: -40 }, 
+          { opacity: 1, x: 0, duration: 0.8, ease: "power3.out" }, 
+          0.2
+        );
+        tl.fromTo('[data-composition-id="act1"] #act1-right-col', 
+          { opacity: 0, scale: 0.96 }, 
+          { opacity: 1, scale: 1, duration: 0.8, ease: "power3.out" }, 
+          0.4
+        );
+        // The live clip starts at 0.6s; times below are 0.6 + clip time from assets/clips/jenkins_run.map.json.
+        const A = '[data-composition-id="act1"] ';
+        const show = (sel, at, d = 0.25) => tl.to(A + sel, { opacity: 1, duration: d }, at);
+        const hide = (sel, at, d = 0.25) => tl.to(A + sel, { opacity: 0, duration: d }, at);
+
+        // URL bar follows the real navigation
+        hide('#url-job', 1.5, 0.1); show('#url-stages', 1.53, 0.1);          // stages page (clip 0.93)
+        hide('#url-stages', 6.68, 0.1); show('#url-input', 6.71, 0.1);       // input page (clip 6.11)
+        hide('#url-input', 11.12, 0.1); show('#url-stages', 11.15, 0.1);     // back to stages (clip 10.55)
+
+        // Speed badge: 3x while the stages run (clip 1.15-3.68), real time otherwise
+        show('#speed-badge', 1.0, 0.3);
+        hide('#speed-real', 1.75, 0.15); show('#speed-fast', 1.75, 0.15);
+        hide('#speed-fast', 4.28, 0.15); show('#speed-real', 4.28, 0.15);
+        hide('#speed-badge', 14.2, 0.3);
+
+        // Camera: punch in on the stage graph while it grows, pull back for the paused gate
+        tl.to(A + '#jenkins-cam', { scale: 1.25, transformOrigin: '50% 0%', duration: 0.9, ease: 'power2.inOut' }, 1.9);
+        tl.to(A + '#jenkins-cam', { scale: 1, duration: 0.6, ease: 'power2.inOut' }, 4.2);
+        show('#gate-pill', 4.4, 0.35);
+        hide('#gate-pill', 6.5, 0.2);
+
+        // Input page: zoom onto the CHANGE_TICKET form while the ticket is typed and Deploy is clicked
+        tl.set(A + '#jenkins-cam', { transformOrigin: '57% 20%' }, 6.71);
+        tl.to(A + '#jenkins-cam', { scale: 1.5, duration: 0.8, ease: 'power2.inOut' }, 7.0);
+        tl.fromTo(A + '#approval-callout', { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.5, ease: 'back.out(1.2)' }, 10.85);
+        tl.to(A + '#jenkins-cam', { scale: 1, duration: 0.3, ease: 'power2.in' }, 10.85);
+
+        // After approval (full graph, no zoom): Deploy and Post Actions run, then the build finishes (SUCCESS at clip 11.04)
+        tl.to(A + '#approval-callout', { opacity: 0, y: 20, duration: 0.4, ease: 'power2.in' }, 12.6);
+        tl.fromTo(A + '#act1-complete-banner',
+          { opacity: 0, y: -20 },
+          { opacity: 1, y: 0, duration: 0.6, ease: 'back.out(1.2)' },
+          12.4
+        );
+        tl.fromTo(A + '#act1-artifacts',
+          { borderColor: "rgba(255, 255, 255, 0.1)" },
+          { borderColor: "rgba(16, 185, 129, 0.6)", duration: 0.5 },
+          12.8
+        );
+
+        // Exit transition before 15.0s
+        tl.to('[data-composition-id="act1"] .act1-container', 
+          { opacity: 0, scale: 0.96, duration: 0.4, ease: "power2.in" }, 
+          14.6
+        );
+
+        window.__timelines = window.__timelines || {};
+        window.__timelines["act1"] = tl;
+      })();
+    </script>
+  </div>
+</template>

@@ -1,0 +1,133 @@
+#!groovy
+
+// Copyright (c) 2020 ETH Zurich
+// Copyright (c) 2022-2025 Hartmut Kaiser
+// Copyright (c) 2024 Alireza Kheirkhahan
+//
+// SPDX-License-Identifier: BSL-1.0
+// Distributed under the Boost Software License, Version 1.0. (See accompanying
+// file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+
+pipeline {
+    agent any
+    /* j2gha: empty options removed */
+
+
+
+
+
+
+
+
+
+    environment {
+        GITHUB_TOKEN = credentials('STELLARBOT_GITHUB_TOKEN')
+    }
+    stages {
+        stage('checkout') {
+            steps {
+                // Branch builds come from a multibranch job, where BRANCH_NAME is
+                // set and a superseded run is a pure duplicate holding 26
+                // exclusive nodes. Let a newer run retire those. Pull requests
+                // share one job that has no BRANCH_NAME and must not be gated.
+                //
+                // A milestone only aborts older runs that have not reached it
+                // yet, and every run reaches a fixed milestone as soon as it
+                // starts. Numbering the milestones by build leaves each run
+                // parked short of its successor's milestone, which is what lets
+                // the successor retire it.
+                script {
+                    if (env.BRANCH_NAME) {
+                        def buildNumber = env.BUILD_NUMBER as int
+                        if (buildNumber > 1) {
+                            milestone(buildNumber - 1)
+                        }
+                        milestone(buildNumber)
+                    }
+                }
+                dir("hpx_${env.BUILD_ID}") {
+                    checkout scm
+                    echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL} (base directory: ${env.WORKSPACE})"
+                }
+            }
+        }
+        stage('build') {
+            matrix {
+                axes {
+                    axis {
+                        name 'configuration_name'
+                        values 'gcc-12', 'gcc-13', 'gcc-14', 'gcc-15', 'clang-17-apex', 'clang-16', 'clang-17', 'clang-18', 'clang-19', 'clang-20', 'gcc-12-cuda-12', 'gcc-12-cuda-12-dgx', 'hipcc'
+                    }
+                    axis {
+                         name 'build_type'
+                         values 'Release', 'Debug'
+                    }
+                }
+                stages {
+                    stage('build') {
+                        steps {
+                            dir("hpx_${env.BUILD_ID}") {
+                                sh '''
+                                #!/bin/bash -l
+                                .jenkins/lsu/entry.sh
+                                '''
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            archiveArtifacts artifacts: "hpx_${env.BUILD_ID}/jenkins-hpx-*", fingerprint: true
+            archiveArtifacts artifacts: "hpx_${env.BUILD_ID}/build/*/Testing/**", fingerprint: true
+        }
+    }
+}
+
+// ---- j2gha localisation block (full mode) - generated, not part of the original pipeline ----
+@groovy.transform.Field def scm = [$class: 'GitSCM', branches: [[name: "0aa9f24db04a24dbb87746b6c7210fa65089b769"]], extensions: [[$class: 'CloneOption', shallow: false, noTags: true]], userRemoteConfigs: [[url: "https://github.com/TheHPXProject/hpx.git"]]]
+class J2ghaAny implements Serializable { @NonCPS def propertyMissing(String n) { new J2ghaAny() }; @NonCPS def methodMissing(String n, Object a) { new J2ghaAny() }; @NonCPS String toString() { 'j2gha-stub' }; @NonCPS boolean asBoolean() { true }; @NonCPS boolean isEmpty() { false }; @NonCPS def getAt(Object k) { new J2ghaAny() }; @NonCPS Iterator iterator() { [].iterator() } }
+class J2ghaConfig extends LinkedHashMap { @NonCPS Object get(Object k) { super.containsKey(k) ? super.get(k) : new J2ghaAny() }; @NonCPS def methodMissing(String n, Object a) { new J2ghaAny() } }
+def j2ghaTrace(String kind) {
+  steps.echo('J2GHA-TRACE ' + groovy.json.JsonOutput.toJson([stage: (env.STAGE_NAME ?: ''), step: kind]))
+}
+def build(Object... a) { j2ghaTrace('build'); return [result: 'SUCCESS', number: 1, currentResult: 'SUCCESS', absoluteUrl: '', getResult: { -> 'SUCCESS' }, buildVariables: [:]] }
+def mail(Object... a) { j2ghaTrace('mail'); return null }
+def emailext(Object... a) { j2ghaTrace('emailext'); return null }
+def slackSend(Object... a) { j2ghaTrace('slackSend'); return null }
+def office365ConnectorSend(Object... a) { j2ghaTrace('office365ConnectorSend'); return null }
+def githubNotify(Object... a) { j2ghaTrace('githubNotify'); return null }
+def setGitHubPullRequestStatus(Object... a) { j2ghaTrace('setGitHubPullRequestStatus'); return null }
+def publishChecks(Object... a) { j2ghaTrace('publishChecks'); return null }
+def s3Upload(Object... a) { j2ghaTrace('s3Upload'); return null }
+def s3Download(Object... a) { j2ghaTrace('s3Download'); return null }
+def copyArtifacts(Object... a) { j2ghaTrace('copyArtifacts'); return null }
+def waitForQualityGate(Object... a) { j2ghaTrace('waitForQualityGate'); return null }
+def recordIssues(Object... a) { j2ghaTrace('recordIssues'); return null }
+def publishCoverage(Object... a) { j2ghaTrace('publishCoverage'); return null }
+def recordCoverage(Object... a) { j2ghaTrace('recordCoverage'); return null }
+def jacoco(Object... a) { j2ghaTrace('jacoco'); return null }
+def cobertura(Object... a) { j2ghaTrace('cobertura'); return null }
+def milestone(Object... a) { return null }
+def properties(Object... a) { return null }
+def buildDiscarder(Object... a) { return null }
+def checkout(Object... a) { def r = a.length == 1 ? steps.checkout(a[0]) : steps.checkout(a); if (r instanceof Map && env.GIT_BRANCH) { r.GIT_BRANCH = env.GIT_BRANCH }; return r }
+def withSonarQubeEnv(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withAWS(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withKubeConfig(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withVault(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def azureCLI(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def container(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def sshagent(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withDockerRegistry(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def configFileProvider(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withMaven(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withGradle(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withPythonEnv(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def podTemplate(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def wrap(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withDockerContainer(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+// ---- end of j2gha localisation block ----

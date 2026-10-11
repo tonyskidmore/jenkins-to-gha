@@ -1,0 +1,92 @@
+# j2gha act variant (trace) of examples/009
+name: 'j2gha 009: TheHPXProject/hpx .jenkins/lsu/Jenkinsfile (j2gha)'
+on:
+  push:
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  BRANCH_NAME: master
+  TAG_NAME: ''
+  CHANGE_ID: ''
+  BUILD_NUMBER: ${{ github.run_number }}
+  BUILD_ID: ${{ github.run_id }}
+  WORKSPACE: ${{ github.workspace }}
+  GITHUB_TOKEN: j2gha-fake-secret
+  GIT_COMMIT: ${{ github.sha }}
+  GIT_BRANCH: origin/master
+  GIT_URL: ${{ github.server_url }}/${{ github.repository }}.git
+defaults:
+  run:
+    shell: bash
+jobs:
+  checkout:
+    name: checkout
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+    - name: Checkout
+      run: 'printf ''%s %s\n'' J2GHA-TRACE ''{"stage":"Declarative: Checkout SCM","step":"checkout"}'''
+    - name: 'checkout: if (line 40)'
+      id: s1
+      if: env.BRANCH_NAME != ''
+      run: echo "taken=true" >> "$GITHUB_OUTPUT"
+    - name: 'checkout: if (line 40)'
+      id: s2
+      if: steps.s1.outcome == 'skipped'
+      run: echo "taken=false" >> "$GITHUB_OUTPUT"
+    - name: 'checkout: checkout'
+      id: s5
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"checkout","step":"checkout"}'
+    - name: 'checkout: echo'
+      id: s6
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"checkout","step":"echo"}'
+  build:
+    name: build
+    needs: checkout
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    strategy:
+      fail-fast: false
+      matrix:
+        configuration_name:
+        - gcc-12
+        - gcc-13
+        - gcc-14
+        - gcc-15
+        - clang-17-apex
+        - clang-16
+        - clang-17
+        - clang-18
+        - clang-19
+        - clang-20
+        - gcc-12-cuda-12
+        - gcc-12-cuda-12-dgx
+        - hipcc
+        build_type:
+        - Release
+        - Debug
+    env:
+      configuration_name: ${{ matrix.configuration_name }}
+      build_type: ${{ matrix.build_type }}
+    steps:
+    - name: 'build: .jenkins/lsu/entry.sh'
+      id: s8
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"build","step":"sh"}'
+  post:
+    name: post
+    needs:
+    - checkout
+    - build
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+    - name: 'post: archive artifacts'
+      id: s9
+      if: always()
+      run: 'printf ''%s %s\n'' J2GHA-TRACE ''{"stage":"Declarative: Post Actions","step":"archiveArtifacts"}'''
+    - name: 'post: archive artifacts'
+      id: s10
+      if: always()
+      run: 'printf ''%s %s\n'' J2GHA-TRACE ''{"stage":"Declarative: Post Actions","step":"archiveArtifacts"}'''
+    timeout-minutes: 5

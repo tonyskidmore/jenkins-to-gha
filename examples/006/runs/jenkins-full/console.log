@@ -1,0 +1,151 @@
+[2026-10-10T08:26:54.787Z] Started by user admin
+[2026-10-10T08:26:55.032Z] [Pipeline] Start of Pipeline
+[2026-10-10T08:26:55.166Z] [Pipeline] node
+[2026-10-10T08:26:55.181Z] Running on Jenkins in /var/jenkins_home/workspace/ex-006-full
+[2026-10-10T08:26:55.208Z] [Pipeline] {
+[2026-10-10T08:26:55.246Z] [Pipeline] stage
+[2026-10-10T08:26:55.252Z] [Pipeline] { (Declarative: Checkout SCM)
+[2026-10-10T08:26:55.284Z] [Pipeline] checkout
+[2026-10-10T08:26:55.291Z] The recommended git tool is: NONE
+[2026-10-10T08:26:55.291Z] No credentials specified
+[2026-10-10T08:26:55.292Z] Cloning the remote Git repository
+[2026-10-10T08:26:55.292Z] Avoid fetching tags
+[2026-10-10T08:26:55.292Z] Cloning repository https://github.com/fabiojose/platform-as-code-example.git
+[2026-10-10T08:26:55.292Z]  > git init /var/jenkins_home/workspace/ex-006-full # timeout=10
+[2026-10-10T08:26:55.306Z] Fetching upstream changes from https://github.com/fabiojose/platform-as-code-example.git
+[2026-10-10T08:26:55.306Z]  > git --version # timeout=10
+[2026-10-10T08:26:55.313Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T08:26:55.313Z]  > git fetch --no-tags --force --progress -- https://github.com/fabiojose/platform-as-code-example.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T08:26:56.062Z]  > git config remote.origin.url https://github.com/fabiojose/platform-as-code-example.git # timeout=10
+[2026-10-10T08:26:56.069Z]  > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T08:26:56.078Z] Avoid second fetch
+[2026-10-10T08:26:56.078Z]  > git rev-parse ee4cfb0dfbbce20115f98cb2be4d486747549b59^{commit} # timeout=10
+[2026-10-10T08:26:56.085Z] Checking out Revision ee4cfb0dfbbce20115f98cb2be4d486747549b59 (detached)
+[2026-10-10T08:26:56.085Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T08:26:56.091Z]  > git checkout -f ee4cfb0dfbbce20115f98cb2be4d486747549b59 # timeout=10
+[2026-10-10T08:26:56.111Z] Commit message: "First commit"
+[2026-10-10T08:26:56.111Z] First time build. Skipping changelog.
+[2026-10-10T08:26:56.138Z] [Pipeline] }
+[2026-10-10T08:26:56.167Z] [Pipeline] // stage
+[2026-10-10T08:26:56.196Z] [Pipeline] withEnv
+[2026-10-10T08:26:56.203Z] [Pipeline] {
+[2026-10-10T08:26:56.240Z] [Pipeline] stage
+[2026-10-10T08:26:56.246Z] [Pipeline] { (Setup)
+[2026-10-10T08:26:56.288Z] [Pipeline] script
+[2026-10-10T08:26:56.297Z] [Pipeline] {
+[2026-10-10T08:26:56.315Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named target (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T08:26:56.328Z] [Pipeline] sh
+[2026-10-10T08:26:56.592Z] + jq -r .variable.iac_version.default src/package.tf
+[2026-10-10T08:26:56.612Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named oversion (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T08:26:56.613Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named version (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T08:26:56.613Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named oversion (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T08:26:56.613Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named iacname (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T08:26:56.613Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named prjname (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T08:26:56.613Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named packname (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T08:26:56.614Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named publish_url (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T08:26:56.621Z] [Pipeline] }
+[2026-10-10T08:26:56.655Z] [Pipeline] // script
+[2026-10-10T08:26:56.670Z] [Pipeline] }
+[2026-10-10T08:26:56.700Z] [Pipeline] // stage
+[2026-10-10T08:26:56.726Z] [Pipeline] stage
+[2026-10-10T08:26:56.732Z] [Pipeline] { (Build)
+[2026-10-10T08:26:56.768Z] [Pipeline] sh
+[2026-10-10T08:26:57.031Z] + sed -i s/iac-provider/terraform/g src/variables.tf
+[2026-10-10T08:26:57.063Z] [Pipeline] sh
+[2026-10-10T08:26:57.330Z] + sed -i s/iac-artifact/ex-006-full-v0.6.2-1.tar.gz/g src/variables.tf
+[2026-10-10T08:26:57.354Z] [Pipeline] sh
+[2026-10-10T08:26:57.616Z] + sed -i s/iac-scm-commit/ee4cfb0dfbbce20115f98cb2be4d486747549b59/g src/variables.tf
+[2026-10-10T08:26:57.656Z] [Pipeline] sh
+[2026-10-10T08:26:57.923Z] + sed -i s|iac-scm-branch|origin/master|g src/variables.tf
+[2026-10-10T08:26:57.949Z] [Pipeline] sh
+[2026-10-10T08:26:58.213Z] + sed -i s/iac-build-by/jenkins/g src/variables.tf
+[2026-10-10T08:26:58.240Z] [Pipeline] sh
+[2026-10-10T08:26:58.503Z] + sed -i s/iac-build-name/ex-006-full/g src/variables.tf
+[2026-10-10T08:26:58.528Z] [Pipeline] sh
+[2026-10-10T08:26:58.791Z] + sed -i s/iac-build-id/1/g src/variables.tf
+[2026-10-10T08:26:58.830Z] [Pipeline] sh
+[2026-10-10T08:26:59.114Z] + sed -i s/iac-build-date/1791620814786/g src/variables.tf
+[2026-10-10T08:26:59.138Z] [Pipeline] sh
+[2026-10-10T08:26:59.400Z] + sed -i s/0.6.2/0.6.2-1/g src/package.tf
+[2026-10-10T08:26:59.427Z] [Pipeline] sh
+[2026-10-10T08:26:59.690Z] + tar --exclude=./.git --exclude=./Jenkinsfile --exclude=*.tar.gz -czv ./src -f ex-006-full-v0.6.2-1.tar.gz
+[2026-10-10T08:26:59.690Z] ./src/
+[2026-10-10T08:26:59.690Z] ./src/dev/
+[2026-10-10T08:26:59.690Z] ./src/dev/namespace.tf
+[2026-10-10T08:26:59.690Z] ./src/dev/configmap.tf
+[2026-10-10T08:26:59.690Z] ./src/dev/secret.tf
+[2026-10-10T08:26:59.690Z] ./src/dev/dev.tf
+[2026-10-10T08:26:59.690Z] ./src/replication-controller.tf
+[2026-10-10T08:26:59.690Z] ./src/pro/
+[2026-10-10T08:26:59.690Z] ./src/pro/namespace.tf
+[2026-10-10T08:26:59.690Z] ./src/pro/configmap.tf
+[2026-10-10T08:26:59.690Z] ./src/pro/secret.tf
+[2026-10-10T08:26:59.690Z] ./src/pro/pro.tf
+[2026-10-10T08:26:59.690Z] ./src/route.json
+[2026-10-10T08:26:59.690Z] ./src/package.tf
+[2026-10-10T08:26:59.690Z] ./src/service.tf
+[2026-10-10T08:26:59.690Z] ./src/uat/
+[2026-10-10T08:26:59.690Z] ./src/uat/uat.tf
+[2026-10-10T08:26:59.690Z] ./src/uat/namespace.tf
+[2026-10-10T08:26:59.690Z] ./src/uat/configmap.tf
+[2026-10-10T08:26:59.690Z] ./src/uat/secret.tf
+[2026-10-10T08:26:59.690Z] ./src/variables.tf
+[2026-10-10T08:26:59.706Z] [Pipeline] }
+[2026-10-10T08:26:59.738Z] [Pipeline] // stage
+[2026-10-10T08:26:59.767Z] [Pipeline] stage
+[2026-10-10T08:26:59.773Z] [Pipeline] { (Publish)
+[2026-10-10T08:26:59.815Z] [Pipeline] withCredentials
+[2026-10-10T08:26:59.835Z] Masking supported pattern matches of $NEXUS_PASSWORD
+[2026-10-10T08:26:59.843Z] [Pipeline] {
+[2026-10-10T08:26:59.884Z] [Pipeline] sh
+[2026-10-10T08:27:00.151Z] + curl -u j2gha-user:**** --upload-file ex-006-full-v0.6.2-1.tar.gz null/repository/raw-terraform/oss-opensource/ex-006-full-v0.6.2-1.tar.gz
+[2026-10-10T08:27:00.151Z]   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+[2026-10-10T08:27:00.151Z]                                  Dload  Upload   Total   Spent    Left  Speed
+[2026-10-10T08:27:00.151Z] [2026-10-10T08:27:00.402Z]   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0[2026-10-10T08:27:01.313Z]   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0[2026-10-10T08:27:02.658Z]   0     0    0     0    0     0      0      0 --:--:--  0:00:01 --:--:--     0[2026-10-10T08:27:03.569Z]   0     0    0     0    0     0      0      0 --:--:--  0:00:02 --:--:--     0curl: (6) Could not resolve host: null
+[2026-10-10T08:27:03.594Z] [Pipeline] }
+[2026-10-10T08:27:03.631Z] [Pipeline] // withCredentials
+[2026-10-10T08:27:03.658Z] [Pipeline] }
+[2026-10-10T08:27:03.698Z] [Pipeline] // stage
+[2026-10-10T08:27:03.730Z] [Pipeline] stage
+[2026-10-10T08:27:03.736Z] [Pipeline] { (DEV Deploy)
+[2026-10-10T08:27:03.754Z] Stage "DEV Deploy" skipped due to earlier failure(s)
+[2026-10-10T08:27:03.765Z] [Pipeline] getContext
+[2026-10-10T08:27:03.783Z] [Pipeline] }
+[2026-10-10T08:27:03.830Z] [Pipeline] // stage
+[2026-10-10T08:27:03.864Z] [Pipeline] stage
+[2026-10-10T08:27:03.871Z] [Pipeline] { (PRE Deploy)
+[2026-10-10T08:27:03.888Z] Stage "PRE Deploy" skipped due to earlier failure(s)
+[2026-10-10T08:27:03.900Z] [Pipeline] getContext
+[2026-10-10T08:27:03.918Z] [Pipeline] }
+[2026-10-10T08:27:03.970Z] [Pipeline] // stage
+[2026-10-10T08:27:04.041Z] [Pipeline] stage
+[2026-10-10T08:27:04.046Z] [Pipeline] { (Acceptance Test)
+[2026-10-10T08:27:04.062Z] Stage "Acceptance Test" skipped due to earlier failure(s)
+[2026-10-10T08:27:04.072Z] [Pipeline] getContext
+[2026-10-10T08:27:04.088Z] [Pipeline] }
+[2026-10-10T08:27:04.123Z] [Pipeline] // stage
+[2026-10-10T08:27:04.158Z] [Pipeline] stage
+[2026-10-10T08:27:04.164Z] [Pipeline] { (Approval)
+[2026-10-10T08:27:04.181Z] Stage "Approval" skipped due to earlier failure(s)
+[2026-10-10T08:27:04.193Z] [Pipeline] getContext
+[2026-10-10T08:27:04.214Z] [Pipeline] }
+[2026-10-10T08:27:04.261Z] [Pipeline] // stage
+[2026-10-10T08:27:04.296Z] [Pipeline] stage
+[2026-10-10T08:27:04.300Z] [Pipeline] { (PRO Deploy)
+[2026-10-10T08:27:04.318Z] Stage "PRO Deploy" skipped due to earlier failure(s)
+[2026-10-10T08:27:04.329Z] [Pipeline] getContext
+[2026-10-10T08:27:04.205Z] [Pipeline] }
+[2026-10-10T08:27:04.239Z] [Pipeline] // stage
+[2026-10-10T08:27:04.270Z] [Pipeline] stage
+[2026-10-10T08:27:04.275Z] [Pipeline] { (Declarative: Post Actions)
+[2026-10-10T08:27:04.315Z] [Pipeline] echo
+[2026-10-10T08:27:04.321Z] J2GHA-TRACE {"stage":"Declarative: Post Actions","step":"rocketSend"}
+[2026-10-10T08:27:04.340Z] [Pipeline] }
+[2026-10-10T08:27:04.371Z] [Pipeline] // stage
+[2026-10-10T08:27:04.387Z] [Pipeline] }
+[2026-10-10T08:27:04.427Z] [Pipeline] // withEnv
+[2026-10-10T08:27:04.452Z] [Pipeline] }
+[2026-10-10T08:27:04.495Z] [Pipeline] // node
+[2026-10-10T08:27:04.530Z] [Pipeline] End of Pipeline
+[2026-10-10T08:27:04.552Z] ERROR: script returned exit code 6
+[2026-10-10T08:27:04.573Z] Finished: FAILURE

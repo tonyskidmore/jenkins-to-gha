@@ -1,0 +1,399 @@
+{
+  "dialect": "declarative",
+  "line": 1,
+  "agent": {
+    "kind": "kubernetes",
+    "label": "kubedeploy-agent",
+    "yaml": "\n        apiVersion: v1\n        kind: Pod\n        spec:\n          containers:\n          - name: kubectl\n            image: eclipsefdn/kubectl:okd-c1\n            command:\n            - cat\n            tty: true\n            resources:\n              limits:\n                cpu: 1\n                memory: 1Gi\n            volumeMounts:\n            - mountPath: \"/home/default/.kube\"\n              name: \"dot-kube\"\n              readOnly: false\n          - name: eks\n            image: eclipsefdn/aws:alpine-latest\n            command:\n            - cat\n            tty: true\n            resources:\n              limits:\n                cpu: 1\n                memory: 1Gi\n            volumeMounts:\n            - mountPath: \"/home/default/.kube\"\n              name: \"dot-kube\"\n              readOnly: false\n          - name: jnlp\n            resources:\n              limits:\n                cpu: 1\n                memory: 1Gi\n          volumes:\n          - name: \"dot-kube\"\n            emptyDir: {}\n      ",
+    "raw": {
+      "label": "kubedeploy-agent",
+      "yaml": "\n        apiVersion: v1\n        kind: Pod\n        spec:\n          containers:\n          - name: kubectl\n            image: eclipsefdn/kubectl:okd-c1\n            command:\n            - cat\n            tty: true\n            resources:\n              limits:\n                cpu: 1\n                memory: 1Gi\n            volumeMounts:\n            - mountPath: \"/home/default/.kube\"\n              name: \"dot-kube\"\n              readOnly: false\n          - name: eks\n            image: eclipsefdn/aws:alpine-latest\n            command:\n            - cat\n            tty: true\n            resources:\n              limits:\n                cpu: 1\n                memory: 1Gi\n            volumeMounts:\n            - mountPath: \"/home/default/.kube\"\n              name: \"dot-kube\"\n              readOnly: false\n          - name: jnlp\n            resources:\n              limits:\n                cpu: 1\n                memory: 1Gi\n          volumes:\n          - name: \"dot-kube\"\n            emptyDir: {}\n      "
+    },
+    "line": 2
+  },
+  "environment": {
+    "APP_NAME": {
+      "kind": "literal",
+      "value": "open-vsx-org",
+      "line": 49
+    },
+    "NAMESPACE": {
+      "kind": "literal",
+      "value": "foundation-internal-webdev-apps",
+      "line": 50
+    },
+    "IMAGE_NAME": {
+      "kind": "literal",
+      "value": "ghcr.io/eclipsefdn/openvsx-website",
+      "line": 51
+    },
+    "CONTAINER_NAME": {
+      "kind": "literal",
+      "value": "open-vsx-org",
+      "line": 52
+    },
+    "IMAGE_TAG": {
+      "kind": "shell",
+      "value": "\n        if [ \"${env.TAG_NAME}\" = \"\" ]; then\n          printf ${env.TAG_NAME}-${env.BUILD_NUMBER}\n        else\n          printf $(git rev-parse --short ${env.GIT_COMMIT})-${env.BUILD_NUMBER}\n        fi\n      ",
+      "line": 53
+    }
+  },
+  "options": {
+    "buildDiscarder": "logRotator(...)",
+    "timeout": {
+      "time": 30,
+      "unit": "MINUTES",
+      "minutes": 30
+    }
+  },
+  "stages": [
+    {
+      "name": "Build docker image",
+      "line": 71,
+      "agent": {
+        "kind": "label",
+        "label": "docker-build",
+        "line": 72
+      },
+      "steps": [
+        {
+          "name": "sh",
+          "line": 76,
+          "args": [
+            "\n          echo docker build --pull -t ${IMAGE_NAME}:${IMAGE_TAG} .  # j2gha-local: no Docker daemon in the harness\n        "
+          ],
+          "category": "direct"
+        }
+      ]
+    },
+    {
+      "name": "Push docker image",
+      "line": 82,
+      "agent": {
+        "kind": "label",
+        "label": "docker-build",
+        "line": 83
+      },
+      "steps": [
+        {
+          "name": "withDockerRegistry",
+          "line": 87,
+          "named": {
+            "credentialsId": "a56a2346-7fc5-4f91-a624-073197e5f5c8",
+            "url": "https://ghcr.io/"
+          },
+          "body": [
+            {
+              "name": "sh",
+              "line": 88,
+              "args": [
+                "\n            echo docker push ${IMAGE_NAME}:${IMAGE_TAG}  # j2gha-local: no registry credentials\n          "
+              ],
+              "category": "direct"
+            }
+          ],
+          "category": "policy"
+        }
+      ]
+    },
+    {
+      "name": "Deploy test",
+      "line": 95,
+      "when": {
+        "conditions": [
+          {
+            "kind": "branch",
+            "value": "test",
+            "line": 97
+          }
+        ]
+      },
+      "steps": [
+        {
+          "name": "container",
+          "line": 100,
+          "args": [
+            "kubectl"
+          ],
+          "body": [
+            {
+              "name": "withKubeConfig",
+              "line": 101,
+              "named": {
+                "credentialsId": "ci-bot-okd-c1-token",
+                "serverUrl": "https://api.okd-c1.eclipse.org:6443"
+              },
+              "body": [
+                {
+                  "name": "sh",
+                  "line": 102,
+                  "args": [
+                    "\n              echo ./kubernetes/helm-deploy.sh test \"${IMAGE_TAG}\"  # j2gha-local: no OKD cluster\n            "
+                  ],
+                  "category": "direct"
+                }
+              ],
+              "category": "policy"
+            }
+          ],
+          "category": "policy"
+        }
+      ]
+    },
+    {
+      "name": "Deploy staging",
+      "line": 110,
+      "when": {
+        "conditions": [
+          {
+            "kind": "branch",
+            "value": "main",
+            "line": 112
+          }
+        ]
+      },
+      "steps": [
+        {
+          "name": "container",
+          "line": 115,
+          "args": [
+            "kubectl"
+          ],
+          "body": [
+            {
+              "name": "withKubeConfig",
+              "line": 116,
+              "named": {
+                "credentialsId": "ci-bot-okd-c1-token",
+                "serverUrl": "https://api.okd-c1.eclipse.org:6443"
+              },
+              "body": [
+                {
+                  "name": "sh",
+                  "line": 117,
+                  "args": [
+                    "\n              echo ./kubernetes/helm-deploy.sh staging \"${IMAGE_TAG}\"  # j2gha-local: no OKD cluster\n            "
+                  ],
+                  "category": "direct"
+                }
+              ],
+              "category": "policy"
+            }
+          ],
+          "category": "policy"
+        }
+      ]
+    },
+    {
+      "name": "Deploy production",
+      "line": 125,
+      "when": {
+        "conditions": [
+          {
+            "kind": "branch",
+            "value": "production",
+            "line": 127
+          }
+        ]
+      },
+      "steps": [
+        {
+          "name": "container",
+          "line": 130,
+          "args": [
+            "kubectl"
+          ],
+          "body": [
+            {
+              "name": "withKubeConfig",
+              "line": 131,
+              "named": {
+                "credentialsId": "ci-bot-okd-c1-token",
+                "serverUrl": "https://api.okd-c1.eclipse.org:6443"
+              },
+              "body": [
+                {
+                  "name": "sh",
+                  "line": 132,
+                  "args": [
+                    "\n              echo ./kubernetes/helm-deploy.sh production \"${IMAGE_TAG}\"  # j2gha-local: no OKD cluster\n            "
+                  ],
+                  "category": "direct"
+                }
+              ],
+              "category": "policy"
+            }
+          ],
+          "category": "policy"
+        }
+      ]
+    },
+    {
+      "name": "Deploy aws-staging",
+      "line": 140,
+      "when": {
+        "conditions": [
+          {
+            "kind": "branch",
+            "value": "aws-main",
+            "line": 142
+          }
+        ]
+      },
+      "steps": [
+        {
+          "name": "container",
+          "line": 145,
+          "args": [
+            "eks"
+          ],
+          "body": [
+            {
+              "name": "withCredentials",
+              "line": 146,
+              "args": [
+                [
+                  {
+                    "expr": "string(...)"
+                  },
+                  {
+                    "expr": "string(...)"
+                  }
+                ]
+              ],
+              "named": {
+                "bindings": [
+                  {
+                    "type": "string",
+                    "credentialsId": "jenkins-openvsx-aws-key-id",
+                    "variable": "AWS_ACCESS_KEY_ID"
+                  },
+                  {
+                    "type": "string",
+                    "credentialsId": "jenkins-openvsx-aws-secret-key",
+                    "variable": "AWS_SECRET_ACCESS_KEY"
+                  }
+                ]
+              },
+              "body": [
+                {
+                  "name": "sh",
+                  "line": 150,
+                  "args": [
+                    "\n              set -e\n              export AWS_DEFAULT_REGION=eu-central-1\n              export KUBECONFIG=\"${HOME}/.kube/config\"\n              echo aws eks update-kubeconfig --name eks-staging-openvsx --region eu-central-1  # j2gha-local: no AWS account\n              echo ./kubernetes/helm-deploy.sh aws-staging \"${IMAGE_TAG}\"  # j2gha-local: no EKS cluster\n            "
+                  ],
+                  "category": "direct"
+                }
+              ],
+              "category": "policy",
+              "dynamic": true
+            }
+          ],
+          "category": "policy"
+        }
+      ]
+    },
+    {
+      "name": "Deploy aws-production",
+      "line": 162,
+      "when": {
+        "conditions": [
+          {
+            "kind": "branch",
+            "value": "aws-production",
+            "line": 164
+          }
+        ]
+      },
+      "steps": [
+        {
+          "name": "container",
+          "line": 167,
+          "args": [
+            "eks"
+          ],
+          "body": [
+            {
+              "name": "withCredentials",
+              "line": 168,
+              "args": [
+                [
+                  {
+                    "expr": "string(...)"
+                  },
+                  {
+                    "expr": "string(...)"
+                  }
+                ]
+              ],
+              "named": {
+                "bindings": [
+                  {
+                    "type": "string",
+                    "credentialsId": "jenkins-openvsx-aws-key-id",
+                    "variable": "AWS_ACCESS_KEY_ID"
+                  },
+                  {
+                    "type": "string",
+                    "credentialsId": "jenkins-openvsx-aws-secret-key",
+                    "variable": "AWS_SECRET_ACCESS_KEY"
+                  }
+                ]
+              },
+              "body": [
+                {
+                  "name": "sh",
+                  "line": 172,
+                  "args": [
+                    "\n              set -e\n              export AWS_DEFAULT_REGION=eu-central-1\n              echo aws eks update-kubeconfig --name eks-production-openvsx --region eu-central-1  # j2gha-local: no AWS account\n              echo ./kubernetes/helm-deploy.sh aws-production \"${IMAGE_TAG}\"  # j2gha-local: no EKS cluster\n            "
+                  ],
+                  "category": "direct"
+                }
+              ],
+              "category": "policy",
+              "dynamic": true
+            }
+          ],
+          "category": "policy"
+        }
+      ]
+    }
+  ],
+  "post": {
+    "failure": [
+      {
+        "name": "mail",
+        "line": 186,
+        "named": {
+          "to": "ci-admin@eclipse.org",
+          "subject": "[open-vsx.org] Build Failure ${currentBuild.fullDisplayName} - ${env.BRANCH_NAME}",
+          "mimeType": "text/html",
+          "body": "Project: ${env.JOB_NAME}<br/>Build Number: ${env.BUILD_NUMBER}<br/>Build URL: ${env.BUILD_URL}<br/>Console: ${env.BUILD_URL}/console"
+        },
+        "category": "policy",
+        "dynamic": true
+      }
+    ],
+    "fixed": [
+      {
+        "name": "mail",
+        "line": 192,
+        "named": {
+          "to": "ci-admin@eclipse.org",
+          "subject": "[open-vsx.org] Back to normal ${currentBuild.fullDisplayName} - ${env.BRANCH_NAME}",
+          "mimeType": "text/html",
+          "body": "Project: ${env.JOB_NAME}<br/>Build Number: ${env.BUILD_NUMBER}<br/>Build URL: ${env.BUILD_URL}<br/>Console: ${env.BUILD_URL}/console"
+        },
+        "category": "policy",
+        "dynamic": true
+      }
+    ],
+    "cleanup": [
+      {
+        "name": "deleteDir",
+        "line": 198,
+        "category": "direct"
+      }
+    ]
+  }
+}

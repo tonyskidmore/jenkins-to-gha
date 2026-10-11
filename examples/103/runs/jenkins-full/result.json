@@ -1,0 +1,408 @@
+{
+  "tier": "jenkins",
+  "mode": "full",
+  "scenario": {
+    "branch": "main",
+    "git_branch": "origin/main"
+  },
+  "localisation": {
+    "changes": [
+      "L7: agent -> any (was ?)",
+      "L23: options 'gitLabConnection' removed (value from stubbed FePipelineOptionDefaults)",
+      "L24: options buildDiscarder removed",
+      "L58: agent -> any (was ?)",
+      "L113: agent -> any (was ?)",
+      "L3: @Library removed - library steps are stubbed",
+      "L4: import de.franka.jenkins.FePipelineOptionDefaults removed (class stubbed)"
+    ],
+    "stubs": [
+      "build",
+      "mail",
+      "emailext",
+      "slackSend",
+      "office365ConnectorSend",
+      "githubNotify",
+      "setGitHubPullRequestStatus",
+      "publishChecks",
+      "s3Upload",
+      "s3Download",
+      "copyArtifacts",
+      "waitForQualityGate",
+      "recordIssues",
+      "publishCoverage",
+      "recordCoverage",
+      "jacoco",
+      "cobertura",
+      "milestone",
+      "properties",
+      "buildDiscarder",
+      "checkout(GIT_BRANCH kept)",
+      "withSonarQubeEnv",
+      "withAWS",
+      "withKubeConfig",
+      "withVault",
+      "azureCLI",
+      "container",
+      "sshagent",
+      "withDockerRegistry",
+      "configFileProvider",
+      "withMaven",
+      "withGradle",
+      "withPythonEnv",
+      "podTemplate",
+      "wrap",
+      "withDockerContainer",
+      "feNotifySCM",
+      "fePublishBuildInfo",
+      "fePublishOpkg",
+      "notifyBitbucket",
+      "feDetermineVersionFromGit"
+    ],
+    "auto_repairs": {
+      "removed": [],
+      "stubbed": [
+        "feDetermineVersionFromGit"
+      ],
+      "ineffective": []
+    }
+  },
+  "attempts": [
+    {
+      "attempt": 0,
+      "phase": "run",
+      "build": 3,
+      "result": "FAILURE",
+      "seconds": 11.2,
+      "repairs": [],
+      "stubs": [
+        "feDetermineVersionFromGit"
+      ]
+    },
+    {
+      "attempt": 1,
+      "phase": "run",
+      "build": 4,
+      "result": "SUCCESS",
+      "seconds": 32.6,
+      "repairs": [],
+      "stubs": []
+    }
+  ],
+  "result": "SUCCESS",
+  "build": 4,
+  "duration_ms": 31490,
+  "stages": [
+    {
+      "name": "Declarative: Checkout SCM",
+      "status": "SUCCESS",
+      "durationMillis": 1230
+    },
+    {
+      "name": "Check Commit Message",
+      "status": "SUCCESS",
+      "durationMillis": 496
+    },
+    {
+      "name": "Get Ready",
+      "status": "SUCCESS",
+      "durationMillis": 496
+    },
+    {
+      "name": "Run URDF tests",
+      "status": "SUCCESS",
+      "durationMillis": 1218
+    },
+    {
+      "name": "Build robot URDFs and SRDFs",
+      "status": "SUCCESS",
+      "durationMillis": 139
+    },
+    {
+      "name": "Matrix - ROBOT = 'fp3'",
+      "status": "SUCCESS",
+      "durationMillis": 275
+    },
+    {
+      "name": "Matrix - ROBOT = 'fr3'",
+      "status": "SUCCESS",
+      "durationMillis": 280
+    },
+    {
+      "name": "Matrix - ROBOT = 'fr3v2'",
+      "status": "SUCCESS",
+      "durationMillis": 283
+    },
+    {
+      "name": "Matrix - ROBOT = 'fr3v2_1'",
+      "status": "SUCCESS",
+      "durationMillis": 286
+    },
+    {
+      "name": "Matrix - ROBOT = 'tmrv0_2'",
+      "status": "SUCCESS",
+      "durationMillis": 300
+    },
+    {
+      "name": "Build URDF and SRDF",
+      "status": "SUCCESS",
+      "durationMillis": 1356
+    },
+    {
+      "name": "Build URDF and SRDF",
+      "status": "SUCCESS",
+      "durationMillis": 1386
+    },
+    {
+      "name": "Build URDF and SRDF",
+      "status": "SUCCESS",
+      "durationMillis": 1417
+    },
+    {
+      "name": "Build URDF and SRDF",
+      "status": "SUCCESS",
+      "durationMillis": 1447
+    },
+    {
+      "name": "Build URDF and SRDF",
+      "status": "SUCCESS",
+      "durationMillis": 1435
+    },
+    {
+      "name": "Build End Effector URDFs",
+      "status": "SUCCESS",
+      "durationMillis": 99
+    },
+    {
+      "name": "Matrix - EE = 'franka_hand'",
+      "status": "SUCCESS",
+      "durationMillis": 136
+    },
+    {
+      "name": "Matrix - EE = 'cobot_pump'",
+      "status": "SUCCESS",
+      "durationMillis": 134
+    },
+    {
+      "name": "Build URDF",
+      "status": "SUCCESS",
+      "durationMillis": 624
+    },
+    {
+      "name": "Build URDF",
+      "status": "SUCCESS",
+      "durationMillis": 629
+    },
+    {
+      "name": "Archive URDFs and SRDFs",
+      "status": "SUCCESS",
+      "durationMillis": 739
+    },
+    {
+      "name": "Cleanup",
+      "status": "SUCCESS",
+      "durationMillis": 362
+    },
+    {
+      "name": "Create directory structure",
+      "status": "SUCCESS",
+      "durationMillis": 986
+    },
+    {
+      "name": "Move robot urdfs and srdfs into correct robot arm directory",
+      "status": "SUCCESS",
+      "durationMillis": 145
+    },
+    {
+      "name": "Arm3R",
+      "status": "SUCCESS",
+      "durationMillis": 1510
+    },
+    {
+      "name": "Arm3P",
+      "status": "SUCCESS",
+      "durationMillis": 1713
+    },
+    {
+      "name": "Arm3Rv2",
+      "status": "SUCCESS",
+      "durationMillis": 1979
+    },
+    {
+      "name": "Arm3Rv2.1",
+      "status": "SUCCESS",
+      "durationMillis": 1981
+    },
+    {
+      "name": "TMRv0.2",
+      "status": "SUCCESS",
+      "durationMillis": 2011
+    },
+    {
+      "name": "Copy meshes to dist",
+      "status": "SUCCESS",
+      "durationMillis": 1321
+    },
+    {
+      "name": "Extract End Effector URDFs",
+      "status": "SUCCESS",
+      "durationMillis": 49
+    },
+    {
+      "name": "Create End Effector directories",
+      "status": "SUCCESS",
+      "durationMillis": 729
+    },
+    {
+      "name": "Copy meshes",
+      "status": "SUCCESS",
+      "durationMillis": 98
+    },
+    {
+      "name": "cobot_pump",
+      "status": "SUCCESS",
+      "durationMillis": 376
+    },
+    {
+      "name": "franka_hand",
+      "status": "SUCCESS",
+      "durationMillis": 425
+    },
+    {
+      "name": "Unstash URDF",
+      "status": "SUCCESS",
+      "durationMillis": 900
+    },
+    {
+      "name": "Create archive",
+      "status": "SUCCESS",
+      "durationMillis": 12988
+    },
+    {
+      "name": "Publish to artifactory",
+      "status": "SUCCESS",
+      "durationMillis": 150
+    },
+    {
+      "name": "Trigger upstream franka_ros2_ws builds",
+      "status": "SUCCESS",
+      "durationMillis": 90
+    },
+    {
+      "name": "humble",
+      "status": "SUCCESS",
+      "durationMillis": 125
+    },
+    {
+      "name": "jazzy",
+      "status": "SUCCESS",
+      "durationMillis": 132
+    },
+    {
+      "name": "Declarative: Post Actions",
+      "status": "SUCCESS",
+      "durationMillis": 839
+    }
+  ],
+  "traces": [
+    {
+      "stage": "",
+      "step": "feDetermineVersionFromGit"
+    },
+    {
+      "stage": "Get Ready",
+      "step": "notifyBitbucket"
+    },
+    {
+      "stage": "Publish to artifactory",
+      "step": "fePublishOpkg"
+    },
+    {
+      "stage": "Publish to artifactory",
+      "step": "fePublishBuildInfo"
+    },
+    {
+      "stage": "humble",
+      "step": "build"
+    },
+    {
+      "stage": "jazzy",
+      "step": "build"
+    },
+    {
+      "stage": "Declarative: Post Actions",
+      "step": "feNotifySCM"
+    }
+  ],
+  "approved_inputs": [],
+  "error_tail": null,
+  "outputs": {
+    "archived": [
+      {
+        "path": "robot-descriptions_j2gha-stub.tar.gz",
+        "size": 41599600,
+        "sha256": "55cd577750d0cf81d74295cd543546edb6754eb6de3971240d9b7cc94cf9e31f"
+      }
+    ],
+    "tests": null
+  },
+  "provenance": {
+    "jenkinsfile_sha256": "67f757cb159aacbeea4b2e84c76b46d60583a771b81f1297e2dd98154cc36e12",
+    "scenario": {
+      "branch": "main",
+      "git_branch": "origin/main"
+    },
+    "mode": "full",
+    "localizer_version": 5,
+    "images": {
+      "jenkins": {
+        "ref": "j2gha/jenkins:local",
+        "present": true,
+        "id": "sha256:672c4b841b2c934f224d4f1b3523d77a1b651f8f491f8f04da47ca764eb86775",
+        "repo_digests": [],
+        "created": "2026-10-09T18:21:15.545465961Z",
+        "labels": {
+          "j2gha.base-image": "jenkins/jenkins:lts-jdk21@sha256:a660310e39ade10631f774bacd5219de767dfd08947ea5c32a739b5e5bb382c1",
+          "org.opencontainers.image.version": "2.580.1",
+          "org.opencontainers.image.revision": "457b9316d71b43cdf3e2ba6ec7c27efc40f5dc60",
+          "org.opencontainers.image.source": "https://github.com/jenkinsci/docker"
+        },
+        "jenkins_version": "2.580.1"
+      },
+      "act": {
+        "ref": "j2gha/act:local",
+        "present": true,
+        "id": "sha256:0781bb0384b914fba362a2a2483d55d30c3d3cc9b59598856146778aa88662a4",
+        "repo_digests": [],
+        "created": "2026-10-03T06:26:46.552472741Z",
+        "labels": {},
+        "act_version": "0.2.89"
+      },
+      "act_runner": {
+        "ref": "j2gha/act-runner:local",
+        "present": true,
+        "id": "sha256:134418998a1ca958b148ee6befb038aa3ff598bf147b39ce9e99b60a563a15be",
+        "repo_digests": [],
+        "created": "2026-10-09T18:54:04.157825772Z",
+        "labels": {
+          "j2gha.base-image": "catthehacker/ubuntu:act-latest@sha256:c58e2b364da03b0c804c7d660f2ecbedf2f221a382b9baa0b344b0144780ff43",
+          "org.opencontainers.image.version": "20260815",
+          "org.opencontainers.image.revision": "e2f8efe464c82732f78e967ee709c00b6af53643",
+          "org.opencontainers.image.source": "https://github.com/catthehacker/catthehacker/docker_images"
+        }
+      },
+      "jit_runner": {
+        "ref": "j2gha/runner:local",
+        "present": true,
+        "id": "sha256:4847cf6e3e915577d28244aedfbe1b633eafa060a49d4ef313129d6841e2e667",
+        "repo_digests": [],
+        "created": "2026-10-09T18:52:46.515242869Z",
+        "labels": {
+          "j2gha.base-image": "ghcr.io/actions/actions-runner:latest@sha256:4ffadc0002b2581327e06101fc8c06cd189232baf79fe561fac9caeb76f5e807",
+          "org.opencontainers.image.version": "24.04",
+          "org.opencontainers.image.source": "https://github.com/actions/runner"
+        }
+      }
+    }
+  },
+  "finished_at": "2026-10-10T09:06:59+00:00"
+}

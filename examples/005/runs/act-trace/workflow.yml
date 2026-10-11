@@ -1,0 +1,40 @@
+# j2gha act variant (trace) of examples/005
+name: 'j2gha 005: opensearch-project/opensearch-migrations vars/defaultIntegPipeline.groovy (j2gha)'
+on:
+  push:
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  BRANCH_NAME: main
+  TAG_NAME: ''
+  CHANGE_ID: ''
+  GIT_COMMIT: ${{ github.event_name != 'workflow_dispatch' && '' || format('{0}', inputs.GIT_COMMIT) }}
+  GIT_BRANCH: ${{ github.event_name != 'workflow_dispatch' && '' || format('{0}', inputs.GIT_BRANCH) }}
+  GIT_REPO_URL: ${{ github.event_name != 'workflow_dispatch' && 'https://github.com/opensearch-project/opensearch-migrations.git'
+    || format('{0}', inputs.GIT_REPO_URL) }}
+  STAGE: ${{ github.event_name != 'workflow_dispatch' && '' || format('{0}', inputs.STAGE) }}
+  VERSION: ${{ github.event_name != 'workflow_dispatch' && '' || format('{0}', inputs.VERSION) }}
+defaults:
+  run:
+    shell: bash
+jobs:
+  checkout:
+    name: Checkout, Test Caller Identity, Setup E2E CDK Context, Build, Pre-Deploy Cleanup
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+    - name: 'Checkout: echo'
+      id: s1
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Checkout","step":"echo"}'
+    - name: 'Build: configureMavenCache (manual migration)'
+      id: s5
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build","step":"configureMavenCache"}'
+    - name: 'Pre-Deploy Cleanup: enter stage'
+      id: s7
+      if: vars.J2GHA_WHEN_L134 == 'true'
+      run: echo "run=true" >> "$GITHUB_OUTPUT"
+    - name: 'post: cleanupMavenCache (manual migration)'
+      id: s18
+      if: always()
+      run: 'printf ''%s %s\n'' J2GHA-TRACE ''{"stage":"Declarative: Post Actions","step":"cleanupMavenCache"}'''

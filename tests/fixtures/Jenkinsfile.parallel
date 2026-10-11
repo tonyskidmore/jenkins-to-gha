@@ -1,0 +1,9 @@
+node {
+  stage('Test') {
+    parallel(
+      unit: { sh 'make unit' },
+      lint: { sh 'make lint'; echo 'linted' },
+      failFast: true
+    )
+  }
+}

@@ -1,0 +1,336 @@
+{
+  "dialect": "declarative",
+  "line": 1,
+  "agent": {
+    "kind": "label",
+    "label": "ubuntu-latest",
+    "line": 2
+  },
+  "environment": {
+    "BUILD_TIMESTAMP": {
+      "kind": "shell",
+      "value": "date +%Y%m%d%H%M",
+      "line": 18
+    },
+    "MAIN_BRANCH": {
+      "kind": "literal",
+      "value": "master",
+      "line": 19
+    }
+  },
+  "options": {
+    "timeout": {
+      "time": 60,
+      "unit": "MINUTES",
+      "minutes": 60
+    },
+    "buildDiscarder": "logRotator(...)",
+    "disableConcurrentBuilds": {
+      "abortPrevious": true
+    }
+  },
+  "parameters": [
+    {
+      "kind": "choice",
+      "name": "BUILD_TYPE",
+      "choices": [
+        "nightly",
+        "milestone",
+        "release"
+      ],
+      "description": "\n        Choose the type of build.\n        Note that a release build will <b>not</b> promote the build, but rather will promote the most recent milestone build.\n        ",
+      "line": 23
+    },
+    {
+      "kind": "booleanParam",
+      "name": "ECLIPSE_SIGN",
+      "default": true,
+      "description": "\n        Choose whether or not the bundles will be signed.\n        This is relevant only for nightly and milestone builds.\n      ",
+      "line": 32
+    },
+    {
+      "kind": "booleanParam",
+      "name": "PROMOTE",
+      "default": true,
+      "description": "Whether to promote the build to the download server.",
+      "line": 41
+    }
+  ],
+  "tools": {
+    "maven": "apache-maven-latest",
+    "jdk": "temurin-jdk21-latest"
+  },
+  "stages": [
+    {
+      "name": "Display Parameters",
+      "line": 49,
+      "steps": [
+        {
+          "name": "script",
+          "line": 51,
+          "body": [
+            {
+              "name": "<assign>",
+              "line": 52,
+              "named": {
+                "_target": "env.BUILD_TYPE"
+              },
+              "category": "dynamic",
+              "source": "env.BUILD_TYPE = params.BUILD_TYPE",
+              "dynamic": true
+            },
+            {
+              "name": "<if>",
+              "line": 53,
+              "named": {
+                "_else": [
+                  {
+                    "name": "<assign>",
+                    "line": 59,
+                    "named": {
+                      "_target": "env.ECLIPSE_SIGN"
+                    },
+                    "category": "dynamic",
+                    "source": "env.ECLIPSE_SIGN = False",
+                    "dynamic": true
+                  }
+                ]
+              },
+              "body": [
+                {
+                  "name": "<assign>",
+                  "line": 56,
+                  "named": {
+                    "_target": "env.ECLIPSE_SIGN"
+                  },
+                  "category": "dynamic",
+                  "source": "env.ECLIPSE_SIGN = params.ECLIPSE_SIGN",
+                  "dynamic": true
+                }
+              ],
+              "category": "dynamic",
+              "source": "env.BRANCH_NAME == env.MAIN_BRANCH",
+              "dynamic": true
+            },
+            {
+              "name": "<assign>",
+              "line": 64,
+              "named": {
+                "_target": "env.PROMOTE"
+              },
+              "category": "dynamic",
+              "source": "env.PROMOTE = params.PROMOTE && (env.ECLIPSE_SIGN == 'true')",
+              "dynamic": true
+            },
+            {
+              "name": "<decl>",
+              "line": 66,
+              "named": {
+                "_target": "description"
+              },
+              "body": [
+                {
+                  "name": "trim",
+                  "line": 66,
+                  "category": "groovy",
+                  "receiver": "\"\"\"\nBUILD_TIMESTAMP=${env.BUILD_TIMESTAMP}\nBUILD_TYPE=${env.BUILD_TYPE}\nECLIPSE_SIGN=${env.ECLIPSE_SIGN}\nPROMOTE=${env.PROMOTE}\nBRANCH_NAME=${env.BRANCH_NAME}\n\"\"\""
+                }
+              ],
+              "category": "dynamic",
+              "source": "description = \"\"\"\nBUILD_TIMESTAMP=${env.BUILD_TIMESTAMP}\nBUILD_TYPE=${env.BUILD_TYPE}\nECLIPSE_SIGN=${env.ECLIPSE_SIGN}\nPROMOTE=${env.PROMOTE}\nBRANCH_NAME=${env.BRANCH_NAME}\n\"\"\".trim(...)",
+              "dynamic": true
+            },
+            {
+              "name": "echo",
+              "line": 73,
+              "args": [
+                "description"
+              ],
+              "category": "direct",
+              "dynamic": true,
+              "variable_args": [
+                0
+              ]
+            },
+            {
+              "name": "<assign>",
+              "line": 74,
+              "named": {
+                "_target": "currentBuild.description"
+              },
+              "body": [
+                {
+                  "name": "replace",
+                  "line": 74,
+                  "args": [
+                    "\n",
+                    "<br/>"
+                  ],
+                  "category": "groovy",
+                  "receiver": "description"
+                }
+              ],
+              "category": "dynamic",
+              "source": "currentBuild.description = description.replace(...)",
+              "dynamic": true
+            }
+          ],
+          "category": "dynamic"
+        }
+      ]
+    },
+    {
+      "name": "Build Nebula",
+      "line": 79,
+      "steps": [
+        {
+          "name": "script",
+          "line": 81,
+          "body": [
+            {
+              "name": "<if>",
+              "line": 82,
+              "named": {
+                "_else": [
+                  {
+                    "name": "mvn",
+                    "line": 90,
+                    "category": "unknown"
+                  },
+                  {
+                    "name": "archiveArtifacts",
+                    "line": 91,
+                    "args": [
+                      "releng/org.eclipse.nebula.site/target/repository/**"
+                    ],
+                    "category": "direct"
+                  }
+                ]
+              },
+              "body": [
+                {
+                  "name": "sshagent",
+                  "line": 86,
+                  "args": [
+                    [
+                      "projects-storage.eclipse.org-bot-ssh"
+                    ]
+                  ],
+                  "body": [
+                    {
+                      "name": "mvn",
+                      "line": 87,
+                      "category": "unknown"
+                    }
+                  ],
+                  "category": "policy"
+                }
+              ],
+              "category": "dynamic",
+              "source": "env.PROMOTE == 'true'",
+              "dynamic": true
+            }
+          ],
+          "category": "dynamic"
+        }
+      ]
+    }
+  ],
+  "post": {
+    "always": [
+      {
+        "name": "junit",
+        "line": 100,
+        "named": {
+          "allowEmptyResults": true,
+          "testResults": "**/target/surefire-reports/*.xml"
+        },
+        "category": "policy"
+      },
+      {
+        "name": "recordIssues",
+        "line": 101,
+        "named": {
+          "publishAllIssues": true,
+          "tools": [
+            "java(...)",
+            "mavenConsole(...)",
+            "javaDoc(...)"
+          ]
+        },
+        "category": "policy"
+      }
+    ],
+    "failure": [
+      {
+        "name": "archiveArtifacts",
+        "line": 105,
+        "args": [
+          "**"
+        ],
+        "category": "direct"
+      },
+      {
+        "name": "mail",
+        "line": 106,
+        "named": {
+          "to": "ed.merks@gmail.com",
+          "subject": "[Nebula CI] Build Failure ${currentBuild.fullDisplayName}",
+          "mimeType": "text/html",
+          "body": "Project: ${env.JOB_NAME}<br/>Build Number: ${env.BUILD_NUMBER}<br/>Build URL: ${env.BUILD_URL}<br/>Console: ${env.BUILD_URL}/console"
+        },
+        "category": "policy",
+        "dynamic": true
+      }
+    ],
+    "fixed": [
+      {
+        "name": "mail",
+        "line": 113,
+        "named": {
+          "to": "ed.merks@gmail.com",
+          "subject": "[Nebula CI] Back to normal ${currentBuild.fullDisplayName}",
+          "mimeType": "text/html",
+          "body": "Project: ${env.JOB_NAME}<br/>Build Number: ${env.BUILD_NUMBER}<br/>Build URL: ${env.BUILD_URL}<br/>Console: ${env.BUILD_URL}/console"
+        },
+        "category": "policy",
+        "dynamic": true
+      }
+    ],
+    "cleanup": [
+      {
+        "name": "deleteDir",
+        "line": 120,
+        "category": "direct"
+      }
+    ]
+  },
+  "methods": [
+    "mvn"
+  ],
+  "method_defs": {
+    "mvn": {
+      "body": [
+        {
+          "name": "wrap",
+          "line": 126,
+          "named": {
+            "$class": "Xvnc",
+            "useXauthority": true
+          },
+          "body": [
+            {
+              "name": "sh",
+              "line": 129,
+              "args": [
+                "\n      if [[ $PROMOTE == true ]]; then\n        promotion_argument='-Ppromote -Pbuild-server'\n      fi\n      mvn         $promotion_argument         --no-transfer-progress         -Dproject.build.sourceEncoding=UTF-8         -Dbuild.id=${BUILD_TIMESTAMP}         -Dgit.commit=$GIT_COMMIT         -Dbuild.type=$BUILD_TYPE         -Dorg.eclipse.justj.p2.manager.build.url=$JOB_URL         clean         verify\n      "
+              ],
+              "category": "direct"
+            }
+          ],
+          "category": "policy"
+        }
+      ]
+    }
+  }
+}

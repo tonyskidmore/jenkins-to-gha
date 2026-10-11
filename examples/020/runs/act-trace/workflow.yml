@@ -1,0 +1,29 @@
+# j2gha act variant (trace) of examples/020
+name: 'j2gha 020: dvsa/mes-beta-sandbox autonomous-single-access-mode/Jenkinsfile (j2gha)'
+on:
+  push:
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  BRANCH_NAME: master
+  TAG_NAME: ''
+  CHANGE_ID: ''
+  GIT_COMMIT: ${{ github.sha }}
+  GIT_BRANCH: origin/master
+  GIT_URL: ${{ github.server_url }}/${{ github.repository }}.git
+defaults:
+  run:
+    shell: bash
+jobs:
+  main:
+    name: main, checkout, install dependencies, tests, build
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+    - name: deleteDir
+      id: s6
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"","step":"deleteDir"}'
+    - name: deleteDir
+      id: s18
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"","step":"deleteDir"}'

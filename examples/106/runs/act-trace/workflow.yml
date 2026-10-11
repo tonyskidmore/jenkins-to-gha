@@ -1,0 +1,180 @@
+# j2gha act variant (trace) of examples/106
+name: 'j2gha 106: fabiojose/platform-as-code-example Jenkinsfile (j2gha)'
+on:
+  push:
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  BRANCH_NAME: master
+  TAG_NAME: ''
+  CHANGE_ID: ''
+  BUILD_NUMBER: ${{ github.run_number }}
+  JOB_NAME: ${{ github.workflow }}
+  BUILD_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+  GIT_COMMIT: ${{ github.sha }}
+  GIT_BRANCH: origin/master
+  GIT_URL: ${{ github.server_url }}/${{ github.repository }}.git
+defaults:
+  run:
+    shell: bash
+jobs:
+  setup:
+    name: Setup, Build, Publish, DEV Deploy, PRE Deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+    - name: Checkout
+      run: 'printf ''%s %s\n'' J2GHA-TRACE ''{"stage":"Declarative: Checkout SCM","step":"checkout"}'''
+    - name: 'Setup: set target'
+      id: s1
+      run: |-
+        j2gha_re1='^((.+)feature-(.+))$'
+        j2gha_re2='^((.+)release-(.+))$'
+        if [[ "${GIT_BRANCH}" == 'origin/develop' || "${GIT_BRANCH}" =~ $j2gha_re1 ]]; then
+          target=dev
+        elif [[ "${GIT_BRANCH}" =~ $j2gha_re2 ]]; then
+          target=pre
+        elif [[ "${GIT_BRANCH}" == 'origin/master' ]]; then
+          target=pro
+        else
+          printf '%s %s\n' J2GHA-TRACE '{"stage":"Setup","step":"error"}'
+          exit 1
+        fi
+        echo "target=${target:-}" >> "$GITHUB_ENV"
+        echo "target=${target:-}" >> "$GITHUB_OUTPUT"
+    - name: 'Setup: jq -r ''.variable.iac_version.default'' src/package.tf'
+      id: s2
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Setup","step":"sh"}'
+    - name: 'Build: sed -i ''s/iac-provider/terraform/g'' src/variables.tf'
+      id: s3
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build","step":"sh"}'
+    - name: 'Build: sed -i ''s/iac-artifact/${packname}/g'' src/variables.tf'
+      id: s4
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build","step":"sh"}'
+    - name: 'Build: sed -i ''s/iac-scm-commit/${GIT_COMMIT}/g'' src/variables.tf'
+      id: s5
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build","step":"sh"}'
+    - name: 'Build: sed -i ''s|iac-scm-branch|${GIT_BRANCH}|g'' src/variables.tf'
+      id: s6
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build","step":"sh"}'
+    - name: 'Build: sed -i ''s/iac-build-by/jenkins/g'' src/variables.tf'
+      id: s7
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build","step":"sh"}'
+    - name: 'Build: sed -i ''s/iac-build-name/${JOB_NAME}/g'' src/variables.tf'
+      id: s8
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build","step":"sh"}'
+    - name: 'Build: sed -i ''s/iac-build-id/${BUILD_NUMBER}/g'' src/variables.tf'
+      id: s9
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build","step":"sh"}'
+    - name: 'Build: sed -i ''s/iac-build-date/${J2GHA_TODO_currentBuild_startTimeInMillis}/'
+      id: s10
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build","step":"sh"}'
+    - name: 'Build: sed -i ''s/${oversion}/${version}/g'' src/package.tf'
+      id: s11
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build","step":"sh"}'
+    - name: 'Build: tar --exclude=''./.git'' --exclude=''./Jenkinsfile'' --exclude=''*.tar.gz'''
+      id: s12
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build","step":"sh"}'
+    - name: 'Publish: echo curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ${packname}'
+      id: s13
+      env:
+        NEXUS_USERNAME: j2gha-user
+        NEXUS_PASSWORD: j2gha-fake-password
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Publish","step":"sh"}'
+    - name: 'DEV Deploy: echo bash $FOLLOW "artifact" "${publish_url}" "29cd3a68-e101-4176-907c'
+      id: s14
+      env:
+        RUNDECK_USERNAME: j2gha-user
+        RUNDECK_PASSWORD: j2gha-fake-password
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"DEV Deploy","step":"sh"}'
+    - name: 'PRE Deploy: enter stage'
+      id: s15
+      if: env.target == 'pre' || env.target == 'pro'
+      run: echo "run=true" >> "$GITHUB_OUTPUT"
+    - name: 'PRE Deploy: echo bash $FOLLOW "artifact" "${publish_url}" "ec0393b9-f0eb-4341-8812'
+      id: s16
+      if: steps.s15.outputs.run == 'true'
+      env:
+        RUNDECK_USERNAME: j2gha-user
+        RUNDECK_PASSWORD: j2gha-fake-password
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"PRE Deploy","step":"sh"}'
+    outputs:
+      target: ${{ steps.s1.outputs.target }}
+  acceptance-test:
+    name: Acceptance Test
+    needs: setup
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+    - name: Checkout
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Acceptance Test","step":"checkout"}'
+    - name: 'Acceptance Test: enter stage'
+      id: s17
+      if: env.target == 'pro'
+      run: echo "run=true" >> "$GITHUB_OUTPUT"
+    - name: 'Acceptance Test: cd test && npm install'
+      id: s18
+      if: steps.s17.outputs.run == 'true'
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Acceptance Test","step":"sh"}'
+    - name: 'Acceptance Test: cd test && echo npm test'
+      id: s19
+      if: steps.s17.outputs.run == 'true'
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Acceptance Test","step":"sh"}'
+    - name: 'Acceptance Test: cucumber (manual migration)'
+      id: s20
+      if: steps.s17.outputs.run == 'true'
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Acceptance Test","step":"cucumber"}'
+    env:
+      target: ${{ needs.setup.outputs.target }}
+  approval:
+    name: Approval, PRO Deploy
+    needs:
+    - acceptance-test
+    - setup
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+    - name: 'Approval: enter stage'
+      id: s21
+      if: env.target == 'pro'
+      run: echo "run=true" >> "$GITHUB_OUTPUT"
+    - name: 'Approval: input'
+      id: s22
+      if: steps.s21.outputs.run == 'true'
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Approval","step":"input"}'
+    - name: 'PRO Deploy: enter stage'
+      id: s23
+      if: env.target == 'pro'
+      run: echo "run=true" >> "$GITHUB_OUTPUT"
+    - name: 'PRO Deploy: echo bash $FOLLOW "artifact" "${publish_url}" "f31fb4bb-4f55-4f23-9c03'
+      id: s24
+      if: steps.s23.outputs.run == 'true'
+      env:
+        RUNDECK_USERNAME: j2gha-user
+        RUNDECK_PASSWORD: j2gha-fake-password
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"PRO Deploy","step":"sh"}'
+    env:
+      target: ${{ needs.setup.outputs.target }}
+  post:
+    name: post
+    needs:
+    - setup
+    - acceptance-test
+    - approval
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+    - name: 'post: rocketSend (manual migration)'
+      id: s25
+      if: always() && contains(needs.*.result, 'cancelled')
+      run: 'printf ''%s %s\n'' J2GHA-TRACE ''{"stage":"Declarative: Post Actions","step":"rocketSend"}'''
+    - name: 'post: rocketSend (manual migration)'
+      id: s26
+      if: always() && (contains(needs.*.result, 'failure') || failure())
+      run: 'printf ''%s %s\n'' J2GHA-TRACE ''{"stage":"Declarative: Post Actions","step":"rocketSend"}'''
+    - name: 'post: rocketSend (manual migration)'
+      id: s27
+      if: '!failure() && !cancelled() && !contains(needs.*.result, ''failure'') && !contains(needs.*.result, ''cancelled'')'
+      run: 'printf ''%s %s\n'' J2GHA-TRACE ''{"stage":"Declarative: Post Actions","step":"rocketSend"}'''
+    timeout-minutes: 5

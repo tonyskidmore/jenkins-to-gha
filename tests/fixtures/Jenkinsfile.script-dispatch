@@ -1,0 +1,25 @@
+pipeline {
+  agent any
+  stages {
+    stage('Setup') {
+      steps {
+        script {
+          if (env.GIT_BRANCH == 'origin/develop' || env.GIT_BRANCH ==~ /(.+)feature-(.+)/) {
+            target = 'dev'
+          } else if (env.GIT_BRANCH == 'origin/master') {
+            target = 'pro'
+          } else {
+            error "Unknown branch type: ${env.GIT_BRANCH}"
+          }
+        }
+      }
+    }
+    stage('Deploy') {
+      when { expression { return target == 'dev' || target == 'pro' } }
+      agent { label 'deployer' }
+      steps {
+        sh "deploy ${target}"
+      }
+    }
+  }
+}

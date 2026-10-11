@@ -1,0 +1,308 @@
+{
+  "counts": {
+    "mapped": 16,
+    "approximated": 16,
+    "info": 1
+  },
+  "automation_pct": 80.0,
+  "items": [
+    {
+      "jenkins": "stage 'Test' post failure",
+      "line": null,
+      "stage": "Test",
+      "status": "mapped",
+      "gha": "if: (always()) && (steps.s11.outcome == 'success') && ((steps.s12.outcome == 'failure' || steps.s13.outcome == 'failure' || steps.s14.outcome == 'failure' || steps.s15.outcome == 'failure' || steps.s16.outcome == 'failure' || steps.s17.outcome == 'failure' || steps.s18.outcome == 'failure' || steps.s19.outcome == 'failure'))",
+      "note": ""
+    },
+    {
+      "jenkins": "post failure",
+      "line": null,
+      "stage": null,
+      "status": "mapped",
+      "gha": "final job if: always() && (contains(needs.*.result, 'failure') || failure())",
+      "note": ""
+    },
+    {
+      "jenkins": "environment ROUTING_CORES",
+      "line": 10,
+      "stage": null,
+      "status": "mapped",
+      "gha": "env",
+      "note": ""
+    },
+    {
+      "jenkins": "checkout scm",
+      "line": 17,
+      "stage": "Update OpenROAD to HEAD of master branch",
+      "status": "mapped",
+      "gha": "actions/checkout@v4",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 30,
+      "stage": "Build Docker OpenLane image with openroad_app master",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 31,
+      "stage": "Build Docker OpenLane image with openroad_app master",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 33,
+      "stage": "Build Docker OpenLane image with openroad_app master",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 34,
+      "stage": "Build Docker OpenLane image with openroad_app master",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sleep",
+      "line": 38,
+      "stage": "Build Docker OpenLane image with openroad_app master",
+      "status": "mapped",
+      "gha": "run: sleep",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 39,
+      "stage": "Build Docker OpenLane image with openroad_app master",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "stage 'Run Tests' matrix (DESIGN[22])",
+      "line": 47,
+      "stage": "Run Tests",
+      "status": "mapped",
+      "gha": "strategy.matrix",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 81,
+      "stage": "${DESIGN} - Install PDK",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 82,
+      "stage": "${DESIGN} - Install PDK",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 83,
+      "stage": "${DESIGN} - Install PDK",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 87,
+      "stage": "${DESIGN} - Import Docker image",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "archiveArtifacts",
+      "line": 100,
+      "stage": "Test",
+      "status": "mapped",
+      "gha": "actions/upload-artifact@v4",
+      "note": ""
+    },
+    {
+      "jenkins": "options: timeout",
+      "line": null,
+      "stage": null,
+      "status": "approximated",
+      "gha": "timeout-minutes: 480 (per job)",
+      "note": "Jenkins timeout covers the whole pipeline"
+    },
+    {
+      "jenkins": "script {}",
+      "line": 27,
+      "stage": "Build Docker OpenLane image with openroad_app master",
+      "status": "approximated",
+      "gha": "inner steps translated individually",
+      "note": "imperative Groovy is not executed; review control flow"
+    },
+    {
+      "jenkins": "retry",
+      "line": 28,
+      "stage": "Build Docker OpenLane image with openroad_app master",
+      "status": "approximated",
+      "gha": "shell retry loop",
+      "note": "only run steps are retried"
+    },
+    {
+      "jenkins": "try/catch/finally (line 29)",
+      "line": 29,
+      "stage": "Build Docker OpenLane image with openroad_app master",
+      "status": "approximated",
+      "gha": "steps; catch -> if: a try step failed; finally -> if: always() once entered",
+      "note": "exception types are not distinguished"
+    },
+    {
+      "jenkins": "script {}",
+      "line": 32,
+      "stage": "Build Docker OpenLane image with openroad_app master",
+      "status": "approximated",
+      "gha": "inner steps translated individually",
+      "note": "imperative Groovy is not executed; review control flow"
+    },
+    {
+      "jenkins": "assign NEW_SHA = sh (returnStdout: true, script: \"python3",
+      "line": 32,
+      "stage": "Build Docker OpenLane image with openroad_app master",
+      "status": "approximated",
+      "gha": "run step (captured output not propagated)",
+      "note": "write values to $GITHUB_OUTPUT/$GITHUB_ENV"
+    },
+    {
+      "jenkins": "sh",
+      "line": 32,
+      "stage": "Build Docker OpenLane image with openroad_app master",
+      "status": "approximated",
+      "gha": "run",
+      "note": "Groovy interpolation of non-env values needs review"
+    },
+    {
+      "jenkins": "stash 'data'",
+      "line": 35,
+      "stage": "Build Docker OpenLane image with openroad_app master",
+      "status": "approximated",
+      "gha": "actions/upload-artifact@v4",
+      "note": "artifact hand-off between jobs; file permissions are not preserved; no matching files fails the step, as the stash does in Jenkins (if-no-files-found: error)"
+    },
+    {
+      "jenkins": "script {}",
+      "line": 79,
+      "stage": "Test",
+      "status": "approximated",
+      "gha": "inner steps translated individually",
+      "note": "imperative Groovy is not executed; review control flow"
+    },
+    {
+      "jenkins": "unstash 'data'",
+      "line": 86,
+      "stage": "${DESIGN} - Import Docker image",
+      "status": "approximated",
+      "gha": "actions/download-artifact@v4",
+      "note": ""
+    },
+    {
+      "jenkins": "script {}",
+      "line": 90,
+      "stage": "${DESIGN} - Update OpenROAD commit",
+      "status": "approximated",
+      "gha": "inner steps translated individually",
+      "note": "imperative Groovy is not executed; review control flow"
+    },
+    {
+      "jenkins": "assign OLD_SHA = sh (returnStdout: true, script: \"python3",
+      "line": 90,
+      "stage": "${DESIGN} - Update OpenROAD commit",
+      "status": "approximated",
+      "gha": "run step (captured output not propagated)",
+      "note": "write values to $GITHUB_OUTPUT/$GITHUB_ENV"
+    },
+    {
+      "jenkins": "sh",
+      "line": 90,
+      "stage": "${DESIGN} - Update OpenROAD commit",
+      "status": "approximated",
+      "gha": "run",
+      "note": "Groovy interpolation of non-env values needs review"
+    },
+    {
+      "jenkins": "sh",
+      "line": 91,
+      "stage": "${DESIGN} - Update OpenROAD commit",
+      "status": "approximated",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 94,
+      "stage": "${DESIGN} - Run test",
+      "status": "approximated",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "emailext",
+      "line": 112,
+      "stage": "Declarative: Post Actions",
+      "status": "approximated",
+      "gha": "notification placeholder",
+      "note": "use an approved notification action (e.g. slackapi/slack-github-action)"
+    },
+    {
+      "jenkins": "checkout: SCM environment (GIT_COMMIT, GIT_BRANCH, GIT_URL)",
+      "line": null,
+      "stage": null,
+      "status": "info",
+      "gha": "env",
+      "note": "Jenkins' git plugin exports them to every step after a checkout, so called scripts may read them; defined at workflow level even when the Jenkinsfile does not"
+    }
+  ],
+  "secrets": {},
+  "jobs": {
+    "update-openroad-to-head-of-master-branch": {
+      "name": "Update OpenROAD to HEAD of master branch, Build Docker OpenLane image with openroad_app master",
+      "runs-on": "ubuntu-latest",
+      "steps": 13,
+      "matrix": false
+    },
+    "run-tests": {
+      "name": "Run Tests",
+      "runs-on": "ubuntu-latest",
+      "steps": 13,
+      "matrix": true
+    },
+    "post": {
+      "name": "post",
+      "runs-on": "ubuntu-latest",
+      "steps": 3,
+      "matrix": false
+    }
+  },
+  "notes": [],
+  "handoff": {
+    "handed_on": [
+      "update-openroad-to-head-of-master-branch"
+    ],
+    "merged": [],
+    "restored_by": [
+      "run-tests",
+      "post"
+    ]
+  },
+  "source_sha256": "46ed2d74fab334a33320a050409d43cf404eb1c83588ff57fcffa66b695d7622",
+  "model_sha256": "fb48d6352dd8b6b0235f0268492db66d38571a882f6479c414c4b47f587d3cc4"
+}

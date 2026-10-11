@@ -1,0 +1,85 @@
+{
+  "ok": true,
+  "structural_ok": true,
+  "security_ok": false,
+  "tools_ok": true,
+  "validated_at": "2026-10-10T08:00:48+00:00",
+  "actionlint": {
+    "tool": "actionlint",
+    "image": "rhysd/actionlint:1.7.12",
+    "ok": true,
+    "findings": [
+      {
+        "line": 166,
+        "col": 7,
+        "kind": "shellcheck",
+        "message": "shellcheck reported issue in this script: SC2086:info:1:7: Double quote to prevent globbing and word splitting"
+      }
+    ],
+    "structural": 0,
+    "shellcheck": 1
+  },
+  "zizmor": {
+    "tool": "zizmor",
+    "image": "ghcr.io/zizmorcore/zizmor:1.30.1",
+    "ok": false,
+    "findings": [
+      {
+        "rule": "unpinned-images",
+        "severity": "High",
+        "confidence": "High",
+        "message": "unpinned image references",
+        "line": 36
+      },
+      {
+        "rule": "unpinned-images",
+        "severity": "High",
+        "confidence": "High",
+        "message": "unpinned image references",
+        "line": 69
+      },
+      {
+        "rule": "unpinned-images",
+        "severity": "High",
+        "confidence": "High",
+        "message": "unpinned image references",
+        "line": 105
+      }
+    ]
+  },
+  "policy": {
+    "tool": "j2gha-policy",
+    "ok": true,
+    "findings": [
+      {
+        "rule": "manual-placeholder",
+        "severity": "info",
+        "message": "job 'setup-env' step 'Setup Env: Groovy if (manual)' is a manual-migration placeholder"
+      },
+      {
+        "rule": "manual-placeholder",
+        "severity": "info",
+        "message": "job 'setup-env' step 'Setup Env: Groovy if (manual)' is a manual-migration placeholder"
+      },
+      {
+        "rule": "unresolved-groovy",
+        "severity": "warning",
+        "message": "job 'setup-env' step 'Setup Env: ${J2GHA_TODO_wscleanup__}' contains untranslated Groovy"
+      },
+      {
+        "rule": "unresolved-groovy",
+        "severity": "warning",
+        "message": "job 'build-docs' step 'Build Docs: ${J2GHA_TODO_wscleanup__}' contains untranslated Groovy"
+      },
+      {
+        "rule": "unresolved-groovy",
+        "severity": "warning",
+        "message": "job 'build-release-tarball' step 'Build Release Tarball: ${J2GHA_TODO_wscleanup__}' contains untranslated Groovy"
+      }
+    ],
+    "secrets": [
+      "DOCKERHUB_CREDS_PSW",
+      "DOCKERHUB_CREDS_USR"
+    ]
+  }
+}

@@ -1,0 +1,183 @@
+{
+  "_comment": "Minimal example of every common scene kind. Copy it, then replace the content. See references/scene-kinds.md.",
+  "meta": {
+    "title": "Example explainer",
+    "chip": "Example explainer · a tiny demo",
+    "fps": 30,
+    "width": 1920,
+    "height": 1080,
+    "voice": {
+      "engine": "kokoro",
+      "voice": "bf_emma",
+      "lang_code": "b",
+      "speed": 1.0
+    },
+    "pronunciations": "pronunciations.json",
+    "prompt": "$ "
+  },
+  "captures": {
+    "demo": {
+      "file": "capture-demo.txt",
+      "label": "Demo terminal"
+    }
+  },
+  "scenes": [
+    {
+      "id": "00-title",
+      "kind": "title",
+      "narration": "A tiny example, showing the main scene types.",
+      "onScreen": [
+        "Example explainer",
+        "A tiny demo"
+      ],
+      "source": "n/a: example"
+    },
+    {
+      "id": "01-note",
+      "kind": "disclaimer",
+      "narration": "Use a note like this to say what the video is, and what it is not.",
+      "onScreen": [
+        "What this is",
+        "A demonstration of the scene types",
+        "Not a real tutorial"
+      ],
+      "data": {
+        "foot": "Illustrative only."
+      },
+      "source": "n/a: example"
+    },
+    {
+      "id": "02-flow",
+      "kind": "flow",
+      "narration": "A chain shows cause and effect, one step at a time.",
+      "data": {
+        "type": "chain",
+        "title": "A simple chain",
+        "nodes": [
+          {
+            "label": "Input",
+            "sub": "a file"
+          },
+          {
+            "label": "Process",
+            "sub": "a tool"
+          },
+          {
+            "label": "Output",
+            "sub": "a result"
+          }
+        ]
+      },
+      "source": "n/a: example"
+    },
+    {
+      "id": "02b-explainer",
+      "kind": "explainer",
+      "source": "n/a: example",
+      "narration": "Cards work for a few parallel ideas. Strings and labelled items can be mixed.",
+      "onScreen": [
+        "A plain card",
+        {
+          "k": "Labelled",
+          "v": "A card with a small label above it"
+        },
+        {
+          "k": "Tip",
+          "v": "Six cards fit; split larger sets"
+        }
+      ]
+    },
+    {
+      "id": "02c-compare",
+      "kind": "compare",
+      "source": "n/a: example",
+      "narration": "A table compares two things row by row. The first column names the row.",
+      "data": {
+        "head": [
+          "",
+          "Option A",
+          "Option B"
+        ],
+        "rows": [
+          [
+            "Cost",
+            "Free",
+            "Paid"
+          ],
+          [
+            "Setup",
+            "One command",
+            "Account needed"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "02d-cmdlist",
+      "kind": "cmdlist",
+      "source": "n/a: example",
+      "narration": "Use a command list to show commands that are not run. Say so on screen.",
+      "data": {
+        "title": "Commands",
+        "banner": "Shown, not run",
+        "items": [
+          {
+            "cmd": "git status",
+            "note": "what changed"
+          },
+          {
+            "cmd": "git log --oneline -3",
+            "note": "recent commits"
+          }
+        ]
+      }
+    },
+    {
+      "id": "03-terminal",
+      "kind": "terminal",
+      "capture": "demo",
+      "source": "capture-demo.txt (real output)",
+      "beats": [
+        {
+          "steps": [
+            0
+          ],
+          "narration": "Here is a real command, replayed from a capture.",
+          "highlight": [
+            {
+              "text": "Real output, replayed",
+              "tone": "ok"
+            }
+          ]
+        },
+        {
+          "steps": [
+            1
+          ],
+          "narration": "And one that fails, which is just as useful to show.",
+          "highlight": [
+            {
+              "text": "The command failed",
+              "tone": "bad"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "99-summary",
+      "kind": "summary",
+      "narration": "That is the whole tour. Keep captions short, and always show real output.",
+      "onScreen": [
+        "Scenes are data",
+        "Output is captured, never invented",
+        {
+          "text": "Nobody has listened to this yet",
+          "tone": "warn"
+        }
+      ],
+      "source": "n/a: example",
+      "title": "What we covered"
+    }
+  ]
+}

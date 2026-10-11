@@ -1,0 +1,96 @@
+# j2gha act variant (trace) of examples/108
+name: 'j2gha 108: h2oai/h2o-3 docker/Jenkinsfile-build-docker (j2gha)'
+on:
+  push:
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  BRANCH_NAME: master
+  TAG_NAME: ''
+  CHANGE_ID: ''
+  forceBuild: ${{ github.event_name != 'workflow_dispatch' && 'false' || format('{0}', inputs.forceBuild) }}
+  publish: ${{ github.event_name != 'workflow_dispatch' && 'false' || format('{0}', inputs.publish) }}
+  h2oBranch: ${{ github.event_name != 'workflow_dispatch' && 'master' || format('{0}', inputs.h2oBranch) }}
+  noCache: ${{ github.event_name != 'workflow_dispatch' && 'true' || format('{0}', inputs.noCache) }}
+  GIT_COMMIT: ${{ github.sha }}
+  GIT_BRANCH: origin/master
+  GIT_URL: ${{ github.server_url }}/${{ github.repository }}.git
+defaults:
+  run:
+    shell: bash
+jobs:
+  main:
+    name: main, Checkout and Init
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+    - name: buildSummary (manual migration)
+      id: s1
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"","step":"buildSummary"}'
+    - name: 'Checkout and Init: cleanWs'
+      id: s4
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Checkout and Init","step":"cleanWs"}'
+    - name: 'Checkout and Init: checkout'
+      id: s5
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Checkout and Init","step":"checkout"}'
+    - name: 'Checkout and Init: pipelineContextFactory (manual migration)'
+      id: s7
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Checkout and Init","step":"pipelineContextFactory"}'
+    - name: 'Checkout and Init: echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-8/x64-linux/j'
+      id: s10
+      env:
+        AWS_ACCESS_KEY_ID: j2gha-user
+        AWS_SECRET_ACCESS_KEY: j2gha-fake-password
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Checkout and Init","step":"sh"}'
+    - name: 'Checkout and Init: echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-10/x64-linux/'
+      id: s11
+      env:
+        AWS_ACCESS_KEY_ID: j2gha-user
+        AWS_SECRET_ACCESS_KEY: j2gha-fake-password
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Checkout and Init","step":"sh"}'
+    - name: 'Checkout and Init: echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-11/x64-linux/'
+      id: s12
+      env:
+        AWS_ACCESS_KEY_ID: j2gha-user
+        AWS_SECRET_ACCESS_KEY: j2gha-fake-password
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Checkout and Init","step":"sh"}'
+    - name: 'Checkout and Init: echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-12/x64-linux/'
+      id: s13
+      env:
+        AWS_ACCESS_KEY_ID: j2gha-user
+        AWS_SECRET_ACCESS_KEY: j2gha-fake-password
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Checkout and Init","step":"sh"}'
+    - name: 'Checkout and Init: echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-13/x64-linux/'
+      id: s14
+      env:
+        AWS_ACCESS_KEY_ID: j2gha-user
+        AWS_SECRET_ACCESS_KEY: j2gha-fake-password
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Checkout and Init","step":"sh"}'
+    - name: 'Checkout and Init: echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-14/x64-linux/'
+      id: s15
+      env:
+        AWS_ACCESS_KEY_ID: j2gha-user
+        AWS_SECRET_ACCESS_KEY: j2gha-fake-password
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Checkout and Init","step":"sh"}'
+    - name: 'Checkout and Init: echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-15/x64-linux/'
+      id: s16
+      env:
+        AWS_ACCESS_KEY_ID: j2gha-user
+        AWS_SECRET_ACCESS_KEY: j2gha-fake-password
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Checkout and Init","step":"sh"}'
+    - name: 'Checkout and Init: echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-16/x64-linux/'
+      id: s17
+      env:
+        AWS_ACCESS_KEY_ID: j2gha-user
+        AWS_SECRET_ACCESS_KEY: j2gha-fake-password
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Checkout and Init","step":"sh"}'
+    - name: 'Checkout and Init: echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-17/x64-linux/'
+      id: s18
+      env:
+        AWS_ACCESS_KEY_ID: j2gha-user
+        AWS_SECRET_ACCESS_KEY: j2gha-fake-password
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Checkout and Init","step":"sh"}'
+    - name: 'Checkout and Init: stash docker-sources'
+      id: s19
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Checkout and Init","step":"stash"}'

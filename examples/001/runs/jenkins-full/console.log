@@ -1,0 +1,168 @@
+[2026-10-10T08:22:51.967Z] Started by user admin
+[2026-10-10T08:22:52.444Z] [Pipeline] Start of Pipeline
+[2026-10-10T08:22:52.463Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named DOCKER_IMAGE_BASE (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T08:22:52.463Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named ERLANG_VERSION (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T08:22:52.463Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named MINIMUM_ERLANG_VERSION (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T08:22:52.463Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named MAXIMUM_ERLANG_VERSION (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T08:22:52.463Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named INTERMEDIATE_ERLANG_VERSION (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T08:22:52.463Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named DEFAULT_GNU_MAKE_EUNIT_OPTS (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T08:22:52.472Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named docs_changed (to a value of type GStringImpl) which could lead to memory leaks or other issues.
+[2026-10-10T08:22:52.472Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named github_changed (to a value of type GStringImpl) which could lead to memory leaks or other issues.
+[2026-10-10T08:22:52.473Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named other_changes (to a value of type GStringImpl) which could lead to memory leaks or other issues.
+[2026-10-10T08:22:52.473Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named meta (to a value of type LinkedHashMap) which could lead to memory leaks or other issues.
+[2026-10-10T08:22:52.473Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named containerClouseauConfig (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T08:22:52.703Z] [Pipeline] withEnv
+[2026-10-10T08:22:52.708Z] [Pipeline] {
+[2026-10-10T08:22:52.787Z] [Pipeline] timeout
+[2026-10-10T08:22:52.787Z] Timeout set to expire in 4 hr 0 min
+[2026-10-10T08:22:52.792Z] [Pipeline] {
+[2026-10-10T08:22:52.817Z] [Pipeline] timestamps
+[2026-10-10T08:22:52.817Z] The timestamps step is unnecessary when timestamps are enabled for all Pipeline builds.
+[2026-10-10T08:22:52.822Z] [Pipeline] {
+[2026-10-10T08:22:52.857Z] [Pipeline] stage
+[2026-10-10T08:22:52.861Z] [Pipeline] { (Setup Env)
+[2026-10-10T08:22:52.901Z] [Pipeline] node
+[2026-10-10T08:22:52.911Z] Running on Jenkins in /var/jenkins_home/workspace/ex-001-full
+[2026-10-10T08:22:52.929Z] [Pipeline] {
+[2026-10-10T08:22:52.958Z] [Pipeline] checkout
+[2026-10-10T08:22:52.967Z] The recommended git tool is: NONE
+[2026-10-10T08:22:52.967Z] No credentials specified
+[2026-10-10T08:22:52.968Z] Cloning the remote Git repository
+[2026-10-10T08:22:52.968Z] Avoid fetching tags
+[2026-10-10T08:22:52.968Z] Cloning repository https://github.com/apache/couchdb.git
+[2026-10-10T08:22:52.968Z]  > git init /var/jenkins_home/workspace/ex-001-full # timeout=10
+[2026-10-10T08:22:52.988Z] Fetching upstream changes from https://github.com/apache/couchdb.git
+[2026-10-10T08:22:52.988Z]  > git --version # timeout=10
+[2026-10-10T08:22:52.994Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T08:22:52.995Z]  > git fetch --no-tags --force --progress -- https://github.com/apache/couchdb.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T08:23:06.686Z]  > git config remote.origin.url https://github.com/apache/couchdb.git # timeout=10
+[2026-10-10T08:23:06.693Z]  > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T08:23:06.703Z] Avoid second fetch
+[2026-10-10T08:23:06.703Z]  > git rev-parse d072d90125e39c41b8e4947a89691c6e5ad23c77^{commit} # timeout=10
+[2026-10-10T08:23:06.710Z] Checking out Revision d072d90125e39c41b8e4947a89691c6e5ad23c77 (detached)
+[2026-10-10T08:23:06.710Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T08:23:06.717Z]  > git checkout -f d072d90125e39c41b8e4947a89691c6e5ad23c77 # timeout=10
+[2026-10-10T08:23:07.212Z] Commit message: "Update Erlang to 27.3.4.18"
+[2026-10-10T08:23:07.213Z]  > git rev-list --no-walk d072d90125e39c41b8e4947a89691c6e5ad23c77 # timeout=10
+[2026-10-10T08:23:07.258Z] [Pipeline] withEnv
+[2026-10-10T08:23:07.263Z] [Pipeline] {
+[2026-10-10T08:23:07.296Z] [Pipeline] script
+[2026-10-10T08:23:07.302Z] [Pipeline] {
+[2026-10-10T08:23:07.373Z] [Pipeline] sh
+[2026-10-10T08:23:07.637Z] + git diff --name-only origin/null
+[2026-10-10T08:23:07.638Z] + grep -q ^src/docs/
+[2026-10-10T08:23:07.638Z] fatal: ambiguous argument 'origin/null': unknown revision or path not in the working tree.
+[2026-10-10T08:23:07.638Z] Use '--' to separate paths from revisions, like this:
+[2026-10-10T08:23:07.638Z] 'git <command> [<revision>...] -- [<file>...]'
+[2026-10-10T08:23:07.665Z] [Pipeline] sh
+[2026-10-10T08:23:07.926Z] + git diff --name-only origin/null
+[2026-10-10T08:23:07.926Z] + grep -q ^.github
+[2026-10-10T08:23:07.926Z] fatal: ambiguous argument 'origin/null': unknown revision or path not in the working tree.
+[2026-10-10T08:23:07.926Z] Use '--' to separate paths from revisions, like this:
+[2026-10-10T08:23:07.926Z] 'git <command> [<revision>...] -- [<file>...]'
+[2026-10-10T08:23:07.942Z] [Pipeline] }
+[2026-10-10T08:23:07.969Z] [Pipeline] // script
+[2026-10-10T08:23:07.977Z] Post stage
+[2026-10-10T08:23:07.991Z] [Pipeline] sh
+[2026-10-10T08:23:08.251Z] + rm -rf /var/jenkins_home/workspace/ex-001-full/BUGS.md /var/jenkins_home/workspace/ex-001-full/COMMITTERS.md /var/jenkins_home/workspace/ex-001-full/CONTRIBUTING.md /var/jenkins_home/workspace/ex-001-full/CONTRIBUTORS.in /var/jenkins_home/workspace/ex-001-full/INSTALL.Unix.md /var/jenkins_home/workspace/ex-001-full/INSTALL.Windows.md /var/jenkins_home/workspace/ex-001-full/LICENSE /var/jenkins_home/workspace/ex-001-full/Makefile /var/jenkins_home/workspace/ex-001-full/Makefile.win /var/jenkins_home/workspace/ex-001-full/NOTICE /var/jenkins_home/workspace/ex-001-full/README-DEV.rst /var/jenkins_home/workspace/ex-001-full/README.rst /var/jenkins_home/workspace/ex-001-full/bin /var/jenkins_home/workspace/ex-001-full/build-aux /var/jenkins_home/workspace/ex-001-full/config /var/jenkins_home/workspace/ex-001-full/configure /var/jenkins_home/workspace/ex-001-full/configure.ps1 /var/jenkins_home/workspace/ex-001-full/dev /var/jenkins_home/workspace/ex-001-full/erlang_ls.config /var/jenkins_home/workspace/ex-001-full/extra /var/jenkins_home/workspace/ex-001-full/make.cmd /var/jenkins_home/workspace/ex-001-full/mise.toml /var/jenkins_home/workspace/ex-001-full/mix.exs /var/jenkins_home/workspace/ex-001-full/rebar.config.script /var/jenkins_home/workspace/ex-001-full/rel /var/jenkins_home/workspace/ex-001-full/setup_eunit.template /var/jenkins_home/workspace/ex-001-full/share /var/jenkins_home/workspace/ex-001-full/src /var/jenkins_home/workspace/ex-001-full/support /var/jenkins_home/workspace/ex-001-full/test /var/jenkins_home/workspace/ex-001-full/version.mk /var/jenkins_home/workspace/ex-001-full/.asf.yaml /var/jenkins_home/workspace/ex-001-full/.credo.exs /var/jenkins_home/workspace/ex-001-full/.devcontainer /var/jenkins_home/workspace/ex-001-full/.elp.toml /var/jenkins_home/workspace/ex-001-full/.formatter.exs /var/jenkins_home/workspace/ex-001-full/.git /var/jenkins_home/workspace/ex-001-full/.gitattributes /var/jenkins_home/workspace/ex-001-full/.github /var/jenkins_home/workspace/ex-001-full/.gitignore /var/jenkins_home/workspace/ex-001-full/.mailmap /var/jenkins_home/workspace/ex-001-full/.readthedocs.yaml
+[2026-10-10T08:23:08.276Z] [Pipeline] }
+[2026-10-10T08:23:08.317Z] [Pipeline] // withEnv
+[2026-10-10T08:23:08.334Z] [Pipeline] }
+[2026-10-10T08:23:08.377Z] [Pipeline] // node
+[2026-10-10T08:23:08.392Z] [Pipeline] }
+[2026-10-10T08:23:08.417Z] [Pipeline] // stage
+[2026-10-10T08:23:08.440Z] [Pipeline] stage
+[2026-10-10T08:23:08.444Z] [Pipeline] { (Build Docs)
+[2026-10-10T08:23:08.469Z] Stage "Build Docs" skipped due to when conditional
+[2026-10-10T08:23:08.478Z] [Pipeline] getContext
+[2026-10-10T08:23:08.492Z] [Pipeline] }
+[2026-10-10T08:23:08.516Z] [Pipeline] // stage
+[2026-10-10T08:23:08.541Z] [Pipeline] stage
+[2026-10-10T08:23:08.546Z] [Pipeline] { (Build Release Tarball)
+[2026-10-10T08:23:08.580Z] [Pipeline] node
+[2026-10-10T08:23:08.593Z] Running on Jenkins in /var/jenkins_home/workspace/ex-001-full
+[2026-10-10T08:23:08.608Z] [Pipeline] {
+[2026-10-10T08:23:08.635Z] [Pipeline] checkout
+[2026-10-10T08:23:08.642Z] The recommended git tool is: NONE
+[2026-10-10T08:23:08.642Z] No credentials specified
+[2026-10-10T08:23:08.642Z] Cloning the remote Git repository
+[2026-10-10T08:23:08.642Z] Avoid fetching tags
+[2026-10-10T08:23:08.642Z] Cloning repository https://github.com/apache/couchdb.git
+[2026-10-10T08:23:08.642Z]  > git init /var/jenkins_home/workspace/ex-001-full # timeout=10
+[2026-10-10T08:23:08.657Z] Fetching upstream changes from https://github.com/apache/couchdb.git
+[2026-10-10T08:23:08.657Z]  > git --version # timeout=10
+[2026-10-10T08:23:08.664Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T08:23:08.664Z]  > git fetch --no-tags --force --progress -- https://github.com/apache/couchdb.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T08:23:17.411Z]  > git config remote.origin.url https://github.com/apache/couchdb.git # timeout=10
+[2026-10-10T08:23:17.418Z]  > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T08:23:17.426Z] Avoid second fetch
+[2026-10-10T08:23:17.426Z]  > git rev-parse d072d90125e39c41b8e4947a89691c6e5ad23c77^{commit} # timeout=10
+[2026-10-10T08:23:17.435Z] Checking out Revision d072d90125e39c41b8e4947a89691c6e5ad23c77 (detached)
+[2026-10-10T08:23:17.435Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T08:23:17.441Z]  > git checkout -f d072d90125e39c41b8e4947a89691c6e5ad23c77 # timeout=10
+[2026-10-10T08:23:17.815Z] Commit message: "Update Erlang to 27.3.4.18"
+[2026-10-10T08:23:17.847Z] [Pipeline] withEnv
+[2026-10-10T08:23:17.852Z] [Pipeline] {
+[2026-10-10T08:23:17.887Z] [Pipeline] sh
+[2026-10-10T08:23:18.157Z] + rm -rf apache-couchdb-*
+[2026-10-10T08:23:18.182Z] [Pipeline] sh
+[2026-10-10T08:23:18.446Z] + ./configure --spidermonkey-version 128 --with-nouveau
+[2026-10-10T08:23:18.446Z] ./configure: 39: erl: not found
+[2026-10-10T08:23:18.474Z] Post stage
+[2026-10-10T08:23:18.491Z] [Pipeline] sh
+[2026-10-10T08:23:18.754Z] + ls -l /var/jenkins_home/workspace/ex-001-full
+[2026-10-10T08:23:18.754Z] total 340
+[2026-10-10T08:23:18.754Z] -rw-r--r--  1 jenkins jenkins    334 Oct 10 08:23 BUGS.md
+[2026-10-10T08:23:18.754Z] -rw-r--r--  1 jenkins jenkins    478 Oct 10 08:23 COMMITTERS.md
+[2026-10-10T08:23:18.754Z] -rw-r--r--  1 jenkins jenkins  13312 Oct 10 08:23 CONTRIBUTING.md
+[2026-10-10T08:23:18.754Z] -rw-r--r--  1 jenkins jenkins   3897 Oct 10 08:23 CONTRIBUTORS.in
+[2026-10-10T08:23:18.754Z] -rw-r--r--  1 jenkins jenkins   7870 Oct 10 08:23 INSTALL.Unix.md
+[2026-10-10T08:23:18.754Z] -rw-r--r--  1 jenkins jenkins    695 Oct 10 08:23 INSTALL.Windows.md
+[2026-10-10T08:23:18.754Z] -rw-r--r--  1 jenkins jenkins 110679 Oct 10 08:23 LICENSE
+[2026-10-10T08:23:18.754Z] -rw-r--r--  1 jenkins jenkins  18933 Oct 10 08:23 Makefile
+[2026-10-10T08:23:18.754Z] -rw-r--r--  1 jenkins jenkins  18698 Oct 10 08:23 Makefile.win
+[2026-10-10T08:23:18.754Z] -rw-r--r--  1 jenkins jenkins   4668 Oct 10 08:23 NOTICE
+[2026-10-10T08:23:18.754Z] -rw-r--r--  1 jenkins jenkins  13713 Oct 10 08:23 README-DEV.rst
+[2026-10-10T08:23:18.754Z] -rw-r--r--  1 jenkins jenkins   5606 Oct 10 08:23 README.rst
+[2026-10-10T08:23:18.754Z] drwxr-xr-x  2 jenkins jenkins   4096 Oct 10 08:23 bin
+[2026-10-10T08:23:18.754Z] drwxr-xr-x  2 jenkins jenkins   4096 Oct 10 08:23 build-aux
+[2026-10-10T08:23:18.754Z] drwxr-xr-x  2 jenkins jenkins   4096 Oct 10 08:23 config
+[2026-10-10T08:23:18.754Z] -rwxr-xr-x  1 jenkins jenkins  18052 Oct 10 08:23 configure
+[2026-10-10T08:23:18.754Z] -rw-r--r--  1 jenkins jenkins  17249 Oct 10 08:23 configure.ps1
+[2026-10-10T08:23:18.754Z] drwxr-xr-x  2 jenkins jenkins   4096 Oct 10 08:23 dev
+[2026-10-10T08:23:18.754Z] -rw-r--r--  1 jenkins jenkins     73 Oct 10 08:23 erlang_ls.config
+[2026-10-10T08:23:18.754Z] drwxr-xr-x  3 jenkins jenkins   4096 Oct 10 08:23 extra
+[2026-10-10T08:23:18.754Z] -rw-r--r--  1 jenkins jenkins     39 Oct 10 08:23 make.cmd
+[2026-10-10T08:23:18.754Z] -rw-r--r--  1 jenkins jenkins    101 Oct 10 08:23 mise.toml
+[2026-10-10T08:23:18.754Z] -rw-r--r--  1 jenkins jenkins   4483 Oct 10 08:23 mix.exs
+[2026-10-10T08:23:18.754Z] -rw-r--r--  1 jenkins jenkins   7242 Oct 10 08:23 rebar.config.script
+[2026-10-10T08:23:18.754Z] drwxr-xr-x  6 jenkins jenkins   4096 Oct 10 08:23 rel
+[2026-10-10T08:23:18.754Z] -rw-r--r--  1 jenkins jenkins    742 Oct 10 08:23 setup_eunit.template
+[2026-10-10T08:23:18.754Z] drwxr-xr-x  3 jenkins jenkins   4096 Oct 10 08:23 share
+[2026-10-10T08:23:18.754Z] drwxr-xr-x 38 jenkins jenkins   4096 Oct 10 08:23 src
+[2026-10-10T08:23:18.754Z] drwxr-xr-x  2 jenkins jenkins   4096 Oct 10 08:23 support
+[2026-10-10T08:23:18.754Z] drwxr-xr-x  7 jenkins jenkins   4096 Oct 10 08:23 test
+[2026-10-10T08:23:18.754Z] -rw-r--r--  1 jenkins jenkins     36 Oct 10 08:23 version.mk
+[2026-10-10T08:23:18.788Z] [Pipeline] sh
+[2026-10-10T08:23:19.054Z] + rm -rf /var/jenkins_home/workspace/ex-001-full/BUGS.md /var/jenkins_home/workspace/ex-001-full/COMMITTERS.md /var/jenkins_home/workspace/ex-001-full/CONTRIBUTING.md /var/jenkins_home/workspace/ex-001-full/CONTRIBUTORS.in /var/jenkins_home/workspace/ex-001-full/INSTALL.Unix.md /var/jenkins_home/workspace/ex-001-full/INSTALL.Windows.md /var/jenkins_home/workspace/ex-001-full/LICENSE /var/jenkins_home/workspace/ex-001-full/Makefile /var/jenkins_home/workspace/ex-001-full/Makefile.win /var/jenkins_home/workspace/ex-001-full/NOTICE /var/jenkins_home/workspace/ex-001-full/README-DEV.rst /var/jenkins_home/workspace/ex-001-full/README.rst /var/jenkins_home/workspace/ex-001-full/bin /var/jenkins_home/workspace/ex-001-full/build-aux /var/jenkins_home/workspace/ex-001-full/config /var/jenkins_home/workspace/ex-001-full/configure /var/jenkins_home/workspace/ex-001-full/configure.ps1 /var/jenkins_home/workspace/ex-001-full/dev /var/jenkins_home/workspace/ex-001-full/erlang_ls.config /var/jenkins_home/workspace/ex-001-full/extra /var/jenkins_home/workspace/ex-001-full/make.cmd /var/jenkins_home/workspace/ex-001-full/mise.toml /var/jenkins_home/workspace/ex-001-full/mix.exs /var/jenkins_home/workspace/ex-001-full/rebar.config.script /var/jenkins_home/workspace/ex-001-full/rel /var/jenkins_home/workspace/ex-001-full/setup_eunit.template /var/jenkins_home/workspace/ex-001-full/share /var/jenkins_home/workspace/ex-001-full/src /var/jenkins_home/workspace/ex-001-full/support /var/jenkins_home/workspace/ex-001-full/test /var/jenkins_home/workspace/ex-001-full/version.mk /var/jenkins_home/workspace/ex-001-full/.asf.yaml /var/jenkins_home/workspace/ex-001-full/.credo.exs /var/jenkins_home/workspace/ex-001-full/.devcontainer /var/jenkins_home/workspace/ex-001-full/.elp.toml /var/jenkins_home/workspace/ex-001-full/.formatter.exs /var/jenkins_home/workspace/ex-001-full/.git /var/jenkins_home/workspace/ex-001-full/.gitattributes /var/jenkins_home/workspace/ex-001-full/.github /var/jenkins_home/workspace/ex-001-full/.gitignore /var/jenkins_home/workspace/ex-001-full/.mailmap /var/jenkins_home/workspace/ex-001-full/.readthedocs.yaml
+[2026-10-10T08:23:19.080Z] [Pipeline] }
+[2026-10-10T08:23:19.118Z] [Pipeline] // withEnv
+[2026-10-10T08:23:19.134Z] [Pipeline] }
+[2026-10-10T08:23:19.169Z] [Pipeline] // node
+[2026-10-10T08:23:19.190Z] [Pipeline] }
+[2026-10-10T08:23:19.224Z] [Pipeline] // stage
+[2026-10-10T08:23:19.256Z] [Pipeline] stage
+[2026-10-10T08:23:19.262Z] [Pipeline] { (Test and Package)
+[2026-10-10T08:23:19.279Z] Stage "Test and Package" skipped due to earlier failure(s)
+[2026-10-10T08:23:19.291Z] [Pipeline] getContext
+[2026-10-10T08:23:19.308Z] [Pipeline] }
+[2026-10-10T08:23:19.341Z] [Pipeline] // stage
+[2026-10-10T08:23:19.361Z] [Pipeline] }
+[2026-10-10T08:23:19.421Z] [Pipeline] // timestamps
+[2026-10-10T08:23:19.442Z] [Pipeline] }
+[2026-10-10T08:23:19.474Z] [Pipeline] // timeout
+[2026-10-10T08:23:19.493Z] [Pipeline] }
+[2026-10-10T08:23:19.524Z] [Pipeline] // withEnv
+[2026-10-10T08:23:19.558Z] [Pipeline] End of Pipeline
+[2026-10-10T08:23:19.583Z] ERROR: script returned exit code 127
+[2026-10-10T08:23:19.603Z] Finished: FAILURE

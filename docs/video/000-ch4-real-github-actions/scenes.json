@@ -1,0 +1,700 @@
+{
+  "meta": {
+    "title": "From Jenkins to GitHub Actions: chapter four, real GitHub Actions",
+    "chip": "Jenkins to GitHub Actions · Chapter four: real GitHub Actions",
+    "fps": 30,
+    "width": 1920,
+    "height": 1080,
+    "voice": {
+      "engine": "kokoro",
+      "voice": "bf_emma",
+      "lang_code": "b",
+      "speed": 1.0
+    },
+    "pronunciations": "pronunciations.json",
+    "prompt": "$ "
+  },
+  "captures": {
+    "sh": {
+      "file": "captures/run-selfhosted.txt",
+      "label": "Self-hosted trace run"
+    },
+    "shfull": {
+      "file": "captures/run-selfhosted-full.txt",
+      "label": "Self-hosted full run"
+    },
+    "local": {
+      "file": "captures/local-checks.txt",
+      "label": "Saved run records"
+    },
+    "bb": {
+      "file": "captures/budget-before.txt",
+      "label": "Allowance before"
+    },
+    "hosted": {
+      "file": "captures/run-hosted.txt",
+      "label": "GitHub-hosted trace run"
+    },
+    "ba": {
+      "file": "captures/budget-after.txt",
+      "label": "Allowance after"
+    },
+    "ghruns": {
+      "file": "captures/gh-runs.txt",
+      "label": "Latest runs on GitHub"
+    }
+  },
+  "scenes": [
+    {
+      "id": "00-title",
+      "kind": "title",
+      "source": "examples/000/README.md Part 7",
+      "narration": "From Jenkins to GitHub Actions. Chapter four: run the converted pipeline on real GitHub, first for free, then on GitHub's own machines.",
+      "onScreen": [
+        "Same pipeline, on real GitHub",
+        "Chapter four: self-hosted runners, then GitHub-hosted runners"
+      ]
+    },
+    {
+      "id": "01-note",
+      "kind": "disclaimer",
+      "source": "README Part 7; source-facts.md",
+      "narration": "A quick note on what this chapter is. Everything so far ran on this machine. Here the converted workflow runs on GitHub itself, in a private test repository, once for each kind of runner. The terminal output is replayed from those real runs, with the account and repository names hidden. One earlier self-hosted run was also filmed live, sped up, with the account name and IDs masked. It assumes the earlier chapters are done. The hosted run spent real Actions minutes, and each command was run once.",
+      "onScreen": [
+        "Summary",
+        "One example pipeline, one run per kind of runner, in a private test repository",
+        "Terminal output replayed from real runs; owner, repository and run ids hidden",
+        "Plus one earlier self-hosted run filmed live: sped up, name and ids masked",
+        "Assumes: earlier chapters done, pipeline converted, local Jenkins running",
+        "The GitHub-hosted run spent real Actions minutes"
+      ],
+      "data": {
+        "foot": "A match here is encouraging evidence for one example. It is not proof the migration is ready for production."
+      }
+    },
+    {
+      "id": "02-runners",
+      "kind": "explainer",
+      "source": "README 7.1 and 7.2",
+      "narration": "A runner is the machine that carries out a workflow's jobs. Self-hosted runners are ones you provide. Here they are short-lived containers on this machine, which GitHub does not bill for. GitHub-hosted runners are GitHub's own machines, and on a private repository their time is counted against your monthly allowance.",
+      "onScreen": [
+        {
+          "k": "Self-hosted",
+          "v": "Temporary runner containers started on this machine; no billable minutes"
+        },
+        {
+          "k": "GitHub-hosted",
+          "v": "GitHub's own machines; billed per job, at least one minute each"
+        },
+        {
+          "k": "Same workflow",
+          "v": "The converted workflow, the same eleven jobs, either way"
+        },
+        {
+          "k": "Same check",
+          "v": "Compare the steps that ran with what Jenkins did"
+        }
+      ]
+    },
+    {
+      "id": "03-flow",
+      "kind": "flow",
+      "source": "README 7.1 paragraph after Expected",
+      "narration": "Each run follows the same path. The harness pushes a temporary branch to the test repository. GitHub starts the workflow. For self-hosted runs, the harness starts one runner container per job. When it finishes, the harness downloads the logs, compares them with Jenkins, and deletes the branch.",
+      "data": {
+        "type": "chain",
+        "title": "One run on real GitHub",
+        "nodes": [
+          {
+            "label": "Temporary branch",
+            "sub": "pushed to the test repository"
+          },
+          {
+            "label": "GitHub workflow",
+            "sub": "the converted workflow runs"
+          },
+          {
+            "label": "Runners",
+            "sub": "local containers, or GitHub's machines"
+          },
+          {
+            "label": "Compare",
+            "sub": "logs against Jenkins; branch deleted"
+          }
+        ]
+      }
+    },
+    {
+      "id": "04-selfhosted",
+      "kind": "terminal",
+      "source": "README 7.1 command and Expected; capture run-selfhosted #0",
+      "capture": "sh",
+      "part": "Part 7.1 · self-hosted runners",
+      "beats": [
+        {
+          "steps": [
+            0
+          ],
+          "narration": "One command, about two minutes. It pushes the branch, starts eleven runners, one for each job, and reports the result. Look for the billable minutes, and the verdict at the bottom.",
+          "highlight": [
+            {
+              "text": "Eleven runner containers started",
+              "tone": "info"
+            },
+            {
+              "text": "success: forty-one trace events, zero billable minutes",
+              "tone": "ok"
+            },
+            {
+              "text": "Verdict: EQUIVALENT, one hundred percent",
+              "tone": "ok"
+            },
+            {
+              "text": "Verdict names the mode: (trace)",
+              "tone": "warn"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "05-jobs",
+      "kind": "terminal",
+      "source": "README 7.1 job list; capture local-checks #0",
+      "capture": "local",
+      "part": "Part 7.1 · the jobs that ran",
+      "beats": [
+        {
+          "steps": [
+            0
+          ],
+          "narration": "The harness saves a record of the run. These are the eleven jobs: the build, three quality checks, three compatibility cells, publish, the deploy gate, deploy and the final post job. All succeeded, on self-hosted runners.",
+          "highlight": [
+            {
+              "text": "Eleven jobs, all success",
+              "tone": "ok"
+            },
+            {
+              "text": "Label self-hosted: ran on the local runners",
+              "tone": "info"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "05b-graph",
+      "kind": "screenshot",
+      "source": "shots/01-selfhosted-trace-graph.png; README Part 7.1",
+      "narration": "This is the same run on GitHub's own web page. The run graph shows the eleven jobs in order, with the three compatibility cells grouped as a matrix, and the deploy gate just before Deploy. It took one minute forty-nine seconds, and everything is green. It is the counterpart of the Jenkins stage view in chapter one.",
+      "data": {
+        "image": "shots/01-selfhosted-trace-graph.png",
+        "url": "https://github.com/<owner>/<repo>/actions/runs/<run>",
+        "title": "GitHub Actions: self-hosted trace run",
+        "annotations": [
+          {
+            "box": [
+              0.25,
+              0.26,
+              0.73,
+              0.43
+            ],
+            "label": "The run graph: eleven jobs, the matrix grouped",
+            "tone": "ok"
+          },
+          {
+            "box": [
+              0.02,
+              0.25,
+              0.2,
+              0.44
+            ],
+            "label": "The same eleven jobs, listed",
+            "tone": "info"
+          }
+        ]
+      }
+    },
+    {
+      "id": "05c-log",
+      "kind": "screenshot",
+      "source": "shots/02-trace-log.png; README Part 7.1",
+      "narration": "Opening one job shows its steps. Here are the unit tests. One step prints a marker line: the stage name and the kind of step. Jenkins printed the same markers in chapter three, and these lines are what the harness compares.",
+      "data": {
+        "image": "shots/02-trace-log.png",
+        "url": "https://github.com/<owner>/<repo>/actions/runs/<run>/job/<job>",
+        "title": "GitHub Actions: one job's log",
+        "annotations": [
+          {
+            "box": [
+              0.27,
+              0.49,
+              0.42,
+              0.06
+            ],
+            "label": "The trace marker, as on the Jenkins console",
+            "tone": "ok"
+          },
+          {
+            "box": [
+              0.27,
+              0.335,
+              0.3,
+              0.05
+            ],
+            "label": "The stage-entry step that evaluates the condition",
+            "tone": "info"
+          }
+        ]
+      }
+    },
+    {
+      "id": "05d-live",
+      "kind": "clip",
+      "source": "hyperframes-walkthrough capture 000-walkthrough-60s/capture/gha (run id <id>, 2026-10-10, self-hosted trace, success, 11 jobs, 1m 43s); 7x (the walkthrough used 13x); account name, run number and commit id masked",
+      "narration": "And this is another self-hosted trace run of the same example, filmed live the day before, and sped up seven times. The jobs turn green as they finish: publish, then the gate job, Deploy when, then Deploy and the post job. All eleven succeed, in one minute forty-three seconds.",
+      "data": {
+        "clip": "gha",
+        "url": "https://github.com/<owner>/<repo>/actions/runs/<run>",
+        "title": "Another self-hosted run, filmed live",
+        "callouts": [
+          {
+            "at": "run-page",
+            "label": "Self-hosted runners, zero billable minutes",
+            "tone": "info"
+          },
+          {
+            "at": "job-completed:Deploy (when)",
+            "label": "The gate job: Deploy (when)",
+            "tone": "info"
+          },
+          {
+            "at": "job-completed:post",
+            "label": "11 of 11 jobs succeeded, 1m 43s",
+            "tone": "ok"
+          }
+        ],
+        "start": 0.0,
+        "zoom": [
+          {
+            "at": "job-completed:Publish",
+            "scale": 1.8,
+            "origin": "72% 55%"
+          },
+          {
+            "at": "run-completed",
+            "scale": 1
+          }
+        ]
+      }
+    },
+    {
+      "id": "06-full",
+      "kind": "terminal",
+      "source": "README 7.1 optional full run; capture run-selfhosted-full #0",
+      "capture": "shfull",
+      "part": "Part 7.1 · full mode, still free",
+      "beats": [
+        {
+          "steps": [
+            0
+          ],
+          "narration": "The optional second run uses full mode: the real commands run on GitHub, not just markers. It took about three minutes, still zero billable minutes. The verdict reads equivalent.",
+          "highlight": [
+            {
+              "text": "Zero trace events: nothing replaced",
+              "tone": "info"
+            },
+            {
+              "text": "Verdict: EQUIVALENT",
+              "tone": "warn"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "06b-full-graph",
+      "kind": "screenshot",
+      "source": "shots/03-selfhosted-full-graph.png; README Part 7.1 optional full run",
+      "narration": "The full run on the same page. It took two minutes forty-seven seconds and uploaded seventeen artifacts. Below the graph, the unit test job's own summary reports five tests, no failures, no errors, none skipped.",
+      "data": {
+        "image": "shots/03-selfhosted-full-graph.png",
+        "url": "https://github.com/<owner>/<repo>/actions/runs/<run>",
+        "title": "GitHub Actions: self-hosted full run",
+        "annotations": [
+          {
+            "box": [
+              0.25,
+              0.12,
+              0.73,
+              0.12
+            ],
+            "label": "Success, 2m 47s, 17 artifacts",
+            "tone": "ok"
+          },
+          {
+            "box": [
+              0.26,
+              0.78,
+              0.36,
+              0.045
+            ],
+            "label": "JUnit: 5 tests, 0 failures",
+            "tone": "ok"
+          }
+        ]
+      }
+    },
+    {
+      "id": "07-artifacts",
+      "kind": "terminal",
+      "source": "README 7.1 artifacts list; capture local-checks #2 and #3 (from the run log)",
+      "capture": "local",
+      "part": "Part 7.1 · what the full run uploaded",
+      "beats": [
+        {
+          "steps": [
+            2,
+            3
+          ],
+          "narration": "The run's log shows what it uploaded: the release, the deploy record, test reports, stashes, and six workspace hand-offs. Seventeen artifacts. The numbers in the names change from run to run, and this list comes from the log, not the run page.",
+          "highlight": [
+            {
+              "text": "Seventeen artifacts",
+              "tone": "ok"
+            },
+            {
+              "text": "Numbers vary per run: forty-one and forty-seven here",
+              "tone": "warn"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "07b-artifacts-ui",
+      "kind": "screenshot",
+      "source": "shots/04-artifacts.png; README Part 7.1 artifacts list",
+      "narration": "Scrolling to the bottom of the run page lists the artifacts the full run uploaded. There are seventeen: the stashes, the test reports, the report page, and six that hand the workspace from job to job. This is the same list the log showed, now in the interface.",
+      "data": {
+        "image": "shots/04-artifacts.png",
+        "url": "https://github.com/<owner>/<repo>/actions/runs/<run>",
+        "title": "GitHub Actions: artifacts",
+        "annotations": [
+          {
+            "box": [
+              0.25,
+              0.054,
+              0.733,
+              0.895
+            ],
+            "label": "Seventeen artifacts, as in the log",
+            "tone": "ok"
+          }
+        ]
+      }
+    },
+    {
+      "id": "08-budget-before",
+      "kind": "terminal",
+      "source": "README 7.2 'Check your allowance'; capture budget-before #0",
+      "capture": "bb",
+      "part": "Part 7.2 · GitHub-hosted runners",
+      "beats": [
+        {
+          "steps": [
+            0
+          ],
+          "narration": "Now the part that costs money. First, check the allowance. One hundred and forty-four of three thousand minutes used this month. The usage data is complete, read from GitHub's billing data, so the guard decides on real figures.",
+          "highlight": [
+            {
+              "text": "144 of 3000 minutes used this month",
+              "tone": "info"
+            },
+            {
+              "text": "Usage data: complete, from the billing API",
+              "tone": "ok"
+            },
+            {
+              "text": "2256 minutes available to the harness",
+              "tone": "info"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "09-guard",
+      "kind": "steps",
+      "source": "README 7.2 paragraph on jobs, minutes and the cap; capture run-hosted (ALLOW line)",
+      "narration": "Here is the reasoning. The workflow now has eleven jobs, each billed for at least one minute, so about eleven minutes. The guard plans for the worst case, fifty-five minutes. The guide's cap of fifty refused that, so the cap was raised to sixty for this one run.",
+      "data": {
+        "title": "Before spending minutes",
+        "columns": [
+          {
+            "title": "The estimate",
+            "items": [
+              "Eleven jobs",
+              "At least one billed minute each",
+              "About eleven minutes expected"
+            ]
+          },
+          {
+            "title": "The guard",
+            "items": [
+              "Plans for the worst case: fifty-five minutes",
+              "The guide's cap of fifty refused it",
+              "Cap raised to sixty for this run"
+            ]
+          },
+          {
+            "title": "This run",
+            "items": [
+              "Usage data complete: no override needed",
+              "Skip the prompt, because it runs without a terminal"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "id": "10-hosted",
+      "kind": "terminal",
+      "source": "README 7.2 command and Expected; capture run-hosted #0",
+      "capture": "hosted",
+      "part": "Part 7.2 · the hosted run",
+      "beats": [
+        {
+          "steps": [
+            0
+          ],
+          "narration": "The hosted run. The guard allows it and reserves fifty-five minutes, the worst case. The run succeeds with eleven billable minutes. The verdict is equivalent, one hundred percent.",
+          "highlight": [
+            {
+              "text": "Allowed on complete usage data",
+              "tone": "ok"
+            },
+            {
+              "text": "Reserved fifty-five minutes as the worst case",
+              "tone": "info"
+            },
+            {
+              "text": "success: eleven billable minutes",
+              "tone": "ok"
+            },
+            {
+              "text": "Verdict: EQUIVALENT, one hundred percent",
+              "tone": "ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "11-hosted-jobs",
+      "kind": "terminal",
+      "source": "README 7.2 minutes explanation; capture local-checks #1",
+      "capture": "local",
+      "part": "Part 7.2 · why ten minutes",
+      "beats": [
+        {
+          "steps": [
+            1
+          ],
+          "narration": "The saved record shows why. The run took about a minute, but there are eleven jobs, each rounded up to a whole minute. The same eleven jobs as before, now on GitHub's own machines.",
+          "highlight": [
+            {
+              "text": "Eleven jobs on GitHub's ubuntu runners",
+              "tone": "info"
+            },
+            {
+              "text": "About a minute of wall-clock time, eleven billed minutes",
+              "tone": "warn"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "11b-hosted-ui",
+      "kind": "screenshot",
+      "source": "shots/05-hosted-run.png; README Part 7.2",
+      "narration": "And the hosted run on GitHub's web page. Same eleven jobs, same graph, finished in fifty-two seconds. The notices below mention the ubuntu-latest label, which shows these jobs ran on GitHub's own machines.",
+      "data": {
+        "image": "shots/05-hosted-run.png",
+        "url": "https://github.com/<owner>/<repo>/actions/runs/<run>",
+        "title": "GitHub Actions: GitHub-hosted trace run",
+        "annotations": [
+          {
+            "box": [
+              0.63,
+              0.14,
+              0.07,
+              0.06
+            ],
+            "label": "Total duration: 52 seconds",
+            "tone": "info"
+          },
+          {
+            "box": [
+              0.26,
+              0.81,
+              0.72,
+              0.07
+            ],
+            "label": "ubuntu-latest notice: GitHub's own runners",
+            "tone": "warn"
+          }
+        ]
+      }
+    },
+    {
+      "id": "12-budget-after",
+      "kind": "terminal",
+      "source": "README 7.2 last line; capture budget-after #0",
+      "capture": "ba",
+      "part": "Part 7.2 · the ledger",
+      "beats": [
+        {
+          "steps": [
+            0
+          ],
+          "narration": "Check the allowance again. Used minutes went from one hundred and forty-four to one hundred and fifty-five: the eleven minutes. The harness ledger counts eleven hosted runs this month, seventy-five billable minutes in all.",
+          "highlight": [
+            {
+              "text": "144 to 155 minutes used: the eleven minutes",
+              "tone": "ok"
+            },
+            {
+              "text": "Ledger: eleven hosted runs this month, 75 minutes",
+              "tone": "info"
+            },
+            {
+              "text": "Usage data complete",
+              "tone": "ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "13-ghruns",
+      "kind": "terminal",
+      "source": "README 'Where the results are'; capture gh-runs #0",
+      "capture": "ghruns",
+      "part": "Where the runs are listed",
+      "beats": [
+        {
+          "steps": [
+            0
+          ],
+          "narration": "The runs also stay on GitHub. This read-only listing, trimmed to the result and the title, shows the five most recent. Each title names the tier and the example. All five succeeded.",
+          "highlight": [
+            {
+              "text": "All five runs succeeded",
+              "tone": "ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "14-compare",
+      "kind": "compare",
+      "source": "captures run-selfhosted, run-selfhosted-full, run-hosted, local-checks",
+      "narration": "Side by side. All three runs succeeded and matched Jenkins. The two self-hosted runs cost no billable minutes. The hosted run cost eleven, even though it was the quickest. Timings come from this one machine and this one day.",
+      "data": {
+        "head": [
+          "Run",
+          "Runners",
+          "Billable minutes",
+          "Run time",
+          "Verdict"
+        ],
+        "rows": [
+          [
+            "Trace, self-hosted",
+            "Local containers",
+            "0",
+            "116 s",
+            "EQUIVALENT"
+          ],
+          [
+            "Full, self-hosted",
+            "Local containers",
+            "0",
+            "176 s",
+            "EQUIVALENT"
+          ],
+          [
+            "Trace, GitHub-hosted",
+            "GitHub machines",
+            "11",
+            "60 s",
+            "EQUIVALENT"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "99-summary",
+      "kind": "summary",
+      "source": "README Part 7; findings in source-facts.md",
+      "title": "Chapter four: real GitHub Actions",
+      "narration": "To recap. The converted workflow ran on GitHub with self-hosted runners at no cost, and on GitHub-hosted runners for eleven billable minutes. Both matched Jenkins in trace mode. The caveats. This is one example, run once per kind, in a private test repository. The guard's cap was raised for the one hosted run. This does not prove the migration is ready for production.",
+      "onScreen": [
+        "Self-hosted: zero billable minutes; trace and full runs both succeeded",
+        "GitHub-hosted: eleven billable minutes; allowance 144 to 155 of 3000",
+        "All three runs matched Jenkins",
+        {
+          "text": "One example, one run per kind, in a private test repository",
+          "tone": "warn"
+        },
+        {
+          "text": "The guard's cap was raised from 50 to 60 for the hosted run",
+          "tone": "warn"
+        }
+      ]
+    }
+  ],
+  "clips": {
+    "gha": {
+      "capture": "../000-walkthrough-60s/capture/gha",
+      "trimStart": 13.0,
+      "trimEnd": 112.7,
+      "segments": "0-110.7:7,110.7-200:1",
+      "crop": "3200:1184:0:0",
+      "scale": 1300,
+      "mask": [
+        {
+          "box": [
+            0.244,
+            0.255,
+            0.06,
+            0.048
+          ],
+          "why": "GitHub account name (who pushed)"
+        },
+        {
+          "box": [
+            0.294,
+            0.08,
+            0.036,
+            0.048
+          ],
+          "why": "run number"
+        },
+        {
+          "box": [
+            0.346,
+            0.258,
+            0.036,
+            0.04
+          ],
+          "why": "commit id"
+        }
+      ]
+    }
+  }
+}

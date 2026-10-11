@@ -1,0 +1,396 @@
+{
+  "dialect": "scripted",
+  "options": {
+    "buildDiscarder": true,
+    "disableConcurrentBuilds": true
+  },
+  "stages": [
+    {
+      "line": 8,
+      "steps": [
+        {
+          "name": "<decl>",
+          "line": 8,
+          "named": {
+            "_target": "failFast"
+          },
+          "category": "dynamic",
+          "source": "failFast = False",
+          "dynamic": true
+        },
+        {
+          "name": "<decl>",
+          "line": 9,
+          "named": {
+            "_target": "numBuildToKeep"
+          },
+          "category": "dynamic",
+          "source": "numBuildToKeep = ?",
+          "dynamic": true
+        },
+        {
+          "name": "<decl>",
+          "line": 16,
+          "named": {
+            "_target": "axes"
+          },
+          "category": "dynamic",
+          "source": "axes = [platforms: [linux], jdks: [21, 25]]",
+          "dynamic": true
+        }
+      ]
+    },
+    {
+      "name": "Record build",
+      "line": 21,
+      "steps": [
+        {
+          "name": "retry",
+          "line": 22,
+          "named": {
+            "conditions": [
+              "kubernetesAgent(...)",
+              "nonresumable(...)"
+            ],
+            "count": 2
+          },
+          "body": [
+            {
+              "name": "node",
+              "line": 23,
+              "args": [
+                "maven-21-nonspot"
+              ],
+              "body": [
+                {
+                  "name": "checkout",
+                  "line": 24,
+                  "args": [
+                    "scm"
+                  ],
+                  "category": "direct",
+                  "dynamic": true,
+                  "variable_args": [
+                    0
+                  ]
+                },
+                {
+                  "name": "withCredentials",
+                  "line": 29,
+                  "args": [
+                    [
+                      {
+                        "expr": "string(...)"
+                      }
+                    ]
+                  ],
+                  "named": {
+                    "bindings": [
+                      {
+                        "type": "string",
+                        "credentialsId": "launchable-jenkins-jenkins",
+                        "variable": "LAUNCHABLE_TOKEN"
+                      }
+                    ]
+                  },
+                  "body": [
+                    {
+                      "name": "<decl>",
+                      "line": 34,
+                      "named": {
+                        "_target": "launchableName"
+                      },
+                      "body": [
+                        {
+                          "name": "replaceAll",
+                          "line": 34,
+                          "args": [
+                            "(%[0-9A-Fa-f]{2})+",
+                            "-"
+                          ],
+                          "category": "groovy",
+                          "receiver": "env.BUILD_TAG"
+                        }
+                      ],
+                      "category": "dynamic",
+                      "source": "launchableName = env.BUILD_TAG.replaceAll(...)",
+                      "dynamic": true
+                    },
+                    {
+                      "name": "sh",
+                      "line": 35,
+                      "args": [
+                        "echo launchable verify && echo launchable record build --name ${launchableName} --source jenkinsci/jenkins=."
+                      ],
+                      "category": "direct",
+                      "dynamic": true
+                    },
+                    {
+                      "name": "combinations",
+                      "line": 36,
+                      "body": [
+                        {
+                          "name": "<decl>",
+                          "line": 37,
+                          "named": {
+                            "_target": "("
+                          },
+                          "category": "dynamic",
+                          "source": "( = it",
+                          "dynamic": true
+                        },
+                        {
+                          "name": "<if>",
+                          "line": 38,
+                          "body": [
+                            {
+                              "name": "<return>",
+                              "line": 39,
+                              "category": "dynamic",
+                              "dynamic": true
+                            }
+                          ],
+                          "category": "dynamic",
+                          "source": "platform == 'windows' && jdk != axes.jdks.last()",
+                          "dynamic": true
+                        },
+                        {
+                          "name": "<decl>",
+                          "line": 41,
+                          "named": {
+                            "_target": "sessionFile"
+                          },
+                          "category": "dynamic",
+                          "source": "sessionFile = launchable-session-${platform}-jdk${jdk}.txt",
+                          "dynamic": true
+                        },
+                        {
+                          "name": "sh",
+                          "line": 42,
+                          "args": [
+                            "echo launchable record session --build ${launchableName} --flavor platform=${platform} --flavor jdk=${jdk} >${sessionFile}"
+                          ],
+                          "category": "direct",
+                          "dynamic": true
+                        },
+                        {
+                          "name": "stash",
+                          "line": 43,
+                          "named": {
+                            "name": "sessionFile",
+                            "includes": "sessionFile"
+                          },
+                          "category": "policy",
+                          "dynamic": true
+                        }
+                      ],
+                      "category": "unknown",
+                      "receiver": "axes.values()"
+                    }
+                  ],
+                  "category": "policy",
+                  "dynamic": true
+                },
+                {
+                  "name": "withCredentials",
+                  "line": 50,
+                  "args": [
+                    [
+                      {
+                        "expr": "string(...)"
+                      }
+                    ]
+                  ],
+                  "named": {
+                    "bindings": [
+                      {
+                        "type": "string",
+                        "credentialsId": "launchable-jenkins-acceptance-test-harness",
+                        "variable": "LAUNCHABLE_TOKEN"
+                      }
+                    ]
+                  },
+                  "body": [
+                    {
+                      "name": "sh",
+                      "line": 51,
+                      "args": [
+                        "echo launchable verify && echo launchable record commit"
+                      ],
+                      "category": "direct"
+                    }
+                  ],
+                  "category": "policy",
+                  "dynamic": true
+                },
+                {
+                  "name": "withCredentials",
+                  "line": 53,
+                  "args": [
+                    [
+                      {
+                        "expr": "string(...)"
+                      }
+                    ]
+                  ],
+                  "named": {
+                    "bindings": [
+                      {
+                        "type": "string",
+                        "credentialsId": "launchable-jenkins-bom",
+                        "variable": "LAUNCHABLE_TOKEN"
+                      }
+                    ]
+                  },
+                  "body": [
+                    {
+                      "name": "sh",
+                      "line": 54,
+                      "args": [
+                        "echo launchable verify && echo launchable record commit"
+                      ],
+                      "category": "direct"
+                    }
+                  ],
+                  "category": "policy",
+                  "dynamic": true
+                }
+              ],
+              "category": "policy"
+            }
+          ],
+          "category": "policy"
+        }
+      ]
+    },
+    {
+      "line": 60,
+      "steps": [
+        {
+          "name": "<decl>",
+          "line": 60,
+          "named": {
+            "_target": "builds"
+          },
+          "category": "dynamic",
+          "source": "builds = []",
+          "dynamic": true
+        },
+        {
+          "name": "combinations",
+          "line": 62,
+          "body": [
+            {
+              "name": "<decl>",
+              "line": 63,
+              "named": {
+                "_target": "("
+              },
+              "category": "dynamic",
+              "source": "( = it",
+              "dynamic": true
+            },
+            {
+              "name": "<if>",
+              "line": 64,
+              "body": [
+                {
+                  "name": "<return>",
+                  "line": 65,
+                  "category": "dynamic",
+                  "dynamic": true
+                }
+              ],
+              "category": "dynamic",
+              "source": "platform == 'windows' && jdk != axes.jdks.last()",
+              "dynamic": true
+            },
+            {
+              "name": "<assign>",
+              "line": 67,
+              "named": {
+                "_target": "builds[\"${platform}-jdk${jdk}\"]"
+              },
+              "category": "dynamic",
+              "source": "builds[\"${platform}-jdk${jdk}\"] = ",
+              "dynamic": true
+            }
+          ],
+          "category": "unknown",
+          "receiver": "axes.values()"
+        },
+        {
+          "name": "<decl>",
+          "line": 230,
+          "named": {
+            "_target": "athAxes"
+          },
+          "category": "dynamic",
+          "source": "athAxes = [platforms: [linux], jdks: [21], browsers: [firefox]]",
+          "dynamic": true
+        },
+        {
+          "name": "combinations",
+          "line": 235,
+          "body": [
+            {
+              "name": "<decl>",
+              "line": 236,
+              "named": {
+                "_target": "("
+              },
+              "category": "dynamic",
+              "source": "( = it",
+              "dynamic": true
+            },
+            {
+              "name": "<assign>",
+              "line": 237,
+              "named": {
+                "_target": "builds[\"ath-${platform}-jdk${jdk}-${browser}\"]"
+              },
+              "category": "dynamic",
+              "source": "builds[\"ath-${platform}-jdk${jdk}-${browser}\"] = ",
+              "dynamic": true
+            }
+          ],
+          "category": "unknown",
+          "receiver": "athAxes.values()"
+        },
+        {
+          "name": "<assign>",
+          "line": 270,
+          "named": {
+            "_target": "builds.failFast"
+          },
+          "category": "dynamic",
+          "source": "builds.failFast = failFast",
+          "dynamic": true
+        },
+        {
+          "name": "parallel",
+          "line": 271,
+          "args": [
+            "builds"
+          ],
+          "category": "policy",
+          "dynamic": true,
+          "variable_args": [
+            0
+          ]
+        },
+        {
+          "name": "maybePublishIncrementals",
+          "line": 272,
+          "category": "unknown",
+          "receiver": "infra"
+        }
+      ]
+    }
+  ],
+  "notes": [
+    "line 62: stage(s) '${platform.capitalize()} - JDK ${jdk} - Checkout', '${platform.capitalize()} - JDK ${jdk} - Build / Test', '${platform.capitalize()} - JDK ${jdk} - Publish' nested in 'combinations' (plugin/library block) kept as its nested steps, in an unnamed segment",
+    "line 271: parallel() over a runtime-built map 'builds' (dynamic fan-out)",
+    "10 statement(s) outside any stage kept in source order in 2 unnamed segment(s) (from line(s) 8, 60)"
+  ]
+}

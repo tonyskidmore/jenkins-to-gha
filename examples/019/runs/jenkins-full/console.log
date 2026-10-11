@@ -1,0 +1,94 @@
+[2026-10-10T09:01:19.270Z] Started by user admin
+[2026-10-10T09:01:19.374Z] [Pipeline] Start of Pipeline
+[2026-10-10T09:01:19.393Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named branch (to a value of type GStringImpl) which could lead to memory leaks or other issues.
+[2026-10-10T09:01:19.393Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named target_location (to a value of type GStringImpl) which could lead to memory leaks or other issues.
+[2026-10-10T09:01:19.393Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named git_repo_url (to a value of type GStringImpl) which could lead to memory leaks or other issues.
+[2026-10-10T09:01:19.393Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named plugin_check (to a value of type GStringImpl) which could lead to memory leaks or other issues.
+[2026-10-10T09:01:19.393Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named bucket (to a value of type GStringImpl) which could lead to memory leaks or other issues.
+[2026-10-10T09:01:19.393Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named file (to a value of type GStringImpl) which could lead to memory leaks or other issues.
+[2026-10-10T09:01:19.393Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named integration_test_check (to a value of type GStringImpl) which could lead to memory leaks or other issues.
+[2026-10-10T09:01:19.403Z] [Pipeline] timestamps
+[2026-10-10T09:01:19.404Z] The timestamps step is unnecessary when timestamps are enabled for all Pipeline builds.
+[2026-10-10T09:01:19.408Z] [Pipeline] {
+[2026-10-10T09:01:19.436Z] [Pipeline] ansiColor
+[2026-10-10T09:01:19.442Z] [Pipeline] {
+[2026-10-10T09:01:19.447Z] 
+[2026-10-10T09:01:19.473Z] [Pipeline] node
+[2026-10-10T09:01:19.489Z] Running on Jenkins in /var/jenkins_home/workspace/ex-019-full
+[2026-10-10T09:01:19.498Z] [Pipeline] {
+[2026-10-10T09:01:19.514Z] [Pipeline] deleteDir
+[2026-10-10T09:01:19.549Z] [Pipeline] stage
+[2026-10-10T09:01:19.555Z] [Pipeline] { (Git Checkout)
+[2026-10-10T09:01:19.578Z] [Pipeline] parallel
+[2026-10-10T09:01:19.589Z] [Pipeline] { (Branch: main)
+[2026-10-10T09:01:19.594Z] [Pipeline] { (Branch: plugin)
+[2026-10-10T09:01:19.612Z] [Pipeline] }
+[2026-10-10T09:01:19.617Z] [Pipeline] }
+[2026-10-10T09:01:19.655Z] [Pipeline] // parallel
+[2026-10-10T09:01:19.666Z] [Pipeline] }
+[2026-10-10T09:01:19.689Z] [Pipeline] // stage
+[2026-10-10T09:01:19.701Z] [Pipeline] pwd
+[2026-10-10T09:01:19.722Z] [Pipeline] dir
+[2026-10-10T09:01:19.722Z] Running in /var/jenkins_home/workspace/ex-019-full
+[2026-10-10T09:01:19.727Z] [Pipeline] {
+[2026-10-10T09:01:19.753Z] [Pipeline] stash
+[2026-10-10T09:01:19.760Z] Stashed 0 file(s)
+[2026-10-10T09:01:19.778Z] [Pipeline] }
+[2026-10-10T09:01:19.801Z] [Pipeline] // dir
+[2026-10-10T09:01:19.813Z] [Pipeline] }
+[2026-10-10T09:01:19.839Z] [Pipeline] // node
+[2026-10-10T09:01:19.860Z] [Pipeline] node
+[2026-10-10T09:01:19.873Z] Running on Jenkins in /var/jenkins_home/workspace/ex-019-full
+[2026-10-10T09:01:19.883Z] [Pipeline] {
+[2026-10-10T09:01:19.903Z] [Pipeline] deleteDir
+[2026-10-10T09:01:19.934Z] [Pipeline] pwd
+[2026-10-10T09:01:19.954Z] [Pipeline] unstash
+[2026-10-10T09:01:19.985Z] [Pipeline] dir
+[2026-10-10T09:01:19.985Z] Running in /var/jenkins_home/workspace/ex-019-full/j2gha-stub
+[2026-10-10T09:01:19.989Z] [Pipeline] {
+[2026-10-10T09:01:20.021Z] [Pipeline] stage
+[2026-10-10T09:01:20.026Z] [Pipeline] { (NPM Install)
+[2026-10-10T09:01:20.046Z] [Pipeline] }
+[2026-10-10T09:01:20.071Z] [Pipeline] // stage
+[2026-10-10T09:01:20.091Z] [Pipeline] stage
+[2026-10-10T09:01:20.097Z] [Pipeline] { (Security Check)
+[2026-10-10T09:01:20.113Z] [Pipeline] }
+[2026-10-10T09:01:20.136Z] [Pipeline] // stage
+[2026-10-10T09:01:20.157Z] [Pipeline] stage
+[2026-10-10T09:01:20.162Z] [Pipeline] { (SonarQube)
+[2026-10-10T09:01:20.177Z] [Pipeline] }
+[2026-10-10T09:01:20.198Z] [Pipeline] // stage
+[2026-10-10T09:01:20.218Z] [Pipeline] stage
+[2026-10-10T09:01:20.223Z] [Pipeline] { (Unit Tests)
+[2026-10-10T09:01:20.238Z] [Pipeline] }
+[2026-10-10T09:01:20.260Z] [Pipeline] // stage
+[2026-10-10T09:01:20.280Z] [Pipeline] stage
+[2026-10-10T09:01:20.285Z] [Pipeline] { (NPM Build)
+[2026-10-10T09:01:20.301Z] [Pipeline] }
+[2026-10-10T09:01:20.323Z] [Pipeline] // stage
+[2026-10-10T09:01:20.344Z] [Pipeline] stage
+[2026-10-10T09:01:20.350Z] [Pipeline] { (Cordova Platform)
+[2026-10-10T09:01:20.367Z] [Pipeline] }
+[2026-10-10T09:01:20.389Z] [Pipeline] // stage
+[2026-10-10T09:01:20.399Z] [Pipeline] }
+[2026-10-10T09:01:20.419Z] [Pipeline] // dir
+[2026-10-10T09:01:20.441Z] [Pipeline] dir
+[2026-10-10T09:01:20.441Z] Running in /var/jenkins_home/workspace/ex-019-full/j2gha-stub/platforms/ios
+[2026-10-10T09:01:20.446Z] [Pipeline] {
+[2026-10-10T09:01:20.472Z] [Pipeline] stage
+[2026-10-10T09:01:20.477Z] [Pipeline] { (Build)
+[2026-10-10T09:01:20.493Z] [Pipeline] }
+[2026-10-10T09:01:20.513Z] [Pipeline] // stage
+[2026-10-10T09:01:20.528Z] [Pipeline] stash
+[2026-10-10T09:01:20.554Z] [Pipeline] }
+[2026-10-10T09:01:20.580Z] [Pipeline] // dir
+[2026-10-10T09:01:20.595Z] [Pipeline] }
+[2026-10-10T09:01:20.626Z] [Pipeline] // node
+[2026-10-10T09:01:20.641Z] [Pipeline] }
+[2026-10-10T09:01:20.652Z] 
+[2026-10-10T09:01:20.673Z] [Pipeline] // ansiColor
+[2026-10-10T09:01:20.690Z] [Pipeline] }
+[2026-10-10T09:01:20.716Z] [Pipeline] // timestamps
+[2026-10-10T09:01:20.743Z] [Pipeline] End of Pipeline
+[2026-10-10T09:01:20.760Z] ERROR: No files included in stash ‘build’
+[2026-10-10T09:01:20.783Z] Finished: FAILURE

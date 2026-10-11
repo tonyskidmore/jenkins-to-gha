@@ -1,0 +1,360 @@
+{
+  "name": "j2gha 008: h2oai/h2o-3 docker/Jenkinsfile-build-docker (j2gha)",
+  "on": {
+    "push": {
+      "branches": [
+        "**"
+      ]
+    },
+    "pull_request": null,
+    "workflow_dispatch": {
+      "inputs": {
+        "forceBuild": {
+          "description": "Build even if the image is already present in the repository",
+          "required": false,
+          "type": "boolean",
+          "default": false
+        },
+        "publish": {
+          "description": "Publish built images",
+          "required": false,
+          "type": "boolean",
+          "default": false
+        },
+        "h2oBranch": {
+          "description": "H2O-3 Branch used to load dependencies.",
+          "required": false,
+          "type": "string",
+          "default": "master"
+        },
+        "noCache": {
+          "description": "If set to true, the docker image is built from scratch, with no stages used from the cache.",
+          "required": false,
+          "type": "boolean",
+          "default": true
+        }
+      }
+    }
+  },
+  "permissions": {
+    "contents": "read"
+  },
+  "env": {
+    "BRANCH_NAME": "${{ github.head_ref || github.ref_name }}",
+    "TAG_NAME": "${{ github.ref_type == 'tag' && github.ref_name || '' }}",
+    "CHANGE_ID": "${{ github.event.pull_request.number }}",
+    "forceBuild": "${{ github.event_name != 'workflow_dispatch' && 'false' || format('{0}', inputs.forceBuild) }}",
+    "publish": "${{ github.event_name != 'workflow_dispatch' && 'false' || format('{0}', inputs.publish) }}",
+    "h2oBranch": "${{ github.event_name != 'workflow_dispatch' && 'master' || format('{0}', inputs.h2oBranch) }}",
+    "noCache": "${{ github.event_name != 'workflow_dispatch' && 'true' || format('{0}', inputs.noCache) }}",
+    "GIT_COMMIT": "${{ github.sha }}",
+    "GIT_BRANCH": "${{ github.head_ref || github.ref_name }}",
+    "GIT_URL": "${{ github.server_url }}/${{ github.repository }}.git"
+  },
+  "defaults": {
+    "run": {
+      "shell": "bash"
+    }
+  },
+  "jobs": {
+    "main": {
+      "name": "main",
+      "runs-on": "ubuntu-latest",
+      "timeout-minutes": 60,
+      "steps": [
+        {
+          "name": "Checkout",
+          "uses": "actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "with": {
+            "persist-credentials": false
+          },
+          "_j2gha": {
+            "kind": "checkout",
+            "line": null,
+            "trace": false,
+            "trace_events": [],
+            "role": "checkout"
+          }
+        },
+        {
+          "name": "buildSummary (manual migration)",
+          "id": "s1",
+          "run": "echo \"::warning::Jenkins step 'buildSummary' requires manual migration\"",
+          "_j2gha": {
+            "kind": "buildSummary",
+            "stage": "",
+            "line": 9,
+            "trace": true
+          }
+        },
+        {
+          "name": "addStagesSummary (manual migration)",
+          "id": "s2",
+          "run": "echo \"::warning::Jenkins step 'addStagesSummary' requires manual migration\"",
+          "_j2gha": {
+            "kind": "addStagesSummary",
+            "stage": "",
+            "line": 11,
+            "trace": false
+          }
+        },
+        {
+          "name": "stageWithSummary (manual migration)",
+          "id": "s20",
+          "run": "echo \"::warning::Jenkins step 'stageWithSummary' requires manual migration\"",
+          "_j2gha": {
+            "kind": "stageWithSummary",
+            "stage": "",
+            "line": 91,
+            "trace": false
+          }
+        },
+        {
+          "name": "refreshStage (manual migration)",
+          "id": "s3",
+          "run": "echo \"::warning::Jenkins step 'refreshStage' requires manual migration\"",
+          "_j2gha": {
+            "kind": "refreshStage",
+            "stage": "",
+            "line": 93,
+            "trace": false
+          }
+        },
+        {
+          "name": "cleanWs",
+          "id": "s4",
+          "run": "find . -mindepth 1 -delete || true",
+          "_j2gha": {
+            "kind": "cleanWs",
+            "stage": "",
+            "line": 94,
+            "trace": true
+          }
+        },
+        {
+          "name": "checkout",
+          "id": "s5",
+          "uses": "actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "with": {
+            "persist-credentials": false
+          },
+          "_j2gha": {
+            "kind": "checkout",
+            "stage": "",
+            "line": 95,
+            "trace": true
+          }
+        },
+        {
+          "name": "load (manual migration)",
+          "id": "s6",
+          "run": "echo \"::warning::Jenkins step 'load' requires manual migration\"",
+          "_j2gha": {
+            "kind": "load",
+            "stage": "",
+            "line": 97,
+            "trace": false
+          }
+        },
+        {
+          "name": "pipelineContextFactory (manual migration)",
+          "id": "s7",
+          "run": "echo \"::warning::Jenkins step 'pipelineContextFactory' requires manual migration\"",
+          "_j2gha": {
+            "kind": "pipelineContextFactory",
+            "stage": "",
+            "line": 98,
+            "trace": true
+          }
+        },
+        {
+          "name": "getDefaultImageVersion (manual migration)",
+          "id": "s8",
+          "run": "echo \"::warning::Jenkins step 'getDefaultImageVersion' requires manual migration\"",
+          "_j2gha": {
+            "kind": "getDefaultImageVersion",
+            "stage": "",
+            "line": 99,
+            "trace": false
+          }
+        },
+        {
+          "name": "dir docker",
+          "id": "s9",
+          "run": "mkdir -p -- \"$J2GHA_DIR\"",
+          "env": {
+            "J2GHA_DIR": "docker"
+          },
+          "_j2gha": {
+            "kind": "dir",
+            "stage": "",
+            "line": null,
+            "trace": false
+          }
+        },
+        {
+          "name": "s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-8/x64-linux/jdk-8u",
+          "id": "s10",
+          "run": "docker run --rm -v \"$PWD\":\"$PWD\" -w \"$PWD\" --env-file <(env | grep -v '^PATH=') d3fk/s3cmd sh -c 's3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-8/x64-linux/jdk-8u311-linux-x64.tar.gz'",
+          "working-directory": "docker",
+          "env": {
+            "AWS_ACCESS_KEY_ID": "${{ secrets.H2O_AWS_CT_JENKINS_SHARED_SERVICE_PROD_USR }}",
+            "AWS_SECRET_ACCESS_KEY": "${{ secrets.H2O_AWS_CT_JENKINS_SHARED_SERVICE_PROD_PSW }}"
+          },
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "",
+            "line": 114,
+            "trace": true
+          }
+        },
+        {
+          "name": "s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-10/x64-linux/jdk-1",
+          "id": "s11",
+          "run": "docker run --rm -v \"$PWD\":\"$PWD\" -w \"$PWD\" --env-file <(env | grep -v '^PATH=') d3fk/s3cmd sh -c 's3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-10/x64-linux/jdk-10.0.2_linux-x64_bin.tar.gz'",
+          "working-directory": "docker",
+          "env": {
+            "AWS_ACCESS_KEY_ID": "${{ secrets.H2O_AWS_CT_JENKINS_SHARED_SERVICE_PROD_USR }}",
+            "AWS_SECRET_ACCESS_KEY": "${{ secrets.H2O_AWS_CT_JENKINS_SHARED_SERVICE_PROD_PSW }}"
+          },
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "",
+            "line": 115,
+            "trace": true
+          }
+        },
+        {
+          "name": "s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-11/x64-linux/jdk-1",
+          "id": "s12",
+          "run": "docker run --rm -v \"$PWD\":\"$PWD\" -w \"$PWD\" --env-file <(env | grep -v '^PATH=') d3fk/s3cmd sh -c 's3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-11/x64-linux/jdk-11.0.3_linux-x64_bin.tar.gz'",
+          "working-directory": "docker",
+          "env": {
+            "AWS_ACCESS_KEY_ID": "${{ secrets.H2O_AWS_CT_JENKINS_SHARED_SERVICE_PROD_USR }}",
+            "AWS_SECRET_ACCESS_KEY": "${{ secrets.H2O_AWS_CT_JENKINS_SHARED_SERVICE_PROD_PSW }}"
+          },
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "",
+            "line": 116,
+            "trace": true
+          }
+        },
+        {
+          "name": "s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-12/x64-linux/jdk-1",
+          "id": "s13",
+          "run": "docker run --rm -v \"$PWD\":\"$PWD\" -w \"$PWD\" --env-file <(env | grep -v '^PATH=') d3fk/s3cmd sh -c 's3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-12/x64-linux/jdk-12.0.2_linux-x64_bin.tar.gz'",
+          "working-directory": "docker",
+          "env": {
+            "AWS_ACCESS_KEY_ID": "${{ secrets.H2O_AWS_CT_JENKINS_SHARED_SERVICE_PROD_USR }}",
+            "AWS_SECRET_ACCESS_KEY": "${{ secrets.H2O_AWS_CT_JENKINS_SHARED_SERVICE_PROD_PSW }}"
+          },
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "",
+            "line": 117,
+            "trace": true
+          }
+        },
+        {
+          "name": "s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-13/x64-linux/jdk-1",
+          "id": "s14",
+          "run": "docker run --rm -v \"$PWD\":\"$PWD\" -w \"$PWD\" --env-file <(env | grep -v '^PATH=') d3fk/s3cmd sh -c 's3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-13/x64-linux/jdk-13.0.2_linux-x64_bin.tar.gz'",
+          "working-directory": "docker",
+          "env": {
+            "AWS_ACCESS_KEY_ID": "${{ secrets.H2O_AWS_CT_JENKINS_SHARED_SERVICE_PROD_USR }}",
+            "AWS_SECRET_ACCESS_KEY": "${{ secrets.H2O_AWS_CT_JENKINS_SHARED_SERVICE_PROD_PSW }}"
+          },
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "",
+            "line": 118,
+            "trace": true
+          }
+        },
+        {
+          "name": "s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-14/x64-linux/jdk-1",
+          "id": "s15",
+          "run": "docker run --rm -v \"$PWD\":\"$PWD\" -w \"$PWD\" --env-file <(env | grep -v '^PATH=') d3fk/s3cmd sh -c 's3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-14/x64-linux/jdk-14.0.2_linux-x64_bin.tar.gz'",
+          "working-directory": "docker",
+          "env": {
+            "AWS_ACCESS_KEY_ID": "${{ secrets.H2O_AWS_CT_JENKINS_SHARED_SERVICE_PROD_USR }}",
+            "AWS_SECRET_ACCESS_KEY": "${{ secrets.H2O_AWS_CT_JENKINS_SHARED_SERVICE_PROD_PSW }}"
+          },
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "",
+            "line": 119,
+            "trace": true
+          }
+        },
+        {
+          "name": "s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-15/x64-linux/jdk-1",
+          "id": "s16",
+          "run": "docker run --rm -v \"$PWD\":\"$PWD\" -w \"$PWD\" --env-file <(env | grep -v '^PATH=') d3fk/s3cmd sh -c 's3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-15/x64-linux/jdk-15.0.2_linux-x64_bin.tar.gz'",
+          "working-directory": "docker",
+          "env": {
+            "AWS_ACCESS_KEY_ID": "${{ secrets.H2O_AWS_CT_JENKINS_SHARED_SERVICE_PROD_USR }}",
+            "AWS_SECRET_ACCESS_KEY": "${{ secrets.H2O_AWS_CT_JENKINS_SHARED_SERVICE_PROD_PSW }}"
+          },
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "",
+            "line": 120,
+            "trace": true
+          }
+        },
+        {
+          "name": "s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-16/x64-linux/jdk-1",
+          "id": "s17",
+          "run": "docker run --rm -v \"$PWD\":\"$PWD\" -w \"$PWD\" --env-file <(env | grep -v '^PATH=') d3fk/s3cmd sh -c 's3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-16/x64-linux/jdk-16.0.2_linux-x64_bin.tar.gz'",
+          "working-directory": "docker",
+          "env": {
+            "AWS_ACCESS_KEY_ID": "${{ secrets.H2O_AWS_CT_JENKINS_SHARED_SERVICE_PROD_USR }}",
+            "AWS_SECRET_ACCESS_KEY": "${{ secrets.H2O_AWS_CT_JENKINS_SHARED_SERVICE_PROD_PSW }}"
+          },
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "",
+            "line": 121,
+            "trace": true
+          }
+        },
+        {
+          "name": "s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-17/x64-linux/jdk-1",
+          "id": "s18",
+          "run": "docker run --rm -v \"$PWD\":\"$PWD\" -w \"$PWD\" --env-file <(env | grep -v '^PATH=') d3fk/s3cmd sh -c 's3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-17/x64-linux/jdk-17.0.0_linux-x64_bin.tar.gz'",
+          "working-directory": "docker",
+          "env": {
+            "AWS_ACCESS_KEY_ID": "${{ secrets.H2O_AWS_CT_JENKINS_SHARED_SERVICE_PROD_USR }}",
+            "AWS_SECRET_ACCESS_KEY": "${{ secrets.H2O_AWS_CT_JENKINS_SHARED_SERVICE_PROD_PSW }}"
+          },
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "",
+            "line": 122,
+            "trace": true
+          }
+        },
+        {
+          "name": "stash docker-sources",
+          "id": "s19",
+          "uses": "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "with": {
+            "name": "stash-docker-sources",
+            "path": "docker/**\n!docker/**/.git\n!docker/**/.git/**\n!docker/**/.gitignore\n!docker/**/.gitattributes\n!docker/**/.gitmodules\n!docker/**/.svn\n!docker/**/.svn/**\n!docker/**/.hg\n!docker/**/.hg/**\n!docker/**/.hgignore\n!docker/**/.hgtags\n!docker/**/.bzr\n!docker/**/.bzr/**\n!docker/**/.bzrignore\n!docker/**/CVS\n!docker/**/CVS/**\n!docker/**/.cvsignore\n!docker/**/SCCS\n!docker/**/SCCS/**\n!docker/**/vssver.scc\n!docker/**/.DS_Store\n!docker/**/*~\n!docker/**/#*#\n!docker/**/.#*\n!docker/**/%*%\n!docker/**/._*",
+            "retention-days": 1,
+            "include-hidden-files": true,
+            "if-no-files-found": "error"
+          },
+          "_j2gha": {
+            "kind": "stash",
+            "stage": "",
+            "line": 125,
+            "trace": true
+          }
+        }
+      ]
+    }
+  }
+}

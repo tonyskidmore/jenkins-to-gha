@@ -1,0 +1,63 @@
+[2026-10-10T09:00:51.532Z] Started by user admin
+[2026-10-10T09:00:51.731Z] [Pipeline] Start of Pipeline
+[2026-10-10T09:00:51.754Z] [Pipeline] node
+[2026-10-10T09:00:51.764Z] Running on Jenkins in /var/jenkins_home/workspace/ex-018-full
+[2026-10-10T09:00:51.776Z] [Pipeline] {
+[2026-10-10T09:00:51.789Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named stageName (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:00:51.805Z] [Pipeline] stage
+[2026-10-10T09:00:51.812Z] [Pipeline] { (App Branch Close and Tag (not currently integrated))
+[2026-10-10T09:00:51.835Z] [Pipeline] }
+[2026-10-10T09:00:51.863Z] [Pipeline] // stage
+[2026-10-10T09:00:51.868Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named stageName (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:00:51.883Z] [Pipeline] stage
+[2026-10-10T09:00:51.888Z] [Pipeline] { (Get Repos)
+[2026-10-10T09:00:51.905Z] [Pipeline] deleteDir
+[2026-10-10T09:00:51.942Z] [Pipeline] dir
+[2026-10-10T09:00:51.942Z] Running in /var/jenkins_home/workspace/ex-018-full/olcs-ssweb-version
+[2026-10-10T09:00:51.947Z] [Pipeline] {
+[2026-10-10T09:00:52.047Z] [Pipeline] checkout
+[2026-10-10T09:00:52.055Z] The recommended git tool is: NONE
+[2026-10-10T09:00:52.055Z] Warning: CredentialId "OLCS-Jenkins" could not be found.
+[2026-10-10T09:00:52.064Z] Cloning the remote Git repository
+[2026-10-10T09:00:52.064Z] Cloning repository git@repo.shd.ci.nonprod.dvsa.aws:olcs/olcs-selfserve.git
+[2026-10-10T09:00:52.064Z]  > git init /var/jenkins_home/workspace/ex-018-full/olcs-ssweb-version # timeout=10
+[2026-10-10T09:00:52.080Z] Fetching upstream changes from git@repo.shd.ci.nonprod.dvsa.aws:olcs/olcs-selfserve.git
+[2026-10-10T09:00:52.080Z]  > git --version # timeout=10
+[2026-10-10T09:00:52.085Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T09:00:52.086Z]  > git fetch --tags --force --progress -- git@repo.shd.ci.nonprod.dvsa.aws:olcs/olcs-selfserve.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:00:52.165Z] ERROR: Error cloning remote repo 'origin'
+[2026-10-10T09:00:52.165Z] hudson.plugins.git.GitException: Command "git fetch --tags --force --progress -- git@repo.shd.ci.nonprod.dvsa.aws:olcs/olcs-selfserve.git +refs/heads/*:refs/remotes/origin/*" returned status code 128:
+[2026-10-10T09:00:52.165Z] stdout: 
+[2026-10-10T09:00:52.165Z] stderr: ssh: Could not resolve hostname repo.shd.ci.nonprod.dvsa.aws: Name or service not known
+[2026-10-10T09:00:52.165Z] fatal: Could not read from remote repository.
+[2026-10-10T09:00:52.165Z] 
+[2026-10-10T09:00:52.165Z] Please make sure you have the correct access rights
+[2026-10-10T09:00:52.165Z] and the repository exists.
+[2026-10-10T09:00:52.165Z] 
+[2026-10-10T09:00:52.166Z] 	at PluginClassLoader for git-client//org.jenkinsci.plugins.gitclient.CliGitAPIImpl.launchCommandIn(CliGitAPIImpl.java:2852)
+[2026-10-10T09:00:52.166Z] 	at PluginClassLoader for git-client//org.jenkinsci.plugins.gitclient.CliGitAPIImpl.launchCommandWithCredentials(CliGitAPIImpl.java:2193)
+[2026-10-10T09:00:52.166Z] 	at PluginClassLoader for git-client//org.jenkinsci.plugins.gitclient.CliGitAPIImpl$1.execute(CliGitAPIImpl.java:638)
+[2026-10-10T09:00:52.166Z] 	at PluginClassLoader for git-client//org.jenkinsci.plugins.gitclient.CliGitAPIImpl$2.execute(CliGitAPIImpl.java:880)
+[2026-10-10T09:00:52.166Z] 	at PluginClassLoader for git//hudson.plugins.git.GitSCM.retrieveChanges(GitSCM.java:1220)
+[2026-10-10T09:00:52.166Z] 	at PluginClassLoader for git//hudson.plugins.git.GitSCM._checkout(GitSCM.java:1310)
+[2026-10-10T09:00:52.166Z] 	at PluginClassLoader for git//hudson.plugins.git.GitSCM.checkout(GitSCM.java:1277)
+[2026-10-10T09:00:52.166Z] 	at PluginClassLoader for workflow-scm-step//org.jenkinsci.plugins.workflow.steps.scm.SCMStep.checkout(SCMStep.java:136)
+[2026-10-10T09:00:52.166Z] 	at PluginClassLoader for workflow-scm-step//org.jenkinsci.plugins.workflow.steps.scm.SCMStep$StepExecutionImpl.run(SCMStep.java:101)
+[2026-10-10T09:00:52.166Z] 	at PluginClassLoader for workflow-scm-step//org.jenkinsci.plugins.workflow.steps.scm.SCMStep$StepExecutionImpl.run(SCMStep.java:88)
+[2026-10-10T09:00:52.166Z] 	at PluginClassLoader for workflow-step-api//org.jenkinsci.plugins.workflow.steps.SynchronousNonBlockingStepExecution.lambda$start$0(SynchronousNonBlockingStepExecution.java:49)
+[2026-10-10T09:00:52.166Z] 	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Unknown Source)
+[2026-10-10T09:00:52.166Z] 	at java.base/java.util.concurrent.FutureTask.run(Unknown Source)
+[2026-10-10T09:00:52.166Z] 	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+[2026-10-10T09:00:52.166Z] 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+[2026-10-10T09:00:52.166Z] 	at java.base/java.lang.Thread.run(Unknown Source)
+[2026-10-10T09:00:52.166Z] ERROR: Error cloning remote repo 'origin'
+[2026-10-10T09:00:52.166Z] ERROR: Maximum checkout retry attempts reached, aborting
+[2026-10-10T09:00:52.180Z] [Pipeline] }
+[2026-10-10T09:00:52.211Z] [Pipeline] // dir
+[2026-10-10T09:00:52.228Z] [Pipeline] }
+[2026-10-10T09:00:52.267Z] [Pipeline] // stage
+[2026-10-10T09:00:52.282Z] [Pipeline] }
+[2026-10-10T09:00:52.308Z] [Pipeline] // node
+[2026-10-10T09:00:52.328Z] [Pipeline] End of Pipeline
+[2026-10-10T09:00:52.339Z] ERROR: Error cloning remote repo 'origin'
+[2026-10-10T09:00:52.353Z] Finished: FAILURE

@@ -1,0 +1,246 @@
+pipeline {
+  agent any
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  environment {
+    APP_NAME = 'open-vsx-org'
+    NAMESPACE = 'foundation-internal-webdev-apps'
+    IMAGE_NAME = 'ghcr.io/eclipsefdn/openvsx-website'
+    CONTAINER_NAME = 'open-vsx-org'
+    IMAGE_TAG = sh(
+      script: """
+        if [ "${env.TAG_NAME}" = "" ]; then
+          printf ${env.TAG_NAME}-${env.BUILD_NUMBER}
+        else
+          printf \$(git rev-parse --short ${env.GIT_COMMIT})-${env.BUILD_NUMBER}
+        fi
+      """,
+      returnStdout: true
+    )
+  }
+
+  options {
+    /* j2gha: buildDiscarder removed */
+    timeout(time: 30, unit: 'MINUTES')
+  }
+
+  stages {
+    stage('Build docker image') {
+      agent any
+
+
+      steps {
+        sh '''
+          echo docker build --pull -t ${IMAGE_NAME}:${IMAGE_TAG} .  # j2gha-local: no Docker daemon in the harness
+        '''
+      }
+    }
+
+    stage('Push docker image') {
+      agent any
+
+
+      steps {
+        withDockerRegistry([credentialsId: 'a56a2346-7fc5-4f91-a624-073197e5f5c8', url: 'https://ghcr.io/']) {
+          sh '''
+            echo docker push ${IMAGE_NAME}:${IMAGE_TAG}  # j2gha-local: no registry credentials
+          '''
+        }
+      }
+    }
+
+    stage('Deploy test') {
+      when {
+        branch 'test'
+      }
+      steps {
+        container('kubectl') {
+          withKubeConfig([credentialsId: 'ci-bot-okd-c1-token', serverUrl: 'https://api.okd-c1.eclipse.org:6443']) {
+            sh '''
+              echo ./kubernetes/helm-deploy.sh test "${IMAGE_TAG}"  # j2gha-local: no OKD cluster
+            '''
+          }
+        }
+      }
+    }
+
+    stage('Deploy staging') {
+      when {
+        branch 'main'
+      }
+      steps {
+        container('kubectl') {
+          withKubeConfig([credentialsId: 'ci-bot-okd-c1-token', serverUrl: 'https://api.okd-c1.eclipse.org:6443']) {
+            sh '''
+              echo ./kubernetes/helm-deploy.sh staging "${IMAGE_TAG}"  # j2gha-local: no OKD cluster
+            '''
+          }
+        }
+      }
+    }
+
+    stage('Deploy production') {
+      when {
+        branch 'production'
+      }
+      steps {
+        container('kubectl') {
+          withKubeConfig([credentialsId: 'ci-bot-okd-c1-token', serverUrl: 'https://api.okd-c1.eclipse.org:6443']) {
+            sh '''
+              echo ./kubernetes/helm-deploy.sh production "${IMAGE_TAG}"  # j2gha-local: no OKD cluster
+            '''
+          }
+        }
+      }
+    }
+
+    stage('Deploy aws-staging') {
+      when {
+        branch 'aws-main'
+      }
+      steps {
+        container('eks') {
+          withCredentials([
+            string(credentialsId: 'jenkins-openvsx-aws-key-id',     variable: 'AWS_ACCESS_KEY_ID'),
+            string(credentialsId: 'jenkins-openvsx-aws-secret-key', variable: 'AWS_SECRET_ACCESS_KEY'),
+          ]) {
+            sh '''
+              set -e
+              export AWS_DEFAULT_REGION=eu-central-1
+              export KUBECONFIG="${HOME}/.kube/config"
+              echo aws eks update-kubeconfig --name eks-staging-openvsx --region eu-central-1  # j2gha-local: no AWS account
+              echo ./kubernetes/helm-deploy.sh aws-staging "${IMAGE_TAG}"  # j2gha-local: no EKS cluster
+            '''
+          }
+        }
+      }
+    }
+
+    stage('Deploy aws-production') {
+      when {
+        branch 'aws-production'
+      }
+      steps {
+        container('eks') {
+          withCredentials([
+            string(credentialsId: 'jenkins-openvsx-aws-key-id',     variable: 'AWS_ACCESS_KEY_ID'),
+            string(credentialsId: 'jenkins-openvsx-aws-secret-key', variable: 'AWS_SECRET_ACCESS_KEY'),
+          ]) {
+            sh '''
+              set -e
+              export AWS_DEFAULT_REGION=eu-central-1
+              echo aws eks update-kubeconfig --name eks-production-openvsx --region eu-central-1  # j2gha-local: no AWS account
+              echo ./kubernetes/helm-deploy.sh aws-production "${IMAGE_TAG}"  # j2gha-local: no EKS cluster
+            '''
+          }
+        }
+      }
+    }
+  }
+
+  post {
+    failure {
+      mail to: 'ci-admin@eclipse.org',
+        subject: "[open-vsx.org] Build Failure ${currentBuild.fullDisplayName} - ${env.BRANCH_NAME}",
+        mimeType: 'text/html',
+        body: "Project: ${env.JOB_NAME}<br/>Build Number: ${env.BUILD_NUMBER}<br/>Build URL: ${env.BUILD_URL}<br/>Console: ${env.BUILD_URL}/console"
+    }
+    fixed {
+      mail to: 'ci-admin@eclipse.org',
+        subject: "[open-vsx.org] Back to normal ${currentBuild.fullDisplayName} - ${env.BRANCH_NAME}",
+        mimeType: 'text/html',
+        body: "Project: ${env.JOB_NAME}<br/>Build Number: ${env.BUILD_NUMBER}<br/>Build URL: ${env.BUILD_URL}<br/>Console: ${env.BUILD_URL}/console"
+    }
+    cleanup {
+      deleteDir() /* clean up workspace */
+    }
+  }
+}
+
+// ---- j2gha localisation block (full mode) - generated, not part of the original pipeline ----
+@groovy.transform.Field def scm = [$class: 'GitSCM', branches: [[name: "4d48d2d9d80c31817c6026a1b269589601f34de6"]], extensions: [[$class: 'CloneOption', shallow: false, noTags: true]], userRemoteConfigs: [[url: "https://github.com/EclipseFdn/open-vsx.org.git"]]]
+class J2ghaAny implements Serializable { @NonCPS def propertyMissing(String n) { new J2ghaAny() }; @NonCPS def methodMissing(String n, Object a) { new J2ghaAny() }; @NonCPS String toString() { 'j2gha-stub' }; @NonCPS boolean asBoolean() { true }; @NonCPS boolean isEmpty() { false }; @NonCPS def getAt(Object k) { new J2ghaAny() }; @NonCPS Iterator iterator() { [].iterator() } }
+class J2ghaConfig extends LinkedHashMap { @NonCPS Object get(Object k) { super.containsKey(k) ? super.get(k) : new J2ghaAny() }; @NonCPS def methodMissing(String n, Object a) { new J2ghaAny() } }
+def j2ghaTrace(String kind) {
+  steps.echo('J2GHA-TRACE ' + groovy.json.JsonOutput.toJson([stage: (env.STAGE_NAME ?: ''), step: kind]))
+}
+def build(Object... a) { j2ghaTrace('build'); return [result: 'SUCCESS', number: 1, currentResult: 'SUCCESS', absoluteUrl: '', getResult: { -> 'SUCCESS' }, buildVariables: [:]] }
+def mail(Object... a) { j2ghaTrace('mail'); return null }
+def emailext(Object... a) { j2ghaTrace('emailext'); return null }
+def slackSend(Object... a) { j2ghaTrace('slackSend'); return null }
+def office365ConnectorSend(Object... a) { j2ghaTrace('office365ConnectorSend'); return null }
+def githubNotify(Object... a) { j2ghaTrace('githubNotify'); return null }
+def setGitHubPullRequestStatus(Object... a) { j2ghaTrace('setGitHubPullRequestStatus'); return null }
+def publishChecks(Object... a) { j2ghaTrace('publishChecks'); return null }
+def s3Upload(Object... a) { j2ghaTrace('s3Upload'); return null }
+def s3Download(Object... a) { j2ghaTrace('s3Download'); return null }
+def copyArtifacts(Object... a) { j2ghaTrace('copyArtifacts'); return null }
+def waitForQualityGate(Object... a) { j2ghaTrace('waitForQualityGate'); return null }
+def recordIssues(Object... a) { j2ghaTrace('recordIssues'); return null }
+def publishCoverage(Object... a) { j2ghaTrace('publishCoverage'); return null }
+def recordCoverage(Object... a) { j2ghaTrace('recordCoverage'); return null }
+def jacoco(Object... a) { j2ghaTrace('jacoco'); return null }
+def cobertura(Object... a) { j2ghaTrace('cobertura'); return null }
+def milestone(Object... a) { return null }
+def properties(Object... a) { return null }
+def buildDiscarder(Object... a) { return null }
+def checkout(Object... a) { def r = a.length == 1 ? steps.checkout(a[0]) : steps.checkout(a); if (r instanceof Map && env.GIT_BRANCH) { r.GIT_BRANCH = env.GIT_BRANCH }; return r }
+def withSonarQubeEnv(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withAWS(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withKubeConfig(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withVault(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def azureCLI(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def container(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def sshagent(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withDockerRegistry(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def configFileProvider(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withMaven(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withGradle(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withPythonEnv(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def podTemplate(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def wrap(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withDockerContainer(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+// ---- end of j2gha localisation block ----

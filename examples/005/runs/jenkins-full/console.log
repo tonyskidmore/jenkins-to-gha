@@ -1,0 +1,165 @@
+[2026-10-10T08:26:32.161Z] Started by user admin
+[2026-10-10T08:26:32.294Z] [Pipeline] Start of Pipeline
+[2026-10-10T08:26:32.458Z] [Pipeline] node
+[2026-10-10T08:26:32.470Z] Running on Jenkins in /var/jenkins_home/workspace/ex-005-full
+[2026-10-10T08:26:32.491Z] [Pipeline] {
+[2026-10-10T08:26:32.522Z] [Pipeline] timeout
+[2026-10-10T08:26:32.522Z] Timeout set to expire in 3 hr 0 min
+[2026-10-10T08:26:32.527Z] [Pipeline] {
+[2026-10-10T08:26:32.560Z] [Pipeline] stage
+[2026-10-10T08:26:32.565Z] [Pipeline] { (Checkout)
+[2026-10-10T08:26:32.608Z] [Pipeline] script
+[2026-10-10T08:26:32.617Z] [Pipeline] {
+[2026-10-10T08:26:32.662Z] [Pipeline] echo
+[2026-10-10T08:26:32.668Z] 
+[2026-10-10T08:26:32.668Z]                             ================================================================
+[2026-10-10T08:26:32.668Z]                             Default Integration Pipeline
+[2026-10-10T08:26:32.668Z]                             ================================================================
+[2026-10-10T08:26:32.668Z]                             Git:                    https://github.com/opensearch-project/opensearch-migrations.git @ j2gha-stub
+[2026-10-10T08:26:32.668Z]                             Stage:                  j2gha-stub
+[2026-10-10T08:26:32.668Z]                             Version:                N/A (using GIT_BRANCH)
+[2026-10-10T08:26:32.668Z]                             ================================================================
+[2026-10-10T08:26:32.668Z]                         
+[2026-10-10T08:26:32.674Z] [Pipeline] }
+[2026-10-10T08:26:32.705Z] [Pipeline] // script
+[2026-10-10T08:26:32.718Z] [Pipeline] }
+[2026-10-10T08:26:32.749Z] [Pipeline] // stage
+[2026-10-10T08:26:32.776Z] [Pipeline] stage
+[2026-10-10T08:26:32.782Z] [Pipeline] { (Test Caller Identity)
+[2026-10-10T08:26:32.813Z] [Pipeline] script
+[2026-10-10T08:26:32.820Z] [Pipeline] {
+[2026-10-10T08:26:32.842Z] [Pipeline] }
+[2026-10-10T08:26:32.871Z] [Pipeline] // script
+[2026-10-10T08:26:32.886Z] [Pipeline] }
+[2026-10-10T08:26:32.917Z] [Pipeline] // stage
+[2026-10-10T08:26:32.948Z] [Pipeline] stage
+[2026-10-10T08:26:32.956Z] [Pipeline] { (Setup E2E CDK Context)
+[2026-10-10T08:26:32.998Z] [Pipeline] script
+[2026-10-10T08:26:33.005Z] [Pipeline] {
+[2026-10-10T08:26:33.026Z] [Pipeline] }
+[2026-10-10T08:26:33.058Z] [Pipeline] // script
+[2026-10-10T08:26:33.073Z] [Pipeline] }
+[2026-10-10T08:26:33.103Z] [Pipeline] // stage
+[2026-10-10T08:26:33.132Z] [Pipeline] stage
+[2026-10-10T08:26:33.138Z] [Pipeline] { (Build)
+[2026-10-10T08:26:33.180Z] [Pipeline] timeout
+[2026-10-10T08:26:33.180Z] Timeout set to expire in 1 hr 0 min
+[2026-10-10T08:26:33.186Z] [Pipeline] {
+[2026-10-10T08:26:33.216Z] [Pipeline] script
+[2026-10-10T08:26:33.223Z] [Pipeline] {
+[2026-10-10T08:26:33.253Z] [Pipeline] echo
+[2026-10-10T08:26:33.259Z] J2GHA-TRACE {"stage":"Build","step":"configureMavenCache"}
+[2026-10-10T08:26:33.265Z] [Pipeline] }
+[2026-10-10T08:26:33.298Z] [Pipeline] // script
+[2026-10-10T08:26:33.313Z] [Pipeline] }
+[2026-10-10T08:26:33.344Z] [Pipeline] // timeout
+[2026-10-10T08:26:33.359Z] [Pipeline] }
+[2026-10-10T08:26:33.389Z] [Pipeline] // stage
+[2026-10-10T08:26:33.419Z] [Pipeline] stage
+[2026-10-10T08:26:33.425Z] [Pipeline] { (Pre-Deploy Cleanup)
+[2026-10-10T08:26:33.478Z] [Pipeline] timeout
+[2026-10-10T08:26:33.478Z] Timeout set to expire in 1 hr 0 min
+[2026-10-10T08:26:33.485Z] [Pipeline] {
+[2026-10-10T08:26:33.534Z] [Pipeline] dir
+[2026-10-10T08:26:33.534Z] Running in /var/jenkins_home/workspace/ex-005-full/test
+[2026-10-10T08:26:33.542Z] [Pipeline] {
+[2026-10-10T08:26:33.590Z] [Pipeline] script
+[2026-10-10T08:26:33.597Z] [Pipeline] {
+[2026-10-10T08:26:33.635Z] [Pipeline] withCredentials
+[2026-10-10T08:26:33.641Z] Masking supported pattern matches of $MIGRATIONS_TEST_ACCOUNT_ID
+[2026-10-10T08:26:33.655Z] [Pipeline] {
+[2026-10-10T08:26:33.667Z] [Pipeline] }
+[2026-10-10T08:26:33.691Z] [Pipeline] // withCredentials
+[2026-10-10T08:26:33.703Z] [Pipeline] }
+[2026-10-10T08:26:33.729Z] [Pipeline] // script
+[2026-10-10T08:26:33.742Z] [Pipeline] }
+[2026-10-10T08:26:33.770Z] [Pipeline] // dir
+[2026-10-10T08:26:33.787Z] [Pipeline] }
+[2026-10-10T08:26:33.815Z] [Pipeline] // timeout
+[2026-10-10T08:26:33.828Z] [Pipeline] }
+[2026-10-10T08:26:33.855Z] [Pipeline] // stage
+[2026-10-10T08:26:33.883Z] [Pipeline] stage
+[2026-10-10T08:26:33.891Z] [Pipeline] { (Deploy)
+[2026-10-10T08:26:33.943Z] [Pipeline] timeout
+[2026-10-10T08:26:33.943Z] Timeout set to expire in 1 hr 30 min
+[2026-10-10T08:26:33.949Z] [Pipeline] {
+[2026-10-10T08:26:33.994Z] [Pipeline] dir
+[2026-10-10T08:26:33.994Z] Running in /var/jenkins_home/workspace/ex-005-full/test
+[2026-10-10T08:26:34.002Z] [Pipeline] {
+[2026-10-10T08:26:34.041Z] [Pipeline] script
+[2026-10-10T08:26:34.047Z] [Pipeline] {
+[2026-10-10T08:26:34.067Z] [Pipeline] }
+[2026-10-10T08:26:34.095Z] [Pipeline] // script
+[2026-10-10T08:26:34.108Z] [Pipeline] }
+[2026-10-10T08:26:34.137Z] [Pipeline] // dir
+[2026-10-10T08:26:34.152Z] [Pipeline] }
+[2026-10-10T08:26:34.181Z] [Pipeline] // timeout
+[2026-10-10T08:26:34.196Z] [Pipeline] }
+[2026-10-10T08:26:34.226Z] [Pipeline] // stage
+[2026-10-10T08:26:34.252Z] [Pipeline] stage
+[2026-10-10T08:26:34.259Z] [Pipeline] { (Pre-Integ Test Cleanup)
+[2026-10-10T08:26:34.299Z] [Pipeline] timeout
+[2026-10-10T08:26:34.300Z] Timeout set to expire in 10 min
+[2026-10-10T08:26:34.305Z] [Pipeline] {
+[2026-10-10T08:26:34.343Z] [Pipeline] dir
+[2026-10-10T08:26:34.343Z] Running in /var/jenkins_home/workspace/ex-005-full/test
+[2026-10-10T08:26:34.349Z] [Pipeline] {
+[2026-10-10T08:26:34.379Z] [Pipeline] script
+[2026-10-10T08:26:34.386Z] [Pipeline] {
+[2026-10-10T08:26:34.422Z] [Pipeline] withCredentials
+[2026-10-10T08:26:34.429Z] Masking supported pattern matches of $MIGRATIONS_TEST_ACCOUNT_ID
+[2026-10-10T08:26:34.445Z] [Pipeline] {
+[2026-10-10T08:26:34.460Z] [Pipeline] }
+[2026-10-10T08:26:34.359Z] [Pipeline] // withCredentials
+[2026-10-10T08:26:34.374Z] [Pipeline] }
+[2026-10-10T08:26:34.413Z] [Pipeline] // script
+[2026-10-10T08:26:34.427Z] [Pipeline] }
+[2026-10-10T08:26:34.463Z] [Pipeline] // dir
+[2026-10-10T08:26:34.478Z] [Pipeline] }
+[2026-10-10T08:26:34.507Z] [Pipeline] // timeout
+[2026-10-10T08:26:34.521Z] [Pipeline] }
+[2026-10-10T08:26:34.548Z] [Pipeline] // stage
+[2026-10-10T08:26:34.572Z] [Pipeline] stage
+[2026-10-10T08:26:34.579Z] [Pipeline] { (Integ Tests)
+[2026-10-10T08:26:34.619Z] [Pipeline] timeout
+[2026-10-10T08:26:34.619Z] Timeout set to expire in 1 hr 0 min
+[2026-10-10T08:26:34.625Z] [Pipeline] {
+[2026-10-10T08:26:34.680Z] [Pipeline] dir
+[2026-10-10T08:26:34.680Z] Running in /var/jenkins_home/workspace/ex-005-full/test
+[2026-10-10T08:26:34.692Z] [Pipeline] {
+[2026-10-10T08:26:34.721Z] [Pipeline] script
+[2026-10-10T08:26:34.727Z] [Pipeline] {
+[2026-10-10T08:26:34.745Z] [Pipeline] }
+[2026-10-10T08:26:34.771Z] [Pipeline] // script
+[2026-10-10T08:26:34.787Z] [Pipeline] }
+[2026-10-10T08:26:34.822Z] [Pipeline] // dir
+[2026-10-10T08:26:34.836Z] [Pipeline] }
+[2026-10-10T08:26:34.866Z] [Pipeline] // timeout
+[2026-10-10T08:26:34.879Z] [Pipeline] }
+[2026-10-10T08:26:34.910Z] [Pipeline] // stage
+[2026-10-10T08:26:34.938Z] [Pipeline] stage
+[2026-10-10T08:26:34.945Z] [Pipeline] { (Declarative: Post Actions)
+[2026-10-10T08:26:34.988Z] [Pipeline] timeout
+[2026-10-10T08:26:34.988Z] Timeout set to expire in 10 min
+[2026-10-10T08:26:34.994Z] [Pipeline] {
+[2026-10-10T08:26:35.028Z] [Pipeline] dir
+[2026-10-10T08:26:35.028Z] Running in /var/jenkins_home/workspace/ex-005-full/test
+[2026-10-10T08:26:35.033Z] [Pipeline] {
+[2026-10-10T08:26:35.061Z] [Pipeline] script
+[2026-10-10T08:26:35.068Z] [Pipeline] {
+[2026-10-10T08:26:35.091Z] [Pipeline] }
+[2026-10-10T08:26:35.120Z] [Pipeline] // script
+[2026-10-10T08:26:35.136Z] [Pipeline] }
+[2026-10-10T08:26:35.164Z] [Pipeline] // dir
+[2026-10-10T08:26:35.177Z] [Pipeline] }
+[2026-10-10T08:26:35.208Z] [Pipeline] // timeout
+[2026-10-10T08:26:35.234Z] [Pipeline] echo
+[2026-10-10T08:26:35.239Z] J2GHA-TRACE {"stage":"Declarative: Post Actions","step":"cleanupMavenCache"}
+[2026-10-10T08:26:35.245Z] [Pipeline] }
+[2026-10-10T08:26:35.274Z] [Pipeline] // stage
+[2026-10-10T08:26:35.289Z] [Pipeline] }
+[2026-10-10T08:26:35.316Z] [Pipeline] // timeout
+[2026-10-10T08:26:35.332Z] [Pipeline] }
+[2026-10-10T08:26:35.366Z] [Pipeline] // node
+[2026-10-10T08:26:35.380Z] [Pipeline] End of Pipeline
+[2026-10-10T08:26:35.426Z] Finished: SUCCESS

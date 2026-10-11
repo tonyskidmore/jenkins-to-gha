@@ -1,0 +1,63 @@
+import in.oneanupam.jenkins.PipelineDefaults
+
+def call(Map config = [:]) {
+    Map settings = PipelineDefaults.resolve(
+        config,
+        libraryResource('in/oneanupam/jenkins/pipeline.properties'),
+        env.JOB_NAME
+    )
+    String application = settings.application
+
+    pipeline {
+        agent any
+
+        options {
+            timestamps()
+            disableConcurrentBuilds()
+            skipDefaultCheckout(true)
+        }
+
+        environment {
+            APPLICATION_NAME = application
+        }
+
+        stages {
+            stage('Checkout') {
+                steps {
+                    checkout scm
+                }
+            }
+
+            stage('Install') {
+                steps {
+                    sh settings.installCommand
+                }
+            }
+
+            stage('Test') {
+                steps {
+                    sh settings.testCommand
+                }
+            }
+
+            stage('Build') {
+                steps {
+                    sh settings.buildCommand
+                }
+            }
+        }
+
+        post {
+            always {
+                junit testResults: settings.testResultsPattern, allowEmptyResults: true
+                archiveArtifacts artifacts: settings.artifactPattern, allowEmptyArchive: true
+            }
+            success {
+                echo "${APPLICATION_NAME} completed successfully"
+            }
+            failure {
+                echo "${APPLICATION_NAME} failed"
+            }
+        }
+    }
+}

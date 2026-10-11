@@ -1,0 +1,75 @@
+# j2gha selfhosted variant (full) of examples/016
+name: 'j2gha 016: dvsa/cvs-auto-mobile-app-retired Jenkinsfile (j2gha)'
+on:
+  push:
+    branches:
+    - j2gha/run/016-full-selfhosted-20261010102920
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  BRANCH_NAME: develop
+  TAG_NAME: ''
+  CHANGE_ID: ''
+  GIT_COMMIT: bf150f606a385a8ed5eacc00070a988c675dd815
+  GIT_BRANCH: origin/develop
+  GIT_URL: ${{ github.server_url }}/${{ github.repository }}.git
+defaults:
+  run:
+    shell: bash
+jobs:
+  main:
+    name: main
+    runs-on:
+    - self-hosted
+    - j2gha-5cdb448a
+    timeout-minutes: 10
+    steps:
+    - name: Checkout
+      uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      with:
+        persist-credentials: false
+        repository: dvsa/cvs-auto-mobile-app-retired
+        ref: bf150f606a385a8ed5eacc00070a988c675dd815
+    - name: podTemplate (manual migration)
+      id: s9
+      run: echo "::warning::Jenkins step 'podTemplate' requires manual migration"
+    - name: withFolderProperties (manual migration)
+      id: s1
+      run: echo "::warning::Jenkins step 'withFolderProperties' requires manual migration"
+    - name: 'checkout: checkout'
+      id: s2
+      uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      with:
+        persist-credentials: false
+        repository: dvsa/cvs-auto-mobile-app-retired
+        ref: bf150f606a385a8ed5eacc00070a988c675dd815
+    - name: 'Get IPA from AWS S3: aws s3 cp s3://dvsa-cvs-mobile-artefacts/files/${LBRANCH}.txt ${LBRANC'
+      id: s3
+      run: aws s3 cp s3://dvsa-cvs-mobile-artefacts/files/${LBRANCH}.txt ${LBRANCH}.txt
+      env:
+        AWS_ACCESS_KEY_ID: j2gha-user
+        AWS_SECRET_ACCESS_KEY: j2gha-fake-password
+    - name: 'install ipa in browserstack: wget -O CVSMobile.ipa `cat ${LBRANCH}.txt`'
+      id: s4
+      run: wget -O CVSMobile.ipa `cat ${LBRANCH}.txt`
+    - name: 'install ipa in browserstack: curl -u $BROWSERSTACK_CREDS -X POST "https://api-cloud.browserstack.co'
+      id: s5
+      run: curl -u $BROWSERSTACK_CREDS -X POST "https://api-cloud.browserstack.com/app-automate/upload" -F "file=@CVSMobile.ipa"
+        | jq ".app_url"
+      env:
+        BROWSERSTACK_CREDS: j2gha-fake-secret
+    - name: 'test: browserstack (manual migration)'
+      id: s7
+      run: echo "::warning::Jenkins step 'browserstack' requires manual migration"
+    - name: 'test: mvn --batch-mode clean install -PCI-Browserstack -DBROWSERSTACK_APP_ID'
+      id: s6
+      run: mvn --batch-mode clean install -PCI-Browserstack -DBROWSERSTACK_APP_ID=${APP_ID} -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+    - name: 'create report: publish HTML report'
+      id: s8
+      if: always()
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: html-report-8
+        path: target/site/serenity
+        retention-days: 1

@@ -1,0 +1,151 @@
+{
+  "tier": "jenkins",
+  "mode": "full",
+  "scenario": {
+    "branch": "master",
+    "git_branch": "origin/master"
+  },
+  "localisation": {
+    "changes": [
+      "L11: node(master) -> node('built-in')",
+      "L7: import org.jvnet.jenkins.plugins.nodelabelparameter. removed (class stubbed)"
+    ],
+    "stubs": [
+      "build",
+      "mail",
+      "emailext",
+      "slackSend",
+      "office365ConnectorSend",
+      "githubNotify",
+      "setGitHubPullRequestStatus",
+      "publishChecks",
+      "s3Upload",
+      "s3Download",
+      "copyArtifacts",
+      "waitForQualityGate",
+      "recordIssues",
+      "publishCoverage",
+      "recordCoverage",
+      "jacoco",
+      "cobertura",
+      "milestone",
+      "properties",
+      "buildDiscarder",
+      "checkout(GIT_BRANCH kept)",
+      "withSonarQubeEnv",
+      "withAWS",
+      "withKubeConfig",
+      "withVault",
+      "azureCLI",
+      "container",
+      "sshagent",
+      "withDockerRegistry",
+      "configFileProvider",
+      "withMaven",
+      "withGradle",
+      "withPythonEnv",
+      "podTemplate",
+      "wrap",
+      "withDockerContainer",
+      "node"
+    ],
+    "auto_repairs": {
+      "removed": [],
+      "stubbed": [],
+      "ineffective": []
+    }
+  },
+  "attempts": [
+    {
+      "attempt": 0,
+      "phase": "run",
+      "build": 2,
+      "result": "FAILURE",
+      "seconds": 2.6,
+      "repairs": [],
+      "stubs": []
+    }
+  ],
+  "result": "FAILURE",
+  "build": 2,
+  "duration_ms": 810,
+  "stages": [
+    {
+      "name": "App Branch Close and Tag (not currently integrated)",
+      "status": "SUCCESS",
+      "durationMillis": 50
+    },
+    {
+      "name": "Get Repos",
+      "status": "FAILED",
+      "durationMillis": 377
+    }
+  ],
+  "traces": [],
+  "approved_inputs": [],
+  "error_tail": "[2026-10-10T09:00:52.165Z] ERROR: Error cloning remote repo 'origin'\n[2026-10-10T09:00:52.165Z] hudson.plugins.git.GitException: Command \"git fetch --tags --force --progress -- git@repo.shd.ci.nonprod.dvsa.aws:olcs/olcs-selfserve.git +refs/heads/*:refs/remotes/origin/*\" returned status code 128:\n[2026-10-10T09:00:52.165Z] stdout: \n[2026-10-10T09:00:52.165Z] stderr: ssh: Could not resolve hostname repo.shd.ci.nonprod.dvsa.aws: Name or service not known\n[2026-10-10T09:00:52.165Z] fatal: Could not read from remote repository.\n[2026-10-10T09:00:52.165Z] \n[2026-10-10T09:00:52.165Z] Please make sure you have the correct access rights\n[2026-10-10T09:00:52.165Z] and the repository exists.\n[2026-10-10T09:00:52.165Z] \n[2026-10-10T09:00:52.166Z] \tat PluginClassLoader for git-client//org.jenkinsci.plugins.gitclient.CliGitAPIImpl.launchCommandIn(CliGitAPIImpl.java:2852)\n[2026-10-10T09:00:52.166Z] \tat PluginClassLoader for git-client//org.jenkinsci.plugins.gitclient.CliGitAPIImpl.launchCommandWithCredentials(CliGitAPIImpl.java:2193)\n[2026-10-10T09:00:52.166Z] \tat PluginClassLoader for git-client//org.jenkinsci.plugins.gitclient.CliGitAPIImpl$1.execute(CliGitAPIImpl.java:638)",
+  "outputs": {
+    "archived": [],
+    "tests": null
+  },
+  "provenance": {
+    "jenkinsfile_sha256": "b169b2a52c27f40349a809ad0d34259b3ff9bb074f6abca4d93d7ad2a4b60807",
+    "scenario": {
+      "branch": "master",
+      "git_branch": "origin/master"
+    },
+    "mode": "full",
+    "localizer_version": 5,
+    "images": {
+      "jenkins": {
+        "ref": "j2gha/jenkins:local",
+        "present": true,
+        "id": "sha256:672c4b841b2c934f224d4f1b3523d77a1b651f8f491f8f04da47ca764eb86775",
+        "repo_digests": [],
+        "created": "2026-10-09T18:21:15.545465961Z",
+        "labels": {
+          "j2gha.base-image": "jenkins/jenkins:lts-jdk21@sha256:a660310e39ade10631f774bacd5219de767dfd08947ea5c32a739b5e5bb382c1",
+          "org.opencontainers.image.version": "2.580.1",
+          "org.opencontainers.image.revision": "457b9316d71b43cdf3e2ba6ec7c27efc40f5dc60",
+          "org.opencontainers.image.source": "https://github.com/jenkinsci/docker"
+        },
+        "jenkins_version": "2.580.1"
+      },
+      "act": {
+        "ref": "j2gha/act:local",
+        "present": true,
+        "id": "sha256:0781bb0384b914fba362a2a2483d55d30c3d3cc9b59598856146778aa88662a4",
+        "repo_digests": [],
+        "created": "2026-10-03T06:26:46.552472741Z",
+        "labels": {},
+        "act_version": "0.2.89"
+      },
+      "act_runner": {
+        "ref": "j2gha/act-runner:local",
+        "present": true,
+        "id": "sha256:134418998a1ca958b148ee6befb038aa3ff598bf147b39ce9e99b60a563a15be",
+        "repo_digests": [],
+        "created": "2026-10-09T18:54:04.157825772Z",
+        "labels": {
+          "j2gha.base-image": "catthehacker/ubuntu:act-latest@sha256:c58e2b364da03b0c804c7d660f2ecbedf2f221a382b9baa0b344b0144780ff43",
+          "org.opencontainers.image.version": "20260815",
+          "org.opencontainers.image.revision": "e2f8efe464c82732f78e967ee709c00b6af53643",
+          "org.opencontainers.image.source": "https://github.com/catthehacker/catthehacker/docker_images"
+        }
+      },
+      "jit_runner": {
+        "ref": "j2gha/runner:local",
+        "present": true,
+        "id": "sha256:4847cf6e3e915577d28244aedfbe1b633eafa060a49d4ef313129d6841e2e667",
+        "repo_digests": [],
+        "created": "2026-10-09T18:52:46.515242869Z",
+        "labels": {
+          "j2gha.base-image": "ghcr.io/actions/actions-runner:latest@sha256:4ffadc0002b2581327e06101fc8c06cd189232baf79fe561fac9caeb76f5e807",
+          "org.opencontainers.image.version": "24.04",
+          "org.opencontainers.image.source": "https://github.com/actions/runner"
+        }
+      }
+    }
+  },
+  "finished_at": "2026-10-10T09:00:54+00:00"
+}

@@ -1,0 +1,48 @@
+[2026-10-10T08:10:11.600Z] Started by user admin
+[2026-10-10T08:10:11.824Z] [Pipeline] Start of Pipeline
+[2026-10-10T08:10:11.873Z] [Pipeline] node
+[2026-10-10T08:10:11.883Z] Running on Jenkins in /var/jenkins_home/workspace/ex-016-trace
+[2026-10-10T08:10:11.894Z] [Pipeline] {
+[2026-10-10T08:10:11.920Z] [Pipeline] echo
+[2026-10-10T08:10:11.925Z] J2GHA-TRACE {"stage":"","step":"withFolderProperties"}
+[2026-10-10T08:10:11.933Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named LBRANCH (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T08:10:11.933Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named APP_ID (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T08:10:11.947Z] [Pipeline] stage
+[2026-10-10T08:10:11.952Z] [Pipeline] { (checkout)
+[2026-10-10T08:10:11.977Z] [Pipeline] echo
+[2026-10-10T08:10:11.985Z] J2GHA-TRACE {"stage":"checkout","step":"checkout"}
+[2026-10-10T08:10:11.994Z] [Pipeline] }
+[2026-10-10T08:10:12.021Z] [Pipeline] // stage
+[2026-10-10T08:10:12.046Z] [Pipeline] stage
+[2026-10-10T08:10:12.054Z] [Pipeline] { (Get IPA from AWS S3)
+[2026-10-10T08:10:12.077Z] [Pipeline] echo
+[2026-10-10T08:10:12.083Z] J2GHA-TRACE {"stage":"Get IPA from AWS S3","step":"sh"}
+[2026-10-10T08:10:12.090Z] [Pipeline] }
+[2026-10-10T08:10:12.111Z] [Pipeline] // stage
+[2026-10-10T08:10:12.132Z] [Pipeline] stage
+[2026-10-10T08:10:12.138Z] [Pipeline] { (install ipa in browserstack)
+[2026-10-10T08:10:12.162Z] [Pipeline] echo
+[2026-10-10T08:10:12.169Z] J2GHA-TRACE {"stage":"install ipa in browserstack","step":"sh"}
+[2026-10-10T08:10:12.189Z] [Pipeline] echo
+[2026-10-10T08:10:12.198Z] J2GHA-TRACE {"stage":"install ipa in browserstack","step":"sh"}
+[2026-10-10T08:10:12.198Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named APP_ID (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T08:10:12.205Z] [Pipeline] }
+[2026-10-10T08:10:12.227Z] [Pipeline] // stage
+[2026-10-10T08:10:12.249Z] [Pipeline] stage
+[2026-10-10T08:10:12.256Z] [Pipeline] { (test)
+[2026-10-10T08:10:12.279Z] [Pipeline] echo
+[2026-10-10T08:10:12.284Z] J2GHA-TRACE {"stage":"test","step":"browserstack"}
+[2026-10-10T08:10:12.303Z] [Pipeline] echo
+[2026-10-10T08:10:12.309Z] J2GHA-TRACE {"stage":"test","step":"sh"}
+[2026-10-10T08:10:12.314Z] [Pipeline] }
+[2026-10-10T08:10:12.336Z] [Pipeline] // stage
+[2026-10-10T08:10:12.356Z] [Pipeline] stage
+[2026-10-10T08:10:12.361Z] [Pipeline] { (create report)
+[2026-10-10T08:10:12.383Z] [Pipeline] echo
+[2026-10-10T08:10:12.388Z] J2GHA-TRACE {"stage":"create report","step":"publishHTML"}
+[2026-10-10T08:10:12.393Z] [Pipeline] }
+[2026-10-10T08:10:12.452Z] [Pipeline] // stage
+[2026-10-10T08:10:12.463Z] [Pipeline] }
+[2026-10-10T08:10:12.488Z] [Pipeline] // node
+[2026-10-10T08:10:12.500Z] [Pipeline] End of Pipeline
+[2026-10-10T08:10:12.538Z] Finished: SUCCESS

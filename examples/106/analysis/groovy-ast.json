@@ -1,0 +1,2727 @@
+{
+  "file": "106",
+  "ok": true,
+  "errors": [],
+  "imports": [],
+  "annotations": [],
+  "methods": [],
+  "classes": [],
+  "statements": [
+    {
+      "k": "call",
+      "name": "pipeline",
+      "args": [],
+      "named": {},
+      "line": 1,
+      "col": 1,
+      "endLine": 241,
+      "endCol": 2,
+      "body": [
+        {
+          "k": "call",
+          "name": "agent",
+          "args": [
+            {
+              "t": "var",
+              "name": "any",
+              "line": 3,
+              "col": 9,
+              "endLine": 3,
+              "endCol": 12
+            }
+          ],
+          "named": {},
+          "line": 3,
+          "col": 3,
+          "endLine": 3,
+          "endCol": 12
+        },
+        {
+          "k": "call",
+          "name": "stages",
+          "args": [],
+          "named": {},
+          "line": 5,
+          "col": 3,
+          "endLine": 144,
+          "endCol": 4,
+          "body": [
+            {
+              "k": "call",
+              "name": "stage",
+              "args": [
+                {
+                  "t": "str",
+                  "v": "Setup",
+                  "line": 6,
+                  "col": 11,
+                  "endLine": 6,
+                  "endCol": 18
+                }
+              ],
+              "named": {},
+              "line": 6,
+              "col": 5,
+              "endLine": 38,
+              "endCol": 6,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "steps",
+                  "args": [],
+                  "named": {},
+                  "line": 7,
+                  "col": 7,
+                  "endLine": 37,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "script",
+                      "args": [],
+                      "named": {},
+                      "line": 8,
+                      "col": 9,
+                      "endLine": 36,
+                      "endCol": 10,
+                      "body": [
+                        {
+                          "k": "if",
+                          "cond": "env.GIT_BRANCH == 'origin/develop' || env.GIT_BRANCH ==~ /(.+)feature-(.+)/",
+                          "condCalls": [],
+                          "then": [
+                            {
+                              "k": "assign",
+                              "op": "=",
+                              "target": "target",
+                              "value": {
+                                "t": "str",
+                                "v": "dev",
+                                "line": 11,
+                                "col": 22,
+                                "endLine": 11,
+                                "endCol": 27
+                              },
+                              "line": 11,
+                              "col": 13,
+                              "endLine": 11,
+                              "endCol": 27
+                            }
+                          ],
+                          "else": [
+                            {
+                              "k": "if",
+                              "cond": "env.GIT_BRANCH ==~ /(.+)release-(.+)/",
+                              "condCalls": [],
+                              "then": [
+                                {
+                                  "k": "assign",
+                                  "op": "=",
+                                  "target": "target",
+                                  "value": {
+                                    "t": "str",
+                                    "v": "pre",
+                                    "line": 13,
+                                    "col": 22,
+                                    "endLine": 13,
+                                    "endCol": 27
+                                  },
+                                  "line": 13,
+                                  "col": 13,
+                                  "endLine": 13,
+                                  "endCol": 27
+                                }
+                              ],
+                              "else": [
+                                {
+                                  "k": "if",
+                                  "cond": "env.GIT_BRANCH == 'origin/master'",
+                                  "condCalls": [],
+                                  "then": [
+                                    {
+                                      "k": "assign",
+                                      "op": "=",
+                                      "target": "target",
+                                      "value": {
+                                        "t": "str",
+                                        "v": "pro",
+                                        "line": 15,
+                                        "col": 22,
+                                        "endLine": 15,
+                                        "endCol": 27
+                                      },
+                                      "line": 15,
+                                      "col": 13,
+                                      "endLine": 15,
+                                      "endCol": 27
+                                    }
+                                  ],
+                                  "else": [
+                                    {
+                                      "k": "call",
+                                      "name": "error",
+                                      "args": [
+                                        {
+                                          "t": "gstr",
+                                          "v": "\"Unknown branch type: ${env.GIT_BRANCH}\"",
+                                          "vars": [
+                                            "{env.GIT_BRANCH}"
+                                          ],
+                                          "calls": [],
+                                          "line": 17,
+                                          "col": 19,
+                                          "endLine": 17,
+                                          "endCol": 59
+                                        }
+                                      ],
+                                      "named": {},
+                                      "line": 17,
+                                      "col": 13,
+                                      "endLine": 17,
+                                      "endCol": 59
+                                    }
+                                  ],
+                                  "line": 14,
+                                  "col": 18,
+                                  "endLine": 18,
+                                  "endCol": 12
+                                }
+                              ],
+                              "line": 12,
+                              "col": 18,
+                              "endLine": 18,
+                              "endCol": 12
+                            }
+                          ],
+                          "line": 10,
+                          "col": 11,
+                          "endLine": 18,
+                          "endCol": 12
+                        },
+                        {
+                          "k": "assign",
+                          "op": "=",
+                          "target": "oversion",
+                          "value": {
+                            "t": "call",
+                            "call": {
+                              "k": "call",
+                              "name": "trim",
+                              "args": [],
+                              "named": {},
+                              "line": 21,
+                              "col": 25,
+                              "endLine": 21,
+                              "endCol": 118,
+                              "receiver": "sh(script: \"jq -r '.variable.iac_version.default' src/package.tf\", returnStdout: true)",
+                              "receiverCalls": [
+                                {
+                                  "k": "call",
+                                  "name": "sh",
+                                  "args": [],
+                                  "named": {
+                                    "script": {
+                                      "t": "str",
+                                      "v": "jq -r '.variable.iac_version.default' src/package.tf",
+                                      "line": 21,
+                                      "col": 36,
+                                      "endLine": 21,
+                                      "endCol": 90
+                                    },
+                                    "returnStdout": {
+                                      "t": "bool",
+                                      "v": true,
+                                      "line": 21,
+                                      "col": 106,
+                                      "endLine": 21,
+                                      "endCol": 110
+                                    }
+                                  },
+                                  "line": 21,
+                                  "col": 25,
+                                  "endLine": 21,
+                                  "endCol": 111
+                                }
+                              ]
+                            },
+                            "line": 21,
+                            "col": 25,
+                            "endLine": 21,
+                            "endCol": 118
+                          },
+                          "line": 21,
+                          "col": 11,
+                          "endLine": 21,
+                          "endCol": 118
+                        },
+                        {
+                          "k": "assign",
+                          "op": "=",
+                          "target": "version",
+                          "value": {
+                            "t": "concat",
+                            "parts": [
+                              {
+                                "t": "concat",
+                                "parts": [
+                                  {
+                                    "t": "call",
+                                    "call": {
+                                      "k": "call",
+                                      "name": "take",
+                                      "args": [
+                                        {
+                                          "t": "num",
+                                          "v": 10,
+                                          "line": 24,
+                                          "col": 39,
+                                          "endLine": 24,
+                                          "endCol": 41
+                                        }
+                                      ],
+                                      "named": {},
+                                      "line": 24,
+                                      "col": 25,
+                                      "endLine": 24,
+                                      "endCol": 43,
+                                      "receiver": "oversion"
+                                    },
+                                    "line": 24,
+                                    "col": 25,
+                                    "endLine": 24,
+                                    "endCol": 43
+                                  },
+                                  {
+                                    "t": "str",
+                                    "v": "-",
+                                    "line": 24,
+                                    "col": 45,
+                                    "endLine": 24,
+                                    "endCol": 48
+                                  }
+                                ],
+                                "line": 24,
+                                "col": 43,
+                                "endLine": 24,
+                                "endCol": 44
+                              },
+                              {
+                                "t": "prop",
+                                "text": "env.BUILD_NUMBER",
+                                "calls": [],
+                                "line": 24,
+                                "col": 51,
+                                "endLine": 24,
+                                "endCol": 67
+                              }
+                            ],
+                            "line": 24,
+                            "col": 49,
+                            "endLine": 24,
+                            "endCol": 50
+                          },
+                          "line": 24,
+                          "col": 11,
+                          "endLine": 24,
+                          "endCol": 67
+                        },
+                        {
+                          "k": "assign",
+                          "op": "=",
+                          "target": "oversion",
+                          "value": {
+                            "t": "call",
+                            "call": {
+                              "k": "call",
+                              "name": "take",
+                              "args": [
+                                {
+                                  "t": "num",
+                                  "v": 10,
+                                  "line": 25,
+                                  "col": 39,
+                                  "endLine": 25,
+                                  "endCol": 41
+                                }
+                              ],
+                              "named": {},
+                              "line": 25,
+                              "col": 25,
+                              "endLine": 25,
+                              "endCol": 42,
+                              "receiver": "oversion"
+                            },
+                            "line": 25,
+                            "col": 25,
+                            "endLine": 25,
+                            "endCol": 42
+                          },
+                          "line": 25,
+                          "col": 11,
+                          "endLine": 25,
+                          "endCol": 42
+                        },
+                        {
+                          "k": "assign",
+                          "op": "=",
+                          "target": "iacname",
+                          "value": {
+                            "t": "prop",
+                            "text": "env.JOB_NAME",
+                            "calls": [],
+                            "line": 26,
+                            "col": 25,
+                            "endLine": 26,
+                            "endCol": 37
+                          },
+                          "line": 26,
+                          "col": 11,
+                          "endLine": 26,
+                          "endCol": 37
+                        },
+                        {
+                          "k": "assign",
+                          "op": "=",
+                          "target": "prjname",
+                          "value": {
+                            "t": "str",
+                            "v": "oss-opensource",
+                            "line": 29,
+                            "col": 25,
+                            "endLine": 29,
+                            "endCol": 41
+                          },
+                          "line": 29,
+                          "col": 11,
+                          "endLine": 29,
+                          "endCol": 41
+                        },
+                        {
+                          "k": "assign",
+                          "op": "=",
+                          "target": "packname",
+                          "value": {
+                            "t": "concat",
+                            "parts": [
+                              {
+                                "t": "concat",
+                                "parts": [
+                                  {
+                                    "t": "concat",
+                                    "parts": [
+                                      {
+                                        "t": "var",
+                                        "name": "iacname",
+                                        "line": 32,
+                                        "col": 25,
+                                        "endLine": 32,
+                                        "endCol": 32
+                                      },
+                                      {
+                                        "t": "str",
+                                        "v": "-v",
+                                        "line": 32,
+                                        "col": 35,
+                                        "endLine": 32,
+                                        "endCol": 39
+                                      }
+                                    ],
+                                    "line": 32,
+                                    "col": 33,
+                                    "endLine": 32,
+                                    "endCol": 34
+                                  },
+                                  {
+                                    "t": "var",
+                                    "name": "version",
+                                    "line": 32,
+                                    "col": 42,
+                                    "endLine": 32,
+                                    "endCol": 49
+                                  }
+                                ],
+                                "line": 32,
+                                "col": 40,
+                                "endLine": 32,
+                                "endCol": 41
+                              },
+                              {
+                                "t": "str",
+                                "v": ".tar.gz",
+                                "line": 32,
+                                "col": 52,
+                                "endLine": 32,
+                                "endCol": 61
+                              }
+                            ],
+                            "line": 32,
+                            "col": 50,
+                            "endLine": 32,
+                            "endCol": 51
+                          },
+                          "line": 32,
+                          "col": 11,
+                          "endLine": 32,
+                          "endCol": 61
+                        },
+                        {
+                          "k": "assign",
+                          "op": "=",
+                          "target": "publish_url",
+                          "value": {
+                            "t": "concat",
+                            "parts": [
+                              {
+                                "t": "concat",
+                                "parts": [
+                                  {
+                                    "t": "concat",
+                                    "parts": [
+                                      {
+                                        "t": "concat",
+                                        "parts": [
+                                          {
+                                            "t": "prop",
+                                            "text": "env.NEXUS_URL ",
+                                            "calls": [],
+                                            "line": 35,
+                                            "col": 25,
+                                            "endLine": 35,
+                                            "endCol": 39
+                                          },
+                                          {
+                                            "t": "str",
+                                            "v": "/repository/raw-terraform/",
+                                            "line": 35,
+                                            "col": 41,
+                                            "endLine": 35,
+                                            "endCol": 69
+                                          }
+                                        ],
+                                        "line": 35,
+                                        "col": 39,
+                                        "endLine": 35,
+                                        "endCol": 40
+                                      },
+                                      {
+                                        "t": "var",
+                                        "name": "prjname",
+                                        "line": 35,
+                                        "col": 72,
+                                        "endLine": 35,
+                                        "endCol": 79
+                                      }
+                                    ],
+                                    "line": 35,
+                                    "col": 70,
+                                    "endLine": 35,
+                                    "endCol": 71
+                                  },
+                                  {
+                                    "t": "str",
+                                    "v": "/",
+                                    "line": 35,
+                                    "col": 82,
+                                    "endLine": 35,
+                                    "endCol": 85
+                                  }
+                                ],
+                                "line": 35,
+                                "col": 80,
+                                "endLine": 35,
+                                "endCol": 81
+                              },
+                              {
+                                "t": "var",
+                                "name": "packname",
+                                "line": 35,
+                                "col": 88,
+                                "endLine": 35,
+                                "endCol": 96
+                              }
+                            ],
+                            "line": 35,
+                            "col": 86,
+                            "endLine": 35,
+                            "endCol": 87
+                          },
+                          "line": 35,
+                          "col": 11,
+                          "endLine": 35,
+                          "endCol": 96
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "k": "call",
+              "name": "stage",
+              "args": [
+                {
+                  "t": "str",
+                  "v": "Build",
+                  "line": 40,
+                  "col": 11,
+                  "endLine": 40,
+                  "endCol": 18
+                }
+              ],
+              "named": {},
+              "line": 40,
+              "col": 5,
+              "endLine": 58,
+              "endCol": 6,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "steps",
+                  "args": [],
+                  "named": {},
+                  "line": 41,
+                  "col": 7,
+                  "endLine": 57,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "sh",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "sed -i 's/iac-provider/terraform/g' src/variables.tf",
+                          "line": 43,
+                          "col": 12,
+                          "endLine": 43,
+                          "endCol": 66
+                        }
+                      ],
+                      "named": {},
+                      "line": 43,
+                      "col": 9,
+                      "endLine": 43,
+                      "endCol": 66
+                    },
+                    {
+                      "k": "call",
+                      "name": "sh",
+                      "args": [
+                        {
+                          "t": "gstr",
+                          "v": "\"sed -i 's/iac-artifact/${packname}/g' src/variables.tf\"",
+                          "vars": [
+                            "{packname}"
+                          ],
+                          "calls": [],
+                          "line": 44,
+                          "col": 12,
+                          "endLine": 44,
+                          "endCol": 68
+                        }
+                      ],
+                      "named": {},
+                      "line": 44,
+                      "col": 9,
+                      "endLine": 44,
+                      "endCol": 68
+                    },
+                    {
+                      "k": "call",
+                      "name": "sh",
+                      "args": [
+                        {
+                          "t": "gstr",
+                          "v": "\"sed -i 's/iac-scm-commit/${env.GIT_COMMIT}/g' src/variables.tf\"",
+                          "vars": [
+                            "{env.GIT_COMMIT}"
+                          ],
+                          "calls": [],
+                          "line": 45,
+                          "col": 12,
+                          "endLine": 45,
+                          "endCol": 76
+                        }
+                      ],
+                      "named": {},
+                      "line": 45,
+                      "col": 9,
+                      "endLine": 45,
+                      "endCol": 76
+                    },
+                    {
+                      "k": "call",
+                      "name": "sh",
+                      "args": [
+                        {
+                          "t": "gstr",
+                          "v": "\"sed -i 's|iac-scm-branch|${env.GIT_BRANCH}|g' src/variables.tf\"",
+                          "vars": [
+                            "{env.GIT_BRANCH}"
+                          ],
+                          "calls": [],
+                          "line": 46,
+                          "col": 12,
+                          "endLine": 46,
+                          "endCol": 76
+                        }
+                      ],
+                      "named": {},
+                      "line": 46,
+                      "col": 9,
+                      "endLine": 46,
+                      "endCol": 76
+                    },
+                    {
+                      "k": "call",
+                      "name": "sh",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "sed -i 's/iac-build-by/jenkins/g' src/variables.tf",
+                          "line": 47,
+                          "col": 12,
+                          "endLine": 47,
+                          "endCol": 64
+                        }
+                      ],
+                      "named": {},
+                      "line": 47,
+                      "col": 9,
+                      "endLine": 47,
+                      "endCol": 64
+                    },
+                    {
+                      "k": "call",
+                      "name": "sh",
+                      "args": [
+                        {
+                          "t": "gstr",
+                          "v": "\"sed -i 's/iac-build-name/${env.JOB_NAME}/g' src/variables.tf\"",
+                          "vars": [
+                            "{env.JOB_NAME}"
+                          ],
+                          "calls": [],
+                          "line": 48,
+                          "col": 12,
+                          "endLine": 48,
+                          "endCol": 74
+                        }
+                      ],
+                      "named": {},
+                      "line": 48,
+                      "col": 9,
+                      "endLine": 48,
+                      "endCol": 74
+                    },
+                    {
+                      "k": "call",
+                      "name": "sh",
+                      "args": [
+                        {
+                          "t": "gstr",
+                          "v": "\"sed -i 's/iac-build-id/${env.BUILD_NUMBER}/g' src/variables.tf\"",
+                          "vars": [
+                            "{env.BUILD_NUMBER}"
+                          ],
+                          "calls": [],
+                          "line": 49,
+                          "col": 12,
+                          "endLine": 49,
+                          "endCol": 76
+                        }
+                      ],
+                      "named": {},
+                      "line": 49,
+                      "col": 9,
+                      "endLine": 49,
+                      "endCol": 76
+                    },
+                    {
+                      "k": "call",
+                      "name": "sh",
+                      "args": [
+                        {
+                          "t": "gstr",
+                          "v": "\"sed -i 's/iac-build-date/${currentBuild.startTimeInMillis}/g' src/variables.tf\"",
+                          "vars": [
+                            "{currentBuild.startTimeInMillis}"
+                          ],
+                          "calls": [],
+                          "line": 50,
+                          "col": 12,
+                          "endLine": 50,
+                          "endCol": 92
+                        }
+                      ],
+                      "named": {},
+                      "line": 50,
+                      "col": 9,
+                      "endLine": 50,
+                      "endCol": 92
+                    },
+                    {
+                      "k": "call",
+                      "name": "sh",
+                      "args": [
+                        {
+                          "t": "gstr",
+                          "v": "\"sed -i 's/${oversion}/${version}/g' src/package.tf\"",
+                          "vars": [
+                            "{oversion}",
+                            "{version}"
+                          ],
+                          "calls": [],
+                          "line": 53,
+                          "col": 12,
+                          "endLine": 53,
+                          "endCol": 64
+                        }
+                      ],
+                      "named": {},
+                      "line": 53,
+                      "col": 9,
+                      "endLine": 53,
+                      "endCol": 64
+                    },
+                    {
+                      "k": "call",
+                      "name": "sh",
+                      "args": [
+                        {
+                          "t": "concat",
+                          "parts": [
+                            {
+                              "t": "str",
+                              "v": "tar --exclude='./.git' --exclude='./Jenkinsfile' --exclude='*.tar.gz' -czv ./src -f ",
+                              "line": 56,
+                              "col": 12,
+                              "endLine": 56,
+                              "endCol": 98
+                            },
+                            {
+                              "t": "var",
+                              "name": "packname",
+                              "line": 56,
+                              "col": 101,
+                              "endLine": 56,
+                              "endCol": 109
+                            }
+                          ],
+                          "line": 56,
+                          "col": 99,
+                          "endLine": 56,
+                          "endCol": 100
+                        }
+                      ],
+                      "named": {},
+                      "line": 56,
+                      "col": 9,
+                      "endLine": 56,
+                      "endCol": 109
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "k": "call",
+              "name": "stage",
+              "args": [
+                {
+                  "t": "str",
+                  "v": "Publish",
+                  "line": 60,
+                  "col": 11,
+                  "endLine": 60,
+                  "endCol": 20
+                }
+              ],
+              "named": {},
+              "line": 60,
+              "col": 5,
+              "endLine": 67,
+              "endCol": 6,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "steps",
+                  "args": [],
+                  "named": {},
+                  "line": 61,
+                  "col": 7,
+                  "endLine": 66,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "withCredentials",
+                      "args": [
+                        {
+                          "t": "list",
+                          "v": [
+                            {
+                              "t": "call",
+                              "call": {
+                                "k": "call",
+                                "name": "usernamePassword",
+                                "args": [],
+                                "named": {
+                                  "credentialsId": {
+                                    "t": "str",
+                                    "v": "nexus-credential",
+                                    "line": 62,
+                                    "col": 58,
+                                    "endLine": 62,
+                                    "endCol": 76
+                                  },
+                                  "passwordVariable": {
+                                    "t": "str",
+                                    "v": "NEXUS_PASSWORD",
+                                    "line": 62,
+                                    "col": 96,
+                                    "endLine": 62,
+                                    "endCol": 112
+                                  },
+                                  "usernameVariable": {
+                                    "t": "str",
+                                    "v": "NEXUS_USERNAME",
+                                    "line": 62,
+                                    "col": 132,
+                                    "endLine": 62,
+                                    "endCol": 148
+                                  }
+                                },
+                                "line": 62,
+                                "col": 26,
+                                "endLine": 62,
+                                "endCol": 149
+                              },
+                              "line": 62,
+                              "col": 26,
+                              "endLine": 62,
+                              "endCol": 149
+                            }
+                          ],
+                          "line": 62,
+                          "col": 25,
+                          "endLine": 62,
+                          "endCol": 150
+                        }
+                      ],
+                      "named": {},
+                      "line": 62,
+                      "col": 9,
+                      "endLine": 65,
+                      "endCol": 10,
+                      "body": [
+                        {
+                          "k": "call",
+                          "name": "sh",
+                          "args": [
+                            {
+                              "t": "concat",
+                              "parts": [
+                                {
+                                  "t": "concat",
+                                  "parts": [
+                                    {
+                                      "t": "concat",
+                                      "parts": [
+                                        {
+                                          "t": "str",
+                                          "v": "echo curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ",
+                                          "line": 64,
+                                          "col": 14,
+                                          "endLine": 64,
+                                          "endCol": 75
+                                        },
+                                        {
+                                          "t": "var",
+                                          "name": "packname",
+                                          "line": 64,
+                                          "col": 78,
+                                          "endLine": 64,
+                                          "endCol": 86
+                                        }
+                                      ],
+                                      "line": 64,
+                                      "col": 76,
+                                      "endLine": 64,
+                                      "endCol": 77
+                                    },
+                                    {
+                                      "t": "str",
+                                      "v": " ",
+                                      "line": 64,
+                                      "col": 89,
+                                      "endLine": 64,
+                                      "endCol": 92
+                                    }
+                                  ],
+                                  "line": 64,
+                                  "col": 87,
+                                  "endLine": 64,
+                                  "endCol": 88
+                                },
+                                {
+                                  "t": "var",
+                                  "name": "publish_url",
+                                  "line": 64,
+                                  "col": 95,
+                                  "endLine": 64,
+                                  "endCol": 106
+                                }
+                              ],
+                              "line": 64,
+                              "col": 93,
+                              "endLine": 64,
+                              "endCol": 94
+                            }
+                          ],
+                          "named": {},
+                          "line": 64,
+                          "col": 11,
+                          "endLine": 64,
+                          "endCol": 162
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "k": "call",
+              "name": "stage",
+              "args": [
+                {
+                  "t": "str",
+                  "v": "DEV Deploy",
+                  "line": 69,
+                  "col": 11,
+                  "endLine": 69,
+                  "endCol": 23
+                }
+              ],
+              "named": {},
+              "line": 69,
+              "col": 5,
+              "endLine": 83,
+              "endCol": 6,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "steps",
+                  "args": [],
+                  "named": {},
+                  "line": 70,
+                  "col": 7,
+                  "endLine": 82,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "withCredentials",
+                      "args": [
+                        {
+                          "t": "list",
+                          "v": [
+                            {
+                              "t": "call",
+                              "call": {
+                                "k": "call",
+                                "name": "usernamePassword",
+                                "args": [],
+                                "named": {
+                                  "credentialsId": {
+                                    "t": "str",
+                                    "v": "rundeck-credential",
+                                    "line": 71,
+                                    "col": 58,
+                                    "endLine": 71,
+                                    "endCol": 78
+                                  },
+                                  "passwordVariable": {
+                                    "t": "str",
+                                    "v": "RUNDECK_PASSWORD",
+                                    "line": 71,
+                                    "col": 98,
+                                    "endLine": 71,
+                                    "endCol": 116
+                                  },
+                                  "usernameVariable": {
+                                    "t": "str",
+                                    "v": "RUNDECK_USERNAME",
+                                    "line": 71,
+                                    "col": 136,
+                                    "endLine": 71,
+                                    "endCol": 154
+                                  }
+                                },
+                                "line": 71,
+                                "col": 26,
+                                "endLine": 71,
+                                "endCol": 155
+                              },
+                              "line": 71,
+                              "col": 26,
+                              "endLine": 71,
+                              "endCol": 155
+                            }
+                          ],
+                          "line": 71,
+                          "col": 25,
+                          "endLine": 71,
+                          "endCol": 156
+                        }
+                      ],
+                      "named": {},
+                      "line": 71,
+                      "col": 9,
+                      "endLine": 81,
+                      "endCol": 10,
+                      "body": [
+                        {
+                          "k": "call",
+                          "name": "configFileProvider",
+                          "args": [
+                            {
+                              "t": "list",
+                              "v": [
+                                {
+                                  "t": "call",
+                                  "call": {
+                                    "k": "call",
+                                    "name": "configFile",
+                                    "args": [],
+                                    "named": {
+                                      "fileId": {
+                                        "t": "str",
+                                        "v": "rundeck-follow",
+                                        "line": 77,
+                                        "col": 50,
+                                        "endLine": 77,
+                                        "endCol": 66
+                                      },
+                                      "variable": {
+                                        "t": "str",
+                                        "v": "FOLLOW",
+                                        "line": 77,
+                                        "col": 78,
+                                        "endLine": 77,
+                                        "endCol": 86
+                                      }
+                                    },
+                                    "line": 77,
+                                    "col": 31,
+                                    "endLine": 77,
+                                    "endCol": 87
+                                  },
+                                  "line": 77,
+                                  "col": 31,
+                                  "endLine": 77,
+                                  "endCol": 87
+                                }
+                              ],
+                              "line": 77,
+                              "col": 30,
+                              "endLine": 77,
+                              "endCol": 88
+                            }
+                          ],
+                          "named": {},
+                          "line": 77,
+                          "col": 11,
+                          "endLine": 80,
+                          "endCol": 12,
+                          "body": [
+                            {
+                              "k": "call",
+                              "name": "sh",
+                              "args": [
+                                {
+                                  "t": "concat",
+                                  "parts": [
+                                    {
+                                      "t": "concat",
+                                      "parts": [
+                                        {
+                                          "t": "str",
+                                          "v": "echo bash $FOLLOW \"artifact\" \"",
+                                          "line": 79,
+                                          "col": 16,
+                                          "endLine": 79,
+                                          "endCol": 48
+                                        },
+                                        {
+                                          "t": "var",
+                                          "name": "publish_url",
+                                          "line": 79,
+                                          "col": 51,
+                                          "endLine": 79,
+                                          "endCol": 62
+                                        }
+                                      ],
+                                      "line": 79,
+                                      "col": 49,
+                                      "endLine": 79,
+                                      "endCol": 50
+                                    },
+                                    {
+                                      "t": "str",
+                                      "v": "\" \"29cd3a68-e101-4176-907c-6fdf5bde13e7\"",
+                                      "line": 79,
+                                      "col": 65,
+                                      "endLine": 79,
+                                      "endCol": 107
+                                    }
+                                  ],
+                                  "line": 79,
+                                  "col": 63,
+                                  "endLine": 79,
+                                  "endCol": 64
+                                }
+                              ],
+                              "named": {},
+                              "line": 79,
+                              "col": 13,
+                              "endLine": 79,
+                              "endCol": 170
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "k": "call",
+              "name": "stage",
+              "args": [
+                {
+                  "t": "str",
+                  "v": "PRE Deploy",
+                  "line": 85,
+                  "col": 11,
+                  "endLine": 85,
+                  "endCol": 23
+                }
+              ],
+              "named": {},
+              "line": 85,
+              "col": 5,
+              "endLine": 97,
+              "endCol": 6,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "when",
+                  "args": [],
+                  "named": {},
+                  "line": 87,
+                  "col": 7,
+                  "endLine": 89,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "expression",
+                      "args": [],
+                      "named": {},
+                      "line": 88,
+                      "col": 9,
+                      "endLine": 88,
+                      "endCol": 65,
+                      "body": [
+                        {
+                          "k": "return",
+                          "value": {
+                            "t": "expr",
+                            "kind": "BinaryExpression",
+                            "text": "target == 'pre' || target == 'pro'",
+                            "calls": [],
+                            "line": 88,
+                            "col": 45,
+                            "endLine": 88,
+                            "endCol": 47
+                          },
+                          "line": 88,
+                          "col": 22,
+                          "endLine": 88,
+                          "endCol": 64
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "k": "call",
+                  "name": "steps",
+                  "args": [],
+                  "named": {},
+                  "line": 90,
+                  "col": 7,
+                  "endLine": 96,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "withCredentials",
+                      "args": [
+                        {
+                          "t": "list",
+                          "v": [
+                            {
+                              "t": "call",
+                              "call": {
+                                "k": "call",
+                                "name": "usernamePassword",
+                                "args": [],
+                                "named": {
+                                  "credentialsId": {
+                                    "t": "str",
+                                    "v": "rundeck-credential",
+                                    "line": 91,
+                                    "col": 58,
+                                    "endLine": 91,
+                                    "endCol": 78
+                                  },
+                                  "passwordVariable": {
+                                    "t": "str",
+                                    "v": "RUNDECK_PASSWORD",
+                                    "line": 91,
+                                    "col": 98,
+                                    "endLine": 91,
+                                    "endCol": 116
+                                  },
+                                  "usernameVariable": {
+                                    "t": "str",
+                                    "v": "RUNDECK_USERNAME",
+                                    "line": 91,
+                                    "col": 136,
+                                    "endLine": 91,
+                                    "endCol": 154
+                                  }
+                                },
+                                "line": 91,
+                                "col": 26,
+                                "endLine": 91,
+                                "endCol": 155
+                              },
+                              "line": 91,
+                              "col": 26,
+                              "endLine": 91,
+                              "endCol": 155
+                            }
+                          ],
+                          "line": 91,
+                          "col": 25,
+                          "endLine": 91,
+                          "endCol": 156
+                        }
+                      ],
+                      "named": {},
+                      "line": 91,
+                      "col": 9,
+                      "endLine": 95,
+                      "endCol": 10,
+                      "body": [
+                        {
+                          "k": "call",
+                          "name": "configFileProvider",
+                          "args": [
+                            {
+                              "t": "list",
+                              "v": [
+                                {
+                                  "t": "call",
+                                  "call": {
+                                    "k": "call",
+                                    "name": "configFile",
+                                    "args": [],
+                                    "named": {
+                                      "fileId": {
+                                        "t": "str",
+                                        "v": "rundeck-follow",
+                                        "line": 92,
+                                        "col": 50,
+                                        "endLine": 92,
+                                        "endCol": 66
+                                      },
+                                      "variable": {
+                                        "t": "str",
+                                        "v": "FOLLOW",
+                                        "line": 92,
+                                        "col": 78,
+                                        "endLine": 92,
+                                        "endCol": 86
+                                      }
+                                    },
+                                    "line": 92,
+                                    "col": 31,
+                                    "endLine": 92,
+                                    "endCol": 87
+                                  },
+                                  "line": 92,
+                                  "col": 31,
+                                  "endLine": 92,
+                                  "endCol": 87
+                                }
+                              ],
+                              "line": 92,
+                              "col": 30,
+                              "endLine": 92,
+                              "endCol": 88
+                            }
+                          ],
+                          "named": {},
+                          "line": 92,
+                          "col": 11,
+                          "endLine": 94,
+                          "endCol": 12,
+                          "body": [
+                            {
+                              "k": "call",
+                              "name": "sh",
+                              "args": [
+                                {
+                                  "t": "concat",
+                                  "parts": [
+                                    {
+                                      "t": "concat",
+                                      "parts": [
+                                        {
+                                          "t": "str",
+                                          "v": "echo bash $FOLLOW \"artifact\" \"",
+                                          "line": 93,
+                                          "col": 16,
+                                          "endLine": 93,
+                                          "endCol": 48
+                                        },
+                                        {
+                                          "t": "var",
+                                          "name": "publish_url",
+                                          "line": 93,
+                                          "col": 51,
+                                          "endLine": 93,
+                                          "endCol": 62
+                                        }
+                                      ],
+                                      "line": 93,
+                                      "col": 49,
+                                      "endLine": 93,
+                                      "endCol": 50
+                                    },
+                                    {
+                                      "t": "str",
+                                      "v": "\" \"ec0393b9-f0eb-4341-8812-eae241ef6544\"",
+                                      "line": 93,
+                                      "col": 65,
+                                      "endLine": 93,
+                                      "endCol": 107
+                                    }
+                                  ],
+                                  "line": 93,
+                                  "col": 63,
+                                  "endLine": 93,
+                                  "endCol": 64
+                                }
+                              ],
+                              "named": {},
+                              "line": 93,
+                              "col": 13,
+                              "endLine": 93,
+                              "endCol": 135
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "k": "call",
+              "name": "stage",
+              "args": [
+                {
+                  "t": "str",
+                  "v": "Acceptance Test",
+                  "line": 99,
+                  "col": 11,
+                  "endLine": 99,
+                  "endCol": 28
+                }
+              ],
+              "named": {},
+              "line": 99,
+              "col": 5,
+              "endLine": 118,
+              "endCol": 6,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "when",
+                  "args": [],
+                  "named": {},
+                  "line": 101,
+                  "col": 7,
+                  "endLine": 103,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "expression",
+                      "args": [],
+                      "named": {},
+                      "line": 102,
+                      "col": 9,
+                      "endLine": 102,
+                      "endCol": 39,
+                      "body": [
+                        {
+                          "k": "expr",
+                          "kind": "BinaryExpression",
+                          "text": "target == 'pro'",
+                          "calls": [],
+                          "line": 102,
+                          "col": 22,
+                          "endLine": 102,
+                          "endCol": 38
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "k": "call",
+                  "name": "agent",
+                  "args": [],
+                  "named": {},
+                  "line": 106,
+                  "col": 7,
+                  "endLine": 108,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "label",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "openshift_cli",
+                          "line": 107,
+                          "col": 15,
+                          "endLine": 107,
+                          "endCol": 30
+                        }
+                      ],
+                      "named": {},
+                      "line": 107,
+                      "col": 9,
+                      "endLine": 107,
+                      "endCol": 30
+                    }
+                  ]
+                },
+                {
+                  "k": "call",
+                  "name": "steps",
+                  "args": [],
+                  "named": {},
+                  "line": 111,
+                  "col": 7,
+                  "endLine": 117,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "sh",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "cd test && npm install",
+                          "line": 112,
+                          "col": 12,
+                          "endLine": 112,
+                          "endCol": 36
+                        }
+                      ],
+                      "named": {},
+                      "line": 112,
+                      "col": 9,
+                      "endLine": 112,
+                      "endCol": 36
+                    },
+                    {
+                      "k": "call",
+                      "name": "sh",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "cd test && echo npm test",
+                          "line": 113,
+                          "col": 12,
+                          "endLine": 113,
+                          "endCol": 38
+                        }
+                      ],
+                      "named": {},
+                      "line": 113,
+                      "col": 9,
+                      "endLine": 113,
+                      "endCol": 105
+                    },
+                    {
+                      "k": "call",
+                      "name": "cucumber",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "test/cucumber-report.json",
+                          "line": 116,
+                          "col": 18,
+                          "endLine": 116,
+                          "endCol": 45
+                        }
+                      ],
+                      "named": {},
+                      "line": 116,
+                      "col": 9,
+                      "endLine": 116,
+                      "endCol": 45
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "k": "call",
+              "name": "stage",
+              "args": [
+                {
+                  "t": "str",
+                  "v": "Approval",
+                  "line": 120,
+                  "col": 11,
+                  "endLine": 120,
+                  "endCol": 21
+                }
+              ],
+              "named": {},
+              "line": 120,
+              "col": 5,
+              "endLine": 130,
+              "endCol": 6,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "when",
+                  "args": [],
+                  "named": {},
+                  "line": 121,
+                  "col": 7,
+                  "endLine": 123,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "expression",
+                      "args": [],
+                      "named": {},
+                      "line": 122,
+                      "col": 9,
+                      "endLine": 122,
+                      "endCol": 39,
+                      "body": [
+                        {
+                          "k": "expr",
+                          "kind": "BinaryExpression",
+                          "text": "target == 'pro'",
+                          "calls": [],
+                          "line": 122,
+                          "col": 22,
+                          "endLine": 122,
+                          "endCol": 38
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "k": "call",
+                  "name": "steps",
+                  "args": [],
+                  "named": {},
+                  "line": 124,
+                  "col": 7,
+                  "endLine": 129,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "timeout",
+                      "args": [],
+                      "named": {
+                        "time": {
+                          "t": "num",
+                          "v": 30,
+                          "line": 126,
+                          "col": 22,
+                          "endLine": 126,
+                          "endCol": 24
+                        },
+                        "unit": {
+                          "t": "str",
+                          "v": "MINUTES",
+                          "line": 126,
+                          "col": 31,
+                          "endLine": 126,
+                          "endCol": 40
+                        }
+                      },
+                      "line": 126,
+                      "col": 9,
+                      "endLine": 128,
+                      "endCol": 10,
+                      "body": [
+                        {
+                          "k": "call",
+                          "name": "input",
+                          "args": [],
+                          "named": {
+                            "message": {
+                              "t": "str",
+                              "v": "Deploy to Production?",
+                              "line": 127,
+                              "col": 26,
+                              "endLine": 127,
+                              "endCol": 49
+                            },
+                            "id": {
+                              "t": "str",
+                              "v": "approval",
+                              "line": 127,
+                              "col": 55,
+                              "endLine": 127,
+                              "endCol": 65
+                            }
+                          },
+                          "line": 127,
+                          "col": 11,
+                          "endLine": 127,
+                          "endCol": 65
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "k": "call",
+              "name": "stage",
+              "args": [
+                {
+                  "t": "str",
+                  "v": "PRO Deploy",
+                  "line": 132,
+                  "col": 11,
+                  "endLine": 132,
+                  "endCol": 23
+                }
+              ],
+              "named": {},
+              "line": 132,
+              "col": 5,
+              "endLine": 143,
+              "endCol": 6,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "when",
+                  "args": [],
+                  "named": {},
+                  "line": 133,
+                  "col": 7,
+                  "endLine": 135,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "expression",
+                      "args": [],
+                      "named": {},
+                      "line": 134,
+                      "col": 9,
+                      "endLine": 134,
+                      "endCol": 46,
+                      "body": [
+                        {
+                          "k": "return",
+                          "value": {
+                            "t": "expr",
+                            "kind": "BinaryExpression",
+                            "text": "target == 'pro'",
+                            "calls": [],
+                            "line": 134,
+                            "col": 36,
+                            "endLine": 134,
+                            "endCol": 38
+                          },
+                          "line": 134,
+                          "col": 22,
+                          "endLine": 134,
+                          "endCol": 45
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "k": "call",
+                  "name": "steps",
+                  "args": [],
+                  "named": {},
+                  "line": 136,
+                  "col": 7,
+                  "endLine": 142,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "withCredentials",
+                      "args": [
+                        {
+                          "t": "list",
+                          "v": [
+                            {
+                              "t": "call",
+                              "call": {
+                                "k": "call",
+                                "name": "usernamePassword",
+                                "args": [],
+                                "named": {
+                                  "credentialsId": {
+                                    "t": "str",
+                                    "v": "rundeck-credential",
+                                    "line": 137,
+                                    "col": 58,
+                                    "endLine": 137,
+                                    "endCol": 78
+                                  },
+                                  "passwordVariable": {
+                                    "t": "str",
+                                    "v": "RUNDECK_PASSWORD",
+                                    "line": 137,
+                                    "col": 98,
+                                    "endLine": 137,
+                                    "endCol": 116
+                                  },
+                                  "usernameVariable": {
+                                    "t": "str",
+                                    "v": "RUNDECK_USERNAME",
+                                    "line": 137,
+                                    "col": 136,
+                                    "endLine": 137,
+                                    "endCol": 154
+                                  }
+                                },
+                                "line": 137,
+                                "col": 26,
+                                "endLine": 137,
+                                "endCol": 155
+                              },
+                              "line": 137,
+                              "col": 26,
+                              "endLine": 137,
+                              "endCol": 155
+                            }
+                          ],
+                          "line": 137,
+                          "col": 25,
+                          "endLine": 137,
+                          "endCol": 156
+                        }
+                      ],
+                      "named": {},
+                      "line": 137,
+                      "col": 9,
+                      "endLine": 141,
+                      "endCol": 10,
+                      "body": [
+                        {
+                          "k": "call",
+                          "name": "configFileProvider",
+                          "args": [
+                            {
+                              "t": "list",
+                              "v": [
+                                {
+                                  "t": "call",
+                                  "call": {
+                                    "k": "call",
+                                    "name": "configFile",
+                                    "args": [],
+                                    "named": {
+                                      "fileId": {
+                                        "t": "str",
+                                        "v": "rundeck-follow",
+                                        "line": 138,
+                                        "col": 50,
+                                        "endLine": 138,
+                                        "endCol": 66
+                                      },
+                                      "variable": {
+                                        "t": "str",
+                                        "v": "FOLLOW",
+                                        "line": 138,
+                                        "col": 78,
+                                        "endLine": 138,
+                                        "endCol": 86
+                                      }
+                                    },
+                                    "line": 138,
+                                    "col": 31,
+                                    "endLine": 138,
+                                    "endCol": 87
+                                  },
+                                  "line": 138,
+                                  "col": 31,
+                                  "endLine": 138,
+                                  "endCol": 87
+                                }
+                              ],
+                              "line": 138,
+                              "col": 30,
+                              "endLine": 138,
+                              "endCol": 88
+                            }
+                          ],
+                          "named": {},
+                          "line": 138,
+                          "col": 11,
+                          "endLine": 140,
+                          "endCol": 12,
+                          "body": [
+                            {
+                              "k": "call",
+                              "name": "sh",
+                              "args": [
+                                {
+                                  "t": "concat",
+                                  "parts": [
+                                    {
+                                      "t": "concat",
+                                      "parts": [
+                                        {
+                                          "t": "str",
+                                          "v": "echo bash $FOLLOW \"artifact\" \"",
+                                          "line": 139,
+                                          "col": 16,
+                                          "endLine": 139,
+                                          "endCol": 48
+                                        },
+                                        {
+                                          "t": "var",
+                                          "name": "publish_url",
+                                          "line": 139,
+                                          "col": 51,
+                                          "endLine": 139,
+                                          "endCol": 62
+                                        }
+                                      ],
+                                      "line": 139,
+                                      "col": 49,
+                                      "endLine": 139,
+                                      "endCol": 50
+                                    },
+                                    {
+                                      "t": "str",
+                                      "v": "\" \"f31fb4bb-4f55-4f23-9c03-784008acb5c4\"",
+                                      "line": 139,
+                                      "col": 65,
+                                      "endLine": 139,
+                                      "endCol": 107
+                                    }
+                                  ],
+                                  "line": 139,
+                                  "col": 63,
+                                  "endLine": 139,
+                                  "endCol": 64
+                                }
+                              ],
+                              "named": {},
+                              "line": 139,
+                              "col": 13,
+                              "endLine": 139,
+                              "endCol": 135
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "k": "call",
+          "name": "post",
+          "args": [],
+          "named": {},
+          "line": 147,
+          "col": 3,
+          "endLine": 240,
+          "endCol": 4,
+          "body": [
+            {
+              "k": "call",
+              "name": "success",
+              "args": [],
+              "named": {},
+              "line": 148,
+              "col": 5,
+              "endLine": 170,
+              "endCol": 6,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "rocketSend",
+                  "args": [],
+                  "named": {
+                    "attachments": {
+                      "t": "list",
+                      "v": [
+                        {
+                          "t": "map",
+                          "v": {
+                            "audioUrl": {
+                              "t": "str",
+                              "v": "",
+                              "line": 152,
+                              "col": 21,
+                              "endLine": 152,
+                              "endCol": 23
+                            },
+                            "authorIcon": {
+                              "t": "str",
+                              "v": "",
+                              "line": 153,
+                              "col": 23,
+                              "endLine": 153,
+                              "endCol": 25
+                            },
+                            "authorName": {
+                              "t": "str",
+                              "v": "",
+                              "line": 154,
+                              "col": 23,
+                              "endLine": 154,
+                              "endCol": 25
+                            },
+                            "color": {
+                              "t": "str",
+                              "v": "green",
+                              "line": 155,
+                              "col": 18,
+                              "endLine": 155,
+                              "endCol": 25
+                            },
+                            "imageUrl": {
+                              "t": "str",
+                              "v": "",
+                              "line": 156,
+                              "col": 21,
+                              "endLine": 156,
+                              "endCol": 23
+                            },
+                            "messageLink": {
+                              "t": "str",
+                              "v": "",
+                              "line": 157,
+                              "col": 24,
+                              "endLine": 157,
+                              "endCol": 26
+                            },
+                            "text": {
+                              "t": "str",
+                              "v": "Success",
+                              "line": 158,
+                              "col": 17,
+                              "endLine": 158,
+                              "endCol": 26
+                            },
+                            "thumbUrl": {
+                              "t": "str",
+                              "v": "",
+                              "line": 159,
+                              "col": 21,
+                              "endLine": 159,
+                              "endCol": 23
+                            },
+                            "title": {
+                              "t": "gstr",
+                              "v": "\"${version}@${env.GIT_BRANCH}\"",
+                              "vars": [
+                                "{version}",
+                                "{env.GIT_BRANCH}"
+                              ],
+                              "calls": [],
+                              "line": 160,
+                              "col": 18,
+                              "endLine": 160,
+                              "endCol": 48
+                            },
+                            "titleLink": {
+                              "t": "str",
+                              "v": "",
+                              "line": 161,
+                              "col": 22,
+                              "endLine": 161,
+                              "endCol": 24
+                            },
+                            "titleLinkDownload": {
+                              "t": "str",
+                              "v": "",
+                              "line": 162,
+                              "col": 30,
+                              "endLine": 162,
+                              "endCol": 32
+                            },
+                            "videoUrl": {
+                              "t": "str",
+                              "v": "",
+                              "line": 163,
+                              "col": 21,
+                              "endLine": 164,
+                              "endCol": 9
+                            }
+                          },
+                          "line": 151,
+                          "col": 9,
+                          "endLine": 165,
+                          "endCol": 7
+                        }
+                      ],
+                      "line": 150,
+                      "col": 31,
+                      "endLine": 165,
+                      "endCol": 8
+                    },
+                    "avatar": {
+                      "t": "gstr",
+                      "v": "\"${env.WEBSERVER_URL}/static/jenkins.png\"",
+                      "vars": [
+                        "{env.WEBSERVER_URL}"
+                      ],
+                      "calls": [],
+                      "line": 166,
+                      "col": 15,
+                      "endLine": 166,
+                      "endCol": 56
+                    },
+                    "channel": {
+                      "t": "str",
+                      "v": "oss-opensource",
+                      "line": 167,
+                      "col": 16,
+                      "endLine": 167,
+                      "endCol": 32
+                    },
+                    "message": {
+                      "t": "gstr",
+                      "v": "\"Platform Build #${env.BUILD_NUMBER} finished - ${env.JOB_NAME} (<${env.BUILD_URL}|Open>)\"",
+                      "vars": [
+                        "{env.BUILD_NUMBER}",
+                        "{env.JOB_NAME}",
+                        "{env.BUILD_URL}"
+                      ],
+                      "calls": [],
+                      "line": 168,
+                      "col": 16,
+                      "endLine": 168,
+                      "endCol": 106
+                    },
+                    "rawMessage": {
+                      "t": "bool",
+                      "v": true,
+                      "line": 169,
+                      "col": 19,
+                      "endLine": 169,
+                      "endCol": 23
+                    }
+                  },
+                  "line": 150,
+                  "col": 7,
+                  "endLine": 169,
+                  "endCol": 23
+                }
+              ]
+            },
+            {
+              "k": "call",
+              "name": "failure",
+              "args": [],
+              "named": {},
+              "line": 172,
+              "col": 5,
+              "endLine": 193,
+              "endCol": 6,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "rocketSend",
+                  "args": [],
+                  "named": {
+                    "attachments": {
+                      "t": "list",
+                      "v": [
+                        {
+                          "t": "map",
+                          "v": {
+                            "audioUrl": {
+                              "t": "str",
+                              "v": "",
+                              "line": 175,
+                              "col": 21,
+                              "endLine": 175,
+                              "endCol": 23
+                            },
+                            "authorIcon": {
+                              "t": "str",
+                              "v": "",
+                              "line": 176,
+                              "col": 23,
+                              "endLine": 176,
+                              "endCol": 25
+                            },
+                            "authorName": {
+                              "t": "str",
+                              "v": "",
+                              "line": 177,
+                              "col": 23,
+                              "endLine": 177,
+                              "endCol": 25
+                            },
+                            "color": {
+                              "t": "str",
+                              "v": "red",
+                              "line": 178,
+                              "col": 18,
+                              "endLine": 178,
+                              "endCol": 23
+                            },
+                            "imageUrl": {
+                              "t": "str",
+                              "v": "",
+                              "line": 179,
+                              "col": 21,
+                              "endLine": 179,
+                              "endCol": 23
+                            },
+                            "messageLink": {
+                              "t": "str",
+                              "v": "",
+                              "line": 180,
+                              "col": 24,
+                              "endLine": 180,
+                              "endCol": 26
+                            },
+                            "text": {
+                              "t": "str",
+                              "v": "Failure",
+                              "line": 181,
+                              "col": 17,
+                              "endLine": 181,
+                              "endCol": 26
+                            },
+                            "thumbUrl": {
+                              "t": "str",
+                              "v": "",
+                              "line": 182,
+                              "col": 21,
+                              "endLine": 182,
+                              "endCol": 23
+                            },
+                            "title": {
+                              "t": "gstr",
+                              "v": "\"${version}@${env.GIT_BRANCH}\"",
+                              "vars": [
+                                "{version}",
+                                "{env.GIT_BRANCH}"
+                              ],
+                              "calls": [],
+                              "line": 183,
+                              "col": 18,
+                              "endLine": 183,
+                              "endCol": 48
+                            },
+                            "titleLink": {
+                              "t": "str",
+                              "v": "",
+                              "line": 184,
+                              "col": 22,
+                              "endLine": 184,
+                              "endCol": 24
+                            },
+                            "titleLinkDownload": {
+                              "t": "str",
+                              "v": "",
+                              "line": 185,
+                              "col": 30,
+                              "endLine": 185,
+                              "endCol": 32
+                            },
+                            "videoUrl": {
+                              "t": "str",
+                              "v": "",
+                              "line": 186,
+                              "col": 21,
+                              "endLine": 187,
+                              "endCol": 9
+                            }
+                          },
+                          "line": 174,
+                          "col": 9,
+                          "endLine": 188,
+                          "endCol": 7
+                        }
+                      ],
+                      "line": 173,
+                      "col": 31,
+                      "endLine": 188,
+                      "endCol": 8
+                    },
+                    "avatar": {
+                      "t": "gstr",
+                      "v": "\"${env.WEBSERVER_URL}/static/jenkins.png\"",
+                      "vars": [
+                        "{env.WEBSERVER_URL}"
+                      ],
+                      "calls": [],
+                      "line": 189,
+                      "col": 15,
+                      "endLine": 189,
+                      "endCol": 56
+                    },
+                    "channel": {
+                      "t": "str",
+                      "v": "oss-opensource",
+                      "line": 190,
+                      "col": 16,
+                      "endLine": 190,
+                      "endCol": 32
+                    },
+                    "message": {
+                      "t": "gstr",
+                      "v": "\"Platform Build #${env.BUILD_NUMBER} finished - ${env.JOB_NAME} (<${env.BUILD_URL}|Open>)\"",
+                      "vars": [
+                        "{env.BUILD_NUMBER}",
+                        "{env.JOB_NAME}",
+                        "{env.BUILD_URL}"
+                      ],
+                      "calls": [],
+                      "line": 191,
+                      "col": 16,
+                      "endLine": 191,
+                      "endCol": 106
+                    },
+                    "rawMessage": {
+                      "t": "bool",
+                      "v": true,
+                      "line": 192,
+                      "col": 19,
+                      "endLine": 192,
+                      "endCol": 23
+                    }
+                  },
+                  "line": 173,
+                  "col": 7,
+                  "endLine": 192,
+                  "endCol": 23
+                }
+              ]
+            },
+            {
+              "k": "call",
+              "name": "unstable",
+              "args": [],
+              "named": {},
+              "line": 195,
+              "col": 5,
+              "endLine": 216,
+              "endCol": 6,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "rocketSend",
+                  "args": [],
+                  "named": {
+                    "attachments": {
+                      "t": "list",
+                      "v": [
+                        {
+                          "t": "map",
+                          "v": {
+                            "audioUrl": {
+                              "t": "str",
+                              "v": "",
+                              "line": 198,
+                              "col": 21,
+                              "endLine": 198,
+                              "endCol": 23
+                            },
+                            "authorIcon": {
+                              "t": "str",
+                              "v": "",
+                              "line": 199,
+                              "col": 23,
+                              "endLine": 199,
+                              "endCol": 25
+                            },
+                            "authorName": {
+                              "t": "str",
+                              "v": "",
+                              "line": 200,
+                              "col": 23,
+                              "endLine": 200,
+                              "endCol": 25
+                            },
+                            "color": {
+                              "t": "str",
+                              "v": "yellow",
+                              "line": 201,
+                              "col": 18,
+                              "endLine": 201,
+                              "endCol": 26
+                            },
+                            "imageUrl": {
+                              "t": "str",
+                              "v": "",
+                              "line": 202,
+                              "col": 21,
+                              "endLine": 202,
+                              "endCol": 23
+                            },
+                            "messageLink": {
+                              "t": "str",
+                              "v": "",
+                              "line": 203,
+                              "col": 24,
+                              "endLine": 203,
+                              "endCol": 26
+                            },
+                            "text": {
+                              "t": "str",
+                              "v": "Unstable",
+                              "line": 204,
+                              "col": 17,
+                              "endLine": 204,
+                              "endCol": 27
+                            },
+                            "thumbUrl": {
+                              "t": "str",
+                              "v": "",
+                              "line": 205,
+                              "col": 21,
+                              "endLine": 205,
+                              "endCol": 23
+                            },
+                            "title": {
+                              "t": "gstr",
+                              "v": "\"${version}@${env.GIT_BRANCH}\"",
+                              "vars": [
+                                "{version}",
+                                "{env.GIT_BRANCH}"
+                              ],
+                              "calls": [],
+                              "line": 206,
+                              "col": 18,
+                              "endLine": 206,
+                              "endCol": 48
+                            },
+                            "titleLink": {
+                              "t": "str",
+                              "v": "",
+                              "line": 207,
+                              "col": 22,
+                              "endLine": 207,
+                              "endCol": 24
+                            },
+                            "titleLinkDownload": {
+                              "t": "str",
+                              "v": "",
+                              "line": 208,
+                              "col": 30,
+                              "endLine": 208,
+                              "endCol": 32
+                            },
+                            "videoUrl": {
+                              "t": "str",
+                              "v": "",
+                              "line": 209,
+                              "col": 21,
+                              "endLine": 210,
+                              "endCol": 9
+                            }
+                          },
+                          "line": 197,
+                          "col": 9,
+                          "endLine": 211,
+                          "endCol": 7
+                        }
+                      ],
+                      "line": 196,
+                      "col": 31,
+                      "endLine": 211,
+                      "endCol": 8
+                    },
+                    "avatar": {
+                      "t": "gstr",
+                      "v": "\"${env.WEBSERVER_URL}/static/jenkins.png\"",
+                      "vars": [
+                        "{env.WEBSERVER_URL}"
+                      ],
+                      "calls": [],
+                      "line": 212,
+                      "col": 15,
+                      "endLine": 212,
+                      "endCol": 56
+                    },
+                    "channel": {
+                      "t": "str",
+                      "v": "oss-opensource",
+                      "line": 213,
+                      "col": 16,
+                      "endLine": 213,
+                      "endCol": 32
+                    },
+                    "message": {
+                      "t": "gstr",
+                      "v": "\"Platform Build #${env.BUILD_NUMBER} finished - ${env.JOB_NAME} (<${env.BUILD_URL}|Open>)\"",
+                      "vars": [
+                        "{env.BUILD_NUMBER}",
+                        "{env.JOB_NAME}",
+                        "{env.BUILD_URL}"
+                      ],
+                      "calls": [],
+                      "line": 214,
+                      "col": 16,
+                      "endLine": 214,
+                      "endCol": 106
+                    },
+                    "rawMessage": {
+                      "t": "bool",
+                      "v": true,
+                      "line": 215,
+                      "col": 19,
+                      "endLine": 215,
+                      "endCol": 23
+                    }
+                  },
+                  "line": 196,
+                  "col": 7,
+                  "endLine": 215,
+                  "endCol": 23
+                }
+              ]
+            },
+            {
+              "k": "call",
+              "name": "aborted",
+              "args": [],
+              "named": {},
+              "line": 218,
+              "col": 5,
+              "endLine": 239,
+              "endCol": 6,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "rocketSend",
+                  "args": [],
+                  "named": {
+                    "attachments": {
+                      "t": "list",
+                      "v": [
+                        {
+                          "t": "map",
+                          "v": {
+                            "audioUrl": {
+                              "t": "str",
+                              "v": "",
+                              "line": 221,
+                              "col": 21,
+                              "endLine": 221,
+                              "endCol": 23
+                            },
+                            "authorIcon": {
+                              "t": "str",
+                              "v": "",
+                              "line": 222,
+                              "col": 23,
+                              "endLine": 222,
+                              "endCol": 25
+                            },
+                            "authorName": {
+                              "t": "str",
+                              "v": "",
+                              "line": 223,
+                              "col": 23,
+                              "endLine": 223,
+                              "endCol": 25
+                            },
+                            "color": {
+                              "t": "str",
+                              "v": "gray",
+                              "line": 224,
+                              "col": 18,
+                              "endLine": 224,
+                              "endCol": 24
+                            },
+                            "imageUrl": {
+                              "t": "str",
+                              "v": "",
+                              "line": 225,
+                              "col": 21,
+                              "endLine": 225,
+                              "endCol": 23
+                            },
+                            "messageLink": {
+                              "t": "str",
+                              "v": "",
+                              "line": 226,
+                              "col": 24,
+                              "endLine": 226,
+                              "endCol": 26
+                            },
+                            "text": {
+                              "t": "str",
+                              "v": "Aborted",
+                              "line": 227,
+                              "col": 17,
+                              "endLine": 227,
+                              "endCol": 26
+                            },
+                            "thumbUrl": {
+                              "t": "str",
+                              "v": "",
+                              "line": 228,
+                              "col": 21,
+                              "endLine": 228,
+                              "endCol": 23
+                            },
+                            "title": {
+                              "t": "gstr",
+                              "v": "\"${version}@${env.GIT_BRANCH}\"",
+                              "vars": [
+                                "{version}",
+                                "{env.GIT_BRANCH}"
+                              ],
+                              "calls": [],
+                              "line": 229,
+                              "col": 18,
+                              "endLine": 229,
+                              "endCol": 48
+                            },
+                            "titleLink": {
+                              "t": "str",
+                              "v": "",
+                              "line": 230,
+                              "col": 22,
+                              "endLine": 230,
+                              "endCol": 24
+                            },
+                            "titleLinkDownload": {
+                              "t": "str",
+                              "v": "",
+                              "line": 231,
+                              "col": 30,
+                              "endLine": 231,
+                              "endCol": 32
+                            },
+                            "videoUrl": {
+                              "t": "str",
+                              "v": "",
+                              "line": 232,
+                              "col": 21,
+                              "endLine": 233,
+                              "endCol": 9
+                            }
+                          },
+                          "line": 220,
+                          "col": 9,
+                          "endLine": 234,
+                          "endCol": 7
+                        }
+                      ],
+                      "line": 219,
+                      "col": 31,
+                      "endLine": 234,
+                      "endCol": 8
+                    },
+                    "avatar": {
+                      "t": "gstr",
+                      "v": "\"${env.WEBSERVER_URL}/static/jenkins.png\"",
+                      "vars": [
+                        "{env.WEBSERVER_URL}"
+                      ],
+                      "calls": [],
+                      "line": 235,
+                      "col": 15,
+                      "endLine": 235,
+                      "endCol": 56
+                    },
+                    "channel": {
+                      "t": "str",
+                      "v": "oss-opensource",
+                      "line": 236,
+                      "col": 16,
+                      "endLine": 236,
+                      "endCol": 32
+                    },
+                    "message": {
+                      "t": "gstr",
+                      "v": "\"Platform Build #${env.BUILD_NUMBER} finished - ${env.JOB_NAME} (<${env.BUILD_URL}|Open>)\"",
+                      "vars": [
+                        "{env.BUILD_NUMBER}",
+                        "{env.JOB_NAME}",
+                        "{env.BUILD_URL}"
+                      ],
+                      "calls": [],
+                      "line": 237,
+                      "col": 16,
+                      "endLine": 237,
+                      "endCol": 106
+                    },
+                    "rawMessage": {
+                      "t": "bool",
+                      "v": true,
+                      "line": 238,
+                      "col": 19,
+                      "endLine": 238,
+                      "endCol": 23
+                    }
+                  },
+                  "line": 219,
+                  "col": 7,
+                  "endLine": 238,
+                  "endCol": 23
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "source_sha256": "7a7829dec3ba733500b2818ce80d22c96d279bcacf84b57b342109552ae76aae"
+}

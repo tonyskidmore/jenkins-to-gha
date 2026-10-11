@@ -1,0 +1,673 @@
+{
+  "result": "success",
+  "json": {
+    "pipeline": {
+      "stages": [
+        {
+          "name": "Setup",
+          "branches": [
+            {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "script",
+                  "arguments": [
+                    {
+                      "key": "scriptBlock",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "if (env.GIT_BRANCH == 'origin/develop' || env.GIT_BRANCH ==~ /(.+)feature-(.+)/) {\n            target = 'dev'\n          } else if (env.GIT_BRANCH ==~ /(.+)release-(.+)/) {\n            target = 'pre'\n          } else if (env.GIT_BRANCH == 'origin/master') {\n            target = 'pro'\n          } else {\n            error \"Unknown branch type: ${env.GIT_BRANCH}\"\n          }\n\n          /* Get the version from version manifest: src/package.tf */\n          oversion    = sh(script: \"jq -r '.variable.iac_version.default' src/package.tf\", returnStdout: true).trim()\n\n          /* Create the real version with Jenkins BUILD_NUMBER */\n          version     = oversion.take(10) + '-' + env.BUILD_NUMBER\n          oversion    = oversion.take(10)\n          iacname     = env.JOB_NAME\n\n          /* Your Project or Organization name */\n          prjname     = 'oss-opensource'\n\n          /* Create the package name with the real version */\n          packname    = iacname + '-v' + version + '.tar.gz'\n\n          /* Create the URL used to publish the package to Sonatype Nexus */\n          publish_url = env.NEXUS_URL + '/repository/raw-terraform/' + prjname + '/' + packname"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Build",
+          "branches": [
+            {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "sh",
+                  "arguments": [
+                    {
+                      "key": "script",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "sed -i 's/iac-provider/terraform/g' src/variables.tf"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "sh",
+                  "arguments": [
+                    {
+                      "key": "script",
+                      "value": {
+                        "isLiteral": false,
+                        "value": "\"sed -i 's/iac-artifact/${packname}/g' src/variables.tf\""
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "sh",
+                  "arguments": [
+                    {
+                      "key": "script",
+                      "value": {
+                        "isLiteral": false,
+                        "value": "\"sed -i 's/iac-scm-commit/${env.GIT_COMMIT}/g' src/variables.tf\""
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "sh",
+                  "arguments": [
+                    {
+                      "key": "script",
+                      "value": {
+                        "isLiteral": false,
+                        "value": "\"sed -i 's|iac-scm-branch|${env.GIT_BRANCH}|g' src/variables.tf\""
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "sh",
+                  "arguments": [
+                    {
+                      "key": "script",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "sed -i 's/iac-build-by/jenkins/g' src/variables.tf"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "sh",
+                  "arguments": [
+                    {
+                      "key": "script",
+                      "value": {
+                        "isLiteral": false,
+                        "value": "\"sed -i 's/iac-build-name/${env.JOB_NAME}/g' src/variables.tf\""
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "sh",
+                  "arguments": [
+                    {
+                      "key": "script",
+                      "value": {
+                        "isLiteral": false,
+                        "value": "\"sed -i 's/iac-build-id/${env.BUILD_NUMBER}/g' src/variables.tf\""
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "sh",
+                  "arguments": [
+                    {
+                      "key": "script",
+                      "value": {
+                        "isLiteral": false,
+                        "value": "\"sed -i 's/iac-build-date/${currentBuild.startTimeInMillis}/g' src/variables.tf\""
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "sh",
+                  "arguments": [
+                    {
+                      "key": "script",
+                      "value": {
+                        "isLiteral": false,
+                        "value": "\"sed -i 's/${oversion}/${version}/g' src/package.tf\""
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "sh",
+                  "arguments": [
+                    {
+                      "key": "script",
+                      "value": {
+                        "isLiteral": false,
+                        "value": "${\"tar --exclude='./.git' --exclude='./Jenkinsfile' --exclude='*.tar.gz' -czv ./src -f \"+packname}"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Publish",
+          "branches": [
+            {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "withCredentials",
+                  "arguments": {
+                    "isLiteral": false,
+                    "value": "${[usernamePassword(credentialsId: 'nexus-credential', passwordVariable: 'NEXUS_PASSWORD', usernameVariable: 'NEXUS_USERNAME')]}"
+                  },
+                  "children": [
+                    {
+                      "name": "sh",
+                      "arguments": [
+                        {
+                          "key": "script",
+                          "value": {
+                            "isLiteral": false,
+                            "value": "${'curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file '+packname+' '+publish_url}"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "DEV Deploy",
+          "branches": [
+            {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "withCredentials",
+                  "arguments": {
+                    "isLiteral": false,
+                    "value": "${[usernamePassword(credentialsId: 'rundeck-credential', passwordVariable: 'RUNDECK_PASSWORD', usernameVariable: 'RUNDECK_USERNAME')]}"
+                  },
+                  "children": [
+                    {
+                      "name": "configFileProvider",
+                      "arguments": {
+                        "isLiteral": false,
+                        "value": "${[configFile(fileId: 'rundeck-follow', variable: 'FOLLOW')]}"
+                      },
+                      "children": [
+                        {
+                          "name": "sh",
+                          "arguments": [
+                            {
+                              "key": "script",
+                              "value": {
+                                "isLiteral": false,
+                                "value": "${'bash $FOLLOW \"artifact\" \"'+publish_url+'\" \"29cd3a68-e101-4176-907c-6fdf5bde13e7\"'}"
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "when": {
+            "conditions": [
+              {
+                "name": "expression",
+                "arguments": [
+                  {
+                    "key": "scriptBlock",
+                    "value": {
+                      "isLiteral": true,
+                      "value": "return target == 'pre' || target == 'pro'"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "name": "PRE Deploy",
+          "branches": [
+            {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "withCredentials",
+                  "arguments": {
+                    "isLiteral": false,
+                    "value": "${[usernamePassword(credentialsId: 'rundeck-credential', passwordVariable: 'RUNDECK_PASSWORD', usernameVariable: 'RUNDECK_USERNAME')]}"
+                  },
+                  "children": [
+                    {
+                      "name": "configFileProvider",
+                      "arguments": {
+                        "isLiteral": false,
+                        "value": "${[configFile(fileId: 'rundeck-follow', variable: 'FOLLOW')]}"
+                      },
+                      "children": [
+                        {
+                          "name": "sh",
+                          "arguments": [
+                            {
+                              "key": "script",
+                              "value": {
+                                "isLiteral": false,
+                                "value": "${'bash $FOLLOW \"artifact\" \"'+publish_url+'\" \"ec0393b9-f0eb-4341-8812-eae241ef6544\"'}"
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "agent": {
+            "type": "label",
+            "argument": {
+              "isLiteral": true,
+              "value": "openshift_cli"
+            }
+          },
+          "when": {
+            "conditions": [
+              {
+                "name": "expression",
+                "arguments": [
+                  {
+                    "key": "scriptBlock",
+                    "value": {
+                      "isLiteral": true,
+                      "value": "target == 'pro'"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "name": "Acceptance Test",
+          "branches": [
+            {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "sh",
+                  "arguments": [
+                    {
+                      "key": "script",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "cd test && npm install"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "sh",
+                  "arguments": [
+                    {
+                      "key": "script",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "cd test && npm test"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "cucumber",
+                  "arguments": {
+                    "isLiteral": true,
+                    "value": "test/cucumber-report.json"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "when": {
+            "conditions": [
+              {
+                "name": "expression",
+                "arguments": [
+                  {
+                    "key": "scriptBlock",
+                    "value": {
+                      "isLiteral": true,
+                      "value": "target == 'pro'"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "name": "Approval",
+          "branches": [
+            {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "timeout",
+                  "arguments": [
+                    {
+                      "key": "time",
+                      "value": {
+                        "isLiteral": true,
+                        "value": 30
+                      }
+                    },
+                    {
+                      "key": "unit",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "MINUTES"
+                      }
+                    }
+                  ],
+                  "children": [
+                    {
+                      "name": "input",
+                      "arguments": [
+                        {
+                          "key": "message",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "Deploy to Production?"
+                          }
+                        },
+                        {
+                          "key": "id",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "approval"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "when": {
+            "conditions": [
+              {
+                "name": "expression",
+                "arguments": [
+                  {
+                    "key": "scriptBlock",
+                    "value": {
+                      "isLiteral": true,
+                      "value": "return target == 'pro'"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "name": "PRO Deploy",
+          "branches": [
+            {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "withCredentials",
+                  "arguments": {
+                    "isLiteral": false,
+                    "value": "${[usernamePassword(credentialsId: 'rundeck-credential', passwordVariable: 'RUNDECK_PASSWORD', usernameVariable: 'RUNDECK_USERNAME')]}"
+                  },
+                  "children": [
+                    {
+                      "name": "configFileProvider",
+                      "arguments": {
+                        "isLiteral": false,
+                        "value": "${[configFile(fileId: 'rundeck-follow', variable: 'FOLLOW')]}"
+                      },
+                      "children": [
+                        {
+                          "name": "sh",
+                          "arguments": [
+                            {
+                              "key": "script",
+                              "value": {
+                                "isLiteral": false,
+                                "value": "${'bash $FOLLOW \"artifact\" \"'+publish_url+'\" \"f31fb4bb-4f55-4f23-9c03-784008acb5c4\"'}"
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "post": {
+        "conditions": [
+          {
+            "condition": "success",
+            "branch": {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "rocketSend",
+                  "arguments": [
+                    {
+                      "key": "attachments",
+                      "value": {
+                        "isLiteral": false,
+                        "value": "${[\n        [\n          audioUrl: '',\n          authorIcon: '',\n          authorName: '',\n          color: 'green',\n          imageUrl: '',\n          messageLink: '',\n          text: 'Success',\n          thumbUrl: '',\n          title: \"${version}@${env.GIT_BRANCH}\",\n          titleLink: '',\n          titleLinkDownload: '',\n          videoUrl: ''\n        ]\n      ]}"
+                      }
+                    },
+                    {
+                      "key": "avatar",
+                      "value": {
+                        "isLiteral": false,
+                        "value": "\"${env.WEBSERVER_URL}/static/jenkins.png\""
+                      }
+                    },
+                    {
+                      "key": "channel",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "oss-opensource"
+                      }
+                    },
+                    {
+                      "key": "message",
+                      "value": {
+                        "isLiteral": false,
+                        "value": "\"Platform Build #${env.BUILD_NUMBER} finished - ${env.JOB_NAME} (<${env.BUILD_URL}|Open>)\""
+                      }
+                    },
+                    {
+                      "key": "rawMessage",
+                      "value": {
+                        "isLiteral": true,
+                        "value": true
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "condition": "failure",
+            "branch": {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "rocketSend",
+                  "arguments": [
+                    {
+                      "key": "attachments",
+                      "value": {
+                        "isLiteral": false,
+                        "value": "${[\n        [\n          audioUrl: '',\n          authorIcon: '',\n          authorName: '',\n          color: 'red',\n          imageUrl: '',\n          messageLink: '',\n          text: 'Failure',\n          thumbUrl: '',\n          title: \"${version}@${env.GIT_BRANCH}\",\n          titleLink: '',\n          titleLinkDownload: '',\n          videoUrl: ''\n        ]\n      ]}"
+                      }
+                    },
+                    {
+                      "key": "avatar",
+                      "value": {
+                        "isLiteral": false,
+                        "value": "\"${env.WEBSERVER_URL}/static/jenkins.png\""
+                      }
+                    },
+                    {
+                      "key": "channel",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "oss-opensource"
+                      }
+                    },
+                    {
+                      "key": "message",
+                      "value": {
+                        "isLiteral": false,
+                        "value": "\"Platform Build #${env.BUILD_NUMBER} finished - ${env.JOB_NAME} (<${env.BUILD_URL}|Open>)\""
+                      }
+                    },
+                    {
+                      "key": "rawMessage",
+                      "value": {
+                        "isLiteral": true,
+                        "value": true
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "condition": "unstable",
+            "branch": {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "rocketSend",
+                  "arguments": [
+                    {
+                      "key": "attachments",
+                      "value": {
+                        "isLiteral": false,
+                        "value": "${[\n        [\n          audioUrl: '',\n          authorIcon: '',\n          authorName: '',\n          color: 'yellow',\n          imageUrl: '',\n          messageLink: '',\n          text: 'Unstable',\n          thumbUrl: '',\n          title: \"${version}@${env.GIT_BRANCH}\",\n          titleLink: '',\n          titleLinkDownload: '',\n          videoUrl: ''\n        ]\n      ]}"
+                      }
+                    },
+                    {
+                      "key": "avatar",
+                      "value": {
+                        "isLiteral": false,
+                        "value": "\"${env.WEBSERVER_URL}/static/jenkins.png\""
+                      }
+                    },
+                    {
+                      "key": "channel",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "oss-opensource"
+                      }
+                    },
+                    {
+                      "key": "message",
+                      "value": {
+                        "isLiteral": false,
+                        "value": "\"Platform Build #${env.BUILD_NUMBER} finished - ${env.JOB_NAME} (<${env.BUILD_URL}|Open>)\""
+                      }
+                    },
+                    {
+                      "key": "rawMessage",
+                      "value": {
+                        "isLiteral": true,
+                        "value": true
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "condition": "aborted",
+            "branch": {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "rocketSend",
+                  "arguments": [
+                    {
+                      "key": "attachments",
+                      "value": {
+                        "isLiteral": false,
+                        "value": "${[\n        [\n          audioUrl: '',\n          authorIcon: '',\n          authorName: '',\n          color: 'gray',\n          imageUrl: '',\n          messageLink: '',\n          text: 'Aborted',\n          thumbUrl: '',\n          title: \"${version}@${env.GIT_BRANCH}\",\n          titleLink: '',\n          titleLinkDownload: '',\n          videoUrl: ''\n        ]\n      ]}"
+                      }
+                    },
+                    {
+                      "key": "avatar",
+                      "value": {
+                        "isLiteral": false,
+                        "value": "\"${env.WEBSERVER_URL}/static/jenkins.png\""
+                      }
+                    },
+                    {
+                      "key": "channel",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "oss-opensource"
+                      }
+                    },
+                    {
+                      "key": "message",
+                      "value": {
+                        "isLiteral": false,
+                        "value": "\"Platform Build #${env.BUILD_NUMBER} finished - ${env.JOB_NAME} (<${env.BUILD_URL}|Open>)\""
+                      }
+                    },
+                    {
+                      "key": "rawMessage",
+                      "value": {
+                        "isLiteral": true,
+                        "value": true
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "agent": {
+        "type": "any"
+      }
+    }
+  }
+}

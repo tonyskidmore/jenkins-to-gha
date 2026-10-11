@@ -1,0 +1,149 @@
+{
+  "ok": true,
+  "structural_ok": true,
+  "security_ok": true,
+  "tools_ok": true,
+  "validated_at": "2026-10-10T08:00:26+00:00",
+  "actionlint": {
+    "tool": "actionlint",
+    "image": "rhysd/actionlint:1.7.12",
+    "ok": true,
+    "findings": [
+      {
+        "line": 62,
+        "col": 7,
+        "kind": "shellcheck",
+        "message": "shellcheck reported issue in this script: SC2016:info:1:8: Expressions don't expand in single quotes, use double quotes for that"
+      },
+      {
+        "line": 65,
+        "col": 7,
+        "kind": "shellcheck",
+        "message": "shellcheck reported issue in this script: SC2016:info:1:8: Expressions don't expand in single quotes, use double quotes for that"
+      },
+      {
+        "line": 68,
+        "col": 7,
+        "kind": "shellcheck",
+        "message": "shellcheck reported issue in this script: SC2016:info:1:8: Expressions don't expand in single quotes, use double quotes for that"
+      },
+      {
+        "line": 74,
+        "col": 7,
+        "kind": "shellcheck",
+        "message": "shellcheck reported issue in this script: SC2016:info:1:8: Expressions don't expand in single quotes, use double quotes for that"
+      },
+      {
+        "line": 77,
+        "col": 7,
+        "kind": "shellcheck",
+        "message": "shellcheck reported issue in this script: SC2016:info:1:8: Expressions don't expand in single quotes, use double quotes for that"
+      },
+      {
+        "line": 80,
+        "col": 7,
+        "kind": "shellcheck",
+        "message": "shellcheck reported issue in this script: SC2016:info:1:8: Expressions don't expand in single quotes, use double quotes for that"
+      },
+      {
+        "line": 83,
+        "col": 7,
+        "kind": "shellcheck",
+        "message": "shellcheck reported issue in this script: SC2016:info:1:8: Expressions don't expand in single quotes, use double quotes for that"
+      },
+      {
+        "line": 86,
+        "col": 7,
+        "kind": "shellcheck",
+        "message": "shellcheck reported issue in this script: SC2086:info:1:85: Double quote to prevent globbing and word splitting"
+      },
+      {
+        "line": 89,
+        "col": 7,
+        "kind": "shellcheck",
+        "message": "shellcheck reported issue in this script: SC2086:info:1:25: Double quote to prevent globbing and word splitting"
+      },
+      {
+        "line": 89,
+        "col": 7,
+        "kind": "shellcheck",
+        "message": "shellcheck reported issue in this script: SC2086:info:1:55: Double quote to prevent globbing and word splitting"
+      },
+      {
+        "line": 89,
+        "col": 7,
+        "kind": "shellcheck",
+        "message": "shellcheck reported issue in this script: SC2086:info:1:67: Double quote to prevent globbing and word splitting"
+      },
+      {
+        "line": 89,
+        "col": 7,
+        "kind": "shellcheck",
+        "message": "shellcheck reported issue in this script: SC2086:info:1:9: Double quote to prevent globbing and word splitting"
+      },
+      {
+        "line": 95,
+        "col": 7,
+        "kind": "shellcheck",
+        "message": "shellcheck reported issue in this script: SC2086:info:1:6: Double quote to prevent globbing and word splitting"
+      },
+      {
+        "line": 106,
+        "col": 7,
+        "kind": "shellcheck",
+        "message": "shellcheck reported issue in this script: SC2086:info:1:6: Double quote to prevent globbing and word splitting"
+      },
+      {
+        "line": 325,
+        "col": 7,
+        "kind": "shellcheck",
+        "message": "shellcheck reported issue in this script: SC2086:info:1:6: Double quote to prevent globbing and word splitting"
+      }
+    ],
+    "structural": 0,
+    "shellcheck": 15
+  },
+  "zizmor": {
+    "tool": "zizmor",
+    "image": "ghcr.io/zizmorcore/zizmor:1.30.1",
+    "ok": true,
+    "findings": []
+  },
+  "policy": {
+    "tool": "j2gha-policy",
+    "ok": true,
+    "findings": [
+      {
+        "rule": "unresolved-groovy",
+        "severity": "warning",
+        "message": "job 'setup' step 'Build: sed -i 's/iac-build-date/${J2GHA_TODO_currentBuild_startTimeInMillis}/' contains untranslated Groovy"
+      },
+      {
+        "rule": "manual-placeholder",
+        "severity": "info",
+        "message": "job 'acceptance-test' step 'Acceptance Test: cucumber (manual migration)' is a manual-migration placeholder"
+      },
+      {
+        "rule": "manual-placeholder",
+        "severity": "info",
+        "message": "job 'post' step 'post: rocketSend (manual migration)' is a manual-migration placeholder"
+      },
+      {
+        "rule": "manual-placeholder",
+        "severity": "info",
+        "message": "job 'post' step 'post: rocketSend (manual migration)' is a manual-migration placeholder"
+      },
+      {
+        "rule": "manual-placeholder",
+        "severity": "info",
+        "message": "job 'post' step 'post: rocketSend (manual migration)' is a manual-migration placeholder"
+      }
+    ],
+    "secrets": [
+      "NEXUS_CREDENTIAL_PSW",
+      "NEXUS_CREDENTIAL_USR",
+      "RUNDECK_CREDENTIAL_PSW",
+      "RUNDECK_CREDENTIAL_USR"
+    ]
+  }
+}

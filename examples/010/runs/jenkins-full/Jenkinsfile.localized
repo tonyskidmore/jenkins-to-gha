@@ -1,0 +1,119 @@
+/* j2gha: @Library removed */
+
+def sbtOnMain = "no"
+
+// we can remove the pod_template block if we end up having only one template
+// in jenkins config
+//
+String podLabel = "Jenkinsfile-apibuilder"
+podTemplate(
+  label: "${podLabel}",
+  inheritFrom : 'generic'
+){
+  node('built-in') {
+    try {
+      checkoutWithTags scm
+      //Checkout the code from the repository
+      stage('Checkout') {
+          echo "Checking out branch: ${env.BRANCH_NAME}"
+          checkout scm
+      }
+
+      // => tagging function to identify what actions to take depending on the nature of the changes
+      stage ('tagging') {
+        semversion = taggingv2()
+        println(semversion)
+      }
+
+      // => Running the actions for each component in parallel
+      checkoutWithTags scm
+
+      String jsondata = '''
+      [{"serviceName": "apibuilder-api",
+      "dockerImageName": "apibuilder-api",
+      "dockerFilePath" : "/api/Dockerfile",
+      "multiplatforms": "no"},
+      {"serviceName": "apibuilder-app",
+      "dockerImageName": "apibuilder-app",
+      "dockerFilePath" : "/app/Dockerfile",
+      "multiplatforms": "no"}]
+      '''
+      withCredentials([string(credentialsId: "jenkins-argocd-token", variable: 'ARGOCD_AUTH_TOKEN')]) {
+        mainJenkinsBuildArgo(
+          semversion: "${semversion}",
+          pgImage: "flowcommerce/bentest-postgresql:latest",
+          componentargs: "${jsondata}",
+          sbtOnMain: "${sbtOnMain}",
+          sbtTest: "no"
+          // => optional
+          //orgName: "flowvault"
+          // SBT test
+          //sbtCommand: 'sbt clean flowLint coverage test scalafmtSbtCheck scalafmtCheck doc',
+          //playCpuLimit: "2",
+          //playMemoryRequest: "4Gi",
+          //pgCpuLimit: "1",
+          //pgMemoryRequest: "2Gi",
+          //sbtTestInMain: "${sbtOnMain}"
+        )
+      }
+
+    } catch (Exception e) {
+        // In case of an error, mark the build as failure
+        currentBuild.result = 'FAILURE'
+        throw e
+    } finally {
+        // Always clean up workspace and notify if needed
+        cleanWs()
+        echo "Pipeline execution finished"
+    }
+  }
+}
+
+// ---- j2gha localisation block (full mode) - generated, not part of the original pipeline ----
+@groovy.transform.Field def scm = [$class: 'GitSCM', branches: [[name: "11b4b94e5fe33581d3d7de46c4002dbffcb3afc6"]], extensions: [[$class: 'CloneOption', shallow: false, noTags: true]], userRemoteConfigs: [[url: "https://github.com/apicollective/apibuilder.git"]]]
+class J2ghaAny implements Serializable { @NonCPS def propertyMissing(String n) { new J2ghaAny() }; @NonCPS def methodMissing(String n, Object a) { new J2ghaAny() }; @NonCPS String toString() { 'j2gha-stub' }; @NonCPS boolean asBoolean() { true }; @NonCPS boolean isEmpty() { false }; @NonCPS def getAt(Object k) { new J2ghaAny() }; @NonCPS Iterator iterator() { [].iterator() } }
+class J2ghaConfig extends LinkedHashMap { @NonCPS Object get(Object k) { super.containsKey(k) ? super.get(k) : new J2ghaAny() }; @NonCPS def methodMissing(String n, Object a) { new J2ghaAny() } }
+def j2ghaTrace(String kind) {
+  steps.echo('J2GHA-TRACE ' + groovy.json.JsonOutput.toJson([stage: (env.STAGE_NAME ?: ''), step: kind]))
+}
+def build(Object... a) { j2ghaTrace('build'); return [result: 'SUCCESS', number: 1, currentResult: 'SUCCESS', absoluteUrl: '', getResult: { -> 'SUCCESS' }, buildVariables: [:]] }
+def mail(Object... a) { j2ghaTrace('mail'); return null }
+def emailext(Object... a) { j2ghaTrace('emailext'); return null }
+def slackSend(Object... a) { j2ghaTrace('slackSend'); return null }
+def office365ConnectorSend(Object... a) { j2ghaTrace('office365ConnectorSend'); return null }
+def githubNotify(Object... a) { j2ghaTrace('githubNotify'); return null }
+def setGitHubPullRequestStatus(Object... a) { j2ghaTrace('setGitHubPullRequestStatus'); return null }
+def publishChecks(Object... a) { j2ghaTrace('publishChecks'); return null }
+def s3Upload(Object... a) { j2ghaTrace('s3Upload'); return null }
+def s3Download(Object... a) { j2ghaTrace('s3Download'); return null }
+def copyArtifacts(Object... a) { j2ghaTrace('copyArtifacts'); return null }
+def waitForQualityGate(Object... a) { j2ghaTrace('waitForQualityGate'); return null }
+def recordIssues(Object... a) { j2ghaTrace('recordIssues'); return null }
+def publishCoverage(Object... a) { j2ghaTrace('publishCoverage'); return null }
+def recordCoverage(Object... a) { j2ghaTrace('recordCoverage'); return null }
+def jacoco(Object... a) { j2ghaTrace('jacoco'); return null }
+def cobertura(Object... a) { j2ghaTrace('cobertura'); return null }
+def milestone(Object... a) { return null }
+def properties(Object... a) { return null }
+def buildDiscarder(Object... a) { return null }
+def checkout(Object... a) { def r = a.length == 1 ? steps.checkout(a[0]) : steps.checkout(a); if (r instanceof Map && env.GIT_BRANCH) { r.GIT_BRANCH = env.GIT_BRANCH }; return r }
+def withSonarQubeEnv(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withAWS(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withKubeConfig(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withVault(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def azureCLI(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def container(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def sshagent(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withDockerRegistry(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def configFileProvider(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withMaven(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withGradle(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withPythonEnv(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def podTemplate(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def wrap(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withDockerContainer(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def checkoutWithTags(Object... a) { j2ghaTrace('checkoutWithTags'); def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : new J2ghaAny() }
+def mainJenkinsBuildArgo(Object... a) { j2ghaTrace('mainJenkinsBuildArgo'); def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : new J2ghaAny() }
+def taggingv2(Object... a) { j2ghaTrace('taggingv2'); def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : new J2ghaAny() }
+def node(Object... a) { def body = a[-1]; return steps.node('built-in') { body() } }
+// ---- end of j2gha localisation block ----

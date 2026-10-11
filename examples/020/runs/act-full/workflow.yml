@@ -1,0 +1,87 @@
+# j2gha act variant (full) of examples/020
+name: 'j2gha 020: dvsa/mes-beta-sandbox autonomous-single-access-mode/Jenkinsfile (j2gha)'
+on:
+  push:
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  BRANCH_NAME: master
+  TAG_NAME: ''
+  CHANGE_ID: ''
+  GIT_COMMIT: 6e6a4b0b53dadc4bdfb451bbc1899d8af5b17532
+  GIT_BRANCH: origin/master
+  GIT_URL: ${{ github.server_url }}/${{ github.repository }}.git
+defaults:
+  run:
+    shell: bash
+jobs:
+  main:
+    name: main, checkout, install dependencies, tests, build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+    - name: Checkout
+      uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      with:
+        persist-credentials: false
+    - name: new Globals (manual migration)
+      id: s1
+      run: echo "::warning::Jenkins step 'new Globals' requires manual migration"
+    - name: new CommonFunctions (manual migration)
+      id: s2
+      run: echo "::warning::Jenkins step 'new CommonFunctions' requires manual migration"
+    - name: new GitFunctions (manual migration)
+      id: s3
+      run: echo "::warning::Jenkins step 'new GitFunctions' requires manual migration"
+    - name: new MobileFunctions (manual migration)
+      id: s4
+      run: echo "::warning::Jenkins step 'new MobileFunctions' requires manual migration"
+    - name: new NVMFunctions (manual migration)
+      id: s5
+      run: echo "::warning::Jenkins step 'new NVMFunctions' requires manual migration"
+    - name: deleteDir
+      id: s6
+      run: find . -mindepth 1 -delete || true
+    - name: pwd (manual migration)
+      id: s7
+      run: echo "::warning::Jenkins step 'pwd' requires manual migration"
+    - name: 'checkout: log (manual migration)'
+      id: s8
+      run: echo "::warning::Jenkins step 'log' requires manual migration"
+    - name: 'checkout: git_check_out (manual migration)'
+      id: s9
+      run: echo "::warning::Jenkins step 'git_check_out' requires manual migration"
+    - name: 'install dependencies: log (manual migration)'
+      id: s10
+      run: echo "::warning::Jenkins step 'log' requires manual migration"
+    - name: 'install dependencies: dir Globals.MOBILE_NAME'
+      id: s11
+      run: mkdir -p -- "$J2GHA_DIR"
+      env:
+        J2GHA_DIR: Globals.MOBILE_NAME
+    - name: 'install dependencies: run (manual migration)'
+      id: s12
+      run: echo "::warning::Jenkins step 'run' requires manual migration"
+      working-directory: Globals.MOBILE_NAME
+    - name: 'tests: log (manual migration)'
+      id: s13
+      run: echo "::warning::Jenkins step 'log' requires manual migration"
+    - name: 'tests: dir Globals.MOBILE_NAME'
+      id: s14
+      run: mkdir -p -- "$J2GHA_DIR"
+      env:
+        J2GHA_DIR: Globals.MOBILE_NAME
+    - name: 'tests: run (manual migration)'
+      id: s15
+      run: echo "::warning::Jenkins step 'run' requires manual migration"
+      working-directory: Globals.MOBILE_NAME
+    - name: 'build: Groovy if (manual)'
+      id: s16
+      run: 'echo "::warning::manual migration: Groovy condition at line 46: branch_name == \"develop\" || branch_name == \"origin/develop\""'
+    - name: 'build: shout (manual migration)'
+      id: s17
+      run: echo "::warning::Jenkins step 'shout' requires manual migration"
+    - name: deleteDir
+      id: s18
+      run: find . -mindepth 1 -delete || true

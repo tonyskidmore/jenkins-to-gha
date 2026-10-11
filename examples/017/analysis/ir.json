@@ -1,0 +1,3281 @@
+{
+  "dialect": "declarative",
+  "line": 157,
+  "agent": {
+    "kind": "none",
+    "line": 158
+  },
+  "options": {
+    "ansiColor": "xterm",
+    "timestamps": true,
+    "timeout": {
+      "time": 1,
+      "unit": "HOURS",
+      "minutes": 60
+    },
+    "buildDiscarder": "logRotator(...)",
+    "disableConcurrentBuilds": true
+  },
+  "libraries": [
+    "PipelineUtils@master"
+  ],
+  "stages": [
+    {
+      "name": "Init",
+      "line": 171,
+      "agent": {
+        "kind": "label",
+        "label": "${jenkinsCtrlNodeLabel} && ${account}",
+        "raw": {
+          "label": "${jenkinsCtrlNodeLabel} && ${account}"
+        },
+        "line": 173
+      },
+      "stages": [
+        {
+          "name": "Init: Check DB data completion",
+          "line": 175,
+          "when": {
+            "conditions": [
+              {
+                "kind": "expression",
+                "text": "params.action == 'apply'",
+                "line": 176
+              }
+            ]
+          },
+          "steps": [
+            {
+              "name": "script",
+              "line": 178,
+              "body": [
+                {
+                  "name": "<assign>",
+                  "line": 179,
+                  "named": {
+                    "_target": "shouldLoadDbData"
+                  },
+                  "category": "dynamic",
+                  "source": "shouldLoadDbData = False",
+                  "dynamic": true
+                },
+                {
+                  "name": "<if>",
+                  "line": 180,
+                  "body": [
+                    {
+                      "name": "info",
+                      "line": 181,
+                      "args": [
+                        "FORCE_RELOAD_DATA has been checked. Deleting existing DB tables"
+                      ],
+                      "category": "unknown",
+                      "receiver": "log"
+                    },
+                    {
+                      "name": "destroyExistingDbTables",
+                      "line": 182,
+                      "args": [
+                        "params"
+                      ],
+                      "category": "unknown",
+                      "dynamic": true,
+                      "variable_args": [
+                        0
+                      ]
+                    }
+                  ],
+                  "category": "dynamic",
+                  "source": "params.force_reload_data == 'true'",
+                  "dynamic": true
+                },
+                {
+                  "name": "<assign>",
+                  "line": 184,
+                  "named": {
+                    "_target": "shouldLoadDbData"
+                  },
+                  "body": [
+                    {
+                      "name": "isAnyDbTableMissing",
+                      "line": 184,
+                      "args": [
+                        "params"
+                      ],
+                      "category": "unknown",
+                      "dynamic": true,
+                      "variable_args": [
+                        0
+                      ]
+                    }
+                  ],
+                  "category": "dynamic",
+                  "source": "shouldLoadDbData = isAnyDbTableMissing(...)",
+                  "dynamic": true
+                }
+              ],
+              "category": "dynamic"
+            }
+          ]
+        },
+        {
+          "name": "Init: TF deployment bucket",
+          "line": 188,
+          "steps": [
+            {
+              "name": "script",
+              "line": 191,
+              "body": [
+                {
+                  "name": "wrap",
+                  "line": 192,
+                  "named": {
+                    "$class": "BuildUser"
+                  },
+                  "body": [
+                    {
+                      "name": "<assign>",
+                      "line": 192,
+                      "named": {
+                        "_target": "buildUser"
+                      },
+                      "category": "dynamic",
+                      "source": "buildUser = env.BUILD_USER ",
+                      "dynamic": true
+                    }
+                  ],
+                  "category": "policy"
+                },
+                {
+                  "name": "<decl>",
+                  "line": 193,
+                  "named": {
+                    "_target": "output"
+                  },
+                  "body": [
+                    {
+                      "name": "getAwsFunctions",
+                      "line": 193,
+                      "named": {
+                        "_chain": "awsCli"
+                      },
+                      "category": "unknown"
+                    }
+                  ],
+                  "category": "dynamic",
+                  "source": "output = getAwsFunctions().awsCli(...)",
+                  "dynamic": true
+                },
+                {
+                  "name": "<if>",
+                  "line": 196,
+                  "body": [
+                    {
+                      "name": "failure",
+                      "line": 197,
+                      "args": [
+                        "Failure while retrieving AWS account ID"
+                      ],
+                      "category": "unknown"
+                    }
+                  ],
+                  "category": "dynamic",
+                  "source": "output.status",
+                  "dynamic": true
+                },
+                {
+                  "name": "<assign>",
+                  "line": 200,
+                  "named": {
+                    "_target": "accountId"
+                  },
+                  "body": [
+                    {
+                      "name": "trim",
+                      "line": 200,
+                      "category": "groovy",
+                      "receiver": "output.stdout"
+                    }
+                  ],
+                  "category": "dynamic",
+                  "source": "accountId = output.stdout.trim(...)",
+                  "dynamic": true
+                },
+                {
+                  "name": "<assign>",
+                  "line": 201,
+                  "named": {
+                    "_target": "projectBucketPrefix"
+                  },
+                  "category": "dynamic",
+                  "source": "projectBucketPrefix = ${project}-${accountId}-${globalValuesFactory.AWS_REGION}-${params.environment}",
+                  "dynamic": true
+                },
+                {
+                  "name": "<decl>",
+                  "line": 202,
+                  "named": {
+                    "_target": "releaseTimestamp"
+                  },
+                  "body": [
+                    {
+                      "name": "sh",
+                      "line": 202,
+                      "named": {
+                        "script": "date +%Y%m%d%H%M%S",
+                        "returnStdout": true,
+                        "_chain": "trim"
+                      },
+                      "category": "direct"
+                    }
+                  ],
+                  "category": "dynamic",
+                  "source": "releaseTimestamp = sh(script: 'date +%Y%m%d%H%M%S', returnStdout: true).trim(...)",
+                  "dynamic": true
+                },
+                {
+                  "name": "<assign>",
+                  "line": 203,
+                  "named": {
+                    "_target": "manifestVersion"
+                  },
+                  "category": "dynamic",
+                  "source": "manifestVersion = ${releaseTimestamp}_${env.BUILD_NUMBER}",
+                  "dynamic": true
+                },
+                {
+                  "name": "<assign>",
+                  "line": 204,
+                  "named": {
+                    "_target": "currentBuild.description"
+                  },
+                  "category": "dynamic",
+                  "source": "currentBuild.description = CVR ${params.action} <br/> Branch: ${params.branch} <br/> Env: ${params.environment} <br/> Manifest: ${manifestVersion} <br/> ${buildUser}",
+                  "dynamic": true
+                },
+                {
+                  "name": "<if>",
+                  "line": 205,
+                  "body": [
+                    {
+                      "name": "failure",
+                      "line": 211,
+                      "args": [
+                        "Failed to clone terraform repository ${gitlab.cvr_terraform.url}; branch: ${params.tf_branch}"
+                      ],
+                      "category": "unknown",
+                      "dynamic": true
+                    }
+                  ],
+                  "category": "dynamic",
+                  "source": "!repoFunctionsFactory.checkoutGitRepo(\n                  gitlab.cvr_terraform.url,\n                  params.tf_branch,\n                  gitlab.cvr_terraform.name,\n                  globalValuesFactory.SSH_DEPLOY_GIT_CREDS_ID\n              )",
+                  "dynamic": true
+                },
+                {
+                  "name": "dir",
+                  "line": 214,
+                  "args": [
+                    "gitlab.cvr_terraform.name"
+                  ],
+                  "body": [
+                    {
+                      "name": "<if>",
+                      "line": 215,
+                      "named": {
+                        "_else": [
+                          {
+                            "name": "<if>",
+                            "line": 229,
+                            "body": [
+                              {
+                                "name": "<assign>",
+                                "line": 230,
+                                "named": {
+                                  "_target": "s3DeploymentBucket"
+                                },
+                                "category": "dynamic",
+                                "source": "s3DeploymentBucket = ${projectBucketPrefix}-deployment",
+                                "dynamic": true
+                              },
+                              {
+                                "name": "info",
+                                "line": 231,
+                                "args": [
+                                  "s3 deployment bucket used: ${s3DeploymentBucket}"
+                                ],
+                                "category": "unknown",
+                                "receiver": "log",
+                                "dynamic": true
+                              }
+                            ],
+                            "category": "dynamic",
+                            "source": "params.action != 'destroy'",
+                            "dynamic": true
+                          }
+                        ]
+                      },
+                      "body": [
+                        {
+                          "name": "failure",
+                          "line": 228,
+                          "args": [
+                            "Failed to run TF Scaffold on deployment-bucket component"
+                          ],
+                          "category": "unknown"
+                        }
+                      ],
+                      "category": "dynamic",
+                      "source": "getAwsFunctions().terraformScaffold(\n                    project,\n                    params.environment,\n                    group,\n                    globalValuesFactory.AWS_REGION,\n                    '',\n                    deploymentBucketJobName,\n                    env.BUILD_NUMBER,\n                    \"deployment-bucket\",\n                    bucketPrefix,\n                    params.action\n                )",
+                      "dynamic": true
+                    }
+                  ],
+                  "category": "direct",
+                  "dynamic": true
+                }
+              ],
+              "category": "dynamic"
+            }
+          ],
+          "fail_fast": true
+        },
+        {
+          "name": "Init: Verify environment",
+          "line": 238,
+          "when": {
+            "conditions": [
+              {
+                "kind": "expression",
+                "text": "params.action != 'destroy'",
+                "line": 239
+              }
+            ]
+          },
+          "steps": [
+            {
+              "name": "script",
+              "line": 242,
+              "body": [
+                {
+                  "name": "<if>",
+                  "line": 243,
+                  "body": [
+                    {
+                      "name": "failure",
+                      "line": 249,
+                      "args": [
+                        "Failed to clone repository ${github.cvr_app.url}; branch: ${params.branch}"
+                      ],
+                      "category": "unknown",
+                      "dynamic": true
+                    }
+                  ],
+                  "category": "dynamic",
+                  "source": "!repoFunctionsFactory.checkoutGitRepo(\n                  github.cvr_app.url,\n                  params.branch,\n                  github.cvr_app.name,\n                  globalValuesFactory.SSH_DEPLOY_GIT_CREDS_ID\n              )",
+                  "dynamic": true
+                },
+                {
+                  "name": "dir",
+                  "line": 252,
+                  "args": [
+                    "github.cvr_app.name"
+                  ],
+                  "body": [
+                    {
+                      "name": "<decl>",
+                      "line": 253,
+                      "named": {
+                        "_target": "backendRevision"
+                      },
+                      "body": [
+                        {
+                          "name": "getOutputOrFail",
+                          "line": 253,
+                          "args": [
+                            "repoFunctionsFactory.getRevision(...)",
+                            "Failure while calculating ${backendAppName} revision"
+                          ],
+                          "category": "unknown",
+                          "dynamic": true
+                        }
+                      ],
+                      "category": "dynamic",
+                      "source": "backendRevision = getOutputOrFail(...)",
+                      "dynamic": true
+                    },
+                    {
+                      "name": "<decl>",
+                      "line": 256,
+                      "named": {
+                        "_target": "frontendRevision"
+                      },
+                      "body": [
+                        {
+                          "name": "getOutputOrFail",
+                          "line": 256,
+                          "args": [
+                            "repoFunctionsFactory.getRevision(...)",
+                            "Failure while calculating ${frontendAppName} revision"
+                          ],
+                          "category": "unknown",
+                          "dynamic": true
+                        }
+                      ],
+                      "category": "dynamic",
+                      "source": "frontendRevision = getOutputOrFail(...)",
+                      "dynamic": true
+                    },
+                    {
+                      "name": "<decl>",
+                      "line": 259,
+                      "named": {
+                        "_target": "commonsRevision"
+                      },
+                      "body": [
+                        {
+                          "name": "getOutputOrFail",
+                          "line": 259,
+                          "args": [
+                            "repoFunctionsFactory.getRevision(...)",
+                            "Failure while calculating ${commonModuleName} revision"
+                          ],
+                          "category": "unknown",
+                          "dynamic": true
+                        }
+                      ],
+                      "category": "dynamic",
+                      "source": "commonsRevision = getOutputOrFail(...)",
+                      "dynamic": true
+                    },
+                    {
+                      "name": "<decl>",
+                      "line": 262,
+                      "named": {
+                        "_target": "dataUpdateRevision"
+                      },
+                      "body": [
+                        {
+                          "name": "getOutputOrFail",
+                          "line": 262,
+                          "args": [
+                            "repoFunctionsFactory.getRevision(...)",
+                            "Failure while calculating ${dataUpdateModuleName} revision"
+                          ],
+                          "category": "unknown",
+                          "dynamic": true
+                        }
+                      ],
+                      "category": "dynamic",
+                      "source": "dataUpdateRevision = getOutputOrFail(...)",
+                      "dynamic": true
+                    },
+                    {
+                      "name": "<decl>",
+                      "line": 265,
+                      "named": {
+                        "_target": "isNewCommonsRevision"
+                      },
+                      "category": "dynamic",
+                      "source": "isNewCommonsRevision = True",
+                      "dynamic": true
+                    },
+                    {
+                      "name": "<decl>",
+                      "line": 267,
+                      "named": {
+                        "_target": "manifestsListing"
+                      },
+                      "body": [
+                        {
+                          "name": "getAwsFunctions",
+                          "line": 267,
+                          "named": {
+                            "_chain": "awsCli"
+                          },
+                          "category": "unknown"
+                        }
+                      ],
+                      "category": "dynamic",
+                      "source": "manifestsListing = getAwsFunctions().awsCli(...)",
+                      "dynamic": true
+                    },
+                    {
+                      "name": "<if>",
+                      "line": 268,
+                      "named": {
+                        "_else": [
+                          {
+                            "name": "info",
+                            "line": 287,
+                            "args": [
+                              "No manifests present in ${s3DeploymentBucket}/manifests/"
+                            ],
+                            "category": "unknown",
+                            "receiver": "log",
+                            "dynamic": true
+                          },
+                          {
+                            "name": "<assign>",
+                            "line": 288,
+                            "named": {
+                              "_target": "manifestContent"
+                            },
+                            "body": [
+                              {
+                                "name": "readJSON",
+                                "line": 288,
+                                "named": {
+                                  "text": "{}"
+                                },
+                                "category": "policy"
+                              }
+                            ],
+                            "category": "dynamic",
+                            "source": "manifestContent = readJSON(...)",
+                            "dynamic": true
+                          },
+                          {
+                            "name": "<assign>",
+                            "line": 289,
+                            "named": {
+                              "_target": "isNewVersion[frontendAppName]"
+                            },
+                            "category": "dynamic",
+                            "source": "isNewVersion[frontendAppName] = True",
+                            "dynamic": true
+                          },
+                          {
+                            "name": "<assign>",
+                            "line": 290,
+                            "named": {
+                              "_target": "isNewVersion[backendAppName]"
+                            },
+                            "category": "dynamic",
+                            "source": "isNewVersion[backendAppName] = True",
+                            "dynamic": true
+                          },
+                          {
+                            "name": "<assign>",
+                            "line": 291,
+                            "named": {
+                              "_target": "isNewVersion[dataUpdateModuleName]"
+                            },
+                            "category": "dynamic",
+                            "source": "isNewVersion[dataUpdateModuleName] = True",
+                            "dynamic": true
+                          }
+                        ]
+                      },
+                      "body": [
+                        {
+                          "name": "<decl>",
+                          "line": 269,
+                          "named": {
+                            "_target": "latestManifestFile"
+                          },
+                          "category": "dynamic",
+                          "source": "latestManifestFile = manifestsListing.stdout.split('\\n').sort().last().split()[3]",
+                          "dynamic": true
+                        },
+                        {
+                          "name": "info",
+                          "line": 270,
+                          "args": [
+                            "LATEST MANIFEST FILE: ${latestManifestFile}"
+                          ],
+                          "category": "unknown",
+                          "receiver": "log",
+                          "dynamic": true
+                        },
+                        {
+                          "name": "<if>",
+                          "line": 271,
+                          "body": [
+                            {
+                              "name": "failure",
+                              "line": 274,
+                              "args": [
+                                "Failure while copying latest manifest file"
+                              ],
+                              "category": "unknown"
+                            }
+                          ],
+                          "category": "dynamic",
+                          "source": "getAwsFunctions().awsCli(\n                      \"aws s3 cp s3://${s3DeploymentBucket}/manifests/${latestManifestFile} ${env.WORKSPACE}/manifests/manifest_${manifestVersion}.json\"\n                  ).status",
+                          "dynamic": true
+                        },
+                        {
+                          "name": "info",
+                          "line": 276,
+                          "args": [
+                            "Manifest file saved as ${env.WORKSPACE}/manifests/manifest_${manifestVersion}.json"
+                          ],
+                          "category": "unknown",
+                          "receiver": "log",
+                          "dynamic": true
+                        },
+                        {
+                          "name": "<assign>",
+                          "line": 277,
+                          "named": {
+                            "_target": "manifestContent"
+                          },
+                          "body": [
+                            {
+                              "name": "readJSON",
+                              "line": 277,
+                              "named": {
+                                "file": "${env.WORKSPACE}/manifests/manifest_${manifestVersion}.json"
+                              },
+                              "category": "policy",
+                              "dynamic": true
+                            }
+                          ],
+                          "category": "dynamic",
+                          "source": "manifestContent = readJSON(...)",
+                          "dynamic": true
+                        },
+                        {
+                          "name": "<assign>",
+                          "line": 279,
+                          "named": {
+                            "_target": "isNewCommonsRevision"
+                          },
+                          "category": "dynamic",
+                          "source": "isNewCommonsRevision = commonsRevision != manifestContent.common_version",
+                          "dynamic": true
+                        },
+                        {
+                          "name": "<assign>",
+                          "line": 280,
+                          "named": {
+                            "_target": "isNewVersion[frontendAppName]"
+                          },
+                          "category": "dynamic",
+                          "source": "isNewVersion[frontendAppName] = getRevisionFromArtifactName(manifestContent.frontend_version) != frontendRevision ||\n                      isNewCommonsRevision",
+                          "dynamic": true
+                        },
+                        {
+                          "name": "<assign>",
+                          "line": 282,
+                          "named": {
+                            "_target": "isNewVersion[backendAppName]"
+                          },
+                          "category": "dynamic",
+                          "source": "isNewVersion[backendAppName] = getRevisionFromArtifactName(manifestContent.backend_version) != backendRevision ||\n                      isNewCommonsRevision",
+                          "dynamic": true
+                        },
+                        {
+                          "name": "<assign>",
+                          "line": 284,
+                          "named": {
+                            "_target": "isNewVersion[dataUpdateModuleName]"
+                          },
+                          "category": "dynamic",
+                          "source": "isNewVersion[dataUpdateModuleName] = getRevisionFromArtifactName(manifestContent.data_update_version) != dataUpdateRevision ||\n                      isNewCommonsRevision",
+                          "dynamic": true
+                        }
+                      ],
+                      "category": "dynamic",
+                      "source": "!manifestsListing.status && manifestsListing.stdout",
+                      "dynamic": true
+                    },
+                    {
+                      "name": "<if>",
+                      "line": 294,
+                      "body": [
+                        {
+                          "name": "put",
+                          "line": 295,
+                          "args": [
+                            "frontend_version",
+                            "\"${project}-${frontendAppName}-${manifestVersion}_${frontendRevision}.zip\".toString(...)"
+                          ],
+                          "category": "groovy",
+                          "receiver": "manifestContent",
+                          "dynamic": true
+                        }
+                      ],
+                      "category": "dynamic",
+                      "source": "isNewVersion[frontendAppName]",
+                      "dynamic": true
+                    },
+                    {
+                      "name": "<if>",
+                      "line": 297,
+                      "body": [
+                        {
+                          "name": "put",
+                          "line": 298,
+                          "args": [
+                            "backend_version",
+                            "\"${project}-${backendAppName}-${manifestVersion}_${backendRevision}.zip\".toString(...)"
+                          ],
+                          "category": "groovy",
+                          "receiver": "manifestContent",
+                          "dynamic": true
+                        }
+                      ],
+                      "category": "dynamic",
+                      "source": "isNewVersion[backendAppName]",
+                      "dynamic": true
+                    },
+                    {
+                      "name": "<if>",
+                      "line": 300,
+                      "body": [
+                        {
+                          "name": "put",
+                          "line": 301,
+                          "args": [
+                            "data_update_version",
+                            "\"${project}-${dataUpdateModuleName}-${manifestVersion}_${dataUpdateRevision}.zip\".toString(...)"
+                          ],
+                          "category": "groovy",
+                          "receiver": "manifestContent",
+                          "dynamic": true
+                        }
+                      ],
+                      "category": "dynamic",
+                      "source": "isNewVersion[dataUpdateModuleName]",
+                      "dynamic": true
+                    },
+                    {
+                      "name": "<if>",
+                      "line": 303,
+                      "body": [
+                        {
+                          "name": "put",
+                          "line": 304,
+                          "args": [
+                            "common_version",
+                            "commonsRevision.toString(...)"
+                          ],
+                          "category": "groovy",
+                          "receiver": "manifestContent",
+                          "dynamic": true
+                        }
+                      ],
+                      "category": "dynamic",
+                      "source": "isNewCommonsRevision",
+                      "dynamic": true
+                    }
+                  ],
+                  "category": "direct",
+                  "dynamic": true
+                }
+              ],
+              "category": "dynamic"
+            }
+          ],
+          "fail_fast": true
+        }
+      ],
+      "fail_fast": true
+    },
+    {
+      "name": "Build",
+      "line": 313,
+      "when": {
+        "conditions": [
+          {
+            "kind": "expression",
+            "text": "params.action == 'apply'",
+            "line": 314
+          }
+        ]
+      },
+      "parallel": [
+        {
+          "name": "Build: CVR frontend",
+          "line": 317,
+          "agent": {
+            "kind": "label",
+            "label": "${jenkinsBuildLabel} && ${account}",
+            "raw": {
+              "label": "${jenkinsBuildLabel} && ${account}"
+            },
+            "line": 319
+          },
+          "when": {
+            "conditions": [
+              {
+                "kind": "expression",
+                "text": "isNewVersion[frontendAppName]",
+                "line": 318
+              }
+            ]
+          },
+          "steps": [
+            {
+              "name": "script",
+              "line": 321,
+              "body": [
+                {
+                  "name": "dir",
+                  "line": 322,
+                  "args": [
+                    "github.cvr_app.name"
+                  ],
+                  "body": [
+                    {
+                      "name": "deleteDir",
+                      "line": 323,
+                      "category": "direct"
+                    }
+                  ],
+                  "category": "direct",
+                  "dynamic": true
+                },
+                {
+                  "name": "<if>",
+                  "line": 326,
+                  "body": [
+                    {
+                      "name": "failure",
+                      "line": 332,
+                      "args": [
+                        "Failed to clone repository ${github.cvr_app.url}; branch: ${params.branch}"
+                      ],
+                      "category": "unknown",
+                      "dynamic": true
+                    }
+                  ],
+                  "category": "dynamic",
+                  "source": "!repoFunctionsFactory.checkoutGitRepo(\n                  github.cvr_app.url,\n                  params.branch,\n                  github.cvr_app.name,\n                  globalValuesFactory.SSH_DEPLOY_GIT_CREDS_ID\n              )",
+                  "dynamic": true
+                },
+                {
+                  "name": "dir",
+                  "line": 335,
+                  "args": [
+                    "github.cvr_app.name"
+                  ],
+                  "body": [
+                    {
+                      "name": "<decl>",
+                      "line": 336,
+                      "named": {
+                        "_target": "revision"
+                      },
+                      "body": [
+                        {
+                          "name": "getRevisionFromArtifactName",
+                          "line": 336,
+                          "args": [
+                            "manifestContent.frontend_version"
+                          ],
+                          "category": "unknown",
+                          "dynamic": true
+                        }
+                      ],
+                      "category": "dynamic",
+                      "source": "revision = getRevisionFromArtifactName(...)",
+                      "dynamic": true
+                    },
+                    {
+                      "name": "info",
+                      "line": 337,
+                      "args": [
+                        "${frontendAppName} lambda revision to build: ${revision}"
+                      ],
+                      "category": "unknown",
+                      "receiver": "log",
+                      "dynamic": true
+                    },
+                    {
+                      "name": "<decl>",
+                      "line": 338,
+                      "named": {
+                        "_target": "feVersion"
+                      },
+                      "body": [
+                        {
+                          "name": "toString",
+                          "line": 338,
+                          "category": "groovy",
+                          "receiver": "\"${manifestVersion}_${revision}\""
+                        }
+                      ],
+                      "category": "dynamic",
+                      "source": "feVersion = \"${manifestVersion}_${revision}\".toString(...)",
+                      "dynamic": true
+                    },
+                    {
+                      "name": "<if>",
+                      "line": 340,
+                      "named": {
+                        "_else": [
+                          {
+                            "name": "<assign>",
+                            "line": 343,
+                            "named": {
+                              "_target": "frontendArtifact"
+                            },
+                            "category": "dynamic",
+                            "source": "frontendArtifact = ${env.WORKSPACE}/${github.cvr_app.name}/${manifestContent.frontend_version}",
+                            "dynamic": true
+                          }
+                        ]
+                      },
+                      "body": [
+                        {
+                          "name": "failure",
+                          "line": 341,
+                          "args": [
+                            "Failed to build CVR ${frontendAppName}"
+                          ],
+                          "category": "unknown",
+                          "dynamic": true
+                        }
+                      ],
+                      "category": "dynamic",
+                      "source": "buildPackage(frontendAppName, feVersion)",
+                      "dynamic": true
+                    }
+                  ],
+                  "category": "direct",
+                  "dynamic": true
+                }
+              ],
+              "category": "dynamic"
+            }
+          ]
+        },
+        {
+          "name": "Build: CVR backend",
+          "line": 350,
+          "agent": {
+            "kind": "label",
+            "label": "${jenkinsBuildLabel} && ${account}",
+            "raw": {
+              "label": "${jenkinsBuildLabel} && ${account}"
+            },
+            "line": 352
+          },
+          "when": {
+            "conditions": [
+              {
+                "kind": "expression",
+                "text": "isNewVersion[backendAppName]",
+                "line": 351
+              }
+            ]
+          },
+          "steps": [
+            {
+              "name": "script",
+              "line": 354,
+              "body": [
+                {
+                  "name": "dir",
+                  "line": 355,
+                  "args": [
+                    "github.cvr_app.name"
+                  ],
+                  "body": [
+                    {
+                      "name": "deleteDir",
+                      "line": 356,
+                      "category": "direct"
+                    }
+                  ],
+                  "category": "direct",
+                  "dynamic": true
+                },
+                {
+                  "name": "<if>",
+                  "line": 359,
+                  "body": [
+                    {
+                      "name": "failure",
+                      "line": 365,
+                      "args": [
+                        "Failed to clone repository ${github.cvr_app.url}; branch: ${params.branch}"
+                      ],
+                      "category": "unknown",
+                      "dynamic": true
+                    }
+                  ],
+                  "category": "dynamic",
+                  "source": "!repoFunctionsFactory.checkoutGitRepo(\n                  github.cvr_app.url,\n                  params.branch,\n                  github.cvr_app.name,\n                  globalValuesFactory.SSH_DEPLOY_GIT_CREDS_ID\n              )",
+                  "dynamic": true
+                },
+                {
+                  "name": "dir",
+                  "line": 368,
+                  "args": [
+                    "github.cvr_app.name"
+                  ],
+                  "body": [
+                    {
+                      "name": "<decl>",
+                      "line": 369,
+                      "named": {
+                        "_target": "revision"
+                      },
+                      "body": [
+                        {
+                          "name": "getRevisionFromArtifactName",
+                          "line": 369,
+                          "args": [
+                            "manifestContent.backend_version"
+                          ],
+                          "category": "unknown",
+                          "dynamic": true
+                        }
+                      ],
+                      "category": "dynamic",
+                      "source": "revision = getRevisionFromArtifactName(...)",
+                      "dynamic": true
+                    },
+                    {
+                      "name": "info",
+                      "line": 370,
+                      "args": [
+                        "${backendAppName} lambda revision to build: ${revision}"
+                      ],
+                      "category": "unknown",
+                      "receiver": "log",
+                      "dynamic": true
+                    },
+                    {
+                      "name": "<decl>",
+                      "line": 371,
+                      "named": {
+                        "_target": "backendVersion"
+                      },
+                      "body": [
+                        {
+                          "name": "toString",
+                          "line": 371,
+                          "category": "groovy",
+                          "receiver": "\"${manifestVersion}_${revision}\""
+                        }
+                      ],
+                      "category": "dynamic",
+                      "source": "backendVersion = \"${manifestVersion}_${revision}\".toString(...)",
+                      "dynamic": true
+                    },
+                    {
+                      "name": "<if>",
+                      "line": 373,
+                      "named": {
+                        "_else": [
+                          {
+                            "name": "<assign>",
+                            "line": 376,
+                            "named": {
+                              "_target": "backendArtifact"
+                            },
+                            "category": "dynamic",
+                            "source": "backendArtifact = ${env.WORKSPACE}/${github.cvr_app.name}/${manifestContent.backend_version}",
+                            "dynamic": true
+                          }
+                        ]
+                      },
+                      "body": [
+                        {
+                          "name": "failure",
+                          "line": 374,
+                          "args": [
+                            "Failed to build CVR ${backendAppName}"
+                          ],
+                          "category": "unknown",
+                          "dynamic": true
+                        }
+                      ],
+                      "category": "dynamic",
+                      "source": "buildPackage(backendAppName, backendVersion)",
+                      "dynamic": true
+                    }
+                  ],
+                  "category": "direct",
+                  "dynamic": true
+                }
+              ],
+              "category": "dynamic"
+            }
+          ]
+        },
+        {
+          "name": "Build: frontend assets",
+          "line": 383,
+          "agent": {
+            "kind": "label",
+            "label": "${jenkinsBuildLabel} && ${account}",
+            "raw": {
+              "label": "${jenkinsBuildLabel} && ${account}"
+            },
+            "line": 384
+          },
+          "steps": [
+            {
+              "name": "script",
+              "line": 386,
+              "body": [
+                {
+                  "name": "dir",
+                  "line": 387,
+                  "args": [
+                    "github.front_end.name"
+                  ],
+                  "body": [
+                    {
+                      "name": "deleteDir",
+                      "line": 388,
+                      "category": "direct"
+                    }
+                  ],
+                  "category": "direct",
+                  "dynamic": true
+                },
+                {
+                  "name": "<if>",
+                  "line": 391,
+                  "body": [
+                    {
+                      "name": "failure",
+                      "line": 397,
+                      "args": [
+                        "Failed to clone repository ${github.cvr_app.url}; branch: ${params.branch}"
+                      ],
+                      "category": "unknown",
+                      "dynamic": true
+                    }
+                  ],
+                  "category": "dynamic",
+                  "source": "!repoFunctionsFactory.checkoutGitRepo(\n                  github.cvr_app.url,\n                  params.branch,\n                  github.cvr_app.name,\n                  globalValuesFactory.SSH_DEPLOY_GIT_CREDS_ID\n              )",
+                  "dynamic": true
+                },
+                {
+                  "name": "<decl>",
+                  "line": 400,
+                  "named": {
+                    "_target": "assetsVersion"
+                  },
+                  "category": "dynamic",
+                  "source": "assetsVersion = null",
+                  "dynamic": true
+                },
+                {
+                  "name": "dir",
+                  "line": 401,
+                  "args": [
+                    "github.cvr_app.name"
+                  ],
+                  "body": [
+                    {
+                      "name": "dir",
+                      "line": 402,
+                      "args": [
+                        "frontendAppName"
+                      ],
+                      "body": [
+                        {
+                          "name": "<assign>",
+                          "line": 403,
+                          "named": {
+                            "_target": "assetsVersion"
+                          },
+                          "body": [
+                            {
+                              "name": "readFile",
+                              "line": 403,
+                              "args": [
+                                "assets.version"
+                              ],
+                              "category": "policy"
+                            }
+                          ],
+                          "category": "dynamic",
+                          "source": "assetsVersion = readFile(...)",
+                          "dynamic": true
+                        },
+                        {
+                          "name": "<if>",
+                          "line": 404,
+                          "body": [
+                            {
+                              "name": "failure",
+                              "line": 405,
+                              "args": [
+                                "Failed to read frontend assets version required"
+                              ],
+                              "category": "unknown"
+                            }
+                          ],
+                          "category": "dynamic",
+                          "source": "!assetsVersion",
+                          "dynamic": true
+                        }
+                      ],
+                      "category": "direct",
+                      "dynamic": true,
+                      "variable_args": [
+                        0
+                      ]
+                    }
+                  ],
+                  "category": "direct",
+                  "dynamic": true
+                },
+                {
+                  "name": "info",
+                  "line": 409,
+                  "args": [
+                    "Using assets ${assetsVersion}"
+                  ],
+                  "category": "unknown",
+                  "receiver": "log",
+                  "dynamic": true
+                },
+                {
+                  "name": "<if>",
+                  "line": 411,
+                  "named": {
+                    "_else": [
+                      {
+                        "name": "<if>",
+                        "line": 420,
+                        "body": [
+                          {
+                            "name": "<assign>",
+                            "line": 421,
+                            "named": {
+                              "_target": "assetsBasePath"
+                            },
+                            "category": "dynamic",
+                            "source": "assetsBasePath = ${env.WORKSPACE}/${github.front_end.name}",
+                            "dynamic": true
+                          },
+                          {
+                            "name": "<decl>",
+                            "line": 422,
+                            "named": {
+                              "_target": "revision"
+                            },
+                            "body": [
+                              {
+                                "name": "getOutputOrFail",
+                                "line": 422,
+                                "args": [
+                                  "repoFunctionsFactory.getRevision(...)",
+                                  "Failure while calculating assets revision"
+                                ],
+                                "category": "unknown",
+                                "dynamic": true
+                              }
+                            ],
+                            "category": "dynamic",
+                            "source": "revision = getOutputOrFail(...)",
+                            "dynamic": true
+                          },
+                          {
+                            "name": "info",
+                            "line": 426,
+                            "args": [
+                              "Assets revision ver: ${revision}"
+                            ],
+                            "category": "unknown",
+                            "receiver": "log",
+                            "dynamic": true
+                          },
+                          {
+                            "name": "<assign>",
+                            "line": 427,
+                            "named": {
+                              "_target": "isNewVersion['assets']"
+                            },
+                            "category": "dynamic",
+                            "source": "isNewVersion['assets'] = getRevisionFromArtifactName(manifestContent.assets_version) != revision",
+                            "dynamic": true
+                          },
+                          {
+                            "name": "<if>",
+                            "line": 429,
+                            "named": {
+                              "_else": [
+                                {
+                                  "name": "info",
+                                  "line": 438,
+                                  "args": [
+                                    "Building assets revision: ${revision}"
+                                  ],
+                                  "category": "unknown",
+                                  "receiver": "log",
+                                  "dynamic": true
+                                },
+                                {
+                                  "name": "<decl>",
+                                  "line": 439,
+                                  "named": {
+                                    "_target": "assetsVer"
+                                  },
+                                  "body": [
+                                    {
+                                      "name": "toString",
+                                      "line": 439,
+                                      "category": "groovy",
+                                      "receiver": "\"assets-${manifestVersion}_${revision}.zip\""
+                                    }
+                                  ],
+                                  "category": "dynamic",
+                                  "source": "assetsVer = \"assets-${manifestVersion}_${revision}.zip\".toString(...)",
+                                  "dynamic": true
+                                },
+                                {
+                                  "name": "put",
+                                  "line": 440,
+                                  "args": [
+                                    "assets_version",
+                                    "assetsVer"
+                                  ],
+                                  "category": "groovy",
+                                  "receiver": "manifestContent",
+                                  "dynamic": true,
+                                  "variable_args": [
+                                    1
+                                  ]
+                                },
+                                {
+                                  "name": "zip",
+                                  "line": 441,
+                                  "named": {
+                                    "dir": "${assetsBasePath}/dist/assets",
+                                    "zipFile": "${assetsBasePath}/${manifestContent.assets_version}"
+                                  },
+                                  "category": "direct",
+                                  "dynamic": true
+                                }
+                              ]
+                            },
+                            "body": [
+                              {
+                                "name": "info",
+                                "line": 430,
+                                "args": [
+                                  "Reusing assets version ${manifestContent.assets_version}"
+                                ],
+                                "category": "unknown",
+                                "receiver": "log",
+                                "dynamic": true
+                              },
+                              {
+                                "name": "<if>",
+                                "line": 431,
+                                "body": [
+                                  {
+                                    "name": "failure",
+                                    "line": 434,
+                                    "args": [
+                                      "Failure while fetching ${manifestContent.assets_version}"
+                                    ],
+                                    "category": "unknown",
+                                    "dynamic": true
+                                  }
+                                ],
+                                "category": "dynamic",
+                                "source": "getAwsFunctions().awsCli(\n                        \"aws s3 cp s3://${s3DeploymentBucket}/assets/${manifestContent.assets_version} ${assetsBasePath}/${manifestContent.assets_version}\"\n                    ).status",
+                                "dynamic": true
+                              }
+                            ],
+                            "category": "dynamic",
+                            "source": "!isNewVersion['assets']",
+                            "dynamic": true
+                          }
+                        ],
+                        "category": "dynamic",
+                        "source": "fileExists(\"${github.front_end.name}/dist/assets\")",
+                        "dynamic": true
+                      }
+                    ]
+                  },
+                  "body": [
+                    {
+                      "name": "failure",
+                      "line": 418,
+                      "args": [
+                        "Failed to checkout frontend assets repository"
+                      ],
+                      "category": "unknown"
+                    }
+                  ],
+                  "category": "dynamic",
+                  "source": "!repoFunctionsFactory.checkoutGitRepo(\n                  github.front_end.url,\n                  assetsVersion,\n                  github.front_end.name,\n                  globalValuesFactory.SSH_DEPLOY_GIT_CREDS_ID,\n                  false\n              )",
+                  "dynamic": true
+                }
+              ],
+              "category": "dynamic"
+            }
+          ]
+        },
+        {
+          "name": "Build: CVR data update module",
+          "line": 449,
+          "agent": {
+            "kind": "label",
+            "label": "${jenkinsBuildLabel} && ${account}",
+            "raw": {
+              "label": "${jenkinsBuildLabel} && ${account}"
+            },
+            "line": 451
+          },
+          "when": {
+            "conditions": [
+              {
+                "kind": "expression",
+                "text": "isNewVersion[dataUpdateModuleName]",
+                "line": 450
+              }
+            ]
+          },
+          "steps": [
+            {
+              "name": "script",
+              "line": 453,
+              "body": [
+                {
+                  "name": "dir",
+                  "line": 454,
+                  "args": [
+                    "github.cvr_app.name"
+                  ],
+                  "body": [
+                    {
+                      "name": "deleteDir",
+                      "line": 455,
+                      "category": "direct"
+                    }
+                  ],
+                  "category": "direct",
+                  "dynamic": true
+                },
+                {
+                  "name": "<if>",
+                  "line": 458,
+                  "body": [
+                    {
+                      "name": "failure",
+                      "line": 464,
+                      "args": [
+                        "Failed to clone repository ${github.cvr_app.url}; branch: ${params.branch}"
+                      ],
+                      "category": "unknown",
+                      "dynamic": true
+                    }
+                  ],
+                  "category": "dynamic",
+                  "source": "!repoFunctionsFactory.checkoutGitRepo(\n                  github.cvr_app.url,\n                  params.branch,\n                  github.cvr_app.name,\n                  globalValuesFactory.SSH_DEPLOY_GIT_CREDS_ID\n              )",
+                  "dynamic": true
+                },
+                {
+                  "name": "dir",
+                  "line": 467,
+                  "args": [
+                    "github.cvr_app.name"
+                  ],
+                  "body": [
+                    {
+                      "name": "<decl>",
+                      "line": 468,
+                      "named": {
+                        "_target": "revision"
+                      },
+                      "body": [
+                        {
+                          "name": "getRevisionFromArtifactName",
+                          "line": 468,
+                          "args": [
+                            "manifestContent.data_update_version"
+                          ],
+                          "category": "unknown",
+                          "dynamic": true
+                        }
+                      ],
+                      "category": "dynamic",
+                      "source": "revision = getRevisionFromArtifactName(...)",
+                      "dynamic": true
+                    },
+                    {
+                      "name": "info",
+                      "line": 469,
+                      "args": [
+                        "${dataUpdateModuleName} lambda revision to build: ${revision}"
+                      ],
+                      "category": "unknown",
+                      "receiver": "log",
+                      "dynamic": true
+                    },
+                    {
+                      "name": "<decl>",
+                      "line": 470,
+                      "named": {
+                        "_target": "dataUpdateVersion"
+                      },
+                      "body": [
+                        {
+                          "name": "toString",
+                          "line": 470,
+                          "category": "groovy",
+                          "receiver": "\"${manifestVersion}_${revision}\""
+                        }
+                      ],
+                      "category": "dynamic",
+                      "source": "dataUpdateVersion = \"${manifestVersion}_${revision}\".toString(...)",
+                      "dynamic": true
+                    },
+                    {
+                      "name": "<if>",
+                      "line": 472,
+                      "named": {
+                        "_else": [
+                          {
+                            "name": "<assign>",
+                            "line": 475,
+                            "named": {
+                              "_target": "dataUpdateArtifact"
+                            },
+                            "category": "dynamic",
+                            "source": "dataUpdateArtifact = ${env.WORKSPACE}/${github.cvr_app.name}/${manifestContent.data_update_version}",
+                            "dynamic": true
+                          }
+                        ]
+                      },
+                      "body": [
+                        {
+                          "name": "failure",
+                          "line": 473,
+                          "args": [
+                            "Failed to build CVR ${dataUpdateModuleName}"
+                          ],
+                          "category": "unknown",
+                          "dynamic": true
+                        }
+                      ],
+                      "category": "dynamic",
+                      "source": "buildPackage(dataUpdateModuleName, dataUpdateVersion)",
+                      "dynamic": true
+                    }
+                  ],
+                  "category": "direct",
+                  "dynamic": true
+                }
+              ],
+              "category": "dynamic"
+            }
+          ]
+        }
+      ],
+      "fail_fast": true
+    },
+    {
+      "name": "Deploy",
+      "line": 484,
+      "stages": [
+        {
+          "name": "Deploy: Upload CVR frontend package",
+          "line": 487,
+          "agent": {
+            "kind": "label",
+            "label": "${jenkinsBuildLabel} && ${account}",
+            "raw": {
+              "label": "${jenkinsBuildLabel} && ${account}"
+            },
+            "line": 489
+          },
+          "when": {
+            "conditions": [
+              {
+                "kind": "expression",
+                "text": "params.action == 'apply' && isNewVersion[frontendAppName]",
+                "line": 488
+              }
+            ]
+          },
+          "steps": [
+            {
+              "name": "script",
+              "line": 491,
+              "body": [
+                {
+                  "name": "dir",
+                  "line": 492,
+                  "args": [
+                    "github.cvr_app.name"
+                  ],
+                  "body": [
+                    {
+                      "name": "<if>",
+                      "line": 493,
+                      "body": [
+                        {
+                          "name": "failure",
+                          "line": 494,
+                          "args": [
+                            "Unable to locate CVR frontend package"
+                          ],
+                          "category": "unknown"
+                        }
+                      ],
+                      "category": "dynamic",
+                      "source": "!fileExists(frontendArtifact)",
+                      "dynamic": true
+                    },
+                    {
+                      "name": "info",
+                      "line": 497,
+                      "args": [
+                        "Found build file: ${frontendArtifact}"
+                      ],
+                      "category": "unknown",
+                      "receiver": "log",
+                      "dynamic": true
+                    },
+                    {
+                      "name": "<if>",
+                      "line": 498,
+                      "body": [
+                        {
+                          "name": "failure",
+                          "line": 499,
+                          "args": [
+                            "Failure while uploading ${frontendAppName} lambda package to s3"
+                          ],
+                          "category": "unknown",
+                          "dynamic": true
+                        }
+                      ],
+                      "category": "dynamic",
+                      "source": "getAwsFunctions().copyFilesToS3(s3DeploymentBucket, '', frontendArtifact)",
+                      "dynamic": true
+                    }
+                  ],
+                  "category": "direct",
+                  "dynamic": true
+                }
+              ],
+              "category": "dynamic"
+            }
+          ]
+        },
+        {
+          "name": "Deploy: Upload CVR backend package",
+          "line": 506,
+          "agent": {
+            "kind": "label",
+            "label": "${jenkinsBuildLabel} && ${account}",
+            "raw": {
+              "label": "${jenkinsBuildLabel} && ${account}"
+            },
+            "line": 508
+          },
+          "when": {
+            "conditions": [
+              {
+                "kind": "expression",
+                "text": "params.action == 'apply'  && isNewVersion[backendAppName]",
+                "line": 507
+              }
+            ]
+          },
+          "steps": [
+            {
+              "name": "script",
+              "line": 510,
+              "body": [
+                {
+                  "name": "dir",
+                  "line": 511,
+                  "args": [
+                    "github.cvr_app.name"
+                  ],
+                  "body": [
+                    {
+                      "name": "<if>",
+                      "line": 512,
+                      "body": [
+                        {
+                          "name": "failure",
+                          "line": 513,
+                          "args": [
+                            "Unable to locate CVR backend package"
+                          ],
+                          "category": "unknown"
+                        }
+                      ],
+                      "category": "dynamic",
+                      "source": "!fileExists(backendArtifact)",
+                      "dynamic": true
+                    },
+                    {
+                      "name": "info",
+                      "line": 516,
+                      "args": [
+                        "Found build file: ${backendArtifact}"
+                      ],
+                      "category": "unknown",
+                      "receiver": "log",
+                      "dynamic": true
+                    },
+                    {
+                      "name": "<if>",
+                      "line": 517,
+                      "body": [
+                        {
+                          "name": "failure",
+                          "line": 518,
+                          "args": [
+                            "Failure while uploading ${backendAppName} lambda package to s3"
+                          ],
+                          "category": "unknown",
+                          "dynamic": true
+                        }
+                      ],
+                      "category": "dynamic",
+                      "source": "getAwsFunctions().copyFilesToS3(s3DeploymentBucket, '', backendArtifact)",
+                      "dynamic": true
+                    }
+                  ],
+                  "category": "direct",
+                  "dynamic": true
+                }
+              ],
+              "category": "dynamic"
+            }
+          ]
+        },
+        {
+          "name": "Deploy: Upload CVR data update package",
+          "line": 525,
+          "agent": {
+            "kind": "label",
+            "label": "${jenkinsBuildLabel} && ${account}",
+            "raw": {
+              "label": "${jenkinsBuildLabel} && ${account}"
+            },
+            "line": 527
+          },
+          "when": {
+            "conditions": [
+              {
+                "kind": "expression",
+                "text": "params.action == 'apply'  && isNewVersion[dataUpdateModuleName]",
+                "line": 526
+              }
+            ]
+          },
+          "steps": [
+            {
+              "name": "script",
+              "line": 529,
+              "body": [
+                {
+                  "name": "dir",
+                  "line": 530,
+                  "args": [
+                    "github.cvr_app.name"
+                  ],
+                  "body": [
+                    {
+                      "name": "<if>",
+                      "line": 531,
+                      "body": [
+                        {
+                          "name": "failure",
+                          "line": 532,
+                          "args": [
+                            "Unable to locate CVR data update package"
+                          ],
+                          "category": "unknown"
+                        }
+                      ],
+                      "category": "dynamic",
+                      "source": "!fileExists(dataUpdateArtifact)",
+                      "dynamic": true
+                    },
+                    {
+                      "name": "info",
+                      "line": 535,
+                      "args": [
+                        "Found build file: ${dataUpdateArtifact}"
+                      ],
+                      "category": "unknown",
+                      "receiver": "log",
+                      "dynamic": true
+                    },
+                    {
+                      "name": "<if>",
+                      "line": 536,
+                      "body": [
+                        {
+                          "name": "failure",
+                          "line": 537,
+                          "args": [
+                            "Failure while uploading ${dataUpdateModuleName} lambda package to s3"
+                          ],
+                          "category": "unknown",
+                          "dynamic": true
+                        }
+                      ],
+                      "category": "dynamic",
+                      "source": "getAwsFunctions().copyFilesToS3(s3DeploymentBucket, '', dataUpdateArtifact)",
+                      "dynamic": true
+                    }
+                  ],
+                  "category": "direct",
+                  "dynamic": true
+                }
+              ],
+              "category": "dynamic"
+            }
+          ]
+        },
+        {
+          "name": "Deploy: Terraform CVR",
+          "line": 544,
+          "agent": {
+            "kind": "label",
+            "label": "${jenkinsCtrlNodeLabel} && ${account}",
+            "raw": {
+              "label": "${jenkinsCtrlNodeLabel} && ${account}"
+            },
+            "line": 545
+          },
+          "steps": [
+            {
+              "name": "script",
+              "line": 547,
+              "body": [
+                {
+                  "name": "checkoutGitRepo",
+                  "line": 548,
+                  "args": [
+                    "gitlab.cvr_terraform.url",
+                    "params.tf_branch",
+                    "gitlab.cvr_terraform.name",
+                    "globalValuesFactory.SSH_DEPLOY_GIT_CREDS_ID"
+                  ],
+                  "category": "unknown",
+                  "receiver": "repoFunctionsFactory",
+                  "dynamic": true
+                },
+                {
+                  "name": "dir",
+                  "line": 549,
+                  "args": [
+                    "gitlab.cvr_terraform.name"
+                  ],
+                  "body": [
+                    {
+                      "name": "<decl>",
+                      "line": 550,
+                      "named": {
+                        "_target": "frontendTfVar"
+                      },
+                      "category": "dynamic",
+                      "source": "frontendTfVar = -var lambda_frontend_s3_key=${manifestContent?.frontend_version}",
+                      "dynamic": true
+                    },
+                    {
+                      "name": "<decl>",
+                      "line": 551,
+                      "named": {
+                        "_target": "backendTfVar"
+                      },
+                      "category": "dynamic",
+                      "source": "backendTfVar = -var lambda_backend_s3_key=${manifestContent?.backend_version}",
+                      "dynamic": true
+                    },
+                    {
+                      "name": "<decl>",
+                      "line": 552,
+                      "named": {
+                        "_target": "dataUpdateTfVar"
+                      },
+                      "category": "dynamic",
+                      "source": "dataUpdateTfVar = -var lambda_data_update_s3_key=${manifestContent?.data_update_version}",
+                      "dynamic": true
+                    },
+                    {
+                      "name": "<decl>",
+                      "line": 553,
+                      "named": {
+                        "_target": "tfLambdaParams"
+                      },
+                      "body": [
+                        {
+                          "name": "toString",
+                          "line": 553,
+                          "category": "groovy",
+                          "receiver": "\"${frontendTfVar} ${backendTfVar} ${dataUpdateTfVar}\""
+                        }
+                      ],
+                      "category": "dynamic",
+                      "source": "tfLambdaParams = \"${frontendTfVar} ${backendTfVar} ${dataUpdateTfVar}\".toString(...)",
+                      "dynamic": true
+                    },
+                    {
+                      "name": "<if>",
+                      "line": 554,
+                      "named": {
+                        "_else": [
+                          {
+                            "name": "<if>",
+                            "line": 568,
+                            "body": [
+                              {
+                                "name": "<decl>",
+                                "line": 570,
+                                "named": {
+                                  "_target": "frontendCustomDomain"
+                                },
+                                "category": "dynamic",
+                                "source": "frontendCustomDomain = ${params.environment}.dev.check-vehicle-recalls.service.gov.uk",
+                                "dynamic": true
+                              },
+                              {
+                                "name": "<if>",
+                                "line": 571,
+                                "named": {
+                                  "_else": [
+                                    {
+                                      "name": "<decl>",
+                                      "line": 575,
+                                      "named": {
+                                        "_target": "frontendCustomDevDomain"
+                                      },
+                                      "category": "dynamic",
+                                      "source": "frontendCustomDevDomain = dev-${params.environment}.dev.check-vehicle-recalls.service.gov.uk",
+                                      "dynamic": true
+                                    },
+                                    {
+                                      "name": "<if>",
+                                      "line": 576,
+                                      "named": {
+                                        "_else": [
+                                          {
+                                            "name": "<decl>",
+                                            "line": 580,
+                                            "named": {
+                                              "_target": "output"
+                                            },
+                                            "body": [
+                                              {
+                                                "name": "getAwsFunctions",
+                                                "line": 580,
+                                                "named": {
+                                                  "_chain": "awsCli"
+                                                },
+                                                "category": "unknown"
+                                              }
+                                            ],
+                                            "category": "dynamic",
+                                            "source": "output = getAwsFunctions().awsCli(...)",
+                                            "dynamic": true
+                                          },
+                                          {
+                                            "name": "<if>",
+                                            "line": 584,
+                                            "body": [
+                                              {
+                                                "name": "failure",
+                                                "line": 585,
+                                                "args": [
+                                                  "Failed to fetch frontend gateway url"
+                                                ],
+                                                "category": "unknown"
+                                              }
+                                            ],
+                                            "category": "dynamic",
+                                            "source": "output.status || !output.stdout || output.stdout.trim() == 'None'",
+                                            "dynamic": true
+                                          },
+                                          {
+                                            "name": "<assign>",
+                                            "line": 588,
+                                            "named": {
+                                              "_target": "recallsApiGwUrl"
+                                            },
+                                            "category": "dynamic",
+                                            "source": "recallsApiGwUrl = https://${output.stdout.trim()}.execute-api.${globalValuesFactory.AWS_REGION}.amazonaws.com/${params.environment}",
+                                            "dynamic": true
+                                          }
+                                        ]
+                                      },
+                                      "body": [
+                                        {
+                                          "name": "<assign>",
+                                          "line": 577,
+                                          "named": {
+                                            "_target": "recallsApiGwUrl"
+                                          },
+                                          "category": "dynamic",
+                                          "source": "recallsApiGwUrl = https://${frontendCustomDevDomain}",
+                                          "dynamic": true
+                                        }
+                                      ],
+                                      "category": "dynamic",
+                                      "source": "isDomainInCloudfront(frontendCustomDevDomain)",
+                                      "dynamic": true
+                                    }
+                                  ]
+                                },
+                                "body": [
+                                  {
+                                    "name": "<assign>",
+                                    "line": 572,
+                                    "named": {
+                                      "_target": "recallsApiGwUrl"
+                                    },
+                                    "category": "dynamic",
+                                    "source": "recallsApiGwUrl = https://${frontendCustomDomain}",
+                                    "dynamic": true
+                                  }
+                                ],
+                                "category": "dynamic",
+                                "source": "isDomainInCloudfront(frontendCustomDomain)",
+                                "dynamic": true
+                              },
+                              {
+                                "name": "<assign>",
+                                "line": 592,
+                                "named": {
+                                  "_target": "s3AssetsBucket"
+                                },
+                                "category": "dynamic",
+                                "source": "s3AssetsBucket = ${projectBucketPrefix}-assets",
+                                "dynamic": true
+                              },
+                              {
+                                "name": "println",
+                                "line": 594,
+                                "args": [
+                                  "s3 assets bucket saved: ${s3AssetsBucket}"
+                                ],
+                                "category": "groovy",
+                                "dynamic": true
+                              },
+                              {
+                                "name": "println",
+                                "line": 595,
+                                "args": [
+                                  "Recalls API gateway URL saved: ${recallsApiGwUrl}"
+                                ],
+                                "category": "groovy",
+                                "dynamic": true
+                              }
+                            ],
+                            "category": "dynamic",
+                            "source": "params.action == 'apply'",
+                            "dynamic": true
+                          }
+                        ]
+                      },
+                      "body": [
+                        {
+                          "name": "failure",
+                          "line": 567,
+                          "args": [
+                            "Failed to run TF Scaffold on cvr component"
+                          ],
+                          "category": "unknown"
+                        }
+                      ],
+                      "category": "dynamic",
+                      "source": "getAwsFunctions().terraformScaffold(\n                    project,\n                    params.environment,\n                    group,\n                    globalValuesFactory.AWS_REGION,\n                    tfLambdaParams,\n                    deploymentJobName,\n                    env.BUILD_NUMBER,\n                    \"cvr\",\n                    bucketPrefix,\n                    params.action\n                )",
+                      "dynamic": true
+                    }
+                  ],
+                  "category": "direct",
+                  "dynamic": true
+                }
+              ],
+              "category": "dynamic"
+            }
+          ]
+        },
+        {
+          "name": "Deploy: Upload CVR frontend assets",
+          "line": 602,
+          "agent": {
+            "kind": "label",
+            "label": "${jenkinsBuildLabel} && ${account}",
+            "raw": {
+              "label": "${jenkinsBuildLabel} && ${account}"
+            },
+            "line": 604
+          },
+          "when": {
+            "conditions": [
+              {
+                "kind": "expression",
+                "text": "params.action == 'apply'",
+                "line": 603
+              }
+            ]
+          },
+          "steps": [
+            {
+              "name": "script",
+              "line": 606,
+              "body": [
+                {
+                  "name": "<if>",
+                  "line": 607,
+                  "named": {
+                    "_else": [
+                      {
+                        "name": "info",
+                        "line": 623,
+                        "args": [
+                          "Reusing assets ${manifestContent.assets_version}"
+                        ],
+                        "category": "unknown",
+                        "receiver": "log",
+                        "dynamic": true
+                      },
+                      {
+                        "name": "dir",
+                        "line": 624,
+                        "args": [
+                          "tmp"
+                        ],
+                        "body": [
+                          {
+                            "name": "unzip",
+                            "line": 625,
+                            "named": {
+                              "zipFile": "${assetsBasePath}/${manifestContent.assets_version}"
+                            },
+                            "category": "direct",
+                            "dynamic": true
+                          },
+                          {
+                            "name": "<if>",
+                            "line": 626,
+                            "body": [
+                              {
+                                "name": "failure",
+                                "line": 627,
+                                "args": [
+                                  "Failure while uploading assets to s3 assets bucket"
+                                ],
+                                "category": "unknown"
+                              }
+                            ],
+                            "category": "dynamic",
+                            "source": "getAwsFunctions().copyFilesToS3(s3AssetsBucket, 'assets', \".\", \"--recursive\")",
+                            "dynamic": true
+                          },
+                          {
+                            "name": "deleteDir",
+                            "line": 629,
+                            "category": "direct"
+                          }
+                        ],
+                        "category": "direct"
+                      }
+                    ]
+                  },
+                  "body": [
+                    {
+                      "name": "info",
+                      "line": 608,
+                      "args": [
+                        "Deploying new assets ${manifestContent.assets_version}"
+                      ],
+                      "category": "unknown",
+                      "receiver": "log",
+                      "dynamic": true
+                    },
+                    {
+                      "name": "dir",
+                      "line": 609,
+                      "args": [
+                        "github.front_end.name"
+                      ],
+                      "body": [
+                        {
+                          "name": "<if>",
+                          "line": 610,
+                          "named": {
+                            "_else": [
+                              {
+                                "name": "failure",
+                                "line": 619,
+                                "args": [
+                                  "Failed to locate compiled assets"
+                                ],
+                                "category": "unknown"
+                              }
+                            ]
+                          },
+                          "body": [
+                            {
+                              "name": "<if>",
+                              "line": 611,
+                              "body": [
+                                {
+                                  "name": "failure",
+                                  "line": 612,
+                                  "args": [
+                                    "Failure while uploading assets to s3"
+                                  ],
+                                  "category": "unknown"
+                                }
+                              ],
+                              "category": "dynamic",
+                              "source": "getAwsFunctions().copyFilesToS3(s3AssetsBucket, 'assets', \"${assetsBasePath}/dist/assets/\", \"--recursive\")",
+                              "dynamic": true
+                            },
+                            {
+                              "name": "<if>",
+                              "line": 615,
+                              "body": [
+                                {
+                                  "name": "failure",
+                                  "line": 616,
+                                  "args": [
+                                    "Failure while uploading assets package to s3"
+                                  ],
+                                  "category": "unknown"
+                                }
+                              ],
+                              "category": "dynamic",
+                              "source": "getAwsFunctions().copyFilesToS3(s3DeploymentBucket, 'assets/', \"${assetsBasePath}/${manifestContent.assets_version}\")",
+                              "dynamic": true
+                            }
+                          ],
+                          "category": "dynamic",
+                          "source": "fileExists(\"${assetsBasePath}/dist/assets\")",
+                          "dynamic": true
+                        }
+                      ],
+                      "category": "direct",
+                      "dynamic": true
+                    }
+                  ],
+                  "category": "dynamic",
+                  "source": "isNewVersion['assets']",
+                  "dynamic": true
+                },
+                {
+                  "name": "<if>",
+                  "line": 634,
+                  "body": [
+                    {
+                      "name": "failure",
+                      "line": 640,
+                      "args": [
+                        "Failed to clone repository ${github.cvr_app.url}; branch: ${params.branch}"
+                      ],
+                      "category": "unknown",
+                      "dynamic": true
+                    }
+                  ],
+                  "category": "dynamic",
+                  "source": "!repoFunctionsFactory.checkoutGitRepo(\n                  github.cvr_app.url,\n                  params.branch,\n                  github.cvr_app.name,\n                  globalValuesFactory.SSH_DEPLOY_GIT_CREDS_ID\n              )",
+                  "dynamic": true
+                },
+                {
+                  "name": "dir",
+                  "line": 642,
+                  "args": [
+                    "${github.cvr_app.name}/documents"
+                  ],
+                  "body": [
+                    {
+                      "name": "<if>",
+                      "line": 643,
+                      "body": [
+                        {
+                          "name": "failure",
+                          "line": 644,
+                          "args": [
+                            "Failure while uploading public documents to s3 assets bucket"
+                          ],
+                          "category": "unknown"
+                        }
+                      ],
+                      "category": "dynamic",
+                      "source": "getAwsFunctions().copyFilesToS3(s3AssetsBucket, 'documents', \".\", \"--recursive\")",
+                      "dynamic": true
+                    }
+                  ],
+                  "category": "direct",
+                  "dynamic": true
+                },
+                {
+                  "name": "dir",
+                  "line": 647,
+                  "args": [
+                    "${github.cvr_app.name}/errorpages"
+                  ],
+                  "body": [
+                    {
+                      "name": "<if>",
+                      "line": 648,
+                      "body": [
+                        {
+                          "name": "failure",
+                          "line": 649,
+                          "args": [
+                            "Failure while uploading error pages to s3 assets bucket"
+                          ],
+                          "category": "unknown"
+                        }
+                      ],
+                      "category": "dynamic",
+                      "source": "getAwsFunctions().copyFilesToS3(s3AssetsBucket, 'errorpages', \".\", \"--recursive\")",
+                      "dynamic": true
+                    }
+                  ],
+                  "category": "direct",
+                  "dynamic": true
+                }
+              ],
+              "category": "dynamic"
+            }
+          ]
+        },
+        {
+          "name": "Deploy: Manifest",
+          "line": 656,
+          "agent": {
+            "kind": "label",
+            "label": "${jenkinsCtrlNodeLabel} && ${account}",
+            "raw": {
+              "label": "${jenkinsCtrlNodeLabel} && ${account}"
+            },
+            "line": 657
+          },
+          "when": {
+            "conditions": [
+              {
+                "kind": "expression",
+                "text": "params.action == 'apply'",
+                "line": 658
+              }
+            ]
+          },
+          "steps": [
+            {
+              "name": "script",
+              "line": 660,
+              "body": [
+                {
+                  "name": "writeJSON",
+                  "line": 661,
+                  "named": {
+                    "file": "${env.WORKSPACE}/manifests/manifest_${manifestVersion}.json",
+                    "json": "manifestContent"
+                  },
+                  "category": "policy",
+                  "dynamic": true
+                },
+                {
+                  "name": "<if>",
+                  "line": 665,
+                  "body": [
+                    {
+                      "name": "failure",
+                      "line": 666,
+                      "args": [
+                        "Error while trying to create manifest file"
+                      ],
+                      "category": "unknown"
+                    }
+                  ],
+                  "category": "dynamic",
+                  "source": "!fileExists(\"${env.WORKSPACE}/manifests/manifest_${manifestVersion}.json\")",
+                  "dynamic": true
+                },
+                {
+                  "name": "<if>",
+                  "line": 669,
+                  "body": [
+                    {
+                      "name": "failure",
+                      "line": 670,
+                      "args": [
+                        "Failure while uploading manifest to s3"
+                      ],
+                      "category": "unknown"
+                    }
+                  ],
+                  "category": "dynamic",
+                  "source": "getAwsFunctions().copyFilesToS3(\"${s3DeploymentBucket}\", \"manifests/\", \"${env.WORKSPACE}/manifests/manifest_${manifestVersion}.json\")",
+                  "dynamic": true
+                }
+              ],
+              "category": "dynamic"
+            }
+          ]
+        }
+      ],
+      "fail_fast": true
+    },
+    {
+      "name": "Load test data to DB",
+      "line": 678,
+      "agent": {
+        "kind": "label",
+        "label": "${jenkinsBuildLabel} && ${account}",
+        "raw": {
+          "label": "${jenkinsBuildLabel} && ${account}"
+        },
+        "line": 680
+      },
+      "when": {
+        "conditions": [
+          {
+            "kind": "expression",
+            "text": "params.action == 'apply' && shouldLoadDbData",
+            "line": 679
+          }
+        ]
+      },
+      "steps": [
+        {
+          "name": "script",
+          "line": 682,
+          "body": [
+            {
+              "name": "<if>",
+              "line": 683,
+              "body": [
+                {
+                  "name": "failure",
+                  "line": 689,
+                  "args": [
+                    "Failed to clone repository ${github.cvr_app.url}; branch: ${params.branch}"
+                  ],
+                  "category": "unknown",
+                  "dynamic": true
+                }
+              ],
+              "category": "dynamic",
+              "source": "!repoFunctionsFactory.checkoutGitRepo(\n              github.cvr_app.url,\n              params.branch,\n              github.cvr_app.name,\n              globalValuesFactory.SSH_DEPLOY_GIT_CREDS_ID\n          )",
+              "dynamic": true
+            },
+            {
+              "name": "dir",
+              "line": 692,
+              "args": [
+                "${github.cvr_app.name}"
+              ],
+              "body": [
+                {
+                  "name": "<if>",
+                  "line": 693,
+                  "body": [
+                    {
+                      "name": "failure",
+                      "line": 697,
+                      "args": [
+                        "Failed to install database loader script. Check the logs above. Vulnerable dependencies may be one of the causes."
+                      ],
+                      "category": "unknown"
+                    }
+                  ],
+                  "category": "dynamic",
+                  "source": "sh (\n                script: \"npm run build:${databaseTestLoaderModuleName}\",\n                returnStatus: true\n            )",
+                  "dynamic": true
+                },
+                {
+                  "name": "dir",
+                  "line": 700,
+                  "args": [
+                    "${databaseTestLoaderModuleName}"
+                  ],
+                  "body": [
+                    {
+                      "name": "<if>",
+                      "line": 701,
+                      "body": [
+                        {
+                          "name": "failure",
+                          "line": 705,
+                          "args": [
+                            "Failed to load data to the database."
+                          ],
+                          "category": "unknown"
+                        }
+                      ],
+                      "category": "dynamic",
+                      "source": "sh(\n                  script: \"AWS_REGION=${globalValuesFactory.AWS_REGION} ENVIRONMENT=${params.environment} npm run loadDevData\",\n                  returnStatus: true\n              )",
+                      "dynamic": true
+                    }
+                  ],
+                  "category": "direct",
+                  "dynamic": true
+                }
+              ],
+              "category": "direct",
+              "dynamic": true
+            }
+          ],
+          "category": "dynamic"
+        }
+      ]
+    },
+    {
+      "name": "Tests",
+      "line": 713,
+      "agent": {
+        "kind": "label",
+        "label": "${jenkinsCtrlNodeLabel} && ${account}",
+        "raw": {
+          "label": "${jenkinsCtrlNodeLabel} && ${account}"
+        },
+        "line": 714
+      },
+      "when": {
+        "conditions": [
+          {
+            "kind": "expression",
+            "text": "params.action == 'apply' && params.skip_tests != 'true'",
+            "line": 715
+          }
+        ]
+      },
+      "steps": [
+        {
+          "name": "script",
+          "line": 717,
+          "body": [
+            {
+              "name": "info",
+              "line": 718,
+              "args": [
+                "Warm-up lambda"
+              ],
+              "category": "unknown",
+              "receiver": "log"
+            },
+            {
+              "name": "sh",
+              "line": 719,
+              "args": [
+                "curl ${recallsApiGwUrl}${warmupPath} --output /dev/null"
+              ],
+              "category": "direct",
+              "dynamic": true
+            },
+            {
+              "name": "<if>",
+              "line": 720,
+              "named": {
+                "_else": [
+                  {
+                    "name": "dir",
+                    "line": 728,
+                    "args": [
+                      "${github.cvr_app.name }/selenium"
+                    ],
+                    "body": [
+                      {
+                        "name": "<decl>",
+                        "line": 729,
+                        "named": {
+                          "_target": "testStatus"
+                        },
+                        "body": [
+                          {
+                            "name": "sh",
+                            "line": 729,
+                            "named": {
+                              "returnStatus": true,
+                              "script": "\n                        mkdir -p ./${seleniumScreenshotsDir}\n\n                        ./gradlew clean build \\\n                          -Dtest.baseUrl=${recallsApiGwUrl}\\\n                          -Dtest.platform=linux \\\n                          -Dtest.browserName=firefox \\\n                          -Dtest.gridEnabled=selenium \\\n                          -Dtest.javascript.enabled=yes \\\n                          -Dtest.gridUrl=${params.selenium_hub_address} \\\n                          -Dtest.screenshots.error.enabled=yes \\\n                          -Dtest.screenshots.error.folder=./${seleniumScreenshotsDir}\n                      "
+                            },
+                            "category": "direct",
+                            "dynamic": true
+                          }
+                        ],
+                        "category": "dynamic",
+                        "source": "testStatus = sh(...)",
+                        "dynamic": true
+                      },
+                      {
+                        "name": "publishHTML",
+                        "line": 745,
+                        "named": {
+                          "target": {
+                            "keepAll": true,
+                            "reportDir": "./build/reports/tests/selenium",
+                            "reportFiles": "index.html"
+                          }
+                        },
+                        "category": "policy"
+                      },
+                      {
+                        "name": "<if>",
+                        "line": 754,
+                        "body": [
+                          {
+                            "name": "archiveArtifacts",
+                            "line": 756,
+                            "named": {
+                              "artifacts": "${seleniumScreenshotsDir}/**",
+                              "allowEmptyArchive": true
+                            },
+                            "category": "direct",
+                            "dynamic": true
+                          },
+                          {
+                            "name": "failure",
+                            "line": 762,
+                            "args": [
+                              "Selenium failure. Status code: ${testStatus}"
+                            ],
+                            "category": "unknown",
+                            "dynamic": true
+                          }
+                        ],
+                        "category": "dynamic",
+                        "source": "testStatus != 0",
+                        "dynamic": true
+                      }
+                    ],
+                    "category": "direct",
+                    "dynamic": true
+                  }
+                ]
+              },
+              "body": [
+                {
+                  "name": "fail",
+                  "line": 726,
+                  "args": [
+                    "Failed to checkout selenium tests from ${github.cvr_app.url}"
+                  ],
+                  "category": "unknown",
+                  "dynamic": true
+                }
+              ],
+              "category": "dynamic",
+              "source": "!repoFunctionsFactory.checkoutGitRepo(\n              github.cvr_app.url,\n              params.branch,\n              github.cvr_app.name,\n              globalValuesFactory.SSH_DEPLOY_GIT_CREDS_ID)",
+              "dynamic": true
+            }
+          ],
+          "category": "dynamic"
+        }
+      ]
+    }
+  ],
+  "post": {
+    "always": [
+      {
+        "name": "node",
+        "line": 773,
+        "args": [
+          "${jenkinsBuildLabel} && ${account}"
+        ],
+        "body": [
+          {
+            "name": "script",
+            "line": 774,
+            "body": [
+              {
+                "name": "<if>",
+                "line": 775,
+                "body": [
+                  {
+                    "name": "<if>",
+                    "line": 776,
+                    "body": [
+                      {
+                        "name": "dir",
+                        "line": 777,
+                        "args": [
+                          "github.front_end.name"
+                        ],
+                        "body": [
+                          {
+                            "name": "deleteDir",
+                            "line": 778,
+                            "category": "direct"
+                          }
+                        ],
+                        "category": "direct",
+                        "dynamic": true
+                      }
+                    ],
+                    "category": "dynamic",
+                    "source": "fileExists(github.front_end.name)",
+                    "dynamic": true
+                  },
+                  {
+                    "name": "<if>",
+                    "line": 781,
+                    "body": [
+                      {
+                        "name": "dir",
+                        "line": 782,
+                        "args": [
+                          "github.cvr_app.name"
+                        ],
+                        "body": [
+                          {
+                            "name": "deleteDir",
+                            "line": 783,
+                            "category": "direct"
+                          }
+                        ],
+                        "category": "direct",
+                        "dynamic": true
+                      }
+                    ],
+                    "category": "dynamic",
+                    "source": "fileExists(github.cvr_app.name)",
+                    "dynamic": true
+                  }
+                ],
+                "category": "dynamic",
+                "source": "params.clean_workspace == \"true\"",
+                "dynamic": true
+              }
+            ],
+            "category": "dynamic"
+          }
+        ],
+        "category": "policy",
+        "dynamic": true
+      },
+      {
+        "name": "node",
+        "line": 789,
+        "args": [
+          "${jenkinsCtrlNodeLabel} && ${account}"
+        ],
+        "body": [
+          {
+            "name": "script",
+            "line": 790,
+            "body": [
+              {
+                "name": "<if>",
+                "line": 791,
+                "body": [
+                  {
+                    "name": "<if>",
+                    "line": 792,
+                    "body": [
+                      {
+                        "name": "dir",
+                        "line": 793,
+                        "args": [
+                          "gitlab.cvr_terraform.name"
+                        ],
+                        "body": [
+                          {
+                            "name": "deleteDir",
+                            "line": 794,
+                            "category": "direct"
+                          }
+                        ],
+                        "category": "direct",
+                        "dynamic": true
+                      }
+                    ],
+                    "category": "dynamic",
+                    "source": "fileExists(gitlab.cvr_terraform.name)",
+                    "dynamic": true
+                  }
+                ],
+                "category": "dynamic",
+                "source": "params.clean_workspace == \"true\"",
+                "dynamic": true
+              }
+            ],
+            "category": "dynamic"
+          }
+        ],
+        "category": "policy",
+        "dynamic": true
+      }
+    ],
+    "failure": [
+      {
+        "name": "script",
+        "line": 802,
+        "body": [
+          {
+            "name": "<if>",
+            "line": 803,
+            "body": [
+              {
+                "name": "slackSend",
+                "line": 804,
+                "named": {
+                  "color": "danger",
+                  "message": "Job ${env.JOB_NAME} / ${env.BUILD_NUMBER} | FAILURE | Link <${env.BUILD_URL} | here>",
+                  "channel": "cvr-jenkins-alerts"
+                },
+                "category": "policy",
+                "dynamic": true
+              }
+            ],
+            "category": "dynamic",
+            "source": "monitoredEnvironments.contains(params.environment)",
+            "dynamic": true
+          },
+          {
+            "name": "fatal",
+            "line": 810,
+            "args": [
+              "Failure"
+            ],
+            "category": "unknown",
+            "receiver": "log"
+          }
+        ],
+        "category": "dynamic"
+      }
+    ]
+  },
+  "methods": [
+    "failure",
+    "getAwsFunctions",
+    "getDbTables",
+    "buildPackage",
+    "getRevisionFromArtifactName",
+    "getOutputOrFail",
+    "isDbTablePresent",
+    "destroyDynamoDbTable",
+    "isAnyDbTableMissing",
+    "destroyExistingDbTables",
+    "isDomainInCloudfront"
+  ],
+  "method_defs": {
+    "failure": {
+      "params": [
+        "reason"
+      ],
+      "body": [
+        {
+          "name": "<assign>",
+          "line": 60,
+          "named": {
+            "_target": "currentBuild.result",
+            "_literal": "FAILURE"
+          },
+          "category": "dynamic",
+          "source": "currentBuild.result = FAILURE",
+          "dynamic": true
+        },
+        {
+          "name": "fatal",
+          "line": 61,
+          "args": [
+            "reason"
+          ],
+          "category": "unknown",
+          "receiver": "log",
+          "dynamic": true,
+          "variable_args": [
+            0
+          ]
+        },
+        {
+          "name": "error",
+          "line": 62,
+          "args": [
+            "reason"
+          ],
+          "category": "direct",
+          "dynamic": true,
+          "variable_args": [
+            0
+          ]
+        }
+      ]
+    },
+    "getAwsFunctions": {
+      "body": [
+        {
+          "name": "<return>",
+          "line": 66,
+          "category": "dynamic",
+          "dynamic": true
+        }
+      ]
+    },
+    "getDbTables": {
+      "params": [
+        "params"
+      ],
+      "body": [
+        {
+          "name": "<return>",
+          "line": 70,
+          "category": "dynamic",
+          "dynamic": true
+        }
+      ]
+    },
+    "buildPackage": {
+      "params": [
+        "directory",
+        "buildStamp"
+      ],
+      "body": [
+        {
+          "name": "<return>",
+          "line": 78,
+          "category": "dynamic",
+          "dynamic": true
+        }
+      ]
+    },
+    "getRevisionFromArtifactName": {
+      "params": [
+        "artifactName"
+      ],
+      "body": [
+        {
+          "name": "info",
+          "line": 85,
+          "args": [
+            "Parsing manifest ${artifactName}"
+          ],
+          "category": "unknown",
+          "receiver": "log",
+          "dynamic": true
+        },
+        {
+          "name": "<return>",
+          "line": 86,
+          "category": "dynamic",
+          "dynamic": true
+        }
+      ]
+    },
+    "getOutputOrFail": {
+      "params": [
+        "output",
+        "messageOnFailure"
+      ],
+      "body": [
+        {
+          "name": "<if>",
+          "line": 90,
+          "body": [
+            {
+              "name": "fatal",
+              "line": 91,
+              "args": [
+                "output.stderr"
+              ],
+              "category": "unknown",
+              "receiver": "log",
+              "dynamic": true
+            },
+            {
+              "name": "failure",
+              "line": 92,
+              "args": [
+                "messageOnFailure"
+              ],
+              "category": "unknown",
+              "dynamic": true,
+              "variable_args": [
+                0
+              ]
+            }
+          ],
+          "category": "dynamic",
+          "source": "output.status",
+          "dynamic": true
+        },
+        {
+          "name": "<return>",
+          "line": 95,
+          "category": "dynamic",
+          "dynamic": true
+        }
+      ]
+    },
+    "isDbTablePresent": {
+      "params": [
+        "tableName"
+      ],
+      "body": [
+        {
+          "name": "<decl>",
+          "line": 99,
+          "named": {
+            "_target": "response"
+          },
+          "body": [
+            {
+              "name": "getAwsFunctions",
+              "line": 99,
+              "named": {
+                "_chain": "awsCli"
+              },
+              "category": "unknown"
+            }
+          ],
+          "category": "dynamic",
+          "source": "response = getAwsFunctions().awsCli(...)",
+          "dynamic": true
+        },
+        {
+          "name": "<if>",
+          "line": 103,
+          "body": [
+            {
+              "name": "<return>",
+              "line": 104,
+              "category": "dynamic",
+              "dynamic": true
+            }
+          ],
+          "category": "dynamic",
+          "source": "response.status == 0 ",
+          "dynamic": true
+        },
+        {
+          "name": "info",
+          "line": 106,
+          "args": [
+            "${tableName} table does not exist."
+          ],
+          "category": "unknown",
+          "receiver": "log",
+          "dynamic": true
+        },
+        {
+          "name": "<return>",
+          "line": 107,
+          "category": "dynamic",
+          "dynamic": true
+        }
+      ]
+    },
+    "destroyDynamoDbTable": {
+      "params": [
+        "tableName"
+      ],
+      "body": [
+        {
+          "name": "<decl>",
+          "line": 111,
+          "named": {
+            "_target": "response"
+          },
+          "body": [
+            {
+              "name": "getAwsFunctions",
+              "line": 111,
+              "named": {
+                "_chain": "awsCli"
+              },
+              "category": "unknown"
+            }
+          ],
+          "category": "dynamic",
+          "source": "response = getAwsFunctions().awsCli(...)",
+          "dynamic": true
+        },
+        {
+          "name": "<if>",
+          "line": 114,
+          "named": {
+            "_else": [
+              {
+                "name": "info",
+                "line": 117,
+                "args": [
+                  "Table ${tableName} has been destroyed"
+                ],
+                "category": "unknown",
+                "receiver": "log",
+                "dynamic": true
+              }
+            ]
+          },
+          "body": [
+            {
+              "name": "info",
+              "line": 115,
+              "args": [
+                "Error while destroying ${tableName} table: ${response.stderr}"
+              ],
+              "category": "unknown",
+              "receiver": "log",
+              "dynamic": true
+            }
+          ],
+          "category": "dynamic",
+          "source": "response.error || response.status != 0",
+          "dynamic": true
+        }
+      ]
+    },
+    "isAnyDbTableMissing": {
+      "params": [
+        "params"
+      ],
+      "body": [
+        {
+          "name": "<decl>",
+          "line": 122,
+          "named": {
+            "_target": "isAnyTableMissing"
+          },
+          "category": "dynamic",
+          "source": "isAnyTableMissing = False",
+          "dynamic": true
+        },
+        {
+          "name": "<for>",
+          "line": 124,
+          "body": [
+            {
+              "name": "<if>",
+              "line": 125,
+              "body": [
+                {
+                  "name": "<assign>",
+                  "line": 126,
+                  "named": {
+                    "_target": "isAnyTableMissing"
+                  },
+                  "category": "dynamic",
+                  "source": "isAnyTableMissing = True",
+                  "dynamic": true
+                }
+              ],
+              "category": "dynamic",
+              "source": "isDbTablePresent(tableName) == false",
+              "dynamic": true
+            }
+          ],
+          "category": "dynamic",
+          "source": "getDbTables(params)",
+          "dynamic": true
+        },
+        {
+          "name": "info",
+          "line": 130,
+          "args": [
+            "Is any DB table missing for this environment? ${isAnyTableMissing}"
+          ],
+          "category": "unknown",
+          "receiver": "log",
+          "dynamic": true
+        },
+        {
+          "name": "<return>",
+          "line": 131,
+          "category": "dynamic",
+          "dynamic": true
+        }
+      ]
+    },
+    "destroyExistingDbTables": {
+      "params": [
+        "params"
+      ],
+      "body": [
+        {
+          "name": "<for>",
+          "line": 135,
+          "body": [
+            {
+              "name": "<if>",
+              "line": 136,
+              "body": [
+                {
+                  "name": "destroyDynamoDbTable",
+                  "line": 137,
+                  "args": [
+                    "tableName"
+                  ],
+                  "category": "unknown",
+                  "dynamic": true,
+                  "variable_args": [
+                    0
+                  ]
+                }
+              ],
+              "category": "dynamic",
+              "source": "isDbTablePresent(tableName)",
+              "dynamic": true
+            }
+          ],
+          "category": "dynamic",
+          "source": "getDbTables(params)",
+          "dynamic": true
+        }
+      ]
+    },
+    "isDomainInCloudfront": {
+      "params": [
+        "domainName"
+      ],
+      "body": [
+        {
+          "name": "<decl>",
+          "line": 143,
+          "named": {
+            "_target": "domainOutput"
+          },
+          "body": [
+            {
+              "name": "getAwsFunctions",
+              "line": 143,
+              "named": {
+                "_chain": "awsCli"
+              },
+              "category": "unknown"
+            }
+          ],
+          "category": "dynamic",
+          "source": "domainOutput = getAwsFunctions().awsCli(...)",
+          "dynamic": true
+        },
+        {
+          "name": "<if>",
+          "line": 146,
+          "body": [
+            {
+              "name": "failure",
+              "line": 147,
+              "args": [
+                "Failed to check cloudfront domain"
+              ],
+              "category": "unknown"
+            }
+          ],
+          "category": "dynamic",
+          "source": "domainOutput.status || !domainOutput.stdout",
+          "dynamic": true
+        },
+        {
+          "name": "<if>",
+          "line": 150,
+          "body": [
+            {
+              "name": "<return>",
+              "line": 151,
+              "category": "dynamic",
+              "dynamic": true
+            }
+          ],
+          "category": "dynamic",
+          "source": "domainOutput.stdout.trim() != 'None'",
+          "dynamic": true
+        },
+        {
+          "name": "<return>",
+          "line": 154,
+          "category": "dynamic",
+          "dynamic": true
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,46 @@
+
+@@CMD@@ python3 $S $R/selfhosted-trace/result.json
+success  self-hosted,j2gha-9e460eb6 Prepare sources, Build
+success  self-hosted,j2gha-9e460eb6 Quality / Unit tests
+success  self-hosted,j2gha-9e460eb6 Quality / Lint
+success  self-hosted,j2gha-9e460eb6 Quality / Integration tests
+success  self-hosted,j2gha-9e460eb6 Compatibility (sqlite, text)
+success  self-hosted,j2gha-9e460eb6 Compatibility (memory, json)
+success  self-hosted,j2gha-9e460eb6 Compatibility (sqlite, json)
+success  self-hosted,j2gha-9e460eb6 Publish
+success  self-hosted,j2gha-9e460eb6 Deploy (when)
+success  self-hosted,j2gha-9e460eb6 Deploy
+success  self-hosted,j2gha-9e460eb6 post
+billable_minutes 0  seconds 115.9
+@@END@@ rc=0 ms=38
+
+@@CMD@@ python3 $S $R/hosted-trace/result.json
+success  ubuntu-latest          Prepare sources, Build
+success  ubuntu-latest          Quality / Lint
+success  ubuntu-latest          Quality / Unit tests
+success  ubuntu-latest          Quality / Integration tests
+success  ubuntu-latest          Compatibility (memory, json)
+success  ubuntu-latest          Compatibility (sqlite, text)
+success  ubuntu-latest          Compatibility (sqlite, json)
+success  ubuntu-latest          Publish
+success  ubuntu-latest          Deploy (when)
+success  ubuntu-latest          Deploy
+success  ubuntu-latest          post
+billable_minutes 11  seconds 60.4
+@@END@@ rc=0 ms=36
+
+@@CMD@@ grep -o "Artifact [^ ]* has been successfully" $R/selfhosted-full/logs.json | cut -d" " -f2 | sort -u | paste -d" " - - | column -t
+artifacts-23                 artifacts-41
+artifacts-47                 html-report-18
+j2gha-ws-deploy              j2gha-ws-prepare-sources
+j2gha-ws-publish             j2gha-ws-quality-integration-tests
+j2gha-ws-quality-lint        j2gha-ws-quality-unit-tests
+stash-dist                   stash-sources
+test-reports-17              test-reports-30
+test-reports-37-memory-json  test-reports-37-sqlite-json
+test-reports-37-sqlite-text  
+@@END@@ rc=0 ms=13
+
+@@CMD@@ grep -o "Artifact [^ ]* has been successfully" $R/selfhosted-full/logs.json | cut -d" " -f2 | sort -u | wc -l
+17
+@@END@@ rc=0 ms=11

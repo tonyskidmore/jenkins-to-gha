@@ -1,0 +1,59 @@
+import in.oneanupam.jenkins.PipelineDefaults
+
+def call(Map config = [:]) {
+    Map settings = [application: 'application'] + config  // j2gha-local: was PipelineDefaults.resolve(config, libraryResource('in/oneanupam/jenkins/pipeline.properties'), env.JOB_NAME): the harness stubs the library class and resource (H8), so every setting read 'j2gha-stub'; the defaults are inlined below (C7), config still overrides application
+    String application = settings.application
+
+    pipeline {
+        agent any
+
+        options {
+            timestamps()
+            disableConcurrentBuilds()
+            skipDefaultCheckout(true)
+        }
+
+        environment {
+            APPLICATION_NAME = application
+        }
+
+        stages {
+            stage('Checkout') {
+                steps {
+                    checkout scm
+                }
+            }
+
+            stage('Install') {
+                steps {
+                    sh 'echo install'  // j2gha-local: was sh settings.installCommand (npm ci): the cited repository is the library itself, no package.json; the converter emits a non-literal sh argument as shell text (C7)
+                }
+            }
+
+            stage('Test') {
+                steps {
+                    sh 'mkdir -p reports && printf \'<testsuite name="unit" tests="1" failures="0" errors="0" skipped="0"><testcase classname="unit" name="smoke"/></testsuite>\\n\' > reports/junit-unit.xml'  // j2gha-local: was sh settings.testCommand (npm test -- --ci): writes one JUnit report matching testResultsPattern (C7)
+                }
+            }
+
+            stage('Build') {
+                steps {
+                    sh 'mkdir -p dist && cp README.md dist/'  // j2gha-local: was sh settings.buildCommand (npm run build): writes one file matching artifactPattern (C7)
+                }
+            }
+        }
+
+        post {
+            always {
+                junit testResults: '**/junit-*.xml', allowEmptyResults: true  // j2gha-local: was settings.testResultsPattern, the same value inlined (C7)
+                archiveArtifacts artifacts: 'dist/**', allowEmptyArchive: true  // j2gha-local: was settings.artifactPattern, the same value inlined (C7)
+            }
+            success {
+                echo "${APPLICATION_NAME} completed successfully"
+            }
+            failure {
+                echo "${APPLICATION_NAME} failed"
+            }
+        }
+    }
+}

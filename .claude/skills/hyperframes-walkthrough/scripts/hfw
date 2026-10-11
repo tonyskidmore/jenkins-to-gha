@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+# hfw: driver for the hyperframes-walkthrough skill.  Usage: hfw <command> [options]
+#   setup                                        one-time runtime install (playwright-core + hyperframes, pinned), no sudo
+#   init     --project P [--from DIR]            copy the reference project (example 000) to P as a starting point
+#   gh-login [--check]                           sign the GitHub capture profile in by hand / report who it is signed in as
+#   capture  jenkins --work W (--jenkinsfile F --job NAME [--input K=V ...] [--approve LABEL] | --harness NNN [--mode M])
+#   capture  gha --work W --example NNN [--mode trace|full]   self-hosted run of examples/NNN, run page recorded
+#   sheet    VIDEO_OR_CAPTURE_DIR OUT.png t1,t2,...          contact sheet (labelled) at source/clip times
+#   clips    --project P --work W                 build the clips listed in P/edit.json into W/site/assets/clips/
+#   audio    --project P --work W [--force]       narration (Kokoro, via narrated-explainer's runtime) + music -> master mix
+#   stage    --project P --work W                 copy P's index.html + compositions/ (+ assets/) into W/site/
+#   lint     --project P --work W                 stage + hyperframes lint
+#   snapshot --project P --work W --at t1,t2,...  stage + PNG stills into W/out/snapshots/ + a sheet
+#   render   --project P --work W [--out NAME] [--resolution 4k]   stage + hyperframes render -> W/out/NAME (default walkthrough.mp4)
+#   publish  FILE --tag TAG [--title T] [--notes N] [--yes]   upload a video to a GitHub release (dry run without --yes)
+# Runtime lives in $HFW_HOME (default ~/.cache/hyperframes-walkthrough), outside any repo.
+set -euo pipefail
+HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+export HFW_HOME="${HFW_HOME:-${XDG_CACHE_HOME:-$HOME/.cache}/hyperframes-walkthrough}"
+export NX_HOME="${NX_HOME:-${XDG_CACHE_HOME:-$HOME/.cache}/narrated-explainer}"
+export HFW_SKILL_SCRIPTS="$HERE"
+cmd="${1:-help}"; shift || true
+case "$cmd" in
+  setup)    exec bash "$HERE/setup.sh" "$@" ;;
+  init)     exec bash "$HERE/init.sh" "$@" ;;
+  gh-login) exec node "$HERE/capture/gh-login.mjs" "$@" ;;
+  capture)
+    what="${1:-}"; shift || true
+    case "$what" in
+      jenkins) exec node "$HERE/capture/jenkins.mjs" "$@" ;;
+      gha)     exec node "$HERE/capture/gha.mjs" "$@" ;;
+      *) echo "usage: hfw capture jenkins|gha ..." >&2; exit 2 ;;
+    esac ;;
+  sheet)    exec bash "$HERE/sheet.sh" "$@" ;;
+  clips)    exec node "$HERE/clips.mjs" "$@" ;;
+  audio)
+    [ -x "$NX_HOME/.venv/bin/python" ] || { echo "Kokoro runtime missing: run .claude/skills/narrated-explainer/scripts/nx setup" >&2; exit 1; }
+    exec "$NX_HOME/.venv/bin/python" "$HERE/audio.py" "$@" ;;
+  stage|lint|snapshot|render) exec bash "$HERE/site.sh" "$cmd" "$@" ;;
+  publish)  exec bash "$HERE/publish.sh" "$@" ;;
+  help|-h|--help|*) awk 'NR>1{ if ($0 ~ /^#/) { sub(/^# ?/,""); print } else exit }' "${BASH_SOURCE[0]}"; [ "$cmd" = help ] || exit 2 ;;
+esac

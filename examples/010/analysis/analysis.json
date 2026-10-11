@@ -1,0 +1,296 @@
+{
+  "analysis_version": 1,
+  "parser": {
+    "engine": "groovy-ast (Jenkins-bundled Groovy 2.4, CONVERSION phase)",
+    "ok": true,
+    "errors": []
+  },
+  "dialect": "scripted",
+  "metrics": {
+    "classes": 0,
+    "credentials": 1,
+    "distinct_steps": 11,
+    "env_vars": 0,
+    "libraries": 1,
+    "loc": 47,
+    "max_stage_depth": 1,
+    "methods": 0,
+    "options": 0,
+    "parameters": 0,
+    "post_conditions": 0,
+    "stages": 1,
+    "steps": 14,
+    "tools": 0,
+    "top_level_stages": 0,
+    "triggers": 0,
+    "try_catch": 1,
+    "unknown_steps": 3
+  },
+  "steps": {
+    "checkoutWithTags": {
+      "count": 2,
+      "category": "unknown",
+      "lines": [
+        15,
+        29
+      ],
+      "gha": null
+    },
+    "stage": {
+      "count": 2,
+      "category": "direct",
+      "lines": [
+        17,
+        23
+      ],
+      "gha": "job or step group"
+    },
+    "echo": {
+      "count": 2,
+      "category": "direct",
+      "lines": [
+        18,
+        67
+      ],
+      "gha": "run: echo"
+    },
+    "podTemplate": {
+      "count": 1,
+      "category": "redesign",
+      "lines": [
+        9
+      ],
+      "gha": "job container/services or ARC runner scale set"
+    },
+    "node": {
+      "count": 1,
+      "category": "policy",
+      "lines": [
+        13
+      ],
+      "gha": "runs-on:"
+    },
+    "checkout": {
+      "count": 1,
+      "category": "direct",
+      "lines": [
+        19
+      ],
+      "gha": "actions/checkout"
+    },
+    "taggingv2": {
+      "count": 1,
+      "category": "unknown",
+      "lines": [
+        24
+      ],
+      "gha": null
+    },
+    "println": {
+      "count": 1,
+      "category": "groovy",
+      "lines": [
+        25
+      ],
+      "gha": null
+    },
+    "withCredentials": {
+      "count": 1,
+      "category": "policy",
+      "lines": [
+        41
+      ],
+      "gha": "secrets.* / environment secrets / OIDC"
+    },
+    "mainJenkinsBuildArgo": {
+      "count": 1,
+      "category": "unknown",
+      "lines": [
+        42
+      ],
+      "gha": null
+    },
+    "cleanWs": {
+      "count": 1,
+      "category": "direct",
+      "lines": [
+        66
+      ],
+      "gha": "ephemeral runner / run: rm -rf"
+    }
+  },
+  "unknown_steps": [
+    {
+      "name": "checkoutWithTags",
+      "lines": [
+        15,
+        29
+      ],
+      "count": 2
+    },
+    {
+      "name": "mainJenkinsBuildArgo",
+      "lines": [
+        42
+      ],
+      "count": 1
+    },
+    {
+      "name": "taggingv2",
+      "lines": [
+        24
+      ],
+      "count": 1
+    }
+  ],
+  "agents": [
+    {
+      "kind": "kubernetes",
+      "line": 9,
+      "scope": "scripted"
+    },
+    {
+      "kind": "label",
+      "label": "podLabel",
+      "line": 13,
+      "scope": "scripted"
+    }
+  ],
+  "credentials": [
+    {
+      "id": "jenkins-argocd-token",
+      "type": "string",
+      "lines": [
+        41
+      ]
+    }
+  ],
+  "dsl_symbols": [],
+  "libraries": [
+    "lib-jenkins-pipeline"
+  ],
+  "methods": [],
+  "jenkins_model": {
+    "result": "failure",
+    "errors": [
+      "Jenkinsfile content '@Library('lib-jenkins-pipeline') _\n\ndef sbtOnMain = \"no\"\n\n// we can remove the pod_template block if we end up having only one template\n// in jenkins config\n//\nString podLabel = \"Jenkinsfile-apibuilder\"\npodTemplate(\n  label: \"${podLabel}\",\n  inheritFrom : 'generic'\n){\n  node(podLabel) {\n    try {\n      checkoutWithTags scm\n      //Checkout the code from the repository\n      stage('Checkout') {\n          echo \"Checking out branch: ${env.BRANCH_NAME}\"\n          checkout scm\n      }\n\n      // => tagging function to identify what actions to take depending on the nature of the changes\n      stage ('tagging') {\n        semversion = taggingv2()\n        println(semversion)\n      }\n\n      // => Running the actions for each component in parallel\n      checkoutWithTags scm\n\n      String jsondata = '''\n      [{\"serviceName\": \"apibuilder-api\",\n      \"dockerImageName\": \"apibuilder-api\",\n      \"dockerFilePath\" : \"/api/Dockerfile\",\n      \"multiplatforms\": \"no\"},\n      {\"serviceName\": \"apibuilder-app\",\n      \"dockerImageName\": \"apibuilder-app\",\n      \"dockerFilePath\" : \"/app/Dockerfile\",\n      \"multiplatforms\": \"no\"}]\n      '''\n      withCredentials([string(credentialsId: \"jenkins-argocd-token\", variable: 'ARGOCD_AUTH_TOKEN')]) {\n        mainJenkinsBuildArgo(\n          semversion: \"${semversion}\",\n          pgImage: \"flowcommerce/bentest-postgresql:latest\",\n          componentargs: \"${jsondata}\",\n          sbtOnMain: \"${sbtOnMain}\",\n          sbtTest: \"no\"\n          // => optional\n          //orgName: \"flowvault\"\n          // SBT test\n          //sbtCommand: 'sbt clean flowLint coverage test scalafmtSbtCheck scalafmtCheck doc',\n          //playCpuLimit: \"2\",\n          //playMemoryRequest: \"4Gi\",\n          //pgCpuLimit: \"1\",\n          //pgMemoryRequest: \"2Gi\",\n          //sbtTestInMain: \"${sbtOnMain}\"\n        )\n      }\n\n    } catch (Exception e) {\n        // In case of an error, mark the build as failure\n        currentBuild.result = 'FAILURE'\n        throw e\n    } finally {\n        // Always clean up workspace and notify if needed\n        cleanWs()\n        echo \"Pipeline execution finished\"\n    }\n  }\n}\n\n' did not contain the 'pipeline' step"
+    ]
+  },
+  "findings": [
+    {
+      "id": "ScriptedPipeline",
+      "severity": "high",
+      "line": null,
+      "evidence": "node {}/stage() scripted pipeline",
+      "recommendation": "Re-model as Declarative or design GHA jobs around intent; automated conversion is best-effort"
+    },
+    {
+      "id": "SharedLibrary",
+      "severity": "high",
+      "line": null,
+      "evidence": "lib-jenkins-pipeline",
+      "recommendation": "Library steps are opaque to static analysis; map them to composite actions/reusable workflows",
+      "gate": true
+    },
+    {
+      "id": "KubernetesPodTemplate",
+      "severity": "medium",
+      "line": 9,
+      "evidence": "podTemplate",
+      "recommendation": "Use job container + services, or ARC runner scale sets"
+    },
+    {
+      "id": "DynamicAgentLabel",
+      "severity": "medium",
+      "line": 13,
+      "evidence": "node(podLabel)",
+      "recommendation": "Choose runs-on via matrix/inputs"
+    },
+    {
+      "id": "UnknownStep",
+      "severity": "medium",
+      "line": 15,
+      "evidence": "checkoutWithTags x2",
+      "recommendation": "Plugin or shared-library step with no catalog mapping - inspect implementation"
+    },
+    {
+      "id": "UnknownStep",
+      "severity": "medium",
+      "line": 24,
+      "evidence": "taggingv2 x1",
+      "recommendation": "Plugin or shared-library step with no catalog mapping - inspect implementation"
+    },
+    {
+      "id": "UnknownStep",
+      "severity": "medium",
+      "line": 42,
+      "evidence": "mainJenkinsBuildArgo x1",
+      "recommendation": "Plugin or shared-library step with no catalog mapping - inspect implementation"
+    },
+    {
+      "id": "CredentialBinding",
+      "severity": "low",
+      "line": 41,
+      "evidence": "string 'jenkins-argocd-token'",
+      "recommendation": "Create GitHub secret(s) or use OIDC; never inline values"
+    }
+  ],
+  "hard_gates": [
+    {
+      "id": "SharedLibrary",
+      "severity": "high",
+      "line": null,
+      "evidence": "lib-jenkins-pipeline",
+      "recommendation": "Library steps are opaque to static analysis; map them to composite actions/reusable workflows",
+      "gate": true
+    }
+  ],
+  "styles": [
+    "scripted",
+    "shared-library",
+    "kubernetes-agent",
+    "credentials"
+  ],
+  "coverage": {
+    "by_category": {
+      "unknown": 4,
+      "direct": 6,
+      "redesign": 1,
+      "policy": 2,
+      "groovy": 1
+    },
+    "weighted_mapped_pct": 32.9
+  },
+  "complexity": {
+    "score": 67,
+    "classification": "significant-redesign",
+    "dimensions": {
+      "declarative_structure": 13.0,
+      "step_mapping": 16.8,
+      "plugin_coupling": 11.2,
+      "library_opacity": 15,
+      "runtime_coupling": 8.0,
+      "security_identity": 2,
+      "control_flow": 1.0
+    },
+    "hard_gates": [
+      "SharedLibrary"
+    ],
+    "weights": {
+      "declarative_structure": 20,
+      "step_mapping": 25,
+      "plugin_coupling": 15,
+      "library_opacity": 15,
+      "runtime_coupling": 10,
+      "security_identity": 10,
+      "control_flow": 5
+    }
+  },
+  "convertibility": "partial",
+  "ir_notes": [
+    "line 9: stage(s) 'Checkout', 'tagging' nested in 'podTemplate' (plugin/library block) kept as its nested steps, in an unnamed segment",
+    "4 statement(s) outside any stage kept in source order in 1 unnamed segment(s) (from line(s) 1)",
+    "no stage() blocks found - structure is opaque (library call or custom DSL)"
+  ],
+  "source_sha256": "10ea8550230ae6b14af7fb42322c6b921b14897853107750d439b2bf88aeb42c"
+}

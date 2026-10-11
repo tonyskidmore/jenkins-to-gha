@@ -1,0 +1,349 @@
+{
+  "analysis_version": 1,
+  "parser": {
+    "engine": "groovy-ast (Jenkins-bundled Groovy 2.4, CONVERSION phase)",
+    "ok": true,
+    "errors": []
+  },
+  "dialect": "declarative",
+  "metrics": {
+    "classes": 0,
+    "conditionals": 3,
+    "credentials": 2,
+    "distinct_steps": 10,
+    "env_vars": 0,
+    "input_gates": 1,
+    "libraries": 0,
+    "loc": 219,
+    "max_stage_depth": 1,
+    "methods": 0,
+    "options": 0,
+    "parameters": 0,
+    "post_conditions": 4,
+    "script_blocks": 1,
+    "script_statements": 18,
+    "shell_steps": 17,
+    "stages": 8,
+    "steps": 35,
+    "tools": 0,
+    "top_level_stages": 8,
+    "triggers": 0,
+    "unknown_steps": 3,
+    "when_conditions": 4
+  },
+  "steps": {
+    "sh": {
+      "count": 17,
+      "category": "direct",
+      "lines": [
+        21,
+        43,
+        44,
+        45,
+        46,
+        47,
+        48,
+        49,
+        50,
+        53,
+        56,
+        64
+      ],
+      "gha": "run: (shell: bash)"
+    },
+    "withCredentials": {
+      "count": 4,
+      "category": "policy",
+      "lines": [
+        62,
+        71,
+        91,
+        137
+      ],
+      "gha": "secrets.* / environment secrets / OIDC"
+    },
+    "rocketSend": {
+      "count": 4,
+      "category": "unknown",
+      "lines": [
+        150,
+        173,
+        196,
+        219
+      ],
+      "gha": null
+    },
+    "configFileProvider": {
+      "count": 3,
+      "category": "unknown",
+      "lines": [
+        77,
+        92,
+        138
+      ],
+      "gha": null
+    },
+    "take": {
+      "count": 2,
+      "category": "groovy",
+      "lines": [
+        24,
+        25
+      ],
+      "gha": null
+    },
+    "error": {
+      "count": 1,
+      "category": "direct",
+      "lines": [
+        17
+      ],
+      "gha": "run: echo ::error:: && exit 1"
+    },
+    "trim": {
+      "count": 1,
+      "category": "groovy",
+      "lines": [
+        21
+      ],
+      "gha": null
+    },
+    "cucumber": {
+      "count": 1,
+      "category": "unknown",
+      "lines": [
+        116
+      ],
+      "gha": null
+    },
+    "timeout": {
+      "count": 1,
+      "category": "direct",
+      "lines": [
+        126
+      ],
+      "gha": "timeout-minutes:"
+    },
+    "input": {
+      "count": 1,
+      "category": "redesign",
+      "lines": [
+        127
+      ],
+      "gha": "environment protection rules / separate dispatch"
+    }
+  },
+  "unknown_steps": [
+    {
+      "name": "configFileProvider",
+      "lines": [
+        77,
+        92,
+        138
+      ],
+      "count": 3
+    },
+    {
+      "name": "cucumber",
+      "lines": [
+        116
+      ],
+      "count": 1
+    },
+    {
+      "name": "rocketSend",
+      "lines": [
+        150,
+        173,
+        196,
+        219
+      ],
+      "count": 4
+    }
+  ],
+  "agents": [
+    {
+      "kind": "any",
+      "label": null,
+      "image": null,
+      "line": 3,
+      "scope": "pipeline"
+    },
+    {
+      "kind": "label",
+      "label": "openshift_cli",
+      "image": null,
+      "line": 106,
+      "scope": "stage:Acceptance Test"
+    }
+  ],
+  "credentials": [
+    {
+      "id": "nexus-credential",
+      "type": "usernamePassword",
+      "lines": [
+        62
+      ]
+    },
+    {
+      "id": "rundeck-credential",
+      "type": "usernamePassword",
+      "lines": [
+        71,
+        91,
+        137
+      ]
+    }
+  ],
+  "dsl_symbols": [
+    "configFile"
+  ],
+  "libraries": [],
+  "methods": [],
+  "jenkins_model": {
+    "result": "success",
+    "errors": [],
+    "stages": [
+      "Setup",
+      "Build",
+      "Publish",
+      "DEV Deploy",
+      "PRE Deploy",
+      "Acceptance Test",
+      "Approval",
+      "PRO Deploy"
+    ],
+    "agent": "any",
+    "discrepancies": []
+  },
+  "findings": [
+    {
+      "id": "ScriptBlocks",
+      "severity": "medium",
+      "line": null,
+      "evidence": "1 script{} block(s), 18 Groovy statements",
+      "recommendation": "Move imperative logic into versioned shell/Python scripts or composite actions"
+    },
+    {
+      "id": "UnknownStep",
+      "severity": "medium",
+      "line": 77,
+      "evidence": "configFileProvider x3",
+      "recommendation": "Plugin or shared-library step with no catalog mapping - inspect implementation"
+    },
+    {
+      "id": "GroovyWhenExpression",
+      "severity": "medium",
+      "line": 88,
+      "evidence": "return target == 'pre' || target == 'pro'",
+      "recommendation": "Re-express as a GHA if: expression or a step output"
+    },
+    {
+      "id": "GroovyWhenExpression",
+      "severity": "medium",
+      "line": 102,
+      "evidence": "target == 'pro'",
+      "recommendation": "Re-express as a GHA if: expression or a step output"
+    },
+    {
+      "id": "UnknownStep",
+      "severity": "medium",
+      "line": 116,
+      "evidence": "cucumber x1",
+      "recommendation": "Plugin or shared-library step with no catalog mapping - inspect implementation"
+    },
+    {
+      "id": "GroovyWhenExpression",
+      "severity": "medium",
+      "line": 122,
+      "evidence": "target == 'pro'",
+      "recommendation": "Re-express as a GHA if: expression or a step output"
+    },
+    {
+      "id": "InputGate",
+      "severity": "medium",
+      "line": 127,
+      "evidence": "input step",
+      "recommendation": "Split the workflow at the gate and use a protected GitHub Environment"
+    },
+    {
+      "id": "GroovyWhenExpression",
+      "severity": "medium",
+      "line": 134,
+      "evidence": "return target == 'pro'",
+      "recommendation": "Re-express as a GHA if: expression or a step output"
+    },
+    {
+      "id": "UnknownStep",
+      "severity": "medium",
+      "line": 150,
+      "evidence": "rocketSend x4",
+      "recommendation": "Plugin or shared-library step with no catalog mapping - inspect implementation"
+    },
+    {
+      "id": "PostConditionGap",
+      "severity": "low",
+      "line": null,
+      "evidence": "post { unstable }",
+      "recommendation": "No GHA equivalent (needs previous-run status / UNSTABLE); approximated or dropped"
+    },
+    {
+      "id": "CredentialBinding",
+      "severity": "low",
+      "line": 62,
+      "evidence": "usernamePassword 'nexus-credential'",
+      "recommendation": "Create GitHub secret(s) or use OIDC; never inline values"
+    },
+    {
+      "id": "CredentialBinding",
+      "severity": "low",
+      "line": 71,
+      "evidence": "usernamePassword 'rundeck-credential'",
+      "recommendation": "Create GitHub secret(s) or use OIDC; never inline values"
+    }
+  ],
+  "hard_gates": [],
+  "styles": [
+    "declarative",
+    "when-post",
+    "input-gate",
+    "credentials",
+    "dynamic-groovy"
+  ],
+  "coverage": {
+    "by_category": {
+      "direct": 19,
+      "policy": 4,
+      "unknown": 8,
+      "groovy": 3,
+      "redesign": 1
+    },
+    "weighted_mapped_pct": 52.6
+  },
+  "complexity": {
+    "score": 42,
+    "classification": "assisted",
+    "dimensions": {
+      "declarative_structure": 6.5,
+      "step_mapping": 11.8,
+      "plugin_coupling": 10.5,
+      "library_opacity": 4,
+      "runtime_coupling": 2.0,
+      "security_identity": 7,
+      "control_flow": 0.0
+    },
+    "hard_gates": [],
+    "weights": {
+      "declarative_structure": 20,
+      "step_mapping": 25,
+      "plugin_coupling": 15,
+      "library_opacity": 15,
+      "runtime_coupling": 10,
+      "security_identity": 10,
+      "control_flow": 5
+    }
+  },
+  "convertibility": "automatic",
+  "ir_notes": [],
+  "source_sha256": "7a7829dec3ba733500b2818ce80d22c96d279bcacf84b57b342109552ae76aae"
+}

@@ -1,0 +1,119 @@
+{
+  "ok": true,
+  "structural_ok": true,
+  "security_ok": true,
+  "tools_ok": true,
+  "validated_at": "2026-10-10T08:00:25+00:00",
+  "actionlint": {
+    "tool": "actionlint",
+    "image": "rhysd/actionlint:1.7.12",
+    "ok": true,
+    "findings": [],
+    "structural": 0,
+    "shellcheck": 0
+  },
+  "zizmor": {
+    "tool": "zizmor",
+    "image": "ghcr.io/zizmorcore/zizmor:1.30.1",
+    "ok": true,
+    "findings": [
+      {
+        "rule": "unsound-ternary",
+        "severity": "Low",
+        "confidence": "High",
+        "message": "unsound pseudo-ternary expression",
+        "line": 41
+      },
+      {
+        "rule": "unsound-ternary",
+        "severity": "Low",
+        "confidence": "High",
+        "message": "unsound pseudo-ternary expression",
+        "line": 42
+      },
+      {
+        "rule": "unsound-ternary",
+        "severity": "Low",
+        "confidence": "High",
+        "message": "unsound pseudo-ternary expression",
+        "line": 45
+      },
+      {
+        "rule": "unsound-ternary",
+        "severity": "Low",
+        "confidence": "High",
+        "message": "unsound pseudo-ternary expression",
+        "line": 46
+      }
+    ]
+  },
+  "policy": {
+    "tool": "j2gha-policy",
+    "ok": true,
+    "findings": [
+      {
+        "rule": "unresolved-groovy",
+        "severity": "warning",
+        "message": "job 'checkout' step 'Checkout: echo' contains untranslated Groovy"
+      },
+      {
+        "rule": "manual-placeholder",
+        "severity": "info",
+        "message": "job 'checkout' step 'Checkout: Groovy if (manual)' is a manual-migration placeholder"
+      },
+      {
+        "rule": "manual-placeholder",
+        "severity": "info",
+        "message": "job 'checkout' step 'Test Caller Identity: Groovy if (manual)' is a manual-migration placeholder"
+      },
+      {
+        "rule": "manual-placeholder",
+        "severity": "info",
+        "message": "job 'checkout' step 'Setup E2E CDK Context: Groovy if (manual)' is a manual-migration placeholder"
+      },
+      {
+        "rule": "manual-placeholder",
+        "severity": "info",
+        "message": "job 'checkout' step 'Build: configureMavenCache (manual migration)' is a manual-migration placeholder"
+      },
+      {
+        "rule": "manual-placeholder",
+        "severity": "info",
+        "message": "job 'checkout' step 'Build: Groovy if (manual)' is a manual-migration placeholder"
+      },
+      {
+        "rule": "manual-placeholder",
+        "severity": "info",
+        "message": "job 'checkout' step 'Pre-Deploy Cleanup: preDeployStep (manual migration)' is a manual-migration placeholder"
+      },
+      {
+        "rule": "manual-placeholder",
+        "severity": "info",
+        "message": "job 'checkout' step 'Deploy: Groovy if (manual)' is a manual-migration placeholder"
+      },
+      {
+        "rule": "manual-placeholder",
+        "severity": "info",
+        "message": "job 'checkout' step 'Pre-Integ Test Cleanup: Groovy if (manual)' is a manual-migration placeholder"
+      },
+      {
+        "rule": "manual-placeholder",
+        "severity": "info",
+        "message": "job 'checkout' step 'Integ Tests: Groovy if (manual)' is a manual-migration placeholder"
+      },
+      {
+        "rule": "manual-placeholder",
+        "severity": "info",
+        "message": "job 'checkout' step 'Declarative: Post Actions: Groovy if (manual)' is a manual-migration placeholder"
+      },
+      {
+        "rule": "manual-placeholder",
+        "severity": "info",
+        "message": "job 'checkout' step 'post: cleanupMavenCache (manual migration)' is a manual-migration placeholder"
+      }
+    ],
+    "secrets": [
+      "MIGRATIONS_TEST_ACCOUNT_ID"
+    ]
+  }
+}

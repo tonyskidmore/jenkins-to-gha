@@ -1,0 +1,482 @@
+{
+  "analysis_version": 1,
+  "parser": {
+    "engine": "groovy-ast (Jenkins-bundled Groovy 2.4, CONVERSION phase)",
+    "ok": true,
+    "errors": []
+  },
+  "dialect": "declarative",
+  "metrics": {
+    "artifact_steps": 10,
+    "classes": 0,
+    "conditionals": 13,
+    "credentials": 1,
+    "distinct_steps": 22,
+    "env_vars": 3,
+    "libraries": 0,
+    "loc": 437,
+    "loops": 1,
+    "max_stage_depth": 1,
+    "methods": 4,
+    "options": 4,
+    "parameters": 0,
+    "post_conditions": 5,
+    "script_blocks": 2,
+    "script_statements": 24,
+    "shell_steps": 75,
+    "stages": 4,
+    "steps": 144,
+    "tools": 0,
+    "top_level_stages": 4,
+    "triggers": 0,
+    "try_catch": 5,
+    "unknown_steps": 1,
+    "when_conditions": 3
+  },
+  "steps": {
+    "sh": {
+      "count": 58,
+      "category": "direct",
+      "lines": [
+        418,
+        420,
+        424,
+        426,
+        434,
+        456,
+        457,
+        458,
+        462,
+        482,
+        483,
+        484
+      ],
+      "gha": "run: (shell: bash)"
+    },
+    "retry": {
+      "count": 19,
+      "category": "policy",
+      "lines": [
+        145,
+        146,
+        147,
+        148,
+        149,
+        150,
+        151,
+        201,
+        210,
+        217,
+        228,
+        241
+      ],
+      "gha": "shell retry loop / retry action"
+    },
+    "powershell": {
+      "count": 17,
+      "category": "direct",
+      "lines": [
+        182,
+        183,
+        184,
+        194,
+        202,
+        211,
+        219,
+        230,
+        239,
+        242,
+        251,
+        253
+      ],
+      "gha": "run: (shell: powershell, windows runner)"
+    },
+    "dir": {
+      "count": 7,
+      "category": "direct",
+      "lines": [
+        141,
+        162,
+        185,
+        252,
+        312,
+        328,
+        346
+      ],
+      "gha": "working-directory:"
+    },
+    "stage": {
+      "count": 6,
+      "category": "direct",
+      "lines": [
+        122,
+        177,
+        264,
+        294,
+        299,
+        340
+      ],
+      "gha": "job or step group"
+    },
+    "timeout": {
+      "count": 6,
+      "category": "direct",
+      "lines": [
+        124,
+        148,
+        149,
+        218,
+        229,
+        298
+      ],
+      "gha": "timeout-minutes:"
+    },
+    "error": {
+      "count": 5,
+      "category": "direct",
+      "lines": [
+        167,
+        256,
+        274,
+        332,
+        359
+      ],
+      "gha": "run: echo ::error:: && exit 1"
+    },
+    "deleteDir": {
+      "count": 4,
+      "category": "direct",
+      "lines": [
+        129,
+        173,
+        180,
+        278
+      ],
+      "gha": "run: rm -rf (runners are ephemeral)"
+    },
+    "unstash": {
+      "count": 4,
+      "category": "policy",
+      "lines": [
+        130,
+        181,
+        302,
+        342
+      ],
+      "gha": "actions/download-artifact"
+    },
+    "archiveArtifacts": {
+      "count": 3,
+      "category": "direct",
+      "lines": [
+        513,
+        270,
+        355
+      ],
+      "gha": "actions/upload-artifact"
+    },
+    "node": {
+      "count": 2,
+      "category": "policy",
+      "lines": [
+        123,
+        295
+      ],
+      "gha": "runs-on:"
+    },
+    "withEnv": {
+      "count": 2,
+      "category": "direct",
+      "lines": [
+        131,
+        157
+      ],
+      "gha": "env:"
+    },
+    "junit": {
+      "count": 2,
+      "category": "policy",
+      "lines": [
+        170,
+        335
+      ],
+      "gha": "upload JUnit XML + test reporting action"
+    },
+    "stash": {
+      "count": 1,
+      "category": "policy",
+      "lines": [
+        512
+      ],
+      "gha": "actions/upload-artifact (cross-job hand-off)"
+    },
+    "collectEntries": {
+      "count": 1,
+      "category": "groovy",
+      "lines": [
+        532
+      ],
+      "gha": null
+    },
+    "generateContainerStage": {
+      "count": 1,
+      "category": "local",
+      "lines": [
+        534
+      ],
+      "gha": null
+    },
+    "generateNativeStage": {
+      "count": 1,
+      "category": "local",
+      "lines": [
+        537
+      ],
+      "gha": null
+    },
+    "parallel": {
+      "count": 1,
+      "category": "policy",
+      "lines": [
+        540
+      ],
+      "gha": "separate jobs / strategy.matrix"
+    },
+    "isUnix": {
+      "count": 1,
+      "category": "policy",
+      "lines": [
+        126
+      ],
+      "gha": "runner.os != 'Windows' (value used by Groovy: port the logic)"
+    },
+    "docker.withRegistry": {
+      "count": 1,
+      "category": "policy",
+      "lines": [
+        296
+      ],
+      "gha": "docker/login-action"
+    },
+    "withDockerContainer": {
+      "count": 1,
+      "category": "unknown",
+      "lines": [
+        297
+      ],
+      "gha": null
+    },
+    "writeFile": {
+      "count": 1,
+      "category": "direct",
+      "lines": [
+        319
+      ],
+      "gha": "run: cat > file <<EOF"
+    }
+  },
+  "unknown_steps": [
+    {
+      "name": "withDockerContainer",
+      "lines": [
+        297
+      ],
+      "count": 1
+    }
+  ],
+  "agents": [
+    {
+      "kind": "label",
+      "label": "platform",
+      "line": 123,
+      "scope": "scripted"
+    },
+    {
+      "kind": "label",
+      "label": "meta[platform].get(...)",
+      "line": 295,
+      "scope": "scripted"
+    },
+    {
+      "kind": "none",
+      "label": null,
+      "image": null,
+      "line": 379,
+      "scope": "pipeline"
+    },
+    {
+      "kind": "docker",
+      "label": "docker",
+      "image": "${DOCKER_IMAGE_BASE}-${MINIMUM_ERLANG_VERSION}",
+      "line": 403,
+      "scope": "stage:Setup Env"
+    },
+    {
+      "kind": "docker",
+      "label": "docker",
+      "image": "${DOCKER_IMAGE_BASE}-${MINIMUM_ERLANG_VERSION}",
+      "line": 446,
+      "scope": "stage:Build Docs"
+    },
+    {
+      "kind": "docker",
+      "label": "docker",
+      "image": "${DOCKER_IMAGE_BASE}-${MINIMUM_ERLANG_VERSION}",
+      "line": 472,
+      "scope": "stage:Build Release Tarball"
+    }
+  ],
+  "credentials": [
+    {
+      "id": "dockerhub_creds",
+      "type": "usernamePassword",
+      "lines": [
+        296
+      ]
+    }
+  ],
+  "dsl_symbols": [],
+  "libraries": [],
+  "methods": [
+    "configure",
+    "wscleanup",
+    "generateNativeStage",
+    "generateContainerStage"
+  ],
+  "jenkins_model": {
+    "result": "success",
+    "errors": [],
+    "stages": [
+      "Setup Env",
+      "Build Docs",
+      "Build Release Tarball",
+      "Test and Package"
+    ],
+    "agent": "none",
+    "discrepancies": []
+  },
+  "findings": [
+    {
+      "id": "DynamicParallel",
+      "severity": "high",
+      "line": 540,
+      "evidence": "parallel(parallelStagesMap)",
+      "recommendation": "Emit a bounded matrix from a planning job (fromJSON) instead of runtime fan-out",
+      "gate": true
+    },
+    {
+      "id": "ScriptBlocks",
+      "severity": "medium",
+      "line": null,
+      "evidence": "2 script{} block(s), 24 Groovy statements",
+      "recommendation": "Move imperative logic into versioned shell/Python scripts or composite actions"
+    },
+    {
+      "id": "DynamicAgentLabel",
+      "severity": "medium",
+      "line": 123,
+      "evidence": "node(platform)",
+      "recommendation": "Choose runs-on via matrix/inputs"
+    },
+    {
+      "id": "UnknownStep",
+      "severity": "medium",
+      "line": 297,
+      "evidence": "withDockerContainer x1",
+      "recommendation": "Plugin or shared-library step with no catalog mapping - inspect implementation"
+    },
+    {
+      "id": "GroovyWhenExpression",
+      "severity": "medium",
+      "line": 444,
+      "evidence": "ONLY_DOCS_CHANGED == '1'",
+      "recommendation": "Re-express as a GHA if: expression or a step output"
+    },
+    {
+      "id": "GroovyWhenExpression",
+      "severity": "medium",
+      "line": 470,
+      "evidence": "ONLY_DOCS_CHANGED == '0' && ONLY_GITHUB_CHANGED == '0'",
+      "recommendation": "Re-express as a GHA if: expression or a step output"
+    },
+    {
+      "id": "GroovyWhenExpression",
+      "severity": "medium",
+      "line": 527,
+      "evidence": "ONLY_DOCS_CHANGED == '0' && ONLY_GITHUB_CHANGED == '0'",
+      "recommendation": "Re-express as a GHA if: expression or a step output"
+    },
+    {
+      "id": "WindowsAgent",
+      "severity": "low",
+      "line": null,
+      "evidence": "bat/powershell or windows label",
+      "recommendation": "Target runs-on: windows-latest (2x minute multiplier on private repos)"
+    },
+    {
+      "id": "CredentialBinding",
+      "severity": "low",
+      "line": 296,
+      "evidence": "usernamePassword 'dockerhub_creds'",
+      "recommendation": "Create GitHub secret(s) or use OIDC; never inline values"
+    }
+  ],
+  "hard_gates": [
+    {
+      "id": "DynamicParallel",
+      "severity": "high",
+      "line": 540,
+      "evidence": "parallel(parallelStagesMap)",
+      "recommendation": "Emit a bounded matrix from a planning job (fromJSON) instead of runtime fan-out",
+      "gate": true
+    }
+  ],
+  "styles": [
+    "declarative",
+    "when-post",
+    "parallel",
+    "docker-agent",
+    "credentials",
+    "artifacts-tests",
+    "dynamic-groovy",
+    "windows"
+  ],
+  "coverage": {
+    "by_category": {
+      "direct": 109,
+      "policy": 31,
+      "groovy": 1,
+      "local": 2,
+      "unknown": 1
+    },
+    "weighted_mapped_pct": 87.9
+  },
+  "complexity": {
+    "score": 46,
+    "classification": "significant-redesign",
+    "dimensions": {
+      "declarative_structure": 10,
+      "step_mapping": 3.0,
+      "plugin_coupling": 9.0,
+      "library_opacity": 0.0,
+      "runtime_coupling": 8.0,
+      "security_identity": 2,
+      "control_flow": 5
+    },
+    "hard_gates": [
+      "DynamicParallel"
+    ],
+    "weights": {
+      "declarative_structure": 20,
+      "step_mapping": 25,
+      "plugin_coupling": 15,
+      "library_opacity": 15,
+      "runtime_coupling": 10,
+      "security_identity": 10,
+      "control_flow": 5
+    }
+  },
+  "convertibility": "partial",
+  "ir_notes": [],
+  "source_sha256": "9db974eb80c9ecaa5aed415d31b6614d39431a47767ffe1be4d8558dc2003b1d"
+}

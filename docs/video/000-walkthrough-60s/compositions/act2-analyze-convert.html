@@ -1,0 +1,344 @@
+<template id="act2-template">
+  <div
+    data-composition-id="act2"
+    data-width="1920"
+    data-height="1080"
+    data-duration="15"
+  >
+    <div class="act2-container">
+      <!-- Section Header -->
+      <div id="act2-header" class="header-section">
+        <div class="act-badge">PARTS 2–4 · PIPELINE ENGINE</div>
+        <h1 class="act-title">Deterministic AST Analysis & Conversion</h1>
+        <p class="act-desc">Jenkins Groovy AST is extracted natively, converted into typed Actions jobs with workspace preservation, and validated.</p>
+      </div>
+
+      <!-- 3 Dynamic Process Pillars -->
+      <div class="pillars-grid">
+        <!-- Pillar 1: Analyze -->
+        <div id="pillar-analyze" class="pillar-card">
+          <div class="pillar-top">
+            <span class="pillar-step-badge">STEP 1</span>
+            <span class="pillar-title"><code>j2gha analyze</code></span>
+          </div>
+          <div class="pillar-icon-box cyan-glow">
+            <span class="pillar-symbol">⚙</span>
+          </div>
+          <h2 class="pillar-heading">Typed IR Extraction</h2>
+          <p class="pillar-body">Parsed with the Groovy parser inside Jenkins itself, so the file is read the way Jenkins reads it.</p>
+          
+          <div class="metric-box">
+            <div class="metric-row">
+              <span class="metric-name">Construct Difficulty</span>
+              <span class="metric-val text-cyan">23 / 100</span>
+            </div>
+            <div class="metric-row">
+              <span class="metric-name">Step Coverage</span>
+              <span class="metric-val">78.5%</span>
+            </div>
+            <div class="metric-row">
+              <span class="metric-name">AST Node Type</span>
+              <span class="metric-val">Declarative Pipeline IR</span>
+            </div>
+          </div>
+          <div class="pillar-footer">
+            <span class="check-pill">✓ Groovy AST Analyzed</span>
+          </div>
+        </div>
+
+        <!-- Pillar 2: Convert -->
+        <div id="pillar-convert" class="pillar-card highlight-card">
+          <div class="pillar-top">
+            <span class="pillar-step-badge blue-badge">STEP 2</span>
+            <span class="pillar-title"><code>j2gha convert</code></span>
+          </div>
+          <div class="pillar-icon-box blue-glow">
+            <span class="pillar-symbol">🔄</span>
+          </div>
+          <h2 class="pillar-heading">Workflow Synthesis</h2>
+          <p class="pillar-body">Generates 9 modular Actions jobs with tarball handoffs between isolated runners.</p>
+          
+          <div class="metric-box">
+            <div class="metric-row">
+              <span class="metric-name">Generated Workflow</span>
+              <span class="metric-val text-blue">gha/workflow.yml</span>
+            </div>
+            <div class="metric-row">
+              <span class="metric-name">Runner Workspaces</span>
+              <span class="metric-val"><code>j2gha-ws-*</code> Tarballs</span>
+            </div>
+            <div class="metric-row">
+              <span class="metric-name">State Passing</span>
+              <span class="metric-val">Workspace handed between jobs</span>
+            </div>
+          </div>
+          <div class="pillar-footer">
+            <span class="check-pill blue-pill">✓ Deterministic GHA Generated</span>
+          </div>
+        </div>
+
+        <!-- Pillar 3: Validate -->
+        <div id="pillar-validate" class="pillar-card">
+          <div class="pillar-top">
+            <span class="pillar-step-badge green-badge">STEP 3</span>
+            <span class="pillar-title"><code>j2gha validate</code></span>
+          </div>
+          <div class="pillar-icon-box green-glow">
+            <span class="pillar-symbol">🛡</span>
+          </div>
+          <h2 class="pillar-heading">Multi-Linter Audit</h2>
+          <p class="pillar-body">Checked for structure, embedded shell, security and project policy.</p>
+          
+          <div class="metric-box">
+            <div class="metric-row">
+              <span class="metric-name">actionlint Audit</span>
+              <span class="metric-val text-green">0 findings</span>
+            </div>
+            <div class="metric-row">
+              <span class="metric-name">zizmor Security</span>
+              <span class="metric-val text-green">0 findings</span>
+            </div>
+            <div class="metric-row">
+              <span class="metric-name">Manual Policy Flag</span>
+              <span class="metric-val text-amber">1 warning: untranslated Groovy</span>
+            </div>
+          </div>
+          <div class="pillar-footer">
+            <span class="check-pill green-pill">✓ validate: OK, 1 warning</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <style>
+      [data-composition-id="act2"] .act2-container {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        padding: 110px 64px 120px 64px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+      }
+      [data-composition-id="act2"] .header-section {
+        margin-bottom: 32px;
+      }
+      [data-composition-id="act2"] .act-badge {
+        display: inline-block;
+        font-size: 13px;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #38bdf8;
+        background: rgba(56, 189, 248, 0.12);
+        border: 1px solid rgba(56, 189, 248, 0.3);
+        padding: 4px 14px;
+        border-radius: 9999px;
+        margin-bottom: 10px;
+      }
+      [data-composition-id="act2"] .act-title {
+        font-size: 38px;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        color: #f8fafc;
+        margin-bottom: 8px;
+      }
+      [data-composition-id="act2"] .act-desc {
+        font-size: 18px;
+        color: #94a3b8;
+        max-width: 1100px;
+        line-height: 1.45;
+      }
+      [data-composition-id="act2"] .pillars-grid {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 32px;
+      }
+      [data-composition-id="act2"] .pillar-card {
+        background: rgba(15, 23, 42, 0.75);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        padding: 28px 24px;
+        backdrop-filter: blur(16px);
+        box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4);
+        display: flex;
+        flex-direction: column;
+      }
+      [data-composition-id="act2"] .highlight-card {
+        border-color: rgba(59, 130, 246, 0.35);
+        background: rgba(15, 23, 42, 0.85);
+        box-shadow: 0 20px 40px rgba(59, 130, 246, 0.12);
+      }
+      [data-composition-id="act2"] .pillar-top {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+      [data-composition-id="act2"] .pillar-step-badge {
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        color: #06b6d4;
+        background: rgba(6, 182, 212, 0.12);
+        padding: 3px 8px;
+        border-radius: 6px;
+      }
+      [data-composition-id="act2"] .blue-badge {
+        color: #60a5fa;
+        background: rgba(59, 130, 246, 0.12);
+      }
+      [data-composition-id="act2"] .green-badge {
+        color: #10b981;
+        background: rgba(16, 185, 129, 0.12);
+      }
+      [data-composition-id="act2"] .pillar-title code {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 15px;
+        font-weight: 700;
+        color: #f1f5f9;
+      }
+      [data-composition-id="act2"] .pillar-icon-box {
+        width: 52px;
+        height: 52px;
+        border-radius: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 26px;
+        margin-bottom: 18px;
+      }
+      [data-composition-id="act2"] .cyan-glow {
+        background: rgba(6, 182, 212, 0.15);
+        border: 1px solid rgba(6, 182, 212, 0.3);
+        color: #22d3ee;
+      }
+      [data-composition-id="act2"] .blue-glow {
+        background: rgba(59, 130, 246, 0.15);
+        border: 1px solid rgba(59, 130, 246, 0.3);
+        color: #60a5fa;
+      }
+      [data-composition-id="act2"] .green-glow {
+        background: rgba(16, 185, 129, 0.15);
+        border: 1px solid rgba(16, 185, 129, 0.3);
+        color: #34d399;
+      }
+      [data-composition-id="act2"] .pillar-heading {
+        font-size: 22px;
+        font-weight: 700;
+        color: #f8fafc;
+        margin-bottom: 8px;
+      }
+      [data-composition-id="act2"] .pillar-body {
+        font-size: 14.5px;
+        color: #94a3b8;
+        line-height: 1.45;
+        margin-bottom: 20px;
+        min-height: 44px;
+      }
+      [data-composition-id="act2"] .metric-box {
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 12px;
+        padding: 12px 14px;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin-bottom: 20px;
+      }
+      [data-composition-id="act2"] .metric-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font-size: 13px;
+      }
+      [data-composition-id="act2"] .metric-name {
+        color: #94a3b8;
+      }
+      [data-composition-id="act2"] .metric-val {
+        font-family: 'JetBrains Mono', monospace;
+        font-weight: 600;
+        color: #e2e8f0;
+      }
+      [data-composition-id="act2"] .text-cyan { color: #06b6d4; }
+      [data-composition-id="act2"] .text-blue { color: #3b82f6; }
+      [data-composition-id="act2"] .text-green { color: #10b981; }
+      [data-composition-id="act2"] .text-amber { color: #f59e0b; }
+      [data-composition-id="act2"] .pillar-footer {
+        margin-top: auto;
+      }
+      [data-composition-id="act2"] .check-pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 12.5px;
+        font-weight: 700;
+        color: #06b6d4;
+        background: rgba(6, 182, 212, 0.1);
+        border: 1px solid rgba(6, 182, 212, 0.25);
+        padding: 6px 12px;
+        border-radius: 8px;
+      }
+      [data-composition-id="act2"] .blue-pill {
+        color: #60a5fa;
+        background: rgba(59, 130, 246, 0.1);
+        border-color: rgba(59, 130, 246, 0.25);
+      }
+      [data-composition-id="act2"] .green-pill {
+        color: #10b981;
+        background: rgba(16, 185, 129, 0.1);
+        border-color: rgba(16, 185, 129, 0.25);
+      }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <script>
+      (function() {
+        const tl = gsap.timeline({ paused: true });
+
+        // Staggered entrance for header and 3 pillars
+        tl.fromTo('[data-composition-id="act2"] #act2-header', 
+          { opacity: 0, y: -20 }, 
+          { opacity: 1, y: 0, duration: 0.6, ease: "power3.out" }, 
+          0.2
+        );
+        tl.fromTo('[data-composition-id="act2"] #pillar-analyze', 
+          { opacity: 0, y: 30, scale: 0.96 }, 
+          { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: "power3.out" }, 
+          0.4
+        );
+        tl.fromTo('[data-composition-id="act2"] #pillar-convert', 
+          { opacity: 0, y: 30, scale: 0.96 }, 
+          { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: "power3.out" }, 
+          0.7
+        );
+        tl.fromTo('[data-composition-id="act2"] #pillar-validate', 
+          { opacity: 0, y: 30, scale: 0.96 }, 
+          { opacity: 1, y: 0, scale: 1, duration: 0.6, ease: "power3.out" }, 
+          1.0
+        );
+
+        // Highlight convert pillar during narration mid-point
+        tl.to('[data-composition-id="act2"] #pillar-convert', 
+          { borderColor: "#60a5fa", boxShadow: "0 24px 48px rgba(59, 130, 246, 0.25)", duration: 0.5 }, 
+          5.0
+        );
+
+        // Highlight validate pillar during linter mention
+        tl.to('[data-composition-id="act2"] #pillar-validate', 
+          { borderColor: "#34d399", boxShadow: "0 24px 48px rgba(16, 185, 129, 0.25)", duration: 0.5 }, 
+          10.0
+        );
+
+        // Exit transition before 15.0s
+        tl.to('[data-composition-id="act2"] .act2-container', 
+          { opacity: 0, scale: 0.96, duration: 0.4, ease: "power2.in" }, 
+          14.6
+        );
+
+        window.__timelines = window.__timelines || {};
+        window.__timelines["act2"] = tl;
+      })();
+    </script>
+  </div>
+</template>

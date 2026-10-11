@@ -1,0 +1,33 @@
+#!/usr/bin/env bash
+# nx: driver for the narrated-explainer skill.  Usage: nx <command> [options]
+#   setup                                   one-time runtime install (Kokoro venv + puppeteer-core), no sudo
+#   check    --script S                     lint scenes.json (kinds, captures, TTS-unfriendly tokens)
+#   audio    --script S --work W [--force] [--only ID ...]
+#   timeline --script S --work W
+#   clips    --script S --work W [--only NAME]   cut live-footage clips (hfw captures) for `clip` scenes, extract frames
+#   render   --work W [--stills t1,t2] [--out name] [--jobs N] [--scale 2]
+#   qa       --work W [--sheet SECONDS]
+#   shots    --spec shots.json --out DIR   real browser screenshots of a web UI for `screenshot` scenes
+#   concat   OUT.mp4 CH1.mp4 CH2.mp4 ...    join chapter videos into one movie (lossless)
+#   capture  local  OUT SCRIPT              run SCRIPT (uses `step`) on this machine, record real output
+#   capture  docker IMAGE OUT SCRIPT [docker run flags...]
+#   capture  redact FILE                    apply $NX_REDACT (regex=>replacement lines) to an existing capture
+# Runtime lives in $NX_HOME (default ~/.cache/narrated-explainer), shared by all projects, outside any repo.
+set -euo pipefail
+HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+export NX_HOME="${NX_HOME:-${XDG_CACHE_HOME:-$HOME/.cache}/narrated-explainer}"
+export NX_SKILL_SCRIPTS="$HERE"
+cmd="${1:-help}"; shift || true
+case "$cmd" in
+  setup)    exec bash "$HERE/setup.sh" "$@" ;;
+  check)    exec node "$HERE/render/check-script.mjs" "$@" ;;
+  audio)    exec "$NX_HOME/.venv/bin/python" "$HERE/tts/generate.py" "$@" ;;
+  clips)    exec node "$HERE/render/clips.mjs" "$@" ;;
+  timeline) exec node "$HERE/render/make-timeline.mjs" "$@" ;;
+  render)   exec node "$HERE/render/render.mjs" "$@" ;;
+  qa)       exec node "$HERE/render/qa.mjs" "$@" ;;
+  shots)    exec node "$HERE/render/shots.mjs" "$@" ;;
+  concat)   exec bash "$HERE/concat.sh" "$@" ;;
+  capture)  exec bash "$HERE/capture.sh" "$@" ;;
+  help|-h|--help|*) awk 'NR>1{ if ($0 ~ /^#/) { sub(/^# ?/,""); print } else exit }' "${BASH_SOURCE[0]}"; [ "$cmd" = help ] || exit 2 ;;
+esac

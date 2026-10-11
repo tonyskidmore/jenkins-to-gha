@@ -1,0 +1,1114 @@
+{
+  "dialect": "scripted",
+  "agent": {
+    "kind": "label",
+    "label": "master",
+    "line": 40
+  },
+  "libraries": [
+    "MobilePipelineSharedLibrary@master"
+  ],
+  "stages": [
+    {
+      "line": 8,
+      "steps": [
+        {
+          "name": "<decl>",
+          "line": 8,
+          "named": {
+            "_target": "Globals"
+          },
+          "body": [
+            {
+              "name": "new Globals",
+              "line": 8,
+              "category": "unknown"
+            }
+          ],
+          "category": "dynamic",
+          "source": "Globals = new Globals(...)",
+          "dynamic": true
+        },
+        {
+          "name": "<decl>",
+          "line": 9,
+          "named": {
+            "_target": "CommonFunctions"
+          },
+          "body": [
+            {
+              "name": "new CommonFunctions",
+              "line": 9,
+              "category": "unknown"
+            }
+          ],
+          "category": "dynamic",
+          "source": "CommonFunctions = new CommonFunctions(...)",
+          "dynamic": true
+        },
+        {
+          "name": "<decl>",
+          "line": 10,
+          "named": {
+            "_target": "MobileCoreFunctions"
+          },
+          "body": [
+            {
+              "name": "new MobileCoreFunctions",
+              "line": 10,
+              "category": "unknown"
+            }
+          ],
+          "category": "dynamic",
+          "source": "MobileCoreFunctions = new MobileCoreFunctions(...)",
+          "dynamic": true
+        },
+        {
+          "name": "<decl>",
+          "line": 11,
+          "named": {
+            "_target": "GitFunctions"
+          },
+          "body": [
+            {
+              "name": "new GitFunctions",
+              "line": 11,
+              "category": "unknown"
+            }
+          ],
+          "category": "dynamic",
+          "source": "GitFunctions = new GitFunctions(...)",
+          "dynamic": true
+        },
+        {
+          "name": "<assign>",
+          "line": 13,
+          "named": {
+            "_target": "branch"
+          },
+          "category": "dynamic",
+          "source": "branch = ${GIT_BRANCH}",
+          "dynamic": true
+        },
+        {
+          "name": "<assign>",
+          "line": 14,
+          "named": {
+            "_target": "target_location"
+          },
+          "category": "dynamic",
+          "source": "target_location = ${TARGET_LOCATION}",
+          "dynamic": true
+        },
+        {
+          "name": "<assign>",
+          "line": 15,
+          "named": {
+            "_target": "git_repo_url"
+          },
+          "category": "dynamic",
+          "source": "git_repo_url = ${GIT_REPO_URL}",
+          "dynamic": true
+        },
+        {
+          "name": "<assign>",
+          "line": 16,
+          "named": {
+            "_target": "plugin_check"
+          },
+          "category": "dynamic",
+          "source": "plugin_check = ${PLUGIN}",
+          "dynamic": true
+        },
+        {
+          "name": "<if>",
+          "line": 18,
+          "body": [
+            {
+              "name": "<assign>",
+              "line": 19,
+              "named": {
+                "_target": "plugin_repo"
+              },
+              "category": "dynamic",
+              "source": "plugin_repo = ${PLUGIN_REPO}",
+              "dynamic": true
+            },
+            {
+              "name": "<assign>",
+              "line": 20,
+              "named": {
+                "_target": "plugin_target"
+              },
+              "category": "dynamic",
+              "source": "plugin_target = ${PLUGIN_TARGET}",
+              "dynamic": true
+            },
+            {
+              "name": "<assign>",
+              "line": 21,
+              "named": {
+                "_target": "plugin_branch"
+              },
+              "category": "dynamic",
+              "source": "plugin_branch = ${PLUGIN_BRANCH}",
+              "dynamic": true
+            }
+          ],
+          "category": "dynamic",
+          "source": "plugin_check.toString() == 'Yes'",
+          "dynamic": true
+        },
+        {
+          "name": "<assign>",
+          "line": 24,
+          "named": {
+            "_target": "bucket"
+          },
+          "category": "dynamic",
+          "source": "bucket = ${BUCKET}",
+          "dynamic": true
+        },
+        {
+          "name": "<assign>",
+          "line": 25,
+          "named": {
+            "_target": "file"
+          },
+          "category": "dynamic",
+          "source": "file = ${IPA_FILE_NAME}",
+          "dynamic": true
+        },
+        {
+          "name": "<assign>",
+          "line": 26,
+          "named": {
+            "_target": "integration_test_check"
+          },
+          "category": "dynamic",
+          "source": "integration_test_check = ${INTEGRATION_TEST_CHECK}",
+          "dynamic": true
+        },
+        {
+          "name": "<if>",
+          "line": 28,
+          "body": [
+            {
+              "name": "<assign>",
+              "line": 29,
+              "named": {
+                "_target": "integration_type"
+              },
+              "category": "dynamic",
+              "source": "integration_type = ${TEST_TYPE}",
+              "dynamic": true
+            },
+            {
+              "name": "<assign>",
+              "line": 30,
+              "named": {
+                "_target": "test_suite"
+              },
+              "category": "dynamic",
+              "source": "test_suite = ${TEST_SUITE}",
+              "dynamic": true
+            }
+          ],
+          "category": "dynamic",
+          "source": "integration_test_check.toString() == 'Yes'",
+          "dynamic": true
+        },
+        {
+          "name": "deleteDir",
+          "line": 41,
+          "category": "direct"
+        }
+      ]
+    },
+    {
+      "name": "Git Checkout",
+      "line": 46,
+      "steps": [
+        {
+          "name": "log",
+          "line": 47,
+          "args": [
+            "info",
+            "STAGE: CHECKOUT"
+          ],
+          "category": "unknown",
+          "receiver": "CommonFunctions"
+        },
+        {
+          "name": "parallel",
+          "line": 48,
+          "named": {
+            "main": "{closure}",
+            "plugin": "{closure}"
+          },
+          "body": [
+            {
+              "name": "git_check_out",
+              "line": 50,
+              "args": [
+                "git_repo_url",
+                "branch",
+                "target_location",
+                "Globals.GITLAB_CREDS"
+              ],
+              "category": "unknown",
+              "receiver": "GitFunctions",
+              "dynamic": true,
+              "variable_args": [
+                0,
+                1,
+                2
+              ]
+            },
+            {
+              "name": "<if>",
+              "line": 53,
+              "body": [
+                {
+                  "name": "git_check_out",
+                  "line": 54,
+                  "args": [
+                    "plugin_repo",
+                    "plugin_branch",
+                    "plugin_target",
+                    "Globals.GITLAB_CREDS"
+                  ],
+                  "category": "unknown",
+                  "receiver": "GitFunctions",
+                  "dynamic": true,
+                  "variable_args": [
+                    0,
+                    1,
+                    2
+                  ]
+                }
+              ],
+              "category": "dynamic",
+              "source": "plugin_check == 'Yes'",
+              "dynamic": true
+            }
+          ],
+          "category": "policy"
+        },
+        {
+          "name": "<if>",
+          "line": 59,
+          "body": [
+            {
+              "name": "log",
+              "line": 60,
+              "args": [
+                "info",
+                "MERGED PLUGIN REPO INTO THE MAIN REPO"
+              ],
+              "category": "unknown",
+              "receiver": "CommonFunctions"
+            },
+            {
+              "name": "sh",
+              "line": 61,
+              "args": [
+                "\n                       mv ${plugin_target} ${target_location}/${plugin_target}\n                       "
+              ],
+              "category": "direct",
+              "dynamic": true
+            }
+          ],
+          "category": "dynamic",
+          "source": "plugin_check == 'Yes'",
+          "dynamic": true
+        },
+        {
+          "name": "log",
+          "line": 66,
+          "args": [
+            "info",
+            "CODE FETCHED"
+          ],
+          "category": "unknown",
+          "receiver": "CommonFunctions"
+        }
+      ]
+    },
+    {
+      "line": 69,
+      "steps": [
+        {
+          "name": "<decl>",
+          "line": 69,
+          "named": {
+            "_target": "WORKSPACE"
+          },
+          "body": [
+            {
+              "name": "pwd",
+              "line": 69,
+              "category": "policy"
+            }
+          ],
+          "category": "dynamic",
+          "source": "WORKSPACE = pwd(...)",
+          "dynamic": true
+        },
+        {
+          "name": "dir",
+          "line": 71,
+          "args": [
+            "${WORKSPACE}"
+          ],
+          "body": [
+            {
+              "name": "log",
+              "line": 72,
+              "args": [
+                "info",
+                "STASHING CODE"
+              ],
+              "category": "unknown",
+              "receiver": "CommonFunctions"
+            },
+            {
+              "name": "stash",
+              "line": 73,
+              "named": {
+                "allowEmpty": true,
+                "name": "${target_location}",
+                "includes": "${target_location}/**"
+              },
+              "category": "policy",
+              "dynamic": true
+            },
+            {
+              "name": "log",
+              "line": 74,
+              "args": [
+                "info",
+                "STASHED"
+              ],
+              "category": "unknown",
+              "receiver": "CommonFunctions"
+            }
+          ],
+          "category": "direct",
+          "dynamic": true
+        }
+      ]
+    },
+    {
+      "line": 82,
+      "agent": {
+        "kind": "label",
+        "label": "mac",
+        "line": 81
+      },
+      "steps": [
+        {
+          "name": "deleteDir",
+          "line": 82,
+          "category": "direct"
+        },
+        {
+          "name": "<decl>",
+          "line": 84,
+          "named": {
+            "_target": "mac_workspace"
+          },
+          "body": [
+            {
+              "name": "pwd",
+              "line": 84,
+              "category": "policy"
+            }
+          ],
+          "category": "dynamic",
+          "source": "mac_workspace = pwd(...)",
+          "dynamic": true
+        },
+        {
+          "name": "log",
+          "line": 86,
+          "args": [
+            "info",
+            "UNSTASHING CODE"
+          ],
+          "category": "unknown",
+          "receiver": "CommonFunctions"
+        },
+        {
+          "name": "unstash",
+          "line": 87,
+          "args": [
+            "${target_location}"
+          ],
+          "category": "policy",
+          "dynamic": true
+        },
+        {
+          "name": "log",
+          "line": 88,
+          "args": [
+            "info",
+            "CODE UNSTASHED"
+          ],
+          "category": "unknown",
+          "receiver": "CommonFunctions"
+        }
+      ]
+    },
+    {
+      "name": "NPM Install",
+      "line": 94,
+      "agent": {
+        "kind": "label",
+        "label": "mac",
+        "line": 81
+      },
+      "steps": [
+        {
+          "name": "dir",
+          "line": 90,
+          "args": [
+            "${mac_workspace}/${target_location}"
+          ],
+          "body": [
+            {
+              "name": "log",
+              "line": 95,
+              "args": [
+                "info",
+                "STAGE: NPM INSTALL"
+              ],
+              "category": "unknown",
+              "receiver": "CommonFunctions"
+            },
+            {
+              "name": "install",
+              "line": 96,
+              "category": "unknown",
+              "receiver": "MobileCoreFunctions"
+            },
+            {
+              "name": "log",
+              "line": 97,
+              "args": [
+                "info",
+                "STAGE: NPM INSTALL COMPLETED"
+              ],
+              "category": "unknown",
+              "receiver": "CommonFunctions"
+            }
+          ],
+          "category": "direct",
+          "dynamic": true
+        }
+      ]
+    },
+    {
+      "name": "Security Check",
+      "line": 103,
+      "agent": {
+        "kind": "label",
+        "label": "mac",
+        "line": 81
+      },
+      "steps": [
+        {
+          "name": "dir",
+          "line": 90,
+          "args": [
+            "${mac_workspace}/${target_location}"
+          ],
+          "body": [
+            {
+              "name": "log",
+              "line": 104,
+              "args": [
+                "info",
+                "STAGE: SECURITY CHECK"
+              ],
+              "category": "unknown",
+              "receiver": "CommonFunctions"
+            },
+            {
+              "name": "security",
+              "line": 105,
+              "category": "unknown",
+              "receiver": "MobileCoreFunctions"
+            },
+            {
+              "name": "log",
+              "line": 106,
+              "args": [
+                "info",
+                "SECURITY CHECKS COMPLETED"
+              ],
+              "category": "unknown",
+              "receiver": "CommonFunctions"
+            }
+          ],
+          "category": "direct",
+          "dynamic": true
+        }
+      ]
+    },
+    {
+      "name": "SonarQube",
+      "line": 112,
+      "agent": {
+        "kind": "label",
+        "label": "mac",
+        "line": 81
+      },
+      "steps": [
+        {
+          "name": "dir",
+          "line": 90,
+          "args": [
+            "${mac_workspace}/${target_location}"
+          ],
+          "body": [
+            {
+              "name": "log",
+              "line": 113,
+              "args": [
+                "info",
+                "STAGE: SONARQUBE"
+              ],
+              "category": "unknown",
+              "receiver": "CommonFunctions"
+            },
+            {
+              "name": "sonar",
+              "line": 114,
+              "category": "unknown",
+              "receiver": "MobileCoreFunctions"
+            },
+            {
+              "name": "log",
+              "line": 115,
+              "args": [
+                "info",
+                "CODE LINTING COMPLETED"
+              ],
+              "category": "unknown",
+              "receiver": "CommonFunctions"
+            }
+          ],
+          "category": "direct",
+          "dynamic": true
+        }
+      ]
+    },
+    {
+      "name": "Unit Tests",
+      "line": 121,
+      "agent": {
+        "kind": "label",
+        "label": "mac",
+        "line": 81
+      },
+      "steps": [
+        {
+          "name": "dir",
+          "line": 90,
+          "args": [
+            "${mac_workspace}/${target_location}"
+          ],
+          "body": [
+            {
+              "name": "log",
+              "line": 122,
+              "args": [
+                "info",
+                "STAGE: UNIT TESTS"
+              ],
+              "category": "unknown",
+              "receiver": "CommonFunctions"
+            },
+            {
+              "name": "testing",
+              "line": 123,
+              "args": [
+                "unit",
+                " ",
+                " ",
+                " ",
+                " "
+              ],
+              "category": "unknown",
+              "receiver": "MobileCoreFunctions"
+            },
+            {
+              "name": "log",
+              "line": 124,
+              "args": [
+                "info",
+                "UNIT TESTS COMPLETED"
+              ],
+              "category": "unknown",
+              "receiver": "CommonFunctions"
+            }
+          ],
+          "category": "direct",
+          "dynamic": true
+        }
+      ]
+    },
+    {
+      "name": "NPM Build",
+      "line": 130,
+      "agent": {
+        "kind": "label",
+        "label": "mac",
+        "line": 81
+      },
+      "steps": [
+        {
+          "name": "dir",
+          "line": 90,
+          "args": [
+            "${mac_workspace}/${target_location}"
+          ],
+          "body": [
+            {
+              "name": "log",
+              "line": 131,
+              "args": [
+                "info",
+                "STAGE: NPM BUILD"
+              ],
+              "category": "unknown",
+              "receiver": "CommonFunctions"
+            },
+            {
+              "name": "npmBuild",
+              "line": 132,
+              "category": "unknown",
+              "receiver": "MobileCoreFunctions"
+            },
+            {
+              "name": "log",
+              "line": 133,
+              "args": [
+                "info",
+                "NPM BUILD COMPLETE"
+              ],
+              "category": "unknown",
+              "receiver": "CommonFunctions"
+            }
+          ],
+          "category": "direct",
+          "dynamic": true
+        }
+      ]
+    },
+    {
+      "line": 136,
+      "agent": {
+        "kind": "label",
+        "label": "mac",
+        "line": 81
+      },
+      "steps": [
+        {
+          "name": "dir",
+          "line": 90,
+          "args": [
+            "${mac_workspace}/${target_location}"
+          ],
+          "body": [
+            {
+              "name": "log",
+              "line": 136,
+              "args": [
+                "info",
+                "PLUGIN SET TO: ${plugin_check}"
+              ],
+              "category": "unknown",
+              "receiver": "CommonFunctions",
+              "dynamic": true
+            },
+            {
+              "name": "<if>",
+              "line": 137,
+              "body": [
+                {
+                  "name": "stage",
+                  "line": 141,
+                  "args": [
+                    "Configure Plugin"
+                  ],
+                  "body": [
+                    {
+                      "name": "log",
+                      "line": 142,
+                      "args": [
+                        "info",
+                        "STAGE: CONFIGURE PLUGIN"
+                      ],
+                      "category": "unknown",
+                      "receiver": "CommonFunctions"
+                    },
+                    {
+                      "name": "configurePlugin",
+                      "line": 143,
+                      "args": [
+                        "plugin_target"
+                      ],
+                      "category": "unknown",
+                      "receiver": "MobileCoreFunctions",
+                      "dynamic": true,
+                      "variable_args": [
+                        0
+                      ]
+                    },
+                    {
+                      "name": "log",
+                      "line": 144,
+                      "args": [
+                        "info",
+                        "PLUGIN CONFIGURED SUCCESSFULLY"
+                      ],
+                      "category": "unknown",
+                      "receiver": "CommonFunctions"
+                    }
+                  ],
+                  "category": "direct"
+                }
+              ],
+              "category": "dynamic",
+              "source": "plugin_check == 'Yes'",
+              "dynamic": true
+            }
+          ],
+          "category": "direct",
+          "dynamic": true
+        }
+      ]
+    },
+    {
+      "name": "Cordova Platform",
+      "line": 151,
+      "agent": {
+        "kind": "label",
+        "label": "mac",
+        "line": 81
+      },
+      "steps": [
+        {
+          "name": "dir",
+          "line": 90,
+          "args": [
+            "${mac_workspace}/${target_location}"
+          ],
+          "body": [
+            {
+              "name": "log",
+              "line": 152,
+              "args": [
+                "info",
+                "STAGE: CORDOVA PLATFORM"
+              ],
+              "category": "unknown",
+              "receiver": "CommonFunctions"
+            },
+            {
+              "name": "configure",
+              "line": 153,
+              "category": "unknown",
+              "receiver": "MobileCoreFunctions"
+            },
+            {
+              "name": "log",
+              "line": 154,
+              "args": [
+                "info",
+                "PLATFORM CONFIGURED SUCCESSFULLY"
+              ],
+              "category": "unknown",
+              "receiver": "CommonFunctions"
+            }
+          ],
+          "category": "direct",
+          "dynamic": true
+        }
+      ]
+    },
+    {
+      "name": "Build",
+      "line": 162,
+      "agent": {
+        "kind": "label",
+        "label": "mac",
+        "line": 81
+      },
+      "steps": [
+        {
+          "name": "dir",
+          "line": 158,
+          "args": [
+            "${mac_workspace}/${target_location}/platforms/ios"
+          ],
+          "body": [
+            {
+              "name": "log",
+              "line": 163,
+              "args": [
+                "info",
+                "STAGE: BUILD"
+              ],
+              "category": "unknown",
+              "receiver": "CommonFunctions"
+            },
+            {
+              "name": "build",
+              "line": 164,
+              "category": "unknown",
+              "receiver": "MobileCoreFunctions"
+            },
+            {
+              "name": "log",
+              "line": 165,
+              "args": [
+                "info",
+                "BUILD COMPLETED SUCCESSFULLY"
+              ],
+              "category": "unknown",
+              "receiver": "CommonFunctions"
+            }
+          ],
+          "category": "direct",
+          "dynamic": true
+        }
+      ]
+    },
+    {
+      "line": 168,
+      "agent": {
+        "kind": "label",
+        "label": "mac",
+        "line": 81
+      },
+      "steps": [
+        {
+          "name": "dir",
+          "line": 158,
+          "args": [
+            "${mac_workspace}/${target_location}/platforms/ios"
+          ],
+          "body": [
+            {
+              "name": "stash",
+              "line": 168,
+              "named": {
+                "name": "build",
+                "includes": "build/**",
+                "allowEmpty": true
+              },
+              "category": "policy"
+            },
+            {
+              "name": "log",
+              "line": 170,
+              "args": [
+                "info",
+                "INTEGRATION TESTS SET TO : ${integration_test_check}"
+              ],
+              "category": "unknown",
+              "receiver": "CommonFunctions",
+              "dynamic": true
+            },
+            {
+              "name": "<if>",
+              "line": 171,
+              "body": [
+                {
+                  "name": "stage",
+                  "line": 172,
+                  "args": [
+                    "Integration Tests"
+                  ],
+                  "body": [
+                    {
+                      "name": "log",
+                      "line": 173,
+                      "args": [
+                        "info",
+                        "STAGE: INTEGRATION TESTS"
+                      ],
+                      "category": "unknown",
+                      "receiver": "CommonFunctions"
+                    },
+                    {
+                      "name": "testing",
+                      "line": 174,
+                      "args": [
+                        "integration",
+                        "integration_type",
+                        " ",
+                        " ",
+                        "test_suite"
+                      ],
+                      "category": "unknown",
+                      "receiver": "MobileCoreFunctions",
+                      "dynamic": true,
+                      "variable_args": [
+                        1,
+                        4
+                      ]
+                    },
+                    {
+                      "name": "log",
+                      "line": 175,
+                      "args": [
+                        "info",
+                        "TESTS COMPLETED SUCCESSFULLY"
+                      ],
+                      "category": "unknown",
+                      "receiver": "CommonFunctions"
+                    }
+                  ],
+                  "category": "direct"
+                }
+              ],
+              "category": "dynamic",
+              "source": "integration_test_check == 'Yes'",
+              "dynamic": true
+            }
+          ],
+          "category": "direct",
+          "dynamic": true
+        }
+      ]
+    },
+    {
+      "line": 185,
+      "agent": {
+        "kind": "label",
+        "label": "master",
+        "line": 184
+      },
+      "steps": [
+        {
+          "name": "deleteDir",
+          "line": 185,
+          "category": "direct"
+        },
+        {
+          "name": "unstash",
+          "line": 187,
+          "args": [
+            "build"
+          ],
+          "category": "policy"
+        }
+      ]
+    },
+    {
+      "name": "Upload to S3",
+      "line": 192,
+      "agent": {
+        "kind": "label",
+        "label": "master",
+        "line": 184
+      },
+      "steps": [
+        {
+          "name": "log",
+          "line": 193,
+          "args": [
+            "info",
+            "STAGE: UPLOAD TO S3"
+          ],
+          "category": "unknown",
+          "receiver": "CommonFunctions"
+        },
+        {
+          "name": "upload",
+          "line": 194,
+          "args": [
+            "bucket",
+            "file"
+          ],
+          "category": "unknown",
+          "receiver": "MobileCoreFunctions",
+          "dynamic": true,
+          "variable_args": [
+            0,
+            1
+          ]
+        },
+        {
+          "name": "log",
+          "line": 195,
+          "args": [
+            "info",
+            "UPLOAD TO S3 COMPLETED"
+          ],
+          "category": "unknown",
+          "receiver": "CommonFunctions"
+        }
+      ]
+    },
+    {
+      "name": "Generate bucket URL",
+      "line": 201,
+      "agent": {
+        "kind": "label",
+        "label": "master",
+        "line": 184
+      },
+      "steps": [
+        {
+          "name": "log",
+          "line": 202,
+          "args": [
+            "info",
+            "STAGE: Generate bucket URL"
+          ],
+          "category": "unknown",
+          "receiver": "CommonFunctions"
+        },
+        {
+          "name": "publish",
+          "line": 203,
+          "args": [
+            "bucket",
+            "file"
+          ],
+          "category": "unknown",
+          "receiver": "MobileCoreFunctions",
+          "dynamic": true,
+          "variable_args": [
+            0,
+            1
+          ]
+        },
+        {
+          "name": "log",
+          "line": 204,
+          "args": [
+            "info",
+            "BUCKET LINK CREATED"
+          ],
+          "category": "unknown",
+          "receiver": "CommonFunctions"
+        }
+      ]
+    }
+  ],
+  "notes": [
+    "line 34: timestamps {} around stage(s) 'Git Checkout', 'NPM Install', 'Security Check', 'SonarQube', 'Unit Tests', 'NPM Build', ... dropped (native in GitHub Actions)",
+    "line 35: ansiColor {} around stage(s) 'Git Checkout', 'NPM Install', 'Security Check', 'SonarQube', 'Unit Tests', 'NPM Build', ... dropped (native in GitHub Actions)",
+    "line 90: dir {} around stage(s) 'NPM Install', 'Security Check', 'SonarQube', 'Unit Tests', 'NPM Build', 'Configure Plugin', ... re-applied inside each enclosed stage and segment",
+    "line 137: top-level if controls pipeline structure (dynamic): stage(s) 'Configure Plugin' kept as its nested steps, in an unnamed segment",
+    "line 158: dir {} around stage(s) 'Build', 'Integration Tests' re-applied inside each enclosed stage and segment",
+    "line 171: top-level if controls pipeline structure (dynamic): stage(s) 'Integration Tests' kept as its nested steps, in an unnamed segment",
+    "28 statement(s) outside any stage kept in source order in 6 unnamed segment(s) (from line(s) 8, 69, 82, 136, 168, 185)"
+  ]
+}

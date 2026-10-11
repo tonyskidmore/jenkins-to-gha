@@ -1,0 +1,57 @@
+# j2gha act variant (trace) of examples/119
+name: 'j2gha 119: dvsa/dvsa-mobile-pipeline ops/mobile_build.groovy (j2gha)'
+on:
+  push:
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  BRANCH_NAME: master
+  TAG_NAME: ''
+  CHANGE_ID: ''
+  GIT_BRANCH: origin/master
+  WORKSPACE: ${{ github.workspace }}
+  GIT_COMMIT: ${{ github.sha }}
+  GIT_URL: ${{ github.server_url }}/${{ github.repository }}.git
+defaults:
+  run:
+    shell: bash
+jobs:
+  main:
+    name: main, Git Checkout
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+    - name: deleteDir
+      id: s7
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"","step":"deleteDir"}'
+    - name: stash ${target_location}
+      id: s16
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"","step":"stash"}'
+  main-2:
+    name: main, NPM Install, Security Check, SonarQube, Unit Tests, NPM Build, Cordova Platform
+    needs: main
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+    - name: deleteDir
+      id: s18
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"","step":"deleteDir"}'
+    - name: unstash ${target_location}
+      id: s21
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"","step":"unstash"}'
+    - name: stash build
+      id: s55
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"","step":"stash"}'
+  main-3:
+    name: main, Upload to S3, Generate bucket URL
+    needs: main-2
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+    - name: deleteDir
+      id: s58
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"","step":"deleteDir"}'
+    - name: unstash build
+      id: s59
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"","step":"unstash"}'

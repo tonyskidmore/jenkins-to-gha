@@ -1,0 +1,857 @@
+{
+  "result": "success",
+  "json": {
+    "pipeline": {
+      "stages": [
+        {
+          "agent": {
+            "type": "node",
+            "arguments": [
+              {
+                "key": "label",
+                "value": {
+                  "isLiteral": false,
+                  "value": "\"${jenkinsCtrlNodeLabel} && ${account}\""
+                }
+              }
+            ]
+          },
+          "name": "Init",
+          "stages": [
+            {
+              "when": {
+                "conditions": [
+                  {
+                    "name": "expression",
+                    "arguments": [
+                      {
+                        "key": "scriptBlock",
+                        "value": {
+                          "isLiteral": true,
+                          "value": "params.action == 'apply'"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              "name": "Init: Check DB data completion",
+              "branches": [
+                {
+                  "name": "default",
+                  "steps": [
+                    {
+                      "name": "script",
+                      "arguments": [
+                        {
+                          "key": "scriptBlock",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "shouldLoadDbData = false\n              if (params.force_reload_data == 'true') {\n                log.info \"FORCE_RELOAD_DATA has been checked. Deleting existing DB tables\"\n                destroyExistingDbTables(params)\n              }\n              shouldLoadDbData = isAnyDbTableMissing(params)"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Init: TF deployment bucket",
+              "branches": [
+                {
+                  "name": "default",
+                  "steps": [
+                    {
+                      "name": "script",
+                      "arguments": [
+                        {
+                          "key": "scriptBlock",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "wrap([$class: 'BuildUser']) { buildUser = env.BUILD_USER }\n              Map output = getAwsFunctions().awsCli(\n                  \"aws sts get-caller-identity --query 'Account' --output text\"\n              )\n              if (output.status) {\n                failure(\"Failure while retrieving AWS account ID\")\n              }\n\n              accountId = output.stdout.trim()\n              projectBucketPrefix = \"${project}-${accountId}-${globalValuesFactory.AWS_REGION}-${params.environment}\"\n              String releaseTimestamp = sh(script: 'date +%Y%m%d%H%M%S', returnStdout: true).trim()\n              manifestVersion = \"${releaseTimestamp}_${env.BUILD_NUMBER}\"\n              currentBuild.description = \"CVR ${params.action} <br/> Branch: ${params.branch} <br/> Env: ${params.environment} <br/> Manifest: ${manifestVersion} <br/> ${buildUser}\"\n              if (!repoFunctionsFactory.checkoutGitRepo(\n                  gitlab.cvr_terraform.url,\n                  params.tf_branch,\n                  gitlab.cvr_terraform.name,\n                  globalValuesFactory.SSH_DEPLOY_GIT_CREDS_ID\n              )) {\n                failure(\"Failed to clone terraform repository ${gitlab.cvr_terraform.url}; branch: ${params.tf_branch}\")\n              }\n\n              dir(gitlab.cvr_terraform.name) {\n                if (getAwsFunctions().terraformScaffold(\n                    project,\n                    params.environment,\n                    group,\n                    globalValuesFactory.AWS_REGION,\n                    '',\n                    deploymentBucketJobName,\n                    env.BUILD_NUMBER,\n                    \"deployment-bucket\",\n                    bucketPrefix,\n                    params.action\n                )) {\n\n                  failure('Failed to run TF Scaffold on deployment-bucket component')\n                } else if (params.action != 'destroy') {\n                  s3DeploymentBucket = \"${projectBucketPrefix}-deployment\"\n                  log.info \"s3 deployment bucket used: ${s3DeploymentBucket}\"\n                } //if\n              } //dir"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "failFast": true
+            },
+            {
+              "when": {
+                "conditions": [
+                  {
+                    "name": "expression",
+                    "arguments": [
+                      {
+                        "key": "scriptBlock",
+                        "value": {
+                          "isLiteral": true,
+                          "value": "params.action != 'destroy'"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              "name": "Init: Verify environment",
+              "branches": [
+                {
+                  "name": "default",
+                  "steps": [
+                    {
+                      "name": "script",
+                      "arguments": [
+                        {
+                          "key": "scriptBlock",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "if (!repoFunctionsFactory.checkoutGitRepo(\n                  github.cvr_app.url,\n                  params.branch,\n                  github.cvr_app.name,\n                  globalValuesFactory.SSH_DEPLOY_GIT_CREDS_ID\n              )) {\n                failure(\"Failed to clone repository ${github.cvr_app.url}; branch: ${params.branch}\")\n              }\n\n              dir(github.cvr_app.name) {\n                String backendRevision = getOutputOrFail(\n                    repoFunctionsFactory.getRevision(\"${env.WORKSPACE}/${github.cvr_app.name}\", backendAppName),\n                    \"Failure while calculating ${backendAppName} revision\")\n                String frontendRevision = getOutputOrFail(\n                    repoFunctionsFactory.getRevision(\"${env.WORKSPACE}/${github.cvr_app.name}\", frontendAppName),\n                    \"Failure while calculating ${frontendAppName} revision\")\n                String commonsRevision = getOutputOrFail(\n                    repoFunctionsFactory.getRevision(\"${env.WORKSPACE}/${github.cvr_app.name}\", commonModuleName),\n                    \"Failure while calculating ${commonModuleName} revision\")\n                String dataUpdateRevision = getOutputOrFail(\n                  repoFunctionsFactory.getRevision(\"${env.WORKSPACE}/${github.cvr_app.name}\", dataUpdateModuleName),\n                  \"Failure while calculating ${dataUpdateModuleName} revision\")\n                boolean isNewCommonsRevision = true\n\n                def manifestsListing = getAwsFunctions().awsCli(\"aws s3 ls ${s3DeploymentBucket}/manifests/\")\n                if (!manifestsListing.status && manifestsListing.stdout) {\n                  def latestManifestFile = manifestsListing.stdout.split('\\n').sort().last().split()[3]\n                  log.info \"LATEST MANIFEST FILE: ${latestManifestFile}\"\n                  if (getAwsFunctions().awsCli(\n                      \"aws s3 cp s3://${s3DeploymentBucket}/manifests/${latestManifestFile} ${env.WORKSPACE}/manifests/manifest_${manifestVersion}.json\"\n                  ).status) {\n                    failure(\"Failure while copying latest manifest file\")\n                  }\n                  log.info \"Manifest file saved as ${env.WORKSPACE}/manifests/manifest_${manifestVersion}.json\"\n                  manifestContent = readJSON(file: \"${env.WORKSPACE}/manifests/manifest_${manifestVersion}.json\")\n\n                  isNewCommonsRevision = commonsRevision != manifestContent.common_version\n                  isNewVersion[frontendAppName] = getRevisionFromArtifactName(manifestContent.frontend_version) != frontendRevision ||\n                      isNewCommonsRevision\n                  isNewVersion[backendAppName] = getRevisionFromArtifactName(manifestContent.backend_version) != backendRevision ||\n                      isNewCommonsRevision\n                  isNewVersion[dataUpdateModuleName] = getRevisionFromArtifactName(manifestContent.data_update_version) != dataUpdateRevision ||\n                      isNewCommonsRevision\n                } else {\n                  log.info \"No manifests present in ${s3DeploymentBucket}/manifests/\"\n                  manifestContent = readJSON(text: \"{}\")\n                  isNewVersion[frontendAppName] = true\n                  isNewVersion[backendAppName] = true\n                  isNewVersion[dataUpdateModuleName] = true\n                } //if manifestsExist\n\n                if(isNewVersion[frontendAppName]) {\n                  manifestContent.put(\"frontend_version\", \"${project}-${frontendAppName}-${manifestVersion}_${frontendRevision}.zip\".toString())\n                }\n                if(isNewVersion[backendAppName]) {\n                  manifestContent.put(\"backend_version\", \"${project}-${backendAppName}-${manifestVersion}_${backendRevision}.zip\".toString())\n                }\n                if(isNewVersion[dataUpdateModuleName]) {\n                  manifestContent.put(\"data_update_version\", \"${project}-${dataUpdateModuleName}-${manifestVersion}_${dataUpdateRevision}.zip\".toString())\n                }\n                if(isNewCommonsRevision) {\n                  manifestContent.put(\"common_version\", commonsRevision.toString())\n                }\n              } //dir"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "failFast": true
+            }
+          ],
+          "failFast": true
+        },
+        {
+          "when": {
+            "conditions": [
+              {
+                "name": "expression",
+                "arguments": [
+                  {
+                    "key": "scriptBlock",
+                    "value": {
+                      "isLiteral": true,
+                      "value": "params.action == 'apply'"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "name": "Build",
+          "parallel": [
+            {
+              "agent": {
+                "type": "node",
+                "arguments": [
+                  {
+                    "key": "label",
+                    "value": {
+                      "isLiteral": false,
+                      "value": "\"${jenkinsBuildLabel} && ${account}\""
+                    }
+                  }
+                ]
+              },
+              "when": {
+                "conditions": [
+                  {
+                    "name": "expression",
+                    "arguments": [
+                      {
+                        "key": "scriptBlock",
+                        "value": {
+                          "isLiteral": true,
+                          "value": "isNewVersion[frontendAppName]"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              "name": "Build: CVR frontend",
+              "branches": [
+                {
+                  "name": "default",
+                  "steps": [
+                    {
+                      "name": "script",
+                      "arguments": [
+                        {
+                          "key": "scriptBlock",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "dir(github.cvr_app.name) {\n                deleteDir()\n              }\n\n              if (!repoFunctionsFactory.checkoutGitRepo(\n                  github.cvr_app.url,\n                  params.branch,\n                  github.cvr_app.name,\n                  globalValuesFactory.SSH_DEPLOY_GIT_CREDS_ID\n              )) {\n                failure(\"Failed to clone repository ${github.cvr_app.url}; branch: ${params.branch}\")\n              }\n\n              dir(github.cvr_app.name) {\n                String revision = getRevisionFromArtifactName(manifestContent.frontend_version)\n                log.info \"${frontendAppName} lambda revision to build: ${revision}\"\n                String feVersion = \"${manifestVersion}_${revision}\".toString()\n\n                if (buildPackage(frontendAppName, feVersion)) {\n                  failure(\"Failed to build CVR ${frontendAppName}\")\n                } else {\n                  frontendArtifact = \"${env.WORKSPACE}/${github.cvr_app.name}/${manifestContent.frontend_version}\"\n                } //if buildPackage\n              } //dir"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "agent": {
+                "type": "node",
+                "arguments": [
+                  {
+                    "key": "label",
+                    "value": {
+                      "isLiteral": false,
+                      "value": "\"${jenkinsBuildLabel} && ${account}\""
+                    }
+                  }
+                ]
+              },
+              "when": {
+                "conditions": [
+                  {
+                    "name": "expression",
+                    "arguments": [
+                      {
+                        "key": "scriptBlock",
+                        "value": {
+                          "isLiteral": true,
+                          "value": "isNewVersion[backendAppName]"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              "name": "Build: CVR backend",
+              "branches": [
+                {
+                  "name": "default",
+                  "steps": [
+                    {
+                      "name": "script",
+                      "arguments": [
+                        {
+                          "key": "scriptBlock",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "dir(github.cvr_app.name) {\n                deleteDir()\n              }\n\n              if (!repoFunctionsFactory.checkoutGitRepo(\n                  github.cvr_app.url,\n                  params.branch,\n                  github.cvr_app.name,\n                  globalValuesFactory.SSH_DEPLOY_GIT_CREDS_ID\n              )) {\n                failure(\"Failed to clone repository ${github.cvr_app.url}; branch: ${params.branch}\")\n              }\n\n              dir(github.cvr_app.name) {\n                String revision = getRevisionFromArtifactName(manifestContent.backend_version)\n                log.info \"${backendAppName} lambda revision to build: ${revision}\"\n                String backendVersion = \"${manifestVersion}_${revision}\".toString()\n\n                if (buildPackage(backendAppName, backendVersion)) {\n                  failure(\"Failed to build CVR ${backendAppName}\")\n                } else {\n                  backendArtifact = \"${env.WORKSPACE}/${github.cvr_app.name}/${manifestContent.backend_version}\"\n                } //if buildPackage\n              } //dir"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "agent": {
+                "type": "node",
+                "arguments": [
+                  {
+                    "key": "label",
+                    "value": {
+                      "isLiteral": false,
+                      "value": "\"${jenkinsBuildLabel} && ${account}\""
+                    }
+                  }
+                ]
+              },
+              "name": "Build: frontend assets",
+              "branches": [
+                {
+                  "name": "default",
+                  "steps": [
+                    {
+                      "name": "script",
+                      "arguments": [
+                        {
+                          "key": "scriptBlock",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "dir(github.front_end.name) {\n                deleteDir()\n              }\n\n              if (!repoFunctionsFactory.checkoutGitRepo(\n                  github.cvr_app.url,\n                  params.branch,\n                  github.cvr_app.name,\n                  globalValuesFactory.SSH_DEPLOY_GIT_CREDS_ID\n              )) {\n                failure(\"Failed to clone repository ${github.cvr_app.url}; branch: ${params.branch}\")\n              }\n\n              String assetsVersion = null\n              dir(github.cvr_app.name) {\n                dir(frontendAppName) {\n                  assetsVersion = readFile(\"assets.version\")\n                  if (!assetsVersion) {\n                    failure('Failed to read frontend assets version required')\n                  }\n                }\n              }\n              log.info \"Using assets ${assetsVersion}\"\n\n              if (!repoFunctionsFactory.checkoutGitRepo(\n                  github.front_end.url,\n                  assetsVersion,\n                  github.front_end.name,\n                  globalValuesFactory.SSH_DEPLOY_GIT_CREDS_ID,\n                  false\n              )) {\n                failure('Failed to checkout frontend assets repository')\n              } else {\n                if(fileExists(\"${github.front_end.name}/dist/assets\")) {\n                  assetsBasePath = \"${env.WORKSPACE}/${github.front_end.name}\"\n                  String revision = getOutputOrFail(\n                      repoFunctionsFactory.getRevision(github.front_end.name),\n                      \"Failure while calculating assets revision\")\n\n                  log.info \"Assets revision ver: ${revision}\"\n                  isNewVersion['assets'] = getRevisionFromArtifactName(manifestContent.assets_version) != revision\n\n                  if(!isNewVersion['assets']) {\n                    log.info \"Reusing assets version ${manifestContent.assets_version}\"\n                    if (getAwsFunctions().awsCli(\n                        \"aws s3 cp s3://${s3DeploymentBucket}/assets/${manifestContent.assets_version} ${assetsBasePath}/${manifestContent.assets_version}\"\n                    ).status) {\n                      failure(\"Failure while fetching ${manifestContent.assets_version}\")\n                    }\n\n                  } else {\n                    log.info \"Building assets revision: ${revision}\"\n                    String assetsVer = \"assets-${manifestVersion}_${revision}.zip\".toString()\n                    manifestContent.put(\"assets_version\", assetsVer)\n                    zip(dir: \"${assetsBasePath}/dist/assets\", zipFile: \"${assetsBasePath}/${manifestContent.assets_version}\")\n                  } // if isNewVersion\n                } // if fileExists\n              } //if checkout"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "agent": {
+                "type": "node",
+                "arguments": [
+                  {
+                    "key": "label",
+                    "value": {
+                      "isLiteral": false,
+                      "value": "\"${jenkinsBuildLabel} && ${account}\""
+                    }
+                  }
+                ]
+              },
+              "when": {
+                "conditions": [
+                  {
+                    "name": "expression",
+                    "arguments": [
+                      {
+                        "key": "scriptBlock",
+                        "value": {
+                          "isLiteral": true,
+                          "value": "isNewVersion[dataUpdateModuleName]"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              "name": "Build: CVR data update module",
+              "branches": [
+                {
+                  "name": "default",
+                  "steps": [
+                    {
+                      "name": "script",
+                      "arguments": [
+                        {
+                          "key": "scriptBlock",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "dir(github.cvr_app.name) {\n                deleteDir()\n              }\n\n              if (!repoFunctionsFactory.checkoutGitRepo(\n                  github.cvr_app.url,\n                  params.branch,\n                  github.cvr_app.name,\n                  globalValuesFactory.SSH_DEPLOY_GIT_CREDS_ID\n              )) {\n                failure(\"Failed to clone repository ${github.cvr_app.url}; branch: ${params.branch}\")\n              }\n\n              dir(github.cvr_app.name) {\n                String revision = getRevisionFromArtifactName(manifestContent.data_update_version)\n                log.info \"${dataUpdateModuleName} lambda revision to build: ${revision}\"\n                String dataUpdateVersion = \"${manifestVersion}_${revision}\".toString()\n\n                if (buildPackage(dataUpdateModuleName, dataUpdateVersion)) {\n                  failure(\"Failed to build CVR ${dataUpdateModuleName}\")\n                } else {\n                  dataUpdateArtifact = \"${env.WORKSPACE}/${github.cvr_app.name}/${manifestContent.data_update_version}\"\n                } //if buildPackage\n              } //dir"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "failFast": true
+        },
+        {
+          "name": "Deploy",
+          "stages": [
+            {
+              "agent": {
+                "type": "node",
+                "arguments": [
+                  {
+                    "key": "label",
+                    "value": {
+                      "isLiteral": false,
+                      "value": "\"${jenkinsBuildLabel} && ${account}\""
+                    }
+                  }
+                ]
+              },
+              "when": {
+                "conditions": [
+                  {
+                    "name": "expression",
+                    "arguments": [
+                      {
+                        "key": "scriptBlock",
+                        "value": {
+                          "isLiteral": true,
+                          "value": "params.action == 'apply' && isNewVersion[frontendAppName]"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              "name": "Deploy: Upload CVR frontend package",
+              "branches": [
+                {
+                  "name": "default",
+                  "steps": [
+                    {
+                      "name": "script",
+                      "arguments": [
+                        {
+                          "key": "scriptBlock",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "dir(github.cvr_app.name) {\n                if(!fileExists(frontendArtifact)) {\n                  failure('Unable to locate CVR frontend package')\n                }\n\n                log.info \"Found build file: \" + frontendArtifact\n                if(getAwsFunctions().copyFilesToS3(s3DeploymentBucket, '', frontendArtifact)) {\n                  failure(\"Failure while uploading ${frontendAppName} lambda package to s3\")\n                }\n              } //dir"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "agent": {
+                "type": "node",
+                "arguments": [
+                  {
+                    "key": "label",
+                    "value": {
+                      "isLiteral": false,
+                      "value": "\"${jenkinsBuildLabel} && ${account}\""
+                    }
+                  }
+                ]
+              },
+              "when": {
+                "conditions": [
+                  {
+                    "name": "expression",
+                    "arguments": [
+                      {
+                        "key": "scriptBlock",
+                        "value": {
+                          "isLiteral": true,
+                          "value": "params.action == 'apply'  && isNewVersion[backendAppName]"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              "name": "Deploy: Upload CVR backend package",
+              "branches": [
+                {
+                  "name": "default",
+                  "steps": [
+                    {
+                      "name": "script",
+                      "arguments": [
+                        {
+                          "key": "scriptBlock",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "dir(github.cvr_app.name) {\n                if(!fileExists(backendArtifact)) {\n                  failure('Unable to locate CVR backend package')\n                }\n\n                log.info \"Found build file: \" + backendArtifact\n                if(getAwsFunctions().copyFilesToS3(s3DeploymentBucket, '', backendArtifact)) {\n                  failure(\"Failure while uploading ${backendAppName} lambda package to s3\")\n                }\n              } //dir"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "agent": {
+                "type": "node",
+                "arguments": [
+                  {
+                    "key": "label",
+                    "value": {
+                      "isLiteral": false,
+                      "value": "\"${jenkinsBuildLabel} && ${account}\""
+                    }
+                  }
+                ]
+              },
+              "when": {
+                "conditions": [
+                  {
+                    "name": "expression",
+                    "arguments": [
+                      {
+                        "key": "scriptBlock",
+                        "value": {
+                          "isLiteral": true,
+                          "value": "params.action == 'apply'  && isNewVersion[dataUpdateModuleName]"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              "name": "Deploy: Upload CVR data update package",
+              "branches": [
+                {
+                  "name": "default",
+                  "steps": [
+                    {
+                      "name": "script",
+                      "arguments": [
+                        {
+                          "key": "scriptBlock",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "dir(github.cvr_app.name) {\n                if(!fileExists(dataUpdateArtifact)) {\n                  failure('Unable to locate CVR data update package')\n                }\n\n                log.info \"Found build file: \" + dataUpdateArtifact\n                if(getAwsFunctions().copyFilesToS3(s3DeploymentBucket, '', dataUpdateArtifact)) {\n                  failure(\"Failure while uploading ${dataUpdateModuleName} lambda package to s3\")\n                }\n              } //dir"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "agent": {
+                "type": "node",
+                "arguments": [
+                  {
+                    "key": "label",
+                    "value": {
+                      "isLiteral": false,
+                      "value": "\"${jenkinsCtrlNodeLabel} && ${account}\""
+                    }
+                  }
+                ]
+              },
+              "name": "Deploy: Terraform CVR",
+              "branches": [
+                {
+                  "name": "default",
+                  "steps": [
+                    {
+                      "name": "script",
+                      "arguments": [
+                        {
+                          "key": "scriptBlock",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "repoFunctionsFactory.checkoutGitRepo(gitlab.cvr_terraform.url, params.tf_branch, gitlab.cvr_terraform.name, globalValuesFactory.SSH_DEPLOY_GIT_CREDS_ID)\n              dir(gitlab.cvr_terraform.name) {\n                String frontendTfVar = \"-var lambda_frontend_s3_key=${manifestContent?.frontend_version}\"\n                String backendTfVar = \"-var lambda_backend_s3_key=${manifestContent?.backend_version}\"\n                String dataUpdateTfVar = \"-var lambda_data_update_s3_key=${manifestContent?.data_update_version}\"\n                String tfLambdaParams = \"${frontendTfVar} ${backendTfVar} ${dataUpdateTfVar}\".toString()\n                if (getAwsFunctions().terraformScaffold(\n                    project,\n                    params.environment,\n                    group,\n                    globalValuesFactory.AWS_REGION,\n                    tfLambdaParams,\n                    deploymentJobName,\n                    env.BUILD_NUMBER,\n                    \"cvr\",\n                    bucketPrefix,\n                    params.action\n                )) {\n\n                  failure('Failed to run TF Scaffold on cvr component')\n                } else if(params.action == 'apply') {\n                  //int, demo, etc envs with cloudfront\n                  String frontendCustomDomain = \"${params.environment}.dev.check-vehicle-recalls.service.gov.uk\"\n                  if (isDomainInCloudfront(frontendCustomDomain)) {\n                    recallsApiGwUrl = \"https://${frontendCustomDomain}\"\n                  } else {\n                    //dev envs with cloudfront\n                    String frontendCustomDevDomain = \"dev-${params.environment}.dev.check-vehicle-recalls.service.gov.uk\"\n                    if (isDomainInCloudfront(frontendCustomDevDomain)) {\n                      recallsApiGwUrl = \"https://${frontendCustomDevDomain}\"\n                    } else {\n                      //dev envs wothout cloudfront\n                      Map output = getAwsFunctions().awsCli(\n                          \"aws apigateway get-rest-apis --query='items[?name == `${frontendApigwName}`].id | [0]' | jq '.' -r\"\n                      )\n\n                      if (output.status || !output.stdout || output.stdout.trim() == 'None') {\n                        failure(\"Failed to fetch frontend gateway url\")\n                      }\n\n                      recallsApiGwUrl = \"https://${output.stdout.trim()}.execute-api.${globalValuesFactory.AWS_REGION}.amazonaws.com/${params.environment}\"\n                    }\n                  }\n\n                  s3AssetsBucket = \"${projectBucketPrefix}-assets\"\n\n                  println \"s3 assets bucket saved: ${s3AssetsBucket}\"\n                  println \"Recalls API gateway URL saved: ${recallsApiGwUrl}\"\n                }//if\n              } //dir"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "agent": {
+                "type": "node",
+                "arguments": [
+                  {
+                    "key": "label",
+                    "value": {
+                      "isLiteral": false,
+                      "value": "\"${jenkinsBuildLabel} && ${account}\""
+                    }
+                  }
+                ]
+              },
+              "when": {
+                "conditions": [
+                  {
+                    "name": "expression",
+                    "arguments": [
+                      {
+                        "key": "scriptBlock",
+                        "value": {
+                          "isLiteral": true,
+                          "value": "params.action == 'apply'"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              "name": "Deploy: Upload CVR frontend assets",
+              "branches": [
+                {
+                  "name": "default",
+                  "steps": [
+                    {
+                      "name": "script",
+                      "arguments": [
+                        {
+                          "key": "scriptBlock",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "if(isNewVersion['assets']) {\n                log.info \"Deploying new assets ${manifestContent.assets_version}\"\n                dir(github.front_end.name) {\n                  if (fileExists(\"${assetsBasePath}/dist/assets\")) {\n                    if (getAwsFunctions().copyFilesToS3(s3AssetsBucket, 'assets', \"${assetsBasePath}/dist/assets/\", \"--recursive\")) {\n                      failure(\"Failure while uploading assets to s3\")\n                    }\n\n                    if (getAwsFunctions().copyFilesToS3(s3DeploymentBucket, 'assets/', \"${assetsBasePath}/${manifestContent.assets_version}\")) {\n                      failure(\"Failure while uploading assets package to s3\")\n                    }\n                  } else {\n                    failure(\"Failed to locate compiled assets\")\n                  }\n                } //dir\n              } else {\n                log.info \"Reusing assets ${manifestContent.assets_version}\"\n                dir('tmp') {\n                  unzip zipFile: \"${assetsBasePath}/${manifestContent.assets_version}\"\n                  if (getAwsFunctions().copyFilesToS3(s3AssetsBucket, 'assets', \".\", \"--recursive\")) {\n                    failure(\"Failure while uploading assets to s3 assets bucket\")\n                  }\n                  deleteDir()\n                } //dir\n              } //if isNewVersion\n\n              //Deploy public documents and error pages\n              if (!repoFunctionsFactory.checkoutGitRepo(\n                  github.cvr_app.url,\n                  params.branch,\n                  github.cvr_app.name,\n                  globalValuesFactory.SSH_DEPLOY_GIT_CREDS_ID\n              )) {\n                failure(\"Failed to clone repository ${github.cvr_app.url}; branch: ${params.branch}\")\n              }\n              dir(\"${github.cvr_app.name}/documents\") {\n                if (getAwsFunctions().copyFilesToS3(s3AssetsBucket, 'documents', \".\", \"--recursive\")) {\n                  failure(\"Failure while uploading public documents to s3 assets bucket\")\n                }\n              }\n              dir(\"${github.cvr_app.name}/errorpages\") {\n                if (getAwsFunctions().copyFilesToS3(s3AssetsBucket, 'errorpages', \".\", \"--recursive\")) {\n                  failure(\"Failure while uploading error pages to s3 assets bucket\")\n                }\n              }"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "agent": {
+                "type": "node",
+                "arguments": [
+                  {
+                    "key": "label",
+                    "value": {
+                      "isLiteral": false,
+                      "value": "\"${jenkinsCtrlNodeLabel} && ${account}\""
+                    }
+                  }
+                ]
+              },
+              "when": {
+                "conditions": [
+                  {
+                    "name": "expression",
+                    "arguments": [
+                      {
+                        "key": "scriptBlock",
+                        "value": {
+                          "isLiteral": true,
+                          "value": "params.action == 'apply'"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              "name": "Deploy: Manifest",
+              "branches": [
+                {
+                  "name": "default",
+                  "steps": [
+                    {
+                      "name": "script",
+                      "arguments": [
+                        {
+                          "key": "scriptBlock",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "writeJSON(\n                  file: \"${env.WORKSPACE}/manifests/manifest_${manifestVersion}.json\",\n                  json: manifestContent\n              )\n              if(!fileExists(\"${env.WORKSPACE}/manifests/manifest_${manifestVersion}.json\")) {\n                failure(\"Error while trying to create manifest file\")\n              }\n\n              if(getAwsFunctions().copyFilesToS3(\"${s3DeploymentBucket}\", \"manifests/\", \"${env.WORKSPACE}/manifests/manifest_${manifestVersion}.json\")) {\n                failure(\"Failure while uploading manifest to s3\")\n              }"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          "failFast": true
+        },
+        {
+          "agent": {
+            "type": "node",
+            "arguments": [
+              {
+                "key": "label",
+                "value": {
+                  "isLiteral": false,
+                  "value": "\"${jenkinsBuildLabel} && ${account}\""
+                }
+              }
+            ]
+          },
+          "when": {
+            "conditions": [
+              {
+                "name": "expression",
+                "arguments": [
+                  {
+                    "key": "scriptBlock",
+                    "value": {
+                      "isLiteral": true,
+                      "value": "params.action == 'apply' && shouldLoadDbData"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "name": "Load test data to DB",
+          "branches": [
+            {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "script",
+                  "arguments": [
+                    {
+                      "key": "scriptBlock",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "if (!repoFunctionsFactory.checkoutGitRepo(\n              github.cvr_app.url,\n              params.branch,\n              github.cvr_app.name,\n              globalValuesFactory.SSH_DEPLOY_GIT_CREDS_ID\n          )) {\n            failure(\"Failed to clone repository ${github.cvr_app.url}; branch: ${params.branch}\")\n          }\n\n          dir (\"${github.cvr_app.name}\") {\n            if (sh (\n                script: \"npm run build:${databaseTestLoaderModuleName}\",\n                returnStatus: true\n            )) {\n              failure(\"Failed to install database loader script. Check the logs above. Vulnerable dependencies may be one of the causes.\")\n            }\n\n            dir (\"${databaseTestLoaderModuleName}\") {\n              if (sh(\n                  script: \"AWS_REGION=${globalValuesFactory.AWS_REGION} ENVIRONMENT=${params.environment} npm run loadDevData\",\n                  returnStatus: true\n              )) {\n                failure(\"Failed to load data to the database.\")\n              }\n            }\n          } //dir"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "agent": {
+            "type": "node",
+            "arguments": [
+              {
+                "key": "label",
+                "value": {
+                  "isLiteral": false,
+                  "value": "\"${jenkinsCtrlNodeLabel} && ${account}\""
+                }
+              }
+            ]
+          },
+          "when": {
+            "conditions": [
+              {
+                "name": "expression",
+                "arguments": [
+                  {
+                    "key": "scriptBlock",
+                    "value": {
+                      "isLiteral": true,
+                      "value": "params.action == 'apply' && params.skip_tests != 'true'"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "name": "Tests",
+          "branches": [
+            {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "script",
+                  "arguments": [
+                    {
+                      "key": "scriptBlock",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "log.info \"Warm-up lambda\"\n          sh \"curl ${recallsApiGwUrl}${warmupPath} --output /dev/null\"\n          if (!repoFunctionsFactory.checkoutGitRepo(\n              github.cvr_app.url,\n              params.branch,\n              github.cvr_app.name,\n              globalValuesFactory.SSH_DEPLOY_GIT_CREDS_ID)) {\n\n            fail(\"Failed to checkout selenium tests from ${github.cvr_app.url}\")\n          } else {\n            dir(github.cvr_app.name + \"/selenium\") {\n              Integer testStatus = sh(\n                      returnStatus: true,\n                      script: \"\"\"\n                        mkdir -p ./${seleniumScreenshotsDir}\n\n                        ./gradlew clean build \\\n                          -Dtest.baseUrl=${recallsApiGwUrl}\\\n                          -Dtest.platform=linux \\\n                          -Dtest.browserName=firefox \\\n                          -Dtest.gridEnabled=selenium \\\n                          -Dtest.javascript.enabled=yes \\\n                          -Dtest.gridUrl=${params.selenium_hub_address} \\\n                          -Dtest.screenshots.error.enabled=yes \\\n                          -Dtest.screenshots.error.folder=./${seleniumScreenshotsDir}\n                      \"\"\")\n\n              publishHTML target: [\n                      alwaysLinkToLastBuild: false,\n                      keepAll: true,\n                      allowMissing: false,\n                      reportDir   : \"./build/reports/tests/selenium\",\n                      reportFiles : 'index.html',\n                      reportName  : \"Selenium Report #${env.BUILD_NUMBER}\"\n              ]\n\n              if (testStatus != 0) {\n\n                archiveArtifacts(\n                        artifacts: \"${seleniumScreenshotsDir}/**\",\n                        onlyIfSuccessful: false,\n                        allowEmptyArchive: true,\n                )\n\n                failure(\"Selenium failure. Status code: ${testStatus}\")\n              } // if testStatus\n            } //dir\n          } //else"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "post": {
+        "conditions": [
+          {
+            "condition": "always",
+            "branch": {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "node",
+                  "arguments": {
+                    "isLiteral": false,
+                    "value": "\"${jenkinsBuildLabel} && ${account}\""
+                  },
+                  "children": [
+                    {
+                      "name": "script",
+                      "arguments": [
+                        {
+                          "key": "scriptBlock",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "if (params.clean_workspace == \"true\") {\n            if (fileExists(github.front_end.name)) {\n              dir(github.front_end.name) {\n                deleteDir()\n              }\n            }\n            if (fileExists(github.cvr_app.name)) {\n              dir(github.cvr_app.name) {\n                deleteDir()\n              }\n            }\n          } //if clean_workspace"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "node",
+                  "arguments": {
+                    "isLiteral": false,
+                    "value": "\"${jenkinsCtrlNodeLabel} && ${account}\""
+                  },
+                  "children": [
+                    {
+                      "name": "script",
+                      "arguments": [
+                        {
+                          "key": "scriptBlock",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "if (params.clean_workspace == \"true\") {\n            if (fileExists(gitlab.cvr_terraform.name)) {\n              dir(gitlab.cvr_terraform.name) {\n                deleteDir()\n              }\n            }\n          } //if clean_workspace"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "condition": "failure",
+            "branch": {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "script",
+                  "arguments": [
+                    {
+                      "key": "scriptBlock",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "if (monitoredEnvironments.contains(params.environment)){\n          slackSend(\n              color: 'danger',\n              message: \"Job ${env.JOB_NAME} / ${env.BUILD_NUMBER} | FAILURE | Link <${env.BUILD_URL} | here>\",\n              channel: \"cvr-jenkins-alerts\"\n          )\n        }\n        log.fatal('Failure')"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "agent": {
+        "type": "none"
+      },
+      "options": {
+        "options": [
+          {
+            "name": "ansiColor",
+            "arguments": [
+              {
+                "isLiteral": true,
+                "value": "xterm"
+              }
+            ]
+          },
+          {
+            "name": "timestamps",
+            "arguments": []
+          },
+          {
+            "name": "timeout",
+            "arguments": [
+              {
+                "key": "time",
+                "value": {
+                  "isLiteral": true,
+                  "value": 1
+                }
+              },
+              {
+                "key": "unit",
+                "value": {
+                  "isLiteral": true,
+                  "value": "HOURS"
+                }
+              }
+            ]
+          },
+          {
+            "name": "buildDiscarder",
+            "arguments": [
+              {
+                "name": "logRotator",
+                "arguments": [
+                  {
+                    "key": "daysToKeepStr",
+                    "value": {
+                      "isLiteral": true,
+                      "value": "7"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "disableConcurrentBuilds",
+            "arguments": []
+          }
+        ]
+      }
+    }
+  }
+}

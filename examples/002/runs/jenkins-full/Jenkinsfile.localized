@@ -1,0 +1,316 @@
+#!/usr/bin/env groovy
+
+/*
+ * This Jenkinsfile is intended to run on https://ci.jenkins.io and may fail anywhere else.
+ * It makes assumptions about plugins being installed, labels mapping to nodes that can build what is needed, etc.
+ */
+
+def failFast = false
+def numBuildToKeep = env.CHANGE_ID ? '10' : '50'
+
+properties([
+  buildDiscarder(logRotator(numToKeepStr: numBuildToKeep, artifactNumToKeepStr: '3')),
+  disableConcurrentBuilds(abortPrevious: true)
+])
+
+def axes = [
+  platforms: ['linux', 'windows'],
+  jdks: [21, 25],
+]
+
+stage('Record build') {
+  retry(conditions: [kubernetesAgent(handleNonKubernetes: true), nonresumable()], count: 2) {
+    node('built-in') {
+      infra.checkoutSCM()
+
+      /*
+       * Record the primary build for this CI job.
+       */
+      withCredentials([string(credentialsId: 'launchable-jenkins-jenkins', variable: 'LAUNCHABLE_TOKEN')]) {
+        /*
+         * TODO Add the commits of the transitive closure of the Jenkins WAR under test to this build.
+         */
+        // Replace URL encoded characters with '-' because Launchable rejects '%2F' in build name
+        def launchableName = env.BUILD_TAG.replaceAll('(%[0-9A-Fa-f]{2})+', '-')
+        sh "launchable verify && launchable record build --name ${launchableName} --source jenkinsci/jenkins=."
+        axes.values().combinations {
+          def (platform, jdk) = it
+          if (platform == 'windows' && jdk != axes.jdks.last()) {
+            return // unnecessary use of hardware
+          }
+          def sessionFile = "launchable-session-${platform}-jdk${jdk}.txt"
+          sh "launchable record session --build ${launchableName} --flavor platform=${platform} --flavor jdk=${jdk} >${sessionFile}"
+          stash name: sessionFile, includes: sessionFile
+        }
+      }
+
+      /*
+       * Record commits for use in downstream CI jobs that may consume this artifact.
+       */
+      withCredentials([string(credentialsId: 'launchable-jenkins-acceptance-test-harness', variable: 'LAUNCHABLE_TOKEN')]) {
+        sh 'launchable verify && launchable record commit'
+      }
+      withCredentials([string(credentialsId: 'launchable-jenkins-bom', variable: 'LAUNCHABLE_TOKEN')]) {
+        sh 'launchable verify && launchable record commit'
+      }
+    }
+  }
+}
+
+def builds = [:]
+
+axes.values().combinations {
+  def (platform, jdk) = it
+  if (platform == 'windows' && jdk != axes.jdks.last()) {
+    return // unnecessary use of hardware
+  }
+  builds["${platform}-jdk${jdk}"] = {
+    // see https://github.com/jenkins-infra/documentation/blob/master/ci.adoc#node-labels for information on what node types are available
+    def agentContainerLabel = 'maven-' + jdk
+    if (platform == 'windows') {
+      agentContainerLabel += '-windows'
+    }
+    agentContainerLabel += '-nonspot'
+    retry(conditions: [kubernetesAgent(handleNonKubernetes: true), nonresumable()], count: 2) {
+      node('built-in') {
+        // First stage is actually checking out the source. Since we're using Multibranch
+        // currently, we can use "checkout scm".
+        stage("${platform.capitalize()} - JDK ${jdk} - Checkout") {
+          infra.checkoutSCM()
+        }
+
+        def tmpDir = pwd(tmp: true)
+        def changelistF = "${tmpDir}/changelist"
+        def m2repo = "${tmpDir}/m2repo"
+        def session
+
+        // Now run the actual build.
+        stage("${platform.capitalize()} - JDK ${jdk} - Build / Test") {
+          timeout(time: 6, unit: 'HOURS') {
+            dir(tmpDir) {
+              def sessionFile = "launchable-session-${platform}-jdk${jdk}.txt"
+              unstash sessionFile
+              session = readFile(sessionFile).trim()
+            }
+            def mavenOptions = [
+              '-Pdebug',
+              '-Penable-jacoco',
+              '--update-snapshots',
+              "-Dmaven.repo.local=$m2repo",
+              '-Dmaven.test.failure.ignore',
+              '-DforkCount=2',
+              '-Dspotbugs.failOnError=false',
+              '-Dcheckstyle.failOnViolation=false',
+              '-Dset.changelist',
+              'help:evaluate',
+              '-Dexpression=changelist',
+              "-Doutput=$changelistF",
+              'clean',
+              'install',
+            ]
+            if (env.CHANGE_ID && !pullRequest.labels.contains('full-test')) {
+              def excludesFile
+              def target = platform == 'windows' ? '30%' : '100%'
+              withCredentials([string(credentialsId: 'launchable-jenkins-jenkins', variable: 'LAUNCHABLE_TOKEN')]) {
+                if (isUnix()) {
+                  excludesFile = "${tmpDir}/excludes.txt"
+                  sh "launchable verify && launchable subset --session ${session} --target ${target} --get-tests-from-previous-sessions --output-exclusion-rules maven >${excludesFile}"
+                } else {
+                  excludesFile = "${tmpDir}\\excludes.txt"
+                  bat "launchable verify && launchable subset --session ${session} --target ${target}% --get-tests-from-previous-sessions --output-exclusion-rules maven >${excludesFile}"
+                }
+              }
+              mavenOptions.add(0, "-Dsurefire.excludesFile=${excludesFile}")
+            }
+            withChecks(name: 'Tests', includeStage: true) {
+              realtimeJUnit(healthScaleFactor: 20.0, testResults: '*/target/surefire-reports/*.xml,target/vitest-reports/*.xml') {
+                infra.runMaven(mavenOptions, jdk)
+                if (isUnix()) {
+                  sh 'git add . && git diff --exit-code HEAD'
+                }
+              }
+            }
+          }
+        }
+
+        // Once we've built, archive the artifacts and the test results.
+        stage("${platform.capitalize()} - JDK ${jdk} - Publish") {
+          archiveArtifacts allowEmptyArchive: true, artifacts: '**/target/surefire-reports/*.dumpstream'
+          // cli and war have been migrated to JUnit 5
+          if (failFast && currentBuild.result == 'UNSTABLE') {
+            error 'There were test failures; halting early'
+          }
+          if (platform == 'linux' && jdk == axes['jdks'][0]) {
+            def folders = env.JOB_NAME.split('/')
+            if (folders.length > 1) {
+              discoverGitReferenceBuild(scm: folders[1])
+            }
+            recordCoverage(tools: [[parser: 'JACOCO', pattern: 'coverage/target/site/jacoco-aggregate/jacoco.xml']],
+            sourceCodeRetention: 'MODIFIED', sourceDirectories: [[path: 'core/src/main/java']])
+
+            echo "Recording static analysis results for '${platform.capitalize()}'"
+            recordIssues(
+                enabledForFailure: true,
+                tools: [java()],
+                filters: [excludeFile('.*Assert.java')],
+                sourceCodeEncoding: 'UTF-8',
+                skipBlames: true,
+                trendChartType: 'TOOLS_ONLY'
+                )
+            recordIssues(
+                enabledForFailure: true,
+                tools: [javaDoc()],
+                filters: [excludeFile('.*Assert.java')],
+                sourceCodeEncoding: 'UTF-8',
+                skipBlames: true,
+                trendChartType: 'TOOLS_ONLY',
+                qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]]
+            )
+            recordIssues([tool: spotBugs(pattern: '**/target/spotbugsXml.xml'),
+              sourceCodeEncoding: 'UTF-8',
+              skipBlames: true,
+              trendChartType: 'TOOLS_ONLY',
+              qualityGates: [[threshold: 1, type: 'NEW', unstable: true]]])
+            recordIssues([tool: checkStyle(pattern: '**/target/checkstyle-result.xml'),
+              sourceCodeEncoding: 'UTF-8',
+              skipBlames: true,
+              trendChartType: 'TOOLS_ONLY',
+              qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]]])
+            recordIssues([tool: esLint(pattern: '**/target/eslint-warnings.xml'),
+              sourceCodeEncoding: 'UTF-8',
+              skipBlames: true,
+              trendChartType: 'TOOLS_ONLY',
+              qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]]])
+            recordIssues([tool: styleLint(pattern: '**/target/stylelint-warnings.xml'),
+              sourceCodeEncoding: 'UTF-8',
+              skipBlames: true,
+              trendChartType: 'TOOLS_ONLY',
+              qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]]])
+            if (failFast && currentBuild.result == 'UNSTABLE') {
+              error 'Static analysis quality gates not passed; halting early'
+            }
+            def changelist = readFile(changelistF)
+            dir(m2repo) {
+              archiveArtifacts(
+                  artifacts: "**/*$changelist/*$changelist*",
+                  excludes: '**/*.lastUpdated,**/jenkins-coverage*/,**/jenkins-test*/',
+                  allowEmptyArchive: true, // in case we forgot to reincrementalify
+                  fingerprint: true
+                  )
+            }
+          }
+          withCredentials([string(credentialsId: 'launchable-jenkins-jenkins', variable: 'LAUNCHABLE_TOKEN')]) {
+            if (isUnix()) {
+              sh "launchable verify && launchable record tests --session ${session} --flavor platform=${platform} --flavor jdk=${jdk} maven './**/target/surefire-reports'"
+            } else {
+              bat "launchable verify && launchable record tests --session ${session} --flavor platform=${platform} --flavor jdk=${jdk} maven ./**/target/surefire-reports"
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+def athAxes = [
+  platforms: ['linux'],
+  jdks: [21],
+  browsers: ['firefox'],
+]
+athAxes.values().combinations {
+  def (platform, jdk, browser) = it
+  builds["ath-${platform}-jdk${jdk}-${browser}"] = {
+    retry(conditions: [agent(), nonresumable()], count: 2) {
+      node('built-in') {
+        // Just to be safe
+        deleteDir()
+        checkout scm
+
+        withChecks(name: 'Tests', includeStage: true) {
+          j2ghaBody {
+            sh "bash ath.sh ${jdk} ${browser}"
+          }
+          junit testResults: 'target/ath-reports/TEST-*.xml', testDataPublishers: [[$class: 'AttachmentPublisher']]
+        }
+        /*
+         * Currently disabled, as the fact that this is a manually created subset will confuse Launchable,
+         * which expects this to be a full build. When we implement subsetting, this can be re-enabled using
+         * Launchable's subset rather than our own.
+         */
+        /*
+         withCredentials([string(credentialsId: 'launchable-jenkins-acceptance-test-harness', variable: 'LAUNCHABLE_TOKEN')]) {
+         sh "launchable verify && launchable record tests --no-build --flavor platform=${platform} --flavor jdk=${jdk} --flavor browser=${browser} maven './target/ath-reports'"
+         }
+         */
+      }
+    }
+  }
+}
+
+builds.failFast = failFast
+parallel builds
+infra.maybePublishIncrementals()
+
+// ---- j2gha localisation block (full mode) - generated, not part of the original pipeline ----
+@groovy.transform.Field def scm = [$class: 'GitSCM', branches: [[name: "d076aeb66b68af42c61568676bf29dba9ae3cee8"]], extensions: [[$class: 'CloneOption', shallow: false, noTags: true]], userRemoteConfigs: [[url: "https://github.com/jenkinsci/jenkins.git"]]]
+class J2ghaAny implements Serializable { @NonCPS def propertyMissing(String n) { new J2ghaAny() }; @NonCPS def methodMissing(String n, Object a) { new J2ghaAny() }; @NonCPS String toString() { 'j2gha-stub' }; @NonCPS boolean asBoolean() { true }; @NonCPS boolean isEmpty() { false }; @NonCPS def getAt(Object k) { new J2ghaAny() }; @NonCPS Iterator iterator() { [].iterator() } }
+class J2ghaConfig extends LinkedHashMap { @NonCPS Object get(Object k) { super.containsKey(k) ? super.get(k) : new J2ghaAny() }; @NonCPS def methodMissing(String n, Object a) { new J2ghaAny() } }
+def j2ghaTrace(String kind) {
+  steps.echo('J2GHA-TRACE ' + groovy.json.JsonOutput.toJson([stage: (env.STAGE_NAME ?: ''), step: kind]))
+}
+def build(Object... a) { j2ghaTrace('build'); return [result: 'SUCCESS', number: 1, currentResult: 'SUCCESS', absoluteUrl: '', getResult: { -> 'SUCCESS' }, buildVariables: [:]] }
+def mail(Object... a) { j2ghaTrace('mail'); return null }
+def emailext(Object... a) { j2ghaTrace('emailext'); return null }
+def slackSend(Object... a) { j2ghaTrace('slackSend'); return null }
+def office365ConnectorSend(Object... a) { j2ghaTrace('office365ConnectorSend'); return null }
+def githubNotify(Object... a) { j2ghaTrace('githubNotify'); return null }
+def setGitHubPullRequestStatus(Object... a) { j2ghaTrace('setGitHubPullRequestStatus'); return null }
+def publishChecks(Object... a) { j2ghaTrace('publishChecks'); return null }
+def s3Upload(Object... a) { j2ghaTrace('s3Upload'); return null }
+def s3Download(Object... a) { j2ghaTrace('s3Download'); return null }
+def copyArtifacts(Object... a) { j2ghaTrace('copyArtifacts'); return null }
+def waitForQualityGate(Object... a) { j2ghaTrace('waitForQualityGate'); return null }
+def recordIssues(Object... a) { j2ghaTrace('recordIssues'); return null }
+def publishCoverage(Object... a) { j2ghaTrace('publishCoverage'); return null }
+def recordCoverage(Object... a) { j2ghaTrace('recordCoverage'); return null }
+def jacoco(Object... a) { j2ghaTrace('jacoco'); return null }
+def cobertura(Object... a) { j2ghaTrace('cobertura'); return null }
+def milestone(Object... a) { return null }
+def parameters(Object... a) { return [j2ghaParameters: (a && a[0] instanceof List) ? a[0] : []] }
+@NonCPS def j2ghaParameterDefs(Object props) { (props instanceof List ? props : []).findAll { it instanceof Map && it.containsKey('j2ghaParameters') }.collectMany { it.j2ghaParameters }.findAll { it != null && !(it instanceof J2ghaAny) } }
+def properties(Object... a) { def defs = j2ghaParameterDefs(a ? a[0] : null); if (defs) { steps.properties([steps.parameters(defs)]) }; return null }
+def buildDiscarder(Object... a) { return null }
+def checkout(Object... a) { def r = a.length == 1 ? steps.checkout(a[0]) : steps.checkout(a); if (r instanceof Map && env.GIT_BRANCH) { r.GIT_BRANCH = env.GIT_BRANCH }; return r }
+def withSonarQubeEnv(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withAWS(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withKubeConfig(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withVault(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def azureCLI(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def container(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def sshagent(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withDockerRegistry(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def configFileProvider(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withMaven(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withGradle(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withPythonEnv(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def podTemplate(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def wrap(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withDockerContainer(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def discoverGitReferenceBuild(Object... a) { j2ghaTrace('discoverGitReferenceBuild'); def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : new J2ghaAny() }
+def realtimeJUnit(Object... a) { j2ghaTrace('realtimeJUnit'); def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : new J2ghaAny() }
+def withChecks(Object... a) { j2ghaTrace('withChecks'); def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : new J2ghaAny() }
+def retry(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def checkStyle(Object... a) { return new J2ghaAny() }
+def esLint(Object... a) { return new J2ghaAny() }
+def excludeFile(Object... a) { return new J2ghaAny() }
+def java(Object... a) { return new J2ghaAny() }
+def javaDoc(Object... a) { return new J2ghaAny() }
+def kubernetesAgent(Object... a) { return new J2ghaAny() }
+def logRotator(Object... a) { return new J2ghaAny() }
+def nonresumable(Object... a) { return new J2ghaAny() }
+def spotBugs(Object... a) { return new J2ghaAny() }
+def styleLint(Object... a) { return new J2ghaAny() }
+@groovy.transform.Field def infra = new J2ghaAny()
+def j2ghaBody(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : new J2ghaAny() }
+def node(Object... a) { def body = a[-1]; return steps.node('built-in') { body() } }
+// ---- end of j2gha localisation block ----

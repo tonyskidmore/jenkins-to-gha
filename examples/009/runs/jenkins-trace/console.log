@@ -1,0 +1,598 @@
+[2026-10-10T08:05:20.477Z] Started by user admin
+[2026-10-10T08:05:20.659Z] [Pipeline] Start of Pipeline
+[2026-10-10T08:05:20.806Z] [Pipeline] node
+[2026-10-10T08:05:20.818Z] Running on Jenkins in /var/jenkins_home/workspace/ex-009-trace
+[2026-10-10T08:05:20.863Z] [Pipeline] {
+[2026-10-10T08:05:20.897Z] [Pipeline] stage
+[2026-10-10T08:05:20.903Z] [Pipeline] { (Declarative: Checkout SCM)
+[2026-10-10T08:05:20.951Z] [Pipeline] echo
+[2026-10-10T08:05:20.956Z] J2GHA-TRACE {"stage":"Declarative: Checkout SCM","step":"checkout"}
+[2026-10-10T08:05:20.961Z] [Pipeline] }
+[2026-10-10T08:05:20.991Z] [Pipeline] // stage
+[2026-10-10T08:05:21.024Z] [Pipeline] withEnv
+[2026-10-10T08:05:21.030Z] [Pipeline] {
+[2026-10-10T08:05:21.069Z] [Pipeline] stage
+[2026-10-10T08:05:21.075Z] [Pipeline] { (checkout)
+[2026-10-10T08:05:21.106Z] [Pipeline] script
+[2026-10-10T08:05:21.113Z] [Pipeline] {
+[2026-10-10T08:05:21.134Z] [Pipeline] }
+[2026-10-10T08:05:21.163Z] [Pipeline] // script
+[2026-10-10T08:05:21.184Z] [Pipeline] dir
+[2026-10-10T08:05:21.184Z] Running in /var/jenkins_home/workspace/ex-009-trace/hpx_3
+[2026-10-10T08:05:21.189Z] [Pipeline] {
+[2026-10-10T08:05:21.211Z] [Pipeline] echo
+[2026-10-10T08:05:21.217Z] J2GHA-TRACE {"stage":"checkout","step":"checkout"}
+[2026-10-10T08:05:21.238Z] [Pipeline] echo
+[2026-10-10T08:05:21.245Z] J2GHA-TRACE {"stage":"checkout","step":"echo"}
+[2026-10-10T08:05:21.256Z] [Pipeline] echo
+[2026-10-10T08:05:21.261Z] Running 3 on http://localhost:8080/ (base directory: /var/jenkins_home/workspace/ex-009-trace)
+[2026-10-10T08:05:21.266Z] [Pipeline] }
+[2026-10-10T08:05:21.296Z] [Pipeline] // dir
+[2026-10-10T08:05:21.312Z] [Pipeline] }
+[2026-10-10T08:05:21.342Z] [Pipeline] // stage
+[2026-10-10T08:05:21.375Z] [Pipeline] stage
+[2026-10-10T08:05:21.382Z] [Pipeline] { (build)
+[2026-10-10T08:05:21.421Z] [Pipeline] parallel
+[2026-10-10T08:05:21.611Z] [Pipeline] { (Branch: Matrix - configuration_name = 'gcc-12', build_type = 'Release')
+[2026-10-10T08:05:21.618Z] [Pipeline] { (Branch: Matrix - configuration_name = 'gcc-13', build_type = 'Release')
+[2026-10-10T08:05:21.623Z] [Pipeline] { (Branch: Matrix - configuration_name = 'gcc-14', build_type = 'Release')
+[2026-10-10T08:05:21.629Z] [Pipeline] { (Branch: Matrix - configuration_name = 'gcc-15', build_type = 'Release')
+[2026-10-10T08:05:21.634Z] [Pipeline] { (Branch: Matrix - configuration_name = 'clang-17-apex', build_type = 'Release')
+[2026-10-10T08:05:21.638Z] [Pipeline] { (Branch: Matrix - configuration_name = 'clang-16', build_type = 'Release')
+[2026-10-10T08:05:21.643Z] [Pipeline] { (Branch: Matrix - configuration_name = 'clang-17', build_type = 'Release')
+[2026-10-10T08:05:21.648Z] [Pipeline] { (Branch: Matrix - configuration_name = 'clang-18', build_type = 'Release')
+[2026-10-10T08:05:21.652Z] [Pipeline] { (Branch: Matrix - configuration_name = 'clang-19', build_type = 'Release')
+[2026-10-10T08:05:21.657Z] [Pipeline] { (Branch: Matrix - configuration_name = 'clang-20', build_type = 'Release')
+[2026-10-10T08:05:21.662Z] [Pipeline] { (Branch: Matrix - configuration_name = 'gcc-12-cuda-12', build_type = 'Release')
+[2026-10-10T08:05:21.667Z] [Pipeline] { (Branch: Matrix - configuration_name = 'gcc-12-cuda-12-dgx', build_type = 'Release')
+[2026-10-10T08:05:21.671Z] [Pipeline] { (Branch: Matrix - configuration_name = 'hipcc', build_type = 'Release')
+[2026-10-10T08:05:21.676Z] [Pipeline] { (Branch: Matrix - configuration_name = 'gcc-12', build_type = 'Debug')
+[2026-10-10T08:05:21.682Z] [Pipeline] { (Branch: Matrix - configuration_name = 'gcc-13', build_type = 'Debug')
+[2026-10-10T08:05:21.687Z] [Pipeline] { (Branch: Matrix - configuration_name = 'gcc-14', build_type = 'Debug')
+[2026-10-10T08:05:21.693Z] [Pipeline] { (Branch: Matrix - configuration_name = 'gcc-15', build_type = 'Debug')
+[2026-10-10T08:05:21.698Z] [Pipeline] { (Branch: Matrix - configuration_name = 'clang-17-apex', build_type = 'Debug')
+[2026-10-10T08:05:21.704Z] [Pipeline] { (Branch: Matrix - configuration_name = 'clang-16', build_type = 'Debug')
+[2026-10-10T08:05:21.710Z] [Pipeline] { (Branch: Matrix - configuration_name = 'clang-17', build_type = 'Debug')
+[2026-10-10T08:05:21.715Z] [Pipeline] { (Branch: Matrix - configuration_name = 'clang-18', build_type = 'Debug')
+[2026-10-10T08:05:21.721Z] [Pipeline] { (Branch: Matrix - configuration_name = 'clang-19', build_type = 'Debug')
+[2026-10-10T08:05:21.728Z] [Pipeline] { (Branch: Matrix - configuration_name = 'clang-20', build_type = 'Debug')
+[2026-10-10T08:05:21.733Z] [Pipeline] { (Branch: Matrix - configuration_name = 'gcc-12-cuda-12', build_type = 'Debug')
+[2026-10-10T08:05:21.739Z] [Pipeline] { (Branch: Matrix - configuration_name = 'gcc-12-cuda-12-dgx', build_type = 'Debug')
+[2026-10-10T08:05:21.744Z] [Pipeline] { (Branch: Matrix - configuration_name = 'hipcc', build_type = 'Debug')
+[2026-10-10T08:05:21.775Z] [Pipeline] stage
+[2026-10-10T08:05:21.781Z] [Pipeline] { (Matrix - configuration_name = 'gcc-12', build_type = 'Release')
+[2026-10-10T08:05:21.798Z] [Pipeline] stage
+[2026-10-10T08:05:21.804Z] [Pipeline] { (Matrix - configuration_name = 'gcc-13', build_type = 'Release')
+[2026-10-10T08:05:21.822Z] [Pipeline] stage
+[2026-10-10T08:05:21.828Z] [Pipeline] { (Matrix - configuration_name = 'gcc-14', build_type = 'Release')
+[2026-10-10T08:05:21.846Z] [Pipeline] stage
+[2026-10-10T08:05:21.853Z] [Pipeline] { (Matrix - configuration_name = 'gcc-15', build_type = 'Release')
+[2026-10-10T08:05:21.870Z] [Pipeline] stage
+[2026-10-10T08:05:21.875Z] [Pipeline] { (Matrix - configuration_name = 'clang-17-apex', build_type = 'Release')
+[2026-10-10T08:05:21.892Z] [Pipeline] stage
+[2026-10-10T08:05:21.898Z] [Pipeline] { (Matrix - configuration_name = 'clang-16', build_type = 'Release')
+[2026-10-10T08:05:21.915Z] [Pipeline] stage
+[2026-10-10T08:05:21.920Z] [Pipeline] { (Matrix - configuration_name = 'clang-17', build_type = 'Release')
+[2026-10-10T08:05:21.938Z] [Pipeline] stage
+[2026-10-10T08:05:21.943Z] [Pipeline] { (Matrix - configuration_name = 'clang-18', build_type = 'Release')
+[2026-10-10T08:05:21.960Z] [Pipeline] stage
+[2026-10-10T08:05:21.966Z] [Pipeline] { (Matrix - configuration_name = 'clang-19', build_type = 'Release')
+[2026-10-10T08:05:21.983Z] [Pipeline] stage
+[2026-10-10T08:05:21.989Z] [Pipeline] { (Matrix - configuration_name = 'clang-20', build_type = 'Release')
+[2026-10-10T08:05:22.005Z] [Pipeline] stage
+[2026-10-10T08:05:22.013Z] [Pipeline] { (Matrix - configuration_name = 'gcc-12-cuda-12', build_type = 'Release')
+[2026-10-10T08:05:22.034Z] [Pipeline] stage
+[2026-10-10T08:05:22.041Z] [Pipeline] { (Matrix - configuration_name = 'gcc-12-cuda-12-dgx', build_type = 'Release')
+[2026-10-10T08:05:22.061Z] [Pipeline] stage
+[2026-10-10T08:05:22.068Z] [Pipeline] { (Matrix - configuration_name = 'hipcc', build_type = 'Release')
+[2026-10-10T08:05:22.087Z] [Pipeline] stage
+[2026-10-10T08:05:22.093Z] [Pipeline] { (Matrix - configuration_name = 'gcc-12', build_type = 'Debug')
+[2026-10-10T08:05:22.113Z] [Pipeline] stage
+[2026-10-10T08:05:22.119Z] [Pipeline] { (Matrix - configuration_name = 'gcc-13', build_type = 'Debug')
+[2026-10-10T08:05:22.135Z] [Pipeline] stage
+[2026-10-10T08:05:22.141Z] [Pipeline] { (Matrix - configuration_name = 'gcc-14', build_type = 'Debug')
+[2026-10-10T08:05:22.153Z] [Pipeline] stage
+[2026-10-10T08:05:22.158Z] [Pipeline] { (Matrix - configuration_name = 'gcc-15', build_type = 'Debug')
+[2026-10-10T08:05:22.170Z] [Pipeline] stage
+[2026-10-10T08:05:22.175Z] [Pipeline] { (Matrix - configuration_name = 'clang-17-apex', build_type = 'Debug')
+[2026-10-10T08:05:22.191Z] [Pipeline] stage
+[2026-10-10T08:05:22.197Z] [Pipeline] { (Matrix - configuration_name = 'clang-16', build_type = 'Debug')
+[2026-10-10T08:05:22.217Z] [Pipeline] stage
+[2026-10-10T08:05:22.223Z] [Pipeline] { (Matrix - configuration_name = 'clang-17', build_type = 'Debug')
+[2026-10-10T08:05:22.240Z] [Pipeline] stage
+[2026-10-10T08:05:22.246Z] [Pipeline] { (Matrix - configuration_name = 'clang-18', build_type = 'Debug')
+[2026-10-10T08:05:22.264Z] [Pipeline] stage
+[2026-10-10T08:05:22.270Z] [Pipeline] { (Matrix - configuration_name = 'clang-19', build_type = 'Debug')
+[2026-10-10T08:05:22.286Z] [Pipeline] stage
+[2026-10-10T08:05:22.292Z] [Pipeline] { (Matrix - configuration_name = 'clang-20', build_type = 'Debug')
+[2026-10-10T08:05:22.315Z] [Pipeline] stage
+[2026-10-10T08:05:22.330Z] [Pipeline] { (Matrix - configuration_name = 'gcc-12-cuda-12', build_type = 'Debug')
+[2026-10-10T08:05:22.348Z] [Pipeline] stage
+[2026-10-10T08:05:22.354Z] [Pipeline] { (Matrix - configuration_name = 'gcc-12-cuda-12-dgx', build_type = 'Debug')
+[2026-10-10T08:05:22.372Z] [Pipeline] stage
+[2026-10-10T08:05:22.378Z] [Pipeline] { (Matrix - configuration_name = 'hipcc', build_type = 'Debug')
+[2026-10-10T08:05:22.424Z] [Pipeline] withEnv
+[2026-10-10T08:05:22.431Z] [Pipeline] {
+[2026-10-10T08:05:22.449Z] [Pipeline] withEnv
+[2026-10-10T08:05:22.455Z] [Pipeline] {
+[2026-10-10T08:05:22.473Z] [Pipeline] withEnv
+[2026-10-10T08:05:22.479Z] [Pipeline] {
+[2026-10-10T08:05:22.497Z] [Pipeline] withEnv
+[2026-10-10T08:05:22.503Z] [Pipeline] {
+[2026-10-10T08:05:22.523Z] [Pipeline] withEnv
+[2026-10-10T08:05:22.529Z] [Pipeline] {
+[2026-10-10T08:05:22.546Z] [Pipeline] withEnv
+[2026-10-10T08:05:22.551Z] [Pipeline] {
+[2026-10-10T08:05:22.568Z] [Pipeline] withEnv
+[2026-10-10T08:05:22.575Z] [Pipeline] {
+[2026-10-10T08:05:22.594Z] [Pipeline] withEnv
+[2026-10-10T08:05:22.600Z] [Pipeline] {
+[2026-10-10T08:05:22.619Z] [Pipeline] withEnv
+[2026-10-10T08:05:22.626Z] [Pipeline] {
+[2026-10-10T08:05:22.645Z] [Pipeline] withEnv
+[2026-10-10T08:05:22.651Z] [Pipeline] {
+[2026-10-10T08:05:22.765Z] [Pipeline] withEnv
+[2026-10-10T08:05:22.771Z] [Pipeline] {
+[2026-10-10T08:05:22.789Z] [Pipeline] withEnv
+[2026-10-10T08:05:22.793Z] [Pipeline] {
+[2026-10-10T08:05:22.805Z] [Pipeline] withEnv
+[2026-10-10T08:05:22.809Z] [Pipeline] {
+[2026-10-10T08:05:22.821Z] [Pipeline] withEnv
+[2026-10-10T08:05:22.826Z] [Pipeline] {
+[2026-10-10T08:05:22.841Z] [Pipeline] withEnv
+[2026-10-10T08:05:22.846Z] [Pipeline] {
+[2026-10-10T08:05:22.862Z] [Pipeline] withEnv
+[2026-10-10T08:05:22.869Z] [Pipeline] {
+[2026-10-10T08:05:22.883Z] [Pipeline] withEnv
+[2026-10-10T08:05:22.888Z] [Pipeline] {
+[2026-10-10T08:05:22.903Z] [Pipeline] withEnv
+[2026-10-10T08:05:22.908Z] [Pipeline] {
+[2026-10-10T08:05:22.922Z] [Pipeline] withEnv
+[2026-10-10T08:05:22.927Z] [Pipeline] {
+[2026-10-10T08:05:22.941Z] [Pipeline] withEnv
+[2026-10-10T08:05:22.946Z] [Pipeline] {
+[2026-10-10T08:05:22.960Z] [Pipeline] withEnv
+[2026-10-10T08:05:22.966Z] [Pipeline] {
+[2026-10-10T08:05:22.979Z] [Pipeline] withEnv
+[2026-10-10T08:05:22.984Z] [Pipeline] {
+[2026-10-10T08:05:22.997Z] [Pipeline] withEnv
+[2026-10-10T08:05:23.002Z] [Pipeline] {
+[2026-10-10T08:05:23.014Z] [Pipeline] withEnv
+[2026-10-10T08:05:23.018Z] [Pipeline] {
+[2026-10-10T08:05:23.031Z] [Pipeline] withEnv
+[2026-10-10T08:05:23.035Z] [Pipeline] {
+[2026-10-10T08:05:23.051Z] [Pipeline] withEnv
+[2026-10-10T08:05:23.058Z] [Pipeline] {
+[2026-10-10T08:05:23.144Z] [Pipeline] stage
+[2026-10-10T08:05:23.152Z] [Pipeline] { (build)
+[2026-10-10T08:05:23.173Z] [Pipeline] stage
+[2026-10-10T08:05:23.181Z] [Pipeline] { (build)
+[2026-10-10T08:05:23.198Z] [Pipeline] stage
+[2026-10-10T08:05:23.205Z] [Pipeline] { (build)
+[2026-10-10T08:05:23.221Z] [Pipeline] stage
+[2026-10-10T08:05:23.226Z] [Pipeline] { (build)
+[2026-10-10T08:05:23.241Z] [Pipeline] stage
+[2026-10-10T08:05:23.247Z] [Pipeline] { (build)
+[2026-10-10T08:05:23.263Z] [Pipeline] stage
+[2026-10-10T08:05:23.270Z] [Pipeline] { (build)
+[2026-10-10T08:05:23.288Z] [Pipeline] stage
+[2026-10-10T08:05:23.294Z] [Pipeline] { (build)
+[2026-10-10T08:05:23.312Z] [Pipeline] stage
+[2026-10-10T08:05:23.318Z] [Pipeline] { (build)
+[2026-10-10T08:05:23.336Z] [Pipeline] stage
+[2026-10-10T08:05:23.342Z] [Pipeline] { (build)
+[2026-10-10T08:05:23.359Z] [Pipeline] stage
+[2026-10-10T08:05:23.365Z] [Pipeline] { (build)
+[2026-10-10T08:05:23.383Z] [Pipeline] stage
+[2026-10-10T08:05:23.390Z] [Pipeline] { (build)
+[2026-10-10T08:05:23.407Z] [Pipeline] stage
+[2026-10-10T08:05:23.413Z] [Pipeline] { (build)
+[2026-10-10T08:05:23.432Z] [Pipeline] stage
+[2026-10-10T08:05:23.439Z] [Pipeline] { (build)
+[2026-10-10T08:05:23.456Z] [Pipeline] stage
+[2026-10-10T08:05:23.462Z] [Pipeline] { (build)
+[2026-10-10T08:05:23.486Z] [Pipeline] stage
+[2026-10-10T08:05:23.493Z] [Pipeline] { (build)
+[2026-10-10T08:05:23.511Z] [Pipeline] stage
+[2026-10-10T08:05:23.518Z] [Pipeline] { (build)
+[2026-10-10T08:05:23.538Z] [Pipeline] stage
+[2026-10-10T08:05:23.544Z] [Pipeline] { (build)
+[2026-10-10T08:05:23.561Z] [Pipeline] stage
+[2026-10-10T08:05:23.567Z] [Pipeline] { (build)
+[2026-10-10T08:05:23.583Z] [Pipeline] stage
+[2026-10-10T08:05:23.588Z] [Pipeline] { (build)
+[2026-10-10T08:05:23.605Z] [Pipeline] stage
+[2026-10-10T08:05:23.611Z] [Pipeline] { (build)
+[2026-10-10T08:05:23.632Z] [Pipeline] stage
+[2026-10-10T08:05:23.638Z] [Pipeline] { (build)
+[2026-10-10T08:05:23.658Z] [Pipeline] stage
+[2026-10-10T08:05:23.665Z] [Pipeline] { (build)
+[2026-10-10T08:05:23.684Z] [Pipeline] stage
+[2026-10-10T08:05:23.693Z] [Pipeline] { (build)
+[2026-10-10T08:05:23.710Z] [Pipeline] stage
+[2026-10-10T08:05:23.715Z] [Pipeline] { (build)
+[2026-10-10T08:05:23.732Z] [Pipeline] stage
+[2026-10-10T08:05:23.738Z] [Pipeline] { (build)
+[2026-10-10T08:05:23.754Z] [Pipeline] stage
+[2026-10-10T08:05:23.759Z] [Pipeline] { (build)
+[2026-10-10T08:05:23.826Z] [Pipeline] dir
+[2026-10-10T08:05:23.826Z] Running in /var/jenkins_home/workspace/ex-009-trace/hpx_3
+[2026-10-10T08:05:23.832Z] [Pipeline] {
+[2026-10-10T08:05:23.848Z] [Pipeline] dir
+[2026-10-10T08:05:23.848Z] Running in /var/jenkins_home/workspace/ex-009-trace/hpx_3
+[2026-10-10T08:05:23.854Z] [Pipeline] {
+[2026-10-10T08:05:23.885Z] [Pipeline] dir
+[2026-10-10T08:05:23.885Z] Running in /var/jenkins_home/workspace/ex-009-trace/hpx_3
+[2026-10-10T08:05:23.894Z] [Pipeline] {
+[2026-10-10T08:05:23.913Z] [Pipeline] dir
+[2026-10-10T08:05:23.913Z] Running in /var/jenkins_home/workspace/ex-009-trace/hpx_3
+[2026-10-10T08:05:23.920Z] [Pipeline] {
+[2026-10-10T08:05:23.937Z] [Pipeline] dir
+[2026-10-10T08:05:23.937Z] Running in /var/jenkins_home/workspace/ex-009-trace/hpx_3
+[2026-10-10T08:05:23.943Z] [Pipeline] {
+[2026-10-10T08:05:23.961Z] [Pipeline] dir
+[2026-10-10T08:05:23.961Z] Running in /var/jenkins_home/workspace/ex-009-trace/hpx_3
+[2026-10-10T08:05:23.967Z] [Pipeline] {
+[2026-10-10T08:05:23.983Z] [Pipeline] dir
+[2026-10-10T08:05:23.983Z] Running in /var/jenkins_home/workspace/ex-009-trace/hpx_3
+[2026-10-10T08:05:23.989Z] [Pipeline] {
+[2026-10-10T08:05:24.004Z] [Pipeline] dir
+[2026-10-10T08:05:24.004Z] Running in /var/jenkins_home/workspace/ex-009-trace/hpx_3
+[2026-10-10T08:05:24.010Z] [Pipeline] {
+[2026-10-10T08:05:24.030Z] [Pipeline] dir
+[2026-10-10T08:05:24.030Z] Running in /var/jenkins_home/workspace/ex-009-trace/hpx_3
+[2026-10-10T08:05:24.037Z] [Pipeline] {
+[2026-10-10T08:05:24.060Z] [Pipeline] dir
+[2026-10-10T08:05:24.060Z] Running in /var/jenkins_home/workspace/ex-009-trace/hpx_3
+[2026-10-10T08:05:24.068Z] [Pipeline] {
+[2026-10-10T08:05:24.087Z] [Pipeline] dir
+[2026-10-10T08:05:24.087Z] Running in /var/jenkins_home/workspace/ex-009-trace/hpx_3
+[2026-10-10T08:05:24.094Z] [Pipeline] {
+[2026-10-10T08:05:24.111Z] [Pipeline] dir
+[2026-10-10T08:05:24.111Z] Running in /var/jenkins_home/workspace/ex-009-trace/hpx_3
+[2026-10-10T08:05:24.118Z] [Pipeline] {
+[2026-10-10T08:05:24.135Z] [Pipeline] dir
+[2026-10-10T08:05:24.136Z] Running in /var/jenkins_home/workspace/ex-009-trace/hpx_3
+[2026-10-10T08:05:24.141Z] [Pipeline] {
+[2026-10-10T08:05:24.158Z] [Pipeline] dir
+[2026-10-10T08:05:24.158Z] Running in /var/jenkins_home/workspace/ex-009-trace/hpx_3
+[2026-10-10T08:05:24.164Z] [Pipeline] {
+[2026-10-10T08:05:24.183Z] [Pipeline] dir
+[2026-10-10T08:05:24.184Z] Running in /var/jenkins_home/workspace/ex-009-trace/hpx_3
+[2026-10-10T08:05:24.191Z] [Pipeline] {
+[2026-10-10T08:05:24.210Z] [Pipeline] dir
+[2026-10-10T08:05:24.210Z] Running in /var/jenkins_home/workspace/ex-009-trace/hpx_3
+[2026-10-10T08:05:24.217Z] [Pipeline] {
+[2026-10-10T08:05:24.237Z] [Pipeline] dir
+[2026-10-10T08:05:24.238Z] Running in /var/jenkins_home/workspace/ex-009-trace/hpx_3
+[2026-10-10T08:05:24.245Z] [Pipeline] {
+[2026-10-10T08:05:24.262Z] [Pipeline] dir
+[2026-10-10T08:05:24.262Z] Running in /var/jenkins_home/workspace/ex-009-trace/hpx_3
+[2026-10-10T08:05:24.270Z] [Pipeline] {
+[2026-10-10T08:05:24.288Z] [Pipeline] dir
+[2026-10-10T08:05:24.288Z] Running in /var/jenkins_home/workspace/ex-009-trace/hpx_3
+[2026-10-10T08:05:24.294Z] [Pipeline] {
+[2026-10-10T08:05:24.311Z] [Pipeline] dir
+[2026-10-10T08:05:24.311Z] Running in /var/jenkins_home/workspace/ex-009-trace/hpx_3
+[2026-10-10T08:05:24.315Z] [Pipeline] {
+[2026-10-10T08:05:24.329Z] [Pipeline] dir
+[2026-10-10T08:05:24.329Z] Running in /var/jenkins_home/workspace/ex-009-trace/hpx_3
+[2026-10-10T08:05:24.333Z] [Pipeline] {
+[2026-10-10T08:05:24.347Z] [Pipeline] dir
+[2026-10-10T08:05:24.347Z] Running in /var/jenkins_home/workspace/ex-009-trace/hpx_3
+[2026-10-10T08:05:24.352Z] [Pipeline] {
+[2026-10-10T08:05:24.367Z] [Pipeline] dir
+[2026-10-10T08:05:24.367Z] Running in /var/jenkins_home/workspace/ex-009-trace/hpx_3
+[2026-10-10T08:05:24.372Z] [Pipeline] {
+[2026-10-10T08:05:24.387Z] [Pipeline] dir
+[2026-10-10T08:05:24.387Z] Running in /var/jenkins_home/workspace/ex-009-trace/hpx_3
+[2026-10-10T08:05:24.392Z] [Pipeline] {
+[2026-10-10T08:05:24.407Z] [Pipeline] dir
+[2026-10-10T08:05:24.407Z] Running in /var/jenkins_home/workspace/ex-009-trace/hpx_3
+[2026-10-10T08:05:24.413Z] [Pipeline] {
+[2026-10-10T08:05:24.429Z] [Pipeline] dir
+[2026-10-10T08:05:24.429Z] Running in /var/jenkins_home/workspace/ex-009-trace/hpx_3
+[2026-10-10T08:05:24.435Z] [Pipeline] {
+[2026-10-10T08:05:24.499Z] [Pipeline] echo
+[2026-10-10T08:05:24.504Z] J2GHA-TRACE {"stage":"build","step":"sh"}
+[2026-10-10T08:05:24.509Z] [Pipeline] }
+[2026-10-10T08:05:24.518Z] [Pipeline] echo
+[2026-10-10T08:05:24.524Z] J2GHA-TRACE {"stage":"build","step":"sh"}
+[2026-10-10T08:05:24.529Z] [Pipeline] }
+[2026-10-10T08:05:24.539Z] [Pipeline] echo
+[2026-10-10T08:05:24.544Z] J2GHA-TRACE {"stage":"build","step":"sh"}
+[2026-10-10T08:05:24.550Z] [Pipeline] }
+[2026-10-10T08:05:24.561Z] [Pipeline] echo
+[2026-10-10T08:05:24.567Z] J2GHA-TRACE {"stage":"build","step":"sh"}
+[2026-10-10T08:05:24.572Z] [Pipeline] }
+[2026-10-10T08:05:24.581Z] [Pipeline] echo
+[2026-10-10T08:05:24.586Z] J2GHA-TRACE {"stage":"build","step":"sh"}
+[2026-10-10T08:05:24.591Z] [Pipeline] }
+[2026-10-10T08:05:24.601Z] [Pipeline] echo
+[2026-10-10T08:05:24.628Z] J2GHA-TRACE {"stage":"build","step":"sh"}
+[2026-10-10T08:05:24.634Z] [Pipeline] }
+[2026-10-10T08:05:24.647Z] [Pipeline] echo
+[2026-10-10T08:05:24.652Z] J2GHA-TRACE {"stage":"build","step":"sh"}
+[2026-10-10T08:05:24.657Z] [Pipeline] }
+[2026-10-10T08:05:24.684Z] [Pipeline] echo
+[2026-10-10T08:05:24.698Z] J2GHA-TRACE {"stage":"build","step":"sh"}
+[2026-10-10T08:05:24.703Z] [Pipeline] }
+[2026-10-10T08:05:24.712Z] [Pipeline] echo
+[2026-10-10T08:05:24.717Z] J2GHA-TRACE {"stage":"build","step":"sh"}
+[2026-10-10T08:05:24.721Z] [Pipeline] }
+[2026-10-10T08:05:24.730Z] [Pipeline] echo
+[2026-10-10T08:05:24.735Z] J2GHA-TRACE {"stage":"build","step":"sh"}
+[2026-10-10T08:05:24.739Z] [Pipeline] }
+[2026-10-10T08:05:24.748Z] [Pipeline] echo
+[2026-10-10T08:05:24.752Z] J2GHA-TRACE {"stage":"build","step":"sh"}
+[2026-10-10T08:05:24.757Z] [Pipeline] }
+[2026-10-10T08:05:24.767Z] [Pipeline] echo
+[2026-10-10T08:05:24.771Z] J2GHA-TRACE {"stage":"build","step":"sh"}
+[2026-10-10T08:05:24.775Z] [Pipeline] }
+[2026-10-10T08:05:24.784Z] [Pipeline] echo
+[2026-10-10T08:05:24.787Z] J2GHA-TRACE {"stage":"build","step":"sh"}
+[2026-10-10T08:05:24.792Z] [Pipeline] }
+[2026-10-10T08:05:24.801Z] [Pipeline] echo
+[2026-10-10T08:05:24.806Z] J2GHA-TRACE {"stage":"build","step":"sh"}
+[2026-10-10T08:05:24.811Z] [Pipeline] }
+[2026-10-10T08:05:24.820Z] [Pipeline] echo
+[2026-10-10T08:05:24.825Z] J2GHA-TRACE {"stage":"build","step":"sh"}
+[2026-10-10T08:05:24.830Z] [Pipeline] }
+[2026-10-10T08:05:24.839Z] [Pipeline] echo
+[2026-10-10T08:05:24.844Z] J2GHA-TRACE {"stage":"build","step":"sh"}
+[2026-10-10T08:05:24.848Z] [Pipeline] }
+[2026-10-10T08:05:24.859Z] [Pipeline] echo
+[2026-10-10T08:05:24.864Z] J2GHA-TRACE {"stage":"build","step":"sh"}
+[2026-10-10T08:05:24.869Z] [Pipeline] }
+[2026-10-10T08:05:24.883Z] [Pipeline] echo
+[2026-10-10T08:05:24.890Z] J2GHA-TRACE {"stage":"build","step":"sh"}
+[2026-10-10T08:05:24.897Z] [Pipeline] }
+[2026-10-10T08:05:24.912Z] [Pipeline] echo
+[2026-10-10T08:05:24.919Z] J2GHA-TRACE {"stage":"build","step":"sh"}
+[2026-10-10T08:05:24.925Z] [Pipeline] }
+[2026-10-10T08:05:24.936Z] [Pipeline] echo
+[2026-10-10T08:05:24.941Z] J2GHA-TRACE {"stage":"build","step":"sh"}
+[2026-10-10T08:05:24.947Z] [Pipeline] }
+[2026-10-10T08:05:24.956Z] [Pipeline] echo
+[2026-10-10T08:05:24.961Z] J2GHA-TRACE {"stage":"build","step":"sh"}
+[2026-10-10T08:05:24.966Z] [Pipeline] }
+[2026-10-10T08:05:24.975Z] [Pipeline] echo
+[2026-10-10T08:05:24.980Z] J2GHA-TRACE {"stage":"build","step":"sh"}
+[2026-10-10T08:05:24.985Z] [Pipeline] }
+[2026-10-10T08:05:24.995Z] [Pipeline] echo
+[2026-10-10T08:05:24.999Z] J2GHA-TRACE {"stage":"build","step":"sh"}
+[2026-10-10T08:05:25.004Z] [Pipeline] }
+[2026-10-10T08:05:25.014Z] [Pipeline] echo
+[2026-10-10T08:05:25.019Z] J2GHA-TRACE {"stage":"build","step":"sh"}
+[2026-10-10T08:05:25.024Z] [Pipeline] }
+[2026-10-10T08:05:25.033Z] [Pipeline] echo
+[2026-10-10T08:05:25.038Z] J2GHA-TRACE {"stage":"build","step":"sh"}
+[2026-10-10T08:05:25.043Z] [Pipeline] }
+[2026-10-10T08:05:25.057Z] [Pipeline] echo
+[2026-10-10T08:05:25.063Z] J2GHA-TRACE {"stage":"build","step":"sh"}
+[2026-10-10T08:05:25.068Z] [Pipeline] }
+[2026-10-10T08:05:25.141Z] [Pipeline] // dir
+[2026-10-10T08:05:25.169Z] [Pipeline] // dir
+[2026-10-10T08:05:25.204Z] [Pipeline] // dir
+[2026-10-10T08:05:25.234Z] [Pipeline] // dir
+[2026-10-10T08:05:25.265Z] [Pipeline] // dir
+[2026-10-10T08:05:25.295Z] [Pipeline] // dir
+[2026-10-10T08:05:25.330Z] [Pipeline] // dir
+[2026-10-10T08:05:25.381Z] [Pipeline] // dir
+[2026-10-10T08:05:25.419Z] [Pipeline] // dir
+[2026-10-10T08:05:25.455Z] [Pipeline] // dir
+[2026-10-10T08:05:25.489Z] [Pipeline] // dir
+[2026-10-10T08:05:25.522Z] [Pipeline] // dir
+[2026-10-10T08:05:25.556Z] [Pipeline] // dir
+[2026-10-10T08:05:25.590Z] [Pipeline] // dir
+[2026-10-10T08:05:25.623Z] [Pipeline] // dir
+[2026-10-10T08:05:25.656Z] [Pipeline] // dir
+[2026-10-10T08:05:25.686Z] [Pipeline] // dir
+[2026-10-10T08:05:25.716Z] [Pipeline] // dir
+[2026-10-10T08:05:25.747Z] [Pipeline] // dir
+[2026-10-10T08:05:25.778Z] [Pipeline] // dir
+[2026-10-10T08:05:25.808Z] [Pipeline] // dir
+[2026-10-10T08:05:25.839Z] [Pipeline] // dir
+[2026-10-10T08:05:25.869Z] [Pipeline] // dir
+[2026-10-10T08:05:25.899Z] [Pipeline] // dir
+[2026-10-10T08:05:25.933Z] [Pipeline] // dir
+[2026-10-10T08:05:25.968Z] [Pipeline] // dir
+[2026-10-10T08:05:25.990Z] [Pipeline] }
+[2026-10-10T08:05:25.997Z] [Pipeline] }
+[2026-10-10T08:05:26.002Z] [Pipeline] }
+[2026-10-10T08:05:26.008Z] [Pipeline] }
+[2026-10-10T08:05:26.014Z] [Pipeline] }
+[2026-10-10T08:05:26.020Z] [Pipeline] }
+[2026-10-10T08:05:26.026Z] [Pipeline] }
+[2026-10-10T08:05:26.038Z] [Pipeline] }
+[2026-10-10T08:05:26.055Z] [Pipeline] }
+[2026-10-10T08:05:26.061Z] [Pipeline] }
+[2026-10-10T08:05:26.067Z] [Pipeline] }
+[2026-10-10T08:05:26.074Z] [Pipeline] }
+[2026-10-10T08:05:26.080Z] [Pipeline] }
+[2026-10-10T08:05:26.086Z] [Pipeline] }
+[2026-10-10T08:05:26.092Z] [Pipeline] }
+[2026-10-10T08:05:26.098Z] [Pipeline] }
+[2026-10-10T08:05:26.104Z] [Pipeline] }
+[2026-10-10T08:05:26.110Z] [Pipeline] }
+[2026-10-10T08:05:26.115Z] [Pipeline] }
+[2026-10-10T08:05:26.121Z] [Pipeline] }
+[2026-10-10T08:05:26.127Z] [Pipeline] }
+[2026-10-10T08:05:26.133Z] [Pipeline] }
+[2026-10-10T08:05:26.140Z] [Pipeline] }
+[2026-10-10T08:05:26.146Z] [Pipeline] }
+[2026-10-10T08:05:26.152Z] [Pipeline] }
+[2026-10-10T08:05:26.159Z] [Pipeline] }
+[2026-10-10T08:05:26.205Z] [Pipeline] // stage
+[2026-10-10T08:05:26.232Z] [Pipeline] // stage
+[2026-10-10T08:05:26.259Z] [Pipeline] // stage
+[2026-10-10T08:05:26.288Z] [Pipeline] // stage
+[2026-10-10T08:05:26.316Z] [Pipeline] // stage
+[2026-10-10T08:05:26.343Z] [Pipeline] // stage
+[2026-10-10T08:05:26.376Z] [Pipeline] // stage
+[2026-10-10T08:05:26.412Z] [Pipeline] // stage
+[2026-10-10T08:05:26.441Z] [Pipeline] // stage
+[2026-10-10T08:05:26.473Z] [Pipeline] // stage
+[2026-10-10T08:05:26.504Z] [Pipeline] // stage
+[2026-10-10T08:05:26.529Z] [Pipeline] // stage
+[2026-10-10T08:05:26.558Z] [Pipeline] // stage
+[2026-10-10T08:05:26.587Z] [Pipeline] // stage
+[2026-10-10T08:05:26.613Z] [Pipeline] // stage
+[2026-10-10T08:05:26.639Z] [Pipeline] // stage
+[2026-10-10T08:05:26.663Z] [Pipeline] // stage
+[2026-10-10T08:05:26.689Z] [Pipeline] // stage
+[2026-10-10T08:05:26.720Z] [Pipeline] // stage
+[2026-10-10T08:05:26.746Z] [Pipeline] // stage
+[2026-10-10T08:05:26.780Z] [Pipeline] // stage
+[2026-10-10T08:05:26.819Z] [Pipeline] // stage
+[2026-10-10T08:05:26.847Z] [Pipeline] // stage
+[2026-10-10T08:05:26.873Z] [Pipeline] // stage
+[2026-10-10T08:05:26.901Z] [Pipeline] // stage
+[2026-10-10T08:05:26.927Z] [Pipeline] // stage
+[2026-10-10T08:05:26.943Z] [Pipeline] }
+[2026-10-10T08:05:26.948Z] [Pipeline] }
+[2026-10-10T08:05:26.954Z] [Pipeline] }
+[2026-10-10T08:05:26.960Z] [Pipeline] }
+[2026-10-10T08:05:26.965Z] [Pipeline] }
+[2026-10-10T08:05:26.971Z] [Pipeline] }
+[2026-10-10T08:05:26.977Z] [Pipeline] }
+[2026-10-10T08:05:26.983Z] [Pipeline] }
+[2026-10-10T08:05:26.990Z] [Pipeline] }
+[2026-10-10T08:05:26.998Z] [Pipeline] }
+[2026-10-10T08:05:27.006Z] [Pipeline] }
+[2026-10-10T08:05:27.014Z] [Pipeline] }
+[2026-10-10T08:05:27.022Z] [Pipeline] }
+[2026-10-10T08:05:27.031Z] [Pipeline] }
+[2026-10-10T08:05:27.039Z] [Pipeline] }
+[2026-10-10T08:05:27.048Z] [Pipeline] }
+[2026-10-10T08:05:27.055Z] [Pipeline] }
+[2026-10-10T08:05:27.066Z] [Pipeline] }
+[2026-10-10T08:05:27.079Z] [Pipeline] }
+[2026-10-10T08:05:27.090Z] [Pipeline] }
+[2026-10-10T08:05:27.098Z] [Pipeline] }
+[2026-10-10T08:05:27.106Z] [Pipeline] }
+[2026-10-10T08:05:27.115Z] [Pipeline] }
+[2026-10-10T08:05:27.128Z] [Pipeline] }
+[2026-10-10T08:05:27.136Z] [Pipeline] }
+[2026-10-10T08:05:27.142Z] [Pipeline] }
+[2026-10-10T08:05:27.194Z] [Pipeline] // withEnv
+[2026-10-10T08:05:27.214Z] [Pipeline] // withEnv
+[2026-10-10T08:05:27.231Z] [Pipeline] // withEnv
+[2026-10-10T08:05:27.249Z] [Pipeline] // withEnv
+[2026-10-10T08:05:27.268Z] [Pipeline] // withEnv
+[2026-10-10T08:05:27.286Z] [Pipeline] // withEnv
+[2026-10-10T08:05:27.305Z] [Pipeline] // withEnv
+[2026-10-10T08:05:27.325Z] [Pipeline] // withEnv
+[2026-10-10T08:05:27.343Z] [Pipeline] // withEnv
+[2026-10-10T08:05:27.363Z] [Pipeline] // withEnv
+[2026-10-10T08:05:27.383Z] [Pipeline] // withEnv
+[2026-10-10T08:05:27.405Z] [Pipeline] // withEnv
+[2026-10-10T08:05:27.426Z] [Pipeline] // withEnv
+[2026-10-10T08:05:27.449Z] [Pipeline] // withEnv
+[2026-10-10T08:05:27.470Z] [Pipeline] // withEnv
+[2026-10-10T08:05:27.492Z] [Pipeline] // withEnv
+[2026-10-10T08:05:27.515Z] [Pipeline] // withEnv
+[2026-10-10T08:05:27.545Z] [Pipeline] // withEnv
+[2026-10-10T08:05:27.580Z] [Pipeline] // withEnv
+[2026-10-10T08:05:27.602Z] [Pipeline] // withEnv
+[2026-10-10T08:05:27.625Z] [Pipeline] // withEnv
+[2026-10-10T08:05:27.647Z] [Pipeline] // withEnv
+[2026-10-10T08:05:27.669Z] [Pipeline] // withEnv
+[2026-10-10T08:05:27.693Z] [Pipeline] // withEnv
+[2026-10-10T08:05:27.716Z] [Pipeline] // withEnv
+[2026-10-10T08:05:27.741Z] [Pipeline] // withEnv
+[2026-10-10T08:05:27.757Z] [Pipeline] }
+[2026-10-10T08:05:27.762Z] [Pipeline] }
+[2026-10-10T08:05:27.768Z] [Pipeline] }
+[2026-10-10T08:05:27.773Z] [Pipeline] }
+[2026-10-10T08:05:27.778Z] [Pipeline] }
+[2026-10-10T08:05:27.783Z] [Pipeline] }
+[2026-10-10T08:05:27.789Z] [Pipeline] }
+[2026-10-10T08:05:27.794Z] [Pipeline] }
+[2026-10-10T08:05:27.801Z] [Pipeline] }
+[2026-10-10T08:05:27.806Z] [Pipeline] }
+[2026-10-10T08:05:27.813Z] [Pipeline] }
+[2026-10-10T08:05:27.819Z] [Pipeline] }
+[2026-10-10T08:05:27.826Z] [Pipeline] }
+[2026-10-10T08:05:27.833Z] [Pipeline] }
+[2026-10-10T08:05:27.838Z] [Pipeline] }
+[2026-10-10T08:05:27.844Z] [Pipeline] }
+[2026-10-10T08:05:27.850Z] [Pipeline] }
+[2026-10-10T08:05:27.857Z] [Pipeline] }
+[2026-10-10T08:05:27.862Z] [Pipeline] }
+[2026-10-10T08:05:27.868Z] [Pipeline] }
+[2026-10-10T08:05:27.874Z] [Pipeline] }
+[2026-10-10T08:05:27.880Z] [Pipeline] }
+[2026-10-10T08:05:27.886Z] [Pipeline] }
+[2026-10-10T08:05:27.893Z] [Pipeline] }
+[2026-10-10T08:05:27.899Z] [Pipeline] }
+[2026-10-10T08:05:27.904Z] [Pipeline] }
+[2026-10-10T08:05:27.941Z] [Pipeline] // stage
+[2026-10-10T08:05:27.964Z] [Pipeline] // stage
+[2026-10-10T08:05:27.986Z] [Pipeline] // stage
+[2026-10-10T08:05:28.012Z] [Pipeline] // stage
+[2026-10-10T08:05:28.038Z] [Pipeline] // stage
+[2026-10-10T08:05:28.063Z] [Pipeline] // stage
+[2026-10-10T08:05:28.085Z] [Pipeline] // stage
+[2026-10-10T08:05:28.108Z] [Pipeline] // stage
+[2026-10-10T08:05:28.134Z] [Pipeline] // stage
+[2026-10-10T08:05:28.156Z] [Pipeline] // stage
+[2026-10-10T08:05:28.179Z] [Pipeline] // stage
+[2026-10-10T08:05:28.201Z] [Pipeline] // stage
+[2026-10-10T08:05:28.222Z] [Pipeline] // stage
+[2026-10-10T08:05:28.246Z] [Pipeline] // stage
+[2026-10-10T08:05:28.279Z] [Pipeline] // stage
+[2026-10-10T08:05:28.301Z] [Pipeline] // stage
+[2026-10-10T08:05:28.322Z] [Pipeline] // stage
+[2026-10-10T08:05:28.345Z] [Pipeline] // stage
+[2026-10-10T08:05:28.365Z] [Pipeline] // stage
+[2026-10-10T08:05:28.386Z] [Pipeline] // stage
+[2026-10-10T08:05:28.406Z] [Pipeline] // stage
+[2026-10-10T08:05:28.430Z] [Pipeline] // stage
+[2026-10-10T08:05:28.452Z] [Pipeline] // stage
+[2026-10-10T08:05:28.475Z] [Pipeline] // stage
+[2026-10-10T08:05:28.496Z] [Pipeline] // stage
+[2026-10-10T08:05:28.522Z] [Pipeline] // stage
+[2026-10-10T08:05:28.538Z] [Pipeline] }
+[2026-10-10T08:05:28.545Z] [Pipeline] }
+[2026-10-10T08:05:28.551Z] [Pipeline] }
+[2026-10-10T08:05:28.558Z] [Pipeline] }
+[2026-10-10T08:05:28.564Z] [Pipeline] }
+[2026-10-10T08:05:28.569Z] [Pipeline] }
+[2026-10-10T08:05:28.575Z] [Pipeline] }
+[2026-10-10T08:05:28.582Z] [Pipeline] }
+[2026-10-10T08:05:28.589Z] [Pipeline] }
+[2026-10-10T08:05:28.596Z] [Pipeline] }
+[2026-10-10T08:05:28.602Z] [Pipeline] }
+[2026-10-10T08:05:28.608Z] [Pipeline] }
+[2026-10-10T08:05:28.614Z] [Pipeline] }
+[2026-10-10T08:05:28.620Z] [Pipeline] }
+[2026-10-10T08:05:28.624Z] [Pipeline] }
+[2026-10-10T08:05:28.631Z] [Pipeline] }
+[2026-10-10T08:05:28.636Z] [Pipeline] }
+[2026-10-10T08:05:28.640Z] [Pipeline] }
+[2026-10-10T08:05:28.645Z] [Pipeline] }
+[2026-10-10T08:05:28.650Z] [Pipeline] }
+[2026-10-10T08:05:28.655Z] [Pipeline] }
+[2026-10-10T08:05:28.660Z] [Pipeline] }
+[2026-10-10T08:05:28.664Z] [Pipeline] }
+[2026-10-10T08:05:28.669Z] [Pipeline] }
+[2026-10-10T08:05:28.673Z] [Pipeline] }
+[2026-10-10T08:05:28.679Z] [Pipeline] }
+[2026-10-10T08:05:29.270Z] [Pipeline] // parallel
+[2026-10-10T08:05:29.285Z] [Pipeline] }
+[2026-10-10T08:05:29.313Z] [Pipeline] // stage
+[2026-10-10T08:05:29.336Z] [Pipeline] stage
+[2026-10-10T08:05:29.341Z] [Pipeline] { (Declarative: Post Actions)
+[2026-10-10T08:05:29.372Z] [Pipeline] echo
+[2026-10-10T08:05:29.378Z] J2GHA-TRACE {"stage":"Declarative: Post Actions","step":"archiveArtifacts"}
+[2026-10-10T08:05:29.395Z] [Pipeline] echo
+[2026-10-10T08:05:29.400Z] J2GHA-TRACE {"stage":"Declarative: Post Actions","step":"archiveArtifacts"}
+[2026-10-10T08:05:29.415Z] [Pipeline] }
+[2026-10-10T08:05:29.441Z] [Pipeline] // stage
+[2026-10-10T08:05:29.453Z] [Pipeline] }
+[2026-10-10T08:05:29.477Z] [Pipeline] // withEnv
+[2026-10-10T08:05:29.490Z] [Pipeline] }
+[2026-10-10T08:05:29.522Z] [Pipeline] // node
+[2026-10-10T08:05:29.535Z] [Pipeline] End of Pipeline
+[2026-10-10T08:05:29.615Z] Finished: SUCCESS

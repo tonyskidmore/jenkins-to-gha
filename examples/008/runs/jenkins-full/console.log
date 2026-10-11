@@ -1,0 +1,112 @@
+[2026-10-10T08:28:25.637Z] Started by user admin
+[2026-10-10T08:28:25.742Z] [Pipeline] Start of Pipeline
+[2026-10-10T08:28:25.754Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named DEFAULT_LABEL (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T08:28:25.754Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T08:28:25.774Z] [Pipeline] echo
+[2026-10-10T08:28:25.780Z] J2GHA-TRACE {"stage":"","step":"buildSummary"}
+[2026-10-10T08:28:25.804Z] [Pipeline] properties
+[2026-10-10T08:28:25.840Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named JDK_VERSIONS (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T08:28:25.840Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named JDK_VERSIONS_PY_R (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T08:28:25.859Z] [Pipeline] ansiColor
+[2026-10-10T08:28:25.866Z] [Pipeline] {
+[2026-10-10T08:28:25.872Z] 
+[2026-10-10T08:28:25.899Z] [Pipeline] timestamps
+[2026-10-10T08:28:25.899Z] The timestamps step is unnecessary when timestamps are enabled for all Pipeline builds.
+[2026-10-10T08:28:25.904Z] [Pipeline] {
+[2026-10-10T08:28:25.932Z] [Pipeline] node
+[2026-10-10T08:28:25.948Z] Running on Jenkins in /var/jenkins_home/workspace/ex-008-full
+[2026-10-10T08:28:25.964Z] [Pipeline] {
+[2026-10-10T08:28:25.993Z] [Pipeline] cleanWs
+[2026-10-10T08:28:26.000Z] [WS-CLEANUP] Deleting project workspace...
+[2026-10-10T08:28:26.001Z] [WS-CLEANUP] Deferred wipeout is used...
+[2026-10-10T08:28:26.013Z] [WS-CLEANUP] done
+[2026-10-10T08:28:26.042Z] [Pipeline] checkout
+[2026-10-10T08:28:26.051Z] The recommended git tool is: NONE
+[2026-10-10T08:28:26.051Z] No credentials specified
+[2026-10-10T08:28:26.051Z] Cloning the remote Git repository
+[2026-10-10T08:28:26.051Z] Avoid fetching tags
+[2026-10-10T08:28:26.051Z] Cloning repository https://github.com/h2oai/h2o-3.git
+[2026-10-10T08:28:26.052Z]  > git init /var/jenkins_home/workspace/ex-008-full # timeout=10
+[2026-10-10T08:28:26.068Z] Fetching upstream changes from https://github.com/h2oai/h2o-3.git
+[2026-10-10T08:28:26.068Z]  > git --version # timeout=10
+[2026-10-10T08:28:26.074Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T08:28:26.074Z]  > git fetch --no-tags --force --progress -- https://github.com/h2oai/h2o-3.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T08:30:04.760Z]  > git config remote.origin.url https://github.com/h2oai/h2o-3.git # timeout=10
+[2026-10-10T08:30:04.769Z]  > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T08:30:04.779Z] Avoid second fetch
+[2026-10-10T08:30:04.780Z]  > git rev-parse f26129ff5c9c3646573f98af753c8cd227462a7c^{commit} # timeout=10
+[2026-10-10T08:30:04.791Z] Checking out Revision f26129ff5c9c3646573f98af753c8cd227462a7c (detached)
+[2026-10-10T08:30:04.792Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T08:30:04.803Z]  > git checkout -f f26129ff5c9c3646573f98af753c8cd227462a7c # timeout=10
+[2026-10-10T08:30:08.385Z] Commit message: "Merge branch 'rel-3.46.0' into tomf_resolve_rel-3.46.0_merge_conflict"
+[2026-10-10T08:30:08.386Z]  > git rev-list --no-walk f26129ff5c9c3646573f98af753c8cd227462a7c # timeout=10
+[2026-10-10T08:30:08.455Z] [Pipeline] load
+[2026-10-10T08:30:08.589Z] [Pipeline] { (scripts/jenkins/groovy/pipelineContext.groovy)
+[2026-10-10T08:30:08.606Z] [Pipeline] }
+[2026-10-10T08:30:08.626Z] [Pipeline] // load
+[2026-10-10T08:30:08.643Z] [Pipeline] sh
+[2026-10-10T08:30:08.905Z] + cd .
+[2026-10-10T08:30:08.905Z] + git log -1 --pretty=%B
+[2026-10-10T08:30:08.951Z] [Pipeline] sh
+[2026-10-10T08:30:09.211Z] + cd .
+[2026-10-10T08:30:09.211Z] + git show -s --format=%ci
+[2026-10-10T08:30:09.241Z] [Pipeline] load
+[2026-10-10T08:30:09.411Z] [Pipeline] { (./scripts/jenkins/groovy/buildSummary.groovy)
+[2026-10-10T08:30:09.434Z] [Pipeline] }
+[2026-10-10T08:30:09.463Z] [Pipeline] // load
+[2026-10-10T08:30:09.495Z] [Pipeline] load
+[2026-10-10T08:30:09.560Z] [Pipeline] { (./scripts/jenkins/groovy/buildConfig.groovy)
+[2026-10-10T08:30:09.584Z] [Pipeline] }
+[2026-10-10T08:30:09.610Z] [Pipeline] // load
+[2026-10-10T08:30:09.636Z] [Pipeline] load
+[2026-10-10T08:30:09.769Z] [Pipeline] { (./scripts/jenkins/groovy/pipelineUtils.groovy)
+[2026-10-10T08:30:09.789Z] [Pipeline] }
+[2026-10-10T08:30:09.812Z] [Pipeline] // load
+[2026-10-10T08:30:09.836Z] [Pipeline] load
+[2026-10-10T08:30:09.903Z] [Pipeline] { (./scripts/jenkins/groovy/emailer.groovy)
+[2026-10-10T08:30:09.922Z] [Pipeline] }
+[2026-10-10T08:30:09.946Z] [Pipeline] // load
+[2026-10-10T08:30:09.970Z] [Pipeline] load
+[2026-10-10T08:30:10.076Z] [Pipeline] { (./scripts/jenkins/groovy/healthChecker.groovy)
+[2026-10-10T08:30:10.099Z] [Pipeline] }
+[2026-10-10T08:30:10.122Z] [Pipeline] // load
+[2026-10-10T08:30:10.149Z] [Pipeline] sh
+[2026-10-10T08:30:10.412Z] + sed s/SUBST_BUILD_TIME_MILLIS/"SUBST_BUILD_TIME_MILLIS"/g ./h2o-dist/buildinfo.json
+[2026-10-10T08:30:10.412Z] + sed -e s/SUBST_BUILD_NUMBER/"SUBST_BUILD_NUMBER"/g
+[2026-10-10T08:30:10.442Z] [Pipeline] sh
+[2026-10-10T08:30:10.705Z] + cd .
+[2026-10-10T08:30:10.705Z] + cat h2o-extensions/xgboost/build.gradle
+[2026-10-10T08:30:10.705Z] + grep xgboost4jVersion =
+[2026-10-10T08:30:10.705Z] + egrep -o ([0-9]+\.+)+[-_a-zA-Z0-9.]+
+[2026-10-10T08:30:10.732Z] [Pipeline] echo
+[2026-10-10T08:30:10.738Z] XGBoost Version: 1.6.1.24
+[2026-10-10T08:30:10.764Z] [Pipeline] sh
+[2026-10-10T08:30:11.027Z] + cd .
+[2026-10-10T08:30:11.027Z] + cat gradle/wrapper/gradle-wrapper.properties
+[2026-10-10T08:30:11.027Z] + grep distributionUrl
+[2026-10-10T08:30:11.027Z] + egrep -o ([0-9]+\.+)+[0-9]+
+[2026-10-10T08:30:11.050Z] [Pipeline] echo
+[2026-10-10T08:30:11.056Z] Gradle Version: 7.2
+[2026-10-10T08:30:11.141Z] [Pipeline] dir
+[2026-10-10T08:30:11.141Z] Running in /var/jenkins_home/workspace/ex-008-full/docker
+[2026-10-10T08:30:11.147Z] [Pipeline] {
+[2026-10-10T08:30:11.182Z] [Pipeline] withCredentials
+[2026-10-10T08:30:11.198Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T08:30:11.206Z] [Pipeline] {
+[2026-10-10T08:30:11.233Z] [Pipeline] sh
+[2026-10-10T08:30:11.497Z] + s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-8/x64-linux/jdk-8u311-linux-x64.tar.gz
+[2026-10-10T08:30:11.497Z] /var/jenkins_home/workspace/ex-008-full/docker@tmp/durable-d35cd31a/script.sh.copy: 1: s3cmd: not found
+[2026-10-10T08:30:11.523Z] [Pipeline] }
+[2026-10-10T08:30:11.578Z] [Pipeline] // withCredentials
+[2026-10-10T08:30:11.603Z] [Pipeline] }
+[2026-10-10T08:30:11.630Z] [Pipeline] // dir
+[2026-10-10T08:30:11.645Z] [Pipeline] }
+[2026-10-10T08:30:11.674Z] [Pipeline] // node
+[2026-10-10T08:30:11.689Z] [Pipeline] }
+[2026-10-10T08:30:11.713Z] [Pipeline] // timestamps
+[2026-10-10T08:30:11.730Z] [Pipeline] }
+[2026-10-10T08:30:11.741Z] 
+[2026-10-10T08:30:11.761Z] [Pipeline] // ansiColor
+[2026-10-10T08:30:11.796Z] [Pipeline] End of Pipeline
+[2026-10-10T08:30:11.822Z] ERROR: script returned exit code 127
+[2026-10-10T08:30:11.847Z] Finished: FAILURE

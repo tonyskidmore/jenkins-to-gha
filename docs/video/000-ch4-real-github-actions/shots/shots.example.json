@@ -1,0 +1,100 @@
+{
+  "viewport": {
+    "width": 1440,
+    "height": 900
+  },
+  "profile": "<absolute path outside the repository>",
+  "redact": {
+    "<owner>": "owner"
+  },
+  "shots": [
+    {
+      "name": "01-selfhosted-trace-graph",
+      "url": "https://github.com/<owner>/<repo>/actions/runs/<run id>",
+      "waitFor": 4000,
+      "hide": [
+        "img.avatar",
+        ".avatar"
+      ],
+      "clip": {
+        "x": 0,
+        "y": 110,
+        "width": 1440,
+        "height": 790
+      }
+    },
+    {
+      "name": "02-trace-log",
+      "url": "https://github.com/<owner>/<repo>/actions/runs/<run id>/job/<job id>",
+      "waitFor": 5000,
+      "hide": [
+        "img.avatar",
+        ".avatar"
+      ],
+      "clip": {
+        "x": 0,
+        "y": 110,
+        "width": 1440,
+        "height": 790
+      },
+      "actions": [
+        {
+          "clickText": "Unit tests: enter stage"
+        },
+        {
+          "clickText": "Unit tests: python3 tools/ci.py"
+        },
+        {
+          "wait": 2500
+        }
+      ]
+    },
+    {
+      "name": "03-selfhosted-full-graph",
+      "url": "https://github.com/<owner>/<repo>/actions/runs/<run id>",
+      "waitFor": 4000,
+      "hide": [
+        "img.avatar",
+        ".avatar"
+      ],
+      "clip": {
+        "x": 0,
+        "y": 110,
+        "width": 1440,
+        "height": 790
+      }
+    },
+    {
+      "name": "04-artifacts",
+      "url": "https://github.com/<owner>/<repo>/actions/runs/<run id>",
+      "waitFor": 4000,
+      "actions": [
+        {
+          "scroll": "bottom"
+        },
+        {
+          "wait": 800
+        }
+      ],
+      "hide": [
+        "img.avatar",
+        ".avatar"
+      ]
+    },
+    {
+      "name": "05-hosted-run",
+      "url": "https://github.com/<owner>/<repo>/actions/runs/<run id>",
+      "waitFor": 4000,
+      "hide": [
+        "img.avatar",
+        ".avatar"
+      ],
+      "clip": {
+        "x": 0,
+        "y": 110,
+        "width": 1440,
+        "height": 790
+      }
+    }
+  ]
+}

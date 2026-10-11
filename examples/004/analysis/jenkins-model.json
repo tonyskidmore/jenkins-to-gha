@@ -1,0 +1,573 @@
+{
+  "result": "success",
+  "json": {
+    "pipeline": {
+      "stages": [
+        {
+          "agent": {
+            "type": "label",
+            "argument": {
+              "isLiteral": true,
+              "value": "docker-build"
+            }
+          },
+          "name": "Build docker image",
+          "branches": [
+            {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "sh",
+                  "arguments": [
+                    {
+                      "key": "script",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "\n          docker build --pull -t ${IMAGE_NAME}:${IMAGE_TAG} .\n        "
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "agent": {
+            "type": "label",
+            "argument": {
+              "isLiteral": true,
+              "value": "docker-build"
+            }
+          },
+          "name": "Push docker image",
+          "branches": [
+            {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "withDockerRegistry",
+                  "arguments": [
+                    {
+                      "key": "credentialsId",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "a56a2346-7fc5-4f91-a624-073197e5f5c8"
+                      }
+                    },
+                    {
+                      "key": "url",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "https://ghcr.io/"
+                      }
+                    }
+                  ],
+                  "children": [
+                    {
+                      "name": "sh",
+                      "arguments": [
+                        {
+                          "key": "script",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "\n            docker push ${IMAGE_NAME}:${IMAGE_TAG}\n          "
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "when": {
+            "conditions": [
+              {
+                "name": "branch",
+                "arguments": {
+                  "isLiteral": true,
+                  "value": "test"
+                }
+              }
+            ]
+          },
+          "name": "Deploy test",
+          "branches": [
+            {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "container",
+                  "arguments": {
+                    "isLiteral": true,
+                    "value": "kubectl"
+                  },
+                  "children": [
+                    {
+                      "name": "withKubeConfig",
+                      "arguments": [
+                        {
+                          "key": "credentialsId",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "ci-bot-okd-c1-token"
+                          }
+                        },
+                        {
+                          "key": "serverUrl",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "https://api.okd-c1.eclipse.org:6443"
+                          }
+                        }
+                      ],
+                      "children": [
+                        {
+                          "name": "sh",
+                          "arguments": [
+                            {
+                              "key": "script",
+                              "value": {
+                                "isLiteral": true,
+                                "value": "\n              ./kubernetes/helm-deploy.sh test \"${IMAGE_TAG}\"\n            "
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "when": {
+            "conditions": [
+              {
+                "name": "branch",
+                "arguments": {
+                  "isLiteral": true,
+                  "value": "main"
+                }
+              }
+            ]
+          },
+          "name": "Deploy staging",
+          "branches": [
+            {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "container",
+                  "arguments": {
+                    "isLiteral": true,
+                    "value": "kubectl"
+                  },
+                  "children": [
+                    {
+                      "name": "withKubeConfig",
+                      "arguments": [
+                        {
+                          "key": "credentialsId",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "ci-bot-okd-c1-token"
+                          }
+                        },
+                        {
+                          "key": "serverUrl",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "https://api.okd-c1.eclipse.org:6443"
+                          }
+                        }
+                      ],
+                      "children": [
+                        {
+                          "name": "sh",
+                          "arguments": [
+                            {
+                              "key": "script",
+                              "value": {
+                                "isLiteral": true,
+                                "value": "\n              ./kubernetes/helm-deploy.sh staging \"${IMAGE_TAG}\"\n            "
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "when": {
+            "conditions": [
+              {
+                "name": "branch",
+                "arguments": {
+                  "isLiteral": true,
+                  "value": "production"
+                }
+              }
+            ]
+          },
+          "name": "Deploy production",
+          "branches": [
+            {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "container",
+                  "arguments": {
+                    "isLiteral": true,
+                    "value": "kubectl"
+                  },
+                  "children": [
+                    {
+                      "name": "withKubeConfig",
+                      "arguments": [
+                        {
+                          "key": "credentialsId",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "ci-bot-okd-c1-token"
+                          }
+                        },
+                        {
+                          "key": "serverUrl",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "https://api.okd-c1.eclipse.org:6443"
+                          }
+                        }
+                      ],
+                      "children": [
+                        {
+                          "name": "sh",
+                          "arguments": [
+                            {
+                              "key": "script",
+                              "value": {
+                                "isLiteral": true,
+                                "value": "\n              ./kubernetes/helm-deploy.sh production \"${IMAGE_TAG}\"\n            "
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "when": {
+            "conditions": [
+              {
+                "name": "branch",
+                "arguments": {
+                  "isLiteral": true,
+                  "value": "aws-main"
+                }
+              }
+            ]
+          },
+          "name": "Deploy aws-staging",
+          "branches": [
+            {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "container",
+                  "arguments": {
+                    "isLiteral": true,
+                    "value": "eks"
+                  },
+                  "children": [
+                    {
+                      "name": "withCredentials",
+                      "arguments": {
+                        "isLiteral": false,
+                        "value": "${[\n            string(credentialsId: 'jenkins-openvsx-aws-key-id',     variable: 'AWS_ACCESS_KEY_ID'),\n            string(credentialsId: 'jenkins-openvsx-aws-secret-key', variable: 'AWS_SECRET_ACCESS_KEY'),\n          ]}"
+                      },
+                      "children": [
+                        {
+                          "name": "sh",
+                          "arguments": [
+                            {
+                              "key": "script",
+                              "value": {
+                                "isLiteral": true,
+                                "value": "\n              set -e\n              export AWS_DEFAULT_REGION=eu-central-1\n              export KUBECONFIG=\"${HOME}/.kube/config\"\n              aws eks update-kubeconfig --name eks-staging-openvsx --region eu-central-1\n              ./kubernetes/helm-deploy.sh aws-staging \"${IMAGE_TAG}\"\n            "
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "when": {
+            "conditions": [
+              {
+                "name": "branch",
+                "arguments": {
+                  "isLiteral": true,
+                  "value": "aws-production"
+                }
+              }
+            ]
+          },
+          "name": "Deploy aws-production",
+          "branches": [
+            {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "container",
+                  "arguments": {
+                    "isLiteral": true,
+                    "value": "eks"
+                  },
+                  "children": [
+                    {
+                      "name": "withCredentials",
+                      "arguments": {
+                        "isLiteral": false,
+                        "value": "${[\n            string(credentialsId: 'jenkins-openvsx-aws-key-id',     variable: 'AWS_ACCESS_KEY_ID'),\n            string(credentialsId: 'jenkins-openvsx-aws-secret-key', variable: 'AWS_SECRET_ACCESS_KEY'),\n          ]}"
+                      },
+                      "children": [
+                        {
+                          "name": "sh",
+                          "arguments": [
+                            {
+                              "key": "script",
+                              "value": {
+                                "isLiteral": true,
+                                "value": "\n              set -e\n              export AWS_DEFAULT_REGION=eu-central-1\n              aws eks update-kubeconfig --name eks-production-openvsx --region eu-central-1\n              ./kubernetes/helm-deploy.sh aws-production \"${IMAGE_TAG}\"\n            "
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "post": {
+        "conditions": [
+          {
+            "condition": "failure",
+            "branch": {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "mail",
+                  "arguments": [
+                    {
+                      "key": "to",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "ci-admin@eclipse.org"
+                      }
+                    },
+                    {
+                      "key": "subject",
+                      "value": {
+                        "isLiteral": false,
+                        "value": "\"[open-vsx.org] Build Failure ${currentBuild.fullDisplayName} - ${env.BRANCH_NAME}\""
+                      }
+                    },
+                    {
+                      "key": "mimeType",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "text/html"
+                      }
+                    },
+                    {
+                      "key": "body",
+                      "value": {
+                        "isLiteral": false,
+                        "value": "\"Project: ${env.JOB_NAME}<br/>Build Number: ${env.BUILD_NUMBER}<br/>Build URL: ${env.BUILD_URL}<br/>Console: ${env.BUILD_URL}/console\""
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "condition": "fixed",
+            "branch": {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "mail",
+                  "arguments": [
+                    {
+                      "key": "to",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "ci-admin@eclipse.org"
+                      }
+                    },
+                    {
+                      "key": "subject",
+                      "value": {
+                        "isLiteral": false,
+                        "value": "\"[open-vsx.org] Back to normal ${currentBuild.fullDisplayName} - ${env.BRANCH_NAME}\""
+                      }
+                    },
+                    {
+                      "key": "mimeType",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "text/html"
+                      }
+                    },
+                    {
+                      "key": "body",
+                      "value": {
+                        "isLiteral": false,
+                        "value": "\"Project: ${env.JOB_NAME}<br/>Build Number: ${env.BUILD_NUMBER}<br/>Build URL: ${env.BUILD_URL}<br/>Console: ${env.BUILD_URL}/console\""
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "condition": "cleanup",
+            "branch": {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "deleteDir",
+                  "arguments": []
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "environment": [
+        {
+          "key": "APP_NAME",
+          "value": {
+            "isLiteral": true,
+            "value": "open-vsx-org"
+          }
+        },
+        {
+          "key": "NAMESPACE",
+          "value": {
+            "isLiteral": true,
+            "value": "foundation-internal-webdev-apps"
+          }
+        },
+        {
+          "key": "IMAGE_NAME",
+          "value": {
+            "isLiteral": true,
+            "value": "ghcr.io/eclipsefdn/openvsx-website"
+          }
+        },
+        {
+          "key": "CONTAINER_NAME",
+          "value": {
+            "isLiteral": true,
+            "value": "open-vsx-org"
+          }
+        },
+        {
+          "key": "IMAGE_TAG",
+          "value": {
+            "isLiteral": false,
+            "value": "${sh(\n      script: \"\"\"\n        if [ \"${env.TAG_NAME}\" = \"\" ]; then\n          printf ${env.TAG_NAME}-${env.BUILD_NUMBER}\n        else\n          printf \\$(git rev-parse --short ${env.GIT_COMMIT})-${env.BUILD_NUMBER}\n        fi\n      \"\"\",\n      returnStdout: true\n    )}"
+          }
+        }
+      ],
+      "agent": {
+        "type": "kubernetes",
+        "arguments": [
+          {
+            "key": "label",
+            "value": {
+              "isLiteral": true,
+              "value": "kubedeploy-agent"
+            }
+          },
+          {
+            "key": "yaml",
+            "value": {
+              "isLiteral": true,
+              "value": "\n        apiVersion: v1\n        kind: Pod\n        spec:\n          containers:\n          - name: kubectl\n            image: eclipsefdn/kubectl:okd-c1\n            command:\n            - cat\n            tty: true\n            resources:\n              limits:\n                cpu: 1\n                memory: 1Gi\n            volumeMounts:\n            - mountPath: \"/home/default/.kube\"\n              name: \"dot-kube\"\n              readOnly: false\n          - name: eks\n            image: eclipsefdn/aws:alpine-latest\n            command:\n            - cat\n            tty: true\n            resources:\n              limits:\n                cpu: 1\n                memory: 1Gi\n            volumeMounts:\n            - mountPath: \"/home/default/.kube\"\n              name: \"dot-kube\"\n              readOnly: false\n          - name: jnlp\n            resources:\n              limits:\n                cpu: 1\n                memory: 1Gi\n          volumes:\n          - name: \"dot-kube\"\n            emptyDir: {}\n      "
+            }
+          }
+        ]
+      },
+      "options": {
+        "options": [
+          {
+            "name": "buildDiscarder",
+            "arguments": [
+              {
+                "name": "logRotator",
+                "arguments": [
+                  {
+                    "key": "numToKeepStr",
+                    "value": {
+                      "isLiteral": true,
+                      "value": "10"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "timeout",
+            "arguments": [
+              {
+                "key": "time",
+                "value": {
+                  "isLiteral": true,
+                  "value": 30
+                }
+              },
+              {
+                "key": "unit",
+                "value": {
+                  "isLiteral": true,
+                  "value": "MINUTES"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

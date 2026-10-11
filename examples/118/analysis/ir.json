@@ -1,0 +1,1258 @@
+{
+  "dialect": "scripted",
+  "agent": {
+    "kind": "label",
+    "label": "master",
+    "line": 17
+  },
+  "parameters": [
+    {
+      "kind": "booleanParam",
+      "name": "DRYRUN",
+      "description": "j2gha-local: true lists and checks only, builds nothing",
+      "line": 10
+    },
+    {
+      "kind": "string",
+      "name": "VERSION",
+      "default": "1.0.0",
+      "description": "j2gha-local: release version named in the manifest commit",
+      "line": 11
+    },
+    {
+      "kind": "string",
+      "name": "olcs_transxchange_version",
+      "default": "2.0.0",
+      "description": "j2gha-local: txc package version",
+      "line": 12
+    },
+    {
+      "kind": "string",
+      "name": "olcs_auth_version",
+      "default": "3.0.0",
+      "description": "j2gha-local: openam package version",
+      "line": 13
+    }
+  ],
+  "stages": [
+    {
+      "line": 19,
+      "steps": [
+        {
+          "name": "<decl>",
+          "line": 19,
+          "named": {
+            "_target": "VERSION"
+          },
+          "category": "dynamic",
+          "source": "VERSION = params.VERSION",
+          "dynamic": true
+        },
+        {
+          "name": "<decl>",
+          "line": 20,
+          "named": {
+            "_target": "GitRepo"
+          },
+          "category": "dynamic",
+          "source": "GitRepo = file://${env.WORKSPACE}/.gitlab/",
+          "dynamic": true
+        },
+        {
+          "name": "<decl>",
+          "line": 21,
+          "named": {
+            "_target": "defaultS3Bucket",
+            "_literal": "devapp-olcs-pri-olcs-deploy-s3/"
+          },
+          "category": "dynamic",
+          "source": "defaultS3Bucket = devapp-olcs-pri-olcs-deploy-s3/",
+          "dynamic": true
+        },
+        {
+          "name": "<decl>",
+          "line": 22,
+          "named": {
+            "_target": "templateS3Bucket",
+            "_literal": "devapp-shd-pri-file-deploy-s3/"
+          },
+          "category": "dynamic",
+          "source": "templateS3Bucket = devapp-shd-pri-file-deploy-s3/",
+          "dynamic": true
+        },
+        {
+          "name": "<decl>",
+          "line": 23,
+          "named": {
+            "_target": "ldifLabel",
+            "_literal": "olcs-dir-ldif-version"
+          },
+          "category": "dynamic",
+          "source": "ldifLabel = olcs-dir-ldif-version",
+          "dynamic": true
+        },
+        {
+          "name": "<decl>",
+          "line": 24,
+          "named": {
+            "_target": "txcLabel",
+            "_literal": "olcs-transxchange-version"
+          },
+          "category": "dynamic",
+          "source": "txcLabel = olcs-transxchange-version",
+          "dynamic": true
+        },
+        {
+          "name": "<decl>",
+          "line": 25,
+          "named": {
+            "_target": "txcFile",
+            "_literal": "txc"
+          },
+          "category": "dynamic",
+          "source": "txcFile = txc",
+          "dynamic": true
+        },
+        {
+          "name": "<decl>",
+          "line": 26,
+          "named": {
+            "_target": "authLabel",
+            "_literal": "olcs_auth_version"
+          },
+          "category": "dynamic",
+          "source": "authLabel = olcs_auth_version",
+          "dynamic": true
+        },
+        {
+          "name": "<decl>",
+          "line": 27,
+          "named": {
+            "_target": "authFile",
+            "_literal": "openam"
+          },
+          "category": "dynamic",
+          "source": "authFile = openam",
+          "dynamic": true
+        },
+        {
+          "name": "<decl>",
+          "line": 28,
+          "named": {
+            "_target": "appVersionFile"
+          },
+          "category": "dynamic",
+          "source": "appVersionFile = ",
+          "dynamic": true
+        },
+        {
+          "name": "<decl>",
+          "line": 36,
+          "named": {
+            "_target": "repos"
+          },
+          "category": "dynamic",
+          "source": "repos = [[olcs-ssweb-version, olcs/olcs-selfserve, ${defaultS3Bucket}selfserve/, olcs-selfserve-, Build_Selfserve], [olcs-static-version, olcs/olcs-static, ${defaultS3Bucket}staticcontent/, olcs-static-, Build_Static], [olcs-iuweb-version, olcs/olcs-internal, ${defaultS3Bucket}internal/, olcs-internal-, Build_Internal], [olcs-api-version, olcs/olcs-backend, ${defaultS3Bucket}api/, olcs-backend-, Build_Backend], [olcs-search-version, olcs/olcs-elasticsearch, ${defaultS3Bucket}search/elasticv5/, olcs-elasticsearch-, Build_Elastic], [olcs-address-base-version, sc/address-base, ${defaultS3Bucket}addressbase/, address-scripts-, Build_Address_Base], [olcs-address-service-version, sc/address-service, ${defaultS3Bucket}addressbase/, address-service-, Build_Address_Service], [olcs_dir_version, olcs/olcs-oa, ${defaultS3Bucket}opendj/, opendj-, Build_OpenDJ], [olcs_etl_version, olcs/olcs-etl, ${defaultS3Bucket}api/, olcs-etl-, Build_ETL], [olcs_templates_version, olcs/olcs-templates, templateS3Bucket, olcs-templates-, Build_Templates]]",
+          "dynamic": true
+        },
+        {
+          "name": "<assign>",
+          "line": 49,
+          "named": {
+            "_target": "stageName",
+            "_literal": "App Branch Close and Tag (not currently integrated)"
+          },
+          "category": "dynamic",
+          "source": "stageName = App Branch Close and Tag (not currently integrated)",
+          "dynamic": true
+        }
+      ]
+    },
+    {
+      "name": "App Branch Close and Tag (not currently integrated)",
+      "line": 50
+    },
+    {
+      "line": 58,
+      "steps": [
+        {
+          "name": "<assign>",
+          "line": 58,
+          "named": {
+            "_target": "stageName",
+            "_literal": "Get Repos"
+          },
+          "category": "dynamic",
+          "source": "stageName = Get Repos",
+          "dynamic": true
+        }
+      ]
+    },
+    {
+      "name": "Get Repos",
+      "line": 59,
+      "steps": [
+        {
+          "name": "deleteDir",
+          "line": 61,
+          "category": "direct"
+        },
+        {
+          "name": "<for>",
+          "line": 63,
+          "body": [
+            {
+              "name": "dir",
+              "line": 64,
+              "args": [
+                "repos[i][0]"
+              ],
+              "body": [
+                {
+                  "name": "sh",
+                  "line": 65,
+                  "args": [
+                    "git init -q -b master ${env.WORKSPACE}/.gitlab/${repos[i][1]}.git && cd ${env.WORKSPACE}/.gitlab/${repos[i][1]}.git && n=28 && for t in v1.0.0 v1.0.1; do n=$((n+1)) && GIT_AUTHOR_DATE=2018-03-${n}T12:00:00 GIT_COMMITTER_DATE=2018-03-${n}T12:00:00 git -c user.name=j2gha -c user.email=j2gha@localhost commit -q --allow-empty -m $t && git tag $t; done"
+                  ],
+                  "category": "direct",
+                  "dynamic": true
+                },
+                {
+                  "name": "checkout",
+                  "line": 66,
+                  "named": {
+                    "$class": "GitSCM",
+                    "branches": [
+                      {
+                        "name": "refs/heads/master"
+                      }
+                    ],
+                    "userRemoteConfigs": [
+                      {
+                        "credentialsId": "OLCS-Jenkins"
+                      }
+                    ]
+                  },
+                  "category": "direct"
+                },
+                {
+                  "name": "sh",
+                  "line": 73,
+                  "args": [
+                    "git describe --abbrev=0 --tags > result"
+                  ],
+                  "category": "direct"
+                },
+                {
+                  "name": "<decl>",
+                  "line": 74,
+                  "named": {
+                    "_target": "version"
+                  },
+                  "body": [
+                    {
+                      "name": "readFile",
+                      "line": 74,
+                      "args": [
+                        "result"
+                      ],
+                      "named": {
+                        "_chain": "trim"
+                      },
+                      "category": "policy"
+                    }
+                  ],
+                  "category": "dynamic",
+                  "source": "version = readFile('result').trim(...)",
+                  "dynamic": true
+                },
+                {
+                  "name": "<assign>",
+                  "line": 75,
+                  "named": {
+                    "_target": "repos[i]"
+                  },
+                  "category": "dynamic",
+                  "source": "repos[i] = version",
+                  "dynamic": true
+                }
+              ],
+              "category": "direct",
+              "dynamic": true
+            }
+          ],
+          "category": "dynamic",
+          "source": "int i = 0; i < repos.size; i++",
+          "dynamic": true
+        }
+      ]
+    },
+    {
+      "line": 81,
+      "steps": [
+        {
+          "name": "<assign>",
+          "line": 81,
+          "named": {
+            "_target": "stageName",
+            "_literal": "Get App Release Tags"
+          },
+          "category": "dynamic",
+          "source": "stageName = Get App Release Tags",
+          "dynamic": true
+        }
+      ]
+    },
+    {
+      "name": "Get App Release Tags",
+      "line": 82,
+      "steps": [
+        {
+          "name": "<for>",
+          "line": 83,
+          "body": [
+            {
+              "name": "<if>",
+              "line": 84,
+              "named": {
+                "_else": [
+                  {
+                    "name": "<assign>",
+                    "line": 95,
+                    "named": {
+                      "_target": "appVersionFile"
+                    },
+                    "category": "dynamic",
+                    "source": "appVersionFile = ${repos[i][0]}: '${repos[i][5]}'\n",
+                    "dynamic": true
+                  }
+                ]
+              },
+              "body": [
+                {
+                  "name": "<if>",
+                  "line": 85,
+                  "named": {
+                    "_else": [
+                      {
+                        "name": "<assign>",
+                        "line": 89,
+                        "named": {
+                          "_target": "appVersionFile"
+                        },
+                        "category": "dynamic",
+                        "source": "appVersionFile = olcs-address-version: '${repos[i + 1][5]}'\n",
+                        "dynamic": true
+                      },
+                      {
+                        "name": "<assign>",
+                        "line": 90,
+                        "named": {
+                          "_target": "i"
+                        },
+                        "category": "dynamic",
+                        "source": "i = 1",
+                        "dynamic": true
+                      },
+                      {
+                        "name": "print",
+                        "line": 91,
+                        "args": [
+                          "**** PROBLEM WITH ADDRESS TAGS****"
+                        ],
+                        "category": "groovy"
+                      }
+                    ]
+                  },
+                  "body": [
+                    {
+                      "name": "<assign>",
+                      "line": 86,
+                      "named": {
+                        "_target": "appVersionFile"
+                      },
+                      "category": "dynamic",
+                      "source": "appVersionFile = olcs-address-version: '${repos[i][5]}'\n",
+                      "dynamic": true
+                    },
+                    {
+                      "name": "<assign>",
+                      "line": 87,
+                      "named": {
+                        "_target": "i"
+                      },
+                      "category": "dynamic",
+                      "source": "i = 1",
+                      "dynamic": true
+                    }
+                  ],
+                  "category": "dynamic",
+                  "source": "repos[i][5].equalsIgnoreCase(repos[i + 1][5])",
+                  "dynamic": true
+                }
+              ],
+              "category": "dynamic",
+              "source": "repos[i][0].contains('address')",
+              "dynamic": true
+            }
+          ],
+          "category": "dynamic",
+          "source": "int i = 0; i < repos.size; i++",
+          "dynamic": true
+        },
+        {
+          "name": "dir",
+          "line": 101,
+          "args": [
+            "olcs-api-version"
+          ],
+          "body": [
+            {
+              "name": "sh",
+              "line": 102,
+              "args": [
+                "git describe --abbrev=0 --tags `git rev-list --tags --skip=1 --max-count=1` > result"
+              ],
+              "category": "direct"
+            },
+            {
+              "name": "<decl>",
+              "line": 103,
+              "named": {
+                "_target": "version"
+              },
+              "body": [
+                {
+                  "name": "readFile",
+                  "line": 103,
+                  "args": [
+                    "result"
+                  ],
+                  "named": {
+                    "_chain": "trim"
+                  },
+                  "category": "policy"
+                }
+              ],
+              "category": "dynamic",
+              "source": "version = readFile('result').trim(...)",
+              "dynamic": true
+            },
+            {
+              "name": "<assign>",
+              "line": 104,
+              "named": {
+                "_target": "appVersionFile"
+              },
+              "category": "dynamic",
+              "source": "appVersionFile = ${ldifLabel} : '${version}'\n",
+              "dynamic": true
+            }
+          ],
+          "category": "direct"
+        },
+        {
+          "name": "<assign>",
+          "line": 108,
+          "named": {
+            "_target": "appVersionFile"
+          },
+          "category": "dynamic",
+          "source": "appVersionFile = ${txcLabel} : '${params.olcs_transxchange_version }'\n",
+          "dynamic": true
+        },
+        {
+          "name": "<assign>",
+          "line": 111,
+          "named": {
+            "_target": "appVersionFile"
+          },
+          "category": "dynamic",
+          "source": "appVersionFile = ${authLabel} : '${params.olcs_auth_version }'\n",
+          "dynamic": true
+        },
+        {
+          "name": "print",
+          "line": 113,
+          "args": [
+            "appVersionFile"
+          ],
+          "category": "groovy",
+          "dynamic": true,
+          "variable_args": [
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "line": 117,
+      "steps": [
+        {
+          "name": "<assign>",
+          "line": 117,
+          "named": {
+            "_target": "stageName",
+            "_literal": "Check and Build Release Artefacts"
+          },
+          "category": "dynamic",
+          "source": "stageName = Check and Build Release Artefacts",
+          "dynamic": true
+        }
+      ]
+    },
+    {
+      "name": "Check and Build Release Artefacts",
+      "line": 118,
+      "steps": [
+        {
+          "name": "<decl>",
+          "line": 119,
+          "named": {
+            "_target": "message"
+          },
+          "category": "dynamic",
+          "source": "message = ",
+          "dynamic": true
+        },
+        {
+          "name": "<for>",
+          "line": 120,
+          "body": [
+            {
+              "name": "<decl>",
+              "line": 123,
+              "named": {
+                "_target": "cmd"
+              },
+              "category": "dynamic",
+              "source": "cmd = echo \"2018-03-29 13:20      1024   s3://${repos[i][2]}${repos[i][3]}v1.0.0.tar.gz\" > result",
+              "dynamic": true
+            },
+            {
+              "name": "sh",
+              "line": 124,
+              "args": [
+                "${cmd}"
+              ],
+              "category": "direct",
+              "dynamic": true
+            },
+            {
+              "name": "print",
+              "line": 125,
+              "args": [
+                "readFile('result').trim(...)"
+              ],
+              "category": "groovy",
+              "dynamic": true
+            },
+            {
+              "name": "<decl>",
+              "line": 126,
+              "named": {
+                "_target": "cmd2"
+              },
+              "category": "dynamic",
+              "source": "cmd2 = grep ${repos[i][3]}${repos[i][5]}.tar.gz result > result2 || true",
+              "dynamic": true
+            },
+            {
+              "name": "sh",
+              "line": 127,
+              "args": [
+                "${cmd2}"
+              ],
+              "category": "direct",
+              "dynamic": true
+            },
+            {
+              "name": "<decl>",
+              "line": 128,
+              "named": {
+                "_target": "file"
+              },
+              "body": [
+                {
+                  "name": "readFile",
+                  "line": 128,
+                  "args": [
+                    "result2"
+                  ],
+                  "named": {
+                    "_chain": "trim"
+                  },
+                  "category": "policy"
+                }
+              ],
+              "category": "dynamic",
+              "source": "file = readFile('result2').trim(...)",
+              "dynamic": true
+            },
+            {
+              "name": "print",
+              "line": 129,
+              "args": [
+                "File: ${file}"
+              ],
+              "category": "groovy",
+              "dynamic": true
+            },
+            {
+              "name": "<if>",
+              "line": 130,
+              "named": {
+                "_else": [
+                  {
+                    "name": "<if>",
+                    "line": 133,
+                    "named": {
+                      "_else": [
+                        {
+                          "name": "<assign>",
+                          "line": 136,
+                          "named": {
+                            "_target": "message"
+                          },
+                          "category": "dynamic",
+                          "source": "message = Creating: ${repos[i][3]}${repos[i][5]}\n",
+                          "dynamic": true
+                        },
+                        {
+                          "name": "build",
+                          "line": 138,
+                          "named": {
+                            "job": "repos[i][4]",
+                            "parameters": [
+                              {
+                                "$class": "StringParameterValue",
+                                "name": "TAG"
+                              },
+                              {
+                                "$class": "StringParameterValue",
+                                "name": "TAR_SUFFIX"
+                              }
+                            ]
+                          },
+                          "category": "redesign",
+                          "dynamic": true
+                        },
+                        {
+                          "name": "print",
+                          "line": 141,
+                          "args": [
+                            "Built ${repos[i][3]} ${repos[i][4]} with ${repos[i][5]} \n"
+                          ],
+                          "category": "groovy",
+                          "dynamic": true
+                        }
+                      ]
+                    },
+                    "body": [
+                      {
+                        "name": "<assign>",
+                        "line": 134,
+                        "named": {
+                          "_target": "message"
+                        },
+                        "category": "dynamic",
+                        "source": "message = MISSING: ${repos[i][3]}${repos[i][5]}\n",
+                        "dynamic": true
+                      }
+                    ],
+                    "category": "dynamic",
+                    "source": "params.DRYRUN",
+                    "dynamic": true
+                  }
+                ]
+              },
+              "body": [
+                {
+                  "name": "<assign>",
+                  "line": 131,
+                  "named": {
+                    "_target": "message"
+                  },
+                  "category": "dynamic",
+                  "source": "message = Exists: ${repos[i][3]}${repos[i][5]}\n",
+                  "dynamic": true
+                }
+              ],
+              "category": "dynamic",
+              "source": "file.contains(repos[i][3] + repos[i][5])",
+              "dynamic": true
+            },
+            {
+              "name": "print",
+              "line": 145,
+              "args": [
+                "Completed ${repos[i][0]}"
+              ],
+              "category": "groovy",
+              "dynamic": true
+            }
+          ],
+          "category": "dynamic",
+          "source": "int i = 0; i < repos.size; i++",
+          "dynamic": true
+        },
+        {
+          "name": "print",
+          "line": 147,
+          "args": [
+            "message"
+          ],
+          "category": "groovy",
+          "dynamic": true,
+          "variable_args": [
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "line": 150,
+      "steps": [
+        {
+          "name": "<assign>",
+          "line": 150,
+          "named": {
+            "_target": "stageName",
+            "_literal": "Check Artefacts from Input Params"
+          },
+          "category": "dynamic",
+          "source": "stageName = Check Artefacts from Input Params",
+          "dynamic": true
+        }
+      ]
+    },
+    {
+      "name": "Check Artefacts from Input Params",
+      "line": 151,
+      "steps": [
+        {
+          "name": "<decl>",
+          "line": 152,
+          "named": {
+            "_target": "message"
+          },
+          "category": "dynamic",
+          "source": "message = ",
+          "dynamic": true
+        },
+        {
+          "name": "<decl>",
+          "line": 155,
+          "named": {
+            "_target": "cmd"
+          },
+          "category": "dynamic",
+          "source": "cmd = echo \"2018-03-29 13:20      1024   s3://${defaultS3Bucket}openam/${authFile}-${params.olcs_auth_version }.tar.gz\" > result",
+          "dynamic": true
+        },
+        {
+          "name": "sh",
+          "line": 156,
+          "args": [
+            "${cmd}"
+          ],
+          "category": "direct",
+          "dynamic": true
+        },
+        {
+          "name": "print",
+          "line": 157,
+          "args": [
+            "readFile('result').trim(...)"
+          ],
+          "category": "groovy",
+          "dynamic": true
+        },
+        {
+          "name": "<decl>",
+          "line": 158,
+          "named": {
+            "_target": "cmd2"
+          },
+          "category": "dynamic",
+          "source": "cmd2 = grep ${authFile}-${params.olcs_auth_version }.tar.gz result > result2 || true",
+          "dynamic": true
+        },
+        {
+          "name": "sh",
+          "line": 159,
+          "args": [
+            "${cmd2}"
+          ],
+          "category": "direct",
+          "dynamic": true
+        },
+        {
+          "name": "<decl>",
+          "line": 160,
+          "named": {
+            "_target": "file"
+          },
+          "body": [
+            {
+              "name": "readFile",
+              "line": 160,
+              "args": [
+                "result2"
+              ],
+              "named": {
+                "_chain": "trim"
+              },
+              "category": "policy"
+            }
+          ],
+          "category": "dynamic",
+          "source": "file = readFile('result2').trim(...)",
+          "dynamic": true
+        },
+        {
+          "name": "print",
+          "line": 161,
+          "args": [
+            "File: ${file}"
+          ],
+          "category": "groovy",
+          "dynamic": true
+        },
+        {
+          "name": "<if>",
+          "line": 162,
+          "named": {
+            "_else": [
+              {
+                "name": "<if>",
+                "line": 165,
+                "named": {
+                  "_else": [
+                    {
+                      "name": "<assign>",
+                      "line": 168,
+                      "named": {
+                        "_target": "message"
+                      },
+                      "category": "dynamic",
+                      "source": "message = MISSING: ${authFile}-${params.olcs_auth_version }\n",
+                      "dynamic": true
+                    },
+                    {
+                      "name": "error",
+                      "line": 169,
+                      "args": [
+                        "Missing package:\n${message}"
+                      ],
+                      "category": "direct",
+                      "dynamic": true
+                    }
+                  ]
+                },
+                "body": [
+                  {
+                    "name": "<assign>",
+                    "line": 166,
+                    "named": {
+                      "_target": "message"
+                    },
+                    "category": "dynamic",
+                    "source": "message = MISSING: ${authFile}-${params.olcs_auth_version }\n",
+                    "dynamic": true
+                  }
+                ],
+                "category": "dynamic",
+                "source": "params.DRYRUN",
+                "dynamic": true
+              }
+            ]
+          },
+          "body": [
+            {
+              "name": "<assign>",
+              "line": 163,
+              "named": {
+                "_target": "message"
+              },
+              "category": "dynamic",
+              "source": "message = Exists: ${authFile}-${params.olcs_auth_version }\n",
+              "dynamic": true
+            }
+          ],
+          "category": "dynamic",
+          "source": "file.contains(authFile + '-' + params.olcs_auth_version)",
+          "dynamic": true
+        },
+        {
+          "name": "<decl>",
+          "line": 174,
+          "named": {
+            "_target": "cmd3"
+          },
+          "category": "dynamic",
+          "source": "cmd3 = echo \"2018-03-29 13:20      1024   s3://${defaultS3Bucket}api/${txcFile}-${params.olcs_transxchange_version }.war\" > result",
+          "dynamic": true
+        },
+        {
+          "name": "sh",
+          "line": 175,
+          "args": [
+            "${cmd3}"
+          ],
+          "category": "direct",
+          "dynamic": true
+        },
+        {
+          "name": "print",
+          "line": 176,
+          "args": [
+            "readFile('result').trim(...)"
+          ],
+          "category": "groovy",
+          "dynamic": true
+        },
+        {
+          "name": "<decl>",
+          "line": 177,
+          "named": {
+            "_target": "cmd4"
+          },
+          "category": "dynamic",
+          "source": "cmd4 = grep ${txcFile}-${params.olcs_transxchange_version }.war result > result2 || true",
+          "dynamic": true
+        },
+        {
+          "name": "sh",
+          "line": 178,
+          "args": [
+            "${cmd4}"
+          ],
+          "category": "direct",
+          "dynamic": true
+        },
+        {
+          "name": "<decl>",
+          "line": 179,
+          "named": {
+            "_target": "file2"
+          },
+          "body": [
+            {
+              "name": "readFile",
+              "line": 179,
+              "args": [
+                "result2"
+              ],
+              "named": {
+                "_chain": "trim"
+              },
+              "category": "policy"
+            }
+          ],
+          "category": "dynamic",
+          "source": "file2 = readFile('result2').trim(...)",
+          "dynamic": true
+        },
+        {
+          "name": "print",
+          "line": 180,
+          "args": [
+            "File: ${file2}"
+          ],
+          "category": "groovy",
+          "dynamic": true
+        },
+        {
+          "name": "<if>",
+          "line": 181,
+          "named": {
+            "_else": [
+              {
+                "name": "<if>",
+                "line": 184,
+                "named": {
+                  "_else": [
+                    {
+                      "name": "<assign>",
+                      "line": 187,
+                      "named": {
+                        "_target": "message"
+                      },
+                      "category": "dynamic",
+                      "source": "message = MISSING: ${txcFile}-${params.olcs_transxchange_version }\n",
+                      "dynamic": true
+                    },
+                    {
+                      "name": "error",
+                      "line": 188,
+                      "args": [
+                        "Missing package:\n${message}"
+                      ],
+                      "category": "direct",
+                      "dynamic": true
+                    }
+                  ]
+                },
+                "body": [
+                  {
+                    "name": "<assign>",
+                    "line": 185,
+                    "named": {
+                      "_target": "message"
+                    },
+                    "category": "dynamic",
+                    "source": "message = MISSING: ${txcFile}-${params.olcs_transxchange_version }\n",
+                    "dynamic": true
+                  }
+                ],
+                "category": "dynamic",
+                "source": "params.DRYRUN",
+                "dynamic": true
+              }
+            ]
+          },
+          "body": [
+            {
+              "name": "<assign>",
+              "line": 182,
+              "named": {
+                "_target": "message"
+              },
+              "category": "dynamic",
+              "source": "message = Exists: ${txcFile}-${params.olcs_transxchange_version }\n",
+              "dynamic": true
+            }
+          ],
+          "category": "dynamic",
+          "source": "file2.contains(txcFile + '-' + params.olcs_transxchange_version)",
+          "dynamic": true
+        },
+        {
+          "name": "print",
+          "line": 192,
+          "args": [
+            "message"
+          ],
+          "category": "groovy",
+          "dynamic": true,
+          "variable_args": [
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "line": 195,
+      "steps": [
+        {
+          "name": "<assign>",
+          "line": 195,
+          "named": {
+            "_target": "stageName",
+            "_literal": "Check App Version against Built artefacts"
+          },
+          "category": "dynamic",
+          "source": "stageName = Check App Version against Built artefacts",
+          "dynamic": true
+        }
+      ]
+    },
+    {
+      "name": "Check App Version against Built artefacts",
+      "line": 196,
+      "steps": [
+        {
+          "name": "<if>",
+          "line": 197,
+          "named": {
+            "_else": [
+              {
+                "name": "build",
+                "line": 201,
+                "named": {
+                  "job": "Check App Release Tags",
+                  "parameters": [
+                    {
+                      "$class": "StringParameterValue",
+                      "name": "olcs_transxchange_version"
+                    },
+                    {
+                      "$class": "StringParameterValue",
+                      "name": "olcs_auth_version"
+                    }
+                  ]
+                },
+                "category": "redesign"
+              }
+            ]
+          },
+          "body": [
+            {
+              "name": "print",
+              "line": 198,
+              "args": [
+                "Not Running external check for DryRun"
+              ],
+              "category": "groovy"
+            }
+          ],
+          "category": "dynamic",
+          "source": "params.DRYRUN",
+          "dynamic": true
+        }
+      ]
+    },
+    {
+      "line": 209,
+      "steps": [
+        {
+          "name": "<assign>",
+          "line": 209,
+          "named": {
+            "_target": "stageName",
+            "_literal": "Create and Push Release Manifest"
+          },
+          "category": "dynamic",
+          "source": "stageName = Create and Push Release Manifest",
+          "dynamic": true
+        }
+      ]
+    },
+    {
+      "name": "Create and Push Release Manifest",
+      "line": 210,
+      "steps": [
+        {
+          "name": "<if>",
+          "line": 211,
+          "named": {
+            "_else": [
+              {
+                "name": "dir",
+                "line": 214,
+                "args": [
+                  "app-version"
+                ],
+                "body": [
+                  {
+                    "name": "deleteDir",
+                    "line": 215,
+                    "category": "direct"
+                  },
+                  {
+                    "name": "sh",
+                    "line": 216,
+                    "args": [
+                      "git init -q -b develop ${env.WORKSPACE}/.gitlab/aws/app-version.git && cd ${env.WORKSPACE}/.gitlab/aws/app-version.git && mkdir hiera && touch hiera/app_version.eyaml && git add hiera && git -c user.name=j2gha -c user.email=j2gha@localhost commit -q -m develop"
+                    ],
+                    "category": "direct",
+                    "dynamic": true
+                  },
+                  {
+                    "name": "checkout",
+                    "line": 217,
+                    "named": {
+                      "$class": "GitSCM",
+                      "branches": [
+                        {
+                          "name": "refs/heads/develop"
+                        }
+                      ],
+                      "userRemoteConfigs": [
+                        {
+                          "credentialsId": "OLCS-Jenkins"
+                        }
+                      ]
+                    },
+                    "category": "direct"
+                  },
+                  {
+                    "name": "sh",
+                    "line": 223,
+                    "args": [
+                      "ls -lrt"
+                    ],
+                    "category": "direct"
+                  },
+                  {
+                    "name": "sh",
+                    "line": 224,
+                    "args": [
+                      "git checkout -b release-candidate"
+                    ],
+                    "category": "direct"
+                  },
+                  {
+                    "name": "writeFile",
+                    "line": 225,
+                    "named": {
+                      "file": "hiera/app_version.eyaml",
+                      "text": "${appVersionFile}"
+                    },
+                    "category": "direct",
+                    "dynamic": true
+                  },
+                  {
+                    "name": "sh",
+                    "line": 226,
+                    "args": [
+                      "git status"
+                    ],
+                    "category": "direct"
+                  },
+                  {
+                    "name": "sh",
+                    "line": 227,
+                    "args": [
+                      "git add hiera/app_version.eyaml"
+                    ],
+                    "category": "direct"
+                  },
+                  {
+                    "name": "sh",
+                    "line": 228,
+                    "args": [
+                      "git -c user.name=j2gha -c user.email=j2gha@localhost commit -m \"Release ${VERSION}\""
+                    ],
+                    "category": "direct",
+                    "dynamic": true
+                  },
+                  {
+                    "name": "sh",
+                    "line": 229,
+                    "args": [
+                      "git push --set-upstream origin release-candidate"
+                    ],
+                    "category": "direct"
+                  }
+                ],
+                "category": "direct"
+              }
+            ]
+          },
+          "body": [
+            {
+              "name": "print",
+              "line": 212,
+              "args": [
+                "appVersionFile"
+              ],
+              "category": "groovy",
+              "dynamic": true,
+              "variable_args": [
+                0
+              ]
+            }
+          ],
+          "category": "dynamic",
+          "source": "params.DRYRUN",
+          "dynamic": true
+        }
+      ]
+    }
+  ],
+  "notes": [
+    "18 statement(s) outside any stage kept in source order in 7 unnamed segment(s) (from line(s) 19, 58, 81, 117, 150, 195, 209)"
+  ]
+}

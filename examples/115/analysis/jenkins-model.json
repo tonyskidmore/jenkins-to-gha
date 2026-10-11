@@ -1,0 +1,600 @@
+{
+  "result": "success",
+  "json": {
+    "pipeline": {
+      "stages": [
+        {
+          "name": "Detect Secrets",
+          "branches": [
+            {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "detectSecrets",
+                  "arguments": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Init",
+          "branches": [
+            {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "script",
+                  "arguments": [
+                    {
+                      "key": "scriptBlock",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "defaultInit()\n          applyCustomizations()\n          commitHash = \"${env.GIT_COMMIT.take(7)}\""
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "post": {
+            "conditions": [
+              {
+                "condition": "always",
+                "branch": {
+                  "name": "default",
+                  "steps": [
+                    {
+                      "name": "junit",
+                      "arguments": [
+                        {
+                          "key": "testResults",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "**/junitreports/*.xml"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "name": "QA",
+          "branches": [
+            {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "withEnv",
+                  "arguments": {
+                    "isLiteral": false,
+                    "value": "${['DOCKER_HOST=',\n          'SERVER_AUTH_TYPE=basic',\n          'SERVER_URL=http://127.0.0.1:5984',\n          'WIREMOCK_URL=http://127.0.0.1:8080',\n          'WIREMOCK_PORT=8080'\n        ]}"
+                  },
+                  "children": [
+                    {
+                      "name": "withCredentials",
+                      "arguments": {
+                        "isLiteral": false,
+                        "value": "${[\n            usernamePassword(credentialsId: 'container-test-server',\n                             usernameVariable: 'SERVER_USERNAME',\n                             passwordVariable: 'SERVER_PASSWORD')\n            ]}"
+                      },
+                      "children": [
+                        {
+                          "name": "script",
+                          "arguments": [
+                            {
+                              "key": "scriptBlock",
+                              "value": {
+                                "isLiteral": true,
+                                "value": "sh 'echo ./scripts/setup_couch.sh'  // j2gha-local: no CouchDB service in the harness (port 5984)\n                  sh 'echo ./scripts/setup_wiremock.sh'  // j2gha-local: no WireMock service (port 8080 is the Jenkins controller)"
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "name": "runTests",
+                          "arguments": []
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "when": {
+            "conditions": [
+              {
+                "name": "anyOf",
+                "children": [
+                  {
+                    "name": "changeRequest",
+                    "arguments": []
+                  },
+                  {
+                    "name": "expression",
+                    "arguments": [
+                      {
+                        "key": "scriptBlock",
+                        "value": {
+                          "isLiteral": true,
+                          "value": "env.BRANCH_IS_PRIMARY"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "name": "not",
+                "children": [
+                  {
+                    "name": "allOf",
+                    "children": [
+                      {
+                        "name": "changeRequest",
+                        "arguments": [
+                          {
+                            "key": "branch",
+                            "value": {
+                              "isLiteral": true,
+                              "value": "dependabot*"
+                            }
+                          },
+                          {
+                            "key": "comparator",
+                            "value": {
+                              "isLiteral": true,
+                              "value": "GLOB"
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "name": "not",
+                        "children": [
+                          {
+                            "name": "changeRequest",
+                            "arguments": [
+                              {
+                                "key": "branch",
+                                "value": {
+                                  "isLiteral": true,
+                                  "value": "^dependabot.*(?i)(ibm)[\\.-].+sdk-core.*$"
+                                }
+                              },
+                              {
+                                "key": "comparator",
+                                "value": {
+                                  "isLiteral": true,
+                                  "value": "REGEXP"
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "environment": [
+            {
+              "key": "scannerHome",
+              "value": {
+                "isLiteral": false,
+                "value": "${'SonarQubeScanner'}"
+              }
+            }
+          ],
+          "name": "SonarQube analysis",
+          "branches": [
+            {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "scanCode",
+                  "arguments": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "when": {
+            "conditions": [
+              {
+                "name": "not",
+                "children": [
+                  {
+                    "name": "buildingTag",
+                    "arguments": []
+                  }
+                ]
+              }
+            ]
+          },
+          "post": {
+            "conditions": [
+              {
+                "condition": "always",
+                "branch": {
+                  "name": "default",
+                  "steps": [
+                    {
+                      "name": "sh",
+                      "arguments": [
+                        {
+                          "key": "script",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "git reset --hard"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "environment": [
+            {
+              "key": "STAGE_ROOT",
+              "value": {
+                "isLiteral": false,
+                "value": "\"${ARTIFACTORY_URL_UP}/api/\""
+              }
+            }
+          ],
+          "name": "Publish[staging]",
+          "branches": [
+            {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "bumpVersion",
+                  "arguments": {
+                    "isLiteral": true,
+                    "value": true
+                  }
+                },
+                {
+                  "name": "customizePublishingInfo",
+                  "arguments": []
+                },
+                {
+                  "name": "withEnv",
+                  "arguments": {
+                    "isLiteral": false,
+                    "value": "${[\"LIB_NAME=${libName}\",\n          \"TYPE=${buildType}\",\n          \"ARTIFACT_URL=${artifactUrl}\",\n          \"MODULE_ID=${moduleId}\",\n          \"BUILD_NAME=${env.JOB_NAME}\"]}"
+                  },
+                  "children": [
+                    {
+                      "name": "publishStaging",
+                      "arguments": []
+                    },
+                    {
+                      "name": "publishArtifactoryBuildInfo",
+                      "arguments": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "when": {
+            "conditions": [
+              {
+                "name": "not",
+                "children": [
+                  {
+                    "name": "buildingTag",
+                    "arguments": []
+                  }
+                ]
+              }
+            ]
+          },
+          "name": "Run Gauge tests",
+          "branches": [
+            {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "script",
+                  "arguments": [
+                    {
+                      "key": "scriptBlock",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "buildResults = null\n\n            // For standard builds attempt to run on a matching env.BRANCH_NAME branch first and if it doesn't exist\n            // then fallback to TARGET_GAUGE_RELEASE_BRANCH_NAME if set or env.TARGET_GAUGE_DEFAULT_BRANCH_NAME.\n            gaugeBranchName = env.BRANCH_NAME\n            fallbackBranchName = env.TARGET_GAUGE_RELEASE_BRANCH_NAME ?: env.TARGET_GAUGE_DEFAULT_BRANCH_NAME\n\n            // For release builds (tag builds or the primary branch) do the reverse and attempt to run on the\n            // TARGET_GAUGE_RELEASE_BRANCH_NAME falling back to env.BRANCH_NAME or env.TAG_NAME if there is no match.\n            if (env.TAG_NAME || env.BRANCH_IS_PRIMARY){\n              gaugeBranchName = env.TARGET_GAUGE_RELEASE_BRANCH_NAME\n              fallbackBranchName = env.TAG_NAME ?: env.BRANCH_NAME\n            }\n          try {\n            buildResults = build job: \"/${env.SDKS_GAUGE_PIPELINE_PROJECT}/${gaugeBranchName}\", parameters: [\n                string(name: 'SDK_RUN_LANG', value: \"$libName\"),\n                string(name: \"SDK_VERSION_${libName.toUpperCase()}\", value: \"${env.NEW_SDK_VERSION}\")]\n          } catch (hudson.AbortException ae) {\n            // only run build in sdks-gauge default branch if BRANCH_NAME doesn't exist\n            if (ae.getMessage().contains(\"No item named /${env.SDKS_GAUGE_PIPELINE_PROJECT}/${gaugeBranchName} found\")) {\n              echo \"No matching branch named '${gaugeBranchName}' in sdks-gauge, building ${fallbackBranchName} branch\"\n              build job: \"/${env.SDKS_GAUGE_PIPELINE_PROJECT}/${fallbackBranchName}\", parameters: [\n                  string(name: 'SDK_RUN_LANG', value: \"$libName\"),\n                  string(name: \"SDK_VERSION_${libName.toUpperCase()}\", value: \"${env.NEW_SDK_VERSION}\")]\n            } else {\n              throw ae\n            }\n          }"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "when": {
+            "conditions": [
+              {
+                "name": "expression",
+                "arguments": [
+                  {
+                    "key": "scriptBlock",
+                    "value": {
+                      "isLiteral": true,
+                      "value": "env.BRANCH_IS_PRIMARY"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "environment": [
+            {
+              "key": "WS_PROJECTNAME",
+              "value": {
+                "isLiteral": false,
+                "value": "\"cloudant-${libName}-sdk\""
+              }
+            }
+          ],
+          "name": "Mend scan",
+          "branches": [
+            {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "mendScan",
+                  "arguments": []
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "when": {
+            "conditions": [
+              {
+                "name": "allOf",
+                "children": [
+                  {
+                    "name": "branch",
+                    "arguments": {
+                      "isLiteral": true,
+                      "value": "main"
+                    }
+                  },
+                  {
+                    "name": "not",
+                    "children": [
+                      {
+                        "name": "equals",
+                        "arguments": [
+                          {
+                            "key": "expected",
+                            "value": {
+                              "isLiteral": true,
+                              "value": "NONE"
+                            }
+                          },
+                          {
+                            "key": "actual",
+                            "value": {
+                              "isLiteral": false,
+                              "value": "\"${params.TARGET_VERSION}\""
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "beforeAgent": true
+          },
+          "name": "Update version and tag",
+          "branches": [
+            {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "gitsh",
+                  "arguments": {
+                    "isLiteral": true,
+                    "value": "github.com"
+                  },
+                  "children": [
+                    {
+                      "name": "bumpVersion",
+                      "arguments": {
+                        "isLiteral": true,
+                        "value": false
+                      }
+                    },
+                    {
+                      "name": "sh",
+                      "arguments": [
+                        {
+                          "key": "script",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "git push --tags origin HEAD:main"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "when": {
+            "conditions": [
+              {
+                "name": "allOf",
+                "children": [
+                  {
+                    "name": "buildingTag",
+                    "arguments": []
+                  },
+                  {
+                    "name": "anyOf",
+                    "children": [
+                      {
+                        "name": "tag",
+                        "arguments": [
+                          {
+                            "key": "pattern",
+                            "value": {
+                              "isLiteral": false,
+                              "value": "/${env.SVRE_PRE_RELEASE_TAG}/"
+                            }
+                          },
+                          {
+                            "key": "comparator",
+                            "value": {
+                              "isLiteral": true,
+                              "value": "REGEXP"
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "beforeAgent": true
+          },
+          "name": "Publish[repository]",
+          "branches": [
+            {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "publishPublic",
+                  "arguments": []
+                },
+                {
+                  "name": "gitsh",
+                  "arguments": {
+                    "isLiteral": true,
+                    "value": "github.com"
+                  },
+                  "children": [
+                    {
+                      "name": "publishDocs",
+                      "arguments": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "environment": [
+        {
+          "key": "ARTIFACTORY_CREDS",
+          "value": {
+            "name": "credentials",
+            "arguments": [
+              {
+                "isLiteral": true,
+                "value": "artifactory"
+              }
+            ]
+          }
+        },
+        {
+          "key": "ARTIFACTORY_URL_UP",
+          "value": {
+            "isLiteral": false,
+            "value": "\"${Artifactory.server('taas-artifactory-upload').getUrl()}\""
+          }
+        },
+        {
+          "key": "ARTIFACTORY_URL_DOWN",
+          "value": {
+            "isLiteral": false,
+            "value": "\"${Artifactory.server('taas-artifactory').getUrl()}\""
+          }
+        }
+      ],
+      "agent": {
+        "type": "kubernetes",
+        "arguments": [
+          {
+            "key": "yaml",
+            "value": {
+              "isLiteral": false,
+              "value": "${kubePodTemplate(name: 'gauge.yaml')}"
+            }
+          }
+        ]
+      },
+      "parameters": {
+        "parameters": [
+          {
+            "name": "validatingString",
+            "arguments": [
+              {
+                "key": "name",
+                "value": {
+                  "isLiteral": true,
+                  "value": "TARGET_VERSION"
+                }
+              },
+              {
+                "key": "defaultValue",
+                "value": {
+                  "isLiteral": true,
+                  "value": "NONE"
+                }
+              },
+              {
+                "key": "description",
+                "value": {
+                  "isLiteral": true,
+                  "value": "Tag to create after successful QA"
+                }
+              },
+              {
+                "key": "failedValidationMessage",
+                "value": {
+                  "isLiteral": true,
+                  "value": "Tag name must be NONE or a semantic version release or pre-release (i.e. no build metadata)"
+                }
+              },
+              {
+                "key": "regex",
+                "value": {
+                  "isLiteral": false,
+                  "value": "/NONE|${globals.SVRE_PRE_RELEASE}/"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

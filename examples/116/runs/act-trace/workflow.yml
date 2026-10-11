@@ -1,0 +1,56 @@
+# j2gha act variant (trace) of examples/116
+name: 'j2gha 116: dvsa/cvs-auto-mobile-app-retired Jenkinsfile (j2gha)'
+on:
+  push:
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  BRANCH_NAME: develop
+  TAG_NAME: ''
+  CHANGE_ID: ''
+  GIT_COMMIT: ${{ github.sha }}
+  GIT_BRANCH: origin/develop
+  GIT_URL: ${{ github.server_url }}/${{ github.repository }}.git
+defaults:
+  run:
+    shell: bash
+jobs:
+  main:
+    name: main
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+    - name: withFolderProperties (manual migration)
+      id: s1
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"","step":"withFolderProperties"}'
+    - name: 'checkout: checkout'
+      id: s2
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"checkout","step":"checkout"}'
+    - name: 'Get IPA from AWS S3: test -n "$AWS_ACCESS_KEY_ID" && echo https://raw.githubusercontent.com'
+      id: s3
+      env:
+        AWS_ACCESS_KEY_ID: j2gha-user
+        AWS_SECRET_ACCESS_KEY: j2gha-fake-password
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Get IPA from AWS S3","step":"sh"}'
+    - name: 'install ipa in browserstack: curl -sSfLo CVSMobile.ipa `cat ${LBRANCH}.txt`'
+      id: s4
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"install ipa in browserstack","step":"sh"}'
+    - name: 'install ipa in browserstack: test -n "$BROWSERSTACK_CREDS" && echo ''{"app_url":"bs://j2gha-local"}'''
+      id: s5
+      env:
+        BROWSERSTACK_CREDS: j2gha-fake-secret
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"install ipa in browserstack","step":"sh"}'
+    - name: 'test: browserstack (manual migration)'
+      id: s7
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"test","step":"browserstack"}'
+    - name: 'test: mvn --batch-mode clean install -DskipTests -DBROWSERSTACK_APP_ID=${APP'
+      id: s6
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"test","step":"sh"}'
+    - name: 'create report: mkdir -p target/site/serenity && echo "<html><body><h1>DVSA CVS Mobile'
+      id: s8
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"create report","step":"sh"}'
+    - name: 'create report: publish HTML report'
+      id: s9
+      if: always()
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"create report","step":"publishHTML"}'

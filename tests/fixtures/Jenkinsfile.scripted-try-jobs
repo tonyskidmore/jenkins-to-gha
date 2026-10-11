@@ -1,0 +1,13 @@
+try {
+  node('linux') {
+    stage('Build') { sh 'make build' }
+  }
+  node('windows') {
+    stage('Package') { bat 'package.bat' }
+  }
+} catch (e) {
+  echo 'build failed'
+  throw e
+} finally {
+  echo 'done'
+}

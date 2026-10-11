@@ -1,0 +1,15 @@
+def deploy(String target) {
+    echo target
+    sh target
+}
+node {
+    stage('Probe') {
+        deploy('echo hello')
+        dir('new/subdir') {
+            checkout scm
+            sh 'pwd'
+        }
+        writeFile file: 'token.txt', text: 'abc'
+        rocketSend 'hello'
+    }
+}

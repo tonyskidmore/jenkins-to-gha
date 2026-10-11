@@ -1,0 +1,92 @@
+#!groovy
+
+// Copyright (c) 2020 ETH Zurich
+// Copyright (c) 2022-2025 Hartmut Kaiser
+// Copyright (c) 2024 Alireza Kheirkhahan
+//
+// SPDX-License-Identifier: BSL-1.0
+// Distributed under the Boost Software License, Version 1.0. (See accompanying
+// file LICENSE_1_0.txt or copy at http://www.boost.org/LICENSE_1_0.txt)
+
+pipeline {
+    agent any
+    options {
+        buildDiscarder(
+            logRotator(
+                daysToKeepStr: "14",
+                numToKeepStr: "50",
+                artifactDaysToKeepStr: "14",
+                artifactNumToKeepStr: "50"
+            )
+        )
+    }
+    environment {
+        GITHUB_TOKEN = credentials('STELLARBOT_GITHUB_TOKEN')
+    }
+    stages {
+        stage('checkout') {
+            steps {
+                // Branch builds come from a multibranch job, where BRANCH_NAME is
+                // set and a superseded run is a pure duplicate holding 26
+                // exclusive nodes. Let a newer run retire those. Pull requests
+                // share one job that has no BRANCH_NAME and must not be gated.
+                //
+                // A milestone only aborts older runs that have not reached it
+                // yet, and every run reaches a fixed milestone as soon as it
+                // starts. Numbering the milestones by build leaves each run
+                // parked short of its successor's milestone, which is what lets
+                // the successor retire it.
+                script {
+                    if (env.BRANCH_NAME) {
+                        def buildNumber = env.BUILD_NUMBER as int
+                        if (buildNumber > 1) {
+                            milestone(buildNumber - 1)
+                        }
+                        milestone(buildNumber)
+                    }
+                }
+                dir("hpx_${env.BUILD_ID}") {
+                    checkout scm
+                    echo "Running ${env.BUILD_ID} on ${env.JENKINS_URL} (base directory: ${env.WORKSPACE})"
+                }
+            }
+        }
+        stage('build') {
+            matrix {
+                axes {
+                    axis {
+                        name 'configuration_name'
+                        values 'gcc-12', 'gcc-13', 'gcc-14', 'gcc-15', 'clang-17-apex', 'clang-16', 'clang-17', 'clang-18', 'clang-19', 'clang-20', 'gcc-12-cuda-12', 'gcc-12-cuda-12-dgx', 'hipcc'
+                    }
+                    axis {
+                         name 'build_type'
+                         values 'Release', 'Debug'
+                    }
+                }
+                stages {
+                    stage('build') {
+                        steps {
+                            dir("hpx_${env.BUILD_ID}") {
+                                sh '''
+                                #!/bin/bash -l
+                                # j2gha-local: was .jenkins/lsu/entry.sh (submits a Slurm job on the LSU cluster and posts
+                                # a GitHub status); writes the files the post section archives instead
+                                mkdir -p "build/${configuration_name}-${build_type}/Testing/Temporary"
+                                echo "${configuration_name} ${build_type} ${GIT_COMMIT}" > "jenkins-hpx-${configuration_name}-${build_type}.out"
+                                echo "Start testing: ${configuration_name}-${build_type}" > "build/${configuration_name}-${build_type}/Testing/Temporary/LastTest.log"
+                                '''
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        always {
+            archiveArtifacts artifacts: "hpx_${env.BUILD_ID}/jenkins-hpx-*", fingerprint: true
+            archiveArtifacts artifacts: "hpx_${env.BUILD_ID}/build/*/Testing/**", fingerprint: true
+        }
+    }
+}

@@ -1,0 +1,384 @@
+{
+  "dialect": "declarative",
+  "line": 4,
+  "agent": {
+    "kind": "any",
+    "line": 5
+  },
+  "environment": {
+    "ROUTING_CORES": {
+      "kind": "literal",
+      "value": 32,
+      "line": 10
+    }
+  },
+  "options": {
+    "timeout": {
+      "time": 8,
+      "unit": "HOURS",
+      "minutes": 480
+    }
+  },
+  "stages": [
+    {
+      "name": "Update OpenROAD to HEAD of master branch",
+      "line": 15,
+      "steps": [
+        {
+          "name": "checkout",
+          "line": 17,
+          "named": {
+            "$class": "GitSCM",
+            "branches": [
+              {
+                "name": "*/master"
+              }
+            ],
+            "userRemoteConfigs": [
+              {
+                "url": "https://github.com/The-OpenROAD-Project/OpenROAD"
+              }
+            ],
+            "extensions": [
+              {
+                "$class": "RelativeTargetDirectory",
+                "relativeTargetDir": "openroad"
+              }
+            ]
+          },
+          "category": "direct"
+        }
+      ]
+    },
+    {
+      "name": "Build Docker OpenLane image with openroad_app master",
+      "line": 25,
+      "steps": [
+        {
+          "name": "script",
+          "line": 27,
+          "body": [
+            {
+              "name": "retry",
+              "line": 28,
+              "args": [
+                3
+              ],
+              "body": [
+                {
+                  "name": "<try>",
+                  "line": 29,
+                  "named": {
+                    "_catch": [
+                      {
+                        "name": "sleep",
+                        "line": 38,
+                        "args": [
+                          60
+                        ],
+                        "category": "direct"
+                      },
+                      {
+                        "name": "sh",
+                        "line": 39,
+                        "args": [
+                          "exit 1"
+                        ],
+                        "category": "direct"
+                      }
+                    ]
+                  },
+                  "body": [
+                    {
+                      "name": "sh",
+                      "line": 30,
+                      "args": [
+                        "PDK_ROOT=$(pwd)/pdks OPENLANE_IMAGE_NAME=efabless/openlane python3 .github/scripts/update_tools.py openroad_app"
+                      ],
+                      "category": "direct"
+                    },
+                    {
+                      "name": "sh",
+                      "line": 31,
+                      "args": [
+                        "make -C docker build-openroad_app"
+                      ],
+                      "category": "direct"
+                    },
+                    {
+                      "name": "script",
+                      "line": 32,
+                      "body": [
+                        {
+                          "name": "<assign>",
+                          "line": 32,
+                          "named": {
+                            "_target": "NEW_SHA"
+                          },
+                          "body": [
+                            {
+                              "name": "sh",
+                              "line": 32,
+                              "named": {
+                                "returnStdout": true,
+                                "script": "python3 dependencies/tool.py -f commit openroad_app",
+                                "_chain": "trim"
+                              },
+                              "category": "direct"
+                            }
+                          ],
+                          "category": "dynamic",
+                          "source": "NEW_SHA = sh (returnStdout: true, script: \"python3 dependencies/tool.py -f commit openroad_app\").trim(...)",
+                          "dynamic": true
+                        }
+                      ],
+                      "category": "dynamic"
+                    },
+                    {
+                      "name": "sh",
+                      "line": 33,
+                      "args": [
+                        "make -C docker openlane OPENLANE_IMAGE_NAME=current:latest"
+                      ],
+                      "category": "direct"
+                    },
+                    {
+                      "name": "sh",
+                      "line": 34,
+                      "args": [
+                        "docker save current:latest-amd64 | gzip > openlane-current.tar.gz"
+                      ],
+                      "category": "direct"
+                    },
+                    {
+                      "name": "stash",
+                      "line": 35,
+                      "named": {
+                        "name": "data",
+                        "includes": "openlane-current.tar.gz"
+                      },
+                      "category": "policy"
+                    }
+                  ],
+                  "category": "dynamic",
+                  "dynamic": true
+                }
+              ],
+              "category": "policy"
+            }
+          ],
+          "category": "dynamic"
+        }
+      ]
+    },
+    {
+      "name": "Run Tests",
+      "line": 46,
+      "matrix": {
+        "axes": {
+          "DESIGN": [
+            "ci/aes",
+            "ci/aes_core",
+            "ci/APU",
+            "ci/blabla",
+            "'ci/BM64 -override_env QUIT_ON_LINTER_ERRORS=0'",
+            "ci/gcd",
+            "ci/inverter",
+            "ci/manual_macro_placement_test",
+            "ci/picorv32a",
+            "ci/PPU",
+            "ci/s44",
+            "ci/salsa20",
+            "ci/usb",
+            "ci/usb_cdc_core",
+            "ci/wbqspiflash",
+            "ci/xtea",
+            "'ci/y_huff -override_env QUIT_ON_SYNTH_CHECKS=0'",
+            "ci/zipdiv",
+            "ci/aes_user_project_wrapper",
+            "ci/caravel_upw",
+            "ci/mem_1r1w",
+            "spm"
+          ]
+        },
+        "stages": [
+          {
+            "name": "Test",
+            "line": 76,
+            "agent": {
+              "kind": "any",
+              "line": 77
+            },
+            "steps": [
+              {
+                "name": "script",
+                "line": 79,
+                "body": [
+                  {
+                    "name": "stage",
+                    "line": 80,
+                    "args": [
+                      "${DESIGN} - Install PDK"
+                    ],
+                    "body": [
+                      {
+                        "name": "sh",
+                        "line": 81,
+                        "args": [
+                          "python3 -m pip install --user --upgrade --no-cache-dir pip"
+                        ],
+                        "category": "direct"
+                      },
+                      {
+                        "name": "sh",
+                        "line": 82,
+                        "args": [
+                          "python3 -m pip install --user --upgrade --no-cache-dir volare"
+                        ],
+                        "category": "direct"
+                      },
+                      {
+                        "name": "sh",
+                        "line": 83,
+                        "args": [
+                          "make pdk"
+                        ],
+                        "category": "direct"
+                      }
+                    ],
+                    "category": "direct",
+                    "dynamic": true
+                  },
+                  {
+                    "name": "stage",
+                    "line": 85,
+                    "args": [
+                      "${DESIGN} - Import Docker image"
+                    ],
+                    "body": [
+                      {
+                        "name": "unstash",
+                        "line": 86,
+                        "args": [
+                          "data"
+                        ],
+                        "category": "policy"
+                      },
+                      {
+                        "name": "sh",
+                        "line": 87,
+                        "args": [
+                          "docker load --input openlane-current.tar.gz"
+                        ],
+                        "category": "direct"
+                      }
+                    ],
+                    "category": "direct",
+                    "dynamic": true
+                  },
+                  {
+                    "name": "stage",
+                    "line": 89,
+                    "args": [
+                      "${DESIGN} - Update OpenROAD commit"
+                    ],
+                    "body": [
+                      {
+                        "name": "script",
+                        "line": 90,
+                        "body": [
+                          {
+                            "name": "<assign>",
+                            "line": 90,
+                            "named": {
+                              "_target": "OLD_SHA"
+                            },
+                            "body": [
+                              {
+                                "name": "sh",
+                                "line": 90,
+                                "named": {
+                                  "returnStdout": true,
+                                  "script": "python3 dependencies/tool.py -f commit openroad_app",
+                                  "_chain": "trim"
+                                },
+                                "category": "direct"
+                              }
+                            ],
+                            "category": "dynamic",
+                            "source": "OLD_SHA = sh (returnStdout: true, script: \"python3 dependencies/tool.py -f commit openroad_app\").trim(...)",
+                            "dynamic": true
+                          }
+                        ],
+                        "category": "dynamic"
+                      },
+                      {
+                        "name": "sh",
+                        "line": 91,
+                        "args": [
+                          "sed -i s/${OLD_SHA}/${NEW_SHA}/ ./dependencies/tool_metadata.yml"
+                        ],
+                        "category": "direct",
+                        "dynamic": true
+                      }
+                    ],
+                    "category": "direct",
+                    "dynamic": true
+                  },
+                  {
+                    "name": "stage",
+                    "line": 93,
+                    "args": [
+                      "${DESIGN} - Run test"
+                    ],
+                    "body": [
+                      {
+                        "name": "sh",
+                        "line": 94,
+                        "args": [
+                          "make OPENLANE_IMAGE_NAME=current:latest TEST_DESIGN=${DESIGN} test"
+                        ],
+                        "category": "direct",
+                        "dynamic": true
+                      }
+                    ],
+                    "category": "direct",
+                    "dynamic": true
+                  }
+                ],
+                "category": "dynamic"
+              }
+            ],
+            "post": {
+              "failure": [
+                {
+                  "name": "archiveArtifacts",
+                  "line": 100,
+                  "named": {
+                    "artifacts": "designs/**/*.log, designs/**/openroad_issue_reproducible/**/*"
+                  },
+                  "category": "direct"
+                }
+              ]
+            }
+          }
+        ],
+        "line": 47
+      }
+    }
+  ],
+  "post": {
+    "failure": [
+      {
+        "name": "emailext",
+        "line": 112,
+        "named": {
+          "to": "$DEFAULT_RECIPIENTS",
+          "subject": "$DEFAULT_SUBJECT",
+          "body": "$DEFAULT_CONTENT"
+        },
+        "category": "policy"
+      }
+    ]
+  }
+}

@@ -1,0 +1,865 @@
+{
+  "tier": "jenkins",
+  "mode": "trace",
+  "scenario": {
+    "branch": "master",
+    "git_branch": "origin/master"
+  },
+  "localisation": {
+    "changes": [
+      "L92: node(DEFAULT_LABEL) -> node('built-in')",
+      "L186: node(DEFAULT_LABEL) -> node('built-in')",
+      "L1: @Library removed - library steps are stubbed",
+      "L2: import ai.h2o.ci.buildsummary.StagesSummary removed (class stubbed)",
+      "undefined property 'buildSummary' (plugin/library global) replaced by a permissive stub",
+      "undefined property 'AWS_ACCESS_KEY_ID' (plugin/library global) replaced by a permissive stub",
+      "undefined property 'AWS_SECRET_ACCESS_KEY' (plugin/library global) replaced by a permissive stub"
+    ],
+    "stubs": [
+      "sh",
+      "bat",
+      "powershell",
+      "pwsh",
+      "echo",
+      "checkout",
+      "git",
+      "archiveArtifacts",
+      "archive",
+      "junit",
+      "stash",
+      "unstash",
+      "input",
+      "build",
+      "error",
+      "unstable",
+      "mail",
+      "emailext",
+      "slackSend",
+      "office365ConnectorSend",
+      "publishHTML",
+      "publishCoverage",
+      "recordCoverage",
+      "jacoco",
+      "cobertura",
+      "recordIssues",
+      "deleteDir",
+      "cleanWs",
+      "sleep",
+      "writeFile",
+      "httpRequest",
+      "copyArtifacts",
+      "waitForQualityGate",
+      "githubNotify",
+      "setGitHubPullRequestStatus",
+      "step",
+      "fingerprint",
+      "s3Upload",
+      "s3Download",
+      "milestone",
+      "properties",
+      "buildDiscarder",
+      "readFile",
+      "fileExists",
+      "findFiles",
+      "readJSON",
+      "readYaml",
+      "readProperties",
+      "readMavenPom",
+      "readCSV",
+      "tool",
+      "load",
+      "evaluate",
+      "library",
+      "withCredentials",
+      "sshagent",
+      "withDockerRegistry",
+      "withMaven",
+      "withSonarQubeEnv",
+      "container",
+      "wrap",
+      "ansiColor",
+      "withAWS",
+      "withKubeConfig",
+      "withVault",
+      "configFileProvider",
+      "withGradle",
+      "nodejs",
+      "withPythonEnv",
+      "timestamps",
+      "withDockerContainer",
+      "withDockerServer",
+      "azureCLI",
+      "retry",
+      "podTemplate",
+      "lock",
+      "buildSummary",
+      "pipelineContextFactory",
+      "node"
+    ],
+    "auto_repairs": {
+      "removed": [
+        [
+          "stub-property",
+          "buildSummary"
+        ],
+        [
+          "stub-property",
+          "AWS_ACCESS_KEY_ID"
+        ],
+        [
+          "stub-property",
+          "AWS_SECRET_ACCESS_KEY"
+        ]
+      ],
+      "stubbed": [],
+      "ineffective": []
+    }
+  },
+  "attempts": [
+    {
+      "attempt": 0,
+      "phase": "run",
+      "build": 5,
+      "result": "FAILURE",
+      "seconds": 2.4,
+      "repairs": [
+        [
+          "stub-property",
+          "buildSummary"
+        ]
+      ],
+      "stubs": []
+    },
+    {
+      "attempt": 1,
+      "phase": "run",
+      "build": 6,
+      "result": "FAILURE",
+      "seconds": 2.5,
+      "repairs": [
+        [
+          "stub-property",
+          "AWS_ACCESS_KEY_ID"
+        ]
+      ],
+      "stubs": []
+    },
+    {
+      "attempt": 2,
+      "phase": "run",
+      "build": 7,
+      "result": "FAILURE",
+      "seconds": 2.6,
+      "repairs": [
+        [
+          "stub-property",
+          "AWS_SECRET_ACCESS_KEY"
+        ]
+      ],
+      "stubs": []
+    },
+    {
+      "attempt": 3,
+      "phase": "run",
+      "build": 8,
+      "result": "SUCCESS",
+      "seconds": 9.1,
+      "repairs": [],
+      "stubs": []
+    }
+  ],
+  "result": "SUCCESS",
+  "build": 8,
+  "duration_ms": 7154,
+  "stages": [
+    {
+      "name": "Checkout and Init",
+      "status": "SUCCESS",
+      "durationMillis": 677
+    },
+    {
+      "name": "Build dev-base",
+      "status": "SUCCESS",
+      "durationMillis": 413
+    },
+    {
+      "name": "Build dev-jdk-8-base",
+      "status": "SUCCESS",
+      "durationMillis": 869
+    },
+    {
+      "name": "Build dev-jdk-others-base",
+      "status": "SUCCESS",
+      "durationMillis": 859
+    },
+    {
+      "name": "Build dev-python-base",
+      "status": "SUCCESS",
+      "durationMillis": 538
+    },
+    {
+      "name": "Build dev-r-base",
+      "status": "SUCCESS",
+      "durationMillis": 484
+    },
+    {
+      "name": "Build dev-jdk-8",
+      "status": "SUCCESS",
+      "durationMillis": 1367
+    },
+    {
+      "name": "Build dev-jdk-11",
+      "status": "SUCCESS",
+      "durationMillis": 1361
+    },
+    {
+      "name": "Build dev-jdk-17",
+      "status": "SUCCESS",
+      "durationMillis": 1362
+    },
+    {
+      "name": "Build dev-mojocompat",
+      "status": "SUCCESS",
+      "durationMillis": 1354
+    },
+    {
+      "name": "Build dev-build-base",
+      "status": "SUCCESS",
+      "durationMillis": 478
+    },
+    {
+      "name": "Build dev-build-hadoop",
+      "status": "SUCCESS",
+      "durationMillis": 555
+    },
+    {
+      "name": "Build dev-release",
+      "status": "SUCCESS",
+      "durationMillis": 424
+    }
+  ],
+  "traces": [
+    {
+      "stage": "",
+      "step": "buildSummary"
+    },
+    {
+      "stage": "Checkout and Init",
+      "step": "cleanWs"
+    },
+    {
+      "stage": "Checkout and Init",
+      "step": "checkout"
+    },
+    {
+      "stage": "Checkout and Init",
+      "step": "sh"
+    },
+    {
+      "stage": "Checkout and Init",
+      "step": "sh"
+    },
+    {
+      "stage": "Checkout and Init",
+      "step": "sh"
+    },
+    {
+      "stage": "Checkout and Init",
+      "step": "sh"
+    },
+    {
+      "stage": "Checkout and Init",
+      "step": "sh"
+    },
+    {
+      "stage": "Checkout and Init",
+      "step": "sh"
+    },
+    {
+      "stage": "Checkout and Init",
+      "step": "sh"
+    },
+    {
+      "stage": "Checkout and Init",
+      "step": "sh"
+    },
+    {
+      "stage": "Checkout and Init",
+      "step": "sh"
+    },
+    {
+      "stage": "Checkout and Init",
+      "step": "sh"
+    },
+    {
+      "stage": "Checkout and Init",
+      "step": "stash"
+    },
+    {
+      "stage": "Build dev-base",
+      "step": "deleteDir"
+    },
+    {
+      "stage": "Build dev-base",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-base",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-base",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-base",
+      "step": "unstash"
+    },
+    {
+      "stage": "Build dev-base",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-base",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-base",
+      "step": "stash"
+    },
+    {
+      "stage": "Build dev-base",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-jdk-8-base",
+      "step": "deleteDir"
+    },
+    {
+      "stage": "Build dev-jdk-others-base",
+      "step": "deleteDir"
+    },
+    {
+      "stage": "Build dev-jdk-8-base",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-jdk-others-base",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-jdk-8-base",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-jdk-others-base",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-jdk-8-base",
+      "step": "unstash"
+    },
+    {
+      "stage": "Build dev-jdk-others-base",
+      "step": "unstash"
+    },
+    {
+      "stage": "Build dev-jdk-8-base",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-jdk-others-base",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-jdk-8-base",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-jdk-others-base",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-jdk-8-base",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-jdk-others-base",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-jdk-8-base",
+      "step": "unstash"
+    },
+    {
+      "stage": "Build dev-jdk-others-base",
+      "step": "unstash"
+    },
+    {
+      "stage": "Build dev-jdk-8-base",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-jdk-others-base",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-jdk-8-base",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-jdk-others-base",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-jdk-8-base",
+      "step": "stash"
+    },
+    {
+      "stage": "Build dev-jdk-others-base",
+      "step": "stash"
+    },
+    {
+      "stage": "Build dev-jdk-8-base",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-jdk-others-base",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-python-base",
+      "step": "deleteDir"
+    },
+    {
+      "stage": "Build dev-python-base",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-python-base",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-python-base",
+      "step": "unstash"
+    },
+    {
+      "stage": "Build dev-python-base",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-python-base",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-python-base",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-python-base",
+      "step": "unstash"
+    },
+    {
+      "stage": "Build dev-python-base",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-python-base",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-python-base",
+      "step": "stash"
+    },
+    {
+      "stage": "Build dev-python-base",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-r-base",
+      "step": "deleteDir"
+    },
+    {
+      "stage": "Build dev-r-base",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-r-base",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-r-base",
+      "step": "unstash"
+    },
+    {
+      "stage": "Build dev-r-base",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-r-base",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-r-base",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-r-base",
+      "step": "unstash"
+    },
+    {
+      "stage": "Build dev-r-base",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-r-base",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-r-base",
+      "step": "stash"
+    },
+    {
+      "stage": "Build dev-r-base",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-jdk-8",
+      "step": "deleteDir"
+    },
+    {
+      "stage": "Build dev-jdk-11",
+      "step": "deleteDir"
+    },
+    {
+      "stage": "Build dev-jdk-17",
+      "step": "deleteDir"
+    },
+    {
+      "stage": "Build dev-mojocompat",
+      "step": "deleteDir"
+    },
+    {
+      "stage": "Build dev-jdk-8",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-jdk-11",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-jdk-17",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-mojocompat",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-jdk-8",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-jdk-11",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-jdk-17",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-mojocompat",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-jdk-8",
+      "step": "unstash"
+    },
+    {
+      "stage": "Build dev-jdk-11",
+      "step": "unstash"
+    },
+    {
+      "stage": "Build dev-jdk-17",
+      "step": "unstash"
+    },
+    {
+      "stage": "Build dev-mojocompat",
+      "step": "unstash"
+    },
+    {
+      "stage": "Build dev-jdk-8",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-jdk-11",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-jdk-17",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-mojocompat",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-jdk-8",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-jdk-11",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-jdk-17",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-mojocompat",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-jdk-8",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-jdk-11",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-jdk-17",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-mojocompat",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-jdk-8",
+      "step": "unstash"
+    },
+    {
+      "stage": "Build dev-jdk-11",
+      "step": "unstash"
+    },
+    {
+      "stage": "Build dev-jdk-17",
+      "step": "unstash"
+    },
+    {
+      "stage": "Build dev-mojocompat",
+      "step": "unstash"
+    },
+    {
+      "stage": "Build dev-jdk-8",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-jdk-11",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-jdk-17",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-mojocompat",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-build-base",
+      "step": "deleteDir"
+    },
+    {
+      "stage": "Build dev-build-base",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-build-base",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-build-base",
+      "step": "unstash"
+    },
+    {
+      "stage": "Build dev-build-base",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-build-base",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-build-base",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-build-base",
+      "step": "unstash"
+    },
+    {
+      "stage": "Build dev-build-base",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-build-base",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-build-base",
+      "step": "stash"
+    },
+    {
+      "stage": "Build dev-build-base",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-build-hadoop",
+      "step": "deleteDir"
+    },
+    {
+      "stage": "Build dev-build-hadoop",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-build-hadoop",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-build-hadoop",
+      "step": "unstash"
+    },
+    {
+      "stage": "Build dev-build-hadoop",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-build-hadoop",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-build-hadoop",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-build-hadoop",
+      "step": "unstash"
+    },
+    {
+      "stage": "Build dev-build-hadoop",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-build-hadoop",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-build-hadoop",
+      "step": "stash"
+    },
+    {
+      "stage": "Build dev-build-hadoop",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-release",
+      "step": "deleteDir"
+    },
+    {
+      "stage": "Build dev-release",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-release",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-release",
+      "step": "unstash"
+    },
+    {
+      "stage": "Build dev-release",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-release",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-release",
+      "step": "sh"
+    },
+    {
+      "stage": "Build dev-release",
+      "step": "unstash"
+    },
+    {
+      "stage": "Build dev-release",
+      "step": "sh"
+    }
+  ],
+  "approved_inputs": [],
+  "error_tail": null,
+  "provenance": {
+    "jenkinsfile_sha256": "dfaf33c9263cfde5e5ed81231c2631ef8fd735ced7689cc7a019b2f5b28bd67c",
+    "scenario": {
+      "branch": "master",
+      "git_branch": "origin/master"
+    },
+    "mode": "trace",
+    "localizer_version": 5,
+    "images": {
+      "jenkins": {
+        "ref": "j2gha/jenkins:local",
+        "present": true,
+        "id": "sha256:672c4b841b2c934f224d4f1b3523d77a1b651f8f491f8f04da47ca764eb86775",
+        "repo_digests": [],
+        "created": "2026-10-09T18:21:15.545465961Z",
+        "labels": {
+          "j2gha.base-image": "jenkins/jenkins:lts-jdk21@sha256:a660310e39ade10631f774bacd5219de767dfd08947ea5c32a739b5e5bb382c1",
+          "org.opencontainers.image.version": "2.580.1",
+          "org.opencontainers.image.revision": "457b9316d71b43cdf3e2ba6ec7c27efc40f5dc60",
+          "org.opencontainers.image.source": "https://github.com/jenkinsci/docker"
+        },
+        "jenkins_version": "2.580.1"
+      },
+      "act": {
+        "ref": "j2gha/act:local",
+        "present": true,
+        "id": "sha256:0781bb0384b914fba362a2a2483d55d30c3d3cc9b59598856146778aa88662a4",
+        "repo_digests": [],
+        "created": "2026-10-03T06:26:46.552472741Z",
+        "labels": {},
+        "act_version": "0.2.89"
+      },
+      "act_runner": {
+        "ref": "j2gha/act-runner:local",
+        "present": true,
+        "id": "sha256:134418998a1ca958b148ee6befb038aa3ff598bf147b39ce9e99b60a563a15be",
+        "repo_digests": [],
+        "created": "2026-10-09T18:54:04.157825772Z",
+        "labels": {
+          "j2gha.base-image": "catthehacker/ubuntu:act-latest@sha256:c58e2b364da03b0c804c7d660f2ecbedf2f221a382b9baa0b344b0144780ff43",
+          "org.opencontainers.image.version": "20260815",
+          "org.opencontainers.image.revision": "e2f8efe464c82732f78e967ee709c00b6af53643",
+          "org.opencontainers.image.source": "https://github.com/catthehacker/catthehacker/docker_images"
+        }
+      },
+      "jit_runner": {
+        "ref": "j2gha/runner:local",
+        "present": true,
+        "id": "sha256:4847cf6e3e915577d28244aedfbe1b633eafa060a49d4ef313129d6841e2e667",
+        "repo_digests": [],
+        "created": "2026-10-09T18:52:46.515242869Z",
+        "labels": {
+          "j2gha.base-image": "ghcr.io/actions/actions-runner:latest@sha256:4ffadc0002b2581327e06101fc8c06cd189232baf79fe561fac9caeb76f5e807",
+          "org.opencontainers.image.version": "24.04",
+          "org.opencontainers.image.source": "https://github.com/actions/runner"
+        }
+      }
+    }
+  },
+  "finished_at": "2026-10-10T08:15:54+00:00"
+}

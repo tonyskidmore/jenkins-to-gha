@@ -1,0 +1,713 @@
+{
+  "counts": {
+    "approximated": 27,
+    "mapped": 20,
+    "manual": 37,
+    "info": 1
+  },
+  "automation_pct": 43.1,
+  "items": [
+    {
+      "jenkins": "stage 'QA' post always",
+      "line": null,
+      "stage": "QA",
+      "status": "mapped",
+      "gha": "if: (always()) && (steps.s2.outcome == 'success')",
+      "note": ""
+    },
+    {
+      "jenkins": "stage 'Publish[staging]' post always",
+      "line": null,
+      "stage": "Publish[staging]",
+      "status": "mapped",
+      "gha": "if: (always()) && (steps.s12.outcome == 'success')",
+      "note": ""
+    },
+    {
+      "jenkins": "environment ARTIFACTORY_CREDS = credentials('artifactory')",
+      "line": 17,
+      "stage": null,
+      "status": "mapped",
+      "gha": "env from secrets.ARTIFACTORY",
+      "note": "create the repository/environment secret"
+    },
+    {
+      "jenkins": "withEnv",
+      "line": 39,
+      "stage": "QA",
+      "status": "mapped",
+      "gha": "step env",
+      "note": ""
+    },
+    {
+      "jenkins": "withCredentials usernamePassword 'container-test-server'",
+      "line": 45,
+      "stage": "QA",
+      "status": "mapped",
+      "gha": "secrets -> step env",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 51,
+      "stage": "QA",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 52,
+      "stage": "QA",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "stage 'Publish[staging]' when",
+      "line": 94,
+      "stage": "Publish[staging]",
+      "status": "mapped",
+      "gha": "if: !(env.TAG_NAME != '')",
+      "note": "evaluated once at stage entry against env"
+    },
+    {
+      "jenkins": "sh",
+      "line": 116,
+      "stage": "Publish[staging]",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "stage 'Run Gauge tests' when",
+      "line": 123,
+      "stage": "Run Gauge tests",
+      "status": "mapped",
+      "gha": "if: !(env.TAG_NAME != '')",
+      "note": "evaluated once at stage entry against env"
+    },
+    {
+      "jenkins": "sh",
+      "line": 189,
+      "stage": "Update version and tag",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "withCredentials usernamePassword 'artifactory'",
+      "line": 380,
+      "stage": "QA",
+      "status": "mapped",
+      "gha": "secrets -> step env",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 383,
+      "stage": "QA",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 384,
+      "stage": "QA",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "withCredentials usernamePassword 'artifactory'",
+      "line": 391,
+      "stage": "Publish[staging]",
+      "status": "mapped",
+      "gha": "secrets -> step env",
+      "note": ""
+    },
+    {
+      "jenkins": "withCredentials string 'npm-mail'",
+      "line": 401,
+      "stage": "Publish[repository]",
+      "status": "mapped",
+      "gha": "secrets -> step env",
+      "note": ""
+    },
+    {
+      "jenkins": "withCredentials usernamePassword 'npm-creds'",
+      "line": 401,
+      "stage": "Publish[repository]",
+      "status": "mapped",
+      "gha": "secrets -> step env",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 410,
+      "stage": "Publish[staging]",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 411,
+      "stage": "Publish[staging]",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 415,
+      "stage": "Publish[repository]",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "(no pipeline timeout)",
+      "line": null,
+      "stage": null,
+      "status": "approximated",
+      "gha": "timeout-minutes: 60",
+      "note": "explicit job timeout added (GitHub's default is 360 minutes); set J2GHA_DEFAULT_TIMEOUT to change"
+    },
+    {
+      "jenkins": "parameters: validatingString TARGET_VERSION",
+      "line": 10,
+      "stage": null,
+      "status": "approximated",
+      "gha": "on.workflow_dispatch.inputs",
+      "note": "validatingString parameters have no workflow_dispatch equivalent"
+    },
+    {
+      "jenkins": "script {}",
+      "line": 30,
+      "stage": "Init",
+      "status": "approximated",
+      "gha": "inner steps translated individually",
+      "note": "imperative Groovy is not executed; review control flow"
+    },
+    {
+      "jenkins": "defaultInit() (local helper method)",
+      "line": 31,
+      "stage": "Init",
+      "status": "approximated",
+      "gha": "inlined",
+      "note": "body of the Jenkinsfile helper method inlined"
+    },
+    {
+      "jenkins": "applyCustomizations() (local helper method)",
+      "line": 32,
+      "stage": "Init",
+      "status": "approximated",
+      "gha": "inlined",
+      "note": "body of the Jenkinsfile helper method inlined"
+    },
+    {
+      "jenkins": "script {}",
+      "line": 50,
+      "stage": "QA",
+      "status": "approximated",
+      "gha": "inner steps translated individually",
+      "note": "imperative Groovy is not executed; review control flow"
+    },
+    {
+      "jenkins": "runTests() (local helper method)",
+      "line": 54,
+      "stage": "QA",
+      "status": "approximated",
+      "gha": "inlined",
+      "note": "body of the Jenkinsfile helper method inlined"
+    },
+    {
+      "jenkins": "junit",
+      "line": 61,
+      "stage": "QA",
+      "status": "approximated",
+      "gha": "upload-artifact + step summary",
+      "note": "no native test UI; failing tests cannot mark the run UNSTABLE"
+    },
+    {
+      "jenkins": "environment STAGE_ROOT",
+      "line": 99,
+      "stage": "Publish[staging]",
+      "status": "approximated",
+      "gha": "evaluated by shell at runtime",
+      "note": "pipeline-level: written to $GITHUB_ENV; stage-level: exported before each run step"
+    },
+    {
+      "jenkins": "withEnv",
+      "line": 104,
+      "stage": "Publish[staging]",
+      "status": "approximated",
+      "gha": "step env + shell exports",
+      "note": "LIB_NAME evaluated by the shell in run steps (Groovy values need review); TYPE evaluated by the shell in run steps (Groovy values need review); ARTIFACT_URL evaluated by the shell in run steps (Groovy values need review); MODULE_ID evaluated by the shell in run steps (Groovy values need review); BUILD_NAME evaluated by the shell in run steps"
+    },
+    {
+      "jenkins": "publishStaging() (local helper method)",
+      "line": 109,
+      "stage": "Publish[staging]",
+      "status": "approximated",
+      "gha": "inlined",
+      "note": "body of the Jenkinsfile helper method inlined"
+    },
+    {
+      "jenkins": "script {}",
+      "line": 128,
+      "stage": "Run Gauge tests",
+      "status": "approximated",
+      "gha": "inner steps translated individually",
+      "note": "imperative Groovy is not executed; review control flow"
+    },
+    {
+      "jenkins": "if (env.TAG_NAME || env.BRANCH_IS_PRIMARY)",
+      "line": 138,
+      "stage": "Run Gauge tests",
+      "status": "approximated",
+      "gha": "if: env.TAG_NAME != '' || env.BRANCH_IS_PRIMARY != ''",
+      "note": ""
+    },
+    {
+      "jenkins": "try/catch/finally (line 142)",
+      "line": 142,
+      "stage": "Run Gauge tests",
+      "status": "approximated",
+      "gha": "steps; catch -> if: a try step failed; finally -> if: always() once entered",
+      "note": "exception types are not distinguished"
+    },
+    {
+      "jenkins": "stage 'Mend scan' when",
+      "line": 163,
+      "stage": "Mend scan",
+      "status": "approximated",
+      "gha": "if: env.BRANCH_IS_PRIMARY != ''",
+      "note": "evaluated once at stage entry against env"
+    },
+    {
+      "jenkins": "environment WS_PROJECTNAME",
+      "line": 166,
+      "stage": "Mend scan",
+      "status": "approximated",
+      "gha": "evaluated by shell at runtime",
+      "note": "pipeline-level: written to $GITHUB_ENV; stage-level: exported before each run step"
+    },
+    {
+      "jenkins": "stage 'Update version and tag' when",
+      "line": 176,
+      "stage": "Update version and tag",
+      "status": "approximated",
+      "gha": "if: (env.BRANCH_NAME == 'main' && !((env.TARGET_VERSION) == ('NONE')))",
+      "note": "evaluated once at stage entry against env"
+    },
+    {
+      "jenkins": "publishPublic() (local helper method)",
+      "line": 205,
+      "stage": "Publish[repository]",
+      "status": "approximated",
+      "gha": "inlined",
+      "note": "body of the Jenkinsfile helper method inlined"
+    },
+    {
+      "jenkins": "publishDocs() (local helper method)",
+      "line": 207,
+      "stage": "Publish[repository]",
+      "status": "approximated",
+      "gha": "inlined",
+      "note": "body of the Jenkinsfile helper method inlined"
+    },
+    {
+      "jenkins": "withEnv",
+      "line": 372,
+      "stage": "QA",
+      "status": "approximated",
+      "gha": "step env + shell exports",
+      "note": "NPMRC_REGISTRY evaluated by the shell in run steps (Groovy values need review); NPM_CONFIG_REGISTRY evaluated by the shell in run steps (Groovy values need review)"
+    },
+    {
+      "jenkins": "withEnv",
+      "line": 381,
+      "stage": "QA",
+      "status": "approximated",
+      "gha": "step env + shell exports",
+      "note": "NPMRC_EMAIL evaluated by the shell in run steps"
+    },
+    {
+      "jenkins": "withNpmEnv() (local helper method)",
+      "line": 382,
+      "stage": "QA",
+      "status": "approximated",
+      "gha": "inlined",
+      "note": "body of the Jenkinsfile helper method inlined with registry substituted"
+    },
+    {
+      "jenkins": "withEnv",
+      "line": 392,
+      "stage": "Publish[staging]",
+      "status": "approximated",
+      "gha": "step env + shell exports",
+      "note": "NPMRC_EMAIL evaluated by the shell in run steps"
+    },
+    {
+      "jenkins": "withNpmEnv() (local helper method)",
+      "line": 393,
+      "stage": "Publish[staging]",
+      "status": "approximated",
+      "gha": "inlined",
+      "note": "body of the Jenkinsfile helper method inlined with registry substituted"
+    },
+    {
+      "jenkins": "publishNpm() (local helper method)",
+      "line": 394,
+      "stage": "Publish[staging]",
+      "status": "approximated",
+      "gha": "inlined",
+      "note": "body of the Jenkinsfile helper method inlined with registry substituted"
+    },
+    {
+      "jenkins": "withNpmEnv() (local helper method)",
+      "line": 403,
+      "stage": "Publish[repository]",
+      "status": "approximated",
+      "gha": "inlined",
+      "note": "body of the Jenkinsfile helper method inlined with registry substituted"
+    },
+    {
+      "jenkins": "publishNpm() (local helper method)",
+      "line": 404,
+      "stage": "Publish[repository]",
+      "status": "approximated",
+      "gha": "inlined",
+      "note": "body of the Jenkinsfile helper method inlined with registry, tag substituted"
+    },
+    {
+      "jenkins": "agent kubernetes",
+      "line": 4,
+      "stage": "Detect Secrets, Init, QA, SonarQube analysis, Publish[staging], Run Gauge tests, Mend scan",
+      "status": "manual",
+      "gha": "runs-on: ubuntu-latest",
+      "note": "pod templates need job containers/services or ARC runner scale sets"
+    },
+    {
+      "jenkins": "environment ARTIFACTORY_URL_UP",
+      "line": 18,
+      "stage": null,
+      "status": "manual",
+      "gha": "env",
+      "note": "runtime Groovy expression `${Artifactory.server('taas-artifactory-upload').getUrl()}` - compute in a step and write to $GITHUB_ENV"
+    },
+    {
+      "jenkins": "environment ARTIFACTORY_URL_DOWN",
+      "line": 19,
+      "stage": null,
+      "status": "manual",
+      "gha": "env",
+      "note": "runtime Groovy expression `${Artifactory.server('taas-artifactory').getUrl()}` - compute in a step and write to $GITHUB_ENV"
+    },
+    {
+      "jenkins": "detectSecrets",
+      "line": 24,
+      "stage": "Detect Secrets",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "assign commitHash = ${env.GIT_COMMIT.take(7)}",
+      "line": 33,
+      "stage": "Init",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "environment scannerHome = tool(...)",
+      "line": 70,
+      "stage": "SonarQube analysis",
+      "status": "manual",
+      "gha": "env",
+      "note": "value computed by a library/plugin function - compute in a step and write to $GITHUB_ENV"
+    },
+    {
+      "jenkins": "stage 'SonarQube analysis' when",
+      "line": 74,
+      "stage": "SonarQube analysis",
+      "status": "manual",
+      "gha": "if: ((env.CHANGE_ID != '' || env.BRANCH_IS_PRIMARY != '')) && (!(((env.CHANGE_ID != '' && ((startsWith(env.CHANGE_BRANCH, 'dependabot') && !contains(env.CHANGE_BRANCH, '/')))) && !((env.CHANGE_ID != '' && (vars.J2GHA_WHEN_L82 == 'true'))))))",
+      "note": "untranslatable condition: repository variable(s) J2GHA_WHEN_L<line> stand in for it ('true'/'false'); unset, the stage runs only where it would run whatever that condition's value"
+    },
+    {
+      "jenkins": "scanCode",
+      "line": 88,
+      "stage": "SonarQube analysis",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "bumpVersion",
+      "line": 102,
+      "stage": "Publish[staging]",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "customizePublishingInfo",
+      "line": 103,
+      "stage": "Publish[staging]",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "publishArtifactoryBuildInfo",
+      "line": 110,
+      "stage": "Publish[staging]",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "assign buildResults = null",
+      "line": 129,
+      "stage": "Run Gauge tests",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "assign gaugeBranchName = env.BRANCH_NAME",
+      "line": 133,
+      "stage": "Run Gauge tests",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "assign fallbackBranchName = ?:",
+      "line": 134,
+      "stage": "Run Gauge tests",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "assign gaugeBranchName = env.TARGET_GAUGE_RELEASE_BRANCH_",
+      "line": 139,
+      "stage": "Run Gauge tests",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "assign fallbackBranchName = ?:",
+      "line": 140,
+      "stage": "Run Gauge tests",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "assign buildResults = build(...)",
+      "line": 143,
+      "stage": "Run Gauge tests",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment from a step"
+    },
+    {
+      "jenkins": "build job: /${env.SDKS_GAUGE_PIPELINE_PROJECT}/${gaugeBranchName}",
+      "line": 143,
+      "stage": "Run Gauge tests",
+      "status": "manual",
+      "gha": "workflow_call / workflow_dispatch",
+      "note": "downstream Jenkins job must be migrated; trigger with `gh workflow run` or a reusable workflow"
+    },
+    {
+      "jenkins": "if (ae.getMessage().contains(\"No item named /${env.SDK)",
+      "line": 148,
+      "stage": "Run Gauge tests",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "mendScan",
+      "line": 169,
+      "stage": "Mend scan",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "gitsh",
+      "line": 185,
+      "stage": "Update version and tag",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "bumpVersion",
+      "line": 187,
+      "stage": "Update version and tag",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "stage 'Publish[repository]' when",
+      "line": 197,
+      "stage": "Publish[repository]",
+      "status": "manual",
+      "gha": "if: (env.TAG_NAME != '' && (vars.J2GHA_WHEN_L200 == 'true'))",
+      "note": "untranslatable condition: repository variable(s) J2GHA_WHEN_L<line> stand in for it ('true'/'false'); unset, the stage runs only where it would run whatever that condition's value"
+    },
+    {
+      "jenkins": "gitsh",
+      "line": 206,
+      "stage": "Publish[repository]",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "assign bumpVersion = ",
+      "line": 231,
+      "stage": "Init",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "assign doVersionBump = ",
+      "line": 238,
+      "stage": "Init",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "assign getNewVersion = ",
+      "line": 242,
+      "stage": "Init",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "assign getTargetVersion = ",
+      "line": 247,
+      "stage": "Init",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "assign getDevVersion = ",
+      "line": 258,
+      "stage": "Init",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "assign customizeVersion = ",
+      "line": 276,
+      "stage": "Init",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "assign publishArtifactoryBuildInfoScript = ",
+      "line": 280,
+      "stage": "Init",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "assign publishArtifactoryBuildInfo = ",
+      "line": 285,
+      "stage": "Init",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "assign scanCode = ",
+      "line": 303,
+      "stage": "Init",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "assign libName = node",
+      "line": 318,
+      "stage": "Init",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "assign bumpVersion = ",
+      "line": 319,
+      "stage": "Init",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "assign customizeVersion = ",
+      "line": 336,
+      "stage": "Init",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "assign customizePublishingInfo = ",
+      "line": 342,
+      "stage": "Init",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "checkout: SCM environment (GIT_COMMIT, GIT_BRANCH, GIT_URL)",
+      "line": null,
+      "stage": null,
+      "status": "info",
+      "gha": "env",
+      "note": "Jenkins' git plugin exports them to every step after a checkout, so called scripts may read them; defined at workflow level even when the Jenkinsfile does not"
+    }
+  ],
+  "secrets": {
+    "ARTIFACTORY": "Jenkins credential 'artifactory'",
+    "CONTAINER_TEST_SERVER_USR": "Jenkins credential 'container-test-server'",
+    "CONTAINER_TEST_SERVER_PSW": "Jenkins credential 'container-test-server'",
+    "ARTIFACTORY_USR": "Jenkins credential 'artifactory'",
+    "ARTIFACTORY_PSW": "Jenkins credential 'artifactory'",
+    "NPM_MAIL": "Jenkins credential 'npm-mail'",
+    "NPM_CREDS_USR": "Jenkins credential 'npm-creds'",
+    "NPM_CREDS_PSW": "Jenkins credential 'npm-creds'"
+  },
+  "jobs": {
+    "detect-secrets": {
+      "name": "Detect Secrets, Init, QA, SonarQube analysis, Publish[staging], Run Gauge tests, Mend scan",
+      "runs-on": "ubuntu-latest",
+      "steps": 36,
+      "matrix": false
+    }
+  },
+  "notes": [],
+  "handoff": {},
+  "source_sha256": "757b651b8376f700b0e12459ce9b0a379044b69015ce5fd534d5473d94749007",
+  "model_sha256": "448f4faa07ce8c7b82d88334b2203a88e21017f9474e7feb018062ad8c23773a"
+}

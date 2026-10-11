@@ -1,0 +1,22 @@
+// Localisation fixture: scripted build properties, parameter definitions and a multiple declaration
+def (config, retries) = ['''first
+second''', 0]
+def keep = env.CHANGE_ID ? '10' : '50'
+properties([
+  buildDiscarder(logRotator(numToKeepStr: keep)),
+  disableConcurrentBuilds(),
+  parameters([
+    [$class: 'ChoiceParameterDefinition', name: 'TARGET', choices: ['dev', 'prod']],
+    booleanParam(name: 'FLAG', defaultValue: true),
+    choice(name: 'C', choices: ['x', 'y']),
+    libraryParam(name: 'L'),
+    string(name: 'S', defaultValue: 'sv')
+  ])
+])
+node('linux') {
+  stage('Build') {
+    echo "target=${params.TARGET} config=${config}"
+    docker.image('maven:3').inside { sh 'mvn -v' }
+    withCredentials([string(credentialsId: "${env.CRED}", variable: 'TOKEN')]) { sh 'test -n "$TOKEN"' }
+  }
+}

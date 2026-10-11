@@ -1,0 +1,390 @@
+{
+  "counts": {
+    "mapped": 24,
+    "approximated": 9,
+    "manual": 6,
+    "dropped": 2,
+    "info": 1
+  },
+  "automation_pct": 75.6,
+  "items": [
+    {
+      "jenkins": "post failure",
+      "line": null,
+      "stage": null,
+      "status": "mapped",
+      "gha": "final job if: always() && (contains(needs.*.result, 'failure') || failure())",
+      "note": ""
+    },
+    {
+      "jenkins": "post cleanup",
+      "line": null,
+      "stage": null,
+      "status": "mapped",
+      "gha": "final job if: always()",
+      "note": ""
+    },
+    {
+      "jenkins": "post (workspace-dependent steps)",
+      "line": null,
+      "stage": null,
+      "status": "mapped",
+      "gha": "final job",
+      "note": "deleteDir run in the restored pipeline workspace (j2gha-ws-* artifacts)"
+    },
+    {
+      "jenkins": "environment APP_NAME",
+      "line": 49,
+      "stage": null,
+      "status": "mapped",
+      "gha": "env",
+      "note": ""
+    },
+    {
+      "jenkins": "environment NAMESPACE",
+      "line": 50,
+      "stage": null,
+      "status": "mapped",
+      "gha": "env",
+      "note": ""
+    },
+    {
+      "jenkins": "environment IMAGE_NAME",
+      "line": 51,
+      "stage": null,
+      "status": "mapped",
+      "gha": "env",
+      "note": ""
+    },
+    {
+      "jenkins": "environment CONTAINER_NAME",
+      "line": 52,
+      "stage": null,
+      "status": "mapped",
+      "gha": "env",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 76,
+      "stage": "Build docker image",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 88,
+      "stage": "Push docker image",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "stage 'Deploy test' when",
+      "line": 97,
+      "stage": "Deploy test",
+      "status": "mapped",
+      "gha": "if: env.BRANCH_NAME == 'test'",
+      "note": "evaluated once at stage entry against env"
+    },
+    {
+      "jenkins": "sh",
+      "line": 102,
+      "stage": "Deploy test",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "stage 'Deploy staging' when",
+      "line": 112,
+      "stage": "Deploy staging",
+      "status": "mapped",
+      "gha": "if: env.BRANCH_NAME == 'main'",
+      "note": "evaluated once at stage entry against env"
+    },
+    {
+      "jenkins": "sh",
+      "line": 117,
+      "stage": "Deploy staging",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "stage 'Deploy production' when",
+      "line": 127,
+      "stage": "Deploy production",
+      "status": "mapped",
+      "gha": "if: env.BRANCH_NAME == 'production'",
+      "note": "evaluated once at stage entry against env"
+    },
+    {
+      "jenkins": "sh",
+      "line": 132,
+      "stage": "Deploy production",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "stage 'Deploy aws-staging' when",
+      "line": 142,
+      "stage": "Deploy aws-staging",
+      "status": "mapped",
+      "gha": "if: env.BRANCH_NAME == 'aws-main'",
+      "note": "evaluated once at stage entry against env"
+    },
+    {
+      "jenkins": "withCredentials string 'jenkins-openvsx-aws-key-id'",
+      "line": 146,
+      "stage": "Deploy aws-staging",
+      "status": "mapped",
+      "gha": "secrets -> step env",
+      "note": ""
+    },
+    {
+      "jenkins": "withCredentials string 'jenkins-openvsx-aws-secret-key'",
+      "line": 146,
+      "stage": "Deploy aws-staging",
+      "status": "mapped",
+      "gha": "secrets -> step env",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 150,
+      "stage": "Deploy aws-staging",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "stage 'Deploy aws-production' when",
+      "line": 164,
+      "stage": "Deploy aws-production",
+      "status": "mapped",
+      "gha": "if: env.BRANCH_NAME == 'aws-production'",
+      "note": "evaluated once at stage entry against env"
+    },
+    {
+      "jenkins": "withCredentials string 'jenkins-openvsx-aws-key-id'",
+      "line": 168,
+      "stage": "Deploy aws-production",
+      "status": "mapped",
+      "gha": "secrets -> step env",
+      "note": ""
+    },
+    {
+      "jenkins": "withCredentials string 'jenkins-openvsx-aws-secret-key'",
+      "line": 168,
+      "stage": "Deploy aws-production",
+      "status": "mapped",
+      "gha": "secrets -> step env",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 172,
+      "stage": "Deploy aws-production",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "deleteDir",
+      "line": 198,
+      "stage": "Declarative: Post Actions",
+      "status": "mapped",
+      "gha": "run: workspace cleanup",
+      "note": "runners are ephemeral; kept for parity"
+    },
+    {
+      "jenkins": "post fixed",
+      "line": null,
+      "stage": null,
+      "status": "dropped",
+      "gha": "-",
+      "note": "no GHA equivalent"
+    },
+    {
+      "jenkins": "options: buildDiscarder",
+      "line": null,
+      "stage": null,
+      "status": "dropped",
+      "gha": "-",
+      "note": "use artifact retention-days / repo settings"
+    },
+    {
+      "jenkins": "options: timeout",
+      "line": null,
+      "stage": null,
+      "status": "approximated",
+      "gha": "timeout-minutes: 30 (per job)",
+      "note": "Jenkins timeout covers the whole pipeline"
+    },
+    {
+      "jenkins": "environment IMAGE_TAG",
+      "line": 53,
+      "stage": null,
+      "status": "approximated",
+      "gha": "evaluated by shell at runtime",
+      "note": "pipeline-level: written to $GITHUB_ENV; stage-level: exported before each run step"
+    },
+    {
+      "jenkins": "agent label 'docker-build'",
+      "line": 72,
+      "stage": "Build docker image",
+      "status": "approximated",
+      "gha": "runs-on: ubuntu-latest",
+      "note": "use a self-hosted runner label if the agent provides special tooling/network"
+    },
+    {
+      "jenkins": "agent label 'docker-build'",
+      "line": 83,
+      "stage": "Push docker image",
+      "status": "approximated",
+      "gha": "runs-on: ubuntu-latest",
+      "note": "use a self-hosted runner label if the agent provides special tooling/network"
+    },
+    {
+      "jenkins": "docker registry login",
+      "line": 87,
+      "stage": "Push docker image",
+      "status": "approximated",
+      "gha": "docker/login-action (recommended)",
+      "note": ""
+    },
+    {
+      "jenkins": "withKubeConfig",
+      "line": 101,
+      "stage": "Deploy test",
+      "status": "approximated",
+      "gha": "body inlined",
+      "note": "configure identity via OIDC / approved action"
+    },
+    {
+      "jenkins": "withKubeConfig",
+      "line": 116,
+      "stage": "Deploy staging",
+      "status": "approximated",
+      "gha": "body inlined",
+      "note": "configure identity via OIDC / approved action"
+    },
+    {
+      "jenkins": "withKubeConfig",
+      "line": 131,
+      "stage": "Deploy production",
+      "status": "approximated",
+      "gha": "body inlined",
+      "note": "configure identity via OIDC / approved action"
+    },
+    {
+      "jenkins": "mail",
+      "line": 186,
+      "stage": "Declarative: Post Actions",
+      "status": "approximated",
+      "gha": "notification placeholder",
+      "note": "use an approved notification action (e.g. slackapi/slack-github-action)"
+    },
+    {
+      "jenkins": "agent kubernetes",
+      "line": 2,
+      "stage": "Deploy test, Deploy staging, Deploy production, Deploy aws-staging, Deploy aws-production",
+      "status": "manual",
+      "gha": "runs-on: ubuntu-latest",
+      "note": "pod templates need job containers/services or ARC runner scale sets"
+    },
+    {
+      "jenkins": "container (kubernetes)",
+      "line": 100,
+      "stage": "Deploy test",
+      "status": "manual",
+      "gha": "steps inlined",
+      "note": "map the pod container image to a job container or docker run"
+    },
+    {
+      "jenkins": "container (kubernetes)",
+      "line": 115,
+      "stage": "Deploy staging",
+      "status": "manual",
+      "gha": "steps inlined",
+      "note": "map the pod container image to a job container or docker run"
+    },
+    {
+      "jenkins": "container (kubernetes)",
+      "line": 130,
+      "stage": "Deploy production",
+      "status": "manual",
+      "gha": "steps inlined",
+      "note": "map the pod container image to a job container or docker run"
+    },
+    {
+      "jenkins": "container (kubernetes)",
+      "line": 145,
+      "stage": "Deploy aws-staging",
+      "status": "manual",
+      "gha": "steps inlined",
+      "note": "map the pod container image to a job container or docker run"
+    },
+    {
+      "jenkins": "container (kubernetes)",
+      "line": 167,
+      "stage": "Deploy aws-production",
+      "status": "manual",
+      "gha": "steps inlined",
+      "note": "map the pod container image to a job container or docker run"
+    },
+    {
+      "jenkins": "checkout: SCM environment (GIT_COMMIT, GIT_BRANCH, GIT_URL)",
+      "line": null,
+      "stage": null,
+      "status": "info",
+      "gha": "env",
+      "note": "Jenkins' git plugin exports them to every step after a checkout, so called scripts may read them; defined at workflow level even when the Jenkinsfile does not"
+    }
+  ],
+  "secrets": {
+    "JENKINS_OPENVSX_AWS_KEY_ID": "Jenkins credential 'jenkins-openvsx-aws-key-id'",
+    "JENKINS_OPENVSX_AWS_SECRET_KEY": "Jenkins credential 'jenkins-openvsx-aws-secret-key'"
+  },
+  "jobs": {
+    "build-docker-image": {
+      "name": "Build docker image",
+      "runs-on": "ubuntu-latest",
+      "steps": 3,
+      "matrix": false
+    },
+    "push-docker-image": {
+      "name": "Push docker image",
+      "runs-on": "ubuntu-latest",
+      "steps": 3,
+      "matrix": false
+    },
+    "deploy-test": {
+      "name": "Deploy test, Deploy staging, Deploy production, Deploy aws-staging, Deploy aws-production",
+      "runs-on": "ubuntu-latest",
+      "steps": 14,
+      "matrix": false
+    },
+    "post": {
+      "name": "post",
+      "runs-on": "ubuntu-latest",
+      "steps": 5,
+      "matrix": false
+    }
+  },
+  "notes": [],
+  "handoff": {
+    "handed_on": [
+      "deploy-test"
+    ],
+    "merged": [],
+    "restored_by": [
+      "post"
+    ]
+  },
+  "source_sha256": "cf78f159b0582f4df0e920a9067e024f7772bfd5543ae2648514466a07446f50",
+  "model_sha256": "eca7a3c5dd98c5c65fdf87697316c3fc09c980e31e68d8f2ae2c6119b0498633"
+}

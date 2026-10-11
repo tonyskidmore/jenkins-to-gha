@@ -1,0 +1,304 @@
+/* j2gha: import aws.dvsa.mobile.Globals removed */
+
+/* j2gha: import aws.dvsa.mobile.CommonFunctions removed */
+/* j2gha: import aws.dvsa.mobile.GitFunctions removed */
+/* j2gha: import aws.dvsa.mobile.MobileCoreFunctions removed */
+
+//---------------------------------------------------------
+def Globals             = new Globals()
+def CommonFunctions     = new CommonFunctions()
+def MobileCoreFunctions = new MobileCoreFunctions()
+def GitFunctions        = new GitFunctions()
+//---------------------------------------------------------
+branch          = "${GIT_BRANCH}"
+target_location = "${TARGET_LOCATION}"
+git_repo_url    = "${GIT_REPO_URL}"
+plugin_check    = "${PLUGIN}"
+
+if (plugin_check.toString() == 'Yes') {
+    plugin_repo     = "${PLUGIN_REPO}"
+    plugin_target   = "${PLUGIN_TARGET}"
+    plugin_branch   = "${PLUGIN_BRANCH}"
+}
+
+bucket  = "${BUCKET}"
+file    = "${IPA_FILE_NAME}"
+integration_test_check = "${INTEGRATION_TEST_CHECK}"
+
+if (integration_test_check.toString() == 'Yes') {
+    integration_type    = "${TEST_TYPE}"
+    test_suite          = "${TEST_SUITE}"
+}
+//---------------------------------------------------------
+
+timestamps {
+    ansiColor('xterm') {
+
+        /**
+         * The following code will be run on the master node
+         */
+        node('built-in') {
+            deleteDir()
+
+            /**
+             * Checkout code from Git
+             */
+            stage('Git Checkout') {
+                CommonFunctions.log('info', 'STAGE: CHECKOUT')
+                parallel(
+                        main: {
+                            GitFunctions.git_check_out(git_repo_url, branch, target_location, Globals.GITLAB_CREDS)
+                        },
+                        plugin: {
+                            if (plugin_check == 'Yes') {
+                                GitFunctions.git_check_out(plugin_repo, plugin_branch, plugin_target, Globals.GITLAB_CREDS)
+                            }
+                        }
+                )
+
+                if (plugin_check == 'Yes') {
+                    CommonFunctions.log('info', 'MERGED PLUGIN REPO INTO THE MAIN REPO')
+                    sh """
+                       mv ${plugin_target} ${target_location}/${plugin_target}
+                       """
+                }
+
+                CommonFunctions.log('info', 'CODE FETCHED')
+            }
+
+            def WORKSPACE = pwd()
+
+            dir("${WORKSPACE}") {
+                CommonFunctions.log('info', 'STASHING CODE')
+                stash allowEmpty: true, useDefaultExcludes: false, name: "${target_location}", includes: "${target_location}/**"
+                CommonFunctions.log('info', 'STASHED')
+            }
+        }
+
+        /**
+         * The following code will be run on the mac in the cloud instance
+         */
+        node('built-in') {
+            deleteDir()
+
+            def mac_workspace = pwd()
+
+            CommonFunctions.log('info', 'UNSTASHING CODE')
+            unstash "${target_location}"
+            CommonFunctions.log('info', 'CODE UNSTASHED')
+
+            dir("${mac_workspace}/${target_location}") {
+                /**
+                 * NPM Install
+                 */
+                stage('NPM Install') {
+                    CommonFunctions.log('info', 'STAGE: NPM INSTALL')
+                    MobileCoreFunctions.install()
+                    CommonFunctions.log('info', 'STAGE: NPM INSTALL COMPLETED')
+                }
+
+                /**
+                 * Run the security checks against the repo this is done using the home office security scanner
+                 */
+                stage('Security Check') {
+                    CommonFunctions.log('info', 'STAGE: SECURITY CHECK')
+                    MobileCoreFunctions.security()
+                    CommonFunctions.log('info', 'SECURITY CHECKS COMPLETED')
+                }
+
+                /**
+                 * Run SonarQube linting against the code
+                 */
+                stage('SonarQube') {
+                    CommonFunctions.log('info', 'STAGE: SONARQUBE')
+                    MobileCoreFunctions.sonar()
+                    CommonFunctions.log('info', 'CODE LINTING COMPLETED')
+                }
+
+                /**
+                 * Run tests against the code
+                 */
+                stage('Unit Tests') {
+                    CommonFunctions.log('info', 'STAGE: UNIT TESTS')
+                    MobileCoreFunctions.testing('unit', ' ', ' ', ' ', ' ')
+                    CommonFunctions.log('info', 'UNIT TESTS COMPLETED')
+                }
+
+                /**
+                 * Run npm build
+                 */
+                stage('NPM Build') {
+                    CommonFunctions.log('info', 'STAGE: NPM BUILD')
+                    MobileCoreFunctions.npmBuild()
+                    CommonFunctions.log('info', 'NPM BUILD COMPLETE')
+                }
+
+                CommonFunctions.log('info', 'PLUGIN SET TO: ' + plugin_check)
+                if (plugin_check == 'Yes') {
+                    /**
+                     * If plugin is set to yes then this stage will run. It adds Cordova plugins to the package.json file
+                     */
+                    stage('Configure Plugin') {
+                        CommonFunctions.log('info', 'STAGE: CONFIGURE PLUGIN')
+                        MobileCoreFunctions.configurePlugin(plugin_target)
+                        CommonFunctions.log('info', 'PLUGIN CONFIGURED SUCCESSFULLY')
+                    }
+                }
+
+                /**
+                 * Configure cordova platform
+                 */
+                stage('Cordova Platform') {
+                    CommonFunctions.log('info', 'STAGE: CORDOVA PLATFORM')
+                    MobileCoreFunctions.configure()
+                    CommonFunctions.log('info', 'PLATFORM CONFIGURED SUCCESSFULLY')
+                }
+            }
+
+            dir("${mac_workspace}/${target_location}/platforms/ios") {
+                /**
+                 * This stage cleans the code, archives the code and exports the archive to a .ipa file
+                 */
+                stage('Build') {
+                    CommonFunctions.log('info', 'STAGE: BUILD')
+                    MobileCoreFunctions.build()
+                    CommonFunctions.log('info', 'BUILD COMPLETED SUCCESSFULLY')
+                }
+
+                stash name: "build", includes: "build/**"
+
+                CommonFunctions.log('info', 'INTEGRATION TESTS SET TO : ' + integration_test_check)
+                if (integration_test_check == 'Yes') {
+                    stage('Integration Tests') {
+                        CommonFunctions.log('info', 'STAGE: INTEGRATION TESTS')
+                        MobileCoreFunctions.testing('integration', integration_type, ' ', ' ', test_suite)
+                        CommonFunctions.log('info', 'TESTS COMPLETED SUCCESSFULLY')
+                    }
+                }
+            }
+        }
+
+        /**
+         * The following code will run on the master node
+         */
+        node('built-in') {
+            deleteDir()
+
+            unstash "build"
+
+            /**
+             * Upload IPA file to S3
+             */
+            stage('Upload to S3') {
+                CommonFunctions.log('info', 'STAGE: UPLOAD TO S3')
+                MobileCoreFunctions.upload(bucket, file)
+                CommonFunctions.log('info', 'UPLOAD TO S3 COMPLETED')
+            }
+
+            /**
+             * Generate bucket URL
+             */
+            stage('Generate bucket URL') {
+                CommonFunctions.log('info', 'STAGE: Generate bucket URL')
+                MobileCoreFunctions.publish(bucket, file)
+                CommonFunctions.log('info', 'BUCKET LINK CREATED')
+            }
+        }
+    }
+}
+
+// ---- j2gha localisation block (trace mode) - generated, not part of the original pipeline ----
+@groovy.transform.Field def scm = [$class: 'GitSCM', branches: [[name: 'main']], userRemoteConfigs: [[url: 'https://example.invalid/j2gha.git']]]
+class J2ghaAny implements Serializable { @NonCPS def propertyMissing(String n) { new J2ghaAny() }; @NonCPS def methodMissing(String n, Object a) { new J2ghaAny() }; @NonCPS String toString() { 'j2gha-stub' }; @NonCPS boolean asBoolean() { true }; @NonCPS boolean isEmpty() { false }; @NonCPS def getAt(Object k) { new J2ghaAny() }; @NonCPS Iterator iterator() { [].iterator() } }
+class J2ghaConfig extends LinkedHashMap { @NonCPS Object get(Object k) { super.containsKey(k) ? super.get(k) : new J2ghaAny() }; @NonCPS def methodMissing(String n, Object a) { new J2ghaAny() } }
+def j2ghaTrace(String kind) {
+  steps.echo('J2GHA-TRACE ' + groovy.json.JsonOutput.toJson([stage: (env.STAGE_NAME ?: ''), step: kind]))
+}
+def sh(Object... a) { j2ghaTrace('sh'); if (a && a[0] instanceof Map && a[0].returnStdout) { return '' }; if (a && a[0] instanceof Map && a[0].returnStatus) { return 0 }; return null }
+def bat(Object... a) { j2ghaTrace('bat'); if (a && a[0] instanceof Map && a[0].returnStdout) { return '' }; if (a && a[0] instanceof Map && a[0].returnStatus) { return 0 }; return null }
+def powershell(Object... a) { j2ghaTrace('powershell'); if (a && a[0] instanceof Map && (a[0].returnStdout)) { return '' }; return null }
+def pwsh(Object... a) { j2ghaTrace('pwsh'); return null }
+def echo(Object... a) { j2ghaTrace('echo'); steps.echo(String.valueOf(a ? a[0] : '')) }
+def checkout(Object... a) { j2ghaTrace('checkout'); return [GIT_COMMIT: '0000000000000000000000000000000000000000', GIT_BRANCH: (env.GIT_BRANCH ?: env.BRANCH_NAME)] }
+def git(Object... a) { j2ghaTrace('git'); return null }
+def archiveArtifacts(Object... a) { j2ghaTrace('archiveArtifacts'); return null }
+def archive(Object... a) { j2ghaTrace('archive'); return null }
+def junit(Object... a) { j2ghaTrace('junit'); return null }
+def stash(Object... a) { j2ghaTrace('stash'); return null }
+def unstash(Object... a) { j2ghaTrace('unstash'); return null }
+def input(Object... a) { j2ghaTrace('input'); return null }
+def build(Object... a) { j2ghaTrace('build'); return [result: 'SUCCESS', number: 1, currentResult: 'SUCCESS', absoluteUrl: '', getResult: { -> 'SUCCESS' }, buildVariables: [:]] }
+def error(Object... a) { j2ghaTrace('error'); steps.error(String.valueOf(a ? a[0] : 'error')) }
+def unstable(Object... a) { j2ghaTrace('unstable'); return null }
+def mail(Object... a) { j2ghaTrace('mail'); return null }
+def emailext(Object... a) { j2ghaTrace('emailext'); return null }
+def slackSend(Object... a) { j2ghaTrace('slackSend'); return null }
+def office365ConnectorSend(Object... a) { j2ghaTrace('office365ConnectorSend'); return null }
+def publishHTML(Object... a) { j2ghaTrace('publishHTML'); return null }
+def publishCoverage(Object... a) { j2ghaTrace('publishCoverage'); return null }
+def recordCoverage(Object... a) { j2ghaTrace('recordCoverage'); return null }
+def jacoco(Object... a) { j2ghaTrace('jacoco'); return null }
+def cobertura(Object... a) { j2ghaTrace('cobertura'); return null }
+def recordIssues(Object... a) { j2ghaTrace('recordIssues'); return null }
+def deleteDir(Object... a) { j2ghaTrace('deleteDir'); return null }
+def cleanWs(Object... a) { j2ghaTrace('cleanWs'); return null }
+def sleep(Object... a) { j2ghaTrace('sleep'); return null }
+def writeFile(Object... a) { j2ghaTrace('writeFile'); return null }
+def httpRequest(Object... a) { j2ghaTrace('httpRequest'); return [status: 200, content: '{}'] }
+def copyArtifacts(Object... a) { j2ghaTrace('copyArtifacts'); return null }
+def waitForQualityGate(Object... a) { j2ghaTrace('waitForQualityGate'); return null }
+def githubNotify(Object... a) { j2ghaTrace('githubNotify'); return null }
+def setGitHubPullRequestStatus(Object... a) { j2ghaTrace('setGitHubPullRequestStatus'); return null }
+def step(Object... a) { j2ghaTrace('step'); return null }
+def fingerprint(Object... a) { j2ghaTrace('fingerprint'); return null }
+def s3Upload(Object... a) { j2ghaTrace('s3Upload'); return null }
+def s3Download(Object... a) { j2ghaTrace('s3Download'); return null }
+def milestone(Object... a) { return null }
+def properties(Object... a) { return null }
+def buildDiscarder(Object... a) { return null }
+def readFile(Object... a) { return '' }
+def fileExists(Object... a) { return false }
+def findFiles(Object... a) { return [] }
+def readJSON(Object... a) { return new J2ghaConfig() }
+def readYaml(Object... a) { return new J2ghaConfig() }
+def readProperties(Object... a) { return new J2ghaConfig() }
+def readMavenPom(Object... a) { return new J2ghaAny() }
+def readCSV(Object... a) { return [] }
+def tool(Object... a) { return '/usr' }
+def load(Object... a) { return new J2ghaAny() }
+def evaluate(Object... a) { return new J2ghaAny() }
+def library(Object... a) { return new J2ghaAny() }
+def withCredentials(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def sshagent(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withDockerRegistry(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withMaven(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withSonarQubeEnv(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def container(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def wrap(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def ansiColor(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withAWS(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withKubeConfig(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withVault(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def configFileProvider(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withGradle(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def nodejs(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withPythonEnv(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def timestamps(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withDockerContainer(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withDockerServer(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def azureCLI(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def retry(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def podTemplate(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def lock(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+@groovy.transform.Field def TARGET_LOCATION = new J2ghaAny()
+@groovy.transform.Field def GIT_REPO_URL = new J2ghaAny()
+@groovy.transform.Field def PLUGIN = new J2ghaAny()
+@groovy.transform.Field def BUCKET = new J2ghaAny()
+@groovy.transform.Field def IPA_FILE_NAME = new J2ghaAny()
+@groovy.transform.Field def INTEGRATION_TEST_CHECK = new J2ghaAny()
+class Globals extends J2ghaAny { @NonCPS static $static_propertyMissing(String n) { new J2ghaAny() }; @NonCPS static $static_methodMissing(String n, Object a) { new J2ghaAny() } }
+class GitFunctions extends J2ghaAny { @NonCPS static $static_propertyMissing(String n) { new J2ghaAny() }; @NonCPS static $static_methodMissing(String n, Object a) { new J2ghaAny() } }
+class MobileCoreFunctions extends J2ghaAny { @NonCPS static $static_propertyMissing(String n) { new J2ghaAny() }; @NonCPS static $static_methodMissing(String n, Object a) { new J2ghaAny() } }
+class CommonFunctions extends J2ghaAny { @NonCPS static $static_propertyMissing(String n) { new J2ghaAny() }; @NonCPS static $static_methodMissing(String n, Object a) { new J2ghaAny() } }
+def node(Object... a) { def body = a[-1]; return steps.node('built-in') { body() } }
+// ---- end of j2gha localisation block ----

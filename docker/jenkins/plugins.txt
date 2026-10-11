@@ -1,0 +1,124 @@
+# Pinned plugin set (jenkins-plugin-cli format, name:version). Every installed plugin is listed - the curated
+# plugins below plus the dependencies they resolved to - so a rebuild installs exactly this set; the image build
+# fails if anything else gets installed (docker/jenkins/bin/j2gha-check-plugins). Versions were taken from the
+# j2gha/jenkins:local image built 2026-10-03 on jenkins/jenkins 2.580.1 (xvnc, build-user-vars-plugin, aws-credentials
+# and the aws-java-sdk* dependencies: 2026-10-09). To add or upgrade a plugin, see the note above the plugin install
+# step in docker/jenkins/Dockerfile.
+
+# Core pipeline execution + Declarative model (provides /pipeline-model-converter/*)
+workflow-aggregator:608.v67378e9d3db_1
+pipeline-model-definition:2.2293.v6e7193cec599
+pipeline-stage-step:345.va_96187909426
+pipeline-rest-api:2.41
+pipeline-graph-view:1050.v31b_9a_49d67e2
+pipeline-utility-steps:3.810.va_7672d206740
+pipeline-input-step:560.v56198a_642157
+pipeline-build-step:601.v6d4c6d1a_9dc7
+pipeline-milestone-step:152.v6e22b_8cfc66c
+# Configuration as code + job creation
+configuration-as-code:2132.v60435f73c18a_
+job-dsl:3732.v9a_c49a_61a_313
+# Commonly used steps in real-world Jenkinsfiles (so they resolve instead of being stubbed)
+git:5.10.1
+credentials:1511.v2e3cb_0008ef0
+credentials-binding:728.v902a_273b_8947
+plain-credentials:199.v9f8e1f741799
+ssh-credentials:372.va_250881b_08cd
+docker-workflow:653.v2f2c08eff0ec
+docker-commons:477.v289085a_b_6896
+junit:1432.v3f9a_b_73dd986
+timestamper:1.30
+ws-cleanup:0.49
+ansicolor:542.v03d235fee02d
+lockable-resources:1560.va_b_cd589f23eb_
+copyartifact:805.v9d1393350780
+htmlpublisher:429
+mailer:534.v1b_36f5864073
+email-ext:2038.v7b_8817a_499d9
+build-timeout:1.41
+matrix-project:928.v1effc3f3a_236
+config-file-provider:1013.v73c323e52b_1f
+nodejs:1.6.6
+# Declarative directive types the corpus uses (agent/options/triggers/parameters). Without them toJson/validate
+# reject the whole Jenkinsfile; at run time the localiser still rewrites agents and drops triggers.
+kubernetes:4557.ve746270f672f
+gitlab-plugin:1.2154.v00193eff6f9a_
+generic-webhook-trigger:2.4.3
+validating-string-parameter:345.v0f4330488a_f6
+# Full-mode support for examples 013 (wrap([$class: 'Xvnc']) around an SWT/Tycho build), 020 (wrap([$class:
+# 'BuildUser']) for the BUILD_USER* variables) and 016 (withCredentials AmazonWebServicesCredentialsBinding).
+xvnc:1.28
+build-user-vars-plugin:214.va_eed2ed849ca_
+aws-credentials:265.v8422a_f384cd9
+
+# Dependencies of the plugins above, as resolved for the versions pinned here (70).
+antisamy-markup-formatter:173.v680e3a_b_69ff3
+apache-httpcomponents-client-4-api:4.5.14-269.vfa_2321039a_83
+aws-java-sdk-ec2:1.12.780-480.v4a_0819121a_9e
+aws-java-sdk-minimal:1.12.780-480.v4a_0819121a_9e
+aws-java-sdk2-core:2.42.33-70.vd69c0763fa_60
+aws-java-sdk2-ec2:2.42.33-70.vd69c0763fa_60
+asm-api:9.10.1-216.va_9256d3b_844b_
+authentication-tokens:1.144.v5ff4a_5ec5c33
+bootstrap5-api:5.3.8-1048.va_c299057e35c
+bouncycastle-api:2.30.1.85.2-304.v4b_5b_62e59a_a_7
+branch-api:2.1303.v9f3b_95dc329d
+caffeine-api:3.2.4-208.v7e2da_a_7db_82b_
+checks-api:422.vc7e8b_51488c6
+cloudbees-folder:6.1106.v3a_d9a_6d2465e
+commons-compress-api:1.28.0-94.v77d096a_42df3
+commons-lang3-api:3.20.0-109.ve43756e2d2b_4
+commons-text-api:1.15.0-218.va_61573470393
+display-url-api:2.217.va_6b_de84cc74b_
+durable-task:686.v80ff80875b_82
+echarts-api:6.1.0-1321.v86c4c5114494
+font-awesome-api:7.3.1-1013.v0835a_879ec6d
+git-client:6.6.1
+gson-api:2.14.0-201.v8eefe5515533
+instance-identity:203.v15e81a_1b_7a_38
+ionicons-api:94.vcc3065403257
+jackson-annotations2-api:2.22-19.v10a_a_582ea_26e
+jackson2-api:2.22.2-445.vdc613f1d8012
+jackson3-api:3.2.3-101.v69fc84453a_8e
+jakarta-activation-api:2.1.4-1
+jakarta-mail-api:2.1.5-1
+jakarta-xml-bind-api:4.0.9-19.v2b_a_5b_44d9a_1c
+javax-activation-api:1.2.0-8
+jaxb:2.3.9-143.v5979df3304e6
+jersey3-api:3.1.11-4.v77818819c2e1
+joda-time-api:2.15.0-208.v6b_084e7a_d9f0
+jquery3-api:3.7.1-687.v68d468e40b_30
+json-api:20260814-226.v20f9685d642c
+json-path-api:3.0.0-218.vcd4dd1355de2
+jsoup:1.23.2-106.v1161f282b_eb_f
+kubernetes-client-api:7.3.1-256.v788a_0b_787114
+kubernetes-credentials:207.v492f58828b_ed
+metrics:4.2.37-494.v06f9a_939d33a_
+mina-sshd-api-common:2.19.0-192.v2b_a_7b_2c1dc71
+mina-sshd-api-core:2.19.0-192.v2b_a_7b_2c1dc71
+okhttp-api:5.3.2-200.vedb_720a_cf1f8
+pipeline-graph-analysis:254.v0f63a_a_447dca_
+pipeline-groovy-lib:806.v408277b_33d1d
+pipeline-model-api:2.2293.v6e7193cec599
+pipeline-model-extensions:2.2293.v6e7193cec599
+pipeline-stage-tags-metadata:2.2293.v6e7193cec599
+plugin-util-api:7.1341.v039f146993d9
+prism-api:1.30.0-741.v034eb_0b_0a_a_fa_
+resource-disposer:0.25
+scm-api:728.vc30dcf7a_0df5
+script-security:1429.v0810f1b_530f5
+snakeyaml-api:2.5-149.v72471e9c6371
+snakeyaml-engine-api:3.1.1-12.v4320c7d6f89c
+structs:362.va_b_695ef4fdf9
+token-macro:477.vd4f0dc3cb_cf1
+variant:70.va_d9f17f859e0
+woodstox-core-api:7.2.2-10.vcb_629759b_2c2
+workflow-api:1413.v2ff1a_5e720fa_
+workflow-basic-steps:1098.v808b_fd7f8cf4
+workflow-cps:4383.v04fa_a_3d67b_d9
+workflow-durable-task-step:1479.v56e587f413a_7
+workflow-job:1602.v2a_70b_80a_2396
+workflow-multibranch:842.v3a_b_59b_57b_e6e
+workflow-scm-step:487.v41313a_96b_65d
+workflow-step-api:724.v538c2362b_dfb_
+workflow-support:1015.v785e5a_b_b_8b_22

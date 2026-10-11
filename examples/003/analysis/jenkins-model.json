@@ -1,0 +1,1352 @@
+{
+  "result": "success",
+  "json": {
+    "pipeline": {
+      "stages": [
+        {
+          "name": "Check Commit Message",
+          "branches": [
+            {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "script",
+                  "arguments": [
+                    {
+                      "key": "scriptBlock",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "def commitMsg = sh(returnStdout: true, script: 'git log -1 --pretty=format:%s').trim()\n          def skipKeywords = ['wip', '[skip ci]', '[skip-ci]', '[ci skip]', '[ci-skip]']\n          if (skipKeywords.any { commitMsg.toLowerCase().contains(it) }) {\n            currentBuild.result = 'ABORTED'\n            error(\"Pipeline aborted because commit message contains skip directive.\")\n          }"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Get Ready",
+          "branches": [
+            {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "script",
+                  "arguments": [
+                    {
+                      "key": "scriptBlock",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "notifyBitbucket() // Notifies the Bitbucket instance of an INPROGRESS build"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "sh",
+                  "arguments": [
+                    {
+                      "key": "script",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "git clean -x -d -f"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "agent": {
+            "type": "dockerfile",
+            "arguments": [
+              {
+                "key": "dir",
+                "value": {
+                  "isLiteral": true,
+                  "value": ".docker"
+                }
+              },
+              {
+                "key": "reuseNode",
+                "value": {
+                  "isLiteral": true,
+                  "value": true
+                }
+              }
+            ]
+          },
+          "name": "Run URDF tests",
+          "branches": [
+            {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "sh",
+                  "arguments": [
+                    {
+                      "key": "script",
+                      "value": {
+                        "isLiteral": true,
+                        "value": ".ci/run_urdf_tests.sh"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Build robot URDFs and SRDFs",
+          "matrix": {
+            "axes": [
+              {
+                "name": "ROBOT",
+                "values": [
+                  {
+                    "isLiteral": true,
+                    "value": "fp3"
+                  },
+                  {
+                    "isLiteral": true,
+                    "value": "fr3"
+                  },
+                  {
+                    "isLiteral": true,
+                    "value": "fr3v2"
+                  },
+                  {
+                    "isLiteral": true,
+                    "value": "fr3v2_1"
+                  },
+                  {
+                    "isLiteral": true,
+                    "value": "tmrv0_2"
+                  }
+                ]
+              }
+            ],
+            "stages": [
+              {
+                "name": "Build URDF and SRDF",
+                "branches": [
+                  {
+                    "name": "default",
+                    "steps": [
+                      {
+                        "name": "sh",
+                        "arguments": [
+                          {
+                            "key": "script",
+                            "value": {
+                              "isLiteral": false,
+                              "value": "\"./scripts/create_urdf.sh --no-ee --no-prefix ${ROBOT}\""
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "name": "dir",
+                        "arguments": {
+                          "isLiteral": true,
+                          "value": "urdfs"
+                        },
+                        "children": [
+                          {
+                            "name": "stash",
+                            "arguments": [
+                              {
+                                "key": "name",
+                                "value": {
+                                  "isLiteral": false,
+                                  "value": "\"ROBOT_${ROBOT}_urdf\""
+                                }
+                              },
+                              {
+                                "key": "includes",
+                                "value": {
+                                  "isLiteral": false,
+                                  "value": "\"${ROBOT}.urdf\""
+                                }
+                              }
+                            ]
+                          },
+                          {
+                            "name": "stash",
+                            "arguments": [
+                              {
+                                "key": "name",
+                                "value": {
+                                  "isLiteral": false,
+                                  "value": "\"ROBOT_${ROBOT}_srdf\""
+                                }
+                              },
+                              {
+                                "key": "includes",
+                                "value": {
+                                  "isLiteral": false,
+                                  "value": "\"${ROBOT}.srdf\""
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "name": "Build End Effector URDFs",
+          "matrix": {
+            "axes": [
+              {
+                "name": "EE",
+                "values": [
+                  {
+                    "isLiteral": true,
+                    "value": "franka_hand"
+                  },
+                  {
+                    "isLiteral": true,
+                    "value": "cobot_pump"
+                  }
+                ]
+              }
+            ],
+            "stages": [
+              {
+                "name": "Build URDF",
+                "branches": [
+                  {
+                    "name": "default",
+                    "steps": [
+                      {
+                        "name": "sh",
+                        "arguments": [
+                          {
+                            "key": "script",
+                            "value": {
+                              "isLiteral": false,
+                              "value": "\"./scripts/create_urdf.sh --only-ee --robot-ee ${EE}\""
+                            }
+                          }
+                        ]
+                      },
+                      {
+                        "name": "dir",
+                        "arguments": {
+                          "isLiteral": true,
+                          "value": "urdfs"
+                        },
+                        "children": [
+                          {
+                            "name": "stash",
+                            "arguments": [
+                              {
+                                "key": "name",
+                                "value": {
+                                  "isLiteral": false,
+                                  "value": "\"EE_${EE}_urdf\""
+                                }
+                              },
+                              {
+                                "key": "includes",
+                                "value": {
+                                  "isLiteral": false,
+                                  "value": "\"${EE}.urdf\""
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        },
+        {
+          "agent": {
+            "type": "docker",
+            "arguments": [
+              {
+                "key": "image",
+                "value": {
+                  "isLiteral": true,
+                  "value": "franka/build/ubuntu-24.04:0.27.0"
+                }
+              },
+              {
+                "key": "reuseNode",
+                "value": {
+                  "isLiteral": true,
+                  "value": true
+                }
+              }
+            ]
+          },
+          "name": "Archive URDFs and SRDFs",
+          "stages": [
+            {
+              "name": "Cleanup",
+              "branches": [
+                {
+                  "name": "default",
+                  "steps": [
+                    {
+                      "name": "sh",
+                      "arguments": [
+                        {
+                          "key": "script",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "rm -rf usr"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Create directory structure",
+              "branches": [
+                {
+                  "name": "default",
+                  "steps": [
+                    {
+                      "name": "sh",
+                      "arguments": [
+                        {
+                          "key": "script",
+                          "value": {
+                            "isLiteral": false,
+                            "value": "\"mkdir -p ${DIST_DIR}/meshes\""
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "name": "sh",
+                      "arguments": [
+                        {
+                          "key": "script",
+                          "value": {
+                            "isLiteral": false,
+                            "value": "\"mkdir -p ${DIST_DIR}/robots\""
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "name": "sh",
+                      "arguments": [
+                        {
+                          "key": "script",
+                          "value": {
+                            "isLiteral": false,
+                            "value": "\"mkdir -p ${DIST_DIR}/end_effectors\""
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Move robot urdfs and srdfs into correct robot arm directory",
+              "parallel": [
+                {
+                  "name": "Arm3R",
+                  "branches": [
+                    {
+                      "name": "default",
+                      "steps": [
+                        {
+                          "name": "sh",
+                          "arguments": [
+                            {
+                              "key": "script",
+                              "value": {
+                                "isLiteral": false,
+                                "value": "\"mkdir -p ${DIST_DIR}/robots/Arm3R\""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "name": "dir",
+                          "arguments": {
+                            "isLiteral": false,
+                            "value": "\"${DIST_DIR}/robots/Arm3R\""
+                          },
+                          "children": [
+                            {
+                              "name": "unstash",
+                              "arguments": [
+                                {
+                                  "key": "name",
+                                  "value": {
+                                    "isLiteral": true,
+                                    "value": "ROBOT_fr3_urdf"
+                                  }
+                                }
+                              ]
+                            },
+                            {
+                              "name": "unstash",
+                              "arguments": [
+                                {
+                                  "key": "name",
+                                  "value": {
+                                    "isLiteral": true,
+                                    "value": "ROBOT_fr3_srdf"
+                                  }
+                                }
+                              ]
+                            },
+                            {
+                              "name": "sh",
+                              "arguments": [
+                                {
+                                  "key": "script",
+                                  "value": {
+                                    "isLiteral": true,
+                                    "value": "mv fr3.urdf robot.urdf"
+                                  }
+                                }
+                              ]
+                            },
+                            {
+                              "name": "sh",
+                              "arguments": [
+                                {
+                                  "key": "script",
+                                  "value": {
+                                    "isLiteral": true,
+                                    "value": "mv fr3.srdf robot.srdf"
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "Arm3P",
+                  "branches": [
+                    {
+                      "name": "default",
+                      "steps": [
+                        {
+                          "name": "sh",
+                          "arguments": [
+                            {
+                              "key": "script",
+                              "value": {
+                                "isLiteral": false,
+                                "value": "\"mkdir -p ${DIST_DIR}/robots/Arm3P\""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "name": "dir",
+                          "arguments": {
+                            "isLiteral": false,
+                            "value": "\"${DIST_DIR}/robots/Arm3P\""
+                          },
+                          "children": [
+                            {
+                              "name": "unstash",
+                              "arguments": [
+                                {
+                                  "key": "name",
+                                  "value": {
+                                    "isLiteral": true,
+                                    "value": "ROBOT_fp3_urdf"
+                                  }
+                                }
+                              ]
+                            },
+                            {
+                              "name": "unstash",
+                              "arguments": [
+                                {
+                                  "key": "name",
+                                  "value": {
+                                    "isLiteral": true,
+                                    "value": "ROBOT_fp3_srdf"
+                                  }
+                                }
+                              ]
+                            },
+                            {
+                              "name": "sh",
+                              "arguments": [
+                                {
+                                  "key": "script",
+                                  "value": {
+                                    "isLiteral": true,
+                                    "value": "mv fp3.urdf robot.urdf"
+                                  }
+                                }
+                              ]
+                            },
+                            {
+                              "name": "sh",
+                              "arguments": [
+                                {
+                                  "key": "script",
+                                  "value": {
+                                    "isLiteral": true,
+                                    "value": "mv fp3.srdf robot.srdf"
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "Arm3Rv2",
+                  "branches": [
+                    {
+                      "name": "default",
+                      "steps": [
+                        {
+                          "name": "sh",
+                          "arguments": [
+                            {
+                              "key": "script",
+                              "value": {
+                                "isLiteral": false,
+                                "value": "\"mkdir -p ${DIST_DIR}/robots/Arm3Rv2\""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "name": "dir",
+                          "arguments": {
+                            "isLiteral": false,
+                            "value": "\"${DIST_DIR}/robots/Arm3Rv2\""
+                          },
+                          "children": [
+                            {
+                              "name": "unstash",
+                              "arguments": [
+                                {
+                                  "key": "name",
+                                  "value": {
+                                    "isLiteral": true,
+                                    "value": "ROBOT_fr3v2_urdf"
+                                  }
+                                }
+                              ]
+                            },
+                            {
+                              "name": "unstash",
+                              "arguments": [
+                                {
+                                  "key": "name",
+                                  "value": {
+                                    "isLiteral": true,
+                                    "value": "ROBOT_fr3v2_srdf"
+                                  }
+                                }
+                              ]
+                            },
+                            {
+                              "name": "sh",
+                              "arguments": [
+                                {
+                                  "key": "script",
+                                  "value": {
+                                    "isLiteral": true,
+                                    "value": "mv fr3v2.urdf robot.urdf"
+                                  }
+                                }
+                              ]
+                            },
+                            {
+                              "name": "sh",
+                              "arguments": [
+                                {
+                                  "key": "script",
+                                  "value": {
+                                    "isLiteral": true,
+                                    "value": "mv fr3v2.srdf robot.srdf"
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "Arm3Rv2.1",
+                  "branches": [
+                    {
+                      "name": "default",
+                      "steps": [
+                        {
+                          "name": "sh",
+                          "arguments": [
+                            {
+                              "key": "script",
+                              "value": {
+                                "isLiteral": false,
+                                "value": "\"mkdir -p ${DIST_DIR}/robots/Arm3Rv2.1\""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "name": "dir",
+                          "arguments": {
+                            "isLiteral": false,
+                            "value": "\"${DIST_DIR}/robots/Arm3Rv2.1\""
+                          },
+                          "children": [
+                            {
+                              "name": "unstash",
+                              "arguments": [
+                                {
+                                  "key": "name",
+                                  "value": {
+                                    "isLiteral": true,
+                                    "value": "ROBOT_fr3v2_1_urdf"
+                                  }
+                                }
+                              ]
+                            },
+                            {
+                              "name": "unstash",
+                              "arguments": [
+                                {
+                                  "key": "name",
+                                  "value": {
+                                    "isLiteral": true,
+                                    "value": "ROBOT_fr3v2_1_srdf"
+                                  }
+                                }
+                              ]
+                            },
+                            {
+                              "name": "sh",
+                              "arguments": [
+                                {
+                                  "key": "script",
+                                  "value": {
+                                    "isLiteral": true,
+                                    "value": "mv fr3v2_1.urdf robot.urdf"
+                                  }
+                                }
+                              ]
+                            },
+                            {
+                              "name": "sh",
+                              "arguments": [
+                                {
+                                  "key": "script",
+                                  "value": {
+                                    "isLiteral": true,
+                                    "value": "mv fr3v2_1.srdf robot.srdf"
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "TMRv0.2",
+                  "branches": [
+                    {
+                      "name": "default",
+                      "steps": [
+                        {
+                          "name": "sh",
+                          "arguments": [
+                            {
+                              "key": "script",
+                              "value": {
+                                "isLiteral": false,
+                                "value": "\"mkdir -p ${DIST_DIR}/robots/TMRv0.2\""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "name": "dir",
+                          "arguments": {
+                            "isLiteral": false,
+                            "value": "\"${DIST_DIR}/robots/TMRv0.2\""
+                          },
+                          "children": [
+                            {
+                              "name": "unstash",
+                              "arguments": [
+                                {
+                                  "key": "name",
+                                  "value": {
+                                    "isLiteral": true,
+                                    "value": "ROBOT_tmrv0_2_urdf"
+                                  }
+                                }
+                              ]
+                            },
+                            {
+                              "name": "unstash",
+                              "arguments": [
+                                {
+                                  "key": "name",
+                                  "value": {
+                                    "isLiteral": true,
+                                    "value": "ROBOT_tmrv0_2_srdf"
+                                  }
+                                }
+                              ]
+                            },
+                            {
+                              "name": "sh",
+                              "arguments": [
+                                {
+                                  "key": "script",
+                                  "value": {
+                                    "isLiteral": true,
+                                    "value": "mv tmrv0_2.urdf robot.urdf"
+                                  }
+                                }
+                              ]
+                            },
+                            {
+                              "name": "sh",
+                              "arguments": [
+                                {
+                                  "key": "script",
+                                  "value": {
+                                    "isLiteral": true,
+                                    "value": "mv tmrv0_2.srdf robot.srdf"
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Copy meshes to dist",
+              "branches": [
+                {
+                  "name": "default",
+                  "steps": [
+                    {
+                      "name": "script",
+                      "arguments": [
+                        {
+                          "key": "scriptBlock",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "sh \"mkdir -p ${DIST_DIR}/meshes/robots\"\n              def robs = ['fp3', 'fr3', 'fr3v2', 'fr3v2_1', 'tmrv0_2']\n              def copyCmd = robs.collect { \"cp -r meshes/robots/${it} ${DIST_DIR}/meshes/robots\" }.join(' && ')\n              sh copyCmd"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Extract End Effector URDFs",
+              "stages": [
+                {
+                  "name": "Create End Effector directories",
+                  "branches": [
+                    {
+                      "name": "default",
+                      "steps": [
+                        {
+                          "name": "sh",
+                          "arguments": [
+                            {
+                              "key": "script",
+                              "value": {
+                                "isLiteral": false,
+                                "value": "\"mkdir -p ${DIST_DIR}/end_effectors/cobot_pump\""
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "name": "sh",
+                          "arguments": [
+                            {
+                              "key": "script",
+                              "value": {
+                                "isLiteral": false,
+                                "value": "\"mkdir -p ${DIST_DIR}/end_effectors/franka_hand\""
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "Copy meshes",
+                  "parallel": [
+                    {
+                      "name": "cobot_pump",
+                      "branches": [
+                        {
+                          "name": "default",
+                          "steps": [
+                            {
+                              "name": "sh",
+                              "arguments": [
+                                {
+                                  "key": "script",
+                                  "value": {
+                                    "isLiteral": true,
+                                    "value": "\n                        mkdir -p \"${DIST_DIR}/meshes/robot_ee/cobot_pump\"\n                        cp -r meshes/robot_ee/cobot_pump/* \"${DIST_DIR}/meshes/robot_ee/cobot_pump\"\n                      "
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "name": "franka_hand",
+                      "branches": [
+                        {
+                          "name": "default",
+                          "steps": [
+                            {
+                              "name": "sh",
+                              "arguments": [
+                                {
+                                  "key": "script",
+                                  "value": {
+                                    "isLiteral": true,
+                                    "value": "\n                        mkdir -p \"${DIST_DIR}/meshes/robot_ee/franka_hand_white\"\n                        cp -r meshes/robot_ee/franka_hand_white/* \"${DIST_DIR}/meshes/robot_ee/franka_hand_white\"\n                      "
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "name": "Unstash URDF",
+                  "branches": [
+                    {
+                      "name": "default",
+                      "steps": [
+                        {
+                          "name": "dir",
+                          "arguments": {
+                            "isLiteral": false,
+                            "value": "\"${DIST_DIR}/end_effectors/cobot_pump\""
+                          },
+                          "children": [
+                            {
+                              "name": "unstash",
+                              "arguments": [
+                                {
+                                  "key": "name",
+                                  "value": {
+                                    "isLiteral": true,
+                                    "value": "EE_cobot_pump_urdf"
+                                  }
+                                }
+                              ]
+                            },
+                            {
+                              "name": "sh",
+                              "arguments": [
+                                {
+                                  "key": "script",
+                                  "value": {
+                                    "isLiteral": true,
+                                    "value": "mv cobot_pump.urdf endeffector.urdf"
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "name": "dir",
+                          "arguments": {
+                            "isLiteral": false,
+                            "value": "\"${DIST_DIR}/end_effectors/franka_hand\""
+                          },
+                          "children": [
+                            {
+                              "name": "unstash",
+                              "arguments": [
+                                {
+                                  "key": "name",
+                                  "value": {
+                                    "isLiteral": true,
+                                    "value": "EE_franka_hand_urdf"
+                                  }
+                                }
+                              ]
+                            },
+                            {
+                              "name": "sh",
+                              "arguments": [
+                                {
+                                  "key": "script",
+                                  "value": {
+                                    "isLiteral": true,
+                                    "value": "mv franka_hand.urdf endeffector.urdf"
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "Create archive",
+              "branches": [
+                {
+                  "name": "default",
+                  "steps": [
+                    {
+                      "name": "sh",
+                      "arguments": [
+                        {
+                          "key": "script",
+                          "value": {
+                            "isLiteral": false,
+                            "value": "\"rm -rf ${DIST_DIR}/robots/*@tmp\""
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "name": "sh",
+                      "arguments": [
+                        {
+                          "key": "script",
+                          "value": {
+                            "isLiteral": false,
+                            "value": "\"rm -rf ${DIST_DIR}/end_effectors/*@tmp\""
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "name": "dir",
+                      "arguments": {
+                        "isLiteral": true,
+                        "value": "dist"
+                      },
+                      "children": [
+                        {
+                          "name": "sh",
+                          "arguments": [
+                            {
+                              "key": "script",
+                              "value": {
+                                "isLiteral": true,
+                                "value": "\n                tar czvf \"${ARTIFACT_FILENAME}_${VERSION}.tar.gz\" usr/share\n                fpm -s tar                     -t deb                     -n \"robot-descriptions\"                     -v ${VERSION}                     -a all                     --vendor \"Franka Robotics GmbH\"                     --maintainer \"Franka Robotics GmbH <support@franka.de>\"                     \"${ARTIFACT_FILENAME}_${VERSION}.tar.gz\"\n                # Rename .deb to .ipk for opkg-compatible publishing via fePublishOpkg\n                mv \"${ARTIFACT_FILENAME}_${VERSION}_all.deb\" \"${ARTIFACT_FILENAME}_${VERSION}_all.ipk\"\n                printf \"%s archive created.\nversion: %s\nsha1sum: %s\n\" \"${ARTIFACT_FILENAME}\" \"${VERSION}\" \"$(sha1sum \"${ARTIFACT_FILENAME}_${VERSION}_all.ipk\")\"\n              "
+                              }
+                            }
+                          ]
+                        },
+                        {
+                          "name": "archiveArtifacts",
+                          "arguments": [
+                            {
+                              "key": "artifacts",
+                              "value": {
+                                "isLiteral": true,
+                                "value": "*.tar.gz"
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "when": {
+                "conditions": [
+                  {
+                    "name": "not",
+                    "children": [
+                      {
+                        "name": "equals",
+                        "arguments": [
+                          {
+                            "key": "expected",
+                            "value": {
+                              "isLiteral": true,
+                              "value": "UNSTABLE"
+                            }
+                          },
+                          {
+                            "key": "actual",
+                            "value": {
+                              "isLiteral": false,
+                              "value": "${currentBuild.result}"
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "name": "anyOf",
+                    "children": [
+                      {
+                        "name": "buildingTag",
+                        "arguments": []
+                      },
+                      {
+                        "name": "branch",
+                        "arguments": {
+                          "isLiteral": false,
+                          "value": "\"${env.BRANCH_NAME}\" // or current branch?"
+                        }
+                      }
+                    ]
+                  }
+                ]
+              },
+              "name": "Publish to artifactory",
+              "branches": [
+                {
+                  "name": "default",
+                  "steps": [
+                    {
+                      "name": "fePublishOpkg",
+                      "arguments": [
+                        {
+                          "isLiteral": true,
+                          "value": "*.ipk"
+                        },
+                        {
+                          "isLiteral": true,
+                          "value": "mc7-5x"
+                        }
+                      ]
+                    },
+                    {
+                      "name": "fePublishBuildInfo",
+                      "arguments": []
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Trigger upstream franka_ros2_ws builds",
+          "parallel": [
+            {
+              "name": "humble",
+              "branches": [
+                {
+                  "name": "default",
+                  "steps": [
+                    {
+                      "name": "build",
+                      "arguments": [
+                        {
+                          "key": "job",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "FCI/franka_ros2_ws/humble"
+                          }
+                        },
+                        {
+                          "key": "wait",
+                          "value": {
+                            "isLiteral": true,
+                            "value": true
+                          }
+                        },
+                        {
+                          "key": "propagate",
+                          "value": {
+                            "isLiteral": true,
+                            "value": true
+                          }
+                        },
+                        {
+                          "key": "parameters",
+                          "value": {
+                            "isLiteral": false,
+                            "value": "${[string(name: 'frankaDescriptionBranch', value: env.BRANCH_NAME)]}"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "name": "jazzy",
+              "branches": [
+                {
+                  "name": "default",
+                  "steps": [
+                    {
+                      "name": "build",
+                      "arguments": [
+                        {
+                          "key": "job",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "FCI/franka_ros2_ws/jazzy"
+                          }
+                        },
+                        {
+                          "key": "wait",
+                          "value": {
+                            "isLiteral": true,
+                            "value": true
+                          }
+                        },
+                        {
+                          "key": "propagate",
+                          "value": {
+                            "isLiteral": true,
+                            "value": true
+                          }
+                        },
+                        {
+                          "key": "parameters",
+                          "value": {
+                            "isLiteral": false,
+                            "value": "${[string(name: 'frankaDescriptionBranch', value: env.BRANCH_NAME)]}"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "post": {
+        "conditions": [
+          {
+            "condition": "always",
+            "branch": {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "sh",
+                  "arguments": [
+                    {
+                      "key": "script",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "git clean -x -d -f"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "cleanWs",
+                  "arguments": []
+                },
+                {
+                  "name": "sh",
+                  "arguments": [
+                    {
+                      "key": "script",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "du -h --max-depth=1 . && ls -la"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "script",
+                  "arguments": [
+                    {
+                      "key": "scriptBlock",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "feNotifySCM(currentBuild.result)"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "environment": [
+        {
+          "key": "DEPENDENCIES_DIR",
+          "value": {
+            "isLiteral": true,
+            "value": "dependencies/"
+          }
+        },
+        {
+          "key": "VERSION",
+          "value": {
+            "isLiteral": false,
+            "value": "${feDetermineVersionFromGit()}"
+          }
+        },
+        {
+          "key": "ARTIFACT_FILENAME",
+          "value": {
+            "isLiteral": true,
+            "value": "robot-descriptions"
+          }
+        },
+        {
+          "key": "DIST_DIR",
+          "value": {
+            "isLiteral": true,
+            "value": "dist/usr/share/robot-descriptions"
+          }
+        }
+      ],
+      "agent": {
+        "type": "node",
+        "arguments": [
+          {
+            "key": "label",
+            "value": {
+              "isLiteral": true,
+              "value": "docker"
+            }
+          }
+        ]
+      },
+      "options": {
+        "options": [
+          {
+            "name": "timeout",
+            "arguments": [
+              {
+                "key": "time",
+                "value": {
+                  "isLiteral": true,
+                  "value": 2
+                }
+              },
+              {
+                "key": "unit",
+                "value": {
+                  "isLiteral": true,
+                  "value": "HOURS"
+                }
+              }
+            ]
+          },
+          {
+            "name": "gitLabConnection",
+            "arguments": [
+              {
+                "isLiteral": false,
+                "value": "${FePipelineOptionDefaults.GITLAB_CONNECTION}"
+              }
+            ]
+          },
+          {
+            "name": "buildDiscarder",
+            "arguments": [
+              {
+                "name": "logRotator",
+                "arguments": [
+                  {
+                    "key": "numToKeepStr",
+                    "value": {
+                      "isLiteral": false,
+                      "value": "${FePipelineOptionDefaults.BUILD_DISCARDER.numToKeepStr}"
+                    }
+                  },
+                  {
+                    "key": "daysToKeepStr",
+                    "value": {
+                      "isLiteral": false,
+                      "value": "${FePipelineOptionDefaults.BUILD_DISCARDER.daysToKeepStr}"
+                    }
+                  },
+                  {
+                    "key": "artifactNumToKeepStr",
+                    "value": {
+                      "isLiteral": false,
+                      "value": "${FePipelineOptionDefaults.BUILD_DISCARDER.artifactNumToKeepStr}"
+                    }
+                  },
+                  {
+                    "key": "artifactDaysToKeepStr",
+                    "value": {
+                      "isLiteral": false,
+                      "value": "${FePipelineOptionDefaults.BUILD_DISCARDER.artifactDaysToKeepStr}"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

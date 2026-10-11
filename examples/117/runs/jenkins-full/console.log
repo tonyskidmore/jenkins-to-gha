@@ -1,0 +1,708 @@
+[2026-10-10T09:31:15.980Z] Started by user admin
+[2026-10-10T09:31:16.309Z] [Pipeline] Start of Pipeline
+[2026-10-10T09:31:16.435Z] [Pipeline] ansiColor
+[2026-10-10T09:31:16.441Z] [Pipeline] {
+[2026-10-10T09:31:16.446Z] 
+[2026-10-10T09:31:16.481Z] [Pipeline] timestamps
+[2026-10-10T09:31:16.481Z] The timestamps step is unnecessary when timestamps are enabled for all Pipeline builds.
+[2026-10-10T09:31:16.487Z] [Pipeline] {
+[2026-10-10T09:31:16.524Z] [Pipeline] timeout
+[2026-10-10T09:31:16.524Z] Timeout set to expire in 1 hr 0 min
+[2026-10-10T09:31:16.529Z] [Pipeline] {
+[2026-10-10T09:31:16.566Z] [Pipeline] stage
+[2026-10-10T09:31:16.571Z] [Pipeline] { (Init)
+[2026-10-10T09:31:16.617Z] [Pipeline] node
+[2026-10-10T09:31:16.631Z] Running on Jenkins in /var/jenkins_home/workspace/ex-117-full
+[2026-10-10T09:31:16.654Z] [Pipeline] {
+[2026-10-10T09:31:16.686Z] [Pipeline] checkout
+[2026-10-10T09:31:16.562Z] The recommended git tool is: NONE
+[2026-10-10T09:31:16.563Z] No credentials specified
+[2026-10-10T09:31:16.563Z]  > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/ex-117-full/.git # timeout=10
+[2026-10-10T09:31:16.568Z] Fetching changes from the remote Git repository
+[2026-10-10T09:31:16.569Z]  > git config remote.origin.url https://github.com/dvsa/recalls-pipeline.git # timeout=10
+[2026-10-10T09:31:16.576Z] Fetching upstream changes from https://github.com/dvsa/recalls-pipeline.git
+[2026-10-10T09:31:16.576Z]  > git --version # timeout=10
+[2026-10-10T09:31:16.582Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T09:31:16.582Z]  > git fetch --no-tags --force --progress -- https://github.com/dvsa/recalls-pipeline.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:31:17.017Z]  > git rev-parse 356eb91d1ffcaf98f2e5a39ed57bd2a5e7f3ce08^{commit} # timeout=10
+[2026-10-10T09:31:17.025Z] Checking out Revision 356eb91d1ffcaf98f2e5a39ed57bd2a5e7f3ce08 (detached)
+[2026-10-10T09:31:17.025Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T09:31:17.034Z]  > git checkout -f 356eb91d1ffcaf98f2e5a39ed57bd2a5e7f3ce08 # timeout=10
+[2026-10-10T09:31:17.042Z] Commit message: "Hotfix for AWS randomly appending None when using text output"
+[2026-10-10T09:31:17.042Z]  > git rev-list --no-walk 356eb91d1ffcaf98f2e5a39ed57bd2a5e7f3ce08 # timeout=10
+[2026-10-10T09:31:17.085Z] [Pipeline] withEnv
+[2026-10-10T09:31:17.090Z] [Pipeline] {
+[2026-10-10T09:31:17.128Z] [Pipeline] stage
+[2026-10-10T09:31:17.134Z] [Pipeline] { (Init: Check DB data completion)
+[2026-10-10T09:31:17.179Z] [Pipeline] script
+[2026-10-10T09:31:17.186Z] [Pipeline] {
+[2026-10-10T09:31:17.215Z] [Pipeline] }
+[2026-10-10T09:31:17.253Z] [Pipeline] // script
+[2026-10-10T09:31:17.273Z] [Pipeline] }
+[2026-10-10T09:31:17.326Z] [Pipeline] // stage
+[2026-10-10T09:31:17.353Z] [Pipeline] stage
+[2026-10-10T09:31:17.358Z] [Pipeline] { (Init: TF deployment bucket)
+[2026-10-10T09:31:17.431Z] [Pipeline] script
+[2026-10-10T09:31:17.441Z] [Pipeline] {
+[2026-10-10T09:31:17.483Z] [Pipeline] sh
+[2026-10-10T09:31:17.744Z] + date +%Y%m%d%H%M%S
+[2026-10-10T09:31:17.830Z] [Pipeline] dir
+[2026-10-10T09:31:17.830Z] Running in /var/jenkins_home/workspace/ex-117-full/cvr-terraform
+[2026-10-10T09:31:17.843Z] [Pipeline] {
+[2026-10-10T09:31:17.896Z] [Pipeline] sh
+[2026-10-10T09:31:18.159Z] + echo terraform scaffold cvr int deployment-bucket apply
+[2026-10-10T09:31:18.159Z] terraform scaffold cvr int deployment-bucket apply
+[2026-10-10T09:31:18.188Z] [Pipeline] }
+[2026-10-10T09:31:18.232Z] [Pipeline] // dir
+[2026-10-10T09:31:18.248Z] [Pipeline] }
+[2026-10-10T09:31:18.293Z] [Pipeline] // script
+[2026-10-10T09:31:18.305Z] [Pipeline] }
+[2026-10-10T09:31:18.345Z] [Pipeline] // stage
+[2026-10-10T09:31:18.368Z] [Pipeline] stage
+[2026-10-10T09:31:18.373Z] [Pipeline] { (Init: Verify environment)
+[2026-10-10T09:31:18.410Z] [Pipeline] script
+[2026-10-10T09:31:18.416Z] [Pipeline] {
+[2026-10-10T09:31:18.454Z] [Pipeline] dir
+[2026-10-10T09:31:18.454Z] Running in /var/jenkins_home/workspace/ex-117-full/cvr-app
+[2026-10-10T09:31:18.460Z] [Pipeline] {
+[2026-10-10T09:31:18.496Z] [Pipeline] readJSON
+[2026-10-10T09:31:18.531Z] [Pipeline] }
+[2026-10-10T09:31:18.570Z] [Pipeline] // dir
+[2026-10-10T09:31:18.585Z] [Pipeline] }
+[2026-10-10T09:31:18.624Z] [Pipeline] // script
+[2026-10-10T09:31:18.639Z] [Pipeline] }
+[2026-10-10T09:31:18.677Z] [Pipeline] // stage
+[2026-10-10T09:31:18.693Z] [Pipeline] }
+[2026-10-10T09:31:18.728Z] [Pipeline] // withEnv
+[2026-10-10T09:31:18.744Z] [Pipeline] }
+[2026-10-10T09:31:18.795Z] [Pipeline] // node
+[2026-10-10T09:31:18.810Z] [Pipeline] }
+[2026-10-10T09:31:18.845Z] [Pipeline] // stage
+[2026-10-10T09:31:18.872Z] [Pipeline] stage
+[2026-10-10T09:31:18.877Z] [Pipeline] { (Build)
+[2026-10-10T09:31:18.911Z] [Pipeline] parallel
+[2026-10-10T09:31:18.942Z] [Pipeline] { (Branch: Build: CVR frontend)
+[2026-10-10T09:31:18.947Z] [Pipeline] { (Branch: Build: CVR backend)
+[2026-10-10T09:31:18.952Z] [Pipeline] { (Branch: Build: frontend assets)
+[2026-10-10T09:31:18.958Z] [Pipeline] { (Branch: Build: CVR data update module)
+[2026-10-10T09:31:19.003Z] [Pipeline] stage
+[2026-10-10T09:31:19.009Z] [Pipeline] { (Build: CVR frontend)
+[2026-10-10T09:31:19.023Z] [Pipeline] stage
+[2026-10-10T09:31:19.028Z] [Pipeline] { (Build: CVR backend)
+[2026-10-10T09:31:19.040Z] [Pipeline] stage
+[2026-10-10T09:31:19.044Z] [Pipeline] { (Build: frontend assets)
+[2026-10-10T09:31:19.056Z] [Pipeline] stage
+[2026-10-10T09:31:19.060Z] [Pipeline] { (Build: CVR data update module)
+[2026-10-10T09:31:19.097Z] [Pipeline] node
+[2026-10-10T09:31:19.111Z] Running on Jenkins in /var/jenkins_home/workspace/ex-117-full
+[2026-10-10T09:31:19.115Z] [Pipeline] node
+[2026-10-10T09:31:19.128Z] Running on Jenkins in /var/jenkins_home/workspace/ex-117-full@2
+[2026-10-10T09:31:19.132Z] [Pipeline] node
+[2026-10-10T09:31:19.144Z] Running on Jenkins in /var/jenkins_home/workspace/ex-117-full@3
+[2026-10-10T09:31:19.148Z] [Pipeline] node
+[2026-10-10T09:31:19.173Z] Running on Jenkins in /var/jenkins_home/workspace/ex-117-full@4
+[2026-10-10T09:31:19.212Z] [Pipeline] {
+[2026-10-10T09:31:19.237Z] [Pipeline] {
+[2026-10-10T09:31:19.257Z] [Pipeline] {
+[2026-10-10T09:31:19.274Z] [Pipeline] {
+[2026-10-10T09:31:19.307Z] [Pipeline] checkout
+[2026-10-10T09:31:19.313Z] The recommended git tool is: NONE
+[2026-10-10T09:31:19.313Z] No credentials specified
+[2026-10-10T09:31:19.313Z]  > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/ex-117-full/.git # timeout=10
+[2026-10-10T09:31:19.320Z] Fetching changes from the remote Git repository
+[2026-10-10T09:31:19.321Z]  > git config remote.origin.url https://github.com/dvsa/recalls-pipeline.git # timeout=10
+[2026-10-10T09:31:19.324Z] [Pipeline] checkout
+[2026-10-10T09:31:19.327Z] Fetching upstream changes from https://github.com/dvsa/recalls-pipeline.git
+[2026-10-10T09:31:19.327Z]  > git --version # timeout=10
+[2026-10-10T09:31:19.331Z] The recommended git tool is: NONE
+[2026-10-10T09:31:19.331Z] No credentials specified
+[2026-10-10T09:31:19.332Z]  > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/ex-117-full@2/.git # timeout=10
+[2026-10-10T09:31:19.333Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T09:31:19.333Z]  > git fetch --no-tags --force --progress -- https://github.com/dvsa/recalls-pipeline.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:31:19.338Z] Fetching changes from the remote Git repository
+[2026-10-10T09:31:19.340Z]  > git config remote.origin.url https://github.com/dvsa/recalls-pipeline.git # timeout=10
+[2026-10-10T09:31:19.345Z] [Pipeline] checkout
+[2026-10-10T09:31:19.347Z] Fetching upstream changes from https://github.com/dvsa/recalls-pipeline.git
+[2026-10-10T09:31:19.348Z]  > git --version # timeout=10
+[2026-10-10T09:31:19.352Z] The recommended git tool is: NONE
+[2026-10-10T09:31:19.353Z] No credentials specified
+[2026-10-10T09:31:19.353Z]  > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/ex-117-full@3/.git # timeout=10
+[2026-10-10T09:31:19.354Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T09:31:19.354Z]  > git fetch --no-tags --force --progress -- https://github.com/dvsa/recalls-pipeline.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:31:19.362Z] Fetching changes from the remote Git repository
+[2026-10-10T09:31:19.364Z]  > git config remote.origin.url https://github.com/dvsa/recalls-pipeline.git # timeout=10
+[2026-10-10T09:31:19.367Z] [Pipeline] checkout
+[2026-10-10T09:31:19.371Z] Fetching upstream changes from https://github.com/dvsa/recalls-pipeline.git
+[2026-10-10T09:31:19.371Z]  > git --version # timeout=10
+[2026-10-10T09:31:19.376Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T09:31:19.376Z]  > git fetch --no-tags --force --progress -- https://github.com/dvsa/recalls-pipeline.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:31:19.384Z] The recommended git tool is: NONE
+[2026-10-10T09:31:19.384Z] No credentials specified
+[2026-10-10T09:31:19.384Z]  > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/ex-117-full@4/.git # timeout=10
+[2026-10-10T09:31:19.392Z] Fetching changes from the remote Git repository
+[2026-10-10T09:31:19.394Z]  > git config remote.origin.url https://github.com/dvsa/recalls-pipeline.git # timeout=10
+[2026-10-10T09:31:19.400Z] Fetching upstream changes from https://github.com/dvsa/recalls-pipeline.git
+[2026-10-10T09:31:19.400Z]  > git --version # timeout=10
+[2026-10-10T09:31:19.408Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T09:31:19.408Z]  > git fetch --no-tags --force --progress -- https://github.com/dvsa/recalls-pipeline.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:31:19.787Z]  > git rev-parse 356eb91d1ffcaf98f2e5a39ed57bd2a5e7f3ce08^{commit} # timeout=10
+[2026-10-10T09:31:19.793Z] Checking out Revision 356eb91d1ffcaf98f2e5a39ed57bd2a5e7f3ce08 (detached)
+[2026-10-10T09:31:19.793Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T09:31:19.799Z]  > git checkout -f 356eb91d1ffcaf98f2e5a39ed57bd2a5e7f3ce08 # timeout=10
+[2026-10-10T09:31:19.806Z]  > git rev-parse 356eb91d1ffcaf98f2e5a39ed57bd2a5e7f3ce08^{commit} # timeout=10
+[2026-10-10T09:31:19.808Z] Commit message: "Hotfix for AWS randomly appending None when using text output"
+[2026-10-10T09:31:19.813Z] Checking out Revision 356eb91d1ffcaf98f2e5a39ed57bd2a5e7f3ce08 (detached)
+[2026-10-10T09:31:19.813Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T09:31:19.819Z]  > git checkout -f 356eb91d1ffcaf98f2e5a39ed57bd2a5e7f3ce08 # timeout=10
+[2026-10-10T09:31:19.829Z]  > git rev-parse 356eb91d1ffcaf98f2e5a39ed57bd2a5e7f3ce08^{commit} # timeout=10
+[2026-10-10T09:31:19.834Z] Commit message: "Hotfix for AWS randomly appending None when using text output"
+[2026-10-10T09:31:19.837Z] Checking out Revision 356eb91d1ffcaf98f2e5a39ed57bd2a5e7f3ce08 (detached)
+[2026-10-10T09:31:19.838Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T09:31:19.844Z] [Pipeline] withEnv
+[2026-10-10T09:31:19.845Z]  > git checkout -f 356eb91d1ffcaf98f2e5a39ed57bd2a5e7f3ce08 # timeout=10
+[2026-10-10T09:31:19.854Z] [Pipeline] {
+[2026-10-10T09:31:19.860Z] Commit message: "Hotfix for AWS randomly appending None when using text output"
+[2026-10-10T09:31:19.864Z]  > git rev-parse 356eb91d1ffcaf98f2e5a39ed57bd2a5e7f3ce08^{commit} # timeout=10
+[2026-10-10T09:31:19.871Z] Checking out Revision 356eb91d1ffcaf98f2e5a39ed57bd2a5e7f3ce08 (detached)
+[2026-10-10T09:31:19.871Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T09:31:19.879Z]  > git checkout -f 356eb91d1ffcaf98f2e5a39ed57bd2a5e7f3ce08 # timeout=10
+[2026-10-10T09:31:19.891Z] Commit message: "Hotfix for AWS randomly appending None when using text output"
+[2026-10-10T09:31:19.907Z] [Pipeline] withEnv
+[2026-10-10T09:31:19.912Z] [Pipeline] {
+[2026-10-10T09:31:19.928Z] [Pipeline] withEnv
+[2026-10-10T09:31:19.933Z] [Pipeline] {
+[2026-10-10T09:31:19.960Z] [Pipeline] withEnv
+[2026-10-10T09:31:19.965Z] [Pipeline] {
+[2026-10-10T09:31:20.006Z] [Pipeline] script
+[2026-10-10T09:31:20.013Z] [Pipeline] {
+[2026-10-10T09:31:20.025Z] [Pipeline] script
+[2026-10-10T09:31:20.031Z] [Pipeline] {
+[2026-10-10T09:31:20.047Z] [Pipeline] dir
+[2026-10-10T09:31:20.047Z] Running in /var/jenkins_home/workspace/ex-117-full/cvr-app
+[2026-10-10T09:31:20.053Z] [Pipeline] {
+[2026-10-10T09:31:20.068Z] [Pipeline] dir
+[2026-10-10T09:31:20.068Z] Running in /var/jenkins_home/workspace/ex-117-full@3/cvr-front-end
+[2026-10-10T09:31:20.074Z] [Pipeline] {
+[2026-10-10T09:31:20.080Z] [Pipeline] deleteDir
+[2026-10-10T09:31:20.091Z] [Pipeline] deleteDir
+[2026-10-10T09:31:20.106Z] [Pipeline] script
+[2026-10-10T09:31:20.112Z] [Pipeline] {
+[2026-10-10T09:31:20.162Z] [Pipeline] dir
+[2026-10-10T09:31:20.163Z] Running in /var/jenkins_home/workspace/ex-117-full@2/cvr-app
+[2026-10-10T09:31:20.168Z] [Pipeline] {
+[2026-10-10T09:31:20.185Z] [Pipeline] deleteDir
+[2026-10-10T09:31:20.210Z] [Pipeline] script
+[2026-10-10T09:31:20.217Z] [Pipeline] {
+[2026-10-10T09:31:20.241Z] [Pipeline] }
+[2026-10-10T09:31:20.254Z] [Pipeline] dir
+[2026-10-10T09:31:20.254Z] Running in /var/jenkins_home/workspace/ex-117-full@4/cvr-app
+[2026-10-10T09:31:20.259Z] [Pipeline] {
+[2026-10-10T09:31:20.288Z] [Pipeline] }
+[2026-10-10T09:31:20.294Z] [Pipeline] deleteDir
+[2026-10-10T09:31:20.329Z] [Pipeline] }
+[2026-10-10T09:31:20.374Z] [Pipeline] // dir
+[2026-10-10T09:31:20.400Z] [Pipeline] dir
+[2026-10-10T09:31:20.400Z] Running in /var/jenkins_home/workspace/ex-117-full/cvr-app
+[2026-10-10T09:31:20.404Z] [Pipeline] {
+[2026-10-10T09:31:20.441Z] [Pipeline] // dir
+[2026-10-10T09:31:20.455Z] [Pipeline] dir
+[2026-10-10T09:31:20.455Z] Running in /var/jenkins_home/workspace/ex-117-full@3/cvr-app
+[2026-10-10T09:31:20.459Z] [Pipeline] {
+[2026-10-10T09:31:20.475Z] [Pipeline] }
+[2026-10-10T09:31:20.505Z] [Pipeline] // dir
+[2026-10-10T09:31:20.531Z] [Pipeline] dir
+[2026-10-10T09:31:20.531Z] Running in /var/jenkins_home/workspace/ex-117-full@2/cvr-app
+[2026-10-10T09:31:20.536Z] [Pipeline] {
+[2026-10-10T09:31:20.546Z] [Pipeline] sh
+[2026-10-10T09:31:20.575Z] [Pipeline] dir
+[2026-10-10T09:31:20.576Z] Running in /var/jenkins_home/workspace/ex-117-full@3/cvr-app/frontend
+[2026-10-10T09:31:20.581Z] [Pipeline] {
+[2026-10-10T09:31:20.613Z] [Pipeline] sh
+[2026-10-10T09:31:20.645Z] [Pipeline] sh
+[2026-10-10T09:31:20.697Z] [Pipeline] // dir
+[2026-10-10T09:31:20.713Z] [Pipeline] dir
+[2026-10-10T09:31:20.713Z] Running in /var/jenkins_home/workspace/ex-117-full@4/cvr-app
+[2026-10-10T09:31:20.718Z] [Pipeline] {
+[2026-10-10T09:31:20.753Z] [Pipeline] sh
+[2026-10-10T09:31:20.806Z] + echo npm run build:frontend
+[2026-10-10T09:31:20.806Z] + mv cvr-frontend.zip cvr-frontend-20261010093117_6_abc1234.zip
+[2026-10-10T09:31:20.825Z] [Pipeline] }
+[2026-10-10T09:31:20.866Z] [Pipeline] // dir
+[2026-10-10T09:31:20.873Z] + echo 1.0.0
+[2026-10-10T09:31:20.883Z] [Pipeline] }
+[2026-10-10T09:31:20.905Z] + echo npm run build:backend
+[2026-10-10T09:31:20.905Z] + mv cvr-backend.zip cvr-backend-20261010093117_6_abc1234.zip
+[2026-10-10T09:31:20.937Z] [Pipeline] // script
+[2026-10-10T09:31:20.956Z] [Pipeline] }
+[2026-10-10T09:31:20.962Z] [Pipeline] }
+[2026-10-10T09:31:20.973Z] [Pipeline] readFile
+[2026-10-10T09:31:21.012Z] + echo npm run build:data-update
+[2026-10-10T09:31:21.012Z] + mv cvr-data-update.zip cvr-data-update-20261010093117_6_abc1234.zip
+[2026-10-10T09:31:21.017Z] [Pipeline] // withEnv
+[2026-10-10T09:31:21.060Z] [Pipeline] // dir
+[2026-10-10T09:31:21.093Z] [Pipeline] }
+[2026-10-10T09:31:21.099Z] [Pipeline] }
+[2026-10-10T09:31:21.105Z] [Pipeline] }
+[2026-10-10T09:31:21.110Z] [Pipeline] }
+[2026-10-10T09:31:21.160Z] [Pipeline] // node
+[2026-10-10T09:31:21.187Z] [Pipeline] // script
+[2026-10-10T09:31:21.214Z] [Pipeline] // dir
+[2026-10-10T09:31:21.241Z] [Pipeline] // dir
+[2026-10-10T09:31:21.256Z] [Pipeline] }
+[2026-10-10T09:31:21.262Z] [Pipeline] }
+[2026-10-10T09:31:21.268Z] [Pipeline] }
+[2026-10-10T09:31:21.273Z] [Pipeline] }
+[2026-10-10T09:31:21.312Z] [Pipeline] // stage
+[2026-10-10T09:31:21.339Z] [Pipeline] // withEnv
+[2026-10-10T09:31:21.365Z] [Pipeline] // script
+[2026-10-10T09:31:21.394Z] [Pipeline] // dir
+[2026-10-10T09:31:21.411Z] [Pipeline] }
+[2026-10-10T09:31:21.417Z] [Pipeline] }
+[2026-10-10T09:31:21.426Z] [Pipeline] }
+[2026-10-10T09:31:21.441Z] [Pipeline] sh
+[2026-10-10T09:31:21.527Z] [Pipeline] // node
+[2026-10-10T09:31:21.558Z] [Pipeline] // withEnv
+[2026-10-10T09:31:21.580Z] [Pipeline] }
+[2026-10-10T09:31:21.586Z] [Pipeline] }
+[2026-10-10T09:31:21.627Z] [Pipeline] // stage
+[2026-10-10T09:31:21.666Z] [Pipeline] // node
+[2026-10-10T09:31:21.683Z] [Pipeline] }
+[2026-10-10T09:31:21.689Z] [Pipeline] }
+[2026-10-10T09:31:21.702Z] + mkdir -p cvr-front-end/dist/assets
+[2026-10-10T09:31:21.702Z] + echo stand-in asset
+[2026-10-10T09:31:21.738Z] [Pipeline] // stage
+[2026-10-10T09:31:21.774Z] [Pipeline] }
+[2026-10-10T09:31:21.787Z] [Pipeline] fileExists
+[2026-10-10T09:31:21.859Z] [Pipeline] zip
+[2026-10-10T09:31:21.863Z] Compress /var/jenkins_home/workspace/ex-117-full@3/cvr-front-end/dist/assets to /var/jenkins_home/workspace/ex-117-full@3/cvr-front-end/assets-20261010093117_6_abc1234.zip
+[2026-10-10T09:31:21.867Z] Compressed 1 entries.
+[2026-10-10T09:31:21.899Z] [Pipeline] }
+[2026-10-10T09:31:21.932Z] [Pipeline] // script
+[2026-10-10T09:31:21.944Z] [Pipeline] }
+[2026-10-10T09:31:21.974Z] [Pipeline] // withEnv
+[2026-10-10T09:31:21.986Z] [Pipeline] }
+[2026-10-10T09:31:22.031Z] [Pipeline] // node
+[2026-10-10T09:31:22.049Z] [Pipeline] }
+[2026-10-10T09:31:22.085Z] [Pipeline] // stage
+[2026-10-10T09:31:22.101Z] [Pipeline] }
+[2026-10-10T09:31:22.194Z] [Pipeline] // parallel
+[2026-10-10T09:31:22.210Z] [Pipeline] }
+[2026-10-10T09:31:22.245Z] [Pipeline] // stage
+[2026-10-10T09:31:22.274Z] [Pipeline] stage
+[2026-10-10T09:31:22.279Z] [Pipeline] { (Deploy)
+[2026-10-10T09:31:22.319Z] [Pipeline] stage
+[2026-10-10T09:31:22.325Z] [Pipeline] { (Deploy: Upload CVR frontend package)
+[2026-10-10T09:31:22.359Z] [Pipeline] node
+[2026-10-10T09:31:22.378Z] Running on Jenkins in /var/jenkins_home/workspace/ex-117-full
+[2026-10-10T09:31:22.391Z] [Pipeline] {
+[2026-10-10T09:31:22.424Z] [Pipeline] checkout
+[2026-10-10T09:31:22.430Z] The recommended git tool is: NONE
+[2026-10-10T09:31:22.430Z] No credentials specified
+[2026-10-10T09:31:22.430Z]  > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/ex-117-full/.git # timeout=10
+[2026-10-10T09:31:22.436Z] Fetching changes from the remote Git repository
+[2026-10-10T09:31:22.438Z]  > git config remote.origin.url https://github.com/dvsa/recalls-pipeline.git # timeout=10
+[2026-10-10T09:31:22.445Z] Fetching upstream changes from https://github.com/dvsa/recalls-pipeline.git
+[2026-10-10T09:31:22.445Z]  > git --version # timeout=10
+[2026-10-10T09:31:22.452Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T09:31:22.452Z]  > git fetch --no-tags --force --progress -- https://github.com/dvsa/recalls-pipeline.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:31:23.003Z]  > git rev-parse 356eb91d1ffcaf98f2e5a39ed57bd2a5e7f3ce08^{commit} # timeout=10
+[2026-10-10T09:31:23.023Z] Checking out Revision 356eb91d1ffcaf98f2e5a39ed57bd2a5e7f3ce08 (detached)
+[2026-10-10T09:31:23.023Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T09:31:23.033Z]  > git checkout -f 356eb91d1ffcaf98f2e5a39ed57bd2a5e7f3ce08 # timeout=10
+[2026-10-10T09:31:23.048Z] Commit message: "Hotfix for AWS randomly appending None when using text output"
+[2026-10-10T09:31:23.099Z] [Pipeline] withEnv
+[2026-10-10T09:31:23.114Z] [Pipeline] {
+[2026-10-10T09:31:23.208Z] [Pipeline] script
+[2026-10-10T09:31:23.221Z] [Pipeline] {
+[2026-10-10T09:31:23.271Z] [Pipeline] dir
+[2026-10-10T09:31:23.271Z] Running in /var/jenkins_home/workspace/ex-117-full/cvr-app
+[2026-10-10T09:31:23.278Z] [Pipeline] {
+[2026-10-10T09:31:23.313Z] [Pipeline] fileExists
+[2026-10-10T09:31:23.352Z] [Pipeline] sh
+[2026-10-10T09:31:23.612Z] + echo aws s3 cp /var/jenkins_home/workspace/ex-117-full/cvr-app/cvr-frontend-20261010093117_6_abc1234.zip s3://cvr-123456789012-j2gha-stub-int-deployment/
+[2026-10-10T09:31:23.613Z] aws s3 cp /var/jenkins_home/workspace/ex-117-full/cvr-app/cvr-frontend-20261010093117_6_abc1234.zip s3://cvr-123456789012-j2gha-stub-int-deployment/
+[2026-10-10T09:31:23.647Z] [Pipeline] }
+[2026-10-10T09:31:23.696Z] [Pipeline] // dir
+[2026-10-10T09:31:23.713Z] [Pipeline] }
+[2026-10-10T09:31:23.755Z] [Pipeline] // script
+[2026-10-10T09:31:23.771Z] [Pipeline] }
+[2026-10-10T09:31:23.808Z] [Pipeline] // withEnv
+[2026-10-10T09:31:23.823Z] [Pipeline] }
+[2026-10-10T09:31:23.870Z] [Pipeline] // node
+[2026-10-10T09:31:23.886Z] [Pipeline] }
+[2026-10-10T09:31:23.923Z] [Pipeline] // stage
+[2026-10-10T09:31:23.953Z] [Pipeline] stage
+[2026-10-10T09:31:23.960Z] [Pipeline] { (Deploy: Upload CVR backend package)
+[2026-10-10T09:31:24.000Z] [Pipeline] node
+[2026-10-10T09:31:24.026Z] Running on Jenkins in /var/jenkins_home/workspace/ex-117-full
+[2026-10-10T09:31:24.044Z] [Pipeline] {
+[2026-10-10T09:31:24.072Z] [Pipeline] checkout
+[2026-10-10T09:31:24.077Z] The recommended git tool is: NONE
+[2026-10-10T09:31:24.077Z] No credentials specified
+[2026-10-10T09:31:24.077Z]  > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/ex-117-full/.git # timeout=10
+[2026-10-10T09:31:24.082Z] Fetching changes from the remote Git repository
+[2026-10-10T09:31:24.083Z]  > git config remote.origin.url https://github.com/dvsa/recalls-pipeline.git # timeout=10
+[2026-10-10T09:31:24.089Z] Fetching upstream changes from https://github.com/dvsa/recalls-pipeline.git
+[2026-10-10T09:31:24.089Z]  > git --version # timeout=10
+[2026-10-10T09:31:24.095Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T09:31:24.095Z]  > git fetch --no-tags --force --progress -- https://github.com/dvsa/recalls-pipeline.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:31:24.593Z]  > git rev-parse 356eb91d1ffcaf98f2e5a39ed57bd2a5e7f3ce08^{commit} # timeout=10
+[2026-10-10T09:31:24.609Z] Checking out Revision 356eb91d1ffcaf98f2e5a39ed57bd2a5e7f3ce08 (detached)
+[2026-10-10T09:31:24.609Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T09:31:24.620Z]  > git checkout -f 356eb91d1ffcaf98f2e5a39ed57bd2a5e7f3ce08 # timeout=10
+[2026-10-10T09:31:24.633Z] Commit message: "Hotfix for AWS randomly appending None when using text output"
+[2026-10-10T09:31:24.662Z] [Pipeline] withEnv
+[2026-10-10T09:31:24.668Z] [Pipeline] {
+[2026-10-10T09:31:24.712Z] [Pipeline] script
+[2026-10-10T09:31:24.718Z] [Pipeline] {
+[2026-10-10T09:31:24.757Z] [Pipeline] dir
+[2026-10-10T09:31:24.757Z] Running in /var/jenkins_home/workspace/ex-117-full/cvr-app
+[2026-10-10T09:31:24.762Z] [Pipeline] {
+[2026-10-10T09:31:24.799Z] [Pipeline] fileExists
+[2026-10-10T09:31:24.841Z] [Pipeline] sh
+[2026-10-10T09:31:25.102Z] + echo aws s3 cp /var/jenkins_home/workspace/ex-117-full@2/cvr-app/cvr-backend-20261010093117_6_abc1234.zip s3://cvr-123456789012-j2gha-stub-int-deployment/
+[2026-10-10T09:31:25.102Z] aws s3 cp /var/jenkins_home/workspace/ex-117-full@2/cvr-app/cvr-backend-20261010093117_6_abc1234.zip s3://cvr-123456789012-j2gha-stub-int-deployment/
+[2026-10-10T09:31:25.139Z] [Pipeline] }
+[2026-10-10T09:31:25.184Z] [Pipeline] // dir
+[2026-10-10T09:31:25.203Z] [Pipeline] }
+[2026-10-10T09:31:25.242Z] [Pipeline] // script
+[2026-10-10T09:31:25.259Z] [Pipeline] }
+[2026-10-10T09:31:25.304Z] [Pipeline] // withEnv
+[2026-10-10T09:31:25.320Z] [Pipeline] }
+[2026-10-10T09:31:25.366Z] [Pipeline] // node
+[2026-10-10T09:31:25.380Z] [Pipeline] }
+[2026-10-10T09:31:25.419Z] [Pipeline] // stage
+[2026-10-10T09:31:25.459Z] [Pipeline] stage
+[2026-10-10T09:31:25.466Z] [Pipeline] { (Deploy: Upload CVR data update package)
+[2026-10-10T09:31:25.506Z] [Pipeline] node
+[2026-10-10T09:31:25.516Z] Running on Jenkins in /var/jenkins_home/workspace/ex-117-full
+[2026-10-10T09:31:25.536Z] [Pipeline] {
+[2026-10-10T09:31:25.571Z] [Pipeline] checkout
+[2026-10-10T09:31:25.578Z] The recommended git tool is: NONE
+[2026-10-10T09:31:25.578Z] No credentials specified
+[2026-10-10T09:31:25.578Z]  > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/ex-117-full/.git # timeout=10
+[2026-10-10T09:31:25.586Z] Fetching changes from the remote Git repository
+[2026-10-10T09:31:25.587Z]  > git config remote.origin.url https://github.com/dvsa/recalls-pipeline.git # timeout=10
+[2026-10-10T09:31:25.594Z] Fetching upstream changes from https://github.com/dvsa/recalls-pipeline.git
+[2026-10-10T09:31:25.594Z]  > git --version # timeout=10
+[2026-10-10T09:31:25.600Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T09:31:25.600Z]  > git fetch --no-tags --force --progress -- https://github.com/dvsa/recalls-pipeline.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:31:26.063Z]  > git rev-parse 356eb91d1ffcaf98f2e5a39ed57bd2a5e7f3ce08^{commit} # timeout=10
+[2026-10-10T09:31:26.074Z] Checking out Revision 356eb91d1ffcaf98f2e5a39ed57bd2a5e7f3ce08 (detached)
+[2026-10-10T09:31:26.074Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T09:31:26.082Z]  > git checkout -f 356eb91d1ffcaf98f2e5a39ed57bd2a5e7f3ce08 # timeout=10
+[2026-10-10T09:31:26.092Z] Commit message: "Hotfix for AWS randomly appending None when using text output"
+[2026-10-10T09:31:26.128Z] [Pipeline] withEnv
+[2026-10-10T09:31:26.134Z] [Pipeline] {
+[2026-10-10T09:31:26.171Z] [Pipeline] script
+[2026-10-10T09:31:26.178Z] [Pipeline] {
+[2026-10-10T09:31:26.211Z] [Pipeline] dir
+[2026-10-10T09:31:26.212Z] Running in /var/jenkins_home/workspace/ex-117-full/cvr-app
+[2026-10-10T09:31:26.216Z] [Pipeline] {
+[2026-10-10T09:31:26.244Z] [Pipeline] fileExists
+[2026-10-10T09:31:26.281Z] [Pipeline] sh
+[2026-10-10T09:31:26.542Z] + echo aws s3 cp /var/jenkins_home/workspace/ex-117-full@4/cvr-app/cvr-data-update-20261010093117_6_abc1234.zip s3://cvr-123456789012-j2gha-stub-int-deployment/
+[2026-10-10T09:31:26.542Z] aws s3 cp /var/jenkins_home/workspace/ex-117-full@4/cvr-app/cvr-data-update-20261010093117_6_abc1234.zip s3://cvr-123456789012-j2gha-stub-int-deployment/
+[2026-10-10T09:31:26.586Z] [Pipeline] }
+[2026-10-10T09:31:26.664Z] [Pipeline] // dir
+[2026-10-10T09:31:26.685Z] [Pipeline] }
+[2026-10-10T09:31:26.723Z] [Pipeline] // script
+[2026-10-10T09:31:26.739Z] [Pipeline] }
+[2026-10-10T09:31:26.783Z] [Pipeline] // withEnv
+[2026-10-10T09:31:26.800Z] [Pipeline] }
+[2026-10-10T09:31:26.870Z] [Pipeline] // node
+[2026-10-10T09:31:26.890Z] [Pipeline] }
+[2026-10-10T09:31:26.919Z] [Pipeline] // stage
+[2026-10-10T09:31:26.940Z] [Pipeline] stage
+[2026-10-10T09:31:26.945Z] [Pipeline] { (Deploy: Terraform CVR)
+[2026-10-10T09:31:26.976Z] [Pipeline] node
+[2026-10-10T09:31:26.987Z] Running on Jenkins in /var/jenkins_home/workspace/ex-117-full
+[2026-10-10T09:31:27.009Z] [Pipeline] {
+[2026-10-10T09:31:27.045Z] [Pipeline] checkout
+[2026-10-10T09:31:27.052Z] The recommended git tool is: NONE
+[2026-10-10T09:31:27.052Z] No credentials specified
+[2026-10-10T09:31:27.052Z]  > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/ex-117-full/.git # timeout=10
+[2026-10-10T09:31:27.059Z] Fetching changes from the remote Git repository
+[2026-10-10T09:31:27.061Z]  > git config remote.origin.url https://github.com/dvsa/recalls-pipeline.git # timeout=10
+[2026-10-10T09:31:27.069Z] Fetching upstream changes from https://github.com/dvsa/recalls-pipeline.git
+[2026-10-10T09:31:27.069Z]  > git --version # timeout=10
+[2026-10-10T09:31:27.078Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T09:31:27.078Z]  > git fetch --no-tags --force --progress -- https://github.com/dvsa/recalls-pipeline.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:31:27.699Z]  > git rev-parse 356eb91d1ffcaf98f2e5a39ed57bd2a5e7f3ce08^{commit} # timeout=10
+[2026-10-10T09:31:27.721Z] Checking out Revision 356eb91d1ffcaf98f2e5a39ed57bd2a5e7f3ce08 (detached)
+[2026-10-10T09:31:27.721Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T09:31:27.733Z]  > git checkout -f 356eb91d1ffcaf98f2e5a39ed57bd2a5e7f3ce08 # timeout=10
+[2026-10-10T09:31:27.745Z] Commit message: "Hotfix for AWS randomly appending None when using text output"
+[2026-10-10T09:31:27.789Z] [Pipeline] withEnv
+[2026-10-10T09:31:27.798Z] [Pipeline] {
+[2026-10-10T09:31:27.846Z] [Pipeline] script
+[2026-10-10T09:31:27.854Z] [Pipeline] {
+[2026-10-10T09:31:27.900Z] [Pipeline] dir
+[2026-10-10T09:31:27.900Z] Running in /var/jenkins_home/workspace/ex-117-full/cvr-terraform
+[2026-10-10T09:31:27.906Z] [Pipeline] {
+[2026-10-10T09:31:27.940Z] [Pipeline] sh
+[2026-10-10T09:31:28.200Z] + echo terraform scaffold cvr int cvr apply -var lambda_frontend_s3_key=cvr-frontend-20261010093117_6_abc1234.zip -var lambda_backend_s3_key=cvr-backend-20261010093117_6_abc1234.zip -var lambda_data_update_s3_key=cvr-data-update-20261010093117_6_abc1234.zip
+[2026-10-10T09:31:28.200Z] terraform scaffold cvr int cvr apply -var lambda_frontend_s3_key=cvr-frontend-20261010093117_6_abc1234.zip -var lambda_backend_s3_key=cvr-backend-20261010093117_6_abc1234.zip -var lambda_data_update_s3_key=cvr-data-update-20261010093117_6_abc1234.zip
+[2026-10-10T09:31:28.259Z] [Pipeline] echo
+[2026-10-10T09:31:28.267Z] s3 assets bucket saved: cvr-123456789012-j2gha-stub-int-assets
+[2026-10-10T09:31:28.282Z] [Pipeline] echo
+[2026-10-10T09:31:28.290Z] Recalls API gateway URL saved: https://abc123.execute-api.j2gha-stub.amazonaws.com/int
+[2026-10-10T09:31:28.299Z] [Pipeline] }
+[2026-10-10T09:31:28.336Z] [Pipeline] // dir
+[2026-10-10T09:31:28.351Z] [Pipeline] }
+[2026-10-10T09:31:28.386Z] [Pipeline] // script
+[2026-10-10T09:31:28.400Z] [Pipeline] }
+[2026-10-10T09:31:28.433Z] [Pipeline] // withEnv
+[2026-10-10T09:31:28.447Z] [Pipeline] }
+[2026-10-10T09:31:28.492Z] [Pipeline] // node
+[2026-10-10T09:31:28.509Z] [Pipeline] }
+[2026-10-10T09:31:28.545Z] [Pipeline] // stage
+[2026-10-10T09:31:28.571Z] [Pipeline] stage
+[2026-10-10T09:31:28.576Z] [Pipeline] { (Deploy: Upload CVR frontend assets)
+[2026-10-10T09:31:28.611Z] [Pipeline] node
+[2026-10-10T09:31:28.623Z] Running on Jenkins in /var/jenkins_home/workspace/ex-117-full
+[2026-10-10T09:31:28.644Z] [Pipeline] {
+[2026-10-10T09:31:28.678Z] [Pipeline] checkout
+[2026-10-10T09:31:28.684Z] The recommended git tool is: NONE
+[2026-10-10T09:31:28.684Z] No credentials specified
+[2026-10-10T09:31:28.685Z]  > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/ex-117-full/.git # timeout=10
+[2026-10-10T09:31:28.691Z] Fetching changes from the remote Git repository
+[2026-10-10T09:31:28.692Z]  > git config remote.origin.url https://github.com/dvsa/recalls-pipeline.git # timeout=10
+[2026-10-10T09:31:28.699Z] Fetching upstream changes from https://github.com/dvsa/recalls-pipeline.git
+[2026-10-10T09:31:28.699Z]  > git --version # timeout=10
+[2026-10-10T09:31:28.705Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T09:31:28.705Z]  > git fetch --no-tags --force --progress -- https://github.com/dvsa/recalls-pipeline.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:31:29.204Z]  > git rev-parse 356eb91d1ffcaf98f2e5a39ed57bd2a5e7f3ce08^{commit} # timeout=10
+[2026-10-10T09:31:29.211Z] Checking out Revision 356eb91d1ffcaf98f2e5a39ed57bd2a5e7f3ce08 (detached)
+[2026-10-10T09:31:29.211Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T09:31:29.217Z]  > git checkout -f 356eb91d1ffcaf98f2e5a39ed57bd2a5e7f3ce08 # timeout=10
+[2026-10-10T09:31:29.225Z] Commit message: "Hotfix for AWS randomly appending None when using text output"
+[2026-10-10T09:31:29.256Z] [Pipeline] withEnv
+[2026-10-10T09:31:29.262Z] [Pipeline] {
+[2026-10-10T09:31:29.298Z] [Pipeline] script
+[2026-10-10T09:31:29.305Z] [Pipeline] {
+[2026-10-10T09:31:29.347Z] [Pipeline] dir
+[2026-10-10T09:31:29.347Z] Running in /var/jenkins_home/workspace/ex-117-full/cvr-front-end
+[2026-10-10T09:31:29.353Z] [Pipeline] {
+[2026-10-10T09:31:29.385Z] [Pipeline] fileExists
+[2026-10-10T09:31:29.422Z] [Pipeline] sh
+[2026-10-10T09:31:29.684Z] + echo aws s3 cp /var/jenkins_home/workspace/ex-117-full@3/cvr-front-end/dist/assets/ s3://cvr-123456789012-j2gha-stub-int-assets/assets --recursive
+[2026-10-10T09:31:29.684Z] aws s3 cp /var/jenkins_home/workspace/ex-117-full@3/cvr-front-end/dist/assets/ s3://cvr-123456789012-j2gha-stub-int-assets/assets --recursive
+[2026-10-10T09:31:29.738Z] [Pipeline] sh
+[2026-10-10T09:31:30.001Z] + echo aws s3 cp /var/jenkins_home/workspace/ex-117-full@3/cvr-front-end/assets-20261010093117_6_abc1234.zip s3://cvr-123456789012-j2gha-stub-int-deployment/assets/
+[2026-10-10T09:31:30.001Z] aws s3 cp /var/jenkins_home/workspace/ex-117-full@3/cvr-front-end/assets-20261010093117_6_abc1234.zip s3://cvr-123456789012-j2gha-stub-int-deployment/assets/
+[2026-10-10T09:31:30.038Z] [Pipeline] }
+[2026-10-10T09:31:30.093Z] [Pipeline] // dir
+[2026-10-10T09:31:30.121Z] [Pipeline] dir
+[2026-10-10T09:31:30.121Z] Running in /var/jenkins_home/workspace/ex-117-full/cvr-app/documents
+[2026-10-10T09:31:30.127Z] [Pipeline] {
+[2026-10-10T09:31:30.160Z] [Pipeline] sh
+[2026-10-10T09:31:30.421Z] + echo aws s3 cp . s3://cvr-123456789012-j2gha-stub-int-assets/documents --recursive
+[2026-10-10T09:31:30.421Z] aws s3 cp . s3://cvr-123456789012-j2gha-stub-int-assets/documents --recursive
+[2026-10-10T09:31:30.453Z] [Pipeline] }
+[2026-10-10T09:31:30.499Z] [Pipeline] // dir
+[2026-10-10T09:31:30.530Z] [Pipeline] dir
+[2026-10-10T09:31:30.530Z] Running in /var/jenkins_home/workspace/ex-117-full/cvr-app/errorpages
+[2026-10-10T09:31:30.536Z] [Pipeline] {
+[2026-10-10T09:31:30.569Z] [Pipeline] sh
+[2026-10-10T09:31:30.830Z] + echo aws s3 cp . s3://cvr-123456789012-j2gha-stub-int-assets/errorpages --recursive
+[2026-10-10T09:31:30.830Z] aws s3 cp . s3://cvr-123456789012-j2gha-stub-int-assets/errorpages --recursive
+[2026-10-10T09:31:30.904Z] [Pipeline] }
+[2026-10-10T09:31:30.961Z] [Pipeline] // dir
+[2026-10-10T09:31:30.980Z] [Pipeline] }
+[2026-10-10T09:31:31.025Z] [Pipeline] // script
+[2026-10-10T09:31:31.042Z] [Pipeline] }
+[2026-10-10T09:31:31.082Z] [Pipeline] // withEnv
+[2026-10-10T09:31:31.099Z] [Pipeline] }
+[2026-10-10T09:31:31.147Z] [Pipeline] // node
+[2026-10-10T09:31:31.163Z] [Pipeline] }
+[2026-10-10T09:31:31.196Z] [Pipeline] // stage
+[2026-10-10T09:31:31.223Z] [Pipeline] stage
+[2026-10-10T09:31:31.228Z] [Pipeline] { (Deploy: Manifest)
+[2026-10-10T09:31:31.262Z] [Pipeline] node
+[2026-10-10T09:31:31.286Z] Running on Jenkins in /var/jenkins_home/workspace/ex-117-full
+[2026-10-10T09:31:31.298Z] [Pipeline] {
+[2026-10-10T09:31:31.335Z] [Pipeline] checkout
+[2026-10-10T09:31:31.342Z] The recommended git tool is: NONE
+[2026-10-10T09:31:31.342Z] No credentials specified
+[2026-10-10T09:31:31.342Z]  > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/ex-117-full/.git # timeout=10
+[2026-10-10T09:31:31.348Z] Fetching changes from the remote Git repository
+[2026-10-10T09:31:31.349Z]  > git config remote.origin.url https://github.com/dvsa/recalls-pipeline.git # timeout=10
+[2026-10-10T09:31:31.355Z] Fetching upstream changes from https://github.com/dvsa/recalls-pipeline.git
+[2026-10-10T09:31:31.355Z]  > git --version # timeout=10
+[2026-10-10T09:31:31.361Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T09:31:31.361Z]  > git fetch --no-tags --force --progress -- https://github.com/dvsa/recalls-pipeline.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:31:31.846Z]  > git rev-parse 356eb91d1ffcaf98f2e5a39ed57bd2a5e7f3ce08^{commit} # timeout=10
+[2026-10-10T09:31:31.856Z] Checking out Revision 356eb91d1ffcaf98f2e5a39ed57bd2a5e7f3ce08 (detached)
+[2026-10-10T09:31:31.856Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T09:31:31.865Z]  > git checkout -f 356eb91d1ffcaf98f2e5a39ed57bd2a5e7f3ce08 # timeout=10
+[2026-10-10T09:31:31.876Z] Commit message: "Hotfix for AWS randomly appending None when using text output"
+[2026-10-10T09:31:31.908Z] [Pipeline] withEnv
+[2026-10-10T09:31:31.916Z] [Pipeline] {
+[2026-10-10T09:31:31.969Z] [Pipeline] script
+[2026-10-10T09:31:31.976Z] [Pipeline] {
+[2026-10-10T09:31:32.010Z] [Pipeline] writeJSON
+[2026-10-10T09:31:32.072Z] [Pipeline] fileExists
+[2026-10-10T09:31:32.131Z] [Pipeline] sh
+[2026-10-10T09:31:32.392Z] + echo aws s3 cp /var/jenkins_home/workspace/ex-117-full/manifests/manifest_20261010093117_6.json s3://cvr-123456789012-j2gha-stub-int-deployment/manifests/
+[2026-10-10T09:31:32.392Z] aws s3 cp /var/jenkins_home/workspace/ex-117-full/manifests/manifest_20261010093117_6.json s3://cvr-123456789012-j2gha-stub-int-deployment/manifests/
+[2026-10-10T09:31:32.413Z] [Pipeline] }
+[2026-10-10T09:31:32.449Z] [Pipeline] // script
+[2026-10-10T09:31:32.465Z] [Pipeline] }
+[2026-10-10T09:31:32.501Z] [Pipeline] // withEnv
+[2026-10-10T09:31:32.518Z] [Pipeline] }
+[2026-10-10T09:31:32.563Z] [Pipeline] // node
+[2026-10-10T09:31:32.580Z] [Pipeline] }
+[2026-10-10T09:31:32.618Z] [Pipeline] // stage
+[2026-10-10T09:31:32.638Z] [Pipeline] }
+[2026-10-10T09:31:32.677Z] [Pipeline] // stage
+[2026-10-10T09:31:32.708Z] [Pipeline] stage
+[2026-10-10T09:31:32.718Z] [Pipeline] { (Load test data to DB)
+[2026-10-10T09:31:32.751Z] [Pipeline] node
+[2026-10-10T09:31:32.768Z] Running on Jenkins in /var/jenkins_home/workspace/ex-117-full
+[2026-10-10T09:31:32.784Z] [Pipeline] {
+[2026-10-10T09:31:32.818Z] [Pipeline] checkout
+[2026-10-10T09:31:32.829Z] The recommended git tool is: NONE
+[2026-10-10T09:31:32.829Z] No credentials specified
+[2026-10-10T09:31:32.829Z]  > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/ex-117-full/.git # timeout=10
+[2026-10-10T09:31:32.835Z] Fetching changes from the remote Git repository
+[2026-10-10T09:31:32.836Z]  > git config remote.origin.url https://github.com/dvsa/recalls-pipeline.git # timeout=10
+[2026-10-10T09:31:32.842Z] Fetching upstream changes from https://github.com/dvsa/recalls-pipeline.git
+[2026-10-10T09:31:32.842Z]  > git --version # timeout=10
+[2026-10-10T09:31:32.847Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T09:31:32.847Z]  > git fetch --no-tags --force --progress -- https://github.com/dvsa/recalls-pipeline.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:31:33.354Z]  > git rev-parse 356eb91d1ffcaf98f2e5a39ed57bd2a5e7f3ce08^{commit} # timeout=10
+[2026-10-10T09:31:33.361Z] Checking out Revision 356eb91d1ffcaf98f2e5a39ed57bd2a5e7f3ce08 (detached)
+[2026-10-10T09:31:33.361Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T09:31:33.368Z]  > git checkout -f 356eb91d1ffcaf98f2e5a39ed57bd2a5e7f3ce08 # timeout=10
+[2026-10-10T09:31:33.377Z] Commit message: "Hotfix for AWS randomly appending None when using text output"
+[2026-10-10T09:31:33.406Z] [Pipeline] withEnv
+[2026-10-10T09:31:33.418Z] [Pipeline] {
+[2026-10-10T09:31:33.452Z] [Pipeline] script
+[2026-10-10T09:31:33.458Z] [Pipeline] {
+[2026-10-10T09:31:33.501Z] [Pipeline] dir
+[2026-10-10T09:31:33.501Z] Running in /var/jenkins_home/workspace/ex-117-full/cvr-app
+[2026-10-10T09:31:33.508Z] [Pipeline] {
+[2026-10-10T09:31:33.542Z] [Pipeline] sh
+[2026-10-10T09:31:33.803Z] + echo npm run build:database
+[2026-10-10T09:31:33.803Z] npm run build:database
+[2026-10-10T09:31:33.863Z] [Pipeline] dir
+[2026-10-10T09:31:33.863Z] Running in /var/jenkins_home/workspace/ex-117-full/cvr-app/database
+[2026-10-10T09:31:33.871Z] [Pipeline] {
+[2026-10-10T09:31:33.918Z] [Pipeline] sh
+[2026-10-10T09:31:34.180Z] + AWS_REGION=j2gha-stub ENVIRONMENT=int echo npm run loadDevData
+[2026-10-10T09:31:34.180Z] npm run loadDevData
+[2026-10-10T09:31:34.219Z] [Pipeline] }
+[2026-10-10T09:31:34.261Z] [Pipeline] // dir
+[2026-10-10T09:31:34.278Z] [Pipeline] }
+[2026-10-10T09:31:34.318Z] [Pipeline] // dir
+[2026-10-10T09:31:34.334Z] [Pipeline] }
+[2026-10-10T09:31:34.392Z] [Pipeline] // script
+[2026-10-10T09:31:34.414Z] [Pipeline] }
+[2026-10-10T09:31:34.454Z] [Pipeline] // withEnv
+[2026-10-10T09:31:34.471Z] [Pipeline] }
+[2026-10-10T09:31:34.518Z] [Pipeline] // node
+[2026-10-10T09:31:34.535Z] [Pipeline] }
+[2026-10-10T09:31:34.573Z] [Pipeline] // stage
+[2026-10-10T09:31:34.601Z] [Pipeline] stage
+[2026-10-10T09:31:34.607Z] [Pipeline] { (Tests)
+[2026-10-10T09:31:34.641Z] [Pipeline] node
+[2026-10-10T09:31:34.654Z] Running on Jenkins in /var/jenkins_home/workspace/ex-117-full
+[2026-10-10T09:31:34.673Z] [Pipeline] {
+[2026-10-10T09:31:34.706Z] [Pipeline] checkout
+[2026-10-10T09:31:34.712Z] The recommended git tool is: NONE
+[2026-10-10T09:31:34.712Z] No credentials specified
+[2026-10-10T09:31:34.712Z]  > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/ex-117-full/.git # timeout=10
+[2026-10-10T09:31:34.718Z] Fetching changes from the remote Git repository
+[2026-10-10T09:31:34.719Z]  > git config remote.origin.url https://github.com/dvsa/recalls-pipeline.git # timeout=10
+[2026-10-10T09:31:34.727Z] Fetching upstream changes from https://github.com/dvsa/recalls-pipeline.git
+[2026-10-10T09:31:34.727Z]  > git --version # timeout=10
+[2026-10-10T09:31:34.734Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T09:31:34.734Z]  > git fetch --no-tags --force --progress -- https://github.com/dvsa/recalls-pipeline.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:31:35.327Z]  > git rev-parse 356eb91d1ffcaf98f2e5a39ed57bd2a5e7f3ce08^{commit} # timeout=10
+[2026-10-10T09:31:35.341Z] Checking out Revision 356eb91d1ffcaf98f2e5a39ed57bd2a5e7f3ce08 (detached)
+[2026-10-10T09:31:35.341Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T09:31:35.354Z]  > git checkout -f 356eb91d1ffcaf98f2e5a39ed57bd2a5e7f3ce08 # timeout=10
+[2026-10-10T09:31:35.370Z] Commit message: "Hotfix for AWS randomly appending None when using text output"
+[2026-10-10T09:31:35.417Z] [Pipeline] withEnv
+[2026-10-10T09:31:35.424Z] [Pipeline] {
+[2026-10-10T09:31:35.463Z] [Pipeline] script
+[2026-10-10T09:31:35.470Z] [Pipeline] {
+[2026-10-10T09:31:35.503Z] [Pipeline] sh
+[2026-10-10T09:31:35.764Z] + echo curl https://abc123.execute-api.j2gha-stub.amazonaws.com/int/recall-type/vehicle/make --output /dev/null
+[2026-10-10T09:31:35.764Z] curl https://abc123.execute-api.j2gha-stub.amazonaws.com/int/recall-type/vehicle/make --output /dev/null
+[2026-10-10T09:31:35.842Z] [Pipeline] dir
+[2026-10-10T09:31:35.842Z] Running in /var/jenkins_home/workspace/ex-117-full/cvr-app/selenium
+[2026-10-10T09:31:35.851Z] [Pipeline] {
+[2026-10-10T09:31:35.900Z] [Pipeline] sh
+[2026-10-10T09:31:36.165Z] + mkdir -p ./selenium-screenshots
+[2026-10-10T09:31:36.165Z] + mkdir -p ./build/reports/tests/selenium
+[2026-10-10T09:31:36.165Z] + echo <html><body>j2gha-local: stand-in Selenium report</body></html>
+[2026-10-10T09:31:36.165Z] + echo ./gradlew clean build -Dtest.baseUrl=https://abc123.execute-api.j2gha-stub.amazonaws.com/int -Dtest.platform=linux -Dtest.browserName=firefox -Dtest.gridEnabled=selenium -Dtest.javascript.enabled=yes -Dtest.gridUrl=http://selenium-hub.invalid:4444/wd/hub -Dtest.screenshots.error.enabled=yes -Dtest.screenshots.error.folder=./selenium-screenshots
+[2026-10-10T09:31:36.165Z] ./gradlew clean build -Dtest.baseUrl=https://abc123.execute-api.j2gha-stub.amazonaws.com/int -Dtest.platform=linux -Dtest.browserName=firefox -Dtest.gridEnabled=selenium -Dtest.javascript.enabled=yes -Dtest.gridUrl=http://selenium-hub.invalid:4444/wd/hub -Dtest.screenshots.error.enabled=yes -Dtest.screenshots.error.folder=./selenium-screenshots
+[2026-10-10T09:31:36.222Z] [Pipeline] publishHTML
+[2026-10-10T09:31:36.231Z] [htmlpublisher] Archiving HTML reports...
+[2026-10-10T09:31:36.232Z] [htmlpublisher] Archiving at BUILD level /var/jenkins_home/workspace/ex-117-full/cvr-app/selenium/build/reports/tests/selenium to Selenium_20Report_20_236
+[2026-10-10T09:31:36.232Z] [htmlpublisher] Copying recursive using current thread
+[2026-10-10T09:31:36.262Z] [Pipeline] }
+[2026-10-10T09:31:36.299Z] [Pipeline] // dir
+[2026-10-10T09:31:36.316Z] [Pipeline] }
+[2026-10-10T09:31:36.354Z] [Pipeline] // script
+[2026-10-10T09:31:36.369Z] [Pipeline] }
+[2026-10-10T09:31:36.405Z] [Pipeline] // withEnv
+[2026-10-10T09:31:36.421Z] [Pipeline] }
+[2026-10-10T09:31:36.469Z] [Pipeline] // node
+[2026-10-10T09:31:36.488Z] [Pipeline] }
+[2026-10-10T09:31:36.526Z] [Pipeline] // stage
+[2026-10-10T09:31:36.555Z] [Pipeline] stage
+[2026-10-10T09:31:36.561Z] [Pipeline] { (Declarative: Post Actions)
+[2026-10-10T09:31:36.605Z] [Pipeline] node
+[2026-10-10T09:31:36.616Z] Running on Jenkins in /var/jenkins_home/workspace/ex-117-full
+[2026-10-10T09:31:36.637Z] [Pipeline] {
+[2026-10-10T09:31:36.670Z] [Pipeline] script
+[2026-10-10T09:31:36.676Z] [Pipeline] {
+[2026-10-10T09:31:36.707Z] [Pipeline] fileExists
+[2026-10-10T09:31:36.750Z] [Pipeline] dir
+[2026-10-10T09:31:36.750Z] Running in /var/jenkins_home/workspace/ex-117-full/cvr-front-end
+[2026-10-10T09:31:36.755Z] [Pipeline] {
+[2026-10-10T09:31:36.798Z] [Pipeline] deleteDir
+[2026-10-10T09:31:36.830Z] [Pipeline] }
+[2026-10-10T09:31:36.883Z] [Pipeline] // dir
+[2026-10-10T09:31:36.911Z] [Pipeline] fileExists
+[2026-10-10T09:31:37.008Z] [Pipeline] dir
+[2026-10-10T09:31:37.008Z] Running in /var/jenkins_home/workspace/ex-117-full/cvr-app
+[2026-10-10T09:31:37.014Z] [Pipeline] {
+[2026-10-10T09:31:37.071Z] [Pipeline] deleteDir
+[2026-10-10T09:31:37.096Z] [Pipeline] }
+[2026-10-10T09:31:37.125Z] [Pipeline] // dir
+[2026-10-10T09:31:37.137Z] [Pipeline] }
+[2026-10-10T09:31:37.171Z] [Pipeline] // script
+[2026-10-10T09:31:37.184Z] [Pipeline] }
+[2026-10-10T09:31:37.227Z] [Pipeline] // node
+[2026-10-10T09:31:37.253Z] [Pipeline] node
+[2026-10-10T09:31:37.265Z] Running on Jenkins in /var/jenkins_home/workspace/ex-117-full
+[2026-10-10T09:31:37.283Z] [Pipeline] {
+[2026-10-10T09:31:37.319Z] [Pipeline] script
+[2026-10-10T09:31:37.328Z] [Pipeline] {
+[2026-10-10T09:31:37.367Z] [Pipeline] fileExists
+[2026-10-10T09:31:37.408Z] [Pipeline] dir
+[2026-10-10T09:31:37.408Z] Running in /var/jenkins_home/workspace/ex-117-full/cvr-terraform
+[2026-10-10T09:31:37.419Z] [Pipeline] {
+[2026-10-10T09:31:37.446Z] [Pipeline] deleteDir
+[2026-10-10T09:31:37.481Z] [Pipeline] }
+[2026-10-10T09:31:37.518Z] [Pipeline] // dir
+[2026-10-10T09:31:37.534Z] [Pipeline] }
+[2026-10-10T09:31:37.568Z] [Pipeline] // script
+[2026-10-10T09:31:37.584Z] [Pipeline] }
+[2026-10-10T09:31:37.629Z] [Pipeline] // node
+[2026-10-10T09:31:37.649Z] [Pipeline] }
+[2026-10-10T09:31:37.683Z] [Pipeline] // stage
+[2026-10-10T09:31:37.698Z] [Pipeline] }
+[2026-10-10T09:31:37.730Z] [Pipeline] // timeout
+[2026-10-10T09:31:37.746Z] [Pipeline] }
+[2026-10-10T09:31:37.777Z] [Pipeline] // timestamps
+[2026-10-10T09:31:37.793Z] [Pipeline] }
+[2026-10-10T09:31:37.798Z] 
+[2026-10-10T09:31:37.837Z] [Pipeline] // ansiColor
+[2026-10-10T09:31:37.856Z] [Pipeline] End of Pipeline
+[2026-10-10T09:31:37.927Z] Finished: SUCCESS

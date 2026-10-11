@@ -1,0 +1,586 @@
+{
+  "result": "success",
+  "json": {
+    "pipeline": {
+      "stages": [
+        {
+          "agent": {
+            "type": "docker",
+            "arguments": [
+              {
+                "key": "image",
+                "value": {
+                  "isLiteral": false,
+                  "value": "\"${DOCKER_IMAGE_BASE}-${MINIMUM_ERLANG_VERSION}\""
+                }
+              },
+              {
+                "key": "label",
+                "value": {
+                  "isLiteral": true,
+                  "value": "docker"
+                }
+              },
+              {
+                "key": "args",
+                "value": {
+                  "isLiteral": false,
+                  "value": "\"${DOCKER_ARGS}\""
+                }
+              },
+              {
+                "key": "registryUrl",
+                "value": {
+                  "isLiteral": true,
+                  "value": "https://docker.io/"
+                }
+              },
+              {
+                "key": "registryCredentialsId",
+                "value": {
+                  "isLiteral": true,
+                  "value": "dockerhub_creds"
+                }
+              }
+            ]
+          },
+          "post": {
+            "conditions": [
+              {
+                "condition": "cleanup",
+                "branch": {
+                  "name": "default",
+                  "steps": [
+                    {
+                      "name": "sh",
+                      "arguments": [
+                        {
+                          "key": "script",
+                          "value": {
+                            "isLiteral": false,
+                            "value": "\"${wscleanup()}\""
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "name": "Setup Env",
+          "branches": [
+            {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "script",
+                  "arguments": [
+                    {
+                      "key": "scriptBlock",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "env.DOCS_CHANGED = '0'\n          env.ONLY_DOCS_CHANGED = '0'\n          env.GITHUB_CHANGED = '0'\n          env.ONLY_GITHUB_CHANGED = '0'\n          if ( sh(returnStatus: true, script: docs_changed) == 0 ) {\n            env.DOCS_CHANGED = '1'\n            if (sh(returnStatus: true, script: other_changes) == 1) {\n              env.ONLY_DOCS_CHANGED = '1'\n            }\n          }\n          if ( sh(returnStatus: true, script: github_changed) == 0 ) {\n            env.GITHUB_CHANGED = '1'\n            if (sh(returnStatus: true, script: other_changes) == 1) {\n              env.ONLY_GITHUB_CHANGED = '1'\n            }\n          }"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "agent": {
+            "type": "docker",
+            "arguments": [
+              {
+                "key": "image",
+                "value": {
+                  "isLiteral": false,
+                  "value": "\"${DOCKER_IMAGE_BASE}-${MINIMUM_ERLANG_VERSION}\""
+                }
+              },
+              {
+                "key": "label",
+                "value": {
+                  "isLiteral": true,
+                  "value": "docker"
+                }
+              },
+              {
+                "key": "args",
+                "value": {
+                  "isLiteral": false,
+                  "value": "\"${DOCKER_ARGS}\""
+                }
+              },
+              {
+                "key": "registryUrl",
+                "value": {
+                  "isLiteral": true,
+                  "value": "https://docker.io/"
+                }
+              },
+              {
+                "key": "registryCredentialsId",
+                "value": {
+                  "isLiteral": true,
+                  "value": "dockerhub_creds"
+                }
+              }
+            ]
+          },
+          "when": {
+            "conditions": [
+              {
+                "name": "expression",
+                "arguments": [
+                  {
+                    "key": "scriptBlock",
+                    "value": {
+                      "isLiteral": true,
+                      "value": "ONLY_DOCS_CHANGED == '1'"
+                    }
+                  }
+                ]
+              }
+            ],
+            "beforeOptions": true
+          },
+          "post": {
+            "conditions": [
+              {
+                "condition": "cleanup",
+                "branch": {
+                  "name": "default",
+                  "steps": [
+                    {
+                      "name": "sh",
+                      "arguments": [
+                        {
+                          "key": "script",
+                          "value": {
+                            "isLiteral": false,
+                            "value": "\"${wscleanup()}\""
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "name": "Build Docs",
+          "branches": [
+            {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "sh",
+                  "arguments": [
+                    {
+                      "key": "script",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "make python-black"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "sh",
+                  "arguments": [
+                    {
+                      "key": "script",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "(cd src/docs && ./setup.sh  ; make check)"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "sh",
+                  "arguments": [
+                    {
+                      "key": "script",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "(cd src/docs && make html)"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "agent": {
+            "type": "docker",
+            "arguments": [
+              {
+                "key": "label",
+                "value": {
+                  "isLiteral": true,
+                  "value": "docker"
+                }
+              },
+              {
+                "key": "image",
+                "value": {
+                  "isLiteral": false,
+                  "value": "\"${DOCKER_IMAGE_BASE}-${MINIMUM_ERLANG_VERSION}\""
+                }
+              },
+              {
+                "key": "args",
+                "value": {
+                  "isLiteral": false,
+                  "value": "\"${DOCKER_ARGS}\""
+                }
+              },
+              {
+                "key": "registryUrl",
+                "value": {
+                  "isLiteral": true,
+                  "value": "https://docker.io/"
+                }
+              },
+              {
+                "key": "registryCredentialsId",
+                "value": {
+                  "isLiteral": true,
+                  "value": "dockerhub_creds"
+                }
+              }
+            ]
+          },
+          "when": {
+            "conditions": [
+              {
+                "name": "expression",
+                "arguments": [
+                  {
+                    "key": "scriptBlock",
+                    "value": {
+                      "isLiteral": true,
+                      "value": "ONLY_DOCS_CHANGED == '0' && ONLY_GITHUB_CHANGED == '0'"
+                    }
+                  }
+                ]
+              }
+            ],
+            "beforeOptions": true
+          },
+          "post": {
+            "conditions": [
+              {
+                "condition": "success",
+                "branch": {
+                  "name": "default",
+                  "steps": [
+                    {
+                      "name": "stash",
+                      "arguments": [
+                        {
+                          "key": "includes",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "apache-couchdb-*.tar.gz"
+                          }
+                        },
+                        {
+                          "key": "name",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "tarball"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "name": "archiveArtifacts",
+                      "arguments": [
+                        {
+                          "key": "artifacts",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "apache-couchdb-*.tar.gz"
+                          }
+                        },
+                        {
+                          "key": "fingerprint",
+                          "value": {
+                            "isLiteral": true,
+                            "value": true
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "condition": "failure",
+                "branch": {
+                  "name": "default",
+                  "steps": [
+                    {
+                      "name": "sh",
+                      "arguments": [
+                        {
+                          "key": "script",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "ls -l ${WORKSPACE}"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              },
+              {
+                "condition": "cleanup",
+                "branch": {
+                  "name": "default",
+                  "steps": [
+                    {
+                      "name": "sh",
+                      "arguments": [
+                        {
+                          "key": "script",
+                          "value": {
+                            "isLiteral": false,
+                            "value": "\"${wscleanup()}\""
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          "name": "Build Release Tarball",
+          "branches": [
+            {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "sh",
+                  "arguments": [
+                    {
+                      "key": "script",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "rm -rf apache-couchdb-*"
+                      }
+                    },
+                    {
+                      "key": "label",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "Clean workspace of any previous release artifacts"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "sh",
+                  "arguments": [
+                    {
+                      "key": "script",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "echo \"skipped: ./configure --spidermonkey-version 128 --with-nouveau\""
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "sh",
+                  "arguments": [
+                    {
+                      "key": "script",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "echo \"skipped: make erlfmt-check\""
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "sh",
+                  "arguments": [
+                    {
+                      "key": "script",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "echo \"skipped: make elixir-source-checks\""
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "sh",
+                  "arguments": [
+                    {
+                      "key": "script",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "echo \"skipped: make python-black\""
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "sh",
+                  "arguments": [
+                    {
+                      "key": "script",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "\n          # j2gha-local: was `make -j4 --output-sync=target dist` (needs Erlang, rebar, Elixir and Sphinx). Builds a\n          # stand-in release tarball named as the real dist target names it from version.mk (the tarball-build form,\n          # without the git sha suffix, so both sides archive the same name). Its configure and Makefile stand in for\n          # CouchDB's: the Test and Package stage runs its configure/make/junit/package commands against them unchanged.\n          . ./version.mk\n          rel=\"apache-couchdb-${vsn_major}.${vsn_minor}.${vsn_patch}\"\n          rm -rf \"$rel\" && mkdir -p \"$rel\"\n          cp LICENSE NOTICE version.mk \"$rel/\"\n          printf '%s\n' '#!/bin/sh' 'echo \"configure (j2gha-local stand-in): $*\"' > \"$rel/configure\"\n          chmod +x \"$rel/configure\"\n          printf '%s\n' \"<testsuite name='couch_tests' tests='2' failures='0' errors='0'>\"             \"<testcase classname='couch_tests' name='basic'/>\" \"<testcase classname='couch_tests' name='config'/>\"             '</testsuite>' > \"$rel/eunit-report.xml\"\n          printf '%s\n' '.RECIPEPREFIX := >'             'all xref elixir elixir-search mango-test weatherreport-test nouveau-test quickjs-test262 build-report:'             '>@echo \"make $@ (j2gha-local stand-in)\"'             'eunit:'             '>mkdir -p .eunit && cp eunit-report.xml .eunit/couch_tests.xml' > \"$rel/Makefile\"\n          tar czf \"$rel.tar.gz\" \"$rel\" && rm -rf \"$rel\"\n          echo \"Done: $rel.tar.gz\"\n        "
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "when": {
+            "conditions": [
+              {
+                "name": "expression",
+                "arguments": [
+                  {
+                    "key": "scriptBlock",
+                    "value": {
+                      "isLiteral": true,
+                      "value": "ONLY_DOCS_CHANGED == '0' && ONLY_GITHUB_CHANGED == '0'"
+                    }
+                  }
+                ]
+              }
+            ],
+            "beforeOptions": true
+          },
+          "name": "Test and Package",
+          "branches": [
+            {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "script",
+                  "arguments": [
+                    {
+                      "key": "scriptBlock",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "parallelStagesMap = meta.collectEntries( [failFast: false] ) { key, values ->\n            if (values.image) {\n              [\"${key}\": generateContainerStage(key)]\n            }\n            else {\n              [\"${key}\": generateNativeStage(key)]\n            }\n          }\n          parallel parallelStagesMap"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "environment": [
+        {
+          "key": "GIT_COMMITTER_NAME",
+          "value": {
+            "isLiteral": true,
+            "value": "Jenkins User"
+          }
+        },
+        {
+          "key": "GIT_COMMITTER_EMAIL",
+          "value": {
+            "isLiteral": true,
+            "value": "couchdb@apache.org"
+          }
+        },
+        {
+          "key": "DOCKER_ARGS",
+          "value": {
+            "isLiteral": true,
+            "value": "-e npm_config_cache=/home/jenkins/.npm -e HOME=. -e MIX_HOME=/home/jenkins/.mix -e HEX_HOME=/home/jenkins/.hex -e PIP_CACHE_DIR=/home/jenkins/.cache/pip -v=/etc/passwd:/etc/passwd -v /etc/group:/etc/group -v /home/jenkins/.gradle:/home/jenkins/.gradle:rw,z -v /home/jenkins/.hex:/home/jenkins/.hex:rw,z -v /home/jenkins/.npm:/home/jenkins/.npm:rw,z -v /home/jenkins/.cache/pip:/home/jenkins/.cache/pip:rw,z -v /home/jenkins/.mix:/home/jenkins/.mix:rw,z"
+          }
+        }
+      ],
+      "agent": {
+        "type": "none"
+      },
+      "options": {
+        "options": [
+          {
+            "name": "buildDiscarder",
+            "arguments": [
+              {
+                "name": "logRotator",
+                "arguments": [
+                  {
+                    "key": "numToKeepStr",
+                    "value": {
+                      "isLiteral": true,
+                      "value": "10"
+                    }
+                  },
+                  {
+                    "key": "artifactNumToKeepStr",
+                    "value": {
+                      "isLiteral": true,
+                      "value": "10"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "preserveStashes",
+            "arguments": [
+              {
+                "key": "buildCount",
+                "value": {
+                  "isLiteral": true,
+                  "value": 10
+                }
+              }
+            ]
+          },
+          {
+            "name": "timeout",
+            "arguments": [
+              {
+                "key": "time",
+                "value": {
+                  "isLiteral": true,
+                  "value": 4
+                }
+              },
+              {
+                "key": "unit",
+                "value": {
+                  "isLiteral": true,
+                  "value": "HOURS"
+                }
+              }
+            ]
+          },
+          {
+            "name": "timestamps",
+            "arguments": []
+          }
+        ]
+      }
+    }
+  }
+}

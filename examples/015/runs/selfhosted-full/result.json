@@ -1,0 +1,415 @@
+{
+  "tier": "selfhosted",
+  "mode": "full",
+  "repo": "tonyskidmore/jenkins-to-gha",
+  "branch": "j2gha/run/015-full-selfhosted-20261010102646",
+  "estimate": {
+    "typical": 0,
+    "worst_case": 0,
+    "unbounded": false
+  },
+  "variant_notes": {
+    "dropped_jobs": [],
+    "matrix_jobs": 1,
+    "jobs": 1
+  },
+  "run_url": "https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38044923566",
+  "result": "failure",
+  "run_id": 38044923566,
+  "traces": [],
+  "jobs": [
+    {
+      "name": "Detect Secrets, Init, QA, SonarQube analysis, Publish[staging], Run Gauge tests, Mend scan",
+      "status": "completed",
+      "conclusion": "failure",
+      "labels": [
+        "self-hosted",
+        "j2gha-3f7db7cf"
+      ],
+      "started_at": "2026-10-10T10:27:00Z",
+      "completed_at": "2026-10-10T10:29:12Z",
+      "steps": [
+        {
+          "name": "Set up job",
+          "number": 1,
+          "conclusion": "success",
+          "started_at": "2026-10-10T10:27:02Z",
+          "completed_at": "2026-10-10T10:27:05Z"
+        },
+        {
+          "name": "Checkout",
+          "number": 2,
+          "conclusion": "success",
+          "started_at": "2026-10-10T10:27:05Z",
+          "completed_at": "2026-10-10T10:27:07Z"
+        },
+        {
+          "name": "Detect Secrets: detectSecrets (manual migration)",
+          "number": 3,
+          "conclusion": "success",
+          "started_at": "2026-10-10T10:27:07Z",
+          "completed_at": "2026-10-10T10:27:07Z"
+        },
+        {
+          "name": "QA: enter stage",
+          "number": 4,
+          "conclusion": "success",
+          "started_at": "2026-10-10T10:27:07Z",
+          "completed_at": "2026-10-10T10:27:07Z"
+        },
+        {
+          "name": "QA: ./scripts/setup_couch.sh",
+          "number": 5,
+          "conclusion": "failure",
+          "started_at": "2026-10-10T10:27:07Z",
+          "completed_at": "2026-10-10T10:29:06Z"
+        },
+        {
+          "name": "QA: ./scripts/setup_wiremock.sh",
+          "number": 6,
+          "conclusion": "skipped",
+          "started_at": "2026-10-10T10:29:06Z",
+          "completed_at": "2026-10-10T10:29:06Z"
+        },
+        {
+          "name": "QA: npm ci --no-audit",
+          "number": 7,
+          "conclusion": "skipped",
+          "started_at": "2026-10-10T10:29:06Z",
+          "completed_at": "2026-10-10T10:29:06Z"
+        },
+        {
+          "name": "QA: npm test",
+          "number": 8,
+          "conclusion": "skipped",
+          "started_at": "2026-10-10T10:29:06Z",
+          "completed_at": "2026-10-10T10:29:06Z"
+        },
+        {
+          "name": "QA: junit summary",
+          "number": 9,
+          "conclusion": "failure",
+          "started_at": "2026-10-10T10:29:06Z",
+          "completed_at": "2026-10-10T10:29:06Z"
+        },
+        {
+          "name": "QA: upload test reports",
+          "number": 10,
+          "conclusion": "success",
+          "started_at": "2026-10-10T10:29:06Z",
+          "completed_at": "2026-10-10T10:29:07Z"
+        },
+        {
+          "name": "SonarQube analysis: enter stage",
+          "number": 11,
+          "conclusion": "skipped",
+          "started_at": "2026-10-10T10:29:07Z",
+          "completed_at": "2026-10-10T10:29:07Z"
+        },
+        {
+          "name": "SonarQube analysis: stage environment",
+          "number": 12,
+          "conclusion": "skipped",
+          "started_at": "2026-10-10T10:29:07Z",
+          "completed_at": "2026-10-10T10:29:07Z"
+        },
+        {
+          "name": "SonarQube analysis: scanCode (manual migration)",
+          "number": 13,
+          "conclusion": "skipped",
+          "started_at": "2026-10-10T10:29:07Z",
+          "completed_at": "2026-10-10T10:29:07Z"
+        },
+        {
+          "name": "Publish[staging]: enter stage",
+          "number": 14,
+          "conclusion": "skipped",
+          "started_at": "2026-10-10T10:29:07Z",
+          "completed_at": "2026-10-10T10:29:07Z"
+        },
+        {
+          "name": "Publish[staging]: bumpVersion (manual migration)",
+          "number": 15,
+          "conclusion": "skipped",
+          "started_at": "2026-10-10T10:29:07Z",
+          "completed_at": "2026-10-10T10:29:07Z"
+        },
+        {
+          "name": "Publish[staging]: customizePublishingInfo (manual migration)",
+          "number": 16,
+          "conclusion": "skipped",
+          "started_at": "2026-10-10T10:29:07Z",
+          "completed_at": "2026-10-10T10:29:07Z"
+        },
+        {
+          "name": "Publish[staging]: npm run build",
+          "number": 17,
+          "conclusion": "skipped",
+          "started_at": "2026-10-10T10:29:07Z",
+          "completed_at": "2026-10-10T10:29:07Z"
+        },
+        {
+          "name": "Publish[staging]: npm publish --tag ${tag} ./dist",
+          "number": 18,
+          "conclusion": "skipped",
+          "started_at": "2026-10-10T10:29:07Z",
+          "completed_at": "2026-10-10T10:29:07Z"
+        },
+        {
+          "name": "Publish[staging]: publishArtifactoryBuildInfo (manual migration)",
+          "number": 19,
+          "conclusion": "skipped",
+          "started_at": "2026-10-10T10:29:07Z",
+          "completed_at": "2026-10-10T10:29:07Z"
+        },
+        {
+          "name": "Publish[staging]: git reset --hard",
+          "number": 20,
+          "conclusion": "skipped",
+          "started_at": "2026-10-10T10:29:07Z",
+          "completed_at": "2026-10-10T10:29:07Z"
+        },
+        {
+          "name": "Run Gauge tests: enter stage",
+          "number": 21,
+          "conclusion": "skipped",
+          "started_at": "2026-10-10T10:29:07Z",
+          "completed_at": "2026-10-10T10:29:07Z"
+        },
+        {
+          "name": "Run Gauge tests: if (line 138)",
+          "number": 22,
+          "conclusion": "skipped",
+          "started_at": "2026-10-10T10:29:07Z",
+          "completed_at": "2026-10-10T10:29:07Z"
+        },
+        {
+          "name": "Run Gauge tests: if (line 138)",
+          "number": 23,
+          "conclusion": "skipped",
+          "started_at": "2026-10-10T10:29:07Z",
+          "completed_at": "2026-10-10T10:29:07Z"
+        },
+        {
+          "name": "Run Gauge tests: try (line 142)",
+          "number": 24,
+          "conclusion": "skipped",
+          "started_at": "2026-10-10T10:29:07Z",
+          "completed_at": "2026-10-10T10:29:07Z"
+        },
+        {
+          "name": "Run Gauge tests: trigger downstream '/${env.SDKS_GAUGE_PIPELINE_PROJECT}/${gaugeBranchName}'",
+          "number": 25,
+          "conclusion": "skipped",
+          "started_at": "2026-10-10T10:29:07Z",
+          "completed_at": "2026-10-10T10:29:07Z"
+        },
+        {
+          "name": "Run Gauge tests: Groovy if (manual)",
+          "number": 26,
+          "conclusion": "skipped",
+          "started_at": "2026-10-10T10:29:07Z",
+          "completed_at": "2026-10-10T10:29:07Z"
+        },
+        {
+          "name": "Mend scan: enter stage",
+          "number": 27,
+          "conclusion": "skipped",
+          "started_at": "2026-10-10T10:29:07Z",
+          "completed_at": "2026-10-10T10:29:07Z"
+        },
+        {
+          "name": "Mend scan: mendScan (manual migration)",
+          "number": 28,
+          "conclusion": "skipped",
+          "started_at": "2026-10-10T10:29:07Z",
+          "completed_at": "2026-10-10T10:29:07Z"
+        },
+        {
+          "name": "Update version and tag: enter stage",
+          "number": 29,
+          "conclusion": "skipped",
+          "started_at": "2026-10-10T10:29:07Z",
+          "completed_at": "2026-10-10T10:29:07Z"
+        },
+        {
+          "name": "Update version and tag: gitsh (manual migration)",
+          "number": 30,
+          "conclusion": "skipped",
+          "started_at": "2026-10-10T10:29:07Z",
+          "completed_at": "2026-10-10T10:29:07Z"
+        },
+        {
+          "name": "Update version and tag: bumpVersion (manual migration)",
+          "number": 31,
+          "conclusion": "skipped",
+          "started_at": "2026-10-10T10:29:07Z",
+          "completed_at": "2026-10-10T10:29:07Z"
+        },
+        {
+          "name": "Update version and tag: git push --tags origin HEAD:main",
+          "number": 32,
+          "conclusion": "skipped",
+          "started_at": "2026-10-10T10:29:07Z",
+          "completed_at": "2026-10-10T10:29:07Z"
+        },
+        {
+          "name": "Publish[repository]: enter stage",
+          "number": 33,
+          "conclusion": "skipped",
+          "started_at": "2026-10-10T10:29:07Z",
+          "completed_at": "2026-10-10T10:29:07Z"
+        },
+        {
+          "name": "Publish[repository]: npm run build",
+          "number": 34,
+          "conclusion": "skipped",
+          "started_at": "2026-10-10T10:29:07Z",
+          "completed_at": "2026-10-10T10:29:07Z"
+        },
+        {
+          "name": "Publish[repository]: npm publish --tag latest ./dist",
+          "number": 35,
+          "conclusion": "skipped",
+          "started_at": "2026-10-10T10:29:07Z",
+          "completed_at": "2026-10-10T10:29:07Z"
+        },
+        {
+          "name": "Publish[repository]: gitsh (manual migration)",
+          "number": 36,
+          "conclusion": "skipped",
+          "started_at": "2026-10-10T10:29:07Z",
+          "completed_at": "2026-10-10T10:29:07Z"
+        },
+        {
+          "name": "Publish[repository]: ./scripts/typedoc/publish-doc.sh",
+          "number": 37,
+          "conclusion": "skipped",
+          "started_at": "2026-10-10T10:29:07Z",
+          "completed_at": "2026-10-10T10:29:07Z"
+        },
+        {
+          "name": "Post Checkout",
+          "number": 74,
+          "conclusion": "success",
+          "started_at": "2026-10-10T10:29:07Z",
+          "completed_at": "2026-10-10T10:29:08Z"
+        },
+        {
+          "name": "Complete job",
+          "number": 75,
+          "conclusion": "success",
+          "started_at": "2026-10-10T10:29:08Z",
+          "completed_at": "2026-10-10T10:29:08Z"
+        }
+      ]
+    }
+  ],
+  "failed_steps": [
+    "QA: ./scripts/setup_couch.sh",
+    "QA: junit summary"
+  ],
+  "billable_minutes": 0,
+  "seconds": 150.1,
+  "outputs": {
+    "archived": [],
+    "tests": null,
+    "injected": [
+      {
+        "path": ".github/workflows/j2gha-run.yml",
+        "size": 12120,
+        "sha256": "5097f201a3a9019037c1d5b82060ebbe25defc552352c048524b699c43e2ab89"
+      }
+    ]
+  },
+  "provenance": {
+    "jenkinsfile_sha256": "b290837721dd3b2e00704c2c16e238d51796a276fdc06f134701254872f8e13a",
+    "scenario": {
+      "branch": "main",
+      "git_branch": "origin/main"
+    },
+    "mode": "full",
+    "model_sha256": "e65927606ec36007ff40cfcb806df31c06f22a9ab8351922ece2d1ff7a4493bc",
+    "images": {
+      "jenkins": {
+        "ref": "j2gha/jenkins:local",
+        "present": true,
+        "id": "sha256:672c4b841b2c934f224d4f1b3523d77a1b651f8f491f8f04da47ca764eb86775",
+        "repo_digests": [],
+        "created": "2026-10-09T18:21:15.545465961Z",
+        "labels": {
+          "j2gha.base-image": "jenkins/jenkins:lts-jdk21@sha256:a660310e39ade10631f774bacd5219de767dfd08947ea5c32a739b5e5bb382c1",
+          "org.opencontainers.image.version": "2.580.1",
+          "org.opencontainers.image.revision": "457b9316d71b43cdf3e2ba6ec7c27efc40f5dc60",
+          "org.opencontainers.image.source": "https://github.com/jenkinsci/docker"
+        },
+        "jenkins_version": "2.580.1"
+      },
+      "act": {
+        "ref": "j2gha/act:local",
+        "present": true,
+        "id": "sha256:0781bb0384b914fba362a2a2483d55d30c3d3cc9b59598856146778aa88662a4",
+        "repo_digests": [],
+        "created": "2026-10-03T06:26:46.552472741Z",
+        "labels": {},
+        "act_version": "0.2.89"
+      },
+      "act_runner": {
+        "ref": "j2gha/act-runner:local",
+        "present": true,
+        "id": "sha256:134418998a1ca958b148ee6befb038aa3ff598bf147b39ce9e99b60a563a15be",
+        "repo_digests": [],
+        "created": "2026-10-09T18:54:04.157825772Z",
+        "labels": {
+          "j2gha.base-image": "catthehacker/ubuntu:act-latest@sha256:c58e2b364da03b0c804c7d660f2ecbedf2f221a382b9baa0b344b0144780ff43",
+          "org.opencontainers.image.version": "20260815",
+          "org.opencontainers.image.revision": "e2f8efe464c82732f78e967ee709c00b6af53643",
+          "org.opencontainers.image.source": "https://github.com/catthehacker/catthehacker/docker_images"
+        }
+      },
+      "jit_runner": {
+        "ref": "j2gha/runner:local",
+        "present": true,
+        "id": "sha256:4847cf6e3e915577d28244aedfbe1b633eafa060a49d4ef313129d6841e2e667",
+        "repo_digests": [],
+        "created": "2026-10-09T18:52:46.515242869Z",
+        "labels": {
+          "j2gha.base-image": "ghcr.io/actions/actions-runner:latest@sha256:4ffadc0002b2581327e06101fc8c06cd189232baf79fe561fac9caeb76f5e807",
+          "org.opencontainers.image.version": "24.04",
+          "org.opencontainers.image.source": "https://github.com/actions/runner"
+        }
+      }
+    }
+  },
+  "finished_at": "2026-10-10T10:29:20+00:00",
+  "comparison": {
+    "mode": "full",
+    "verdict": "equivalent",
+    "equivalent": true,
+    "similarity_pct": 100.0,
+    "jenkins_result": "FAILURE",
+    "gha_result": "failure",
+    "jenkins_failed_stage": "QA",
+    "gha_failed_stage": "QA",
+    "gha_failed_step": "QA: ./scripts/setup_couch.sh",
+    "stages": [],
+    "outputs": {
+      "tests": {
+        "status": "none"
+      },
+      "archived": {
+        "status": "none",
+        "jenkins": 0,
+        "gha": 0,
+        "missing": [],
+        "extra": [],
+        "copies": 0,
+        "content_same": 0,
+        "content_differs": [],
+        "content_unknown": 0,
+        "proven": false
+      },
+      "verdict": "same"
+    }
+  }
+}

@@ -1,0 +1,1157 @@
+{
+  "file": "013",
+  "ok": true,
+  "errors": [],
+  "imports": [],
+  "annotations": [],
+  "methods": [
+    {
+      "name": "mvn",
+      "params": [],
+      "annotations": [],
+      "body": [
+        {
+          "k": "call",
+          "name": "wrap",
+          "args": [],
+          "named": {
+            "$class": {
+              "t": "str",
+              "v": "Xvnc",
+              "line": 126,
+              "col": 17,
+              "endLine": 126,
+              "endCol": 23
+            },
+            "takeScreenshot": {
+              "t": "bool",
+              "v": false,
+              "line": 126,
+              "col": 41,
+              "endLine": 126,
+              "endCol": 46
+            },
+            "useXauthority": {
+              "t": "bool",
+              "v": true,
+              "line": 126,
+              "col": 63,
+              "endLine": 126,
+              "endCol": 67
+            }
+          },
+          "line": 126,
+          "col": 3,
+          "endLine": 144,
+          "endCol": 4,
+          "body": [
+            {
+              "k": "call",
+              "name": "sh",
+              "args": [
+                {
+                  "t": "str",
+                  "v": "\n      if [[ $PROMOTE == true ]]; then\n        promotion_argument='-Ppromote -Pbuild-server'\n      fi\n      mvn         $promotion_argument         --no-transfer-progress         -Dproject.build.sourceEncoding=UTF-8         -Dbuild.id=${BUILD_TIMESTAMP}         -Dgit.commit=$GIT_COMMIT         -Dbuild.type=$BUILD_TYPE         -Dorg.eclipse.justj.p2.manager.build.url=$JOB_URL         clean         verify\n      ",
+                  "line": 129,
+                  "col": 8,
+                  "endLine": 143,
+                  "endCol": 10
+                }
+              ],
+              "named": {},
+              "line": 129,
+              "col": 5,
+              "endLine": 143,
+              "endCol": 10
+            }
+          ]
+        }
+      ],
+      "line": 125,
+      "col": 1,
+      "endLine": 145,
+      "endCol": 2
+    }
+  ],
+  "classes": [],
+  "statements": [
+    {
+      "k": "call",
+      "name": "pipeline",
+      "args": [],
+      "named": {},
+      "line": 1,
+      "col": 1,
+      "endLine": 123,
+      "endCol": 2,
+      "body": [
+        {
+          "k": "call",
+          "name": "agent",
+          "args": [],
+          "named": {},
+          "line": 2,
+          "col": 3,
+          "endLine": 4,
+          "endCol": 4,
+          "body": [
+            {
+              "k": "call",
+              "name": "label",
+              "args": [
+                {
+                  "t": "str",
+                  "v": "ubuntu-latest",
+                  "line": 3,
+                  "col": 11,
+                  "endLine": 3,
+                  "endCol": 26
+                }
+              ],
+              "named": {},
+              "line": 3,
+              "col": 5,
+              "endLine": 3,
+              "endCol": 26
+            }
+          ]
+        },
+        {
+          "k": "call",
+          "name": "options",
+          "args": [],
+          "named": {},
+          "line": 6,
+          "col": 3,
+          "endLine": 10,
+          "endCol": 4,
+          "body": [
+            {
+              "k": "call",
+              "name": "timeout",
+              "args": [],
+              "named": {
+                "time": {
+                  "t": "num",
+                  "v": 60,
+                  "line": 7,
+                  "col": 19,
+                  "endLine": 7,
+                  "endCol": 21
+                },
+                "unit": {
+                  "t": "str",
+                  "v": "MINUTES",
+                  "line": 7,
+                  "col": 29,
+                  "endLine": 7,
+                  "endCol": 38
+                }
+              },
+              "line": 7,
+              "col": 5,
+              "endLine": 7,
+              "endCol": 39
+            },
+            {
+              "k": "call",
+              "name": "buildDiscarder",
+              "args": [
+                {
+                  "t": "call",
+                  "call": {
+                    "k": "call",
+                    "name": "logRotator",
+                    "args": [],
+                    "named": {
+                      "numToKeepStr": {
+                        "t": "str",
+                        "v": "10",
+                        "line": 8,
+                        "col": 45,
+                        "endLine": 8,
+                        "endCol": 49
+                      }
+                    },
+                    "line": 8,
+                    "col": 20,
+                    "endLine": 8,
+                    "endCol": 50
+                  },
+                  "line": 8,
+                  "col": 20,
+                  "endLine": 8,
+                  "endCol": 50
+                }
+              ],
+              "named": {},
+              "line": 8,
+              "col": 5,
+              "endLine": 8,
+              "endCol": 51
+            },
+            {
+              "k": "call",
+              "name": "disableConcurrentBuilds",
+              "args": [],
+              "named": {
+                "abortPrevious": {
+                  "t": "bool",
+                  "v": true,
+                  "line": 9,
+                  "col": 44,
+                  "endLine": 9,
+                  "endCol": 48
+                }
+              },
+              "line": 9,
+              "col": 5,
+              "endLine": 9,
+              "endCol": 49
+            }
+          ]
+        },
+        {
+          "k": "call",
+          "name": "tools",
+          "args": [],
+          "named": {},
+          "line": 12,
+          "col": 3,
+          "endLine": 15,
+          "endCol": 4,
+          "body": [
+            {
+              "k": "call",
+              "name": "maven",
+              "args": [
+                {
+                  "t": "str",
+                  "v": "apache-maven-latest",
+                  "line": 13,
+                  "col": 11,
+                  "endLine": 13,
+                  "endCol": 32
+                }
+              ],
+              "named": {},
+              "line": 13,
+              "col": 5,
+              "endLine": 13,
+              "endCol": 32
+            },
+            {
+              "k": "call",
+              "name": "jdk",
+              "args": [
+                {
+                  "t": "str",
+                  "v": "temurin-jdk21-latest",
+                  "line": 14,
+                  "col": 9,
+                  "endLine": 14,
+                  "endCol": 31
+                }
+              ],
+              "named": {},
+              "line": 14,
+              "col": 5,
+              "endLine": 14,
+              "endCol": 31
+            }
+          ]
+        },
+        {
+          "k": "call",
+          "name": "environment",
+          "args": [],
+          "named": {},
+          "line": 17,
+          "col": 3,
+          "endLine": 20,
+          "endCol": 4,
+          "body": [
+            {
+              "k": "assign",
+              "op": "=",
+              "target": "BUILD_TIMESTAMP",
+              "value": {
+                "t": "call",
+                "call": {
+                  "k": "call",
+                  "name": "trim",
+                  "args": [],
+                  "named": {},
+                  "line": 18,
+                  "col": 23,
+                  "endLine": 18,
+                  "endCol": 80,
+                  "receiver": "sh(returnStdout: true, script: 'date +%Y%m%d%H%M')",
+                  "receiverCalls": [
+                    {
+                      "k": "call",
+                      "name": "sh",
+                      "args": [],
+                      "named": {
+                        "returnStdout": {
+                          "t": "bool",
+                          "v": true,
+                          "line": 18,
+                          "col": 40,
+                          "endLine": 18,
+                          "endCol": 44
+                        },
+                        "script": {
+                          "t": "str",
+                          "v": "date +%Y%m%d%H%M",
+                          "line": 18,
+                          "col": 54,
+                          "endLine": 18,
+                          "endCol": 72
+                        }
+                      },
+                      "line": 18,
+                      "col": 23,
+                      "endLine": 18,
+                      "endCol": 73
+                    }
+                  ]
+                },
+                "line": 18,
+                "col": 23,
+                "endLine": 18,
+                "endCol": 80
+              },
+              "line": 18,
+              "col": 5,
+              "endLine": 18,
+              "endCol": 80
+            },
+            {
+              "k": "assign",
+              "op": "=",
+              "target": "MAIN_BRANCH",
+              "value": {
+                "t": "str",
+                "v": "master",
+                "line": 19,
+                "col": 19,
+                "endLine": 19,
+                "endCol": 27
+              },
+              "line": 19,
+              "col": 5,
+              "endLine": 19,
+              "endCol": 27
+            }
+          ]
+        },
+        {
+          "k": "call",
+          "name": "parameters",
+          "args": [],
+          "named": {},
+          "line": 22,
+          "col": 3,
+          "endLine": 46,
+          "endCol": 4,
+          "body": [
+            {
+              "k": "call",
+              "name": "choice",
+              "args": [],
+              "named": {
+                "name": {
+                  "t": "str",
+                  "v": "BUILD_TYPE",
+                  "line": 24,
+                  "col": 13,
+                  "endLine": 24,
+                  "endCol": 25
+                },
+                "choices": {
+                  "t": "list",
+                  "v": [
+                    {
+                      "t": "str",
+                      "v": "nightly",
+                      "line": 25,
+                      "col": 17,
+                      "endLine": 25,
+                      "endCol": 26
+                    },
+                    {
+                      "t": "str",
+                      "v": "milestone",
+                      "line": 25,
+                      "col": 28,
+                      "endLine": 25,
+                      "endCol": 39
+                    },
+                    {
+                      "t": "str",
+                      "v": "release",
+                      "line": 25,
+                      "col": 41,
+                      "endLine": 25,
+                      "endCol": 50
+                    }
+                  ],
+                  "line": 25,
+                  "col": 16,
+                  "endLine": 25,
+                  "endCol": 51
+                },
+                "description": {
+                  "t": "str",
+                  "v": "\n        Choose the type of build.\n        Note that a release build will <b>not</b> promote the build, but rather will promote the most recent milestone build.\n        ",
+                  "line": 26,
+                  "col": 20,
+                  "endLine": 30,
+                  "endCol": 5
+                }
+              },
+              "line": 23,
+              "col": 5,
+              "endLine": 30,
+              "endCol": 6
+            },
+            {
+              "k": "call",
+              "name": "booleanParam",
+              "args": [],
+              "named": {
+                "name": {
+                  "t": "str",
+                  "v": "ECLIPSE_SIGN",
+                  "line": 33,
+                  "col": 13,
+                  "endLine": 33,
+                  "endCol": 27
+                },
+                "defaultValue": {
+                  "t": "bool",
+                  "v": true,
+                  "line": 34,
+                  "col": 21,
+                  "endLine": 34,
+                  "endCol": 25
+                },
+                "description": {
+                  "t": "str",
+                  "v": "\n        Choose whether or not the bundles will be signed.\n        This is relevant only for nightly and milestone builds.\n      ",
+                  "line": 35,
+                  "col": 20,
+                  "endLine": 39,
+                  "endCol": 5
+                }
+              },
+              "line": 32,
+              "col": 5,
+              "endLine": 39,
+              "endCol": 6
+            },
+            {
+              "k": "call",
+              "name": "booleanParam",
+              "args": [],
+              "named": {
+                "name": {
+                  "t": "str",
+                  "v": "PROMOTE",
+                  "line": 42,
+                  "col": 13,
+                  "endLine": 42,
+                  "endCol": 22
+                },
+                "defaultValue": {
+                  "t": "bool",
+                  "v": true,
+                  "line": 43,
+                  "col": 21,
+                  "endLine": 43,
+                  "endCol": 25
+                },
+                "description": {
+                  "t": "str",
+                  "v": "Whether to promote the build to the download server.",
+                  "line": 44,
+                  "col": 20,
+                  "endLine": 45,
+                  "endCol": 5
+                }
+              },
+              "line": 41,
+              "col": 5,
+              "endLine": 45,
+              "endCol": 6
+            }
+          ]
+        },
+        {
+          "k": "call",
+          "name": "stages",
+          "args": [],
+          "named": {},
+          "line": 48,
+          "col": 3,
+          "endLine": 96,
+          "endCol": 4,
+          "body": [
+            {
+              "k": "call",
+              "name": "stage",
+              "args": [
+                {
+                  "t": "str",
+                  "v": "Display Parameters",
+                  "line": 49,
+                  "col": 11,
+                  "endLine": 49,
+                  "endCol": 31
+                }
+              ],
+              "named": {},
+              "line": 49,
+              "col": 5,
+              "endLine": 77,
+              "endCol": 6,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "steps",
+                  "args": [],
+                  "named": {},
+                  "line": 50,
+                  "col": 7,
+                  "endLine": 76,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "script",
+                      "args": [],
+                      "named": {},
+                      "line": 51,
+                      "col": 9,
+                      "endLine": 75,
+                      "endCol": 10,
+                      "body": [
+                        {
+                          "k": "assign",
+                          "op": "=",
+                          "target": "env.BUILD_TYPE ",
+                          "value": {
+                            "t": "prop",
+                            "text": "params.BUILD_TYPE",
+                            "calls": [],
+                            "line": 52,
+                            "col": 28,
+                            "endLine": 52,
+                            "endCol": 45
+                          },
+                          "line": 52,
+                          "col": 11,
+                          "endLine": 52,
+                          "endCol": 45
+                        },
+                        {
+                          "k": "if",
+                          "cond": "env.BRANCH_NAME == env.MAIN_BRANCH",
+                          "condCalls": [],
+                          "then": [
+                            {
+                              "k": "assign",
+                              "op": "=",
+                              "target": "env.ECLIPSE_SIGN ",
+                              "value": {
+                                "t": "prop",
+                                "text": "params.ECLIPSE_SIGN",
+                                "calls": [],
+                                "line": 56,
+                                "col": 32,
+                                "endLine": 56,
+                                "endCol": 51
+                              },
+                              "line": 56,
+                              "col": 13,
+                              "endLine": 56,
+                              "endCol": 51
+                            }
+                          ],
+                          "else": [
+                            {
+                              "k": "assign",
+                              "op": "=",
+                              "target": "env.ECLIPSE_SIGN ",
+                              "value": {
+                                "t": "bool",
+                                "v": false,
+                                "line": 59,
+                                "col": 33,
+                                "endLine": 59,
+                                "endCol": 38
+                              },
+                              "line": 59,
+                              "col": 13,
+                              "endLine": 59,
+                              "endCol": 38
+                            }
+                          ],
+                          "line": 53,
+                          "col": 11,
+                          "endLine": 60,
+                          "endCol": 12
+                        },
+                        {
+                          "k": "assign",
+                          "op": "=",
+                          "target": "env.PROMOTE ",
+                          "value": {
+                            "t": "expr",
+                            "kind": "BinaryExpression",
+                            "text": "params.PROMOTE && (env.ECLIPSE_SIGN == 'true')",
+                            "calls": [],
+                            "line": 64,
+                            "col": 40,
+                            "endLine": 64,
+                            "endCol": 42
+                          },
+                          "line": 64,
+                          "col": 11,
+                          "endLine": 64,
+                          "endCol": 71
+                        },
+                        {
+                          "k": "decl",
+                          "name": "description",
+                          "value": {
+                            "t": "call",
+                            "call": {
+                              "k": "call",
+                              "name": "trim",
+                              "args": [],
+                              "named": {},
+                              "line": 66,
+                              "col": 29,
+                              "endLine": 72,
+                              "endCol": 11,
+                              "receiver": "\"\"\"\nBUILD_TIMESTAMP=${env.BUILD_TIMESTAMP}\nBUILD_TYPE=${env.BUILD_TYPE}\nECLIPSE_SIGN=${env.ECLIPSE_SIGN}\nPROMOTE=${env.PROMOTE}\nBRANCH_NAME=${env.BRANCH_NAME}\n\"\"\""
+                            },
+                            "line": 66,
+                            "col": 29,
+                            "endLine": 72,
+                            "endCol": 11
+                          },
+                          "annotations": [],
+                          "line": 66,
+                          "col": 11,
+                          "endLine": 72,
+                          "endCol": 11
+                        },
+                        {
+                          "k": "call",
+                          "name": "echo",
+                          "args": [
+                            {
+                              "t": "var",
+                              "name": "description",
+                              "line": 73,
+                              "col": 16,
+                              "endLine": 73,
+                              "endCol": 27
+                            }
+                          ],
+                          "named": {},
+                          "line": 73,
+                          "col": 11,
+                          "endLine": 73,
+                          "endCol": 27
+                        },
+                        {
+                          "k": "assign",
+                          "op": "=",
+                          "target": "currentBuild.description ",
+                          "value": {
+                            "t": "call",
+                            "call": {
+                              "k": "call",
+                              "name": "replace",
+                              "args": [
+                                {
+                                  "t": "str",
+                                  "v": "\n",
+                                  "line": 74,
+                                  "col": 58,
+                                  "endLine": 74,
+                                  "endCol": 62
+                                },
+                                {
+                                  "t": "str",
+                                  "v": "<br/>",
+                                  "line": 74,
+                                  "col": 64,
+                                  "endLine": 74,
+                                  "endCol": 71
+                                }
+                              ],
+                              "named": {},
+                              "line": 74,
+                              "col": 38,
+                              "endLine": 74,
+                              "endCol": 72,
+                              "receiver": "description"
+                            },
+                            "line": 74,
+                            "col": 38,
+                            "endLine": 74,
+                            "endCol": 72
+                          },
+                          "line": 74,
+                          "col": 11,
+                          "endLine": 74,
+                          "endCol": 72
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "k": "call",
+              "name": "stage",
+              "args": [
+                {
+                  "t": "str",
+                  "v": "Build Nebula",
+                  "line": 79,
+                  "col": 11,
+                  "endLine": 79,
+                  "endCol": 25
+                }
+              ],
+              "named": {},
+              "line": 79,
+              "col": 5,
+              "endLine": 95,
+              "endCol": 6,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "steps",
+                  "args": [],
+                  "named": {},
+                  "line": 80,
+                  "col": 7,
+                  "endLine": 94,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "script",
+                      "args": [],
+                      "named": {},
+                      "line": 81,
+                      "col": 9,
+                      "endLine": 93,
+                      "endCol": 10,
+                      "body": [
+                        {
+                          "k": "if",
+                          "cond": "env.PROMOTE == 'true'",
+                          "condCalls": [],
+                          "then": [
+                            {
+                              "k": "call",
+                              "name": "sshagent",
+                              "args": [
+                                {
+                                  "t": "list",
+                                  "v": [
+                                    {
+                                      "t": "str",
+                                      "v": "projects-storage.eclipse.org-bot-ssh",
+                                      "line": 86,
+                                      "col": 23,
+                                      "endLine": 86,
+                                      "endCol": 61
+                                    }
+                                  ],
+                                  "line": 86,
+                                  "col": 22,
+                                  "endLine": 86,
+                                  "endCol": 62
+                                }
+                              ],
+                              "named": {},
+                              "line": 86,
+                              "col": 13,
+                              "endLine": 88,
+                              "endCol": 14,
+                              "body": [
+                                {
+                                  "k": "call",
+                                  "name": "mvn",
+                                  "args": [],
+                                  "named": {},
+                                  "line": 87,
+                                  "col": 15,
+                                  "endLine": 87,
+                                  "endCol": 20
+                                }
+                              ]
+                            }
+                          ],
+                          "else": [
+                            {
+                              "k": "call",
+                              "name": "mvn",
+                              "args": [],
+                              "named": {},
+                              "line": 90,
+                              "col": 13,
+                              "endLine": 90,
+                              "endCol": 18
+                            },
+                            {
+                              "k": "call",
+                              "name": "archiveArtifacts",
+                              "args": [
+                                {
+                                  "t": "str",
+                                  "v": "releng/org.eclipse.nebula.site/target/repository/**",
+                                  "line": 91,
+                                  "col": 30,
+                                  "endLine": 91,
+                                  "endCol": 83
+                                }
+                              ],
+                              "named": {},
+                              "line": 91,
+                              "col": 13,
+                              "endLine": 91,
+                              "endCol": 83
+                            }
+                          ],
+                          "line": 82,
+                          "col": 11,
+                          "endLine": 92,
+                          "endCol": 12
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "k": "call",
+          "name": "post",
+          "args": [],
+          "named": {},
+          "line": 98,
+          "col": 3,
+          "endLine": 122,
+          "endCol": 4,
+          "body": [
+            {
+              "k": "call",
+              "name": "always",
+              "args": [],
+              "named": {},
+              "line": 99,
+              "col": 5,
+              "endLine": 102,
+              "endCol": 6,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "junit",
+                  "args": [],
+                  "named": {
+                    "allowEmptyResults": {
+                      "t": "bool",
+                      "v": true,
+                      "line": 100,
+                      "col": 32,
+                      "endLine": 100,
+                      "endCol": 36
+                    },
+                    "testResults": {
+                      "t": "str",
+                      "v": "**/target/surefire-reports/*.xml",
+                      "line": 100,
+                      "col": 51,
+                      "endLine": 100,
+                      "endCol": 85
+                    }
+                  },
+                  "line": 100,
+                  "col": 7,
+                  "endLine": 100,
+                  "endCol": 85
+                },
+                {
+                  "k": "call",
+                  "name": "recordIssues",
+                  "args": [],
+                  "named": {
+                    "publishAllIssues": {
+                      "t": "bool",
+                      "v": true,
+                      "line": 101,
+                      "col": 38,
+                      "endLine": 101,
+                      "endCol": 42
+                    },
+                    "tools": {
+                      "t": "list",
+                      "v": [
+                        {
+                          "t": "call",
+                          "call": {
+                            "k": "call",
+                            "name": "java",
+                            "args": [],
+                            "named": {},
+                            "line": 101,
+                            "col": 52,
+                            "endLine": 101,
+                            "endCol": 58
+                          },
+                          "line": 101,
+                          "col": 52,
+                          "endLine": 101,
+                          "endCol": 58
+                        },
+                        {
+                          "t": "call",
+                          "call": {
+                            "k": "call",
+                            "name": "mavenConsole",
+                            "args": [],
+                            "named": {},
+                            "line": 101,
+                            "col": 60,
+                            "endLine": 101,
+                            "endCol": 74
+                          },
+                          "line": 101,
+                          "col": 60,
+                          "endLine": 101,
+                          "endCol": 74
+                        },
+                        {
+                          "t": "call",
+                          "call": {
+                            "k": "call",
+                            "name": "javaDoc",
+                            "args": [],
+                            "named": {},
+                            "line": 101,
+                            "col": 76,
+                            "endLine": 101,
+                            "endCol": 85
+                          },
+                          "line": 101,
+                          "col": 76,
+                          "endLine": 101,
+                          "endCol": 85
+                        }
+                      ],
+                      "line": 101,
+                      "col": 51,
+                      "endLine": 101,
+                      "endCol": 86
+                    }
+                  },
+                  "line": 101,
+                  "col": 7,
+                  "endLine": 101,
+                  "endCol": 86
+                }
+              ]
+            },
+            {
+              "k": "call",
+              "name": "failure",
+              "args": [],
+              "named": {},
+              "line": 104,
+              "col": 5,
+              "endLine": 110,
+              "endCol": 6,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "archiveArtifacts",
+                  "args": [
+                    {
+                      "t": "str",
+                      "v": "**",
+                      "line": 105,
+                      "col": 24,
+                      "endLine": 105,
+                      "endCol": 28
+                    }
+                  ],
+                  "named": {},
+                  "line": 105,
+                  "col": 7,
+                  "endLine": 105,
+                  "endCol": 28
+                },
+                {
+                  "k": "call",
+                  "name": "mail",
+                  "args": [],
+                  "named": {
+                    "to": {
+                      "t": "str",
+                      "v": "ed.merks@gmail.com",
+                      "line": 106,
+                      "col": 16,
+                      "endLine": 106,
+                      "endCol": 36
+                    },
+                    "subject": {
+                      "t": "gstr",
+                      "v": "\"[Nebula CI] Build Failure ${currentBuild.fullDisplayName}\"",
+                      "vars": [
+                        "{currentBuild.fullDisplayName}"
+                      ],
+                      "calls": [],
+                      "line": 107,
+                      "col": 16,
+                      "endLine": 107,
+                      "endCol": 75
+                    },
+                    "mimeType": {
+                      "t": "str",
+                      "v": "text/html",
+                      "line": 108,
+                      "col": 17,
+                      "endLine": 108,
+                      "endCol": 28
+                    },
+                    "body": {
+                      "t": "gstr",
+                      "v": "\"Project: ${env.JOB_NAME}<br/>Build Number: ${env.BUILD_NUMBER}<br/>Build URL: ${env.BUILD_URL}<br/>Console: ${env.BUILD_URL}/console\"",
+                      "vars": [
+                        "{env.JOB_NAME}",
+                        "{env.BUILD_NUMBER}",
+                        "{env.BUILD_URL}",
+                        "{env.BUILD_URL}"
+                      ],
+                      "calls": [],
+                      "line": 109,
+                      "col": 13,
+                      "endLine": 109,
+                      "endCol": 147
+                    }
+                  },
+                  "line": 106,
+                  "col": 7,
+                  "endLine": 109,
+                  "endCol": 147
+                }
+              ]
+            },
+            {
+              "k": "call",
+              "name": "fixed",
+              "args": [],
+              "named": {},
+              "line": 112,
+              "col": 5,
+              "endLine": 117,
+              "endCol": 6,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "mail",
+                  "args": [],
+                  "named": {
+                    "to": {
+                      "t": "str",
+                      "v": "ed.merks@gmail.com",
+                      "line": 113,
+                      "col": 16,
+                      "endLine": 113,
+                      "endCol": 36
+                    },
+                    "subject": {
+                      "t": "gstr",
+                      "v": "\"[Nebula CI] Back to normal ${currentBuild.fullDisplayName}\"",
+                      "vars": [
+                        "{currentBuild.fullDisplayName}"
+                      ],
+                      "calls": [],
+                      "line": 114,
+                      "col": 16,
+                      "endLine": 114,
+                      "endCol": 76
+                    },
+                    "mimeType": {
+                      "t": "str",
+                      "v": "text/html",
+                      "line": 115,
+                      "col": 17,
+                      "endLine": 115,
+                      "endCol": 28
+                    },
+                    "body": {
+                      "t": "gstr",
+                      "v": "\"Project: ${env.JOB_NAME}<br/>Build Number: ${env.BUILD_NUMBER}<br/>Build URL: ${env.BUILD_URL}<br/>Console: ${env.BUILD_URL}/console\"",
+                      "vars": [
+                        "{env.JOB_NAME}",
+                        "{env.BUILD_NUMBER}",
+                        "{env.BUILD_URL}",
+                        "{env.BUILD_URL}"
+                      ],
+                      "calls": [],
+                      "line": 116,
+                      "col": 13,
+                      "endLine": 116,
+                      "endCol": 147
+                    }
+                  },
+                  "line": 113,
+                  "col": 7,
+                  "endLine": 116,
+                  "endCol": 147
+                }
+              ]
+            },
+            {
+              "k": "call",
+              "name": "cleanup",
+              "args": [],
+              "named": {},
+              "line": 119,
+              "col": 5,
+              "endLine": 121,
+              "endCol": 6,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "deleteDir",
+                  "args": [],
+                  "named": {},
+                  "line": 120,
+                  "col": 7,
+                  "endLine": 120,
+                  "endCol": 18
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "source_sha256": "5f4a16f03565490a467c9c3aa3e09336699dcd375d817cc7bd8aedf194c72bda"
+}

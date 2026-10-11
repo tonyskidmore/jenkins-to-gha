@@ -1,0 +1,70 @@
+[2026-10-10T09:16:41.081Z] Started by user admin
+[2026-10-10T09:16:41.181Z] [Pipeline] Start of Pipeline
+[2026-10-10T09:16:41.310Z] [Pipeline] node
+[2026-10-10T09:16:41.323Z] Running on Jenkins in /var/jenkins_home/workspace/ex-111-full
+[2026-10-10T09:16:41.346Z] [Pipeline] {
+[2026-10-10T09:16:41.380Z] [Pipeline] withEnv
+[2026-10-10T09:16:41.386Z] [Pipeline] {
+[2026-10-10T09:16:41.410Z] [Pipeline] timestamps
+[2026-10-10T09:16:41.410Z] The timestamps step is unnecessary when timestamps are enabled for all Pipeline builds.
+[2026-10-10T09:16:41.415Z] [Pipeline] {
+[2026-10-10T09:16:41.446Z] [Pipeline] stage
+[2026-10-10T09:16:41.451Z] [Pipeline] { (Checkout)
+[2026-10-10T09:16:41.488Z] [Pipeline] checkout
+[2026-10-10T09:16:41.494Z] The recommended git tool is: NONE
+[2026-10-10T09:16:41.494Z] No credentials specified
+[2026-10-10T09:16:41.494Z]  > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/ex-111-full/.git # timeout=10
+[2026-10-10T09:16:41.501Z] Fetching changes from the remote Git repository
+[2026-10-10T09:16:41.503Z]  > git config remote.origin.url https://github.com/oneanupam/jenkins-shared-libs.git # timeout=10
+[2026-10-10T09:16:41.509Z] Fetching upstream changes from https://github.com/oneanupam/jenkins-shared-libs.git
+[2026-10-10T09:16:41.509Z]  > git --version # timeout=10
+[2026-10-10T09:16:41.515Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T09:16:41.515Z]  > git fetch --no-tags --force --progress -- https://github.com/oneanupam/jenkins-shared-libs.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:16:41.977Z]  > git rev-parse c4b839ddc8934f978a3f5c336dd144bfaf5fc464^{commit} # timeout=10
+[2026-10-10T09:16:41.994Z] Checking out Revision c4b839ddc8934f978a3f5c336dd144bfaf5fc464 (detached)
+[2026-10-10T09:16:41.994Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T09:16:42.001Z]  > git checkout -f c4b839ddc8934f978a3f5c336dd144bfaf5fc464 # timeout=10
+[2026-10-10T09:16:42.031Z] Commit message: "feat: kzb-01 initial commit"
+[2026-10-10T09:16:42.031Z]  > git rev-list --no-walk c4b839ddc8934f978a3f5c336dd144bfaf5fc464 # timeout=10
+[2026-10-10T09:16:42.068Z] [Pipeline] }
+[2026-10-10T09:16:42.101Z] [Pipeline] // stage
+[2026-10-10T09:16:42.131Z] [Pipeline] stage
+[2026-10-10T09:16:42.138Z] [Pipeline] { (Install)
+[2026-10-10T09:16:42.176Z] [Pipeline] sh
+[2026-10-10T09:16:42.439Z] + echo install
+[2026-10-10T09:16:42.439Z] install
+[2026-10-10T09:16:42.459Z] [Pipeline] }
+[2026-10-10T09:16:42.485Z] [Pipeline] // stage
+[2026-10-10T09:16:42.508Z] [Pipeline] stage
+[2026-10-10T09:16:42.514Z] [Pipeline] { (Test)
+[2026-10-10T09:16:42.544Z] [Pipeline] sh
+[2026-10-10T09:16:42.808Z] + mkdir -p reports
+[2026-10-10T09:16:42.808Z] + printf <testsuite name="unit" tests="1" failures="0" errors="0" skipped="0"><testcase classname="unit" name="smoke"/></testsuite>\n
+[2026-10-10T09:16:42.847Z] [Pipeline] }
+[2026-10-10T09:16:42.909Z] [Pipeline] // stage
+[2026-10-10T09:16:42.944Z] [Pipeline] stage
+[2026-10-10T09:16:42.950Z] [Pipeline] { (Build)
+[2026-10-10T09:16:42.983Z] [Pipeline] sh
+[2026-10-10T09:16:43.249Z] + mkdir -p dist
+[2026-10-10T09:16:43.249Z] + cp README.md dist/
+[2026-10-10T09:16:43.265Z] [Pipeline] }
+[2026-10-10T09:16:43.296Z] [Pipeline] // stage
+[2026-10-10T09:16:43.323Z] [Pipeline] stage
+[2026-10-10T09:16:43.330Z] [Pipeline] { (Declarative: Post Actions)
+[2026-10-10T09:16:43.369Z] [Pipeline] junit
+[2026-10-10T09:16:43.377Z] Recording test results
+[2026-10-10T09:16:43.387Z] [Checks API] No suitable checks publisher found.
+[2026-10-10T09:16:43.409Z] [Pipeline] archiveArtifacts
+[2026-10-10T09:16:43.416Z] Archiving artifacts
+[2026-10-10T09:16:43.445Z] [Pipeline] echo
+[2026-10-10T09:16:43.450Z] application completed successfully
+[2026-10-10T09:16:43.466Z] [Pipeline] }
+[2026-10-10T09:16:43.501Z] [Pipeline] // stage
+[2026-10-10T09:16:43.521Z] [Pipeline] }
+[2026-10-10T09:16:43.546Z] [Pipeline] // timestamps
+[2026-10-10T09:16:43.559Z] [Pipeline] }
+[2026-10-10T09:16:43.584Z] [Pipeline] // withEnv
+[2026-10-10T09:16:43.595Z] [Pipeline] }
+[2026-10-10T09:16:43.620Z] [Pipeline] // node
+[2026-10-10T09:16:43.631Z] [Pipeline] End of Pipeline
+[2026-10-10T09:16:43.670Z] Finished: SUCCESS

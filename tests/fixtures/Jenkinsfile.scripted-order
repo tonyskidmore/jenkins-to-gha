@@ -1,0 +1,11 @@
+node {
+  sh 'make clean'
+  stage('Build') { sh 'make build' }
+  sh 'make publish'
+  stage('Test') { sh 'make test' }
+  stage('Lint') { sh 'make lint' } stage('Docs') { sh 'make docs' }
+  if (env.BRANCH_NAME == 'main') {
+    stage('Release') { sh 'make release' }
+  }
+  deleteDir()
+}

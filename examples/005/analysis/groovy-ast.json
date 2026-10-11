@@ -1,0 +1,3187 @@
+{
+  "file": "005",
+  "ok": true,
+  "errors": [],
+  "imports": [],
+  "annotations": [],
+  "methods": [
+    {
+      "name": "call",
+      "params": [
+        {
+          "name": "config",
+          "type": "Map",
+          "hasDefault": true
+        }
+      ],
+      "annotations": [],
+      "body": [
+        {
+          "k": "decl",
+          "name": "sourceContext",
+          "value": {
+            "t": "prop",
+            "text": "config.sourceContext",
+            "calls": [],
+            "line": 2,
+            "col": 25,
+            "endLine": 2,
+            "endCol": 45
+          },
+          "annotations": [],
+          "line": 2,
+          "col": 5,
+          "endLine": 2,
+          "endCol": 45
+        },
+        {
+          "k": "decl",
+          "name": "migrationContext",
+          "value": {
+            "t": "prop",
+            "text": "config.migrationContext",
+            "calls": [],
+            "line": 3,
+            "col": 28,
+            "endLine": 3,
+            "endCol": 51
+          },
+          "annotations": [],
+          "line": 3,
+          "col": 5,
+          "endLine": 3,
+          "endCol": 51
+        },
+        {
+          "k": "decl",
+          "name": "defaultStageId",
+          "value": {
+            "t": "prop",
+            "text": "config.defaultStageId",
+            "calls": [],
+            "line": 4,
+            "col": 26,
+            "endLine": 4,
+            "endCol": 47
+          },
+          "annotations": [],
+          "line": 4,
+          "col": 5,
+          "endLine": 4,
+          "endCol": 47
+        },
+        {
+          "k": "decl",
+          "name": "jobName",
+          "value": {
+            "t": "prop",
+            "text": "config.jobName",
+            "calls": [],
+            "line": 5,
+            "col": 19,
+            "endLine": 5,
+            "endCol": 33
+          },
+          "annotations": [],
+          "line": 5,
+          "col": 5,
+          "endLine": 5,
+          "endCol": 33
+        },
+        {
+          "k": "if",
+          "cond": "sourceContext == null || sourceContext.isEmpty()",
+          "condCalls": [
+            {
+              "k": "call",
+              "name": "isEmpty",
+              "args": [],
+              "named": {},
+              "line": 6,
+              "col": 33,
+              "endLine": 6,
+              "endCol": 56,
+              "receiver": "sourceContext"
+            }
+          ],
+          "then": [
+            {
+              "k": "throw",
+              "text": "throw new RuntimeException(\"The sourceContext argument must be provided\")",
+              "calls": [
+                {
+                  "k": "call",
+                  "name": "new RuntimeException",
+                  "args": [
+                    {
+                      "t": "str",
+                      "v": "The sourceContext argument must be provided",
+                      "line": 7,
+                      "col": 36,
+                      "endLine": 7,
+                      "endCol": 81
+                    }
+                  ],
+                  "named": {},
+                  "line": 7,
+                  "col": 15,
+                  "endLine": 7,
+                  "endCol": 82
+                }
+              ],
+              "line": 7,
+              "col": 9,
+              "endLine": 7,
+              "endCol": 82
+            }
+          ],
+          "else": [],
+          "line": 6,
+          "col": 5,
+          "endLine": 8,
+          "endCol": 6
+        },
+        {
+          "k": "if",
+          "cond": "migrationContext == null || migrationContext.isEmpty()",
+          "condCalls": [
+            {
+              "k": "call",
+              "name": "isEmpty",
+              "args": [],
+              "named": {},
+              "line": 9,
+              "col": 36,
+              "endLine": 9,
+              "endCol": 62,
+              "receiver": "migrationContext"
+            }
+          ],
+          "then": [
+            {
+              "k": "throw",
+              "text": "throw new RuntimeException(\"The migrationContext argument must be provided\")",
+              "calls": [
+                {
+                  "k": "call",
+                  "name": "new RuntimeException",
+                  "args": [
+                    {
+                      "t": "str",
+                      "v": "The migrationContext argument must be provided",
+                      "line": 10,
+                      "col": 36,
+                      "endLine": 10,
+                      "endCol": 84
+                    }
+                  ],
+                  "named": {},
+                  "line": 10,
+                  "col": 15,
+                  "endLine": 10,
+                  "endCol": 85
+                }
+              ],
+              "line": 10,
+              "col": 9,
+              "endLine": 10,
+              "endCol": 85
+            }
+          ],
+          "else": [],
+          "line": 9,
+          "col": 5,
+          "endLine": 11,
+          "endCol": 6
+        },
+        {
+          "k": "if",
+          "cond": "defaultStageId == null || defaultStageId.isEmpty()",
+          "condCalls": [
+            {
+              "k": "call",
+              "name": "isEmpty",
+              "args": [],
+              "named": {},
+              "line": 12,
+              "col": 34,
+              "endLine": 12,
+              "endCol": 58,
+              "receiver": "defaultStageId"
+            }
+          ],
+          "then": [
+            {
+              "k": "throw",
+              "text": "throw new RuntimeException(\"The defaultStageId argument must be provided\")",
+              "calls": [
+                {
+                  "k": "call",
+                  "name": "new RuntimeException",
+                  "args": [
+                    {
+                      "t": "str",
+                      "v": "The defaultStageId argument must be provided",
+                      "line": 13,
+                      "col": 36,
+                      "endLine": 13,
+                      "endCol": 82
+                    }
+                  ],
+                  "named": {},
+                  "line": 13,
+                  "col": 15,
+                  "endLine": 13,
+                  "endCol": 83
+                }
+              ],
+              "line": 13,
+              "col": 9,
+              "endLine": 13,
+              "endCol": 83
+            }
+          ],
+          "else": [],
+          "line": 12,
+          "col": 5,
+          "endLine": 14,
+          "endCol": 6
+        },
+        {
+          "k": "if",
+          "cond": "jobName == null || jobName.isEmpty()",
+          "condCalls": [
+            {
+              "k": "call",
+              "name": "isEmpty",
+              "args": [],
+              "named": {},
+              "line": 15,
+              "col": 27,
+              "endLine": 15,
+              "endCol": 44,
+              "receiver": "jobName"
+            }
+          ],
+          "then": [
+            {
+              "k": "throw",
+              "text": "throw new RuntimeException(\"The jobName argument must be provided\")",
+              "calls": [
+                {
+                  "k": "call",
+                  "name": "new RuntimeException",
+                  "args": [
+                    {
+                      "t": "str",
+                      "v": "The jobName argument must be provided",
+                      "line": 16,
+                      "col": 36,
+                      "endLine": 16,
+                      "endCol": 75
+                    }
+                  ],
+                  "named": {},
+                  "line": 16,
+                  "col": 15,
+                  "endLine": 16,
+                  "endCol": 76
+                }
+              ],
+              "line": 16,
+              "col": 9,
+              "endLine": 16,
+              "endCol": 76
+            }
+          ],
+          "else": [],
+          "line": 15,
+          "col": 5,
+          "endLine": 17,
+          "endCol": 6
+        },
+        {
+          "k": "decl",
+          "name": "defaultGitBranch",
+          "value": {
+            "t": "expr",
+            "kind": "ElvisOperatorExpression",
+            "text": "?:",
+            "calls": [],
+            "line": 18,
+            "col": 52,
+            "endLine": 18,
+            "endCol": 54
+          },
+          "annotations": [],
+          "line": 18,
+          "col": 5,
+          "endLine": 18,
+          "endCol": 61
+        },
+        {
+          "k": "decl",
+          "name": "source_context_id",
+          "value": {
+            "t": "expr",
+            "kind": "ElvisOperatorExpression",
+            "text": "?:",
+            "calls": [],
+            "line": 19,
+            "col": 52,
+            "endLine": 19,
+            "endCol": 54
+          },
+          "annotations": [],
+          "line": 19,
+          "col": 5,
+          "endLine": 19,
+          "endCol": 79
+        },
+        {
+          "k": "decl",
+          "name": "migration_context_id",
+          "value": {
+            "t": "expr",
+            "kind": "ElvisOperatorExpression",
+            "text": "?:",
+            "calls": [],
+            "line": 20,
+            "col": 58,
+            "endLine": 20,
+            "endCol": 60
+          },
+          "annotations": [],
+          "line": 20,
+          "col": 5,
+          "endLine": 20,
+          "endCol": 80
+        },
+        {
+          "k": "decl",
+          "name": "source_context_file_name",
+          "value": {
+            "t": "str",
+            "v": "sourceJenkinsContext.json",
+            "line": 21,
+            "col": 36,
+            "endLine": 21,
+            "endCol": 63
+          },
+          "annotations": [],
+          "line": 21,
+          "col": 5,
+          "endLine": 21,
+          "endCol": 63
+        },
+        {
+          "k": "decl",
+          "name": "migration_context_file_name",
+          "value": {
+            "t": "str",
+            "v": "migrationJenkinsContext.json",
+            "line": 22,
+            "col": 39,
+            "endLine": 22,
+            "endCol": 69
+          },
+          "annotations": [],
+          "line": 22,
+          "col": 5,
+          "endLine": 22,
+          "endCol": 69
+        },
+        {
+          "k": "decl",
+          "name": "time",
+          "value": {
+            "t": "call",
+            "call": {
+              "k": "call",
+              "name": "getTime",
+              "args": [],
+              "named": {},
+              "line": 23,
+              "col": 16,
+              "endLine": 23,
+              "endCol": 36,
+              "receiver": "new Date()",
+              "receiverCalls": [
+                {
+                  "k": "call",
+                  "name": "new Date",
+                  "args": [],
+                  "named": {},
+                  "line": 23,
+                  "col": 16,
+                  "endLine": 23,
+                  "endCol": 26
+                }
+              ]
+            },
+            "line": 23,
+            "col": 16,
+            "endLine": 23,
+            "endCol": 36
+          },
+          "annotations": [],
+          "line": 23,
+          "col": 5,
+          "endLine": 23,
+          "endCol": 36
+        },
+        {
+          "k": "decl",
+          "name": "testUniqueId",
+          "value": {
+            "t": "expr",
+            "kind": "ElvisOperatorExpression",
+            "text": "?:",
+            "calls": [],
+            "line": 24,
+            "col": 44,
+            "endLine": 24,
+            "endCol": 46
+          },
+          "annotations": [],
+          "line": 24,
+          "col": 5,
+          "endLine": 24,
+          "endCol": 90
+        },
+        {
+          "k": "decl",
+          "name": "testDir",
+          "value": {
+            "t": "str",
+            "v": "/root/lib/integ_test/integ_test",
+            "line": 25,
+            "col": 19,
+            "endLine": 25,
+            "endCol": 52
+          },
+          "annotations": [],
+          "line": 25,
+          "col": 5,
+          "endLine": 25,
+          "endCol": 52
+        },
+        {
+          "k": "decl",
+          "name": "integTestCommand",
+          "value": {
+            "t": "expr",
+            "kind": "ElvisOperatorExpression",
+            "text": "?:",
+            "calls": [],
+            "line": 26,
+            "col": 52,
+            "endLine": 26,
+            "endCol": 54
+          },
+          "annotations": [],
+          "line": 26,
+          "col": 5,
+          "endLine": 26,
+          "endCol": 85
+        },
+        {
+          "k": "call",
+          "name": "pipeline",
+          "args": [],
+          "named": {},
+          "line": 27,
+          "col": 5,
+          "endLine": 253,
+          "endCol": 6,
+          "body": [
+            {
+              "k": "call",
+              "name": "agent",
+              "args": [],
+              "named": {},
+              "line": 28,
+              "col": 9,
+              "endLine": 28,
+              "endCol": 95,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "label",
+                  "args": [
+                    {
+                      "t": "expr",
+                      "kind": "ElvisOperatorExpression",
+                      "text": "?:",
+                      "calls": [],
+                      "line": 28,
+                      "col": 42,
+                      "endLine": 28,
+                      "endCol": 44
+                    }
+                  ],
+                  "named": {},
+                  "line": 28,
+                  "col": 17,
+                  "endLine": 28,
+                  "endCol": 94
+                }
+              ]
+            },
+            {
+              "k": "call",
+              "name": "parameters",
+              "args": [],
+              "named": {},
+              "line": 30,
+              "col": 9,
+              "endLine": 36,
+              "endCol": 10,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "string",
+                  "args": [],
+                  "named": {
+                    "name": {
+                      "t": "str",
+                      "v": "GIT_REPO_URL",
+                      "line": 31,
+                      "col": 26,
+                      "endLine": 31,
+                      "endCol": 40
+                    },
+                    "defaultValue": {
+                      "t": "str",
+                      "v": "https://github.com/opensearch-project/opensearch-migrations.git",
+                      "line": 31,
+                      "col": 56,
+                      "endLine": 31,
+                      "endCol": 121
+                    },
+                    "description": {
+                      "t": "str",
+                      "v": "Git repository url",
+                      "line": 31,
+                      "col": 136,
+                      "endLine": 31,
+                      "endCol": 156
+                    }
+                  },
+                  "line": 31,
+                  "col": 13,
+                  "endLine": 31,
+                  "endCol": 157
+                },
+                {
+                  "k": "call",
+                  "name": "string",
+                  "args": [],
+                  "named": {
+                    "name": {
+                      "t": "str",
+                      "v": "GIT_BRANCH",
+                      "line": 32,
+                      "col": 26,
+                      "endLine": 32,
+                      "endCol": 38
+                    },
+                    "defaultValue": {
+                      "t": "var",
+                      "name": "defaultGitBranch",
+                      "line": 32,
+                      "col": 54,
+                      "endLine": 32,
+                      "endCol": 70
+                    },
+                    "description": {
+                      "t": "str",
+                      "v": "Git branch to use for repository",
+                      "line": 32,
+                      "col": 85,
+                      "endLine": 32,
+                      "endCol": 119
+                    }
+                  },
+                  "line": 32,
+                  "col": 13,
+                  "endLine": 32,
+                  "endCol": 120
+                },
+                {
+                  "k": "call",
+                  "name": "string",
+                  "args": [],
+                  "named": {
+                    "name": {
+                      "t": "str",
+                      "v": "GIT_COMMIT",
+                      "line": 33,
+                      "col": 26,
+                      "endLine": 33,
+                      "endCol": 38
+                    },
+                    "defaultValue": {
+                      "t": "str",
+                      "v": "",
+                      "line": 33,
+                      "col": 54,
+                      "endLine": 33,
+                      "endCol": 56
+                    },
+                    "description": {
+                      "t": "str",
+                      "v": "(Optional) Specific commit to checkout after cloning branch",
+                      "line": 33,
+                      "col": 71,
+                      "endLine": 33,
+                      "endCol": 132
+                    }
+                  },
+                  "line": 33,
+                  "col": 13,
+                  "endLine": 33,
+                  "endCol": 133
+                },
+                {
+                  "k": "call",
+                  "name": "string",
+                  "args": [],
+                  "named": {
+                    "name": {
+                      "t": "str",
+                      "v": "STAGE",
+                      "line": 34,
+                      "col": 26,
+                      "endLine": 34,
+                      "endCol": 33
+                    },
+                    "defaultValue": {
+                      "t": "gstr",
+                      "v": "\"${defaultStageId}\"",
+                      "vars": [
+                        "{defaultStageId}"
+                      ],
+                      "calls": [],
+                      "line": 34,
+                      "col": 49,
+                      "endLine": 34,
+                      "endCol": 68
+                    },
+                    "description": {
+                      "t": "str",
+                      "v": "Stage name for deployment environment",
+                      "line": 34,
+                      "col": 83,
+                      "endLine": 34,
+                      "endCol": 122
+                    }
+                  },
+                  "line": 34,
+                  "col": 13,
+                  "endLine": 34,
+                  "endCol": 123
+                },
+                {
+                  "k": "call",
+                  "name": "string",
+                  "args": [],
+                  "named": {
+                    "name": {
+                      "t": "str",
+                      "v": "VERSION",
+                      "line": 35,
+                      "col": 26,
+                      "endLine": 35,
+                      "endCol": 35
+                    },
+                    "defaultValue": {
+                      "t": "str",
+                      "v": "",
+                      "line": 35,
+                      "col": 51,
+                      "endLine": 35,
+                      "endCol": 53
+                    },
+                    "description": {
+                      "t": "str",
+                      "v": "Release version to deploy (e.g. \"2.9.0\"). When set, checks out the release tag instead of GIT_BRANCH.",
+                      "line": 35,
+                      "col": 68,
+                      "endLine": 35,
+                      "endCol": 171
+                    }
+                  },
+                  "line": 35,
+                  "col": 13,
+                  "endLine": 35,
+                  "endCol": 172
+                }
+              ]
+            },
+            {
+              "k": "call",
+              "name": "options",
+              "args": [],
+              "named": {},
+              "line": 38,
+              "col": 9,
+              "endLine": 44,
+              "endCol": 10,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "lock",
+                  "args": [],
+                  "named": {
+                    "label": {
+                      "t": "prop",
+                      "text": "params.STAGE",
+                      "calls": [],
+                      "line": 40,
+                      "col": 25,
+                      "endLine": 40,
+                      "endCol": 37
+                    },
+                    "quantity": {
+                      "t": "num",
+                      "v": 1,
+                      "line": 40,
+                      "col": 49,
+                      "endLine": 40,
+                      "endCol": 50
+                    },
+                    "variable": {
+                      "t": "str",
+                      "v": "stage",
+                      "line": 40,
+                      "col": 62,
+                      "endLine": 40,
+                      "endCol": 69
+                    }
+                  },
+                  "line": 40,
+                  "col": 13,
+                  "endLine": 40,
+                  "endCol": 70
+                },
+                {
+                  "k": "call",
+                  "name": "timeout",
+                  "args": [],
+                  "named": {
+                    "time": {
+                      "t": "num",
+                      "v": 3,
+                      "line": 41,
+                      "col": 27,
+                      "endLine": 41,
+                      "endCol": 28
+                    },
+                    "unit": {
+                      "t": "str",
+                      "v": "HOURS",
+                      "line": 41,
+                      "col": 36,
+                      "endLine": 41,
+                      "endCol": 43
+                    }
+                  },
+                  "line": 41,
+                  "col": 13,
+                  "endLine": 41,
+                  "endCol": 44
+                },
+                {
+                  "k": "call",
+                  "name": "buildDiscarder",
+                  "args": [
+                    {
+                      "t": "call",
+                      "call": {
+                        "k": "call",
+                        "name": "logRotator",
+                        "args": [],
+                        "named": {
+                          "daysToKeepStr": {
+                            "t": "str",
+                            "v": "30",
+                            "line": 42,
+                            "col": 54,
+                            "endLine": 42,
+                            "endCol": 58
+                          }
+                        },
+                        "line": 42,
+                        "col": 28,
+                        "endLine": 42,
+                        "endCol": 59
+                      },
+                      "line": 42,
+                      "col": 28,
+                      "endLine": 42,
+                      "endCol": 59
+                    }
+                  ],
+                  "named": {},
+                  "line": 42,
+                  "col": 13,
+                  "endLine": 42,
+                  "endCol": 60
+                },
+                {
+                  "k": "call",
+                  "name": "skipDefaultCheckout",
+                  "args": [
+                    {
+                      "t": "bool",
+                      "v": true,
+                      "line": 43,
+                      "col": 33,
+                      "endLine": 43,
+                      "endCol": 37
+                    }
+                  ],
+                  "named": {},
+                  "line": 43,
+                  "col": 13,
+                  "endLine": 43,
+                  "endCol": 38
+                }
+              ]
+            },
+            {
+              "k": "call",
+              "name": "triggers",
+              "args": [],
+              "named": {},
+              "line": 46,
+              "col": 9,
+              "endLine": 60,
+              "endCol": 10,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "GenericTrigger",
+                  "args": [],
+                  "named": {
+                    "genericVariables": {
+                      "t": "list",
+                      "v": [
+                        {
+                          "t": "map",
+                          "v": {
+                            "key": {
+                              "t": "str",
+                              "v": "GIT_REPO_URL",
+                              "line": 49,
+                              "col": 35,
+                              "endLine": 49,
+                              "endCol": 49
+                            },
+                            "value": {
+                              "t": "str",
+                              "v": "$.GIT_REPO_URL",
+                              "line": 49,
+                              "col": 58,
+                              "endLine": 49,
+                              "endCol": 74
+                            }
+                          },
+                          "line": 49,
+                          "col": 29,
+                          "endLine": 49,
+                          "endCol": 75
+                        },
+                        {
+                          "t": "map",
+                          "v": {
+                            "key": {
+                              "t": "str",
+                              "v": "GIT_BRANCH",
+                              "line": 50,
+                              "col": 35,
+                              "endLine": 50,
+                              "endCol": 47
+                            },
+                            "value": {
+                              "t": "str",
+                              "v": "$.GIT_BRANCH",
+                              "line": 50,
+                              "col": 56,
+                              "endLine": 50,
+                              "endCol": 70
+                            }
+                          },
+                          "line": 50,
+                          "col": 29,
+                          "endLine": 50,
+                          "endCol": 71
+                        },
+                        {
+                          "t": "map",
+                          "v": {
+                            "key": {
+                              "t": "str",
+                              "v": "GIT_COMMIT",
+                              "line": 51,
+                              "col": 35,
+                              "endLine": 51,
+                              "endCol": 47
+                            },
+                            "value": {
+                              "t": "str",
+                              "v": "$.GIT_COMMIT",
+                              "line": 51,
+                              "col": 56,
+                              "endLine": 51,
+                              "endCol": 70
+                            }
+                          },
+                          "line": 51,
+                          "col": 29,
+                          "endLine": 51,
+                          "endCol": 71
+                        },
+                        {
+                          "t": "map",
+                          "v": {
+                            "key": {
+                              "t": "str",
+                              "v": "job_name",
+                              "line": 52,
+                              "col": 35,
+                              "endLine": 52,
+                              "endCol": 45
+                            },
+                            "value": {
+                              "t": "str",
+                              "v": "$.job_name",
+                              "line": 52,
+                              "col": 54,
+                              "endLine": 52,
+                              "endCol": 66
+                            }
+                          },
+                          "line": 52,
+                          "col": 29,
+                          "endLine": 53,
+                          "endCol": 21
+                        }
+                      ],
+                      "line": 48,
+                      "col": 39,
+                      "endLine": 53,
+                      "endCol": 22
+                    },
+                    "tokenCredentialId": {
+                      "t": "str",
+                      "v": "jenkins-migrations-generic-webhook-token",
+                      "line": 54,
+                      "col": 40,
+                      "endLine": 54,
+                      "endCol": 82
+                    },
+                    "causeString": {
+                      "t": "str",
+                      "v": "Triggered by PR on opensearch-migrations repository",
+                      "line": 55,
+                      "col": 34,
+                      "endLine": 55,
+                      "endCol": 87
+                    },
+                    "regexpFilterExpression": {
+                      "t": "gstr",
+                      "v": "\"^$jobName\\$\"",
+                      "vars": [
+                        "jobName"
+                      ],
+                      "calls": [],
+                      "line": 56,
+                      "col": 45,
+                      "endLine": 56,
+                      "endCol": 58
+                    },
+                    "regexpFilterText": {
+                      "t": "str",
+                      "v": "$job_name",
+                      "line": 57,
+                      "col": 39,
+                      "endLine": 57,
+                      "endCol": 51
+                    }
+                  },
+                  "line": 47,
+                  "col": 13,
+                  "endLine": 58,
+                  "endCol": 14
+                },
+                {
+                  "k": "call",
+                  "name": "cron",
+                  "args": [
+                    {
+                      "t": "call",
+                      "call": {
+                        "k": "call",
+                        "name": "periodicCron",
+                        "args": [
+                          {
+                            "t": "var",
+                            "name": "jobName",
+                            "line": 59,
+                            "col": 31,
+                            "endLine": 59,
+                            "endCol": 38
+                          }
+                        ],
+                        "named": {},
+                        "line": 59,
+                        "col": 18,
+                        "endLine": 59,
+                        "endCol": 39
+                      },
+                      "line": 59,
+                      "col": 18,
+                      "endLine": 59,
+                      "endCol": 39
+                    }
+                  ],
+                  "named": {},
+                  "line": 59,
+                  "col": 13,
+                  "endLine": 59,
+                  "endCol": 40
+                }
+              ]
+            },
+            {
+              "k": "call",
+              "name": "stages",
+              "args": [],
+              "named": {},
+              "line": 62,
+              "col": 9,
+              "endLine": 233,
+              "endCol": 10,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "stage",
+                  "args": [
+                    {
+                      "t": "str",
+                      "v": "Checkout",
+                      "line": 63,
+                      "col": 19,
+                      "endLine": 63,
+                      "endCol": 29
+                    }
+                  ],
+                  "named": {},
+                  "line": 63,
+                  "col": 13,
+                  "endLine": 85,
+                  "endCol": 14,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "steps",
+                      "args": [],
+                      "named": {},
+                      "line": 64,
+                      "col": 17,
+                      "endLine": 84,
+                      "endCol": 18,
+                      "body": [
+                        {
+                          "k": "call",
+                          "name": "script",
+                          "args": [],
+                          "named": {},
+                          "line": 65,
+                          "col": 21,
+                          "endLine": 83,
+                          "endCol": 22,
+                          "body": [
+                            {
+                              "k": "decl",
+                              "name": "checkoutBranch",
+                              "value": {
+                                "t": "expr",
+                                "kind": "TernaryExpression",
+                                "text": "?",
+                                "calls": [
+                                  {
+                                    "k": "call",
+                                    "name": "trim",
+                                    "args": [],
+                                    "named": {},
+                                    "line": 66,
+                                    "col": 46,
+                                    "endLine": 66,
+                                    "endCol": 69,
+                                    "receiver": "params.VERSION",
+                                    "safe": true
+                                  }
+                                ],
+                                "line": 66,
+                                "col": 69,
+                                "endLine": 66,
+                                "endCol": 70
+                              },
+                              "annotations": [],
+                              "line": 66,
+                              "col": 25,
+                              "endLine": 66,
+                              "endCol": 105
+                            },
+                            {
+                              "k": "assign",
+                              "op": "=",
+                              "target": "env.CHECKOUT_BRANCH ",
+                              "value": {
+                                "t": "var",
+                                "name": "checkoutBranch",
+                                "line": 67,
+                                "col": 47,
+                                "endLine": 67,
+                                "endCol": 61
+                              },
+                              "line": 67,
+                              "col": 25,
+                              "endLine": 67,
+                              "endCol": 61
+                            },
+                            {
+                              "k": "call",
+                              "name": "echo",
+                              "args": [
+                                {
+                                  "t": "gstr",
+                                  "v": "\"\"\"\n                            ================================================================\n                            Default Integration Pipeline\n                            ================================================================\n                            Git:                    ${params.GIT_REPO_URL} @ ${checkoutBranch}\n                            Stage:                  ${params.STAGE}\n                            Version:                ${params.VERSION ?: 'N/A (using GIT_BRANCH)'}\n                            ================================================================\n                        \"\"\"",
+                                  "vars": [
+                                    "{params.GIT_REPO_URL}",
+                                    "{checkoutBranch}",
+                                    "{params.STAGE}",
+                                    "{params.VERSION ?: 'N/A (using GIT_BRANCH)'}"
+                                  ],
+                                  "calls": [],
+                                  "line": 68,
+                                  "col": 30,
+                                  "endLine": 76,
+                                  "endCol": 28
+                                }
+                              ],
+                              "named": {},
+                              "line": 68,
+                              "col": 25,
+                              "endLine": 76,
+                              "endCol": 28
+                            },
+                            {
+                              "k": "if",
+                              "cond": "config.checkoutStep",
+                              "condCalls": [],
+                              "then": [
+                                {
+                                  "k": "call",
+                                  "name": "checkoutStep",
+                                  "args": [],
+                                  "named": {},
+                                  "line": 79,
+                                  "col": 29,
+                                  "endLine": 79,
+                                  "endCol": 50,
+                                  "receiver": "config"
+                                }
+                              ],
+                              "else": [
+                                {
+                                  "k": "call",
+                                  "name": "checkoutStep",
+                                  "args": [],
+                                  "named": {
+                                    "branch": {
+                                      "t": "var",
+                                      "name": "checkoutBranch",
+                                      "line": 81,
+                                      "col": 50,
+                                      "endLine": 81,
+                                      "endCol": 64
+                                    },
+                                    "repo": {
+                                      "t": "prop",
+                                      "text": "params.GIT_REPO_URL",
+                                      "calls": [],
+                                      "line": 81,
+                                      "col": 72,
+                                      "endLine": 81,
+                                      "endCol": 91
+                                    },
+                                    "commit": {
+                                      "t": "prop",
+                                      "text": "params.GIT_COMMIT",
+                                      "calls": [],
+                                      "line": 81,
+                                      "col": 101,
+                                      "endLine": 81,
+                                      "endCol": 118
+                                    }
+                                  },
+                                  "line": 81,
+                                  "col": 29,
+                                  "endLine": 81,
+                                  "endCol": 119
+                                }
+                              ],
+                              "line": 78,
+                              "col": 25,
+                              "endLine": 82,
+                              "endCol": 26
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "k": "call",
+                  "name": "stage",
+                  "args": [
+                    {
+                      "t": "str",
+                      "v": "Test Caller Identity",
+                      "line": 87,
+                      "col": 19,
+                      "endLine": 87,
+                      "endCol": 41
+                    }
+                  ],
+                  "named": {},
+                  "line": 87,
+                  "col": 13,
+                  "endLine": 98,
+                  "endCol": 14,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "steps",
+                      "args": [],
+                      "named": {},
+                      "line": 88,
+                      "col": 17,
+                      "endLine": 97,
+                      "endCol": 18,
+                      "body": [
+                        {
+                          "k": "call",
+                          "name": "script",
+                          "args": [],
+                          "named": {},
+                          "line": 89,
+                          "col": 21,
+                          "endLine": 96,
+                          "endCol": 22,
+                          "body": [
+                            {
+                              "k": "if",
+                              "cond": "config.awsIdentityCheckStep",
+                              "condCalls": [],
+                              "then": [
+                                {
+                                  "k": "call",
+                                  "name": "awsIdentityCheckStep",
+                                  "args": [],
+                                  "named": {},
+                                  "line": 92,
+                                  "col": 29,
+                                  "endLine": 92,
+                                  "endCol": 58,
+                                  "receiver": "config"
+                                }
+                              ],
+                              "else": [
+                                {
+                                  "k": "call",
+                                  "name": "sh",
+                                  "args": [
+                                    {
+                                      "t": "str",
+                                      "v": "aws sts get-caller-identity",
+                                      "line": 94,
+                                      "col": 32,
+                                      "endLine": 94,
+                                      "endCol": 61
+                                    }
+                                  ],
+                                  "named": {},
+                                  "line": 94,
+                                  "col": 29,
+                                  "endLine": 94,
+                                  "endCol": 61
+                                }
+                              ],
+                              "line": 91,
+                              "col": 25,
+                              "endLine": 95,
+                              "endCol": 26
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "k": "call",
+                  "name": "stage",
+                  "args": [
+                    {
+                      "t": "str",
+                      "v": "Setup E2E CDK Context",
+                      "line": 100,
+                      "col": 19,
+                      "endLine": 100,
+                      "endCol": 42
+                    }
+                  ],
+                  "named": {},
+                  "line": 100,
+                  "col": 13,
+                  "endLine": 114,
+                  "endCol": 14,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "steps",
+                      "args": [],
+                      "named": {},
+                      "line": 101,
+                      "col": 17,
+                      "endLine": 113,
+                      "endCol": 18,
+                      "body": [
+                        {
+                          "k": "call",
+                          "name": "script",
+                          "args": [],
+                          "named": {},
+                          "line": 102,
+                          "col": 21,
+                          "endLine": 112,
+                          "endCol": 22,
+                          "body": [
+                            {
+                              "k": "if",
+                              "cond": "config.cdkContextStep",
+                              "condCalls": [],
+                              "then": [
+                                {
+                                  "k": "call",
+                                  "name": "cdkContextStep",
+                                  "args": [],
+                                  "named": {},
+                                  "line": 105,
+                                  "col": 29,
+                                  "endLine": 105,
+                                  "endCol": 52,
+                                  "receiver": "config"
+                                }
+                              ],
+                              "else": [
+                                {
+                                  "k": "call",
+                                  "name": "writeFile",
+                                  "args": [],
+                                  "named": {
+                                    "file": {
+                                      "t": "gstr",
+                                      "v": "\"test/$source_context_file_name\"",
+                                      "vars": [
+                                        "source_context_file_name"
+                                      ],
+                                      "calls": [],
+                                      "line": 107,
+                                      "col": 46,
+                                      "endLine": 107,
+                                      "endCol": 78
+                                    },
+                                    "text": {
+                                      "t": "var",
+                                      "name": "sourceContext",
+                                      "line": 107,
+                                      "col": 86,
+                                      "endLine": 107,
+                                      "endCol": 99
+                                    }
+                                  },
+                                  "line": 107,
+                                  "col": 29,
+                                  "endLine": 107,
+                                  "endCol": 100
+                                },
+                                {
+                                  "k": "call",
+                                  "name": "sh",
+                                  "args": [
+                                    {
+                                      "t": "gstr",
+                                      "v": "\"echo 'Using source context file options: ' && cat test/$source_context_file_name\"",
+                                      "vars": [
+                                        "source_context_file_name"
+                                      ],
+                                      "calls": [],
+                                      "line": 108,
+                                      "col": 32,
+                                      "endLine": 108,
+                                      "endCol": 114
+                                    }
+                                  ],
+                                  "named": {},
+                                  "line": 108,
+                                  "col": 29,
+                                  "endLine": 108,
+                                  "endCol": 114
+                                },
+                                {
+                                  "k": "call",
+                                  "name": "writeFile",
+                                  "args": [],
+                                  "named": {
+                                    "file": {
+                                      "t": "gstr",
+                                      "v": "\"test/$migration_context_file_name\"",
+                                      "vars": [
+                                        "migration_context_file_name"
+                                      ],
+                                      "calls": [],
+                                      "line": 109,
+                                      "col": 46,
+                                      "endLine": 109,
+                                      "endCol": 81
+                                    },
+                                    "text": {
+                                      "t": "var",
+                                      "name": "migrationContext",
+                                      "line": 109,
+                                      "col": 89,
+                                      "endLine": 109,
+                                      "endCol": 105
+                                    }
+                                  },
+                                  "line": 109,
+                                  "col": 29,
+                                  "endLine": 109,
+                                  "endCol": 106
+                                },
+                                {
+                                  "k": "call",
+                                  "name": "sh",
+                                  "args": [
+                                    {
+                                      "t": "gstr",
+                                      "v": "\"echo 'Using migration context file options: ' && cat test/$migration_context_file_name\"",
+                                      "vars": [
+                                        "migration_context_file_name"
+                                      ],
+                                      "calls": [],
+                                      "line": 110,
+                                      "col": 32,
+                                      "endLine": 110,
+                                      "endCol": 120
+                                    }
+                                  ],
+                                  "named": {},
+                                  "line": 110,
+                                  "col": 29,
+                                  "endLine": 110,
+                                  "endCol": 120
+                                }
+                              ],
+                              "line": 104,
+                              "col": 25,
+                              "endLine": 111,
+                              "endCol": 26
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "k": "call",
+                  "name": "stage",
+                  "args": [
+                    {
+                      "t": "str",
+                      "v": "Build",
+                      "line": 116,
+                      "col": 19,
+                      "endLine": 116,
+                      "endCol": 26
+                    }
+                  ],
+                  "named": {},
+                  "line": 116,
+                  "col": 13,
+                  "endLine": 130,
+                  "endCol": 14,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "steps",
+                      "args": [],
+                      "named": {},
+                      "line": 117,
+                      "col": 17,
+                      "endLine": 129,
+                      "endCol": 18,
+                      "body": [
+                        {
+                          "k": "call",
+                          "name": "timeout",
+                          "args": [],
+                          "named": {
+                            "time": {
+                              "t": "num",
+                              "v": 1,
+                              "line": 118,
+                              "col": 35,
+                              "endLine": 118,
+                              "endCol": 36
+                            },
+                            "unit": {
+                              "t": "str",
+                              "v": "HOURS",
+                              "line": 118,
+                              "col": 44,
+                              "endLine": 118,
+                              "endCol": 51
+                            }
+                          },
+                          "line": 118,
+                          "col": 21,
+                          "endLine": 128,
+                          "endCol": 22,
+                          "body": [
+                            {
+                              "k": "call",
+                              "name": "script",
+                              "args": [],
+                              "named": {},
+                              "line": 119,
+                              "col": 25,
+                              "endLine": 127,
+                              "endCol": 26,
+                              "body": [
+                                {
+                                  "k": "call",
+                                  "name": "configureMavenCache",
+                                  "args": [],
+                                  "named": {},
+                                  "line": 120,
+                                  "col": 29,
+                                  "endLine": 120,
+                                  "endCol": 50
+                                },
+                                {
+                                  "k": "if",
+                                  "cond": "config.buildStep",
+                                  "condCalls": [],
+                                  "then": [
+                                    {
+                                      "k": "call",
+                                      "name": "buildStep",
+                                      "args": [],
+                                      "named": {},
+                                      "line": 123,
+                                      "col": 33,
+                                      "endLine": 123,
+                                      "endCol": 51,
+                                      "receiver": "config"
+                                    }
+                                  ],
+                                  "else": [
+                                    {
+                                      "k": "call",
+                                      "name": "sh",
+                                      "args": [
+                                        {
+                                          "t": "str",
+                                          "v": "./gradlew clean build -x test --no-daemon --stacktrace",
+                                          "line": 125,
+                                          "col": 36,
+                                          "endLine": 125,
+                                          "endCol": 92
+                                        }
+                                      ],
+                                      "named": {},
+                                      "line": 125,
+                                      "col": 33,
+                                      "endLine": 125,
+                                      "endCol": 92
+                                    }
+                                  ],
+                                  "line": 122,
+                                  "col": 29,
+                                  "endLine": 126,
+                                  "endCol": 30
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "k": "call",
+                  "name": "stage",
+                  "args": [
+                    {
+                      "t": "str",
+                      "v": "Pre-Deploy Cleanup",
+                      "line": 132,
+                      "col": 19,
+                      "endLine": 132,
+                      "endCol": 39
+                    }
+                  ],
+                  "named": {},
+                  "line": 132,
+                  "col": 13,
+                  "endLine": 155,
+                  "endCol": 14,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "when",
+                      "args": [],
+                      "named": {},
+                      "line": 133,
+                      "col": 17,
+                      "endLine": 135,
+                      "endCol": 18,
+                      "body": [
+                        {
+                          "k": "call",
+                          "name": "expression",
+                          "args": [],
+                          "named": {},
+                          "line": 134,
+                          "col": 21,
+                          "endLine": 134,
+                          "endCol": 64,
+                          "body": [
+                            {
+                              "k": "expr",
+                              "kind": "BinaryExpression",
+                              "text": "config.preDeployStep != null",
+                              "calls": [],
+                              "line": 134,
+                              "col": 34,
+                              "endLine": 134,
+                              "endCol": 63
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      "k": "call",
+                      "name": "steps",
+                      "args": [],
+                      "named": {},
+                      "line": 136,
+                      "col": 17,
+                      "endLine": 154,
+                      "endCol": 18,
+                      "body": [
+                        {
+                          "k": "call",
+                          "name": "timeout",
+                          "args": [],
+                          "named": {
+                            "time": {
+                              "t": "num",
+                              "v": 60,
+                              "line": 137,
+                              "col": 35,
+                              "endLine": 137,
+                              "endCol": 37
+                            },
+                            "unit": {
+                              "t": "str",
+                              "v": "MINUTES",
+                              "line": 137,
+                              "col": 45,
+                              "endLine": 137,
+                              "endCol": 54
+                            }
+                          },
+                          "line": 137,
+                          "col": 21,
+                          "endLine": 153,
+                          "endCol": 22,
+                          "body": [
+                            {
+                              "k": "call",
+                              "name": "dir",
+                              "args": [
+                                {
+                                  "t": "str",
+                                  "v": "test",
+                                  "line": 138,
+                                  "col": 29,
+                                  "endLine": 138,
+                                  "endCol": 35
+                                }
+                              ],
+                              "named": {},
+                              "line": 138,
+                              "col": 25,
+                              "endLine": 152,
+                              "endCol": 26,
+                              "body": [
+                                {
+                                  "k": "call",
+                                  "name": "script",
+                                  "args": [],
+                                  "named": {},
+                                  "line": 139,
+                                  "col": 29,
+                                  "endLine": 151,
+                                  "endCol": 30,
+                                  "body": [
+                                    {
+                                      "k": "call",
+                                      "name": "withCredentials",
+                                      "args": [
+                                        {
+                                          "t": "list",
+                                          "v": [
+                                            {
+                                              "t": "call",
+                                              "call": {
+                                                "k": "call",
+                                                "name": "string",
+                                                "args": [],
+                                                "named": {
+                                                  "credentialsId": {
+                                                    "t": "str",
+                                                    "v": "migrations-test-account-id",
+                                                    "line": 140,
+                                                    "col": 72,
+                                                    "endLine": 140,
+                                                    "endCol": 100
+                                                  },
+                                                  "variable": {
+                                                    "t": "str",
+                                                    "v": "MIGRATIONS_TEST_ACCOUNT_ID",
+                                                    "line": 140,
+                                                    "col": 112,
+                                                    "endLine": 140,
+                                                    "endCol": 140
+                                                  }
+                                                },
+                                                "line": 140,
+                                                "col": 50,
+                                                "endLine": 140,
+                                                "endCol": 141
+                                              },
+                                              "line": 140,
+                                              "col": 50,
+                                              "endLine": 140,
+                                              "endCol": 141
+                                            }
+                                          ],
+                                          "line": 140,
+                                          "col": 49,
+                                          "endLine": 140,
+                                          "endCol": 142
+                                        }
+                                      ],
+                                      "named": {},
+                                      "line": 140,
+                                      "col": 33,
+                                      "endLine": 150,
+                                      "endCol": 34,
+                                      "body": [
+                                        {
+                                          "k": "call",
+                                          "name": "withAWS",
+                                          "args": [],
+                                          "named": {
+                                            "role": {
+                                              "t": "str",
+                                              "v": "JenkinsDeploymentRole",
+                                              "line": 141,
+                                              "col": 51,
+                                              "endLine": 141,
+                                              "endCol": 74
+                                            },
+                                            "roleAccount": {
+                                              "t": "gstr",
+                                              "v": "\"${MIGRATIONS_TEST_ACCOUNT_ID}\"",
+                                              "vars": [
+                                                "{MIGRATIONS_TEST_ACCOUNT_ID}"
+                                              ],
+                                              "calls": [],
+                                              "line": 141,
+                                              "col": 89,
+                                              "endLine": 141,
+                                              "endCol": 120
+                                            },
+                                            "duration": {
+                                              "t": "num",
+                                              "v": 5400,
+                                              "line": 141,
+                                              "col": 132,
+                                              "endLine": 141,
+                                              "endCol": 136
+                                            },
+                                            "roleSessionName": {
+                                              "t": "str",
+                                              "v": "jenkins-session",
+                                              "line": 141,
+                                              "col": 155,
+                                              "endLine": 141,
+                                              "endCol": 172
+                                            }
+                                          },
+                                          "line": 141,
+                                          "col": 37,
+                                          "endLine": 149,
+                                          "endCol": 38,
+                                          "body": [
+                                            {
+                                              "k": "call",
+                                              "name": "preDeployStep",
+                                              "args": [],
+                                              "named": {
+                                                "stage": {
+                                                  "t": "var",
+                                                  "name": "stage",
+                                                  "line": 143,
+                                                  "col": 52,
+                                                  "endLine": 143,
+                                                  "endCol": 57
+                                                },
+                                                "sourceContextFileName": {
+                                                  "t": "var",
+                                                  "name": "source_context_file_name",
+                                                  "line": 144,
+                                                  "col": 68,
+                                                  "endLine": 144,
+                                                  "endCol": 92
+                                                },
+                                                "migrationContextFileName": {
+                                                  "t": "var",
+                                                  "name": "migration_context_file_name",
+                                                  "line": 145,
+                                                  "col": 71,
+                                                  "endLine": 145,
+                                                  "endCol": 98
+                                                },
+                                                "sourceContextId": {
+                                                  "t": "var",
+                                                  "name": "source_context_id",
+                                                  "line": 146,
+                                                  "col": 62,
+                                                  "endLine": 146,
+                                                  "endCol": 79
+                                                },
+                                                "migrationContextId": {
+                                                  "t": "var",
+                                                  "name": "migration_context_id",
+                                                  "line": 147,
+                                                  "col": 65,
+                                                  "endLine": 148,
+                                                  "endCol": 41
+                                                }
+                                              },
+                                              "line": 142,
+                                              "col": 41,
+                                              "endLine": 148,
+                                              "endCol": 42,
+                                              "receiver": "config"
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "k": "call",
+                  "name": "stage",
+                  "args": [
+                    {
+                      "t": "str",
+                      "v": "Deploy",
+                      "line": 157,
+                      "col": 19,
+                      "endLine": 157,
+                      "endCol": 27
+                    }
+                  ],
+                  "named": {},
+                  "line": 157,
+                  "col": 13,
+                  "endLine": 184,
+                  "endCol": 14,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "steps",
+                      "args": [],
+                      "named": {},
+                      "line": 158,
+                      "col": 17,
+                      "endLine": 183,
+                      "endCol": 18,
+                      "body": [
+                        {
+                          "k": "call",
+                          "name": "timeout",
+                          "args": [],
+                          "named": {
+                            "time": {
+                              "t": "num",
+                              "v": 90,
+                              "line": 159,
+                              "col": 35,
+                              "endLine": 159,
+                              "endCol": 37
+                            },
+                            "unit": {
+                              "t": "str",
+                              "v": "MINUTES",
+                              "line": 159,
+                              "col": 45,
+                              "endLine": 159,
+                              "endCol": 54
+                            }
+                          },
+                          "line": 159,
+                          "col": 21,
+                          "endLine": 182,
+                          "endCol": 22,
+                          "body": [
+                            {
+                              "k": "call",
+                              "name": "dir",
+                              "args": [
+                                {
+                                  "t": "str",
+                                  "v": "test",
+                                  "line": 160,
+                                  "col": 29,
+                                  "endLine": 160,
+                                  "endCol": 35
+                                }
+                              ],
+                              "named": {},
+                              "line": 160,
+                              "col": 25,
+                              "endLine": 181,
+                              "endCol": 26,
+                              "body": [
+                                {
+                                  "k": "call",
+                                  "name": "script",
+                                  "args": [],
+                                  "named": {},
+                                  "line": 161,
+                                  "col": 29,
+                                  "endLine": 180,
+                                  "endCol": 30,
+                                  "body": [
+                                    {
+                                      "k": "if",
+                                      "cond": "config.deployStep",
+                                      "condCalls": [],
+                                      "then": [
+                                        {
+                                          "k": "call",
+                                          "name": "deployStep",
+                                          "args": [],
+                                          "named": {},
+                                          "line": 164,
+                                          "col": 37,
+                                          "endLine": 164,
+                                          "endCol": 56,
+                                          "receiver": "config"
+                                        }
+                                      ],
+                                      "else": [
+                                        {
+                                          "k": "call",
+                                          "name": "echo",
+                                          "args": [
+                                            {
+                                              "t": "gstr",
+                                              "v": "\"Acquired deployment stage: ${stage}\"",
+                                              "vars": [
+                                                "{stage}"
+                                              ],
+                                              "calls": [],
+                                              "line": 166,
+                                              "col": 42,
+                                              "endLine": 166,
+                                              "endCol": 79
+                                            }
+                                          ],
+                                          "named": {},
+                                          "line": 166,
+                                          "col": 37,
+                                          "endLine": 166,
+                                          "endCol": 79
+                                        },
+                                        {
+                                          "k": "decl",
+                                          "name": "baseCommand",
+                                          "value": {
+                                            "t": "concat",
+                                            "parts": [
+                                              {
+                                                "t": "concat",
+                                                "parts": [
+                                                  {
+                                                    "t": "concat",
+                                                    "parts": [
+                                                      {
+                                                        "t": "concat",
+                                                        "parts": [
+                                                          {
+                                                            "t": "gstr",
+                                                            "v": "\"./awsE2ESolutionSetup.sh --source-context-file './$source_context_file_name' \" ",
+                                                            "vars": [
+                                                              "source_context_file_name"
+                                                            ],
+                                                            "calls": [],
+                                                            "line": 167,
+                                                            "col": 55,
+                                                            "endLine": 167,
+                                                            "endCol": 135
+                                                          },
+                                                          {
+                                                            "t": "gstr",
+                                                            "v": "\"--migration-context-file './$migration_context_file_name' \" ",
+                                                            "vars": [
+                                                              "migration_context_file_name"
+                                                            ],
+                                                            "calls": [],
+                                                            "line": 168,
+                                                            "col": 45,
+                                                            "endLine": 168,
+                                                            "endCol": 106
+                                                          }
+                                                        ],
+                                                        "line": 167,
+                                                        "col": 135,
+                                                        "endLine": 167,
+                                                        "endCol": 136
+                                                      },
+                                                      {
+                                                        "t": "gstr",
+                                                        "v": "\"--source-context-id $source_context_id \" ",
+                                                        "vars": [
+                                                          "source_context_id"
+                                                        ],
+                                                        "calls": [],
+                                                        "line": 169,
+                                                        "col": 45,
+                                                        "endLine": 169,
+                                                        "endCol": 87
+                                                      }
+                                                    ],
+                                                    "line": 168,
+                                                    "col": 106,
+                                                    "endLine": 168,
+                                                    "endCol": 107
+                                                  },
+                                                  {
+                                                    "t": "gstr",
+                                                    "v": "\"--migration-context-id $migration_context_id \" ",
+                                                    "vars": [
+                                                      "migration_context_id"
+                                                    ],
+                                                    "calls": [],
+                                                    "line": 170,
+                                                    "col": 45,
+                                                    "endLine": 170,
+                                                    "endCol": 93
+                                                  }
+                                                ],
+                                                "line": 169,
+                                                "col": 87,
+                                                "endLine": 169,
+                                                "endCol": 88
+                                              },
+                                              {
+                                                "t": "gstr",
+                                                "v": "\"--stage ${stage}\"",
+                                                "vars": [
+                                                  "{stage}"
+                                                ],
+                                                "calls": [],
+                                                "line": 171,
+                                                "col": 45,
+                                                "endLine": 171,
+                                                "endCol": 63
+                                              }
+                                            ],
+                                            "line": 170,
+                                            "col": 93,
+                                            "endLine": 170,
+                                            "endCol": 94
+                                          },
+                                          "annotations": [],
+                                          "line": 167,
+                                          "col": 37,
+                                          "endLine": 171,
+                                          "endCol": 63
+                                        },
+                                        {
+                                          "k": "call",
+                                          "name": "withCredentials",
+                                          "args": [
+                                            {
+                                              "t": "list",
+                                              "v": [
+                                                {
+                                                  "t": "call",
+                                                  "call": {
+                                                    "k": "call",
+                                                    "name": "string",
+                                                    "args": [],
+                                                    "named": {
+                                                      "credentialsId": {
+                                                        "t": "str",
+                                                        "v": "migrations-test-account-id",
+                                                        "line": 172,
+                                                        "col": 76,
+                                                        "endLine": 172,
+                                                        "endCol": 104
+                                                      },
+                                                      "variable": {
+                                                        "t": "str",
+                                                        "v": "MIGRATIONS_TEST_ACCOUNT_ID",
+                                                        "line": 172,
+                                                        "col": 116,
+                                                        "endLine": 172,
+                                                        "endCol": 144
+                                                      }
+                                                    },
+                                                    "line": 172,
+                                                    "col": 54,
+                                                    "endLine": 172,
+                                                    "endCol": 145
+                                                  },
+                                                  "line": 172,
+                                                  "col": 54,
+                                                  "endLine": 172,
+                                                  "endCol": 145
+                                                }
+                                              ],
+                                              "line": 172,
+                                              "col": 53,
+                                              "endLine": 172,
+                                              "endCol": 146
+                                            }
+                                          ],
+                                          "named": {},
+                                          "line": 172,
+                                          "col": 37,
+                                          "endLine": 178,
+                                          "endCol": 38,
+                                          "body": [
+                                            {
+                                              "k": "call",
+                                              "name": "withAWS",
+                                              "args": [],
+                                              "named": {
+                                                "role": {
+                                                  "t": "str",
+                                                  "v": "JenkinsDeploymentRole",
+                                                  "line": 173,
+                                                  "col": 55,
+                                                  "endLine": 173,
+                                                  "endCol": 78
+                                                },
+                                                "roleAccount": {
+                                                  "t": "gstr",
+                                                  "v": "\"${MIGRATIONS_TEST_ACCOUNT_ID}\"",
+                                                  "vars": [
+                                                    "{MIGRATIONS_TEST_ACCOUNT_ID}"
+                                                  ],
+                                                  "calls": [],
+                                                  "line": 173,
+                                                  "col": 93,
+                                                  "endLine": 173,
+                                                  "endCol": 124
+                                                },
+                                                "duration": {
+                                                  "t": "num",
+                                                  "v": 5400,
+                                                  "line": 173,
+                                                  "col": 136,
+                                                  "endLine": 173,
+                                                  "endCol": 140
+                                                },
+                                                "roleSessionName": {
+                                                  "t": "str",
+                                                  "v": "jenkins-session",
+                                                  "line": 173,
+                                                  "col": 159,
+                                                  "endLine": 173,
+                                                  "endCol": 176
+                                                }
+                                              },
+                                              "line": 173,
+                                              "col": 41,
+                                              "endLine": 177,
+                                              "endCol": 42,
+                                              "body": [
+                                                {
+                                                  "k": "call",
+                                                  "name": "withEnv",
+                                                  "args": [
+                                                    {
+                                                      "t": "list",
+                                                      "v": [
+                                                        {
+                                                          "t": "gstr",
+                                                          "v": "\"DOCKER_BUILD_RETRIES=${config.dockerBuildRetries ?: 3}\"",
+                                                          "vars": [
+                                                            "{config.dockerBuildRetries ?: 3}"
+                                                          ],
+                                                          "calls": [],
+                                                          "line": 174,
+                                                          "col": 54,
+                                                          "endLine": 174,
+                                                          "endCol": 110
+                                                        }
+                                                      ],
+                                                      "line": 174,
+                                                      "col": 53,
+                                                      "endLine": 174,
+                                                      "endCol": 111
+                                                    }
+                                                  ],
+                                                  "named": {},
+                                                  "line": 174,
+                                                  "col": 45,
+                                                  "endLine": 176,
+                                                  "endCol": 46,
+                                                  "body": [
+                                                    {
+                                                      "k": "call",
+                                                      "name": "sh",
+                                                      "args": [
+                                                        {
+                                                          "t": "var",
+                                                          "name": "baseCommand",
+                                                          "line": 175,
+                                                          "col": 52,
+                                                          "endLine": 175,
+                                                          "endCol": 63
+                                                        }
+                                                      ],
+                                                      "named": {},
+                                                      "line": 175,
+                                                      "col": 49,
+                                                      "endLine": 175,
+                                                      "endCol": 63
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ],
+                                      "line": 163,
+                                      "col": 33,
+                                      "endLine": 179,
+                                      "endCol": 34
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "k": "call",
+                  "name": "stage",
+                  "args": [
+                    {
+                      "t": "str",
+                      "v": "Pre-Integ Test Cleanup",
+                      "line": 186,
+                      "col": 19,
+                      "endLine": 186,
+                      "endCol": 43
+                    }
+                  ],
+                  "named": {},
+                  "line": 186,
+                  "col": 13,
+                  "endLine": 202,
+                  "endCol": 14,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "steps",
+                      "args": [],
+                      "named": {},
+                      "line": 187,
+                      "col": 17,
+                      "endLine": 201,
+                      "endCol": 18,
+                      "body": [
+                        {
+                          "k": "call",
+                          "name": "timeout",
+                          "args": [],
+                          "named": {
+                            "time": {
+                              "t": "num",
+                              "v": 10,
+                              "line": 188,
+                              "col": 35,
+                              "endLine": 188,
+                              "endCol": 37
+                            },
+                            "unit": {
+                              "t": "str",
+                              "v": "MINUTES",
+                              "line": 188,
+                              "col": 45,
+                              "endLine": 188,
+                              "endCol": 54
+                            }
+                          },
+                          "line": 188,
+                          "col": 21,
+                          "endLine": 200,
+                          "endCol": 22,
+                          "body": [
+                            {
+                              "k": "call",
+                              "name": "dir",
+                              "args": [
+                                {
+                                  "t": "str",
+                                  "v": "test",
+                                  "line": 189,
+                                  "col": 29,
+                                  "endLine": 189,
+                                  "endCol": 35
+                                }
+                              ],
+                              "named": {},
+                              "line": 189,
+                              "col": 25,
+                              "endLine": 199,
+                              "endCol": 26,
+                              "body": [
+                                {
+                                  "k": "call",
+                                  "name": "script",
+                                  "args": [],
+                                  "named": {},
+                                  "line": 190,
+                                  "col": 29,
+                                  "endLine": 198,
+                                  "endCol": 30,
+                                  "body": [
+                                    {
+                                      "k": "if",
+                                      "cond": "config.preIntegTestStep",
+                                      "condCalls": [],
+                                      "then": [
+                                        {
+                                          "k": "call",
+                                          "name": "withCredentials",
+                                          "args": [
+                                            {
+                                              "t": "list",
+                                              "v": [
+                                                {
+                                                  "t": "call",
+                                                  "call": {
+                                                    "k": "call",
+                                                    "name": "string",
+                                                    "args": [],
+                                                    "named": {
+                                                      "credentialsId": {
+                                                        "t": "str",
+                                                        "v": "migrations-test-account-id",
+                                                        "line": 192,
+                                                        "col": 76,
+                                                        "endLine": 192,
+                                                        "endCol": 104
+                                                      },
+                                                      "variable": {
+                                                        "t": "str",
+                                                        "v": "MIGRATIONS_TEST_ACCOUNT_ID",
+                                                        "line": 192,
+                                                        "col": 116,
+                                                        "endLine": 192,
+                                                        "endCol": 144
+                                                      }
+                                                    },
+                                                    "line": 192,
+                                                    "col": 54,
+                                                    "endLine": 192,
+                                                    "endCol": 145
+                                                  },
+                                                  "line": 192,
+                                                  "col": 54,
+                                                  "endLine": 192,
+                                                  "endCol": 145
+                                                }
+                                              ],
+                                              "line": 192,
+                                              "col": 53,
+                                              "endLine": 192,
+                                              "endCol": 146
+                                            }
+                                          ],
+                                          "named": {},
+                                          "line": 192,
+                                          "col": 37,
+                                          "endLine": 196,
+                                          "endCol": 38,
+                                          "body": [
+                                            {
+                                              "k": "call",
+                                              "name": "withAWS",
+                                              "args": [],
+                                              "named": {
+                                                "role": {
+                                                  "t": "str",
+                                                  "v": "JenkinsDeploymentRole",
+                                                  "line": 193,
+                                                  "col": 55,
+                                                  "endLine": 193,
+                                                  "endCol": 78
+                                                },
+                                                "roleAccount": {
+                                                  "t": "gstr",
+                                                  "v": "\"${MIGRATIONS_TEST_ACCOUNT_ID}\"",
+                                                  "vars": [
+                                                    "{MIGRATIONS_TEST_ACCOUNT_ID}"
+                                                  ],
+                                                  "calls": [],
+                                                  "line": 193,
+                                                  "col": 93,
+                                                  "endLine": 193,
+                                                  "endCol": 124
+                                                },
+                                                "duration": {
+                                                  "t": "num",
+                                                  "v": 3600,
+                                                  "line": 193,
+                                                  "col": 136,
+                                                  "endLine": 193,
+                                                  "endCol": 140
+                                                },
+                                                "roleSessionName": {
+                                                  "t": "str",
+                                                  "v": "jenkins-session",
+                                                  "line": 193,
+                                                  "col": 159,
+                                                  "endLine": 193,
+                                                  "endCol": 176
+                                                }
+                                              },
+                                              "line": 193,
+                                              "col": 41,
+                                              "endLine": 195,
+                                              "endCol": 42,
+                                              "body": [
+                                                {
+                                                  "k": "call",
+                                                  "name": "preIntegTestStep",
+                                                  "args": [
+                                                    {
+                                                      "t": "var",
+                                                      "name": "stage",
+                                                      "line": 194,
+                                                      "col": 69,
+                                                      "endLine": 194,
+                                                      "endCol": 74
+                                                    }
+                                                  ],
+                                                  "named": {},
+                                                  "line": 194,
+                                                  "col": 45,
+                                                  "endLine": 194,
+                                                  "endCol": 75,
+                                                  "receiver": "config"
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ],
+                                      "else": [],
+                                      "line": 191,
+                                      "col": 33,
+                                      "endLine": 197,
+                                      "endCol": 34
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "k": "call",
+                  "name": "stage",
+                  "args": [
+                    {
+                      "t": "str",
+                      "v": "Integ Tests",
+                      "line": 204,
+                      "col": 19,
+                      "endLine": 204,
+                      "endCol": 32
+                    }
+                  ],
+                  "named": {},
+                  "line": 204,
+                  "col": 13,
+                  "endLine": 232,
+                  "endCol": 14,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "steps",
+                      "args": [],
+                      "named": {},
+                      "line": 205,
+                      "col": 17,
+                      "endLine": 231,
+                      "endCol": 18,
+                      "body": [
+                        {
+                          "k": "call",
+                          "name": "timeout",
+                          "args": [],
+                          "named": {
+                            "time": {
+                              "t": "num",
+                              "v": 1,
+                              "line": 206,
+                              "col": 35,
+                              "endLine": 206,
+                              "endCol": 36
+                            },
+                            "unit": {
+                              "t": "str",
+                              "v": "HOURS",
+                              "line": 206,
+                              "col": 44,
+                              "endLine": 206,
+                              "endCol": 51
+                            }
+                          },
+                          "line": 206,
+                          "col": 21,
+                          "endLine": 230,
+                          "endCol": 22,
+                          "body": [
+                            {
+                              "k": "call",
+                              "name": "dir",
+                              "args": [
+                                {
+                                  "t": "str",
+                                  "v": "test",
+                                  "line": 207,
+                                  "col": 29,
+                                  "endLine": 207,
+                                  "endCol": 35
+                                }
+                              ],
+                              "named": {},
+                              "line": 207,
+                              "col": 25,
+                              "endLine": 229,
+                              "endCol": 26,
+                              "body": [
+                                {
+                                  "k": "call",
+                                  "name": "script",
+                                  "args": [],
+                                  "named": {},
+                                  "line": 208,
+                                  "col": 29,
+                                  "endLine": 228,
+                                  "endCol": 30,
+                                  "body": [
+                                    {
+                                      "k": "if",
+                                      "cond": "config.integTestStep",
+                                      "condCalls": [],
+                                      "then": [
+                                        {
+                                          "k": "call",
+                                          "name": "integTestStep",
+                                          "args": [],
+                                          "named": {},
+                                          "line": 211,
+                                          "col": 37,
+                                          "endLine": 211,
+                                          "endCol": 59,
+                                          "receiver": "config"
+                                        }
+                                      ],
+                                      "else": [
+                                        {
+                                          "k": "decl",
+                                          "name": "test_result_file",
+                                          "value": {
+                                            "t": "gstr",
+                                            "v": "\"${testDir}/reports/${testUniqueId}/report.xml\"",
+                                            "vars": [
+                                              "{testDir}",
+                                              "{testUniqueId}"
+                                            ],
+                                            "calls": [],
+                                            "line": 213,
+                                            "col": 60,
+                                            "endLine": 213,
+                                            "endCol": 107
+                                          },
+                                          "annotations": [],
+                                          "line": 213,
+                                          "col": 37,
+                                          "endLine": 213,
+                                          "endCol": 107
+                                        },
+                                        {
+                                          "k": "decl",
+                                          "name": "populatedIntegTestCommand",
+                                          "value": {
+                                            "t": "call",
+                                            "call": {
+                                              "k": "call",
+                                              "name": "replaceAll",
+                                              "args": [
+                                                {
+                                                  "t": "str",
+                                                  "v": "<STAGE>",
+                                                  "line": 214,
+                                                  "col": 97,
+                                                  "endLine": 214,
+                                                  "endCol": 106
+                                                },
+                                                {
+                                                  "t": "var",
+                                                  "name": "stage",
+                                                  "line": 214,
+                                                  "col": 108,
+                                                  "endLine": 214,
+                                                  "endCol": 113
+                                                }
+                                              ],
+                                              "named": {},
+                                              "line": 214,
+                                              "col": 69,
+                                              "endLine": 214,
+                                              "endCol": 114,
+                                              "receiver": "integTestCommand"
+                                            },
+                                            "line": 214,
+                                            "col": 69,
+                                            "endLine": 214,
+                                            "endCol": 114
+                                          },
+                                          "annotations": [],
+                                          "line": 214,
+                                          "col": 37,
+                                          "endLine": 214,
+                                          "endCol": 114
+                                        },
+                                        {
+                                          "k": "decl",
+                                          "name": "command",
+                                          "value": {
+                                            "t": "concat",
+                                            "parts": [
+                                              {
+                                                "t": "concat",
+                                                "parts": [
+                                                  {
+                                                    "t": "concat",
+                                                    "parts": [
+                                                      {
+                                                        "t": "concat",
+                                                        "parts": [
+                                                          {
+                                                            "t": "gstr",
+                                                            "v": "\"pipenv run pytest --log-file=${testDir}/reports/${testUniqueId}/pytest.log \" ",
+                                                            "vars": [
+                                                              "{testDir}",
+                                                              "{testUniqueId}"
+                                                            ],
+                                                            "calls": [],
+                                                            "line": 215,
+                                                            "col": 51,
+                                                            "endLine": 215,
+                                                            "endCol": 129
+                                                          },
+                                                          {
+                                                            "t": "gstr",
+                                                            "v": "\"--junitxml=${test_result_file} ${populatedIntegTestCommand} \" ",
+                                                            "vars": [
+                                                              "{test_result_file}",
+                                                              "{populatedIntegTestCommand}"
+                                                            ],
+                                                            "calls": [],
+                                                            "line": 216,
+                                                            "col": 45,
+                                                            "endLine": 216,
+                                                            "endCol": 108
+                                                          }
+                                                        ],
+                                                        "line": 215,
+                                                        "col": 129,
+                                                        "endLine": 215,
+                                                        "endCol": 130
+                                                      },
+                                                      {
+                                                        "t": "gstr",
+                                                        "v": "\"--unique_id ${testUniqueId} \" ",
+                                                        "vars": [
+                                                          "{testUniqueId}"
+                                                        ],
+                                                        "calls": [],
+                                                        "line": 217,
+                                                        "col": 45,
+                                                        "endLine": 217,
+                                                        "endCol": 76
+                                                      }
+                                                    ],
+                                                    "line": 216,
+                                                    "col": 108,
+                                                    "endLine": 216,
+                                                    "endCol": 109
+                                                  },
+                                                  {
+                                                    "t": "gstr",
+                                                    "v": "\"--stage ${stage} \" ",
+                                                    "vars": [
+                                                      "{stage}"
+                                                    ],
+                                                    "calls": [],
+                                                    "line": 218,
+                                                    "col": 45,
+                                                    "endLine": 218,
+                                                    "endCol": 65
+                                                  }
+                                                ],
+                                                "line": 217,
+                                                "col": 76,
+                                                "endLine": 217,
+                                                "endCol": 77
+                                              },
+                                              {
+                                                "t": "str",
+                                                "v": "-s",
+                                                "line": 219,
+                                                "col": 45,
+                                                "endLine": 219,
+                                                "endCol": 49
+                                              }
+                                            ],
+                                            "line": 218,
+                                            "col": 65,
+                                            "endLine": 218,
+                                            "endCol": 66
+                                          },
+                                          "annotations": [],
+                                          "line": 215,
+                                          "col": 37,
+                                          "endLine": 219,
+                                          "endCol": 49
+                                        },
+                                        {
+                                          "k": "call",
+                                          "name": "withCredentials",
+                                          "args": [
+                                            {
+                                              "t": "list",
+                                              "v": [
+                                                {
+                                                  "t": "call",
+                                                  "call": {
+                                                    "k": "call",
+                                                    "name": "string",
+                                                    "args": [],
+                                                    "named": {
+                                                      "credentialsId": {
+                                                        "t": "str",
+                                                        "v": "migrations-test-account-id",
+                                                        "line": 220,
+                                                        "col": 76,
+                                                        "endLine": 220,
+                                                        "endCol": 104
+                                                      },
+                                                      "variable": {
+                                                        "t": "str",
+                                                        "v": "MIGRATIONS_TEST_ACCOUNT_ID",
+                                                        "line": 220,
+                                                        "col": 116,
+                                                        "endLine": 220,
+                                                        "endCol": 144
+                                                      }
+                                                    },
+                                                    "line": 220,
+                                                    "col": 54,
+                                                    "endLine": 220,
+                                                    "endCol": 145
+                                                  },
+                                                  "line": 220,
+                                                  "col": 54,
+                                                  "endLine": 220,
+                                                  "endCol": 145
+                                                }
+                                              ],
+                                              "line": 220,
+                                              "col": 53,
+                                              "endLine": 220,
+                                              "endCol": 146
+                                            }
+                                          ],
+                                          "named": {},
+                                          "line": 220,
+                                          "col": 37,
+                                          "endLine": 226,
+                                          "endCol": 38,
+                                          "body": [
+                                            {
+                                              "k": "call",
+                                              "name": "withAWS",
+                                              "args": [],
+                                              "named": {
+                                                "role": {
+                                                  "t": "str",
+                                                  "v": "JenkinsDeploymentRole",
+                                                  "line": 221,
+                                                  "col": 55,
+                                                  "endLine": 221,
+                                                  "endCol": 78
+                                                },
+                                                "roleAccount": {
+                                                  "t": "gstr",
+                                                  "v": "\"${MIGRATIONS_TEST_ACCOUNT_ID}\"",
+                                                  "vars": [
+                                                    "{MIGRATIONS_TEST_ACCOUNT_ID}"
+                                                  ],
+                                                  "calls": [],
+                                                  "line": 221,
+                                                  "col": 93,
+                                                  "endLine": 221,
+                                                  "endCol": 124
+                                                },
+                                                "duration": {
+                                                  "t": "num",
+                                                  "v": 3600,
+                                                  "line": 221,
+                                                  "col": 136,
+                                                  "endLine": 221,
+                                                  "endCol": 140
+                                                },
+                                                "roleSessionName": {
+                                                  "t": "str",
+                                                  "v": "jenkins-session",
+                                                  "line": 221,
+                                                  "col": 159,
+                                                  "endLine": 221,
+                                                  "endCol": 176
+                                                }
+                                              },
+                                              "line": 221,
+                                              "col": 41,
+                                              "endLine": 225,
+                                              "endCol": 42,
+                                              "body": [
+                                                {
+                                                  "k": "call",
+                                                  "name": "sh",
+                                                  "args": [
+                                                    {
+                                                      "t": "concat",
+                                                      "parts": [
+                                                        {
+                                                          "t": "concat",
+                                                          "parts": [
+                                                            {
+                                                              "t": "gstr",
+                                                              "v": "\"./awsRunIntegTests.sh --command '${command}' \" ",
+                                                              "vars": [
+                                                                "{command}"
+                                                              ],
+                                                              "calls": [],
+                                                              "line": 222,
+                                                              "col": 48,
+                                                              "endLine": 222,
+                                                              "endCol": 96
+                                                            },
+                                                            {
+                                                              "t": "gstr",
+                                                              "v": "\"--test-result-file ${test_result_file} \" ",
+                                                              "vars": [
+                                                                "{test_result_file}"
+                                                              ],
+                                                              "calls": [],
+                                                              "line": 223,
+                                                              "col": 53,
+                                                              "endLine": 223,
+                                                              "endCol": 95
+                                                            }
+                                                          ],
+                                                          "line": 222,
+                                                          "col": 96,
+                                                          "endLine": 222,
+                                                          "endCol": 97
+                                                        },
+                                                        {
+                                                          "t": "gstr",
+                                                          "v": "\"--stage ${stage}\"",
+                                                          "vars": [
+                                                            "{stage}"
+                                                          ],
+                                                          "calls": [],
+                                                          "line": 224,
+                                                          "col": 53,
+                                                          "endLine": 224,
+                                                          "endCol": 71
+                                                        }
+                                                      ],
+                                                      "line": 223,
+                                                      "col": 95,
+                                                      "endLine": 223,
+                                                      "endCol": 96
+                                                    }
+                                                  ],
+                                                  "named": {},
+                                                  "line": 222,
+                                                  "col": 45,
+                                                  "endLine": 224,
+                                                  "endCol": 71
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ],
+                                      "line": 210,
+                                      "col": 33,
+                                      "endLine": 227,
+                                      "endCol": 34
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "k": "call",
+              "name": "post",
+              "args": [],
+              "named": {},
+              "line": 234,
+              "col": 9,
+              "endLine": 252,
+              "endCol": 10,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "always",
+                  "args": [],
+                  "named": {},
+                  "line": 235,
+                  "col": 13,
+                  "endLine": 248,
+                  "endCol": 14,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "timeout",
+                      "args": [],
+                      "named": {
+                        "time": {
+                          "t": "num",
+                          "v": 10,
+                          "line": 236,
+                          "col": 31,
+                          "endLine": 236,
+                          "endCol": 33
+                        },
+                        "unit": {
+                          "t": "str",
+                          "v": "MINUTES",
+                          "line": 236,
+                          "col": 41,
+                          "endLine": 236,
+                          "endCol": 50
+                        }
+                      },
+                      "line": 236,
+                      "col": 17,
+                      "endLine": 247,
+                      "endCol": 18,
+                      "body": [
+                        {
+                          "k": "call",
+                          "name": "dir",
+                          "args": [
+                            {
+                              "t": "str",
+                              "v": "test",
+                              "line": 237,
+                              "col": 25,
+                              "endLine": 237,
+                              "endCol": 31
+                            }
+                          ],
+                          "named": {},
+                          "line": 237,
+                          "col": 21,
+                          "endLine": 246,
+                          "endCol": 22,
+                          "body": [
+                            {
+                              "k": "call",
+                              "name": "script",
+                              "args": [],
+                              "named": {},
+                              "line": 238,
+                              "col": 25,
+                              "endLine": 245,
+                              "endCol": 26,
+                              "body": [
+                                {
+                                  "k": "if",
+                                  "cond": "config.finishStep",
+                                  "condCalls": [],
+                                  "then": [
+                                    {
+                                      "k": "call",
+                                      "name": "finishStep",
+                                      "args": [],
+                                      "named": {},
+                                      "line": 241,
+                                      "col": 33,
+                                      "endLine": 241,
+                                      "endCol": 52,
+                                      "receiver": "config"
+                                    }
+                                  ],
+                                  "else": [
+                                    {
+                                      "k": "call",
+                                      "name": "sh",
+                                      "args": [
+                                        {
+                                          "t": "str",
+                                          "v": "echo 'Default post step performs no actions'",
+                                          "line": 243,
+                                          "col": 36,
+                                          "endLine": 243,
+                                          "endCol": 82
+                                        }
+                                      ],
+                                      "named": {},
+                                      "line": 243,
+                                      "col": 33,
+                                      "endLine": 243,
+                                      "endCol": 82
+                                    }
+                                  ],
+                                  "line": 240,
+                                  "col": 29,
+                                  "endLine": 244,
+                                  "endCol": 30
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "k": "call",
+                  "name": "cleanup",
+                  "args": [],
+                  "named": {},
+                  "line": 249,
+                  "col": 13,
+                  "endLine": 251,
+                  "endCol": 14,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "cleanupMavenCache",
+                      "args": [],
+                      "named": {},
+                      "line": 250,
+                      "col": 17,
+                      "endLine": 250,
+                      "endCol": 36
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "line": 1,
+      "col": 1,
+      "endLine": 254,
+      "endCol": 2
+    }
+  ],
+  "classes": [],
+  "statements": [],
+  "source_sha256": "cc57bedea462fd0e757635ae59e2841f2ab359d511ef7e4fce067252ea7dfad0"
+}

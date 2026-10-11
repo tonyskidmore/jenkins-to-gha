@@ -1,0 +1,37 @@
+
+@@CMD@@ grep -n env.DEPLOY_ENV examples/000/gha/workflow.model.json
+1385:          "if": "env.DEPLOY_ENV != 'none'",
+@@END@@ rc=0 ms=5
+
+@@CMD@@ sed -i "s/env.DEPLOY_ENV != 'none'/env.DEPLOY_ENV == 'none'/" examples/000/gha/workflow.model.json
+@@END@@ rc=0 ms=8
+
+@@CMD@@ grep -n env.DEPLOY_ENV examples/000/gha/workflow.model.json
+1385:          "if": "env.DEPLOY_ENV == 'none'",
+@@END@@ rc=0 ms=5
+
+@@CMD@@ uv run j2gha run 000 --tier act --edited-model | fold -s -w 68
+[act] running act (trace) in <repo>/examples/000/runs/act-trace/workspace
+[act] act trace -> success (37 trace events, 10 job results) in 32.0s
+[run] 000: act vs jenkins (trace): DIFFERS (90.2% step similarity)
+[j2gha] not equivalent: 000 act (differs)
+@@END@@ rc=0 ms=32863
+
+@@CMD@@ grep -n missing-stage examples/000/RESULTS.md | fold -s -w 68
+158:- `Deploy`: missing-stage - jenkins ['input', 'unstash', 'sh', 
+'archiveArtifacts'] vs act []
+@@END@@ rc=0 ms=6
+
+@@CMD@@ uv run j2gha convert 000 | fold -s -w 68 | tail -n 12
+[j2gha] 000: 9 job(s); mapped 41, approx 33, manual 1 -> automation 81.0%
+@@END@@ rc=0 ms=708
+
+@@CMD@@ grep -n env.DEPLOY_ENV examples/000/gha/workflow.model.json
+1385:          "if": "env.DEPLOY_ENV != 'none'",
+@@END@@ rc=0 ms=4
+
+@@CMD@@ uv run j2gha run 000 --tier act | fold -s -w 68
+[act] running act (trace) in <repo>/examples/000/runs/act-trace/workspace
+[act] act trace -> success (41 trace events, 11 job results) in 36.1s
+[run] 000: act vs jenkins (trace): EQUIVALENT (100.0% step similarity)
+@@END@@ rc=0 ms=36825

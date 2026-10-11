@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=1920, height=1080" />
+    <title>jenkins-to-gha 60s Walkthrough (HyperFrames)</title>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.14.2/dist/gsap.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+      html, body {
+        width: 1920px;
+        height: 1080px;
+        overflow: hidden;
+        background: #080b12;
+        color: #f1f5f9;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      }
+      #root {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: radial-gradient(circle at 50% 20%, #0e172a 0%, #080b12 70%);
+      }
+      /* Subtle background grid */
+      .bg-grid {
+        position: absolute;
+        inset: 0;
+        background-image: 
+          linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+          linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+        background-size: 60px 60px;
+        pointer-events: none;
+      }
+      /* Glowing background ambient lights */
+      .ambient-glow-1 {
+        position: absolute;
+        top: -100px;
+        left: 200px;
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, transparent 70%);
+        filter: blur(80px);
+        pointer-events: none;
+      }
+      .ambient-glow-2 {
+        position: absolute;
+        bottom: 0px;
+        right: 150px;
+        width: 700px;
+        height: 700px;
+        background: radial-gradient(circle, rgba(139, 92, 246, 0.07) 0%, transparent 70%);
+        filter: blur(90px);
+        pointer-events: none;
+      }
+
+      /* Sub-comp slots stretch to fill the root */
+      [data-composition-id="root"] > div[data-composition-src] {
+        position: absolute;
+        inset: 0;
+      }
+
+      /* Global Top Navigation Bar */
+      .top-nav {
+        position: absolute;
+        top: 32px;
+        left: 64px;
+        right: 64px;
+        height: 60px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        z-index: 100;
+        pointer-events: none;
+      }
+      .brand-badge {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        background: rgba(15, 23, 42, 0.75);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        padding: 8px 18px;
+        border-radius: 9999px;
+        backdrop-filter: blur(12px);
+      }
+      .brand-icon {
+        width: 28px;
+        height: 28px;
+        background: linear-gradient(135deg, #0369a1, #1d4ed8);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #ffffff;
+        font-weight: 800;
+        font-size: 14px;
+      }
+      .brand-title {
+        font-weight: 700;
+        font-size: 18px;
+        letter-spacing: -0.02em;
+        color: #f8fafc;
+      }
+      .brand-subtitle {
+        color: #94a3b8;
+        font-size: 14px;
+        font-weight: 500;
+      }
+
+      .top-act-pill {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: rgba(15, 23, 42, 0.75);
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        padding: 8px 20px;
+        border-radius: 9999px;
+        backdrop-filter: blur(12px);
+      }
+      .act-pill-indicator {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #06b6d4;
+        box-shadow: 0 0 10px #06b6d4;
+      }
+      .act-pill-text {
+        font-size: 14px;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+        text-transform: uppercase;
+        color: #94a3b8;
+      }
+
+      /* Global Bottom Timeline Stepper HUD */
+      .bottom-hud {
+        position: absolute;
+        bottom: 36px;
+        left: 64px;
+        right: 64px;
+        height: 72px;
+        background: rgba(15, 23, 42, 0.85);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 20px;
+        backdrop-filter: blur(20px);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        display: flex;
+        align-items: center;
+        padding: 0 28px;
+        z-index: 100;
+        gap: 24px;
+      }
+      .hud-stages {
+        display: flex;
+        flex: 1;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+      }
+      .hud-stage {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        opacity: 0.4;
+      }
+      .hud-stage.active {
+        opacity: 1.0;
+      }
+      .stage-num {
+        width: 32px;
+        height: 32px;
+        border-radius: 10px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid rgba(255, 255, 255, 0.15);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 700;
+        font-size: 14px;
+        color: #e2e8f0;
+      }
+      .hud-stage.active .stage-num {
+        background: #1d4ed8;
+        border-color: #3b82f6;
+        color: #ffffff;
+        box-shadow: 0 0 16px rgba(29, 78, 216, 0.5);
+      }
+      .stage-name {
+        font-size: 15px;
+        font-weight: 600;
+        color: #cbd5e1;
+      }
+      .hud-stage.active .stage-name {
+        color: #f8fafc;
+      }
+      .stage-divider {
+        width: 40px;
+        height: 2px;
+        background: rgba(255, 255, 255, 0.08);
+      }
+
+      .hud-progress-bar-container {
+        position: absolute;
+        bottom: 0;
+        left: 20px;
+        right: 20px;
+        height: 3px;
+        background: rgba(255, 255, 255, 0.05);
+        border-radius: 2px;
+        overflow: hidden;
+      }
+      .hud-progress-bar {
+        height: 100%;
+        width: 0%;
+        background: linear-gradient(90deg, #06b6d4, #3b82f6, #8b5cf6);
+        box-shadow: 0 0 12px #3b82f6;
+      }
+    </style>
+  </head>
+  <body>
+    <div
+      id="root"
+      data-composition-id="root"
+      data-width="1920"
+      data-height="1080"
+      data-duration="60"
+    >
+      <div class="bg-grid"></div>
+      <div class="ambient-glow-1"></div>
+      <div class="ambient-glow-2"></div>
+
+      <!-- Top Header HUD -->
+      <div class="top-nav">
+        <div class="brand-badge">
+          <div class="brand-icon">J2G</div>
+          <span class="brand-title">jenkins-to-gha</span>
+          <span class="brand-subtitle">· Verified Migration Harness</span>
+        </div>
+        <div class="top-act-pill">
+          <div id="act-dot" class="act-pill-indicator"></div>
+          <span id="act-title" class="act-pill-text">Act 1: Jenkins Baseline</span>
+        </div>
+      </div>
+
+      <!-- Sub-Composition Slot: Act 1 (0s - 15s) -->
+      <div
+        id="slot-act1"
+        data-composition-id="act1"
+        data-composition-src="compositions/act1-jenkins-baseline.html"
+        data-start="0"
+        data-duration="15"
+        data-track-index="1"
+        data-width="1920"
+        data-height="1080"
+      ></div>
+
+      <!-- Sub-Composition Slot: Act 2 (15s - 30s) -->
+      <div
+        id="slot-act2"
+        data-composition-id="act2"
+        data-composition-src="compositions/act2-analyze-convert.html"
+        data-start="15"
+        data-duration="15"
+        data-track-index="1"
+        data-width="1920"
+        data-height="1080"
+      ></div>
+
+      <!-- Sub-Composition Slot: Act 3 (30s - 45s) -->
+      <div
+        id="slot-act3"
+        data-composition-id="act3"
+        data-composition-src="compositions/act3-differential-traces.html"
+        data-start="30"
+        data-duration="15"
+        data-track-index="1"
+        data-width="1920"
+        data-height="1080"
+      ></div>
+
+      <!-- Sub-Composition Slot: Act 4 (45s - 60s) -->
+      <div
+        id="slot-act4"
+        data-composition-id="act4"
+        data-composition-src="compositions/act4-github-actions.html"
+        data-start="45"
+        data-duration="15"
+        data-track-index="1"
+        data-width="1920"
+        data-height="1080"
+      ></div>
+
+      <!-- Master Audio Track (Voiceover + Ambient Soundtrack) -->
+      <audio
+        id="master-audio"
+        src="./assets/audio/master.mp3"
+        data-start="0"
+        data-duration="60"
+        data-volume="1.0"
+      ></audio>
+
+      <!-- Bottom Timeline HUD -->
+      <div class="bottom-hud">
+        <div class="hud-stages">
+          <div id="hud-stg-1" class="hud-stage active">
+            <div class="stage-num">01</div>
+            <span class="stage-name">Jenkins Baseline</span>
+          </div>
+          <div class="stage-divider"></div>
+          <div id="hud-stg-2" class="hud-stage">
+            <div class="stage-num">02</div>
+            <span class="stage-name">Analyze & Convert</span>
+          </div>
+          <div class="stage-divider"></div>
+          <div id="hud-stg-3" class="hud-stage">
+            <div class="stage-num">03</div>
+            <span class="stage-name">Differential Trace (100%)</span>
+          </div>
+          <div class="stage-divider"></div>
+          <div id="hud-stg-4" class="hud-stage">
+            <div class="stage-num">04</div>
+            <span class="stage-name">Real GitHub Actions</span>
+          </div>
+        </div>
+        <div class="hud-progress-bar-container">
+          <div id="hud-prog" class="hud-progress-bar"></div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      window.__timelines = window.__timelines || {};
+      const rootTl = gsap.timeline({ paused: true });
+
+      // Animate the bottom progress bar continuously from 0% to 100% across 60 seconds
+      rootTl.fromTo("#hud-prog", { width: "0%" }, { width: "100%", duration: 60, ease: "none" }, 0);
+
+      // Act 2 Transition (15s)
+      rootTl.set("#act-title", { innerText: "Act 2: Analyze, Convert, Validate" }, 15);
+      rootTl.set("#act-dot", { backgroundColor: "#3b82f6", boxShadow: "0 0 10px #3b82f6" }, 15);
+      rootTl.set("#hud-stg-1", { className: "hud-stage" }, 15);
+      rootTl.set("#hud-stg-2", { className: "hud-stage active" }, 15);
+
+      // Act 3 Transition (30s)
+      rootTl.set("#act-title", { innerText: "Act 3: Differential Trace Verification" }, 30);
+      rootTl.set("#act-dot", { backgroundColor: "#10b981", boxShadow: "0 0 10px #10b981" }, 30);
+      rootTl.set("#hud-stg-2", { className: "hud-stage" }, 30);
+      rootTl.set("#hud-stg-3", { className: "hud-stage active" }, 30);
+
+      // Act 4 Transition (45s)
+      rootTl.set("#act-title", { innerText: "Act 4: Real GitHub Actions Execution" }, 45);
+      rootTl.set("#act-dot", { backgroundColor: "#8b5cf6", boxShadow: "0 0 10px #8b5cf6" }, 45);
+      rootTl.set("#hud-stg-3", { className: "hud-stage" }, 45);
+      rootTl.set("#hud-stg-4", { className: "hud-stage active" }, 45);
+
+      window.__timelines["root"] = rootTl;
+    </script>
+  </body>
+</html>

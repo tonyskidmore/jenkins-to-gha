@@ -1,0 +1,259 @@
+{
+  "tier": "jenkins",
+  "mode": "full",
+  "scenario": {
+    "branch": "main",
+    "git_branch": "origin/main"
+  },
+  "localisation": {
+    "changes": [
+      "L36: agent -> any (was ?)"
+    ],
+    "stubs": [
+      "build",
+      "mail",
+      "emailext",
+      "slackSend",
+      "office365ConnectorSend",
+      "githubNotify",
+      "setGitHubPullRequestStatus",
+      "publishChecks",
+      "s3Upload",
+      "s3Download",
+      "copyArtifacts",
+      "waitForQualityGate",
+      "recordIssues",
+      "publishCoverage",
+      "recordCoverage",
+      "jacoco",
+      "cobertura",
+      "milestone",
+      "properties",
+      "buildDiscarder",
+      "checkout(GIT_BRANCH kept)",
+      "withSonarQubeEnv",
+      "withAWS",
+      "withKubeConfig",
+      "withVault",
+      "azureCLI",
+      "container",
+      "sshagent",
+      "withDockerRegistry",
+      "configFileProvider",
+      "withMaven",
+      "withGradle",
+      "withPythonEnv",
+      "podTemplate",
+      "wrap",
+      "withDockerContainer",
+      "call"
+    ],
+    "auto_repairs": {
+      "removed": [],
+      "stubbed": [],
+      "ineffective": []
+    }
+  },
+  "attempts": [
+    {
+      "attempt": 0,
+      "phase": "register",
+      "build": 5,
+      "result": "SUCCESS",
+      "note": "parameters could not be defined up front: this build ran with defaults"
+    },
+    {
+      "attempt": 0,
+      "phase": "run",
+      "build": 6,
+      "result": "SUCCESS",
+      "seconds": 35.4,
+      "repairs": [],
+      "stubs": []
+    }
+  ],
+  "result": "SUCCESS",
+  "build": 6,
+  "duration_ms": 15308,
+  "stages": [
+    {
+      "name": "Declarative: Checkout SCM",
+      "status": "SUCCESS",
+      "durationMillis": 735
+    },
+    {
+      "name": "Declarative: Tool Install",
+      "status": "SUCCESS",
+      "durationMillis": 226
+    },
+    {
+      "name": "Filter unwanted branches",
+      "status": "SUCCESS",
+      "durationMillis": 289
+    },
+    {
+      "name": "Workaround JENKINS-41929 Parameters bug",
+      "status": "SUCCESS",
+      "durationMillis": 914
+    },
+    {
+      "name": "Echo environment",
+      "status": "SUCCESS",
+      "durationMillis": 1140
+    },
+    {
+      "name": "Build WebLogic Kubernetes Operator",
+      "status": "SUCCESS",
+      "durationMillis": 687
+    },
+    {
+      "name": "Make Workspace bin directory",
+      "status": "SUCCESS",
+      "durationMillis": 995
+    },
+    {
+      "name": "Install Helm",
+      "status": "SUCCESS",
+      "durationMillis": 717
+    },
+    {
+      "name": "Run Helm installation tests",
+      "status": "SUCCESS",
+      "durationMillis": 676
+    },
+    {
+      "name": "Install kubectl",
+      "status": "SUCCESS",
+      "durationMillis": 742
+    },
+    {
+      "name": "Install kind",
+      "status": "SUCCESS",
+      "durationMillis": 634
+    },
+    {
+      "name": "Preparing Integration Test Environment",
+      "status": "SUCCESS",
+      "durationMillis": 976
+    },
+    {
+      "name": "Start registry container",
+      "status": "SUCCESS",
+      "durationMillis": 776
+    },
+    {
+      "name": "Create kind cluster",
+      "status": "SUCCESS",
+      "durationMillis": 1182
+    },
+    {
+      "name": "Run integration tests",
+      "status": "SUCCESS",
+      "durationMillis": 2018
+    },
+    {
+      "name": "Sync",
+      "status": "SUCCESS",
+      "durationMillis": 382
+    }
+  ],
+  "traces": [
+    {
+      "stage": "Sync",
+      "step": "build"
+    }
+  ],
+  "approved_inputs": [],
+  "error_tail": null,
+  "outputs": {
+    "archived": [
+      {
+        "path": "integration-tests/target/failsafe-reports/TEST-ItLocalTwin.xml",
+        "size": 285,
+        "sha256": "b440bed2d2b170ed3a735483e2207cecaf27f3f336d3c9dfe8661316e1fee8c8"
+      },
+      {
+        "path": "logdir/jenkins-ex-107-full-6/wl_k8s_test_results/diagnostics/ItLocalTwin/operator.log",
+        "size": 41,
+        "sha256": "5bd6ca5826359149223e4c0a6e085f9a8196582a94adafcb7390340651b6af92"
+      },
+      {
+        "path": "logdir/jenkins-ex-107-full-6/wl_k8s_test_results/workdir/liftandshiftworkdir/README.txt",
+        "size": 30,
+        "sha256": "a08d1ac00d32d265105ebd34dfcc5e09ddaeb74f2a5223e466a5cff76eb3e8b3"
+      }
+    ],
+    "tests": [
+      {
+        "class": "ItLocalTwin",
+        "name": "testOperatorBuilds",
+        "status": "passed"
+      },
+      {
+        "class": "ItLocalTwin",
+        "name": "testHelmChart",
+        "status": "passed"
+      }
+    ]
+  },
+  "provenance": {
+    "jenkinsfile_sha256": "d820e0cb6e8ecba13d07f97a32ecd783640fe33f4fb6a87614d471a2f73abfc9",
+    "scenario": {
+      "branch": "main",
+      "git_branch": "origin/main"
+    },
+    "mode": "full",
+    "localizer_version": 5,
+    "images": {
+      "jenkins": {
+        "ref": "j2gha/jenkins:local",
+        "present": true,
+        "id": "sha256:672c4b841b2c934f224d4f1b3523d77a1b651f8f491f8f04da47ca764eb86775",
+        "repo_digests": [],
+        "created": "2026-10-09T18:21:15.545465961Z",
+        "labels": {
+          "j2gha.base-image": "jenkins/jenkins:lts-jdk21@sha256:a660310e39ade10631f774bacd5219de767dfd08947ea5c32a739b5e5bb382c1",
+          "org.opencontainers.image.version": "2.580.1",
+          "org.opencontainers.image.revision": "457b9316d71b43cdf3e2ba6ec7c27efc40f5dc60",
+          "org.opencontainers.image.source": "https://github.com/jenkinsci/docker"
+        },
+        "jenkins_version": "2.580.1"
+      },
+      "act": {
+        "ref": "j2gha/act:local",
+        "present": true,
+        "id": "sha256:0781bb0384b914fba362a2a2483d55d30c3d3cc9b59598856146778aa88662a4",
+        "repo_digests": [],
+        "created": "2026-10-03T06:26:46.552472741Z",
+        "labels": {},
+        "act_version": "0.2.89"
+      },
+      "act_runner": {
+        "ref": "j2gha/act-runner:local",
+        "present": true,
+        "id": "sha256:134418998a1ca958b148ee6befb038aa3ff598bf147b39ce9e99b60a563a15be",
+        "repo_digests": [],
+        "created": "2026-10-09T18:54:04.157825772Z",
+        "labels": {
+          "j2gha.base-image": "catthehacker/ubuntu:act-latest@sha256:c58e2b364da03b0c804c7d660f2ecbedf2f221a382b9baa0b344b0144780ff43",
+          "org.opencontainers.image.version": "20260815",
+          "org.opencontainers.image.revision": "e2f8efe464c82732f78e967ee709c00b6af53643",
+          "org.opencontainers.image.source": "https://github.com/catthehacker/catthehacker/docker_images"
+        }
+      },
+      "jit_runner": {
+        "ref": "j2gha/runner:local",
+        "present": true,
+        "id": "sha256:4847cf6e3e915577d28244aedfbe1b633eafa060a49d4ef313129d6841e2e667",
+        "repo_digests": [],
+        "created": "2026-10-09T18:52:46.515242869Z",
+        "labels": {
+          "j2gha.base-image": "ghcr.io/actions/actions-runner:latest@sha256:4ffadc0002b2581327e06101fc8c06cd189232baf79fe561fac9caeb76f5e807",
+          "org.opencontainers.image.version": "24.04",
+          "org.opencontainers.image.source": "https://github.com/actions/runner"
+        }
+      }
+    }
+  },
+  "finished_at": "2026-10-10T09:11:01+00:00"
+}

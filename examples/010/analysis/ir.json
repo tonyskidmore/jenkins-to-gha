@@ -1,0 +1,263 @@
+{
+  "dialect": "scripted",
+  "libraries": [
+    "lib-jenkins-pipeline"
+  ],
+  "stages": [
+    {
+      "line": 1,
+      "steps": [
+        {
+          "name": "<decl>",
+          "line": 1,
+          "named": {
+            "_target": "_"
+          },
+          "category": "dynamic",
+          "source": "_ = <not implemented yet for class: org.codehaus.groovy.ast.expr.EmptyExpression>",
+          "dynamic": true
+        },
+        {
+          "name": "<decl>",
+          "line": 3,
+          "named": {
+            "_target": "sbtOnMain",
+            "_literal": "no"
+          },
+          "category": "dynamic",
+          "source": "sbtOnMain = no",
+          "dynamic": true
+        },
+        {
+          "name": "<decl>",
+          "line": 8,
+          "named": {
+            "_target": "podLabel",
+            "_literal": "Jenkinsfile-apibuilder"
+          },
+          "category": "dynamic",
+          "source": "podLabel = Jenkinsfile-apibuilder",
+          "dynamic": true
+        },
+        {
+          "name": "podTemplate",
+          "line": 9,
+          "named": {
+            "label": "${podLabel}",
+            "inheritFrom": "generic"
+          },
+          "body": [
+            {
+              "name": "node",
+              "line": 13,
+              "args": [
+                "podLabel"
+              ],
+              "body": [
+                {
+                  "name": "<try>",
+                  "line": 14,
+                  "named": {
+                    "_catch": [
+                      {
+                        "name": "<assign>",
+                        "line": 62,
+                        "named": {
+                          "_target": "currentBuild.result",
+                          "_literal": "FAILURE"
+                        },
+                        "category": "dynamic",
+                        "source": "currentBuild.result = FAILURE",
+                        "dynamic": true
+                      },
+                      {
+                        "name": "<throw>",
+                        "line": 63,
+                        "category": "dynamic",
+                        "source": "throw e",
+                        "dynamic": true
+                      }
+                    ],
+                    "_finally": [
+                      {
+                        "name": "cleanWs",
+                        "line": 66,
+                        "category": "direct"
+                      },
+                      {
+                        "name": "echo",
+                        "line": 67,
+                        "args": [
+                          "Pipeline execution finished"
+                        ],
+                        "category": "direct"
+                      }
+                    ]
+                  },
+                  "body": [
+                    {
+                      "name": "checkoutWithTags",
+                      "line": 15,
+                      "args": [
+                        "scm"
+                      ],
+                      "category": "unknown",
+                      "dynamic": true,
+                      "variable_args": [
+                        0
+                      ]
+                    },
+                    {
+                      "name": "stage",
+                      "line": 17,
+                      "args": [
+                        "Checkout"
+                      ],
+                      "body": [
+                        {
+                          "name": "echo",
+                          "line": 18,
+                          "args": [
+                            "Checking out branch: ${env.BRANCH_NAME}"
+                          ],
+                          "category": "direct",
+                          "dynamic": true
+                        },
+                        {
+                          "name": "checkout",
+                          "line": 19,
+                          "args": [
+                            "scm"
+                          ],
+                          "category": "direct",
+                          "dynamic": true,
+                          "variable_args": [
+                            0
+                          ]
+                        }
+                      ],
+                      "category": "direct"
+                    },
+                    {
+                      "name": "stage",
+                      "line": 23,
+                      "args": [
+                        "tagging"
+                      ],
+                      "body": [
+                        {
+                          "name": "<assign>",
+                          "line": 24,
+                          "named": {
+                            "_target": "semversion"
+                          },
+                          "body": [
+                            {
+                              "name": "taggingv2",
+                              "line": 24,
+                              "category": "unknown"
+                            }
+                          ],
+                          "category": "dynamic",
+                          "source": "semversion = taggingv2(...)",
+                          "dynamic": true
+                        },
+                        {
+                          "name": "println",
+                          "line": 25,
+                          "args": [
+                            "semversion"
+                          ],
+                          "category": "groovy",
+                          "dynamic": true,
+                          "variable_args": [
+                            0
+                          ]
+                        }
+                      ],
+                      "category": "direct"
+                    },
+                    {
+                      "name": "checkoutWithTags",
+                      "line": 29,
+                      "args": [
+                        "scm"
+                      ],
+                      "category": "unknown",
+                      "dynamic": true,
+                      "variable_args": [
+                        0
+                      ]
+                    },
+                    {
+                      "name": "<decl>",
+                      "line": 31,
+                      "named": {
+                        "_target": "jsondata",
+                        "_literal": "\n      [{\"serviceName\": \"apibuilder-api\",\n      \"dockerImageName\": \"apibuilder-api\",\n      \"dockerFilePath\" : \"/api/Dockerfile\",\n      \"multiplatforms\": \"no\"},\n      {\"serviceName\": \"apibuilder-app\",\n      \"dockerImageName\": \"apibuilder-app\",\n      \"dockerFilePath\" : \"/app/Dockerfile\",\n      \"multiplatforms\": \"no\"}]\n      "
+                      },
+                      "category": "dynamic",
+                      "source": "jsondata = \n      [{\"serviceName\": \"apibuilder-api\",\n      \"dockerImageName\": \"apibuilder-api\",\n      \"dockerFilePath\" : \"/api/Dockerfile\",\n      \"multiplatforms\": \"no\"},\n      {\"serviceName\": \"apibuilder-app\",\n      \"dockerImageName\": \"apibuilder-app\",\n      \"dockerFilePath\" : \"/app/Dockerfile\",\n      \"multiplatforms\": \"no\"}]\n      ",
+                      "dynamic": true
+                    },
+                    {
+                      "name": "withCredentials",
+                      "line": 41,
+                      "args": [
+                        [
+                          {
+                            "expr": "string(...)"
+                          }
+                        ]
+                      ],
+                      "named": {
+                        "bindings": [
+                          {
+                            "type": "string",
+                            "credentialsId": "jenkins-argocd-token",
+                            "variable": "ARGOCD_AUTH_TOKEN"
+                          }
+                        ]
+                      },
+                      "body": [
+                        {
+                          "name": "mainJenkinsBuildArgo",
+                          "line": 42,
+                          "named": {
+                            "semversion": "${semversion}",
+                            "pgImage": "flowcommerce/bentest-postgresql:latest",
+                            "componentargs": "${jsondata}",
+                            "sbtOnMain": "${sbtOnMain}",
+                            "sbtTest": "no"
+                          },
+                          "category": "unknown",
+                          "dynamic": true
+                        }
+                      ],
+                      "category": "policy",
+                      "dynamic": true
+                    }
+                  ],
+                  "category": "dynamic",
+                  "dynamic": true
+                }
+              ],
+              "category": "policy",
+              "dynamic": true,
+              "variable_args": [
+                0
+              ]
+            }
+          ],
+          "category": "redesign",
+          "dynamic": true
+        }
+      ]
+    }
+  ],
+  "notes": [
+    "line 9: stage(s) 'Checkout', 'tagging' nested in 'podTemplate' (plugin/library block) kept as its nested steps, in an unnamed segment",
+    "4 statement(s) outside any stage kept in source order in 1 unnamed segment(s) (from line(s) 1)",
+    "no stage() blocks found - structure is opaque (library call or custom DSL)"
+  ]
+}

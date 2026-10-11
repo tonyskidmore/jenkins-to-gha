@@ -1,0 +1,272 @@
+#!/usr/bin/env groovy
+
+/*
+ * This Jenkinsfile is intended to run on https://ci.jenkins.io and may fail anywhere else.
+ * It makes assumptions about plugins being installed, labels mapping to nodes that can build what is needed, etc.
+ */
+
+def failFast = false
+def numBuildToKeep = env.CHANGE_ID ? '10' : '50'
+
+properties([
+  buildDiscarder(logRotator(numToKeepStr: numBuildToKeep, artifactNumToKeepStr: '3')),
+  disableConcurrentBuilds(abortPrevious: true)
+])
+
+def axes = [
+  platforms: ['linux'], // j2gha-local: no Windows agent in the harness (the bat branches stay in the code but are never selected)
+  jdks: [21, 25],
+]
+
+stage('Record build') {
+  retry(conditions: [kubernetesAgent(handleNonKubernetes: true), nonresumable()], count: 2) {
+    node('maven-21-nonspot') {
+      checkout scm // j2gha-local: infra (the ci.jenkins.io library) is a stub here; a real checkout puts the repository in the workspace
+
+      /*
+       * Record the primary build for this CI job.
+       */
+      withCredentials([string(credentialsId: 'launchable-jenkins-jenkins', variable: 'LAUNCHABLE_TOKEN')]) {
+        /*
+         * TODO Add the commits of the transitive closure of the Jenkins WAR under test to this build.
+         */
+        // Replace URL encoded characters with '-' because Launchable rejects '%2F' in build name
+        def launchableName = env.BUILD_TAG.replaceAll('(%[0-9A-Fa-f]{2})+', '-')
+        sh "echo launchable verify && echo launchable record build --name ${launchableName} --source jenkinsci/jenkins=." // j2gha-local: no Launchable CLI
+        axes.values().combinations {
+          def (platform, jdk) = it
+          if (platform == 'windows' && jdk != axes.jdks.last()) {
+            return // unnecessary use of hardware
+          }
+          def sessionFile = "launchable-session-${platform}-jdk${jdk}.txt"
+          sh "echo launchable record session --build ${launchableName} --flavor platform=${platform} --flavor jdk=${jdk} >${sessionFile}" // j2gha-local: no Launchable CLI; the echoed command is the session file the stash, unstash and readFile carry
+          stash name: sessionFile, includes: sessionFile
+        }
+      }
+
+      /*
+       * Record commits for use in downstream CI jobs that may consume this artifact.
+       */
+      withCredentials([string(credentialsId: 'launchable-jenkins-acceptance-test-harness', variable: 'LAUNCHABLE_TOKEN')]) {
+        sh 'echo launchable verify && echo launchable record commit' // j2gha-local: no Launchable CLI
+      }
+      withCredentials([string(credentialsId: 'launchable-jenkins-bom', variable: 'LAUNCHABLE_TOKEN')]) {
+        sh 'echo launchable verify && echo launchable record commit' // j2gha-local: no Launchable CLI
+      }
+    }
+  }
+}
+
+def builds = [:]
+
+axes.values().combinations {
+  def (platform, jdk) = it
+  if (platform == 'windows' && jdk != axes.jdks.last()) {
+    return // unnecessary use of hardware
+  }
+  builds["${platform}-jdk${jdk}"] = {
+    // see https://github.com/jenkins-infra/documentation/blob/master/ci.adoc#node-labels for information on what node types are available
+    def agentContainerLabel = 'maven-' + jdk
+    if (platform == 'windows') {
+      agentContainerLabel += '-windows'
+    }
+    agentContainerLabel += '-nonspot'
+    retry(conditions: [kubernetesAgent(handleNonKubernetes: true), nonresumable()], count: 2) {
+      node(agentContainerLabel) {
+        // First stage is actually checking out the source. Since we're using Multibranch
+        // currently, we can use "checkout scm".
+        stage("${platform.capitalize()} - JDK ${jdk} - Checkout") {
+          deleteDir() // j2gha-local: the original runs on a throwaway agent; here the built-in node's workspace may still hold Record build's session files, which `git add . && git diff --exit-code` below would report
+          checkout scm // j2gha-local: infra (the ci.jenkins.io library) is a stub here; a real checkout puts the repository in the workspace
+        }
+
+        def tmpDir = pwd(tmp: true)
+        def changelistF = "${tmpDir}/changelist"
+        def m2repo = "${tmpDir}/m2repo"
+        def session
+
+        // Now run the actual build.
+        stage("${platform.capitalize()} - JDK ${jdk} - Build / Test") {
+          timeout(time: 6, unit: 'HOURS') {
+            dir(tmpDir) {
+              def sessionFile = "launchable-session-${platform}-jdk${jdk}.txt"
+              unstash sessionFile
+              session = readFile(sessionFile).trim()
+            }
+            def mavenOptions = [
+              '-Pdebug',
+              '-Penable-jacoco',
+              '--update-snapshots',
+              "-Dmaven.repo.local=$m2repo",
+              '-Dmaven.test.failure.ignore',
+              '-DforkCount=2',
+              '-Dspotbugs.failOnError=false',
+              '-Dcheckstyle.failOnViolation=false',
+              '-Dset.changelist',
+              'help:evaluate',
+              '-Dexpression=changelist',
+              "-Doutput=$changelistF",
+              'clean',
+              'install',
+            ]
+            if (env.CHANGE_ID && !pullRequest.labels.contains('full-test')) {
+              def excludesFile
+              def target = platform == 'windows' ? '30%' : '100%'
+              withCredentials([string(credentialsId: 'launchable-jenkins-jenkins', variable: 'LAUNCHABLE_TOKEN')]) {
+                if (isUnix()) {
+                  excludesFile = "${tmpDir}/excludes.txt"
+                  sh "launchable verify && launchable subset --session ${session} --target ${target} --get-tests-from-previous-sessions --output-exclusion-rules maven >${excludesFile}"
+                } else {
+                  excludesFile = "${tmpDir}\\excludes.txt"
+                  bat "launchable verify && launchable subset --session ${session} --target ${target}% --get-tests-from-previous-sessions --output-exclusion-rules maven >${excludesFile}"
+                }
+              }
+              mavenOptions.add(0, "-Dsurefire.excludesFile=${excludesFile}")
+            }
+            withChecks(name: 'Tests', includeStage: true) {
+              // j2gha-local: was realtimeJUnit(healthScaleFactor: 20.0, testResults: '*/target/surefire-reports/*.xml,target/vitest-reports/*.xml') { ... }:
+              // j2gha-local: the junit-realtime-test-reporter plugin is not installed, so its body runs here and the plain junit step below reports the same patterns
+              // j2gha-local: was infra.runMaven(mavenOptions, jdk): a real `mvn clean install` of Jenkins core takes hours; the stand-in writes the files this stage junits, archives and reads
+              sh """
+                echo mvn ${mavenOptions.join(' ')}  # j2gha-local: JDK ${jdk}; not run
+                mkdir -p core/target/surefire-reports target/vitest-reports war/target
+                printf '<?xml version="1.0" encoding="UTF-8"?>\\n<testsuite name="jenkins.j2gha.LocalTest" tests="2" failures="0" errors="0" skipped="0" time="0.01"><testcase classname="jenkins.j2gha.LocalTest" name="buildsOnJdk${jdk}" time="0.01"/><testcase classname="jenkins.j2gha.LocalTest" name="archivesWar" time="0.00"/></testsuite>\\n' > core/target/surefire-reports/TEST-jenkins.j2gha.LocalTest.xml
+                printf '<?xml version="1.0" encoding="UTF-8"?>\\n<testsuite name="vitest" tests="1" failures="0" errors="0" skipped="0" time="0.01"><testcase classname="j2gha.frontend" name="lints" time="0.01"/></testsuite>\\n' > target/vitest-reports/vitest.xml
+                echo 'j2gha stand-in dumpstream' > core/target/surefire-reports/jenkins.j2gha.LocalTest-output.dumpstream
+                echo 'j2gha stand-in war' > war/target/jenkins.war
+                changelist="-rc1.\$(git rev-parse --short=12 HEAD)"
+                printf '%s' "\$changelist" > ${changelistF}
+                mkdir -p ${m2repo}/org/jenkins-ci/main/jenkins-war/2.999\$changelist ${m2repo}/org/jenkins-ci/main/jenkins-core/2.999\$changelist
+                echo 'j2gha stand-in war' > ${m2repo}/org/jenkins-ci/main/jenkins-war/2.999\$changelist/jenkins-war-2.999\$changelist.war
+                echo 'j2gha stand-in jar' > ${m2repo}/org/jenkins-ci/main/jenkins-core/2.999\$changelist/jenkins-core-2.999\$changelist.jar
+              """
+              if (isUnix()) {
+                sh 'git add . && git diff --exit-code HEAD'
+              }
+              junit healthScaleFactor: 20.0, testResults: '*/target/surefire-reports/*.xml,target/vitest-reports/*.xml' // j2gha-local: reports what realtimeJUnit reported (see above)
+            }
+          }
+        }
+
+        // Once we've built, archive the artifacts and the test results.
+        stage("${platform.capitalize()} - JDK ${jdk} - Publish") {
+          archiveArtifacts allowEmptyArchive: true, artifacts: '**/target/surefire-reports/*.dumpstream'
+          // cli and war have been migrated to JUnit 5
+          if (failFast && currentBuild.result == 'UNSTABLE') {
+            error 'There were test failures; halting early'
+          }
+          if (platform == 'linux' && jdk == axes['jdks'][0]) {
+            def folders = env.JOB_NAME.split('/')
+            if (folders.length > 1) {
+              discoverGitReferenceBuild(scm: folders[1])
+            }
+            recordCoverage(tools: [[parser: 'JACOCO', pattern: 'coverage/target/site/jacoco-aggregate/jacoco.xml']],
+            sourceCodeRetention: 'MODIFIED', sourceDirectories: [[path: 'core/src/main/java']])
+
+            echo "Recording static analysis results for '${platform.capitalize()}'"
+            recordIssues(
+                enabledForFailure: true,
+                tools: [java()],
+                filters: [excludeFile('.*Assert.java')],
+                sourceCodeEncoding: 'UTF-8',
+                skipBlames: true,
+                trendChartType: 'TOOLS_ONLY'
+                )
+            recordIssues(
+                enabledForFailure: true,
+                tools: [javaDoc()],
+                filters: [excludeFile('.*Assert.java')],
+                sourceCodeEncoding: 'UTF-8',
+                skipBlames: true,
+                trendChartType: 'TOOLS_ONLY',
+                qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]]
+            )
+            recordIssues([tool: spotBugs(pattern: '**/target/spotbugsXml.xml'),
+              sourceCodeEncoding: 'UTF-8',
+              skipBlames: true,
+              trendChartType: 'TOOLS_ONLY',
+              qualityGates: [[threshold: 1, type: 'NEW', unstable: true]]])
+            recordIssues([tool: checkStyle(pattern: '**/target/checkstyle-result.xml'),
+              sourceCodeEncoding: 'UTF-8',
+              skipBlames: true,
+              trendChartType: 'TOOLS_ONLY',
+              qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]]])
+            recordIssues([tool: esLint(pattern: '**/target/eslint-warnings.xml'),
+              sourceCodeEncoding: 'UTF-8',
+              skipBlames: true,
+              trendChartType: 'TOOLS_ONLY',
+              qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]]])
+            recordIssues([tool: styleLint(pattern: '**/target/stylelint-warnings.xml'),
+              sourceCodeEncoding: 'UTF-8',
+              skipBlames: true,
+              trendChartType: 'TOOLS_ONLY',
+              qualityGates: [[threshold: 1, type: 'TOTAL', unstable: true]]])
+            if (failFast && currentBuild.result == 'UNSTABLE') {
+              error 'Static analysis quality gates not passed; halting early'
+            }
+            def changelist = readFile(changelistF)
+            dir(m2repo) {
+              archiveArtifacts(
+                  artifacts: "**/*$changelist/*$changelist*",
+                  excludes: '**/*.lastUpdated,**/jenkins-coverage*/,**/jenkins-test*/',
+                  allowEmptyArchive: true, // in case we forgot to reincrementalify
+                  fingerprint: true
+                  )
+            }
+          }
+          withCredentials([string(credentialsId: 'launchable-jenkins-jenkins', variable: 'LAUNCHABLE_TOKEN')]) {
+            if (isUnix()) {
+              sh "echo launchable verify && echo launchable record tests --session ${session} --flavor platform=${platform} --flavor jdk=${jdk} maven './**/target/surefire-reports'" // j2gha-local: no Launchable CLI
+            } else {
+              bat "launchable verify && launchable record tests --session ${session} --flavor platform=${platform} --flavor jdk=${jdk} maven ./**/target/surefire-reports"
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+def athAxes = [
+  platforms: ['linux'],
+  jdks: [21],
+  browsers: ['firefox'],
+]
+athAxes.values().combinations {
+  def (platform, jdk, browser) = it
+  builds["ath-${platform}-jdk${jdk}-${browser}"] = {
+    retry(conditions: [agent(), nonresumable()], count: 2) {
+      node('docker-highmem') {
+        // Just to be safe
+        deleteDir()
+        checkout scm
+
+        withChecks(name: 'Tests', includeStage: true) {
+          infra.withArtifactCachingProxy {
+            // j2gha-local: was sh "bash ath.sh ${jdk} ${browser}": ath.sh builds the war and runs the acceptance-test-harness under docker-compose (no Docker daemon here); the stand-in writes the report the junit step reads
+            sh """
+              echo bash ath.sh ${jdk} ${browser}  # j2gha-local: not run
+              mkdir -p target/ath-reports
+              printf '<?xml version="1.0" encoding="UTF-8"?>\\n<testsuite name="j2gha.AthSmokeTest" tests="1" failures="0" errors="0" skipped="0" time="0.01"><testcase classname="j2gha.AthSmokeTest" name="loginPage_${browser}" time="0.01"/></testsuite>\\n' > target/ath-reports/TEST-j2gha.AthSmokeTest.xml
+            """
+          }
+          junit testResults: 'target/ath-reports/TEST-*.xml' // j2gha-local: testDataPublishers: [[$class: 'AttachmentPublisher']] dropped, the junit-attachments plugin is not installed
+        }
+        /*
+         * Currently disabled, as the fact that this is a manually created subset will confuse Launchable,
+         * which expects this to be a full build. When we implement subsetting, this can be re-enabled using
+         * Launchable's subset rather than our own.
+         */
+        /*
+         withCredentials([string(credentialsId: 'launchable-jenkins-acceptance-test-harness', variable: 'LAUNCHABLE_TOKEN')]) {
+         sh "launchable verify && launchable record tests --no-build --flavor platform=${platform} --flavor jdk=${jdk} --flavor browser=${browser} maven './target/ath-reports'"
+         }
+         */
+      }
+    }
+  }
+}
+
+builds.failFast = failFast
+parallel builds
+infra.maybePublishIncrementals()

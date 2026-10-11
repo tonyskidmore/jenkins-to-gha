@@ -1,0 +1,146 @@
+# j2gha step catalog: the "declared organisational migration rules".
+#
+# category:
+#   direct    - deterministic, high-confidence mapping the generator implements (tests/test_convert.py checks every
+#               direct step reaches a generator mapping, so coverage credit matches what conversion produces)
+#   policy    - mappable, but only via an organisational pattern/decision (secrets, reporting, registries...)
+#   redesign  - no line-for-line equivalent; needs a GHA-native redesign (approvals, downstream jobs...)
+#   dynamic   - runtime Groovy behaviour; cannot be statically converted safely
+#   noop      - cosmetic in GHA (log decoration etc.) - safe to drop with a note
+# weight: relative migration risk of one occurrence (used for weighted coverage)
+# gha: the target pattern the converter/report proposes
+steps:
+  # --- shell / basic -------------------------------------------------------
+  sh:            {category: direct,   weight: 1, gha: "run: (shell: bash)"}
+  bat:           {category: direct,   weight: 1, gha: "run: (shell: cmd, windows runner)"}
+  powershell:    {category: direct,   weight: 1, gha: "run: (shell: powershell, windows runner)"}
+  pwsh:          {category: direct,   weight: 1, gha: "run: (shell: pwsh)"}
+  echo:          {category: direct,   weight: 0.5, gha: "run: echo"}
+  sleep:         {category: direct,   weight: 0.5, gha: "run: sleep"}
+  error:         {category: direct,   weight: 0.5, gha: "run: echo ::error:: && exit 1"}
+  dir:           {category: direct,   weight: 0.5, gha: "working-directory:"}
+  withEnv:       {category: direct,   weight: 0.5, gha: "env:"}
+  timeout:       {category: direct,   weight: 0.5, gha: "timeout-minutes:"}
+  deleteDir:     {category: direct,   weight: 0.5, gha: "run: rm -rf (runners are ephemeral)"}
+  cleanWs:       {category: direct,   weight: 0.5, gha: "ephemeral runner / run: rm -rf"}
+  checkout:      {category: direct,   weight: 1, gha: "actions/checkout"}
+  git:           {category: direct,   weight: 1, gha: "actions/checkout (repository/ref)"}
+  isUnix:        {category: policy,   weight: 0.5, gha: "runner.os != 'Windows' (value used by Groovy: port the logic)"}
+  pwd:           {category: policy,   weight: 0.5, gha: "$GITHUB_WORKSPACE / $PWD (value used by Groovy: port the logic)"}
+  catchError:    {category: policy,   weight: 1, gha: "continue-on-error: true"}
+  warnError:     {category: policy,   weight: 1, gha: "continue-on-error: true + ::warning::"}
+  retry:         {category: policy,   weight: 1, gha: "shell retry loop / retry action"}
+  waitUntil:     {category: policy,   weight: 1.5, gha: "shell polling loop"}
+  unstable:      {category: policy,   weight: 1, gha: "::warning:: (GHA has no UNSTABLE result)"}
+  # --- files / utility -----------------------------------------------------
+  readFile:      {category: policy,   weight: 1, gha: "run: cat > $GITHUB_OUTPUT (value used by Groovy: port the logic)"}
+  writeFile:     {category: direct,   weight: 1, gha: "run: cat > file <<EOF"}
+  fileExists:    {category: policy,   weight: 1, gha: "hashFiles() / test -f (value used by Groovy: port the logic)"}
+  readJSON:      {category: policy,   weight: 1, gha: "jq / fromJSON()"}
+  writeJSON:     {category: policy,   weight: 1, gha: "jq"}
+  readYaml:      {category: policy,   weight: 1, gha: "yq"}
+  writeYaml:     {category: policy,   weight: 1, gha: "yq"}
+  readProperties: {category: policy,  weight: 1, gha: "shell parsing / $GITHUB_ENV"}
+  readMavenPom:  {category: policy,   weight: 1, gha: "mvn help:evaluate"}
+  findFiles:     {category: policy,   weight: 1, gha: "find / hashFiles()"}
+  zip:           {category: direct,   weight: 0.5, gha: "run: zip"}
+  unzip:         {category: direct,   weight: 0.5, gha: "run: unzip"}
+  tar:           {category: direct,   weight: 0.5, gha: "run: tar"}
+  untar:         {category: direct,   weight: 0.5, gha: "run: tar -x"}
+  sha1:          {category: policy,   weight: 0.5, gha: "run: sha1sum > $GITHUB_OUTPUT"}
+  sha256:        {category: policy,   weight: 0.5, gha: "run: sha256sum > $GITHUB_OUTPUT"}
+  httpRequest:   {category: policy,   weight: 1, gha: "run: curl"}
+  # --- artifacts / tests / reports -----------------------------------------
+  archiveArtifacts: {category: direct, weight: 1, gha: "actions/upload-artifact"}
+  archive:       {category: direct,   weight: 1, gha: "actions/upload-artifact"}
+  stash:         {category: policy,   weight: 1.5, gha: "actions/upload-artifact (cross-job hand-off)"}
+  unstash:       {category: policy,   weight: 1.5, gha: "actions/download-artifact"}
+  copyArtifacts: {category: redesign, weight: 2, gha: "actions/download-artifact with run-id / workflow_run"}
+  junit:         {category: policy,   weight: 1, gha: "upload JUnit XML + test reporting action"}
+  publishHTML:   {category: policy,   weight: 1, gha: "upload-artifact (+ Pages)"}
+  publishCoverage: {category: policy, weight: 1, gha: "coverage report action / upload-artifact"}
+  recordCoverage: {category: policy,  weight: 1, gha: "coverage report action / upload-artifact"}
+  jacoco:        {category: policy,   weight: 1, gha: "coverage report action / upload-artifact"}
+  cobertura:     {category: policy,   weight: 1, gha: "coverage report action / upload-artifact"}
+  recordIssues:  {category: policy,   weight: 1, gha: "SARIF upload / problem matchers"}
+  publishChecks: {category: policy,   weight: 1, gha: "native check runs"}
+  fingerprint:   {category: noop,     weight: 0.5, gha: "artifact attestations (optional)"}
+  # --- credentials / identity ----------------------------------------------
+  withCredentials: {category: policy, weight: 2, gha: "secrets.* / environment secrets / OIDC"}
+  credentials:   {category: policy,   weight: 2, gha: "secrets.*"}
+  usernamePassword: {category: policy, weight: 0, gha: "secrets.*_USR / secrets.*_PSW"}
+  string:        {category: policy,   weight: 0, gha: "secrets.*"}
+  file:          {category: policy,   weight: 0, gha: "secret written to a temp file"}
+  sshUserPrivateKey: {category: policy, weight: 0, gha: "webfactory/ssh-agent"}
+  usernameColonPassword: {category: policy, weight: 0, gha: "secrets.*"}
+  sshagent:      {category: policy,   weight: 2, gha: "webfactory/ssh-agent"}
+  withAWS:       {category: policy,   weight: 2, gha: "aws-actions/configure-aws-credentials (OIDC)"}
+  withKubeConfig: {category: policy,  weight: 2, gha: "azure/k8s-set-context or kubeconfig secret"}
+  azureCLI:      {category: policy,   weight: 2, gha: "azure/login (OIDC) + az"}
+  withVault:     {category: policy,   weight: 2, gha: "hashicorp/vault-action"}
+  withDockerRegistry: {category: policy, weight: 1.5, gha: "docker/login-action"}
+  withSonarQubeEnv: {category: policy, weight: 1.5, gha: "SonarSource/sonarqube-scan-action"}
+  waitForQualityGate: {category: policy, weight: 1.5, gha: "SonarSource/sonarqube-quality-gate-action"}
+  # --- tools / build wrappers ----------------------------------------------
+  tool:          {category: policy,   weight: 1, gha: "actions/setup-* or container image"}
+  withMaven:     {category: policy,   weight: 1, gha: "actions/setup-java (cache: maven)"}
+  nodejs:        {category: policy,   weight: 1, gha: "actions/setup-node"}
+  withGradle:    {category: policy,   weight: 1, gha: "gradle/actions/setup-gradle"}
+  withPythonEnv: {category: policy,   weight: 1, gha: "actions/setup-python"}
+  ansiColor:     {category: noop,     weight: 0, gha: "(GHA logs support ANSI natively)"}
+  timestamps:    {category: noop,     weight: 0, gha: "(GHA logs are timestamped)"}
+  wrap:          {category: policy,   weight: 1, gha: "depends on wrapped build wrapper"}
+  # --- containers ----------------------------------------------------------
+  podTemplate:   {category: redesign, weight: 3, gha: "job container/services or ARC runner scale set"}
+  containerTemplate: {category: redesign, weight: 1, gha: "container:/services:"}
+  container:     {category: policy,   weight: 1.5, gha: "job container: or docker run"}
+  dockerNode:    {category: policy,   weight: 1.5, gha: "job container:"}
+  # --- orchestration / governance ------------------------------------------
+  input:         {category: redesign, weight: 3, gha: "environment protection rules / separate dispatch"}
+  build:         {category: redesign, weight: 3, gha: "workflow_call / workflow_dispatch / repository_dispatch"}
+  milestone:     {category: policy,   weight: 1, gha: "concurrency: (cancel-in-progress)"}
+  lock:          {category: policy,   weight: 1.5, gha: "concurrency: group"}
+  parallel:      {category: policy,   weight: 1.5, gha: "separate jobs / strategy.matrix"}
+  node:          {category: policy,   weight: 1, gha: "runs-on:"}
+  stage:         {category: direct,   weight: 0, gha: "job or step group"}
+  properties:    {category: policy,   weight: 1.5, gha: "on: (triggers/inputs) + concurrency"}
+  buildDiscarder: {category: noop,    weight: 0, gha: "artifact retention-days / repo settings"}
+  disableConcurrentBuilds: {category: direct, weight: 0.5, gha: "concurrency:"}
+  # --- dynamic Groovy ------------------------------------------------------
+  script:        {category: dynamic,  weight: 2, gha: "manual: shell script / composite action"}
+  load:          {category: dynamic,  weight: 4, gha: "manual: inline or composite action"}
+  evaluate:      {category: dynamic,  weight: 4, gha: "manual"}
+  library:       {category: dynamic,  weight: 4, gha: "reusable workflow / composite action"}
+  # --- notifications -------------------------------------------------------
+  mail:          {category: policy,   weight: 1, gha: "email action / GitHub notifications"}
+  emailext:      {category: policy,   weight: 1, gha: "email action / GitHub notifications"}
+  slackSend:     {category: policy,   weight: 1, gha: "slackapi/slack-github-action"}
+  office365ConnectorSend: {category: policy, weight: 1, gha: "Teams webhook via curl/action"}
+  githubNotify:  {category: noop,     weight: 0, gha: "(native commit status from GHA)"}
+  setGitHubPullRequestStatus: {category: noop, weight: 0, gha: "(native check runs)"}
+  step:          {category: policy,   weight: 2, gha: "depends on the wrapped $class build step"}
+  # --- docker global variable (docker.*) handled separately ----------------
+  docker.build:  {category: policy,   weight: 1.5, gha: "docker/build-push-action"}
+  docker.image:  {category: policy,   weight: 1.5, gha: "container: / docker run"}
+  docker.withRegistry: {category: policy, weight: 1.5, gha: "docker/login-action"}
+  docker.withServer: {category: redesign, weight: 2, gha: "remote docker context"}
+  docker.script: {category: policy,   weight: 1, gha: "docker CLI"}
+
+# Groovy/Jenkins API markers that imply controller coupling or runtime-only behaviour (hard gates).
+hard_gates:
+  - pattern: "Jenkins.instance"
+    reason: "Direct Jenkins controller API access"
+  - pattern: "Jenkins.get()"
+    reason: "Direct Jenkins controller API access"
+  - pattern: "Jenkins.getInstance"
+    reason: "Direct Jenkins controller API access"
+  - pattern: "currentBuild.rawBuild"
+    reason: "Raw Jenkins build object access (requires unsandboxed script)"
+  - pattern: "hudson.model."
+    reason: "Jenkins core model classes used from pipeline"
+  - pattern: "jenkins.model."
+    reason: "Jenkins core model classes used from pipeline"
+  - pattern: "@NonCPS"
+    reason: "Non-CPS Groovy methods (Jenkins execution-model specific)"
+  - pattern: "GroovyShell"
+    reason: "Runtime Groovy evaluation"

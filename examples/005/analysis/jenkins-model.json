@@ -1,0 +1,682 @@
+{
+  "result": "success",
+  "json": {
+    "pipeline": {
+      "stages": [
+        {
+          "name": "Checkout",
+          "branches": [
+            {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "script",
+                  "arguments": [
+                    {
+                      "key": "scriptBlock",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "def checkoutBranch = params.VERSION?.trim() ? params.VERSION : params.GIT_BRANCH\n                        env.CHECKOUT_BRANCH = checkoutBranch\n                        echo \"\"\"\n                            ================================================================\n                            Default Integration Pipeline\n                            ================================================================\n                            Git:                    ${params.GIT_REPO_URL} @ ${checkoutBranch}\n                            Stage:                  ${params.STAGE}\n                            Version:                ${params.VERSION ?: 'N/A (using GIT_BRANCH)'}\n                            ================================================================\n                        \"\"\"\n                        // Allow overwriting this step\n                        if (config.checkoutStep) {\n                            config.checkoutStep()\n                        } else {\n                            checkoutStep(branch: checkoutBranch, repo: params.GIT_REPO_URL, commit: params.GIT_COMMIT)\n                        }"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Test Caller Identity",
+          "branches": [
+            {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "script",
+                  "arguments": [
+                    {
+                      "key": "scriptBlock",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "if (config.awsIdentityCheckStep) {\n                            config.awsIdentityCheckStep()\n                        } else {\n                            sh 'aws sts get-caller-identity'\n                        }"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Setup E2E CDK Context",
+          "branches": [
+            {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "script",
+                  "arguments": [
+                    {
+                      "key": "scriptBlock",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "if (config.cdkContextStep) {\n                            config.cdkContextStep()\n                        } else {\n                            writeFile (file: \"test/$source_context_file_name\", text: sourceContext)\n                            sh \"echo 'Using source context file options: ' && cat test/$source_context_file_name\"\n                            writeFile (file: \"test/$migration_context_file_name\", text: migrationContext)\n                            sh \"echo 'Using migration context file options: ' && cat test/$migration_context_file_name\"\n                        }"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Build",
+          "branches": [
+            {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "timeout",
+                  "arguments": [
+                    {
+                      "key": "time",
+                      "value": {
+                        "isLiteral": true,
+                        "value": 1
+                      }
+                    },
+                    {
+                      "key": "unit",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "HOURS"
+                      }
+                    }
+                  ],
+                  "children": [
+                    {
+                      "name": "script",
+                      "arguments": [
+                        {
+                          "key": "scriptBlock",
+                          "value": {
+                            "isLiteral": true,
+                            "value": "configureMavenCache()\n                            // Allow overwriting this step\n                            if (config.buildStep) {\n                                config.buildStep()\n                            } else {\n                                sh './gradlew clean build -x test --no-daemon --stacktrace'\n                            }"
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "when": {
+            "conditions": [
+              {
+                "name": "expression",
+                "arguments": [
+                  {
+                    "key": "scriptBlock",
+                    "value": {
+                      "isLiteral": true,
+                      "value": "config.preDeployStep != null"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          "name": "Pre-Deploy Cleanup",
+          "branches": [
+            {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "timeout",
+                  "arguments": [
+                    {
+                      "key": "time",
+                      "value": {
+                        "isLiteral": true,
+                        "value": 60
+                      }
+                    },
+                    {
+                      "key": "unit",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "MINUTES"
+                      }
+                    }
+                  ],
+                  "children": [
+                    {
+                      "name": "dir",
+                      "arguments": {
+                        "isLiteral": true,
+                        "value": "test"
+                      },
+                      "children": [
+                        {
+                          "name": "script",
+                          "arguments": [
+                            {
+                              "key": "scriptBlock",
+                              "value": {
+                                "isLiteral": true,
+                                "value": "withCredentials([string(credentialsId: 'migrations-test-account-id', variable: 'MIGRATIONS_TEST_ACCOUNT_ID')]) {\n                                    withAWS(role: 'JenkinsDeploymentRole', roleAccount: \"${MIGRATIONS_TEST_ACCOUNT_ID}\", duration: 5400, roleSessionName: 'jenkins-session') {\n                                        config.preDeployStep(\n                                            stage: stage,\n                                            sourceContextFileName: source_context_file_name,\n                                            migrationContextFileName: migration_context_file_name,\n                                            sourceContextId: source_context_id,\n                                            migrationContextId: migration_context_id\n                                        )\n                                    }\n                                }"
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Deploy",
+          "branches": [
+            {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "timeout",
+                  "arguments": [
+                    {
+                      "key": "time",
+                      "value": {
+                        "isLiteral": true,
+                        "value": 90
+                      }
+                    },
+                    {
+                      "key": "unit",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "MINUTES"
+                      }
+                    }
+                  ],
+                  "children": [
+                    {
+                      "name": "dir",
+                      "arguments": {
+                        "isLiteral": true,
+                        "value": "test"
+                      },
+                      "children": [
+                        {
+                          "name": "script",
+                          "arguments": [
+                            {
+                              "key": "scriptBlock",
+                              "value": {
+                                "isLiteral": true,
+                                "value": "if (config.deployStep) {\n                                    config.deployStep()\n                                } else {\n                                    echo \"Acquired deployment stage: ${stage}\"\n                                    def baseCommand = \"./awsE2ESolutionSetup.sh --source-context-file './$source_context_file_name' \" +\n                                            \"--migration-context-file './$migration_context_file_name' \" +\n                                            \"--source-context-id $source_context_id \" +\n                                            \"--migration-context-id $migration_context_id \" +\n                                            \"--stage ${stage}\"\n                                    withCredentials([string(credentialsId: 'migrations-test-account-id', variable: 'MIGRATIONS_TEST_ACCOUNT_ID')]) {\n                                        withAWS(role: 'JenkinsDeploymentRole', roleAccount: \"${MIGRATIONS_TEST_ACCOUNT_ID}\", duration: 5400, roleSessionName: 'jenkins-session') {\n                                            withEnv([\"DOCKER_BUILD_RETRIES=${config.dockerBuildRetries ?: 3}\"]) {\n                                                sh baseCommand\n                                            }\n                                        }\n                                    }\n                                }"
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Pre-Integ Test Cleanup",
+          "branches": [
+            {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "timeout",
+                  "arguments": [
+                    {
+                      "key": "time",
+                      "value": {
+                        "isLiteral": true,
+                        "value": 10
+                      }
+                    },
+                    {
+                      "key": "unit",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "MINUTES"
+                      }
+                    }
+                  ],
+                  "children": [
+                    {
+                      "name": "dir",
+                      "arguments": {
+                        "isLiteral": true,
+                        "value": "test"
+                      },
+                      "children": [
+                        {
+                          "name": "script",
+                          "arguments": [
+                            {
+                              "key": "scriptBlock",
+                              "value": {
+                                "isLiteral": true,
+                                "value": "if (config.preIntegTestStep) {\n                                    withCredentials([string(credentialsId: 'migrations-test-account-id', variable: 'MIGRATIONS_TEST_ACCOUNT_ID')]) {\n                                        withAWS(role: 'JenkinsDeploymentRole', roleAccount: \"${MIGRATIONS_TEST_ACCOUNT_ID}\", duration: 3600, roleSessionName: 'jenkins-session') {\n                                            config.preIntegTestStep(stage)\n                                        }\n                                    }\n                                }"
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Integ Tests",
+          "branches": [
+            {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "timeout",
+                  "arguments": [
+                    {
+                      "key": "time",
+                      "value": {
+                        "isLiteral": true,
+                        "value": 1
+                      }
+                    },
+                    {
+                      "key": "unit",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "HOURS"
+                      }
+                    }
+                  ],
+                  "children": [
+                    {
+                      "name": "dir",
+                      "arguments": {
+                        "isLiteral": true,
+                        "value": "test"
+                      },
+                      "children": [
+                        {
+                          "name": "script",
+                          "arguments": [
+                            {
+                              "key": "scriptBlock",
+                              "value": {
+                                "isLiteral": true,
+                                "value": "if (config.integTestStep) {\n                                    config.integTestStep()\n                                } else {\n                                    def test_result_file = \"${testDir}/reports/${testUniqueId}/report.xml\"\n                                    def populatedIntegTestCommand = integTestCommand.replaceAll(\"<STAGE>\", stage)\n                                    def command = \"pipenv run pytest --log-file=${testDir}/reports/${testUniqueId}/pytest.log \" +\n                                            \"--junitxml=${test_result_file} ${populatedIntegTestCommand} \" +\n                                            \"--unique_id ${testUniqueId} \" +\n                                            \"--stage ${stage} \" +\n                                            \"-s\"\n                                    withCredentials([string(credentialsId: 'migrations-test-account-id', variable: 'MIGRATIONS_TEST_ACCOUNT_ID')]) {\n                                        withAWS(role: 'JenkinsDeploymentRole', roleAccount: \"${MIGRATIONS_TEST_ACCOUNT_ID}\", duration: 3600, roleSessionName: 'jenkins-session') {\n                                            sh \"./awsRunIntegTests.sh --command '${command}' \" +\n                                                    \"--test-result-file ${test_result_file} \" +\n                                                    \"--stage ${stage}\"\n                                        }\n                                    }\n                                }"
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "post": {
+        "conditions": [
+          {
+            "condition": "always",
+            "branch": {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "timeout",
+                  "arguments": [
+                    {
+                      "key": "time",
+                      "value": {
+                        "isLiteral": true,
+                        "value": 10
+                      }
+                    },
+                    {
+                      "key": "unit",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "MINUTES"
+                      }
+                    }
+                  ],
+                  "children": [
+                    {
+                      "name": "dir",
+                      "arguments": {
+                        "isLiteral": true,
+                        "value": "test"
+                      },
+                      "children": [
+                        {
+                          "name": "script",
+                          "arguments": [
+                            {
+                              "key": "scriptBlock",
+                              "value": {
+                                "isLiteral": true,
+                                "value": "if (config.finishStep) {\n                                config.finishStep()\n                            } else {\n                                sh \"echo 'Default post step performs no actions'\"\n                            }"
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          },
+          {
+            "condition": "cleanup",
+            "branch": {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "cleanupMavenCache",
+                  "arguments": []
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "agent": {
+        "type": "label",
+        "argument": {
+          "isLiteral": false,
+          "value": "${?:}"
+        }
+      },
+      "options": {
+        "options": [
+          {
+            "name": "lock",
+            "arguments": [
+              {
+                "key": "label",
+                "value": {
+                  "isLiteral": false,
+                  "value": "${params.STAGE}"
+                }
+              },
+              {
+                "key": "quantity",
+                "value": {
+                  "isLiteral": true,
+                  "value": 1
+                }
+              },
+              {
+                "key": "variable",
+                "value": {
+                  "isLiteral": true,
+                  "value": "stage"
+                }
+              }
+            ]
+          },
+          {
+            "name": "timeout",
+            "arguments": [
+              {
+                "key": "time",
+                "value": {
+                  "isLiteral": true,
+                  "value": 3
+                }
+              },
+              {
+                "key": "unit",
+                "value": {
+                  "isLiteral": true,
+                  "value": "HOURS"
+                }
+              }
+            ]
+          },
+          {
+            "name": "buildDiscarder",
+            "arguments": [
+              {
+                "name": "logRotator",
+                "arguments": [
+                  {
+                    "key": "daysToKeepStr",
+                    "value": {
+                      "isLiteral": true,
+                      "value": "30"
+                    }
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "name": "skipDefaultCheckout",
+            "arguments": [
+              {
+                "isLiteral": true,
+                "value": true
+              }
+            ]
+          }
+        ]
+      },
+      "parameters": {
+        "parameters": [
+          {
+            "name": "string",
+            "arguments": [
+              {
+                "key": "name",
+                "value": {
+                  "isLiteral": true,
+                  "value": "GIT_REPO_URL"
+                }
+              },
+              {
+                "key": "defaultValue",
+                "value": {
+                  "isLiteral": true,
+                  "value": "https://github.com/opensearch-project/opensearch-migrations.git"
+                }
+              },
+              {
+                "key": "description",
+                "value": {
+                  "isLiteral": true,
+                  "value": "Git repository url"
+                }
+              }
+            ]
+          },
+          {
+            "name": "string",
+            "arguments": [
+              {
+                "key": "name",
+                "value": {
+                  "isLiteral": true,
+                  "value": "GIT_BRANCH"
+                }
+              },
+              {
+                "key": "defaultValue",
+                "value": {
+                  "isLiteral": false,
+                  "value": "${defaultGitBranch}"
+                }
+              },
+              {
+                "key": "description",
+                "value": {
+                  "isLiteral": true,
+                  "value": "Git branch to use for repository"
+                }
+              }
+            ]
+          },
+          {
+            "name": "string",
+            "arguments": [
+              {
+                "key": "name",
+                "value": {
+                  "isLiteral": true,
+                  "value": "GIT_COMMIT"
+                }
+              },
+              {
+                "key": "defaultValue",
+                "value": {
+                  "isLiteral": true,
+                  "value": ""
+                }
+              },
+              {
+                "key": "description",
+                "value": {
+                  "isLiteral": true,
+                  "value": "(Optional) Specific commit to checkout after cloning branch"
+                }
+              }
+            ]
+          },
+          {
+            "name": "string",
+            "arguments": [
+              {
+                "key": "name",
+                "value": {
+                  "isLiteral": true,
+                  "value": "STAGE"
+                }
+              },
+              {
+                "key": "defaultValue",
+                "value": {
+                  "isLiteral": false,
+                  "value": "\"${defaultStageId}\""
+                }
+              },
+              {
+                "key": "description",
+                "value": {
+                  "isLiteral": true,
+                  "value": "Stage name for deployment environment"
+                }
+              }
+            ]
+          },
+          {
+            "name": "string",
+            "arguments": [
+              {
+                "key": "name",
+                "value": {
+                  "isLiteral": true,
+                  "value": "VERSION"
+                }
+              },
+              {
+                "key": "defaultValue",
+                "value": {
+                  "isLiteral": true,
+                  "value": ""
+                }
+              },
+              {
+                "key": "description",
+                "value": {
+                  "isLiteral": true,
+                  "value": "Release version to deploy (e.g. \"2.9.0\"). When set, checks out the release tag instead of GIT_BRANCH."
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "triggers": {
+        "triggers": [
+          {
+            "name": "GenericTrigger",
+            "arguments": [
+              {
+                "key": "genericVariables",
+                "value": {
+                  "isLiteral": false,
+                  "value": "${[\n                            [key: 'GIT_REPO_URL', value: '$.GIT_REPO_URL'],\n                            [key: 'GIT_BRANCH', value: '$.GIT_BRANCH'],\n                            [key: 'GIT_COMMIT', value: '$.GIT_COMMIT'],\n                            [key: 'job_name', value: '$.job_name']\n                    ]}"
+                }
+              },
+              {
+                "key": "tokenCredentialId",
+                "value": {
+                  "isLiteral": true,
+                  "value": "jenkins-migrations-generic-webhook-token"
+                }
+              },
+              {
+                "key": "causeString",
+                "value": {
+                  "isLiteral": true,
+                  "value": "Triggered by PR on opensearch-migrations repository"
+                }
+              },
+              {
+                "key": "regexpFilterExpression",
+                "value": {
+                  "isLiteral": false,
+                  "value": "\"^$jobName\\$\""
+                }
+              },
+              {
+                "key": "regexpFilterText",
+                "value": {
+                  "isLiteral": true,
+                  "value": "$job_name"
+                }
+              }
+            ]
+          },
+          {
+            "name": "cron",
+            "arguments": [
+              {
+                "name": "periodicCron",
+                "arguments": [
+                  {
+                    "isLiteral": false,
+                    "value": "${jobName}"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,290 @@
+{
+  "dialect": "scripted",
+  "stages": [
+    {
+      "line": 1,
+      "steps": [
+        {
+          "name": "<decl>",
+          "line": 1,
+          "named": {
+            "_target": "label"
+          },
+          "category": "dynamic",
+          "source": "label = jenkins-node-${UUID.randomUUID().toString()}",
+          "dynamic": true
+        },
+        {
+          "name": "podTemplate",
+          "line": 2,
+          "named": {
+            "label": "label",
+            "containers": [
+              "containerTemplate(...)"
+            ]
+          },
+          "body": [
+            {
+              "name": "node",
+              "line": 5,
+              "args": [
+                "label"
+              ],
+              "body": [
+                {
+                  "name": "container",
+                  "line": 6,
+                  "args": [
+                    "maven"
+                  ],
+                  "body": [
+                    {
+                      "name": "withFolderProperties",
+                      "line": 8,
+                      "body": [
+                        {
+                          "name": "<assign>",
+                          "line": 9,
+                          "named": {
+                            "_target": "LBRANCH"
+                          },
+                          "body": [
+                            {
+                              "name": "toLowerCase",
+                              "line": 9,
+                              "category": "groovy",
+                              "receiver": "\"${env.BRANCH}\""
+                            }
+                          ],
+                          "category": "dynamic",
+                          "source": "LBRANCH = \"${env.BRANCH}\".toLowerCase(...)",
+                          "dynamic": true
+                        }
+                      ],
+                      "category": "unknown"
+                    },
+                    {
+                      "name": "<assign>",
+                      "line": 12,
+                      "named": {
+                        "_target": "APP_ID"
+                      },
+                      "category": "dynamic",
+                      "source": "APP_ID = ",
+                      "dynamic": true
+                    },
+                    {
+                      "name": "stage",
+                      "line": 14,
+                      "args": [
+                        "checkout"
+                      ],
+                      "body": [
+                        {
+                          "name": "checkout",
+                          "line": 15,
+                          "args": [
+                            "scm"
+                          ],
+                          "category": "direct",
+                          "dynamic": true,
+                          "variable_args": [
+                            0
+                          ]
+                        }
+                      ],
+                      "category": "direct"
+                    },
+                    {
+                      "name": "stage",
+                      "line": 18,
+                      "args": [
+                        "Get IPA from AWS S3"
+                      ],
+                      "body": [
+                        {
+                          "name": "withCredentials",
+                          "line": 19,
+                          "args": [
+                            [
+                              {
+                                "expr": "usernamePassword(...)"
+                              }
+                            ]
+                          ],
+                          "named": {
+                            "bindings": [
+                              {
+                                "type": "usernamePassword",
+                                "credentialsId": "jenkins-iam",
+                                "usernameVariable": "AWS_ACCESS_KEY_ID",
+                                "passwordVariable": "AWS_SECRET_ACCESS_KEY"
+                              }
+                            ]
+                          },
+                          "body": [
+                            {
+                              "name": "sh",
+                              "line": 20,
+                              "args": [
+                                "test -n \"$AWS_ACCESS_KEY_ID\" && echo https://raw.githubusercontent.com/dvsa/cvs-auto-mobile-app-retired/bf150f606a385a8ed5eacc00070a988c675dd815/README.md > ${LBRANCH}.txt"
+                              ],
+                              "category": "direct",
+                              "dynamic": true
+                            }
+                          ],
+                          "category": "policy",
+                          "dynamic": true
+                        }
+                      ],
+                      "category": "direct"
+                    },
+                    {
+                      "name": "stage",
+                      "line": 24,
+                      "args": [
+                        "install ipa in browserstack"
+                      ],
+                      "body": [
+                        {
+                          "name": "sh",
+                          "line": 25,
+                          "args": [
+                            "curl -sSfLo CVSMobile.ipa `cat ${LBRANCH}.txt`"
+                          ],
+                          "category": "direct",
+                          "dynamic": true
+                        },
+                        {
+                          "name": "withCredentials",
+                          "line": 26,
+                          "args": [
+                            [
+                              {
+                                "expr": "usernameColonPassword(...)"
+                              }
+                            ]
+                          ],
+                          "named": {
+                            "bindings": [
+                              {
+                                "type": "usernameColonPassword",
+                                "credentialsId": "browserstack-uploader",
+                                "variable": "BROWSERSTACK_CREDS"
+                              }
+                            ]
+                          },
+                          "body": [
+                            {
+                              "name": "<assign>",
+                              "line": 27,
+                              "named": {
+                                "_target": "APP_ID"
+                              },
+                              "body": [
+                                {
+                                  "name": "sh",
+                                  "line": 27,
+                                  "named": {
+                                    "script": "test -n \"$BROWSERSTACK_CREDS\" && echo '{\"app_url\":\"bs://j2gha-local\"}' | jq \".app_url\"",
+                                    "returnStdout": true,
+                                    "_chain": "trim"
+                                  },
+                                  "category": "direct"
+                                }
+                              ],
+                              "category": "dynamic",
+                              "source": "APP_ID = sh(script: 'test -n \"$BROWSERSTACK_CREDS\" && echo \\'{\"app_url\":\"bs://j2gha-local\"}\\' | jq \".app_url\"',returnStdout: true).trim(...)",
+                              "dynamic": true
+                            }
+                          ],
+                          "category": "policy",
+                          "dynamic": true
+                        }
+                      ],
+                      "category": "direct"
+                    },
+                    {
+                      "name": "stage",
+                      "line": 31,
+                      "args": [
+                        "test"
+                      ],
+                      "body": [
+                        {
+                          "name": "browserstack",
+                          "line": 32,
+                          "args": [
+                            "browserstack"
+                          ],
+                          "body": [
+                            {
+                              "name": "sh",
+                              "line": 33,
+                              "args": [
+                                "mvn --batch-mode clean install -DskipTests -DBROWSERSTACK_APP_ID=${APP_ID} -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn"
+                              ],
+                              "category": "direct",
+                              "dynamic": true
+                            }
+                          ],
+                          "category": "unknown"
+                        }
+                      ],
+                      "category": "direct"
+                    },
+                    {
+                      "name": "stage",
+                      "line": 37,
+                      "args": [
+                        "create report"
+                      ],
+                      "body": [
+                        {
+                          "name": "sh",
+                          "line": 38,
+                          "args": [
+                            "mkdir -p target/site/serenity && echo \"<html><body><h1>DVSA CVS Mobile Automation</h1><p>j2gha-local stand-in for the Serenity report</p></body></html>\" > target/site/serenity/index.html"
+                          ],
+                          "category": "direct"
+                        },
+                        {
+                          "name": "publishHTML",
+                          "line": 39,
+                          "named": {
+                            "target": {
+                              "keepAll": true,
+                              "reportDir": "target/site/serenity",
+                              "reportFiles": "index.html",
+                              "reportName": "DVSA CVS Mobile Automation",
+                              "reportTitles": "DVSA CVS Mobile Automation"
+                            }
+                          },
+                          "category": "policy"
+                        }
+                      ],
+                      "category": "direct"
+                    }
+                  ],
+                  "category": "policy"
+                }
+              ],
+              "category": "policy",
+              "dynamic": true,
+              "variable_args": [
+                0
+              ]
+            }
+          ],
+          "category": "redesign",
+          "dynamic": true
+        }
+      ]
+    }
+  ],
+  "notes": [
+    "line 2: stage(s) 'checkout', 'Get IPA from AWS S3', 'install ipa in browserstack', 'test', 'create report' nested in 'podTemplate' (plugin/library block) kept as its nested steps, in an unnamed segment",
+    "2 statement(s) outside any stage kept in source order in 1 unnamed segment(s) (from line(s) 1)",
+    "no stage() blocks found - structure is opaque (library call or custom DSL)"
+  ]
+}

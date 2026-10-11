@@ -1,0 +1,335 @@
+{
+  "meta": {
+    "title": "From Jenkins to GitHub Actions: analyse, convert, validate",
+    "chip": "Jenkins to GitHub Actions · Analyse, convert, validate",
+    "fps": 30,
+    "width": 1920,
+    "height": 1080,
+    "voice": {
+      "engine": "kokoro",
+      "voice": "bf_emma",
+      "lang_code": "b",
+      "speed": 1.0
+    },
+    "pronunciations": "pronunciations.json",
+    "prompt": "$ "
+  },
+  "captures": {
+    "main": {
+      "file": "captures/parts-2-4.txt",
+      "label": "The three harness commands"
+    },
+    "detail": {
+      "file": "captures/supporting.txt",
+      "label": "Looking inside the generated files"
+    }
+  },
+  "scenes": [
+    {
+      "id": "00-title",
+      "kind": "title",
+      "source": "examples/000/README.md Parts 2 to 4",
+      "narration": "From Jenkins to GitHub Actions. Chapter two: analyse, convert, and validate.",
+      "onScreen": [
+        "Analyse, convert, validate",
+        "Moving one Jenkins pipeline to GitHub Actions, step by step"
+      ]
+    },
+    {
+      "id": "01-note",
+      "kind": "disclaimer",
+      "source": "README Parts 2 to 4; source-facts.md do-not-claim list",
+      "narration": "A quick note on what this chapter is. We take one example pipeline and run three automatic steps on it. The output is replayed from real runs. This chapter does not show that the new workflow behaves the same as the old one. That is tested later. It also has not been run on GitHub.",
+      "onScreen": [
+        "Summary",
+        "Three local, automatic steps on one example pipeline",
+        "Output is replayed from real runs",
+        "Not shown here: proof the new workflow behaves the same",
+        "Not shown here: any run on GitHub"
+      ],
+      "data": {
+        "foot": "Checking the structure is not the same as proving the behaviour."
+      }
+    },
+    {
+      "id": "02-problem",
+      "kind": "explainer",
+      "source": "README intro and Part 3 intro",
+      "narration": "The starting point is a Jenkins pipeline: a file telling Jenkins how to build, test and deploy a small service. GitHub Actions can do the same job, with different vocabulary and rules. The harness tackles the move in three steps. Read and score. Write the new version. Check it for mistakes.",
+      "onScreen": [
+        {
+          "k": "Step 1",
+          "v": "Analyse: read the pipeline and score the difficulty"
+        },
+        {
+          "k": "Step 2",
+          "v": "Convert: write the GitHub Actions workflow and a report"
+        },
+        {
+          "k": "Step 3",
+          "v": "Validate: check structure, security and policy"
+        }
+      ]
+    },
+    {
+      "id": "03-analyse",
+      "kind": "terminal",
+      "capture": "main",
+      "part": "Part 2 · Analyse",
+      "source": "README Part 2; capture parts-2-4 #0",
+      "beats": [
+        {
+          "steps": [
+            0
+          ],
+          "narration": "Step one, analyse. The tool reads the pipeline using the same Groovy engine that Jenkins itself uses, so it understands the file the way Jenkins does. Then it gives a difficulty score.",
+          "highlight": [
+            {
+              "text": "Difficulty twenty-three: assisted, meaning a person helps",
+              "tone": "info"
+            },
+            {
+              "text": "Convertibility: automatic",
+              "tone": "ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "04-findings",
+      "kind": "terminal",
+      "capture": "detail",
+      "part": "Part 2 · Analyse",
+      "source": "README Part 2 Findings; capture supporting #0",
+      "beats": [
+        {
+          "steps": [
+            0
+          ],
+          "narration": "The analysis also writes a results page. Its findings list the parts that will need attention. There is an approval gate on the deploy stage. There are conditions written in Groovy. There is a schedule using a Jenkins shorthand that GitHub does not have. And there are two stored credentials.",
+          "highlight": [
+            {
+              "text": "InputGate: a human approval step",
+              "tone": "warn"
+            },
+            {
+              "text": "HashedCron: Jenkins-only schedule shorthand",
+              "tone": "warn"
+            },
+            {
+              "text": "CredentialBinding: two credentials",
+              "tone": "warn"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "05-convert",
+      "kind": "terminal",
+      "capture": "main",
+      "part": "Part 3 · Convert",
+      "source": "README Part 3; capture parts-2-4 #1",
+      "beats": [
+        {
+          "steps": [
+            1
+          ],
+          "narration": "Step two, convert. It produces nine jobs and sorts every construct into a bucket. Forty-one mapped cleanly. Thirty-three were approximated, which means a close equivalent, not an identical one. One needs a person. Overall, eighty-one percent was automated.",
+          "highlight": [
+            {
+              "text": "Mapped 41, approximated 33, manual 1",
+              "tone": "info"
+            },
+            {
+              "text": "Automation 81.0 percent, not 100",
+              "tone": "warn"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "06-jobs",
+      "kind": "flow",
+      "source": "README Part 3 job table; capture supporting #1",
+      "narration": "Why nine jobs? In Jenkins, the stages share one workspace. GitHub Actions jobs do not, so the converter splits the work up, and hands the files on from one job to the next. The first two stages become one job. The three parallel quality checks become three jobs. Then come the compatibility matrix and publish. Before deploy, a small gate job decides whether deploy should run at all, so a skipped deploy never asks for approval. A final job reports the overall result.",
+      "data": {
+        "type": "chain",
+        "title": "Nine jobs in the converted workflow",
+        "nodes": [
+          {
+            "label": "prepare-sources",
+            "sub": "prepare and build"
+          },
+          {
+            "label": "quality x 3",
+            "sub": "unit, lint, integration"
+          },
+          {
+            "label": "compatibility",
+            "sub": "matrix"
+          },
+          {
+            "label": "publish",
+            "sub": "release only"
+          },
+          {
+            "label": "deploy-gate",
+            "sub": "decides whether to deploy"
+          },
+          {
+            "label": "deploy",
+            "sub": "needs approval"
+          },
+          {
+            "label": "post",
+            "sub": "final report"
+          }
+        ]
+      }
+    },
+    {
+      "id": "07-jobs-real",
+      "kind": "terminal",
+      "capture": "detail",
+      "part": "Part 3 · Convert",
+      "source": "capture supporting #1",
+      "beats": [
+        {
+          "steps": [
+            1
+          ],
+          "narration": "Here are the job names, read straight from the generated workflow file.",
+          "highlight": [
+            {
+              "text": "Nine jobs, as reported",
+              "tone": "ok"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "08-translate",
+      "kind": "terminal",
+      "capture": "detail",
+      "part": "Part 3 · Convert",
+      "source": "README Part 3; capture supporting #2",
+      "beats": [
+        {
+          "steps": [
+            2
+          ],
+          "narration": "Conditions are translated too. A Jenkins rule that says, skip this stage for snapshot versions, becomes an if line in the GitHub expression language. A schedule using the Jenkins shorthand becomes a fixed time. The deploy job also names a protected environment, which is where a person will have to add the reviewers.",
+          "highlight": [
+            {
+              "text": "A Jenkins when rule becomes an if condition",
+              "tone": "ok"
+            },
+            {
+              "text": "Reviewers must be added by a person",
+              "tone": "warn"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "09-report",
+      "kind": "terminal",
+      "capture": "detail",
+      "part": "Part 3 · Convert",
+      "source": "README Part 3 report; capture supporting #3",
+      "beats": [
+        {
+          "steps": [
+            3
+          ],
+          "narration": "The migration report lists every construct with its line number and status. Three things are dropped because GitHub has no equivalent: an unstable post condition, the build discarder and timestamps. One is manual, an assignment that renames the build. Its header calls the automated share an effort estimate, not a measure of correctness. Reading this report is where a human adds value.",
+          "highlight": [
+            {
+              "text": "Dropped: three. Manual: one",
+              "tone": "warn"
+            },
+            {
+              "text": "Approximated items also deserve a review",
+              "tone": "info"
+            },
+            {
+              "text": "81 percent is an effort estimate, not correctness",
+              "tone": "info"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "10-validate",
+      "kind": "terminal",
+      "capture": "main",
+      "part": "Part 4 · Validate",
+      "source": "README Part 4; capture parts-2-4 #2",
+      "beats": [
+        {
+          "steps": [
+            2
+          ],
+          "narration": "Step three, validate. Three checkers look at the new workflow. The first checks its structure, including the shell scripts inside it. The second looks for security problems. The third applies the project's own rules. Both standard tools found nothing. The rules raised one warning, and the overall result is okay.",
+          "highlight": [
+            {
+              "text": "actionlint 0, zizmor 0",
+              "tone": "ok"
+            },
+            {
+              "text": "policy 1: a warning, not a failure",
+              "tone": "warn"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "11-warning",
+      "kind": "terminal",
+      "capture": "detail",
+      "part": "Part 4 · Validate",
+      "source": "README Part 4; capture supporting #4",
+      "beats": [
+        {
+          "steps": [
+            4
+          ],
+          "narration": "That warning points at a line in the final job. It still contains a placeholder, because the converter could not translate a Jenkins value that holds the build result. The placeholder is marked with a TODO. That is the tool telling you where a human is needed.",
+          "highlight": [
+            {
+              "text": "Untranslated Groovy value left as a TODO",
+              "tone": "warn"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "99-summary",
+      "kind": "summary",
+      "title": "What we did, and what is left",
+      "source": "README Parts 2 to 4; source-facts.md",
+      "narration": "To sum up. Analysis scored the pipeline as assisted, with findings to review. Conversion automated about eighty-one percent and listed the rest in a report. Validation found no structural or security problems, and one warning. A person must still review the approximated and manual items, fix the warning, and add reviewers to the deploy environment. And passing these checks does not prove the workflow behaves like the original. The next chapter tests that.",
+      "onScreen": [
+        "Analyse: difficulty 23, assisted",
+        "Convert: 9 jobs, 81.0 percent automated, plus a report",
+        "Validate: actionlint 0, zizmor 0, policy 1 warning",
+        {
+          "text": "Still needed: human review, fix the warning, add deploy reviewers",
+          "tone": "warn"
+        },
+        {
+          "text": "Not proven: that the workflow behaves like the Jenkinsfile",
+          "tone": "warn"
+        }
+      ]
+    }
+  ]
+}

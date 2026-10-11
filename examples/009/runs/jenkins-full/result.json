@@ -1,0 +1,436 @@
+{
+  "tier": "jenkins",
+  "mode": "full",
+  "scenario": {
+    "branch": "master",
+    "git_branch": "origin/master"
+  },
+  "localisation": {
+    "changes": [
+      "L13: options {} removed (empty after repairs)"
+    ],
+    "stubs": [
+      "build",
+      "mail",
+      "emailext",
+      "slackSend",
+      "office365ConnectorSend",
+      "githubNotify",
+      "setGitHubPullRequestStatus",
+      "publishChecks",
+      "s3Upload",
+      "s3Download",
+      "copyArtifacts",
+      "waitForQualityGate",
+      "recordIssues",
+      "publishCoverage",
+      "recordCoverage",
+      "jacoco",
+      "cobertura",
+      "milestone",
+      "properties",
+      "buildDiscarder",
+      "checkout(GIT_BRANCH kept)",
+      "withSonarQubeEnv",
+      "withAWS",
+      "withKubeConfig",
+      "withVault",
+      "azureCLI",
+      "container",
+      "sshagent",
+      "withDockerRegistry",
+      "configFileProvider",
+      "withMaven",
+      "withGradle",
+      "withPythonEnv",
+      "podTemplate",
+      "wrap",
+      "withDockerContainer"
+    ],
+    "auto_repairs": {
+      "removed": [
+        [
+          "remove-directive",
+          "options"
+        ]
+      ],
+      "stubbed": [],
+      "ineffective": []
+    }
+  },
+  "attempts": [
+    {
+      "attempt": 0,
+      "phase": "validate",
+      "errors": "Errors encountered validating Jenkinsfile:\nWorkflowScript: 13: options can not be empty @ line 13, column 5.\n       options {\n       ^",
+      "repairs": [
+        [
+          "remove-directive",
+          "options"
+        ]
+      ],
+      "stubs": []
+    },
+    {
+      "attempt": 1,
+      "phase": "run",
+      "build": 1,
+      "result": "FAILURE",
+      "seconds": 127.6,
+      "repairs": [],
+      "stubs": []
+    }
+  ],
+  "result": "FAILURE",
+  "build": 1,
+  "duration_ms": 127316,
+  "stages": [
+    {
+      "name": "Declarative: Checkout SCM",
+      "status": "SUCCESS",
+      "durationMillis": 50281
+    },
+    {
+      "name": "checkout",
+      "status": "SUCCESS",
+      "durationMillis": 49796
+    },
+    {
+      "name": "build",
+      "status": "SUCCESS",
+      "durationMillis": 369
+    },
+    {
+      "name": "Matrix - configuration_name = 'gcc-12', build_type = 'Release'",
+      "status": "SUCCESS",
+      "durationMillis": 1278
+    },
+    {
+      "name": "Matrix - configuration_name = 'gcc-13', build_type = 'Release'",
+      "status": "SUCCESS",
+      "durationMillis": 1279
+    },
+    {
+      "name": "Matrix - configuration_name = 'gcc-14', build_type = 'Release'",
+      "status": "SUCCESS",
+      "durationMillis": 1278
+    },
+    {
+      "name": "Matrix - configuration_name = 'gcc-15', build_type = 'Release'",
+      "status": "SUCCESS",
+      "durationMillis": 1277
+    },
+    {
+      "name": "Matrix - configuration_name = 'clang-17-apex', build_type = 'Release'",
+      "status": "SUCCESS",
+      "durationMillis": 1275
+    },
+    {
+      "name": "Matrix - configuration_name = 'clang-16', build_type = 'Release'",
+      "status": "SUCCESS",
+      "durationMillis": 1275
+    },
+    {
+      "name": "Matrix - configuration_name = 'clang-17', build_type = 'Release'",
+      "status": "SUCCESS",
+      "durationMillis": 1275
+    },
+    {
+      "name": "Matrix - configuration_name = 'clang-18', build_type = 'Release'",
+      "status": "SUCCESS",
+      "durationMillis": 1272
+    },
+    {
+      "name": "Matrix - configuration_name = 'clang-19', build_type = 'Release'",
+      "status": "SUCCESS",
+      "durationMillis": 1269
+    },
+    {
+      "name": "Matrix - configuration_name = 'clang-20', build_type = 'Release'",
+      "status": "SUCCESS",
+      "durationMillis": 1263
+    },
+    {
+      "name": "Matrix - configuration_name = 'gcc-12-cuda-12', build_type = 'Release'",
+      "status": "SUCCESS",
+      "durationMillis": 1260
+    },
+    {
+      "name": "Matrix - configuration_name = 'gcc-12-cuda-12-dgx', build_type = 'Release'",
+      "status": "SUCCESS",
+      "durationMillis": 1260
+    },
+    {
+      "name": "Matrix - configuration_name = 'hipcc', build_type = 'Release'",
+      "status": "SUCCESS",
+      "durationMillis": 1259
+    },
+    {
+      "name": "Matrix - configuration_name = 'gcc-12', build_type = 'Debug'",
+      "status": "SUCCESS",
+      "durationMillis": 1257
+    },
+    {
+      "name": "Matrix - configuration_name = 'gcc-13', build_type = 'Debug'",
+      "status": "SUCCESS",
+      "durationMillis": 1258
+    },
+    {
+      "name": "Matrix - configuration_name = 'gcc-14', build_type = 'Debug'",
+      "status": "SUCCESS",
+      "durationMillis": 1259
+    },
+    {
+      "name": "Matrix - configuration_name = 'gcc-15', build_type = 'Debug'",
+      "status": "SUCCESS",
+      "durationMillis": 1262
+    },
+    {
+      "name": "Matrix - configuration_name = 'clang-17-apex', build_type = 'Debug'",
+      "status": "SUCCESS",
+      "durationMillis": 1276
+    },
+    {
+      "name": "Matrix - configuration_name = 'clang-16', build_type = 'Debug'",
+      "status": "SUCCESS",
+      "durationMillis": 1295
+    },
+    {
+      "name": "Matrix - configuration_name = 'clang-17', build_type = 'Debug'",
+      "status": "SUCCESS",
+      "durationMillis": 1273
+    },
+    {
+      "name": "Matrix - configuration_name = 'clang-18', build_type = 'Debug'",
+      "status": "SUCCESS",
+      "durationMillis": 1245
+    },
+    {
+      "name": "Matrix - configuration_name = 'clang-19', build_type = 'Debug'",
+      "status": "SUCCESS",
+      "durationMillis": 1254
+    },
+    {
+      "name": "Matrix - configuration_name = 'clang-20', build_type = 'Debug'",
+      "status": "SUCCESS",
+      "durationMillis": 1256
+    },
+    {
+      "name": "Matrix - configuration_name = 'gcc-12-cuda-12', build_type = 'Debug'",
+      "status": "SUCCESS",
+      "durationMillis": 1252
+    },
+    {
+      "name": "Matrix - configuration_name = 'gcc-12-cuda-12-dgx', build_type = 'Debug'",
+      "status": "SUCCESS",
+      "durationMillis": 1253
+    },
+    {
+      "name": "Matrix - configuration_name = 'hipcc', build_type = 'Debug'",
+      "status": "SUCCESS",
+      "durationMillis": 1249
+    },
+    {
+      "name": "build",
+      "status": "FAILED",
+      "durationMillis": 16462
+    },
+    {
+      "name": "build",
+      "status": "FAILED",
+      "durationMillis": 19719
+    },
+    {
+      "name": "build",
+      "status": "FAILED",
+      "durationMillis": 6692
+    },
+    {
+      "name": "build",
+      "status": "FAILED",
+      "durationMillis": 19840
+    },
+    {
+      "name": "build",
+      "status": "FAILED",
+      "durationMillis": 17418
+    },
+    {
+      "name": "build",
+      "status": "FAILED",
+      "durationMillis": 11159
+    },
+    {
+      "name": "build",
+      "status": "FAILED",
+      "durationMillis": 19975
+    },
+    {
+      "name": "build",
+      "status": "FAILED",
+      "durationMillis": 5965
+    },
+    {
+      "name": "build",
+      "status": "FAILED",
+      "durationMillis": 9176
+    },
+    {
+      "name": "build",
+      "status": "FAILED",
+      "durationMillis": 14380
+    },
+    {
+      "name": "build",
+      "status": "FAILED",
+      "durationMillis": 6354
+    },
+    {
+      "name": "build",
+      "status": "FAILED",
+      "durationMillis": 13896
+    },
+    {
+      "name": "build",
+      "status": "FAILED",
+      "durationMillis": 7938
+    },
+    {
+      "name": "build",
+      "status": "FAILED",
+      "durationMillis": 16671
+    },
+    {
+      "name": "build",
+      "status": "FAILED",
+      "durationMillis": 16681
+    },
+    {
+      "name": "build",
+      "status": "FAILED",
+      "durationMillis": 6827
+    },
+    {
+      "name": "build",
+      "status": "FAILED",
+      "durationMillis": 8504
+    },
+    {
+      "name": "build",
+      "status": "FAILED",
+      "durationMillis": 21354
+    },
+    {
+      "name": "build",
+      "status": "FAILED",
+      "durationMillis": 8948
+    },
+    {
+      "name": "build",
+      "status": "FAILED",
+      "durationMillis": 9881
+    },
+    {
+      "name": "build",
+      "status": "FAILED",
+      "durationMillis": 20154
+    },
+    {
+      "name": "build",
+      "status": "FAILED",
+      "durationMillis": 10190
+    },
+    {
+      "name": "build",
+      "status": "FAILED",
+      "durationMillis": 23426
+    },
+    {
+      "name": "build",
+      "status": "FAILED",
+      "durationMillis": 7701
+    },
+    {
+      "name": "build",
+      "status": "FAILED",
+      "durationMillis": 20139
+    },
+    {
+      "name": "build",
+      "status": "FAILED",
+      "durationMillis": 14376
+    },
+    {
+      "name": "Declarative: Post Actions",
+      "status": "SUCCESS",
+      "durationMillis": 141
+    }
+  ],
+  "traces": [],
+  "approved_inputs": [],
+  "error_tail": "[2026-10-10T08:33:05.223Z] ERROR: script returned exit code 22\n[2026-10-10T08:33:05.245Z] Finished: FAILURE",
+  "outputs": {
+    "archived": [],
+    "tests": null
+  },
+  "provenance": {
+    "jenkinsfile_sha256": "cb527d3f1e03e41b0987393f4921daa89046a56d52ffea2b13c89f04f4e9fdf2",
+    "scenario": {
+      "branch": "master",
+      "git_branch": "origin/master"
+    },
+    "mode": "full",
+    "localizer_version": 5,
+    "images": {
+      "jenkins": {
+        "ref": "j2gha/jenkins:local",
+        "present": true,
+        "id": "sha256:672c4b841b2c934f224d4f1b3523d77a1b651f8f491f8f04da47ca764eb86775",
+        "repo_digests": [],
+        "created": "2026-10-09T18:21:15.545465961Z",
+        "labels": {
+          "j2gha.base-image": "jenkins/jenkins:lts-jdk21@sha256:a660310e39ade10631f774bacd5219de767dfd08947ea5c32a739b5e5bb382c1",
+          "org.opencontainers.image.version": "2.580.1",
+          "org.opencontainers.image.revision": "457b9316d71b43cdf3e2ba6ec7c27efc40f5dc60",
+          "org.opencontainers.image.source": "https://github.com/jenkinsci/docker"
+        },
+        "jenkins_version": "2.580.1"
+      },
+      "act": {
+        "ref": "j2gha/act:local",
+        "present": true,
+        "id": "sha256:0781bb0384b914fba362a2a2483d55d30c3d3cc9b59598856146778aa88662a4",
+        "repo_digests": [],
+        "created": "2026-10-03T06:26:46.552472741Z",
+        "labels": {},
+        "act_version": "0.2.89"
+      },
+      "act_runner": {
+        "ref": "j2gha/act-runner:local",
+        "present": true,
+        "id": "sha256:134418998a1ca958b148ee6befb038aa3ff598bf147b39ce9e99b60a563a15be",
+        "repo_digests": [],
+        "created": "2026-10-09T18:54:04.157825772Z",
+        "labels": {
+          "j2gha.base-image": "catthehacker/ubuntu:act-latest@sha256:c58e2b364da03b0c804c7d660f2ecbedf2f221a382b9baa0b344b0144780ff43",
+          "org.opencontainers.image.version": "20260815",
+          "org.opencontainers.image.revision": "e2f8efe464c82732f78e967ee709c00b6af53643",
+          "org.opencontainers.image.source": "https://github.com/catthehacker/catthehacker/docker_images"
+        }
+      },
+      "jit_runner": {
+        "ref": "j2gha/runner:local",
+        "present": true,
+        "id": "sha256:4847cf6e3e915577d28244aedfbe1b633eafa060a49d4ef313129d6841e2e667",
+        "repo_digests": [],
+        "created": "2026-10-09T18:52:46.515242869Z",
+        "labels": {
+          "j2gha.base-image": "ghcr.io/actions/actions-runner:latest@sha256:4ffadc0002b2581327e06101fc8c06cd189232baf79fe561fac9caeb76f5e807",
+          "org.opencontainers.image.version": "24.04",
+          "org.opencontainers.image.source": "https://github.com/actions/runner"
+        }
+      }
+    }
+  },
+  "finished_at": "2026-10-10T08:33:05+00:00"
+}

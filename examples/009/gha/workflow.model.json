@@ -1,0 +1,364 @@
+{
+  "name": "j2gha 009: TheHPXProject/hpx .jenkins/lsu/Jenkinsfile (j2gha)",
+  "on": {
+    "push": {
+      "branches": [
+        "**"
+      ]
+    },
+    "pull_request": null,
+    "workflow_dispatch": null
+  },
+  "permissions": {
+    "contents": "read"
+  },
+  "env": {
+    "BRANCH_NAME": "${{ github.head_ref || github.ref_name }}",
+    "TAG_NAME": "${{ github.ref_type == 'tag' && github.ref_name || '' }}",
+    "CHANGE_ID": "${{ github.event.pull_request.number }}",
+    "BUILD_NUMBER": "${{ github.run_number }}",
+    "BUILD_ID": "${{ github.run_id }}",
+    "WORKSPACE": "${{ github.workspace }}",
+    "GITHUB_TOKEN": "${{ secrets.STELLARBOT_GITHUB_TOKEN }}",
+    "GIT_COMMIT": "${{ github.sha }}",
+    "GIT_BRANCH": "${{ github.head_ref || github.ref_name }}",
+    "GIT_URL": "${{ github.server_url }}/${{ github.repository }}.git"
+  },
+  "defaults": {
+    "run": {
+      "shell": "bash"
+    }
+  },
+  "jobs": {
+    "checkout": {
+      "name": "checkout",
+      "runs-on": "ubuntu-latest",
+      "timeout-minutes": 60,
+      "steps": [
+        {
+          "name": "Checkout",
+          "uses": "actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "with": {
+            "persist-credentials": false
+          },
+          "_j2gha": {
+            "kind": "checkout",
+            "line": null,
+            "trace": false,
+            "trace_events": [
+              [
+                "Declarative: Checkout SCM",
+                "checkout"
+              ]
+            ],
+            "role": "checkout"
+          }
+        },
+        {
+          "name": "checkout: if (line 40)",
+          "id": "s1",
+          "if": "env.BRANCH_NAME != ''",
+          "run": "echo \"taken=true\" >> \"$GITHUB_OUTPUT\"",
+          "_j2gha": {
+            "kind": "if-decision",
+            "stage": "checkout",
+            "line": 40,
+            "trace": false,
+            "trace_run": "echo \"taken=true\" >> \"$GITHUB_OUTPUT\""
+          }
+        },
+        {
+          "name": "checkout: if (line 40)",
+          "id": "s2",
+          "if": "steps.s1.outcome == 'skipped'",
+          "run": "echo \"taken=false\" >> \"$GITHUB_OUTPUT\"",
+          "_j2gha": {
+            "kind": "if-decision",
+            "stage": "checkout",
+            "line": 40,
+            "trace": false,
+            "trace_run": "echo \"taken=false\" >> \"$GITHUB_OUTPUT\""
+          }
+        },
+        {
+          "name": "checkout: Groovy if (manual)",
+          "id": "s3",
+          "if": "steps.s1.outputs.taken == 'true'",
+          "run": "echo \"::warning::manual migration: Groovy condition at line 42: buildNumber > 1\"",
+          "_j2gha": {
+            "kind": "script-manual",
+            "stage": "checkout",
+            "line": 42,
+            "trace": false
+          }
+        },
+        {
+          "name": "checkout: dir",
+          "id": "s4",
+          "run": "mkdir -p -- \"$J2GHA_DIR\"",
+          "env": {
+            "J2GHA_DIR": "hpx_${{ env.BUILD_ID }}"
+          },
+          "_j2gha": {
+            "kind": "dir",
+            "stage": "checkout",
+            "line": null,
+            "trace": false
+          }
+        },
+        {
+          "name": "checkout: checkout",
+          "id": "s5",
+          "uses": "actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "with": {
+            "persist-credentials": false,
+            "path": "hpx_${{ env.BUILD_ID }}"
+          },
+          "_j2gha": {
+            "kind": "checkout",
+            "stage": "checkout",
+            "line": 49,
+            "trace": true
+          }
+        },
+        {
+          "name": "checkout: echo",
+          "id": "s6",
+          "run": "echo \"Running ${BUILD_ID} on ${JENKINS_URL} (base directory: ${WORKSPACE})\"",
+          "working-directory": "hpx_${{ env.BUILD_ID }}",
+          "_j2gha": {
+            "kind": "echo",
+            "stage": "checkout",
+            "line": 50,
+            "trace": true
+          }
+        },
+        {
+          "name": "Hand on the pipeline workspace (archive)",
+          "if": "always()",
+          "shell": "bash",
+          "run": "tar --exclude=./.j2gha-ws --exclude=./.j2gha-ws.tgz --exclude=./.j2gha-ws.changes \\\n  -czf \"$RUNNER_TEMP/j2gha-ws.tgz\" -C \"$GITHUB_WORKSPACE\" .\nmv \"$RUNNER_TEMP/j2gha-ws.tgz\" \"$GITHUB_WORKSPACE/.j2gha-ws.tgz\"\n",
+          "_j2gha": {
+            "kind": "workspace-handoff",
+            "trace": false,
+            "role": "handoff"
+          }
+        },
+        {
+          "name": "Hand on the pipeline workspace (upload)",
+          "if": "always()",
+          "uses": "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "with": {
+            "name": "j2gha-ws-checkout",
+            "path": ".j2gha-ws.tgz",
+            "retention-days": 1,
+            "compression-level": 0,
+            "if-no-files-found": "error",
+            "include-hidden-files": true
+          },
+          "_j2gha": {
+            "kind": "workspace-handoff",
+            "trace": false,
+            "role": "handoff"
+          }
+        }
+      ]
+    },
+    "build": {
+      "name": "build",
+      "needs": "checkout",
+      "runs-on": "ubuntu-latest",
+      "timeout-minutes": 60,
+      "strategy": {
+        "fail-fast": false,
+        "matrix": {
+          "configuration_name": [
+            "gcc-12",
+            "gcc-13",
+            "gcc-14",
+            "gcc-15",
+            "clang-17-apex",
+            "clang-16",
+            "clang-17",
+            "clang-18",
+            "clang-19",
+            "clang-20",
+            "gcc-12-cuda-12",
+            "gcc-12-cuda-12-dgx",
+            "hipcc"
+          ],
+          "build_type": [
+            "Release",
+            "Debug"
+          ]
+        }
+      },
+      "env": {
+        "configuration_name": "${{ matrix.configuration_name }}",
+        "build_type": "${{ matrix.build_type }}"
+      },
+      "steps": [
+        {
+          "name": "Restore pipeline workspace (checkout)",
+          "id": "j2gha-ws-checkout",
+          "uses": "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093",
+          "continue-on-error": true,
+          "with": {
+            "name": "j2gha-ws-checkout",
+            "path": ".j2gha-ws/checkout"
+          },
+          "_j2gha": {
+            "kind": "workspace-handoff",
+            "trace": false,
+            "role": "handoff"
+          }
+        },
+        {
+          "name": "Restore pipeline workspace (merge)",
+          "id": "j2gha-ws-restore",
+          "if": "always()",
+          "shell": "bash",
+          "env": {
+            "J2GHA_WS_ORDER": "checkout",
+            "J2GHA_WS_LINEAGE": "checkout:",
+            "J2GHA_WS_HEADS": "checkout",
+            "J2GHA_WS_RESULTS": "checkout=${{ needs.checkout.result }}",
+            "J2GHA_WS_FALLBACKS": "checkout:"
+          },
+          "run": "ws=\"$GITHUB_WORKSPACE\"\nd=\"$ws/.j2gha-ws\"\n# the downloaded producers a producer descends from\nancestors() {\n  local line\n  while IFS= read -r line; do\n    if [ \"${line%%:*}\" = \"$1\" ]; then printf '%s\\n' \"${line#*:}\"; fi\n  done <<< \"$J2GHA_WS_LINEAGE\"\n}\npresent() { [ -f \"$d/$1/.j2gha-ws.tgz\" ]; }\n# read-only directories (a Go module cache) need write permission to be removed\nremove() { rm -rf -- \"$@\" 2>/dev/null || { chmod -R u+w -- \"$@\"; rm -rf -- \"$@\"; }; }\nisdir() { [ -d \"$1\" ] && [ ! -L \"$1\" ]; }\n# replay a branch's own changes (its change list) onto the workspace\nreplay() {\n  local src=\"$d/$1\" t=\"$d/.replay\" rec p a\n  local -a recs=() gone=()\n  local -A want=() locked=() removed=()\n  if [ ! -f \"$src/.j2gha-ws.changes\" ]; then\n    echo \"::error::the workspace of job '$1' has no change list (the workspace it started from was not recorded): it cannot be merged\"\n    exit 1\n  fi\n  mapfile -t recs < \"$src/.j2gha-ws.changes\"\n  for rec in \"${recs[@]}\"; do\n    printf -v p '%b' \"${rec:1}\"\n    if [ \"${rec:0:1}\" = D ]; then\n      removed[$p]=1\n      continue\n    fi\n    want[$p]=1\n    # a parent directory an earlier branch removed or replaced is taken from this branch too\n    a=$p\n    while a=${a%/*}; [ \"$a\" != . ]; do\n      if isdir \"$ws/$a\"; then break; fi\n      want[$a]=1\n    done\n  done\n  # a removed directory takes its contents with it: only the top-most removed entries are removed\n  for p in \"${!removed[@]}\"; do\n    a=$p\n    while a=${a%/*}; [ \"$a\" != . ] && [ -z \"${removed[$a]-}\" ]; do :; done\n    if [ \"$a\" = . ]; then gone+=(\"$p\"); fi\n  done\n  # only the entries to copy come out of the branch's workspace (parents first)\n  mkdir -p \"$t\"\n  printf '%s\\0' \"${!want[@]}\" | LC_ALL=C sort -z > \"$d/.want\"\n  if [ \"${#want[@]}\" -gt 0 ]; then tar -xzpf \"$src/.j2gha-ws.tgz\" -C \"$t\" --null --no-unquote --no-recursion -T \"$d/.want\"; fi\n  # read-only directories (a Go module cache) are opened for the changes; their modes are put back afterwards\n  for p in \"${gone[@]}\" \"${!want[@]}\"; do\n    a=${p%/*}\n    if [ \"$a\" != . ] && isdir \"$ws/$a\" && [ ! -w \"$ws/$a\" ] && [ -z \"${locked[$a]-}\" ]; then\n      locked[$a]=$(stat -c %a \"$ws/$a\")\n      chmod u+w \"$ws/$a\"\n    fi\n  done\n  for p in \"${gone[@]}\"; do remove \"$ws/$p\"; done\n  # clear what is in the way of an entry's type: a file or link where the branch has a directory, or the reverse\n  for p in \"${!want[@]}\"; do\n    if isdir \"$t/$p\"; then\n      if [ -L \"$ws/$p\" ] || { [ -e \"$ws/$p\" ] && [ ! -d \"$ws/$p\" ]; }; then rm -f -- \"$ws/$p\"; fi\n      if isdir \"$ws/$p\" && [ ! -w \"$ws/$p\" ]; then chmod u+w \"$ws/$p\"; fi  # tar sets the branch's mode\n    elif isdir \"$ws/$p\"; then\n      remove \"$ws/$p\"\n    fi\n  done\n  if [ \"${#want[@]}\" -gt 0 ]; then\n    # tar sets directory modes after their contents\n    tar -C \"$t\" --null --no-unquote --no-recursion -T \"$d/.want\" -cf - | tar -xpf - -C \"$ws\"\n  fi\n  for a in \"${!locked[@]}\"; do\n    if [ -z \"${want[$a]-}\" ] && isdir \"$ws/$a\"; then chmod \"${locked[$a]}\" \"$ws/$a\"; fi\n  done\n  remove \"$t\"\n}\n# every producer the restore relies on is accounted for: its workspace arrived, or its job was skipped and the\n# producers it would have started from are accounted for in turn (the fallback chain actually used)\ndeclare -A result=() fallback=() seen=()\nfor r in $J2GHA_WS_RESULTS; do result[${r%%=*}]=${r#*=}; done\nwhile IFS= read -r line; do\n  if [ -n \"$line\" ]; then fallback[${line%%:*}]=${line#*:}; fi\ndone <<< \"$J2GHA_WS_FALLBACKS\"\naccount() {\n  local p=$1 f\n  if [ -n \"${seen[$p]-}\" ] || present \"$p\"; then return 0; fi\n  seen[$p]=1\n  case \"${result[$p]-}\" in\n    success|failure)\n      echo \"::error::job '$p' ran (${result[$p]}) but its workspace did not arrive: restoring an older one would lose its changes\"\n      exit 1 ;;\n    skipped|cancelled) ;;\n    *) echo \"::warning::the workspace of job '$p' did not arrive and its result is not known here (not a job this one needs): taken as skipped - if it ran, its changes are missing\" ;;\n  esac\n  for f in ${fallback[$p]-}; do account \"$f\"; done\n}\nfor p in $J2GHA_WS_HEADS; do account \"$p\"; done\n# the workspaces to merge: those downloaded that no other downloaded one descends from\nfrontier=()\nfor p in $J2GHA_WS_ORDER; do\n  present \"$p\" || continue\n  covered=false\n  for q in $J2GHA_WS_ORDER; do\n    if [ \"$q\" != \"$p\" ] && present \"$q\"; then\n      case \" $(ancestors \"$q\") \" in *\" $p \"*) covered=true ;; esac\n    fi\n  done\n  if [ \"$covered\" = false ]; then frontier+=(\"$p\"); fi\ndone\nrestored=false\nif [ \"${#frontier[@]}\" -gt 0 ]; then\n  # the restored workspace replaces what the job started with (act copies the repository into every job)\n  shopt -s dotglob nullglob\n  for e in \"$ws\"/*; do\n    if [ \"$e\" != \"$d\" ]; then remove \"$e\"; fi\n  done\n  shopt -u dotglob nullglob\n  tar -xzpf \"$d/${frontier[0]}/.j2gha-ws.tgz\" -C \"$ws\"\n  for f in \"${frontier[@]:1}\"; do replay \"$f\"; done\n  restored=true\nfi\nremove \"$d\"\necho \"restored=$restored\" >> \"$GITHUB_OUTPUT\"\n",
+          "_j2gha": {
+            "kind": "workspace-handoff",
+            "trace": false,
+            "role": "handoff"
+          }
+        },
+        {
+          "name": "Checkout",
+          "uses": "actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "with": {
+            "persist-credentials": false
+          },
+          "_j2gha": {
+            "kind": "checkout",
+            "line": null,
+            "trace": false,
+            "trace_events": [],
+            "role": "checkout"
+          },
+          "if": "steps.j2gha-ws-restore.outputs.restored != 'true'"
+        },
+        {
+          "name": "build: dir",
+          "id": "s7",
+          "run": "mkdir -p -- \"$J2GHA_DIR\"",
+          "env": {
+            "J2GHA_DIR": "hpx_${{ env.BUILD_ID }}"
+          },
+          "_j2gha": {
+            "kind": "dir",
+            "stage": "build",
+            "line": null,
+            "trace": false
+          }
+        },
+        {
+          "name": "build: .jenkins/lsu/entry.sh",
+          "id": "s8",
+          "run": ".jenkins/lsu/entry.sh",
+          "shell": "bash -l {0}",
+          "working-directory": "hpx_${{ env.BUILD_ID }}",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "build",
+            "line": 70,
+            "trace": true
+          }
+        }
+      ]
+    },
+    "post": {
+      "name": "post",
+      "needs": [
+        "checkout",
+        "build"
+      ],
+      "if": "always()",
+      "runs-on": "ubuntu-latest",
+      "steps": [
+        {
+          "name": "Restore pipeline workspace (checkout)",
+          "id": "j2gha-ws-checkout",
+          "uses": "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093",
+          "continue-on-error": true,
+          "with": {
+            "name": "j2gha-ws-checkout",
+            "path": ".j2gha-ws/checkout"
+          },
+          "_j2gha": {
+            "kind": "workspace-handoff",
+            "trace": false,
+            "role": "handoff"
+          }
+        },
+        {
+          "name": "Restore pipeline workspace (merge)",
+          "id": "j2gha-ws-restore",
+          "if": "always()",
+          "shell": "bash",
+          "env": {
+            "J2GHA_WS_ORDER": "checkout",
+            "J2GHA_WS_LINEAGE": "checkout:",
+            "J2GHA_WS_HEADS": "checkout",
+            "J2GHA_WS_RESULTS": "checkout=${{ needs.checkout.result }}",
+            "J2GHA_WS_FALLBACKS": "checkout:"
+          },
+          "run": "ws=\"$GITHUB_WORKSPACE\"\nd=\"$ws/.j2gha-ws\"\n# the downloaded producers a producer descends from\nancestors() {\n  local line\n  while IFS= read -r line; do\n    if [ \"${line%%:*}\" = \"$1\" ]; then printf '%s\\n' \"${line#*:}\"; fi\n  done <<< \"$J2GHA_WS_LINEAGE\"\n}\npresent() { [ -f \"$d/$1/.j2gha-ws.tgz\" ]; }\n# read-only directories (a Go module cache) need write permission to be removed\nremove() { rm -rf -- \"$@\" 2>/dev/null || { chmod -R u+w -- \"$@\"; rm -rf -- \"$@\"; }; }\nisdir() { [ -d \"$1\" ] && [ ! -L \"$1\" ]; }\n# replay a branch's own changes (its change list) onto the workspace\nreplay() {\n  local src=\"$d/$1\" t=\"$d/.replay\" rec p a\n  local -a recs=() gone=()\n  local -A want=() locked=() removed=()\n  if [ ! -f \"$src/.j2gha-ws.changes\" ]; then\n    echo \"::error::the workspace of job '$1' has no change list (the workspace it started from was not recorded): it cannot be merged\"\n    exit 1\n  fi\n  mapfile -t recs < \"$src/.j2gha-ws.changes\"\n  for rec in \"${recs[@]}\"; do\n    printf -v p '%b' \"${rec:1}\"\n    if [ \"${rec:0:1}\" = D ]; then\n      removed[$p]=1\n      continue\n    fi\n    want[$p]=1\n    # a parent directory an earlier branch removed or replaced is taken from this branch too\n    a=$p\n    while a=${a%/*}; [ \"$a\" != . ]; do\n      if isdir \"$ws/$a\"; then break; fi\n      want[$a]=1\n    done\n  done\n  # a removed directory takes its contents with it: only the top-most removed entries are removed\n  for p in \"${!removed[@]}\"; do\n    a=$p\n    while a=${a%/*}; [ \"$a\" != . ] && [ -z \"${removed[$a]-}\" ]; do :; done\n    if [ \"$a\" = . ]; then gone+=(\"$p\"); fi\n  done\n  # only the entries to copy come out of the branch's workspace (parents first)\n  mkdir -p \"$t\"\n  printf '%s\\0' \"${!want[@]}\" | LC_ALL=C sort -z > \"$d/.want\"\n  if [ \"${#want[@]}\" -gt 0 ]; then tar -xzpf \"$src/.j2gha-ws.tgz\" -C \"$t\" --null --no-unquote --no-recursion -T \"$d/.want\"; fi\n  # read-only directories (a Go module cache) are opened for the changes; their modes are put back afterwards\n  for p in \"${gone[@]}\" \"${!want[@]}\"; do\n    a=${p%/*}\n    if [ \"$a\" != . ] && isdir \"$ws/$a\" && [ ! -w \"$ws/$a\" ] && [ -z \"${locked[$a]-}\" ]; then\n      locked[$a]=$(stat -c %a \"$ws/$a\")\n      chmod u+w \"$ws/$a\"\n    fi\n  done\n  for p in \"${gone[@]}\"; do remove \"$ws/$p\"; done\n  # clear what is in the way of an entry's type: a file or link where the branch has a directory, or the reverse\n  for p in \"${!want[@]}\"; do\n    if isdir \"$t/$p\"; then\n      if [ -L \"$ws/$p\" ] || { [ -e \"$ws/$p\" ] && [ ! -d \"$ws/$p\" ]; }; then rm -f -- \"$ws/$p\"; fi\n      if isdir \"$ws/$p\" && [ ! -w \"$ws/$p\" ]; then chmod u+w \"$ws/$p\"; fi  # tar sets the branch's mode\n    elif isdir \"$ws/$p\"; then\n      remove \"$ws/$p\"\n    fi\n  done\n  if [ \"${#want[@]}\" -gt 0 ]; then\n    # tar sets directory modes after their contents\n    tar -C \"$t\" --null --no-unquote --no-recursion -T \"$d/.want\" -cf - | tar -xpf - -C \"$ws\"\n  fi\n  for a in \"${!locked[@]}\"; do\n    if [ -z \"${want[$a]-}\" ] && isdir \"$ws/$a\"; then chmod \"${locked[$a]}\" \"$ws/$a\"; fi\n  done\n  remove \"$t\"\n}\n# every producer the restore relies on is accounted for: its workspace arrived, or its job was skipped and the\n# producers it would have started from are accounted for in turn (the fallback chain actually used)\ndeclare -A result=() fallback=() seen=()\nfor r in $J2GHA_WS_RESULTS; do result[${r%%=*}]=${r#*=}; done\nwhile IFS= read -r line; do\n  if [ -n \"$line\" ]; then fallback[${line%%:*}]=${line#*:}; fi\ndone <<< \"$J2GHA_WS_FALLBACKS\"\naccount() {\n  local p=$1 f\n  if [ -n \"${seen[$p]-}\" ] || present \"$p\"; then return 0; fi\n  seen[$p]=1\n  case \"${result[$p]-}\" in\n    success|failure)\n      echo \"::error::job '$p' ran (${result[$p]}) but its workspace did not arrive: restoring an older one would lose its changes\"\n      exit 1 ;;\n    skipped|cancelled) ;;\n    *) echo \"::warning::the workspace of job '$p' did not arrive and its result is not known here (not a job this one needs): taken as skipped - if it ran, its changes are missing\" ;;\n  esac\n  for f in ${fallback[$p]-}; do account \"$f\"; done\n}\nfor p in $J2GHA_WS_HEADS; do account \"$p\"; done\n# the workspaces to merge: those downloaded that no other downloaded one descends from\nfrontier=()\nfor p in $J2GHA_WS_ORDER; do\n  present \"$p\" || continue\n  covered=false\n  for q in $J2GHA_WS_ORDER; do\n    if [ \"$q\" != \"$p\" ] && present \"$q\"; then\n      case \" $(ancestors \"$q\") \" in *\" $p \"*) covered=true ;; esac\n    fi\n  done\n  if [ \"$covered\" = false ]; then frontier+=(\"$p\"); fi\ndone\nrestored=false\nif [ \"${#frontier[@]}\" -gt 0 ]; then\n  # the restored workspace replaces what the job started with (act copies the repository into every job)\n  shopt -s dotglob nullglob\n  for e in \"$ws\"/*; do\n    if [ \"$e\" != \"$d\" ]; then remove \"$e\"; fi\n  done\n  shopt -u dotglob nullglob\n  tar -xzpf \"$d/${frontier[0]}/.j2gha-ws.tgz\" -C \"$ws\"\n  for f in \"${frontier[@]:1}\"; do replay \"$f\"; done\n  restored=true\nfi\nremove \"$d\"\necho \"restored=$restored\" >> \"$GITHUB_OUTPUT\"\n",
+          "_j2gha": {
+            "kind": "workspace-handoff",
+            "trace": false,
+            "role": "handoff"
+          }
+        },
+        {
+          "name": "post: archive artifacts",
+          "id": "s9",
+          "if": "always()",
+          "uses": "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "with": {
+            "name": "artifacts-9",
+            "path": "hpx_${{ env.BUILD_ID }}/jenkins-hpx-*\n!**/.git\n!**/.git/**\n!**/.gitignore\n!**/.gitattributes\n!**/.gitmodules\n!**/.svn\n!**/.svn/**\n!**/.hg\n!**/.hg/**\n!**/.hgignore\n!**/.hgtags\n!**/.bzr\n!**/.bzr/**\n!**/.bzrignore\n!**/CVS\n!**/CVS/**\n!**/.cvsignore\n!**/SCCS\n!**/SCCS/**\n!**/vssver.scc\n!**/.DS_Store\n!**/*~\n!**/#*#\n!**/.#*\n!**/%*%\n!**/._*",
+            "if-no-files-found": "error",
+            "include-hidden-files": true
+          },
+          "_j2gha": {
+            "kind": "archiveArtifacts",
+            "stage": "Declarative: Post Actions",
+            "line": 84,
+            "trace": true,
+            "root": ""
+          }
+        },
+        {
+          "name": "post: archive artifacts",
+          "id": "s10",
+          "if": "always()",
+          "uses": "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "with": {
+            "name": "artifacts-10",
+            "path": "hpx_${{ env.BUILD_ID }}/build/*/Testing/**\n!**/.git\n!**/.git/**\n!**/.gitignore\n!**/.gitattributes\n!**/.gitmodules\n!**/.svn\n!**/.svn/**\n!**/.hg\n!**/.hg/**\n!**/.hgignore\n!**/.hgtags\n!**/.bzr\n!**/.bzr/**\n!**/.bzrignore\n!**/CVS\n!**/CVS/**\n!**/.cvsignore\n!**/SCCS\n!**/SCCS/**\n!**/vssver.scc\n!**/.DS_Store\n!**/*~\n!**/#*#\n!**/.#*\n!**/%*%\n!**/._*",
+            "if-no-files-found": "error",
+            "include-hidden-files": true
+          },
+          "_j2gha": {
+            "kind": "archiveArtifacts",
+            "stage": "Declarative: Post Actions",
+            "line": 85,
+            "trace": true,
+            "root": ""
+          }
+        }
+      ],
+      "timeout-minutes": 60
+    }
+  }
+}

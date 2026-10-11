@@ -1,0 +1,819 @@
+{
+  "counts": {
+    "mapped": 51,
+    "approximated": 37,
+    "manual": 10,
+    "info": 1
+  },
+  "automation_pct": 74.7,
+  "items": [
+    {
+      "jenkins": "stage 'Run integration tests' post always",
+      "line": null,
+      "stage": "Run integration tests",
+      "status": "mapped",
+      "gha": "if: (always()) && (steps.s22.outcome == 'success')",
+      "note": ""
+    },
+    {
+      "jenkins": "stage 'Filter unwanted branches' post always",
+      "line": null,
+      "stage": "Filter unwanted branches",
+      "status": "mapped",
+      "gha": "if: (always()) && (steps.s1.outcome == 'success')",
+      "note": ""
+    },
+    {
+      "jenkins": "environment ocir_creds",
+      "line": 49,
+      "stage": null,
+      "status": "mapped",
+      "gha": "env",
+      "note": ""
+    },
+    {
+      "jenkins": "environment kind_name",
+      "line": 56,
+      "stage": null,
+      "status": "mapped",
+      "gha": "env",
+      "note": ""
+    },
+    {
+      "jenkins": "environment kind_network",
+      "line": 57,
+      "stage": null,
+      "status": "mapped",
+      "gha": "env",
+      "note": ""
+    },
+    {
+      "jenkins": "environment registry_name",
+      "line": 58,
+      "stage": null,
+      "status": "mapped",
+      "gha": "env",
+      "note": ""
+    },
+    {
+      "jenkins": "environment registry_port",
+      "line": 60,
+      "stage": null,
+      "status": "mapped",
+      "gha": "env",
+      "note": ""
+    },
+    {
+      "jenkins": "environment wle_download_url",
+      "line": 63,
+      "stage": null,
+      "status": "mapped",
+      "gha": "env",
+      "note": ""
+    },
+    {
+      "jenkins": "parameters: choice MAVEN_PROFILE_NAME",
+      "line": 67,
+      "stage": null,
+      "status": "mapped",
+      "gha": "on.workflow_dispatch.inputs",
+      "note": ""
+    },
+    {
+      "jenkins": "parameters: string IT_TEST",
+      "line": 77,
+      "stage": null,
+      "status": "mapped",
+      "gha": "on.workflow_dispatch.inputs",
+      "note": ""
+    },
+    {
+      "jenkins": "parameters: string OPERATOR_LOG_LEVEL",
+      "line": 81,
+      "stage": null,
+      "status": "mapped",
+      "gha": "on.workflow_dispatch.inputs",
+      "note": ""
+    },
+    {
+      "jenkins": "parameters: choice KIND_VERSION",
+      "line": 85,
+      "stage": null,
+      "status": "mapped",
+      "gha": "on.workflow_dispatch.inputs",
+      "note": ""
+    },
+    {
+      "jenkins": "parameters: choice KUBE_VERSION",
+      "line": 93,
+      "stage": null,
+      "status": "mapped",
+      "gha": "on.workflow_dispatch.inputs",
+      "note": ""
+    },
+    {
+      "jenkins": "parameters: string HELM_VERSION",
+      "line": 114,
+      "stage": null,
+      "status": "mapped",
+      "gha": "on.workflow_dispatch.inputs",
+      "note": ""
+    },
+    {
+      "jenkins": "parameters: choice ISTIO_VERSION",
+      "line": 118,
+      "stage": null,
+      "status": "mapped",
+      "gha": "on.workflow_dispatch.inputs",
+      "note": ""
+    },
+    {
+      "jenkins": "parameters: booleanParam PARALLEL_RUN",
+      "line": 131,
+      "stage": null,
+      "status": "mapped",
+      "gha": "on.workflow_dispatch.inputs",
+      "note": ""
+    },
+    {
+      "jenkins": "parameters: string NUMBER_OF_THREADS",
+      "line": 135,
+      "stage": null,
+      "status": "mapped",
+      "gha": "on.workflow_dispatch.inputs",
+      "note": ""
+    },
+    {
+      "jenkins": "parameters: string WDT_DOWNLOAD_URL",
+      "line": 139,
+      "stage": null,
+      "status": "mapped",
+      "gha": "on.workflow_dispatch.inputs",
+      "note": ""
+    },
+    {
+      "jenkins": "parameters: string WIT_DOWNLOAD_URL",
+      "line": 143,
+      "stage": null,
+      "status": "mapped",
+      "gha": "on.workflow_dispatch.inputs",
+      "note": ""
+    },
+    {
+      "jenkins": "parameters: string REMOTECONSOLE_VERSION",
+      "line": 147,
+      "stage": null,
+      "status": "mapped",
+      "gha": "on.workflow_dispatch.inputs",
+      "note": ""
+    },
+    {
+      "jenkins": "parameters: string TEST_IMAGES_REPO",
+      "line": 151,
+      "stage": null,
+      "status": "mapped",
+      "gha": "on.workflow_dispatch.inputs",
+      "note": ""
+    },
+    {
+      "jenkins": "parameters: choice BASE_IMAGES_REPO",
+      "line": 155,
+      "stage": null,
+      "status": "mapped",
+      "gha": "on.workflow_dispatch.inputs",
+      "note": ""
+    },
+    {
+      "jenkins": "parameters: string WEBLOGIC_IMAGE_NAME",
+      "line": 159,
+      "stage": null,
+      "status": "mapped",
+      "gha": "on.workflow_dispatch.inputs",
+      "note": ""
+    },
+    {
+      "jenkins": "parameters: string WEBLOGIC_IMAGE_TAG",
+      "line": 163,
+      "stage": null,
+      "status": "mapped",
+      "gha": "on.workflow_dispatch.inputs",
+      "note": ""
+    },
+    {
+      "jenkins": "parameters: string FMWINFRA_IMAGE_NAME",
+      "line": 167,
+      "stage": null,
+      "status": "mapped",
+      "gha": "on.workflow_dispatch.inputs",
+      "note": ""
+    },
+    {
+      "jenkins": "parameters: string FMWINFRA_IMAGE_TAG",
+      "line": 171,
+      "stage": null,
+      "status": "mapped",
+      "gha": "on.workflow_dispatch.inputs",
+      "note": ""
+    },
+    {
+      "jenkins": "parameters: string DB_IMAGE_NAME",
+      "line": 175,
+      "stage": null,
+      "status": "mapped",
+      "gha": "on.workflow_dispatch.inputs",
+      "note": ""
+    },
+    {
+      "jenkins": "parameters: string DB_IMAGE_TAG",
+      "line": 179,
+      "stage": null,
+      "status": "mapped",
+      "gha": "on.workflow_dispatch.inputs",
+      "note": ""
+    },
+    {
+      "jenkins": "parameters: string MONITORING_EXPORTER_BRANCH",
+      "line": 183,
+      "stage": null,
+      "status": "mapped",
+      "gha": "on.workflow_dispatch.inputs",
+      "note": ""
+    },
+    {
+      "jenkins": "parameters: string MONITORING_EXPORTER_WEBAPP_VERSION",
+      "line": 187,
+      "stage": null,
+      "status": "mapped",
+      "gha": "on.workflow_dispatch.inputs",
+      "note": ""
+    },
+    {
+      "jenkins": "parameters: string PROMETHEUS_CHART_VERSION",
+      "line": 191,
+      "stage": null,
+      "status": "mapped",
+      "gha": "on.workflow_dispatch.inputs",
+      "note": ""
+    },
+    {
+      "jenkins": "parameters: string GRAFANA_CHART_VERSION",
+      "line": 195,
+      "stage": null,
+      "status": "mapped",
+      "gha": "on.workflow_dispatch.inputs",
+      "note": ""
+    },
+    {
+      "jenkins": "parameters: booleanParam COLLECT_LOGS_ON_SUCCESS",
+      "line": 199,
+      "stage": null,
+      "status": "mapped",
+      "gha": "on.workflow_dispatch.inputs",
+      "note": ""
+    },
+    {
+      "jenkins": "stage 'Filter unwanted branches' when",
+      "line": 208,
+      "stage": "Filter unwanted branches",
+      "status": "mapped",
+      "gha": "if: (env.CHANGE_ID != '' || env.BRANCH_NAME == 'main' || env.BRANCH_NAME == 'release/4.0' || env.BRANCH_NAME == 'release/3.4')",
+      "note": "evaluated once at stage entry against env"
+    },
+    {
+      "jenkins": "echo",
+      "line": 218,
+      "stage": "Workaround JENKINS-41929 Parameters bug",
+      "status": "mapped",
+      "gha": "run: echo",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 234,
+      "stage": "Echo environment",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 275,
+      "stage": "Build WebLogic Kubernetes Operator",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 291,
+      "stage": "Install Helm",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 307,
+      "stage": "Run Helm installation tests",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 321,
+      "stage": "Install kubectl",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 337,
+      "stage": "Install kind",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 350,
+      "stage": "Preparing Integration Test Environment",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 352,
+      "stage": "Preparing Integration Test Environment",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 362,
+      "stage": "Start registry container",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 385,
+      "stage": "Create kind cluster",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 563,
+      "stage": "Run integration tests",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "withCredentials usernamePassword 'wkt-ocir-creds'",
+      "line": 615,
+      "stage": "Run integration tests",
+      "status": "mapped",
+      "gha": "secrets -> step env",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 618,
+      "stage": "Run integration tests",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 637,
+      "stage": "Run integration tests",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "archiveArtifacts",
+      "line": 657,
+      "stage": "Run integration tests",
+      "status": "mapped",
+      "gha": "actions/upload-artifact@v4",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 666,
+      "stage": "Filter unwanted branches",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "tools maven 'maven-3.8.7'",
+      "line": null,
+      "stage": null,
+      "status": "approximated",
+      "gha": "runner-provided Maven",
+      "note": "GitHub-hosted Ubuntu runners include Maven; pin a version with a setup action if required"
+    },
+    {
+      "jenkins": "tools jdk 'jdk25'",
+      "line": null,
+      "stage": null,
+      "status": "approximated",
+      "gha": "actions/setup-java@v4",
+      "note": "Jenkins tool name mapped by version heuristics"
+    },
+    {
+      "jenkins": "options: timeout",
+      "line": null,
+      "stage": null,
+      "status": "approximated",
+      "gha": "timeout-minutes: 800 (per job)",
+      "note": "Jenkins timeout covers the whole pipeline"
+    },
+    {
+      "jenkins": "agent label 'large-ol9u4'",
+      "line": 36,
+      "stage": "Filter unwanted branches, Sync",
+      "status": "approximated",
+      "gha": "runs-on: ubuntu-latest",
+      "note": "use a self-hosted runner label if the agent provides special tooling/network"
+    },
+    {
+      "jenkins": "environment ocir_host",
+      "line": 47,
+      "stage": null,
+      "status": "approximated",
+      "gha": "evaluated by shell at runtime",
+      "note": "pipeline-level: written to $GITHUB_ENV; stage-level: exported before each run step"
+    },
+    {
+      "jenkins": "environment wko_tenancy",
+      "line": 48,
+      "stage": null,
+      "status": "approximated",
+      "gha": "evaluated by shell at runtime",
+      "note": "pipeline-level: written to $GITHUB_ENV; stage-level: exported before each run step"
+    },
+    {
+      "jenkins": "environment outdir",
+      "line": 51,
+      "stage": null,
+      "status": "approximated",
+      "gha": "evaluated by shell at runtime",
+      "note": "pipeline-level: written to $GITHUB_ENV; stage-level: exported before each run step"
+    },
+    {
+      "jenkins": "environment result_root",
+      "line": 52,
+      "stage": null,
+      "status": "approximated",
+      "gha": "evaluated by shell at runtime",
+      "note": "pipeline-level: written to $GITHUB_ENV; stage-level: exported before each run step"
+    },
+    {
+      "jenkins": "environment pv_root",
+      "line": 53,
+      "stage": null,
+      "status": "approximated",
+      "gha": "evaluated by shell at runtime",
+      "note": "pipeline-level: written to $GITHUB_ENV; stage-level: exported before each run step"
+    },
+    {
+      "jenkins": "environment kubeconfig_file",
+      "line": 54,
+      "stage": null,
+      "status": "approximated",
+      "gha": "evaluated by shell at runtime",
+      "note": "pipeline-level: written to $GITHUB_ENV; stage-level: exported before each run step"
+    },
+    {
+      "jenkins": "environment registry_host",
+      "line": 59,
+      "stage": null,
+      "status": "approximated",
+      "gha": "evaluated by shell at runtime",
+      "note": "pipeline-level: written to $GITHUB_ENV; stage-level: exported before each run step"
+    },
+    {
+      "jenkins": "environment start_time",
+      "line": 62,
+      "stage": null,
+      "status": "approximated",
+      "gha": "evaluated by shell at runtime",
+      "note": "pipeline-level: written to $GITHUB_ENV; stage-level: exported before each run step"
+    },
+    {
+      "jenkins": "script {}",
+      "line": 220,
+      "stage": "Workaround JENKINS-41929 Parameters bug",
+      "status": "approximated",
+      "gha": "inner steps translated individually",
+      "note": "imperative Groovy is not executed; review control flow"
+    },
+    {
+      "jenkins": "if (env.CHANGE_ID)",
+      "line": 221,
+      "stage": "Workaround JENKINS-41929 Parameters bug",
+      "status": "approximated",
+      "gha": "if: env.CHANGE_ID != ''",
+      "note": ""
+    },
+    {
+      "jenkins": "environment runtime_path",
+      "line": 231,
+      "stage": "Echo environment",
+      "status": "approximated",
+      "gha": "evaluated by shell at runtime",
+      "note": "pipeline-level: written to $GITHUB_ENV; stage-level: exported before each run step"
+    },
+    {
+      "jenkins": "script {}",
+      "line": 244,
+      "stage": "Echo environment",
+      "status": "approximated",
+      "gha": "inner steps translated individually",
+      "note": "imperative Groovy is not executed; review control flow"
+    },
+    {
+      "jenkins": "echo",
+      "line": 261,
+      "stage": "Echo environment",
+      "status": "approximated",
+      "gha": "run: echo",
+      "note": ""
+    },
+    {
+      "jenkins": "if (env.JOB_NAME == 'wko-kind-k8sversion')",
+      "line": 262,
+      "stage": "Echo environment",
+      "status": "approximated",
+      "gha": "if: env.JOB_NAME == 'wko-kind-k8sversion'",
+      "note": ""
+    },
+    {
+      "jenkins": "withMaven",
+      "line": 274,
+      "stage": "Build WebLogic Kubernetes Operator",
+      "status": "approximated",
+      "gha": "body inlined",
+      "note": "wrapper semantics not reproduced"
+    },
+    {
+      "jenkins": "sh",
+      "line": 282,
+      "stage": "Make Workspace bin directory",
+      "status": "approximated",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "environment runtime_path",
+      "line": 288,
+      "stage": "Install Helm",
+      "status": "approximated",
+      "gha": "evaluated by shell at runtime",
+      "note": "pipeline-level: written to $GITHUB_ENV; stage-level: exported before each run step"
+    },
+    {
+      "jenkins": "withMaven",
+      "line": 306,
+      "stage": "Run Helm installation tests",
+      "status": "approximated",
+      "gha": "body inlined",
+      "note": "wrapper semantics not reproduced"
+    },
+    {
+      "jenkins": "environment runtime_path",
+      "line": 317,
+      "stage": "Install kubectl",
+      "status": "approximated",
+      "gha": "evaluated by shell at runtime",
+      "note": "pipeline-level: written to $GITHUB_ENV; stage-level: exported before each run step"
+    },
+    {
+      "jenkins": "environment KUBE_VERSION",
+      "line": 318,
+      "stage": "Install kubectl",
+      "status": "approximated",
+      "gha": "evaluated by shell at runtime",
+      "note": "pipeline-level: written to $GITHUB_ENV; stage-level: exported before each run step"
+    },
+    {
+      "jenkins": "environment runtime_path",
+      "line": 334,
+      "stage": "Install kind",
+      "status": "approximated",
+      "gha": "evaluated by shell at runtime",
+      "note": "pipeline-level: written to $GITHUB_ENV; stage-level: exported before each run step"
+    },
+    {
+      "jenkins": "echo",
+      "line": 351,
+      "stage": "Preparing Integration Test Environment",
+      "status": "approximated",
+      "gha": "run: echo",
+      "note": ""
+    },
+    {
+      "jenkins": "echo",
+      "line": 353,
+      "stage": "Preparing Integration Test Environment",
+      "status": "approximated",
+      "gha": "run: echo",
+      "note": ""
+    },
+    {
+      "jenkins": "environment runtime_path",
+      "line": 359,
+      "stage": "Start registry container",
+      "status": "approximated",
+      "gha": "evaluated by shell at runtime",
+      "note": "pipeline-level: written to $GITHUB_ENV; stage-level: exported before each run step"
+    },
+    {
+      "jenkins": "environment runtime_path",
+      "line": 381,
+      "stage": "Create kind cluster",
+      "status": "approximated",
+      "gha": "evaluated by shell at runtime",
+      "note": "pipeline-level: written to $GITHUB_ENV; stage-level: exported before each run step"
+    },
+    {
+      "jenkins": "environment kind_image",
+      "line": 382,
+      "stage": "Create kind cluster",
+      "status": "approximated",
+      "gha": "evaluated by shell at runtime",
+      "note": "pipeline-level: written to $GITHUB_ENV; stage-level: exported before each run step"
+    },
+    {
+      "jenkins": "environment runtime_path",
+      "line": 545,
+      "stage": "Run integration tests",
+      "status": "approximated",
+      "gha": "evaluated by shell at runtime",
+      "note": "pipeline-level: written to $GITHUB_ENV; stage-level: exported before each run step"
+    },
+    {
+      "jenkins": "script {}",
+      "line": 548,
+      "stage": "Run integration tests",
+      "status": "approximated",
+      "gha": "inner steps translated individually",
+      "note": "imperative Groovy is not executed; review control flow"
+    },
+    {
+      "jenkins": "assign res = sh(...)",
+      "line": 551,
+      "stage": "Run integration tests",
+      "status": "approximated",
+      "gha": "run step (captured output not propagated)",
+      "note": "write values to $GITHUB_OUTPUT/$GITHUB_ENV"
+    },
+    {
+      "jenkins": "sh",
+      "line": 551,
+      "stage": "Run integration tests",
+      "status": "approximated",
+      "gha": "run",
+      "note": "Groovy interpolation of non-env values needs review"
+    },
+    {
+      "jenkins": "withMaven",
+      "line": 614,
+      "stage": "Run integration tests",
+      "status": "approximated",
+      "gha": "body inlined",
+      "note": "wrapper semantics not reproduced"
+    },
+    {
+      "jenkins": "junit",
+      "line": 659,
+      "stage": "Run integration tests",
+      "status": "approximated",
+      "gha": "upload-artifact + step summary",
+      "note": "no native test UI; failing tests cannot mark the run UNSTABLE"
+    },
+    {
+      "jenkins": "stage 'Sync' when",
+      "line": 685,
+      "stage": "Sync",
+      "status": "approximated",
+      "gha": "if: ((env.BRANCH_NAME == 'main' || env.BRANCH_NAME == 'release/4.0' || env.BRANCH_NAME == 'release/3.4')) && ((!(github.event_name == 'schedule') || (startsWith(env.TAG_NAME, 'v') && !contains(env.TAG_NAME, '/'))))",
+      "note": "evaluated once at stage entry against env"
+    },
+    {
+      "jenkins": "evaluate",
+      "line": 219,
+      "stage": "Workaround JENKINS-41929 Parameters bug",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "dynamic step with no deterministic mapping"
+    },
+    {
+      "jenkins": "assign env.MONITORING_EXPORTER_WEBAPP_VERSION = default_m",
+      "line": 224,
+      "stage": "Workaround JENKINS-41929 Parameters bug",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "decl knd = params.KIND_VERSION",
+      "line": 245,
+      "stage": "Echo environment",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "decl k8s = params.KUBE_VERSION",
+      "line": 246,
+      "stage": "Echo environment",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "if (knd != null && k8s != null)",
+      "line": 247,
+      "stage": "Echo environment",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "assign currentBuild.description = ${GIT_BRANCH} ${KUBE_VE",
+      "line": 263,
+      "stage": "Echo environment",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "assign currentBuild.description = ${GIT_BRANCH} ${MAVEN_P",
+      "line": 265,
+      "stage": "Echo environment",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "decl res = 0",
+      "line": 550,
+      "stage": "Run integration tests",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "if (res != 0 )",
+      "line": 557,
+      "stage": "Run integration tests",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "build job: wkt-sync",
+      "line": 696,
+      "stage": "Sync",
+      "status": "manual",
+      "gha": "workflow_call / workflow_dispatch",
+      "note": "downstream Jenkins job must be migrated; trigger with `gh workflow run` or a reusable workflow"
+    },
+    {
+      "jenkins": "checkout: SCM environment (GIT_COMMIT, GIT_BRANCH, GIT_URL)",
+      "line": null,
+      "stage": null,
+      "status": "info",
+      "gha": "env",
+      "note": "Jenkins' git plugin exports them to every step after a checkout, so called scripts may read them; defined at workflow level even when the Jenkinsfile does not"
+    }
+  ],
+  "secrets": {
+    "WKT_OCIR_CREDS_USR": "Jenkins credential 'wkt-ocir-creds'",
+    "WKT_OCIR_CREDS_PSW": "Jenkins credential 'wkt-ocir-creds'"
+  },
+  "jobs": {
+    "filter-unwanted-branches": {
+      "name": "Filter unwanted branches, Sync",
+      "runs-on": "ubuntu-latest",
+      "steps": 36,
+      "matrix": false
+    }
+  },
+  "notes": [],
+  "handoff": {},
+  "source_sha256": "e7b6565ebf56715564b7b7ed51fc250dd2d46768a727caf489c990bb97326287",
+  "model_sha256": "a9a72fce4c0f5351a029ef6227230d6c4b0193d2664b125884e213578213d7a7"
+}

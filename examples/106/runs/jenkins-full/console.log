@@ -1,0 +1,222 @@
+[2026-10-10T09:09:48.150Z] Started by user admin
+[2026-10-10T09:09:48.424Z] [Pipeline] Start of Pipeline
+[2026-10-10T09:09:48.560Z] [Pipeline] node
+[2026-10-10T09:09:48.573Z] Running on Jenkins in /var/jenkins_home/workspace/ex-106-full
+[2026-10-10T09:09:48.592Z] [Pipeline] {
+[2026-10-10T09:09:48.624Z] [Pipeline] stage
+[2026-10-10T09:09:48.630Z] [Pipeline] { (Declarative: Checkout SCM)
+[2026-10-10T09:09:48.663Z] [Pipeline] checkout
+[2026-10-10T09:09:48.670Z] The recommended git tool is: NONE
+[2026-10-10T09:09:48.670Z] No credentials specified
+[2026-10-10T09:09:48.670Z] Cloning the remote Git repository
+[2026-10-10T09:09:48.670Z] Avoid fetching tags
+[2026-10-10T09:09:48.671Z] Cloning repository https://github.com/fabiojose/platform-as-code-example.git
+[2026-10-10T09:09:48.671Z]  > git init /var/jenkins_home/workspace/ex-106-full # timeout=10
+[2026-10-10T09:09:48.693Z] Fetching upstream changes from https://github.com/fabiojose/platform-as-code-example.git
+[2026-10-10T09:09:48.693Z]  > git --version # timeout=10
+[2026-10-10T09:09:48.700Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T09:09:48.700Z]  > git fetch --no-tags --force --progress -- https://github.com/fabiojose/platform-as-code-example.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:09:49.610Z]  > git config remote.origin.url https://github.com/fabiojose/platform-as-code-example.git # timeout=10
+[2026-10-10T09:09:49.616Z]  > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:09:49.625Z] Avoid second fetch
+[2026-10-10T09:09:49.625Z]  > git rev-parse ee4cfb0dfbbce20115f98cb2be4d486747549b59^{commit} # timeout=10
+[2026-10-10T09:09:49.632Z] Checking out Revision ee4cfb0dfbbce20115f98cb2be4d486747549b59 (detached)
+[2026-10-10T09:09:49.632Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T09:09:49.639Z]  > git checkout -f ee4cfb0dfbbce20115f98cb2be4d486747549b59 # timeout=10
+[2026-10-10T09:09:49.653Z] Commit message: "First commit"
+[2026-10-10T09:09:49.653Z] First time build. Skipping changelog.
+[2026-10-10T09:09:49.678Z] [Pipeline] }
+[2026-10-10T09:09:49.705Z] [Pipeline] // stage
+[2026-10-10T09:09:49.730Z] [Pipeline] withEnv
+[2026-10-10T09:09:49.735Z] [Pipeline] {
+[2026-10-10T09:09:49.776Z] [Pipeline] stage
+[2026-10-10T09:09:49.782Z] [Pipeline] { (Setup)
+[2026-10-10T09:09:49.831Z] [Pipeline] script
+[2026-10-10T09:09:49.840Z] [Pipeline] {
+[2026-10-10T09:09:49.858Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named target (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:09:49.868Z] [Pipeline] sh
+[2026-10-10T09:09:50.129Z] + jq -r .variable.iac_version.default src/package.tf
+[2026-10-10T09:09:50.142Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named oversion (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:09:50.143Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named version (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:09:50.143Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named oversion (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:09:50.143Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named iacname (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:09:50.143Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named prjname (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:09:50.143Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named packname (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:09:50.143Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named publish_url (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:09:50.150Z] [Pipeline] }
+[2026-10-10T09:09:50.182Z] [Pipeline] // script
+[2026-10-10T09:09:50.196Z] [Pipeline] }
+[2026-10-10T09:09:50.230Z] [Pipeline] // stage
+[2026-10-10T09:09:50.262Z] [Pipeline] stage
+[2026-10-10T09:09:50.269Z] [Pipeline] { (Build)
+[2026-10-10T09:09:50.306Z] [Pipeline] sh
+[2026-10-10T09:09:50.567Z] + sed -i s/iac-provider/terraform/g src/variables.tf
+[2026-10-10T09:09:50.593Z] [Pipeline] sh
+[2026-10-10T09:09:50.855Z] + sed -i s/iac-artifact/ex-106-full-v0.6.2-1.tar.gz/g src/variables.tf
+[2026-10-10T09:09:50.881Z] [Pipeline] sh
+[2026-10-10T09:09:51.142Z] + sed -i s/iac-scm-commit/ee4cfb0dfbbce20115f98cb2be4d486747549b59/g src/variables.tf
+[2026-10-10T09:09:51.168Z] [Pipeline] sh
+[2026-10-10T09:09:51.431Z] + sed -i s|iac-scm-branch|origin/master|g src/variables.tf
+[2026-10-10T09:09:51.460Z] [Pipeline] sh
+[2026-10-10T09:09:51.723Z] + sed -i s/iac-build-by/jenkins/g src/variables.tf
+[2026-10-10T09:09:51.747Z] [Pipeline] sh
+[2026-10-10T09:09:52.007Z] + sed -i s/iac-build-name/ex-106-full/g src/variables.tf
+[2026-10-10T09:09:52.035Z] [Pipeline] sh
+[2026-10-10T09:09:52.298Z] + sed -i s/iac-build-id/1/g src/variables.tf
+[2026-10-10T09:09:52.325Z] [Pipeline] sh
+[2026-10-10T09:09:52.455Z] + sed -i s/iac-build-date/1791623388150/g src/variables.tf
+[2026-10-10T09:09:52.483Z] [Pipeline] sh
+[2026-10-10T09:09:52.745Z] + sed -i s/0.6.2/0.6.2-1/g src/package.tf
+[2026-10-10T09:09:52.769Z] [Pipeline] sh
+[2026-10-10T09:09:53.030Z] + tar --exclude=./.git --exclude=./Jenkinsfile --exclude=*.tar.gz -czv ./src -f ex-106-full-v0.6.2-1.tar.gz
+[2026-10-10T09:09:53.030Z] ./src/
+[2026-10-10T09:09:53.030Z] ./src/dev/
+[2026-10-10T09:09:53.030Z] ./src/dev/namespace.tf
+[2026-10-10T09:09:53.030Z] ./src/dev/configmap.tf
+[2026-10-10T09:09:53.030Z] ./src/dev/secret.tf
+[2026-10-10T09:09:53.030Z] ./src/dev/dev.tf
+[2026-10-10T09:09:53.030Z] ./src/replication-controller.tf
+[2026-10-10T09:09:53.030Z] ./src/pro/
+[2026-10-10T09:09:53.030Z] ./src/pro/namespace.tf
+[2026-10-10T09:09:53.030Z] ./src/pro/configmap.tf
+[2026-10-10T09:09:53.030Z] ./src/pro/secret.tf
+[2026-10-10T09:09:53.030Z] ./src/pro/pro.tf
+[2026-10-10T09:09:53.030Z] ./src/route.json
+[2026-10-10T09:09:53.030Z] ./src/package.tf
+[2026-10-10T09:09:53.030Z] ./src/service.tf
+[2026-10-10T09:09:53.030Z] ./src/uat/
+[2026-10-10T09:09:53.030Z] ./src/uat/uat.tf
+[2026-10-10T09:09:53.030Z] ./src/uat/namespace.tf
+[2026-10-10T09:09:53.030Z] ./src/uat/configmap.tf
+[2026-10-10T09:09:53.030Z] ./src/uat/secret.tf
+[2026-10-10T09:09:53.030Z] ./src/variables.tf
+[2026-10-10T09:09:53.048Z] [Pipeline] }
+[2026-10-10T09:09:53.075Z] [Pipeline] // stage
+[2026-10-10T09:09:53.101Z] [Pipeline] stage
+[2026-10-10T09:09:53.107Z] [Pipeline] { (Publish)
+[2026-10-10T09:09:53.145Z] [Pipeline] withCredentials
+[2026-10-10T09:09:53.154Z] Masking supported pattern matches of $NEXUS_PASSWORD
+[2026-10-10T09:09:53.168Z] [Pipeline] {
+[2026-10-10T09:09:53.188Z] [Pipeline] sh
+[2026-10-10T09:09:53.449Z] + echo curl -u j2gha-user:**** --upload-file ex-106-full-v0.6.2-1.tar.gz null/repository/raw-terraform/oss-opensource/ex-106-full-v0.6.2-1.tar.gz
+[2026-10-10T09:09:53.449Z] curl -u j2gha-user:**** --upload-file ex-106-full-v0.6.2-1.tar.gz null/repository/raw-terraform/oss-opensource/ex-106-full-v0.6.2-1.tar.gz
+[2026-10-10T09:09:53.476Z] [Pipeline] }
+[2026-10-10T09:09:53.520Z] [Pipeline] // withCredentials
+[2026-10-10T09:09:53.535Z] [Pipeline] }
+[2026-10-10T09:09:53.563Z] [Pipeline] // stage
+[2026-10-10T09:09:53.589Z] [Pipeline] stage
+[2026-10-10T09:09:53.595Z] [Pipeline] { (DEV Deploy)
+[2026-10-10T09:09:53.634Z] [Pipeline] withCredentials
+[2026-10-10T09:09:53.647Z] Masking supported pattern matches of $RUNDECK_PASSWORD
+[2026-10-10T09:09:53.655Z] [Pipeline] {
+[2026-10-10T09:09:53.677Z] [Pipeline] sh
+[2026-10-10T09:09:53.937Z] + echo bash artifact null/repository/raw-terraform/oss-opensource/ex-106-full-v0.6.2-1.tar.gz 29cd3a68-e101-4176-907c-6fdf5bde13e7
+[2026-10-10T09:09:53.937Z] bash artifact null/repository/raw-terraform/oss-opensource/ex-106-full-v0.6.2-1.tar.gz 29cd3a68-e101-4176-907c-6fdf5bde13e7
+[2026-10-10T09:09:53.963Z] [Pipeline] }
+[2026-10-10T09:09:53.999Z] [Pipeline] // withCredentials
+[2026-10-10T09:09:54.014Z] [Pipeline] }
+[2026-10-10T09:09:54.046Z] [Pipeline] // stage
+[2026-10-10T09:09:54.071Z] [Pipeline] stage
+[2026-10-10T09:09:54.076Z] [Pipeline] { (PRE Deploy)
+[2026-10-10T09:09:54.119Z] [Pipeline] withCredentials
+[2026-10-10T09:09:54.124Z] Masking supported pattern matches of $RUNDECK_PASSWORD
+[2026-10-10T09:09:54.139Z] [Pipeline] {
+[2026-10-10T09:09:54.158Z] [Pipeline] sh
+[2026-10-10T09:09:54.418Z] + echo bash artifact null/repository/raw-terraform/oss-opensource/ex-106-full-v0.6.2-1.tar.gz ec0393b9-f0eb-4341-8812-eae241ef6544
+[2026-10-10T09:09:54.418Z] bash artifact null/repository/raw-terraform/oss-opensource/ex-106-full-v0.6.2-1.tar.gz ec0393b9-f0eb-4341-8812-eae241ef6544
+[2026-10-10T09:09:54.459Z] [Pipeline] }
+[2026-10-10T09:09:54.509Z] [Pipeline] // withCredentials
+[2026-10-10T09:09:54.526Z] [Pipeline] }
+[2026-10-10T09:09:54.554Z] [Pipeline] // stage
+[2026-10-10T09:09:54.579Z] [Pipeline] stage
+[2026-10-10T09:09:54.584Z] [Pipeline] { (Acceptance Test)
+[2026-10-10T09:09:54.618Z] [Pipeline] node
+[2026-10-10T09:09:54.633Z] Running on Jenkins in /var/jenkins_home/workspace/ex-106-full@2
+[2026-10-10T09:09:54.655Z] [Pipeline] {
+[2026-10-10T09:09:54.688Z] [Pipeline] checkout
+[2026-10-10T09:09:54.696Z] The recommended git tool is: NONE
+[2026-10-10T09:09:54.696Z] No credentials specified
+[2026-10-10T09:09:54.697Z] Cloning the remote Git repository
+[2026-10-10T09:09:54.697Z] Avoid fetching tags
+[2026-10-10T09:09:54.697Z] Cloning repository https://github.com/fabiojose/platform-as-code-example.git
+[2026-10-10T09:09:54.697Z]  > git init /var/jenkins_home/workspace/ex-106-full@2 # timeout=10
+[2026-10-10T09:09:54.733Z] Fetching upstream changes from https://github.com/fabiojose/platform-as-code-example.git
+[2026-10-10T09:09:54.733Z]  > git --version # timeout=10
+[2026-10-10T09:09:54.741Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T09:09:54.741Z]  > git fetch --no-tags --force --progress -- https://github.com/fabiojose/platform-as-code-example.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:09:55.516Z]  > git config remote.origin.url https://github.com/fabiojose/platform-as-code-example.git # timeout=10
+[2026-10-10T09:09:55.522Z]  > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:09:55.528Z] Avoid second fetch
+[2026-10-10T09:09:55.528Z]  > git rev-parse ee4cfb0dfbbce20115f98cb2be4d486747549b59^{commit} # timeout=10
+[2026-10-10T09:09:55.535Z] Checking out Revision ee4cfb0dfbbce20115f98cb2be4d486747549b59 (detached)
+[2026-10-10T09:09:55.535Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T09:09:55.540Z]  > git checkout -f ee4cfb0dfbbce20115f98cb2be4d486747549b59 # timeout=10
+[2026-10-10T09:09:55.554Z] Commit message: "First commit"
+[2026-10-10T09:09:55.580Z] [Pipeline] withEnv
+[2026-10-10T09:09:55.586Z] [Pipeline] {
+[2026-10-10T09:09:55.621Z] [Pipeline] sh
+[2026-10-10T09:09:55.883Z] + cd test
+[2026-10-10T09:09:55.883Z] + npm install
+[2026-10-10T09:10:01.078Z] npm WARN deprecated inflight@1.0.6: This module is not supported, and leaks memory. Do not use it. Check out lru-cache if you want a good and tested way to coalesce async requests by a key value, which is much more comprehensive and powerful.
+[2026-10-10T09:10:01.078Z] npm WARN deprecated glob@7.2.3: Old versions of glob are not supported, and contain widely publicized security vulnerabilities, which have been fixed in the current version. Please update. Support for old versions may be purchased (at exorbitant rates) by contacting i@izs.me
+[2026-10-10T09:10:01.078Z] npm WARN deprecated cucumber-tag-expressions@1.1.1: Package no longer supported. Contact Support at https://www.npmjs.com/support for more info.
+[2026-10-10T09:10:01.078Z] npm WARN deprecated gherkin@5.1.0: This package is now published under @cucumber/gherkin
+[2026-10-10T09:10:01.078Z] npm WARN deprecated cucumber-expressions@5.0.18: This package is now published under @cucumber/cucumber-expressions
+[2026-10-10T09:10:01.629Z] npm WARN deprecated cucumber@3.2.1: Cucumber is publishing new releases under @cucumber/cucumber
+[2026-10-10T09:10:02.540Z] npm WARN deprecated core-js@2.6.12: core-js@<3.23.3 is no longer maintained and not recommended for usage due to the number of issues. Because of the V8 engine whims, feature detection in old core-js versions could cause a slowdown up to 100x even if nothing is polyfilled. Some versions have web compatibility issues. Please, upgrade your dependencies to the actual version of core-js.
+[2026-10-10T09:10:02.540Z] 
+[2026-10-10T09:10:02.540Z] added 74 packages, and audited 75 packages in 6s
+[2026-10-10T09:10:02.540Z] 
+[2026-10-10T09:10:02.540Z] 5 packages are looking for funding
+[2026-10-10T09:10:02.540Z]   run `npm fund` for details
+[2026-10-10T09:10:02.540Z] 
+[2026-10-10T09:10:02.540Z] found 0 vulnerabilities
+[2026-10-10T09:10:02.815Z] [Pipeline] sh
+[2026-10-10T09:10:03.078Z] + cd test
+[2026-10-10T09:10:03.078Z] + echo npm test
+[2026-10-10T09:10:03.078Z] npm test
+[2026-10-10T09:10:03.132Z] [Pipeline] echo
+[2026-10-10T09:10:03.138Z] J2GHA-TRACE {"stage":"Acceptance Test","step":"cucumber"}
+[2026-10-10T09:10:03.144Z] [Pipeline] }
+[2026-10-10T09:10:03.174Z] [Pipeline] // withEnv
+[2026-10-10T09:10:03.190Z] [Pipeline] }
+[2026-10-10T09:10:03.226Z] [Pipeline] // node
+[2026-10-10T09:10:03.240Z] [Pipeline] }
+[2026-10-10T09:10:03.271Z] [Pipeline] // stage
+[2026-10-10T09:10:03.298Z] [Pipeline] stage
+[2026-10-10T09:10:03.304Z] [Pipeline] { (Approval)
+[2026-10-10T09:10:03.346Z] [Pipeline] timeout
+[2026-10-10T09:10:03.346Z] Timeout set to expire in 30 min
+[2026-10-10T09:10:03.351Z] [Pipeline] {
+[2026-10-10T09:10:03.377Z] [Pipeline] input
+[2026-10-10T09:10:03.400Z] Deploy to Production?
+[2026-10-10T09:10:03.400Z] Proceed or Abort
+[2026-10-10T09:10:03.589Z] Approved by admin
+[2026-10-10T09:10:03.628Z] [Pipeline] }
+[2026-10-10T09:10:03.676Z] [Pipeline] // timeout
+[2026-10-10T09:10:03.701Z] [Pipeline] }
+[2026-10-10T09:10:03.750Z] [Pipeline] // stage
+[2026-10-10T09:10:03.781Z] [Pipeline] stage
+[2026-10-10T09:10:03.787Z] [Pipeline] { (PRO Deploy)
+[2026-10-10T09:10:03.825Z] [Pipeline] withCredentials
+[2026-10-10T09:10:03.836Z] Masking supported pattern matches of $RUNDECK_PASSWORD
+[2026-10-10T09:10:03.848Z] [Pipeline] {
+[2026-10-10T09:10:03.868Z] [Pipeline] sh
+[2026-10-10T09:10:04.129Z] + echo bash artifact null/repository/raw-terraform/oss-opensource/ex-106-full-v0.6.2-1.tar.gz f31fb4bb-4f55-4f23-9c03-784008acb5c4
+[2026-10-10T09:10:04.129Z] bash artifact null/repository/raw-terraform/oss-opensource/ex-106-full-v0.6.2-1.tar.gz f31fb4bb-4f55-4f23-9c03-784008acb5c4
+[2026-10-10T09:10:04.167Z] [Pipeline] }
+[2026-10-10T09:10:04.200Z] [Pipeline] // withCredentials
+[2026-10-10T09:10:04.214Z] [Pipeline] }
+[2026-10-10T09:10:04.247Z] [Pipeline] // stage
+[2026-10-10T09:10:04.275Z] [Pipeline] stage
+[2026-10-10T09:10:04.281Z] [Pipeline] { (Declarative: Post Actions)
+[2026-10-10T09:10:04.320Z] [Pipeline] echo
+[2026-10-10T09:10:04.324Z] J2GHA-TRACE {"stage":"Declarative: Post Actions","step":"rocketSend"}
+[2026-10-10T09:10:04.338Z] [Pipeline] }
+[2026-10-10T09:10:04.365Z] [Pipeline] // stage
+[2026-10-10T09:10:04.379Z] [Pipeline] }
+[2026-10-10T09:10:04.407Z] [Pipeline] // withEnv
+[2026-10-10T09:10:04.422Z] [Pipeline] }
+[2026-10-10T09:10:04.455Z] [Pipeline] // node
+[2026-10-10T09:10:04.482Z] [Pipeline] End of Pipeline
+[2026-10-10T09:10:04.523Z] Finished: SUCCESS

@@ -1,0 +1,31 @@
+# Disposable j2gha controller. Local analysis/execution only - never expose this port publicly.
+jenkins:
+  systemMessage: "j2gha disposable controller (JCasC managed) - local analysis only"
+  numExecutors: 16
+  mode: NORMAL
+  # Common real-world labels so label-based agents can be satisfied by the built-in node.
+  labelString: "built-in linux docker maven java jdk node nodejs ubuntu master"
+  quietPeriod: 0
+  securityRealm:
+    local:
+      allowsSignup: false
+      users:
+        - id: "admin"
+          password: "${J2GHA_ADMIN_PASSWORD:-j2gha-local-only}"
+  authorizationStrategy:
+    loggedInUsersCanDoAnything:
+      allowAnonymousRead: false
+  crumbIssuer: "standard"
+  globalNodeProperties:
+    - envVars:
+        env:
+          - key: "J2GHA"
+            value: "true"
+unclassified:
+  location:
+    url: "http://localhost:8080/"
+  timestamper:
+    allPipelines: true
+security:
+  globalJobDslSecurityConfiguration:
+    useScriptSecurity: false

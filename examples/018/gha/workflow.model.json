@@ -1,0 +1,243 @@
+{
+  "name": "j2gha 018: dvsa/olcs-ci pipelines/app_release_package/Jenkinsfile (j2gha)",
+  "on": {
+    "push": {
+      "branches": [
+        "**"
+      ]
+    },
+    "pull_request": null,
+    "workflow_dispatch": null
+  },
+  "permissions": {
+    "contents": "read"
+  },
+  "env": {
+    "BRANCH_NAME": "${{ github.head_ref || github.ref_name }}",
+    "TAG_NAME": "${{ github.ref_type == 'tag' && github.ref_name || '' }}",
+    "CHANGE_ID": "${{ github.event.pull_request.number }}",
+    "GIT_COMMIT": "${{ github.sha }}",
+    "GIT_BRANCH": "${{ github.head_ref || github.ref_name }}",
+    "GIT_URL": "${{ github.server_url }}/${{ github.repository }}.git"
+  },
+  "defaults": {
+    "run": {
+      "shell": "bash"
+    }
+  },
+  "jobs": {
+    "main": {
+      "name": "main, App Branch Close and Tag (not currently integrated), Get Repos, Get App Release Tags",
+      "runs-on": "ubuntu-latest",
+      "timeout-minutes": 60,
+      "steps": [
+        {
+          "name": "Checkout",
+          "uses": "actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "with": {
+            "persist-credentials": false
+          },
+          "_j2gha": {
+            "kind": "checkout",
+            "line": null,
+            "trace": false,
+            "trace_events": [],
+            "role": "checkout"
+          }
+        },
+        {
+          "name": "Get Repos: deleteDir",
+          "id": "s1",
+          "run": "find . -mindepth 1 -delete || true",
+          "_j2gha": {
+            "kind": "deleteDir",
+            "stage": "Get Repos",
+            "line": 55,
+            "trace": true
+          }
+        },
+        {
+          "name": "Get Repos: Groovy for (manual)",
+          "id": "s2",
+          "run": "echo \"::warning::manual migration: Groovy for at line 57\"",
+          "_j2gha": {
+            "kind": "script-manual",
+            "stage": "Get Repos",
+            "line": 57,
+            "trace": false
+          }
+        },
+        {
+          "name": "Get App Release Tags: Groovy for (manual)",
+          "id": "s3",
+          "run": "echo \"::warning::manual migration: Groovy for at line 76\"",
+          "_j2gha": {
+            "kind": "script-manual",
+            "stage": "Get App Release Tags",
+            "line": 76,
+            "trace": false
+          }
+        },
+        {
+          "name": "Get App Release Tags: dir olcs-api-version",
+          "id": "s4",
+          "run": "mkdir -p -- \"$J2GHA_DIR\"",
+          "env": {
+            "J2GHA_DIR": "olcs-api-version"
+          },
+          "_j2gha": {
+            "kind": "dir",
+            "stage": "Get App Release Tags",
+            "line": null,
+            "trace": false
+          }
+        },
+        {
+          "name": "Get App Release Tags: git describe --abbrev=0 --tags `git rev-list --tags --skip=1 --max-cou",
+          "id": "s5",
+          "run": "git describe --abbrev=0 --tags `git rev-list --tags --skip=1 --max-count=1` > result",
+          "working-directory": "olcs-api-version",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Get App Release Tags",
+            "line": 95,
+            "trace": true
+          }
+        },
+        {
+          "name": "Get App Release Tags: readFile (manual migration)",
+          "id": "s6",
+          "run": "echo \"::warning::Jenkins step 'readFile' requires manual migration\"",
+          "working-directory": "olcs-api-version",
+          "_j2gha": {
+            "kind": "readFile",
+            "stage": "Get App Release Tags",
+            "line": 96,
+            "trace": false
+          }
+        },
+        {
+          "name": "Check and Build Release Artefacts: Groovy for (manual)",
+          "id": "s7",
+          "run": "echo \"::warning::manual migration: Groovy for at line 113\"",
+          "_j2gha": {
+            "kind": "script-manual",
+            "stage": "Check and Build Release Artefacts",
+            "line": 113,
+            "trace": false
+          }
+        },
+        {
+          "name": "Check Artefacts from Input Params: ${cmd}",
+          "id": "s8",
+          "run": "${cmd}",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Check Artefacts from Input Params",
+            "line": 149,
+            "trace": true
+          }
+        },
+        {
+          "name": "Check Artefacts from Input Params: ${cmd2}",
+          "id": "s9",
+          "run": "${cmd2}",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Check Artefacts from Input Params",
+            "line": 152,
+            "trace": true
+          }
+        },
+        {
+          "name": "Check Artefacts from Input Params: readFile (manual migration)",
+          "id": "s10",
+          "run": "echo \"::warning::Jenkins step 'readFile' requires manual migration\"",
+          "_j2gha": {
+            "kind": "readFile",
+            "stage": "Check Artefacts from Input Params",
+            "line": 153,
+            "trace": false
+          }
+        },
+        {
+          "name": "Check Artefacts from Input Params: Groovy if (manual)",
+          "id": "s11",
+          "run": "echo \"::warning::manual migration: Groovy condition at line 155: file.contains(authFile + '-' + params.olcs_auth_version)\"",
+          "_j2gha": {
+            "kind": "script-manual",
+            "stage": "Check Artefacts from Input Params",
+            "line": 155,
+            "trace": false
+          }
+        },
+        {
+          "name": "Check Artefacts from Input Params: ${cmd3}",
+          "id": "s12",
+          "run": "${cmd3}",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Check Artefacts from Input Params",
+            "line": 168,
+            "trace": true
+          }
+        },
+        {
+          "name": "Check Artefacts from Input Params: ${cmd4}",
+          "id": "s13",
+          "run": "${cmd4}",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Check Artefacts from Input Params",
+            "line": 171,
+            "trace": true
+          }
+        },
+        {
+          "name": "Check Artefacts from Input Params: readFile (manual migration)",
+          "id": "s14",
+          "run": "echo \"::warning::Jenkins step 'readFile' requires manual migration\"",
+          "_j2gha": {
+            "kind": "readFile",
+            "stage": "Check Artefacts from Input Params",
+            "line": 172,
+            "trace": false
+          }
+        },
+        {
+          "name": "Check Artefacts from Input Params: Groovy if (manual)",
+          "id": "s15",
+          "run": "echo \"::warning::manual migration: Groovy condition at line 174: file2.contains(txcFile + '-' + params.olcs_transxchange_version)\"",
+          "_j2gha": {
+            "kind": "script-manual",
+            "stage": "Check Artefacts from Input Params",
+            "line": 174,
+            "trace": false
+          }
+        },
+        {
+          "name": "Check App Version against Built artefacts: Groovy if (manual)",
+          "id": "s16",
+          "run": "echo \"::warning::manual migration: Groovy condition at line 190: params.DRYRUN\"",
+          "_j2gha": {
+            "kind": "script-manual",
+            "stage": "Check App Version against Built artefacts",
+            "line": 190,
+            "trace": false
+          }
+        },
+        {
+          "name": "Create and Push Release Manifest: Groovy if (manual)",
+          "id": "s17",
+          "run": "echo \"::warning::manual migration: Groovy condition at line 204: params.DRYRUN\"",
+          "_j2gha": {
+            "kind": "script-manual",
+            "stage": "Create and Push Release Manifest",
+            "line": 204,
+            "trace": false
+          }
+        }
+      ]
+    }
+  }
+}

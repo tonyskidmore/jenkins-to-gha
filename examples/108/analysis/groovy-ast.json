@@ -1,0 +1,3390 @@
+{
+  "file": "108",
+  "ok": true,
+  "errors": [],
+  "imports": [
+    {
+      "name": "ai.h2o.ci.buildsummary.StagesSummary",
+      "alias": "StagesSummary",
+      "annotations": [],
+      "line": 2,
+      "col": 1,
+      "endLine": 2,
+      "endCol": 44
+    }
+  ],
+  "annotations": [
+    {
+      "name": "Library",
+      "members": {
+        "value": {
+          "t": "str",
+          "v": "test-shared-library@dai-updated",
+          "line": 1,
+          "col": 10,
+          "endLine": 1,
+          "endCol": 43
+        }
+      },
+      "line": 1,
+      "col": 1,
+      "endLine": 1,
+      "endCol": 45
+    }
+  ],
+  "methods": [
+    {
+      "name": "stashDockerImage",
+      "params": [
+        {
+          "name": "image",
+          "type": "Object",
+          "hasDefault": false
+        }
+      ],
+      "annotations": [],
+      "body": [
+        {
+          "k": "call",
+          "name": "sh",
+          "args": [
+            {
+              "t": "gstr",
+              "v": "\"echo docker save -o ${image}.tar ${H2O_ECR}/h2o-3/${image} > ${image}.tar\" // j2gha-local: no Docker daemon; the echoed command is the image tarball the stash carries",
+              "vars": [
+                "{image}",
+                "{H2O_ECR}",
+                "{image}",
+                "{image}"
+              ],
+              "calls": [],
+              "line": 28,
+              "col": 5,
+              "endLine": 28,
+              "endCol": 172
+            }
+          ],
+          "named": {},
+          "line": 28,
+          "col": 2,
+          "endLine": 28,
+          "endCol": 172
+        },
+        {
+          "k": "call",
+          "name": "stash",
+          "args": [],
+          "named": {
+            "includes": {
+              "t": "gstr",
+              "v": "\"${image}.tar\"",
+              "vars": [
+                "{image}"
+              ],
+              "calls": [],
+              "line": 29,
+              "col": 18,
+              "endLine": 29,
+              "endCol": 32
+            },
+            "name": {
+              "t": "gstr",
+              "v": "\"docker-image-${image}\"",
+              "vars": [
+                "{image}"
+              ],
+              "calls": [],
+              "line": 29,
+              "col": 40,
+              "endLine": 29,
+              "endCol": 63
+            }
+          },
+          "line": 29,
+          "col": 2,
+          "endLine": 29,
+          "endCol": 63
+        },
+        {
+          "k": "call",
+          "name": "sh",
+          "args": [
+            {
+              "t": "gstr",
+              "v": "\"rm ${image}.tar\"",
+              "vars": [
+                "{image}"
+              ],
+              "calls": [],
+              "line": 30,
+              "col": 5,
+              "endLine": 30,
+              "endCol": 22
+            }
+          ],
+          "named": {},
+          "line": 30,
+          "col": 2,
+          "endLine": 30,
+          "endCol": 22
+        }
+      ],
+      "line": 27,
+      "col": 1,
+      "endLine": 31,
+      "endCol": 2
+    },
+    {
+      "name": "unstashDockerImage",
+      "params": [
+        {
+          "name": "image",
+          "type": "Object",
+          "hasDefault": false
+        }
+      ],
+      "annotations": [],
+      "body": [
+        {
+          "k": "call",
+          "name": "unstash",
+          "args": [
+            {
+              "t": "gstr",
+              "v": "\"docker-image-${image}\"",
+              "vars": [
+                "{image}"
+              ],
+              "calls": [],
+              "line": 34,
+              "col": 10,
+              "endLine": 34,
+              "endCol": 33
+            }
+          ],
+          "named": {},
+          "line": 34,
+          "col": 2,
+          "endLine": 34,
+          "endCol": 33
+        },
+        {
+          "k": "call",
+          "name": "sh",
+          "args": [
+            {
+              "t": "gstr",
+              "v": "\"echo docker load -i ${image}.tar\" // j2gha-local: no Docker daemon (the rm below still fails if the unstash did not deliver the tarball)",
+              "vars": [
+                "{image}"
+              ],
+              "calls": [],
+              "line": 35,
+              "col": 5,
+              "endLine": 35,
+              "endCol": 142
+            }
+          ],
+          "named": {},
+          "line": 35,
+          "col": 2,
+          "endLine": 35,
+          "endCol": 142
+        },
+        {
+          "k": "call",
+          "name": "sh",
+          "args": [
+            {
+              "t": "gstr",
+              "v": "\"rm ${image}.tar\"",
+              "vars": [
+                "{image}"
+              ],
+              "calls": [],
+              "line": 36,
+              "col": 5,
+              "endLine": 36,
+              "endCol": 22
+            }
+          ],
+          "named": {},
+          "line": 36,
+          "col": 2,
+          "endLine": 36,
+          "endCol": 22
+        }
+      ],
+      "line": 33,
+      "col": 1,
+      "endLine": 37,
+      "endCol": 2
+    },
+    {
+      "name": "stashDockerImages",
+      "params": [
+        {
+          "name": "target",
+          "type": "Object",
+          "hasDefault": false
+        }
+      ],
+      "annotations": [],
+      "body": [
+        {
+          "k": "if",
+          "cond": "!params.publish",
+          "condCalls": [],
+          "then": [
+            {
+              "k": "assign",
+              "op": "=",
+              "target": "toPersist",
+              "value": {
+                "t": "list",
+                "v": [
+                  {
+                    "t": "str",
+                    "v": "dev-base",
+                    "line": 41,
+                    "col": 16,
+                    "endLine": 41,
+                    "endCol": 26
+                  },
+                  {
+                    "t": "str",
+                    "v": "dev-jdk-8-base",
+                    "line": 41,
+                    "col": 28,
+                    "endLine": 41,
+                    "endCol": 44
+                  },
+                  {
+                    "t": "str",
+                    "v": "dev-jdk-others-base",
+                    "line": 41,
+                    "col": 46,
+                    "endLine": 41,
+                    "endCol": 67
+                  },
+                  {
+                    "t": "str",
+                    "v": "dev-python-3.7",
+                    "line": 41,
+                    "col": 69,
+                    "endLine": 41,
+                    "endCol": 85
+                  },
+                  {
+                    "t": "str",
+                    "v": "dev-r-4.5.2",
+                    "line": 41,
+                    "col": 87,
+                    "endLine": 41,
+                    "endCol": 100
+                  },
+                  {
+                    "t": "str",
+                    "v": "dev-build-base",
+                    "line": 42,
+                    "col": 7,
+                    "endLine": 42,
+                    "endCol": 23
+                  },
+                  {
+                    "t": "str",
+                    "v": "dev-build-hadoop",
+                    "line": 42,
+                    "col": 25,
+                    "endLine": 42,
+                    "endCol": 43
+                  },
+                  {
+                    "t": "str",
+                    "v": "dev-python-base",
+                    "line": 42,
+                    "col": 45,
+                    "endLine": 42,
+                    "endCol": 62
+                  },
+                  {
+                    "t": "str",
+                    "v": "dev-r-base",
+                    "line": 42,
+                    "col": 64,
+                    "endLine": 42,
+                    "endCol": 76
+                  }
+                ],
+                "line": 41,
+                "col": 15,
+                "endLine": 42,
+                "endCol": 77
+              },
+              "line": 41,
+              "col": 3,
+              "endLine": 42,
+              "endCol": 77
+            },
+            {
+              "k": "if",
+              "cond": "toPersist.contains(target)",
+              "condCalls": [
+                {
+                  "k": "call",
+                  "name": "contains",
+                  "args": [
+                    {
+                      "t": "var",
+                      "name": "target",
+                      "line": 43,
+                      "col": 26,
+                      "endLine": 43,
+                      "endCol": 32
+                    }
+                  ],
+                  "named": {},
+                  "line": 43,
+                  "col": 7,
+                  "endLine": 43,
+                  "endCol": 33,
+                  "receiver": "toPersist"
+                }
+              ],
+              "then": [
+                {
+                  "k": "call",
+                  "name": "stashDockerImage",
+                  "args": [
+                    {
+                      "t": "var",
+                      "name": "target",
+                      "line": 44,
+                      "col": 21,
+                      "endLine": 44,
+                      "endCol": 27
+                    }
+                  ],
+                  "named": {},
+                  "line": 44,
+                  "col": 4,
+                  "endLine": 44,
+                  "endCol": 28
+                }
+              ],
+              "else": [],
+              "line": 43,
+              "col": 3,
+              "endLine": 45,
+              "endCol": 4
+            }
+          ],
+          "else": [],
+          "line": 40,
+          "col": 2,
+          "endLine": 46,
+          "endCol": 3
+        }
+      ],
+      "line": 39,
+      "col": 1,
+      "endLine": 47,
+      "endCol": 2
+    },
+    {
+      "name": "unstashDockerImages",
+      "params": [
+        {
+          "name": "target",
+          "type": "Object",
+          "hasDefault": false
+        }
+      ],
+      "annotations": [],
+      "body": [
+        {
+          "k": "if",
+          "cond": "!params.publish",
+          "condCalls": [],
+          "then": [
+            {
+              "k": "switch",
+              "expr": "target",
+              "cases": [
+                {
+                  "value": "'dev-jdk-8-base'",
+                  "body": [],
+                  "line": 52,
+                  "col": 4,
+                  "endLine": 52,
+                  "endCol": 8
+                },
+                {
+                  "value": "'dev-jdk-others-base'",
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "unstashDockerImage",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "dev-base",
+                          "line": 54,
+                          "col": 24,
+                          "endLine": 54,
+                          "endCol": 34
+                        }
+                      ],
+                      "named": {},
+                      "line": 54,
+                      "col": 5,
+                      "endLine": 54,
+                      "endCol": 35
+                    },
+                    {
+                      "k": "break",
+                      "line": 55,
+                      "col": 5,
+                      "endLine": 55,
+                      "endCol": 10
+                    }
+                  ],
+                  "line": 52,
+                  "col": 4,
+                  "endLine": 52,
+                  "endCol": 8
+                },
+                {
+                  "value": "'dev-python-base'",
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "unstashDockerImage",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "dev-jdk-8-base",
+                          "line": 57,
+                          "col": 24,
+                          "endLine": 57,
+                          "endCol": 40
+                        }
+                      ],
+                      "named": {},
+                      "line": 57,
+                      "col": 5,
+                      "endLine": 57,
+                      "endCol": 41
+                    },
+                    {
+                      "k": "break",
+                      "line": 58,
+                      "col": 5,
+                      "endLine": 58,
+                      "endCol": 10
+                    }
+                  ],
+                  "line": 56,
+                  "col": 4,
+                  "endLine": 56,
+                  "endCol": 8
+                },
+                {
+                  "value": "'dev-r-base'",
+                  "body": [],
+                  "line": 59,
+                  "col": 4,
+                  "endLine": 59,
+                  "endCol": 8
+                },
+                {
+                  "value": "'dev-mojocompat'",
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "unstashDockerImage",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "dev-python-3.7",
+                          "line": 61,
+                          "col": 24,
+                          "endLine": 61,
+                          "endCol": 40
+                        }
+                      ],
+                      "named": {},
+                      "line": 61,
+                      "col": 5,
+                      "endLine": 61,
+                      "endCol": 41
+                    },
+                    {
+                      "k": "break",
+                      "line": 62,
+                      "col": 5,
+                      "endLine": 62,
+                      "endCol": 10
+                    }
+                  ],
+                  "line": 59,
+                  "col": 4,
+                  "endLine": 59,
+                  "endCol": 8
+                },
+                {
+                  "value": "'dev-build-base'",
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "unstashDockerImage",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "dev-r-4.5.2",
+                          "line": 64,
+                          "col": 24,
+                          "endLine": 64,
+                          "endCol": 37
+                        }
+                      ],
+                      "named": {},
+                      "line": 64,
+                      "col": 5,
+                      "endLine": 64,
+                      "endCol": 38
+                    },
+                    {
+                      "k": "break",
+                      "line": 65,
+                      "col": 5,
+                      "endLine": 65,
+                      "endCol": 10
+                    }
+                  ],
+                  "line": 63,
+                  "col": 4,
+                  "endLine": 63,
+                  "endCol": 8
+                },
+                {
+                  "value": "'dev-build-hadoop'",
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "unstashDockerImage",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "dev-build-base",
+                          "line": 67,
+                          "col": 24,
+                          "endLine": 67,
+                          "endCol": 40
+                        }
+                      ],
+                      "named": {},
+                      "line": 67,
+                      "col": 5,
+                      "endLine": 67,
+                      "endCol": 41
+                    },
+                    {
+                      "k": "break",
+                      "line": 68,
+                      "col": 5,
+                      "endLine": 68,
+                      "endCol": 10
+                    }
+                  ],
+                  "line": 66,
+                  "col": 4,
+                  "endLine": 66,
+                  "endCol": 8
+                },
+                {
+                  "value": "'dev-release'",
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "unstashDockerImage",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "dev-build-hadoop",
+                          "line": 70,
+                          "col": 24,
+                          "endLine": 70,
+                          "endCol": 42
+                        }
+                      ],
+                      "named": {},
+                      "line": 70,
+                      "col": 5,
+                      "endLine": 70,
+                      "endCol": 43
+                    },
+                    {
+                      "k": "break",
+                      "line": 71,
+                      "col": 5,
+                      "endLine": 71,
+                      "endCol": 10
+                    }
+                  ],
+                  "line": 69,
+                  "col": 4,
+                  "endLine": 69,
+                  "endCol": 8
+                }
+              ],
+              "default": [
+                {
+                  "k": "if",
+                  "cond": "target.startsWith('dev-python-')",
+                  "condCalls": [
+                    {
+                      "k": "call",
+                      "name": "startsWith",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "dev-python-",
+                          "line": 73,
+                          "col": 27,
+                          "endLine": 73,
+                          "endCol": 40
+                        }
+                      ],
+                      "named": {},
+                      "line": 73,
+                      "col": 9,
+                      "endLine": 73,
+                      "endCol": 41,
+                      "receiver": "target"
+                    }
+                  ],
+                  "then": [
+                    {
+                      "k": "call",
+                      "name": "unstashDockerImage",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "dev-python-base",
+                          "line": 74,
+                          "col": 25,
+                          "endLine": 74,
+                          "endCol": 42
+                        }
+                      ],
+                      "named": {},
+                      "line": 74,
+                      "col": 6,
+                      "endLine": 74,
+                      "endCol": 43
+                    }
+                  ],
+                  "else": [
+                    {
+                      "k": "if",
+                      "cond": "target.startsWith('dev-r-')",
+                      "condCalls": [
+                        {
+                          "k": "call",
+                          "name": "startsWith",
+                          "args": [
+                            {
+                              "t": "str",
+                              "v": "dev-r-",
+                              "line": 75,
+                              "col": 34,
+                              "endLine": 75,
+                              "endCol": 42
+                            }
+                          ],
+                          "named": {},
+                          "line": 75,
+                          "col": 16,
+                          "endLine": 75,
+                          "endCol": 43,
+                          "receiver": "target"
+                        }
+                      ],
+                      "then": [
+                        {
+                          "k": "call",
+                          "name": "unstashDockerImage",
+                          "args": [
+                            {
+                              "t": "str",
+                              "v": "dev-r-base",
+                              "line": 76,
+                              "col": 25,
+                              "endLine": 76,
+                              "endCol": 37
+                            }
+                          ],
+                          "named": {},
+                          "line": 76,
+                          "col": 6,
+                          "endLine": 76,
+                          "endCol": 38
+                        }
+                      ],
+                      "else": [
+                        {
+                          "k": "if",
+                          "cond": "target ==~ /dev-jdk-\\d+/",
+                          "condCalls": [],
+                          "then": [
+                            {
+                              "k": "call",
+                              "name": "unstashDockerImage",
+                              "args": [
+                                {
+                                  "t": "str",
+                                  "v": "dev-jdk-others-base",
+                                  "line": 78,
+                                  "col": 25,
+                                  "endLine": 78,
+                                  "endCol": 46
+                                }
+                              ],
+                              "named": {},
+                              "line": 78,
+                              "col": 6,
+                              "endLine": 78,
+                              "endCol": 47
+                            }
+                          ],
+                          "else": [],
+                          "line": 77,
+                          "col": 12,
+                          "endLine": 79,
+                          "endCol": 6
+                        }
+                      ],
+                      "line": 75,
+                      "col": 12,
+                      "endLine": 79,
+                      "endCol": 6
+                    }
+                  ],
+                  "line": 73,
+                  "col": 5,
+                  "endLine": 79,
+                  "endCol": 6
+                },
+                {
+                  "k": "break",
+                  "line": 80,
+                  "col": 5,
+                  "endLine": 80,
+                  "endCol": 10
+                }
+              ],
+              "line": 51,
+              "col": 3,
+              "endLine": 81,
+              "endCol": 4
+            }
+          ],
+          "else": [],
+          "line": 50,
+          "col": 2,
+          "endLine": 82,
+          "endCol": 3
+        }
+      ],
+      "line": 49,
+      "col": 1,
+      "endLine": 83,
+      "endCol": 2
+    },
+    {
+      "name": "buildInParallel",
+      "params": [
+        {
+          "name": "pipelineContext",
+          "type": "Object",
+          "hasDefault": false
+        },
+        {
+          "name": "targets",
+          "type": "Object",
+          "hasDefault": false
+        }
+      ],
+      "annotations": [],
+      "body": [
+        {
+          "k": "call",
+          "name": "parallel",
+          "args": [
+            {
+              "t": "call",
+              "call": {
+                "k": "call",
+                "name": "collectEntries",
+                "args": [],
+                "named": {},
+                "line": 174,
+                "col": 14,
+                "endLine": 178,
+                "endCol": 6,
+                "receiver": "targets",
+                "body": [
+                  {
+                    "k": "expr",
+                    "kind": "MapExpression",
+                    "text": "[\n                (target): makeStage(pipelineContext, target),\n        ]",
+                    "calls": [
+                      {
+                        "k": "call",
+                        "name": "makeStage",
+                        "args": [
+                          {
+                            "t": "var",
+                            "name": "pipelineContext",
+                            "line": 176,
+                            "col": 37,
+                            "endLine": 176,
+                            "endCol": 52
+                          },
+                          {
+                            "t": "var",
+                            "name": "target",
+                            "line": 176,
+                            "col": 54,
+                            "endLine": 176,
+                            "endCol": 60
+                          }
+                        ],
+                        "named": {},
+                        "line": 176,
+                        "col": 27,
+                        "endLine": 176,
+                        "endCol": 61
+                      }
+                    ],
+                    "line": 175,
+                    "col": 9,
+                    "endLine": 177,
+                    "endCol": 10
+                  }
+                ]
+              },
+              "line": 174,
+              "col": 14,
+              "endLine": 178,
+              "endCol": 6
+            }
+          ],
+          "named": {},
+          "line": 174,
+          "col": 5,
+          "endLine": 178,
+          "endCol": 7
+        }
+      ],
+      "line": 173,
+      "col": 1,
+      "endLine": 179,
+      "endCol": 2
+    },
+    {
+      "name": "makeStage",
+      "params": [
+        {
+          "name": "pipelineContext",
+          "type": "Object",
+          "hasDefault": false
+        },
+        {
+          "name": "target",
+          "type": "String",
+          "hasDefault": false
+        }
+      ],
+      "annotations": [],
+      "body": [
+        {
+          "k": "return",
+          "value": {
+            "t": "closure",
+            "params": [],
+            "body": [
+              {
+                "k": "decl",
+                "name": "buildImageStageName",
+                "value": {
+                  "t": "gstr",
+                  "v": "\"Build $target\"",
+                  "vars": [
+                    "target"
+                  ],
+                  "calls": [],
+                  "line": 183,
+                  "col": 35,
+                  "endLine": 183,
+                  "endCol": 50
+                },
+                "annotations": [],
+                "line": 183,
+                "col": 9,
+                "endLine": 183,
+                "endCol": 50
+              },
+              {
+                "k": "call",
+                "name": "stage",
+                "args": [
+                  {
+                    "t": "var",
+                    "name": "buildImageStageName",
+                    "line": 184,
+                    "col": 15,
+                    "endLine": 184,
+                    "endCol": 34
+                  }
+                ],
+                "named": {},
+                "line": 184,
+                "col": 9,
+                "endLine": 210,
+                "endCol": 10,
+                "body": [
+                  {
+                    "k": "decl",
+                    "name": "noCache",
+                    "value": {
+                      "t": "expr",
+                      "kind": "TernaryExpression",
+                      "text": "?",
+                      "calls": [],
+                      "line": 185,
+                      "col": 51,
+                      "endLine": 185,
+                      "endCol": 52
+                    },
+                    "annotations": [],
+                    "line": 185,
+                    "col": 13,
+                    "endLine": 185,
+                    "endCol": 70
+                  },
+                  {
+                    "k": "call",
+                    "name": "node",
+                    "args": [
+                      {
+                        "t": "var",
+                        "name": "DEFAULT_LABEL",
+                        "line": 186,
+                        "col": 19,
+                        "endLine": 186,
+                        "endCol": 32
+                      }
+                    ],
+                    "named": {},
+                    "line": 186,
+                    "col": 13,
+                    "endLine": 209,
+                    "endCol": 14,
+                    "body": [
+                      {
+                        "k": "call",
+                        "name": "refreshStage",
+                        "args": [
+                          {
+                            "t": "var",
+                            "name": "buildImageStageName",
+                            "line": 187,
+                            "col": 43,
+                            "endLine": 187,
+                            "endCol": 62
+                          }
+                        ],
+                        "named": {},
+                        "line": 187,
+                        "col": 17,
+                        "endLine": 187,
+                        "endCol": 63,
+                        "receiver": "buildSummary"
+                      },
+                      {
+                        "k": "call",
+                        "name": "dir",
+                        "args": [
+                          {
+                            "t": "var",
+                            "name": "target",
+                            "line": 188,
+                            "col": 22,
+                            "endLine": 188,
+                            "endCol": 28
+                          }
+                        ],
+                        "named": {},
+                        "line": 188,
+                        "col": 17,
+                        "endLine": 208,
+                        "endCol": 18,
+                        "body": [
+                          {
+                            "k": "call",
+                            "name": "deleteDir",
+                            "args": [],
+                            "named": {},
+                            "line": 189,
+                            "col": 21,
+                            "endLine": 189,
+                            "endCol": 32
+                          },
+                          {
+                            "k": "call",
+                            "name": "dockerLoginH2OECR",
+                            "args": [],
+                            "named": {},
+                            "line": 190,
+                            "col": 21,
+                            "endLine": 190,
+                            "endCol": 40
+                          },
+                          {
+                            "k": "call",
+                            "name": "unstashDockerImages",
+                            "args": [
+                              {
+                                "t": "var",
+                                "name": "target",
+                                "line": 191,
+                                "col": 26,
+                                "endLine": 191,
+                                "endCol": 32
+                              }
+                            ],
+                            "named": {},
+                            "line": 191,
+                            "col": 6,
+                            "endLine": 191,
+                            "endCol": 33
+                          },
+                          {
+                            "k": "if",
+                            "cond": "!imageExistsH2OECR(\"h2o-3/${target}\", \"${pipelineContext.getBuildConfig().getDefaultImageVersion()}\") || params.forceBuild",
+                            "condCalls": [
+                              {
+                                "k": "call",
+                                "name": "imageExistsH2OECR",
+                                "args": [
+                                  {
+                                    "t": "gstr",
+                                    "v": "\"h2o-3/${target}\"",
+                                    "vars": [
+                                      "{target}"
+                                    ],
+                                    "calls": [],
+                                    "line": 192,
+                                    "col": 43,
+                                    "endLine": 192,
+                                    "endCol": 60
+                                  },
+                                  {
+                                    "t": "gstr",
+                                    "v": "\"${pipelineContext.getBuildConfig().getDefaultImageVersion()}\"",
+                                    "vars": [
+                                      "{pipelineContext.getBuildConfig().getDefaultImageVersion()}"
+                                    ],
+                                    "calls": [
+                                      {
+                                        "k": "call",
+                                        "name": "getDefaultImageVersion",
+                                        "args": [],
+                                        "named": {},
+                                        "line": 192,
+                                        "col": 64,
+                                        "endLine": 192,
+                                        "endCol": 123,
+                                        "receiver": "pipelineContext.getBuildConfig()",
+                                        "receiverCalls": [
+                                          {
+                                            "k": "call",
+                                            "name": "getBuildConfig",
+                                            "args": [],
+                                            "named": {},
+                                            "line": 192,
+                                            "col": 65,
+                                            "endLine": 192,
+                                            "endCol": 97,
+                                            "receiver": "pipelineContext"
+                                          }
+                                        ]
+                                      }
+                                    ],
+                                    "line": 192,
+                                    "col": 62,
+                                    "endLine": 192,
+                                    "endCol": 124
+                                  }
+                                ],
+                                "named": {},
+                                "line": 192,
+                                "col": 25,
+                                "endLine": 192,
+                                "endCol": 126
+                              }
+                            ],
+                            "then": [
+                              {
+                                "k": "call",
+                                "name": "unstash",
+                                "args": [
+                                  {
+                                    "t": "str",
+                                    "v": "docker-sources",
+                                    "line": 193,
+                                    "col": 33,
+                                    "endLine": 193,
+                                    "endCol": 49
+                                  }
+                                ],
+                                "named": {},
+                                "line": 193,
+                                "col": 25,
+                                "endLine": 193,
+                                "endCol": 49
+                              },
+                              {
+                                "k": "call",
+                                "name": "sh",
+                                "args": [
+                                  {
+                                    "t": "gstr",
+                                    "v": "\"\"\"\n                            echo make \\\n                                CI=1 \\\n                                H2O_BRANCH=${params.h2oBranch} \\\n                                VERSION=${pipelineContext.getBuildConfig().getDefaultImageVersion()} \\\n                                PUSH=${params.publish} \\\n                                NO_CACHE=${noCache} \\\n                                ${target}  # j2gha-local: not run\n                        \"\"\"",
+                                    "vars": [
+                                      "{params.h2oBranch}",
+                                      "{pipelineContext.getBuildConfig().getDefaultImageVersion()}",
+                                      "{params.publish}",
+                                      "{noCache}",
+                                      "{target}"
+                                    ],
+                                    "calls": [
+                                      {
+                                        "k": "call",
+                                        "name": "getDefaultImageVersion",
+                                        "args": [],
+                                        "named": {},
+                                        "line": 199,
+                                        "col": 42,
+                                        "endLine": 199,
+                                        "endCol": 101,
+                                        "receiver": "pipelineContext.getBuildConfig()",
+                                        "receiverCalls": [
+                                          {
+                                            "k": "call",
+                                            "name": "getBuildConfig",
+                                            "args": [],
+                                            "named": {},
+                                            "line": 199,
+                                            "col": 43,
+                                            "endLine": 199,
+                                            "endCol": 75,
+                                            "receiver": "pipelineContext"
+                                          }
+                                        ]
+                                      }
+                                    ],
+                                    "line": 195,
+                                    "col": 28,
+                                    "endLine": 203,
+                                    "endCol": 28
+                                  }
+                                ],
+                                "named": {},
+                                "line": 195,
+                                "col": 25,
+                                "endLine": 203,
+                                "endCol": 28
+                              }
+                            ],
+                            "else": [
+                              {
+                                "k": "call",
+                                "name": "println",
+                                "args": [
+                                  {
+                                    "t": "gstr",
+                                    "v": "\"${H2O_ECR}/h2o-3/${target} already exists\"",
+                                    "vars": [
+                                      "{H2O_ECR}",
+                                      "{target}"
+                                    ],
+                                    "calls": [],
+                                    "line": 205,
+                                    "col": 33,
+                                    "endLine": 205,
+                                    "endCol": 76
+                                  }
+                                ],
+                                "named": {},
+                                "line": 205,
+                                "col": 25,
+                                "endLine": 205,
+                                "endCol": 76
+                              }
+                            ],
+                            "line": 192,
+                            "col": 21,
+                            "endLine": 206,
+                            "endCol": 24
+                          },
+                          {
+                            "k": "call",
+                            "name": "stashDockerImages",
+                            "args": [
+                              {
+                                "t": "var",
+                                "name": "target",
+                                "line": 207,
+                                "col": 39,
+                                "endLine": 207,
+                                "endCol": 45
+                              }
+                            ],
+                            "named": {},
+                            "line": 207,
+                            "col": 21,
+                            "endLine": 207,
+                            "endCol": 46
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "line": 182,
+            "col": 12,
+            "endLine": 211,
+            "endCol": 6
+          },
+          "line": 182,
+          "col": 5,
+          "endLine": 211,
+          "endCol": 6
+        }
+      ],
+      "line": 181,
+      "col": 1,
+      "endLine": 212,
+      "endCol": 2
+    },
+    {
+      "name": "dockerLoginH2OECR",
+      "params": [],
+      "annotations": [],
+      "body": [
+        {
+          "k": "call",
+          "name": "withCredentials",
+          "args": [
+            {
+              "t": "list",
+              "v": [
+                {
+                  "t": "map",
+                  "v": {
+                    "$class": {
+                      "t": "str",
+                      "v": "AmazonWebServicesCredentialsBinding",
+                      "line": 215,
+                      "col": 31,
+                      "endLine": 215,
+                      "endCol": 68
+                    },
+                    "credentialsId": {
+                      "t": "str",
+                      "v": "H2O-AWS_CT-JENKINS-H2O-ECR",
+                      "line": 215,
+                      "col": 85,
+                      "endLine": 215,
+                      "endCol": 113
+                    }
+                  },
+                  "line": 215,
+                  "col": 22,
+                  "endLine": 215,
+                  "endCol": 114
+                }
+              ],
+              "line": 215,
+              "col": 21,
+              "endLine": 215,
+              "endCol": 115
+            }
+          ],
+          "named": {},
+          "line": 215,
+          "col": 5,
+          "endLine": 220,
+          "endCol": 6,
+          "body": [
+            {
+              "k": "assign",
+              "op": "=",
+              "target": "H2O_ECR_PWD",
+              "value": {
+                "t": "call",
+                "call": {
+                  "k": "call",
+                  "name": "trim",
+                  "args": [],
+                  "named": {},
+                  "line": 216,
+                  "col": 23,
+                  "endLine": 216,
+                  "endCol": 199,
+                  "receiver": "sh(script: 'echo aws ecr get-login-password --region us-east-1', returnStdout: true)",
+                  "receiverCalls": [
+                    {
+                      "k": "call",
+                      "name": "sh",
+                      "args": [],
+                      "named": {
+                        "script": {
+                          "t": "str",
+                          "v": "echo aws ecr get-login-password --region us-east-1",
+                          "line": 216,
+                          "col": 34,
+                          "endLine": 216,
+                          "endCol": 86
+                        },
+                        "returnStdout": {
+                          "t": "bool",
+                          "v": true,
+                          "line": 216,
+                          "col": 102,
+                          "endLine": 216,
+                          "endCol": 106
+                        }
+                      },
+                      "line": 216,
+                      "col": 23,
+                      "endLine": 216,
+                      "endCol": 107
+                    }
+                  ]
+                },
+                "line": 216,
+                "col": 23,
+                "endLine": 216,
+                "endCol": 199
+              },
+              "line": 216,
+              "col": 9,
+              "endLine": 216,
+              "endCol": 199
+            },
+            {
+              "k": "call",
+              "name": "sh",
+              "args": [
+                {
+                  "t": "gstr",
+                  "v": "\"\"\"\n            echo docker login --username AWS --password $H2O_ECR_PWD $H2O_ECR  # j2gha-local: no Docker daemon, no ECR\n        \"\"\"",
+                  "vars": [
+                    "H2O_ECR_PWD",
+                    "H2O_ECR"
+                  ],
+                  "calls": [],
+                  "line": 217,
+                  "col": 12,
+                  "endLine": 219,
+                  "endCol": 12
+                }
+              ],
+              "named": {},
+              "line": 217,
+              "col": 9,
+              "endLine": 219,
+              "endCol": 12
+            }
+          ]
+        }
+      ],
+      "line": 214,
+      "col": 1,
+      "endLine": 221,
+      "endCol": 2
+    },
+    {
+      "name": "imageExistsH2OECR",
+      "params": [
+        {
+          "name": "repository",
+          "type": "String",
+          "hasDefault": false
+        },
+        {
+          "name": "tag",
+          "type": "String",
+          "hasDefault": false
+        }
+      ],
+      "annotations": [],
+      "body": [
+        {
+          "k": "try",
+          "body": [
+            {
+              "k": "decl",
+              "name": "result",
+              "value": {
+                "t": "str",
+                "v": "-1",
+                "line": 225,
+                "col": 16,
+                "endLine": 225,
+                "endCol": 20
+              },
+              "annotations": [],
+              "line": 225,
+              "col": 3,
+              "endLine": 225,
+              "endCol": 20
+            },
+            {
+              "k": "call",
+              "name": "withCredentials",
+              "args": [
+                {
+                  "t": "list",
+                  "v": [
+                    {
+                      "t": "map",
+                      "v": {
+                        "$class": {
+                          "t": "str",
+                          "v": "AmazonWebServicesCredentialsBinding",
+                          "line": 226,
+                          "col": 29,
+                          "endLine": 226,
+                          "endCol": 66
+                        },
+                        "credentialsId": {
+                          "t": "str",
+                          "v": "H2O-AWS_CT-JENKINS-H2O-ECR",
+                          "line": 226,
+                          "col": 83,
+                          "endLine": 226,
+                          "endCol": 111
+                        }
+                      },
+                      "line": 226,
+                      "col": 20,
+                      "endLine": 226,
+                      "endCol": 112
+                    }
+                  ],
+                  "line": 226,
+                  "col": 19,
+                  "endLine": 226,
+                  "endCol": 113
+                }
+              ],
+              "named": {},
+              "line": 226,
+              "col": 3,
+              "endLine": 232,
+              "endCol": 4,
+              "body": [
+                {
+                  "k": "assign",
+                  "op": "=",
+                  "target": "result",
+                  "value": {
+                    "t": "call",
+                    "call": {
+                      "k": "call",
+                      "name": "trim",
+                      "args": [],
+                      "named": {},
+                      "line": 228,
+                      "col": 13,
+                      "endLine": 231,
+                      "endCol": 12,
+                      "receiver": "sh(\n\t\t\t\tscript: \"echo aws ecr batch-get-image --registry-id=353750902984 --repository-name='${repository}' --image-ids=imageTag='${tag}' --query 'images[].imageId.imageTag' --output text\",\n\t\t\t\treturnStdout: true\n\t\t\t)",
+                      "receiverCalls": [
+                        {
+                          "k": "call",
+                          "name": "sh",
+                          "args": [],
+                          "named": {
+                            "script": {
+                              "t": "gstr",
+                              "v": "\"echo aws ecr batch-get-image --registry-id=353750902984 --repository-name='${repository}' --image-ids=imageTag='${tag}' --query 'images[].imageId.imageTag' --output text\"",
+                              "vars": [
+                                "{repository}",
+                                "{tag}"
+                              ],
+                              "calls": [],
+                              "line": 229,
+                              "col": 13,
+                              "endLine": 229,
+                              "endCol": 184
+                            },
+                            "returnStdout": {
+                              "t": "bool",
+                              "v": true,
+                              "line": 230,
+                              "col": 19,
+                              "endLine": 231,
+                              "endCol": 4
+                            }
+                          },
+                          "line": 228,
+                          "col": 13,
+                          "endLine": 231,
+                          "endCol": 5
+                        }
+                      ]
+                    },
+                    "line": 228,
+                    "col": 13,
+                    "endLine": 231,
+                    "endCol": 12
+                  },
+                  "line": 228,
+                  "col": 4,
+                  "endLine": 231,
+                  "endCol": 12
+                }
+              ]
+            },
+            {
+              "k": "return",
+              "value": {
+                "t": "expr",
+                "kind": "BinaryExpression",
+                "text": "result == tag",
+                "calls": [],
+                "line": 234,
+                "col": 17,
+                "endLine": 234,
+                "endCol": 19
+              },
+              "line": 234,
+              "col": 3,
+              "endLine": 234,
+              "endCol": 23
+            }
+          ],
+          "catches": [
+            {
+              "type": "Exception",
+              "variable": "e",
+              "body": [
+                {
+                  "k": "return",
+                  "value": {
+                    "t": "bool",
+                    "v": false,
+                    "line": 237,
+                    "col": 10,
+                    "endLine": 237,
+                    "endCol": 15
+                  },
+                  "line": 237,
+                  "col": 3,
+                  "endLine": 237,
+                  "endCol": 15
+                }
+              ],
+              "line": 235,
+              "col": 4,
+              "endLine": 238,
+              "endCol": 3
+            }
+          ],
+          "finally": [],
+          "line": 224,
+          "col": 2,
+          "endLine": 238,
+          "endCol": 3
+        }
+      ],
+      "line": 223,
+      "col": 1,
+      "endLine": 239,
+      "endCol": 2
+    }
+  ],
+  "classes": [],
+  "statements": [
+    {
+      "k": "decl",
+      "name": "_",
+      "value": {
+        "t": "expr",
+        "kind": "EmptyExpression",
+        "text": "<not implemented yet for class: org.codehaus.groovy.ast.expr.EmptyExpression>",
+        "calls": []
+      },
+      "annotations": [
+        {
+          "name": "Library",
+          "members": {
+            "value": {
+              "t": "str",
+              "v": "test-shared-library@dai-updated",
+              "line": 1,
+              "col": 10,
+              "endLine": 1,
+              "endCol": 43
+            }
+          },
+          "line": 1,
+          "col": 1,
+          "endLine": 1,
+          "endCol": 45
+        }
+      ],
+      "line": 1,
+      "col": 1,
+      "endLine": 1,
+      "endCol": 46
+    },
+    {
+      "k": "assign",
+      "op": "=",
+      "target": "DEFAULT_LABEL",
+      "value": {
+        "t": "str",
+        "v": "h2o3_linux",
+        "line": 4,
+        "col": 17,
+        "endLine": 4,
+        "endCol": 29
+      },
+      "line": 4,
+      "col": 1,
+      "endLine": 4,
+      "endCol": 29
+    },
+    {
+      "k": "assign",
+      "op": "=",
+      "target": "H2O_ECR",
+      "value": {
+        "t": "str",
+        "v": "353750902984.dkr.ecr.us-east-1.amazonaws.com",
+        "line": 6,
+        "col": 9,
+        "endLine": 6,
+        "endCol": 55
+      },
+      "line": 6,
+      "col": 1,
+      "endLine": 6,
+      "endCol": 55
+    },
+    {
+      "k": "call",
+      "name": "buildSummary",
+      "args": [
+        {
+          "t": "str",
+          "v": "https://github.com/h2oai/h2o-3",
+          "line": 9,
+          "col": 14,
+          "endLine": 9,
+          "endCol": 46
+        },
+        {
+          "t": "bool",
+          "v": true,
+          "line": 9,
+          "col": 48,
+          "endLine": 9,
+          "endCol": 52
+        }
+      ],
+      "named": {},
+      "line": 9,
+      "col": 1,
+      "endLine": 9,
+      "endCol": 53
+    },
+    {
+      "k": "call",
+      "name": "addStagesSummary",
+      "args": [
+        {
+          "t": "var",
+          "name": "this",
+          "line": 11,
+          "col": 37,
+          "endLine": 11,
+          "endCol": 41
+        },
+        {
+          "t": "call",
+          "call": {
+            "k": "call",
+            "name": "new StagesSummary",
+            "args": [],
+            "named": {},
+            "line": 11,
+            "col": 43,
+            "endLine": 11,
+            "endCol": 62
+          },
+          "line": 11,
+          "col": 43,
+          "endLine": 11,
+          "endCol": 62
+        }
+      ],
+      "named": {},
+      "line": 11,
+      "col": 1,
+      "endLine": 11,
+      "endCol": 63,
+      "receiver": "buildSummary.get()",
+      "receiverCalls": [
+        {
+          "k": "call",
+          "name": "get",
+          "args": [],
+          "named": {},
+          "line": 11,
+          "col": 1,
+          "endLine": 11,
+          "endCol": 19,
+          "receiver": "buildSummary"
+        }
+      ]
+    },
+    {
+      "k": "call",
+      "name": "properties",
+      "args": [
+        {
+          "t": "list",
+          "v": [
+            {
+              "t": "call",
+              "call": {
+                "k": "call",
+                "name": "parameters",
+                "args": [
+                  {
+                    "t": "list",
+                    "v": [
+                      {
+                        "t": "call",
+                        "call": {
+                          "k": "call",
+                          "name": "booleanParam",
+                          "args": [],
+                          "named": {
+                            "defaultValue": {
+                              "t": "bool",
+                              "v": false,
+                              "line": 15,
+                              "col": 36,
+                              "endLine": 15,
+                              "endCol": 41
+                            },
+                            "description": {
+                              "t": "str",
+                              "v": "Build even if the image is already present in the repository",
+                              "line": 15,
+                              "col": 56,
+                              "endLine": 15,
+                              "endCol": 118
+                            },
+                            "name": {
+                              "t": "str",
+                              "v": "forceBuild",
+                              "line": 15,
+                              "col": 126,
+                              "endLine": 15,
+                              "endCol": 138
+                            }
+                          },
+                          "line": 15,
+                          "col": 9,
+                          "endLine": 15,
+                          "endCol": 139
+                        },
+                        "line": 15,
+                        "col": 9,
+                        "endLine": 15,
+                        "endCol": 139
+                      },
+                      {
+                        "t": "call",
+                        "call": {
+                          "k": "call",
+                          "name": "booleanParam",
+                          "args": [],
+                          "named": {
+                            "defaultValue": {
+                              "t": "bool",
+                              "v": false,
+                              "line": 16,
+                              "col": 36,
+                              "endLine": 16,
+                              "endCol": 41
+                            },
+                            "description": {
+                              "t": "str",
+                              "v": "Publish built images",
+                              "line": 16,
+                              "col": 56,
+                              "endLine": 16,
+                              "endCol": 78
+                            },
+                            "name": {
+                              "t": "str",
+                              "v": "publish",
+                              "line": 16,
+                              "col": 86,
+                              "endLine": 16,
+                              "endCol": 95
+                            }
+                          },
+                          "line": 16,
+                          "col": 9,
+                          "endLine": 16,
+                          "endCol": 96
+                        },
+                        "line": 16,
+                        "col": 9,
+                        "endLine": 16,
+                        "endCol": 96
+                      },
+                      {
+                        "t": "call",
+                        "call": {
+                          "k": "call",
+                          "name": "string",
+                          "args": [],
+                          "named": {
+                            "defaultValue": {
+                              "t": "str",
+                              "v": "master",
+                              "line": 17,
+                              "col": 30,
+                              "endLine": 17,
+                              "endCol": 38
+                            },
+                            "description": {
+                              "t": "str",
+                              "v": "H2O-3 Branch used to load dependencies.",
+                              "line": 17,
+                              "col": 53,
+                              "endLine": 17,
+                              "endCol": 94
+                            },
+                            "name": {
+                              "t": "str",
+                              "v": "h2oBranch",
+                              "line": 17,
+                              "col": 102,
+                              "endLine": 17,
+                              "endCol": 113
+                            }
+                          },
+                          "line": 17,
+                          "col": 9,
+                          "endLine": 17,
+                          "endCol": 114
+                        },
+                        "line": 17,
+                        "col": 9,
+                        "endLine": 17,
+                        "endCol": 114
+                      },
+                      {
+                        "t": "call",
+                        "call": {
+                          "k": "call",
+                          "name": "booleanParam",
+                          "args": [],
+                          "named": {
+                            "name": {
+                              "t": "str",
+                              "v": "noCache",
+                              "line": 18,
+                              "col": 28,
+                              "endLine": 18,
+                              "endCol": 37
+                            },
+                            "defaultValue": {
+                              "t": "bool",
+                              "v": true,
+                              "line": 18,
+                              "col": 53,
+                              "endLine": 18,
+                              "endCol": 57
+                            },
+                            "description": {
+                              "t": "str",
+                              "v": "If set to true, the docker image is built from scratch, with no stages used from the cache.",
+                              "line": 18,
+                              "col": 72,
+                              "endLine": 18,
+                              "endCol": 165
+                            }
+                          },
+                          "line": 18,
+                          "col": 9,
+                          "endLine": 19,
+                          "endCol": 5
+                        },
+                        "line": 18,
+                        "col": 9,
+                        "endLine": 19,
+                        "endCol": 5
+                      }
+                    ],
+                    "line": 14,
+                    "col": 16,
+                    "endLine": 19,
+                    "endCol": 6
+                  }
+                ],
+                "named": {},
+                "line": 14,
+                "col": 5,
+                "endLine": 20,
+                "endCol": 1
+              },
+              "line": 14,
+              "col": 5,
+              "endLine": 20,
+              "endCol": 1
+            }
+          ],
+          "line": 13,
+          "col": 12,
+          "endLine": 20,
+          "endCol": 2
+        }
+      ],
+      "named": {},
+      "line": 13,
+      "col": 1,
+      "endLine": 20,
+      "endCol": 3
+    },
+    {
+      "k": "assign",
+      "op": "=",
+      "target": "JDK_VERSIONS",
+      "value": {
+        "t": "list",
+        "v": [
+          {
+            "t": "str",
+            "v": "8",
+            "line": 24,
+            "col": 17,
+            "endLine": 24,
+            "endCol": 20
+          },
+          {
+            "t": "str",
+            "v": "11",
+            "line": 24,
+            "col": 22,
+            "endLine": 24,
+            "endCol": 26
+          },
+          {
+            "t": "str",
+            "v": "17",
+            "line": 24,
+            "col": 28,
+            "endLine": 24,
+            "endCol": 32
+          }
+        ],
+        "line": 24,
+        "col": 16,
+        "endLine": 24,
+        "endCol": 33
+      },
+      "line": 24,
+      "col": 1,
+      "endLine": 24,
+      "endCol": 33
+    },
+    {
+      "k": "assign",
+      "op": "=",
+      "target": "JDK_VERSIONS_PY_R",
+      "value": {
+        "t": "list",
+        "v": [
+          {
+            "t": "str",
+            "v": "8",
+            "line": 25,
+            "col": 22,
+            "endLine": 25,
+            "endCol": 25
+          },
+          {
+            "t": "str",
+            "v": "11",
+            "line": 25,
+            "col": 27,
+            "endLine": 25,
+            "endCol": 31
+          },
+          {
+            "t": "str",
+            "v": "17",
+            "line": 25,
+            "col": 33,
+            "endLine": 25,
+            "endCol": 37
+          }
+        ],
+        "line": 25,
+        "col": 21,
+        "endLine": 25,
+        "endCol": 72
+      },
+      "line": 25,
+      "col": 1,
+      "endLine": 25,
+      "endCol": 72
+    },
+    {
+      "k": "decl",
+      "name": "pipelineContext",
+      "value": {
+        "t": "expr",
+        "kind": "EmptyExpression",
+        "text": "<not implemented yet for class: org.codehaus.groovy.ast.expr.EmptyExpression>",
+        "calls": []
+      },
+      "annotations": [],
+      "line": 86,
+      "col": 1,
+      "endLine": 86,
+      "endCol": 20
+    },
+    {
+      "k": "call",
+      "name": "ansiColor",
+      "args": [
+        {
+          "t": "str",
+          "v": "xterm",
+          "line": 88,
+          "col": 11,
+          "endLine": 88,
+          "endCol": 18
+        }
+      ],
+      "named": {},
+      "line": 88,
+      "col": 1,
+      "endLine": 171,
+      "endCol": 2,
+      "body": [
+        {
+          "k": "call",
+          "name": "timestamps",
+          "args": [],
+          "named": {},
+          "line": 89,
+          "col": 5,
+          "endLine": 170,
+          "endCol": 6,
+          "body": [
+            {
+              "k": "decl",
+              "name": "checkoutStageName",
+              "value": {
+                "t": "str",
+                "v": "Checkout and Init",
+                "line": 90,
+                "col": 33,
+                "endLine": 90,
+                "endCol": 52
+              },
+              "annotations": [],
+              "line": 90,
+              "col": 9,
+              "endLine": 90,
+              "endCol": 52
+            },
+            {
+              "k": "call",
+              "name": "stage",
+              "args": [
+                {
+                  "t": "var",
+                  "name": "checkoutStageName",
+                  "line": 91,
+                  "col": 15,
+                  "endLine": 91,
+                  "endCol": 32
+                }
+              ],
+              "named": {},
+              "line": 91,
+              "col": 9,
+              "endLine": 128,
+              "endCol": 10,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "node",
+                  "args": [
+                    {
+                      "t": "var",
+                      "name": "DEFAULT_LABEL",
+                      "line": 92,
+                      "col": 19,
+                      "endLine": 92,
+                      "endCol": 32
+                    }
+                  ],
+                  "named": {},
+                  "line": 92,
+                  "col": 13,
+                  "endLine": 127,
+                  "endCol": 14,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "refreshStage",
+                      "args": [
+                        {
+                          "t": "var",
+                          "name": "checkoutStageName",
+                          "line": 93,
+                          "col": 43,
+                          "endLine": 93,
+                          "endCol": 60
+                        }
+                      ],
+                      "named": {},
+                      "line": 93,
+                      "col": 17,
+                      "endLine": 93,
+                      "endCol": 61,
+                      "receiver": "buildSummary"
+                    },
+                    {
+                      "k": "call",
+                      "name": "cleanWs",
+                      "args": [],
+                      "named": {},
+                      "line": 94,
+                      "col": 17,
+                      "endLine": 94,
+                      "endCol": 26
+                    },
+                    {
+                      "k": "decl",
+                      "name": "scmEnv",
+                      "value": {
+                        "t": "call",
+                        "call": {
+                          "k": "call",
+                          "name": "checkout",
+                          "args": [
+                            {
+                              "t": "var",
+                              "name": "scm",
+                              "line": 95,
+                              "col": 39,
+                              "endLine": 95,
+                              "endCol": 42
+                            }
+                          ],
+                          "named": {},
+                          "line": 95,
+                          "col": 39,
+                          "endLine": 95,
+                          "endCol": 42
+                        },
+                        "line": 95,
+                        "col": 39,
+                        "endLine": 95,
+                        "endCol": 42
+                      },
+                      "annotations": [],
+                      "line": 95,
+                      "col": 17,
+                      "endLine": 95,
+                      "endCol": 42
+                    },
+                    {
+                      "k": "decl",
+                      "name": "pipelineContextFactory",
+                      "value": {
+                        "t": "call",
+                        "call": {
+                          "k": "call",
+                          "name": "load",
+                          "args": [
+                            {
+                              "t": "str",
+                              "v": "scripts/jenkins/groovy/pipelineContext.groovy",
+                              "line": 97,
+                              "col": 57,
+                              "endLine": 97,
+                              "endCol": 104
+                            }
+                          ],
+                          "named": {},
+                          "line": 97,
+                          "col": 52,
+                          "endLine": 97,
+                          "endCol": 105
+                        },
+                        "line": 97,
+                        "col": 52,
+                        "endLine": 97,
+                        "endCol": 105
+                      },
+                      "annotations": [],
+                      "line": 97,
+                      "col": 17,
+                      "endLine": 97,
+                      "endCol": 105
+                    },
+                    {
+                      "k": "assign",
+                      "op": "=",
+                      "target": "pipelineContext",
+                      "value": {
+                        "t": "call",
+                        "call": {
+                          "k": "call",
+                          "name": "pipelineContextFactory",
+                          "args": [
+                            {
+                              "t": "str",
+                              "v": ".",
+                              "line": 98,
+                              "col": 58,
+                              "endLine": 98,
+                              "endCol": 61
+                            },
+                            {
+                              "t": "str",
+                              "v": "MODE_BUILD_DOCKER",
+                              "line": 98,
+                              "col": 63,
+                              "endLine": 98,
+                              "endCol": 82
+                            },
+                            {
+                              "t": "var",
+                              "name": "scmEnv",
+                              "line": 98,
+                              "col": 84,
+                              "endLine": 98,
+                              "endCol": 90
+                            },
+                            {
+                              "t": "bool",
+                              "v": true,
+                              "line": 98,
+                              "col": 92,
+                              "endLine": 98,
+                              "endCol": 96
+                            }
+                          ],
+                          "named": {},
+                          "line": 98,
+                          "col": 35,
+                          "endLine": 98,
+                          "endCol": 97
+                        },
+                        "line": 98,
+                        "col": 35,
+                        "endLine": 98,
+                        "endCol": 97
+                      },
+                      "line": 98,
+                      "col": 17,
+                      "endLine": 98,
+                      "endCol": 97
+                    },
+                    {
+                      "k": "decl",
+                      "name": "currentVersion",
+                      "value": {
+                        "t": "call",
+                        "call": {
+                          "k": "call",
+                          "name": "getDefaultImageVersion",
+                          "args": [],
+                          "named": {},
+                          "line": 99,
+                          "col": 38,
+                          "endLine": 99,
+                          "endCol": 95,
+                          "receiver": "pipelineContext.getBuildConfig()",
+                          "receiverCalls": [
+                            {
+                              "k": "call",
+                              "name": "getBuildConfig",
+                              "args": [],
+                              "named": {},
+                              "line": 99,
+                              "col": 38,
+                              "endLine": 99,
+                              "endCol": 70,
+                              "receiver": "pipelineContext"
+                            }
+                          ]
+                        },
+                        "line": 99,
+                        "col": 38,
+                        "endLine": 99,
+                        "endCol": 95
+                      },
+                      "annotations": [],
+                      "line": 99,
+                      "col": 17,
+                      "endLine": 99,
+                      "endCol": 95
+                    },
+                    {
+                      "k": "assign",
+                      "op": "=",
+                      "target": "currentBuild.displayName ",
+                      "value": {
+                        "t": "gstr",
+                        "v": "\"v${currentVersion} #${currentBuild.number}\"",
+                        "vars": [
+                          "{currentVersion}",
+                          "{currentBuild.number}"
+                        ],
+                        "calls": [],
+                        "line": 100,
+                        "col": 44,
+                        "endLine": 100,
+                        "endCol": 88
+                      },
+                      "line": 100,
+                      "col": 17,
+                      "endLine": 100,
+                      "endCol": 88
+                    },
+                    {
+                      "k": "call",
+                      "name": "dir",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "docker",
+                          "line": 111,
+                          "col": 21,
+                          "endLine": 111,
+                          "endCol": 29
+                        }
+                      ],
+                      "named": {},
+                      "line": 111,
+                      "col": 17,
+                      "endLine": 126,
+                      "endCol": 18,
+                      "body": [
+                        {
+                          "k": "call",
+                          "name": "withCredentials",
+                          "args": [
+                            {
+                              "t": "list",
+                              "v": [
+                                {
+                                  "t": "map",
+                                  "v": {
+                                    "$class": {
+                                      "t": "str",
+                                      "v": "AmazonWebServicesCredentialsBinding",
+                                      "line": 112,
+                                      "col": 47,
+                                      "endLine": 112,
+                                      "endCol": 84
+                                    },
+                                    "accessKeyVariable": {
+                                      "t": "str",
+                                      "v": "AWS_ACCESS_KEY_ID",
+                                      "line": 112,
+                                      "col": 105,
+                                      "endLine": 112,
+                                      "endCol": 124
+                                    },
+                                    "credentialsId": {
+                                      "t": "str",
+                                      "v": "H2O-AWS_CT-JENKINS-SHARED-SERVICE-PROD",
+                                      "line": 112,
+                                      "col": 141,
+                                      "endLine": 112,
+                                      "endCol": 181
+                                    },
+                                    "secretKeyVariable": {
+                                      "t": "str",
+                                      "v": "AWS_SECRET_ACCESS_KEY",
+                                      "line": 112,
+                                      "col": 202,
+                                      "endLine": 112,
+                                      "endCol": 225
+                                    }
+                                  },
+                                  "line": 112,
+                                  "col": 38,
+                                  "endLine": 112,
+                                  "endCol": 226
+                                }
+                              ],
+                              "line": 112,
+                              "col": 37,
+                              "endLine": 112,
+                              "endCol": 227
+                            }
+                          ],
+                          "named": {},
+                          "line": 112,
+                          "col": 21,
+                          "endLine": 124,
+                          "endCol": 22,
+                          "body": [
+                            {
+                              "k": "call",
+                              "name": "inside",
+                              "args": [
+                                {
+                                  "t": "gstr",
+                                  "v": "\"--entrypoint='' -e AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} -e AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}\"",
+                                  "vars": [
+                                    "{AWS_ACCESS_KEY_ID}",
+                                    "{AWS_SECRET_ACCESS_KEY}"
+                                  ],
+                                  "calls": [],
+                                  "line": 113,
+                                  "col": 59,
+                                  "endLine": 113,
+                                  "endCol": 168
+                                }
+                              ],
+                              "named": {},
+                              "line": 113,
+                              "col": 25,
+                              "endLine": 123,
+                              "endCol": 26,
+                              "receiver": "docker.image('d3fk/s3cmd')",
+                              "receiverCalls": [
+                                {
+                                  "k": "call",
+                                  "name": "image",
+                                  "args": [
+                                    {
+                                      "t": "str",
+                                      "v": "d3fk/s3cmd",
+                                      "line": 113,
+                                      "col": 38,
+                                      "endLine": 113,
+                                      "endCol": 50
+                                    }
+                                  ],
+                                  "named": {},
+                                  "line": 113,
+                                  "col": 25,
+                                  "endLine": 113,
+                                  "endCol": 51,
+                                  "receiver": "docker"
+                                }
+                              ],
+                              "body": [
+                                {
+                                  "k": "call",
+                                  "name": "sh",
+                                  "args": [
+                                    {
+                                      "t": "str",
+                                      "v": "echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-8/x64-linux/jdk-8u311-linux-x64.tar.gz > jdk-8u311-linux-x64.tar.gz",
+                                      "line": 114,
+                                      "col": 32,
+                                      "endLine": 114,
+                                      "endCol": 158
+                                    }
+                                  ],
+                                  "named": {},
+                                  "line": 114,
+                                  "col": 29,
+                                  "endLine": 114,
+                                  "endCol": 264
+                                },
+                                {
+                                  "k": "call",
+                                  "name": "sh",
+                                  "args": [
+                                    {
+                                      "t": "str",
+                                      "v": "echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-10/x64-linux/jdk-10.0.2_linux-x64_bin.tar.gz > jdk-10.0.2_linux-x64_bin.tar.gz",
+                                      "line": 115,
+                                      "col": 32,
+                                      "endLine": 115,
+                                      "endCol": 169
+                                    }
+                                  ],
+                                  "named": {},
+                                  "line": 115,
+                                  "col": 29,
+                                  "endLine": 115,
+                                  "endCol": 194
+                                },
+                                {
+                                  "k": "call",
+                                  "name": "sh",
+                                  "args": [
+                                    {
+                                      "t": "str",
+                                      "v": "echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-11/x64-linux/jdk-11.0.3_linux-x64_bin.tar.gz > jdk-11.0.3_linux-x64_bin.tar.gz",
+                                      "line": 116,
+                                      "col": 32,
+                                      "endLine": 116,
+                                      "endCol": 169
+                                    }
+                                  ],
+                                  "named": {},
+                                  "line": 116,
+                                  "col": 29,
+                                  "endLine": 116,
+                                  "endCol": 194
+                                },
+                                {
+                                  "k": "call",
+                                  "name": "sh",
+                                  "args": [
+                                    {
+                                      "t": "str",
+                                      "v": "echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-12/x64-linux/jdk-12.0.2_linux-x64_bin.tar.gz > jdk-12.0.2_linux-x64_bin.tar.gz",
+                                      "line": 117,
+                                      "col": 32,
+                                      "endLine": 117,
+                                      "endCol": 169
+                                    }
+                                  ],
+                                  "named": {},
+                                  "line": 117,
+                                  "col": 29,
+                                  "endLine": 117,
+                                  "endCol": 194
+                                },
+                                {
+                                  "k": "call",
+                                  "name": "sh",
+                                  "args": [
+                                    {
+                                      "t": "str",
+                                      "v": "echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-13/x64-linux/jdk-13.0.2_linux-x64_bin.tar.gz > jdk-13.0.2_linux-x64_bin.tar.gz",
+                                      "line": 118,
+                                      "col": 32,
+                                      "endLine": 118,
+                                      "endCol": 169
+                                    }
+                                  ],
+                                  "named": {},
+                                  "line": 118,
+                                  "col": 29,
+                                  "endLine": 118,
+                                  "endCol": 194
+                                },
+                                {
+                                  "k": "call",
+                                  "name": "sh",
+                                  "args": [
+                                    {
+                                      "t": "str",
+                                      "v": "echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-14/x64-linux/jdk-14.0.2_linux-x64_bin.tar.gz > jdk-14.0.2_linux-x64_bin.tar.gz",
+                                      "line": 119,
+                                      "col": 32,
+                                      "endLine": 119,
+                                      "endCol": 169
+                                    }
+                                  ],
+                                  "named": {},
+                                  "line": 119,
+                                  "col": 29,
+                                  "endLine": 119,
+                                  "endCol": 194
+                                },
+                                {
+                                  "k": "call",
+                                  "name": "sh",
+                                  "args": [
+                                    {
+                                      "t": "str",
+                                      "v": "echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-15/x64-linux/jdk-15.0.2_linux-x64_bin.tar.gz > jdk-15.0.2_linux-x64_bin.tar.gz",
+                                      "line": 120,
+                                      "col": 32,
+                                      "endLine": 120,
+                                      "endCol": 169
+                                    }
+                                  ],
+                                  "named": {},
+                                  "line": 120,
+                                  "col": 29,
+                                  "endLine": 120,
+                                  "endCol": 194
+                                },
+                                {
+                                  "k": "call",
+                                  "name": "sh",
+                                  "args": [
+                                    {
+                                      "t": "str",
+                                      "v": "echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-16/x64-linux/jdk-16.0.2_linux-x64_bin.tar.gz > jdk-16.0.2_linux-x64_bin.tar.gz",
+                                      "line": 121,
+                                      "col": 32,
+                                      "endLine": 121,
+                                      "endCol": 169
+                                    }
+                                  ],
+                                  "named": {},
+                                  "line": 121,
+                                  "col": 29,
+                                  "endLine": 121,
+                                  "endCol": 194
+                                },
+                                {
+                                  "k": "call",
+                                  "name": "sh",
+                                  "args": [
+                                    {
+                                      "t": "str",
+                                      "v": "echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-17/x64-linux/jdk-17.0.0_linux-x64_bin.tar.gz > jdk-17.0.0_linux-x64_bin.tar.gz",
+                                      "line": 122,
+                                      "col": 32,
+                                      "endLine": 122,
+                                      "endCol": 169
+                                    }
+                                  ],
+                                  "named": {},
+                                  "line": 122,
+                                  "col": 29,
+                                  "endLine": 122,
+                                  "endCol": 194
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        {
+                          "k": "call",
+                          "name": "stash",
+                          "args": [],
+                          "named": {
+                            "name": {
+                              "t": "str",
+                              "v": "docker-sources",
+                              "line": 125,
+                              "col": 33,
+                              "endLine": 125,
+                              "endCol": 49
+                            }
+                          },
+                          "line": 125,
+                          "col": 21,
+                          "endLine": 125,
+                          "endCol": 49
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "k": "assign",
+              "op": "=",
+              "target": "PYTHON_VERSIONS",
+              "value": {
+                "t": "prop",
+                "text": "pipelineContext.getBuildConfig().PYTHON_VERSIONS",
+                "calls": [
+                  {
+                    "k": "call",
+                    "name": "getBuildConfig",
+                    "args": [],
+                    "named": {},
+                    "line": 130,
+                    "col": 21,
+                    "endLine": 130,
+                    "endCol": 53,
+                    "receiver": "pipelineContext"
+                  }
+                ],
+                "line": 130,
+                "col": 21,
+                "endLine": 130,
+                "endCol": 69
+              },
+              "line": 130,
+              "col": 3,
+              "endLine": 130,
+              "endCol": 69
+            },
+            {
+              "k": "assign",
+              "op": "=",
+              "target": "R_VERSIONS",
+              "value": {
+                "t": "prop",
+                "text": "pipelineContext.getBuildConfig().R_VERSIONS",
+                "calls": [
+                  {
+                    "k": "call",
+                    "name": "getBuildConfig",
+                    "args": [],
+                    "named": {},
+                    "line": 131,
+                    "col": 16,
+                    "endLine": 131,
+                    "endCol": 48,
+                    "receiver": "pipelineContext"
+                  }
+                ],
+                "line": 131,
+                "col": 16,
+                "endLine": 131,
+                "endCol": 59
+              },
+              "line": 131,
+              "col": 3,
+              "endLine": 131,
+              "endCol": 59
+            },
+            {
+              "k": "call",
+              "name": "buildInParallel",
+              "args": [
+                {
+                  "t": "var",
+                  "name": "pipelineContext",
+                  "line": 133,
+                  "col": 25,
+                  "endLine": 133,
+                  "endCol": 40
+                },
+                {
+                  "t": "list",
+                  "v": [
+                    {
+                      "t": "str",
+                      "v": "dev-base",
+                      "line": 133,
+                      "col": 43,
+                      "endLine": 133,
+                      "endCol": 53
+                    }
+                  ],
+                  "line": 133,
+                  "col": 42,
+                  "endLine": 133,
+                  "endCol": 54
+                }
+              ],
+              "named": {},
+              "line": 133,
+              "col": 9,
+              "endLine": 133,
+              "endCol": 55
+            },
+            {
+              "k": "call",
+              "name": "buildInParallel",
+              "args": [
+                {
+                  "t": "var",
+                  "name": "pipelineContext",
+                  "line": 134,
+                  "col": 25,
+                  "endLine": 134,
+                  "endCol": 40
+                },
+                {
+                  "t": "list",
+                  "v": [
+                    {
+                      "t": "str",
+                      "v": "dev-jdk-8-base",
+                      "line": 134,
+                      "col": 43,
+                      "endLine": 134,
+                      "endCol": 59
+                    },
+                    {
+                      "t": "str",
+                      "v": "dev-jdk-others-base",
+                      "line": 134,
+                      "col": 61,
+                      "endLine": 134,
+                      "endCol": 82
+                    }
+                  ],
+                  "line": 134,
+                  "col": 42,
+                  "endLine": 134,
+                  "endCol": 83
+                }
+              ],
+              "named": {},
+              "line": 134,
+              "col": 9,
+              "endLine": 134,
+              "endCol": 84
+            },
+            {
+              "k": "call",
+              "name": "buildInParallel",
+              "args": [
+                {
+                  "t": "var",
+                  "name": "pipelineContext",
+                  "line": 136,
+                  "col": 25,
+                  "endLine": 136,
+                  "endCol": 40
+                },
+                {
+                  "t": "list",
+                  "v": [
+                    {
+                      "t": "str",
+                      "v": "dev-python-base",
+                      "line": 136,
+                      "col": 43,
+                      "endLine": 136,
+                      "endCol": 60
+                    }
+                  ],
+                  "line": 136,
+                  "col": 42,
+                  "endLine": 136,
+                  "endCol": 61
+                }
+              ],
+              "named": {},
+              "line": 136,
+              "col": 9,
+              "endLine": 136,
+              "endCol": 62
+            },
+            {
+              "k": "decl",
+              "name": "pythonImages",
+              "value": {
+                "t": "list",
+                "v": [],
+                "line": 137,
+                "col": 28,
+                "endLine": 137,
+                "endCol": 30
+              },
+              "annotations": [],
+              "line": 137,
+              "col": 9,
+              "endLine": 137,
+              "endCol": 30
+            },
+            {
+              "k": "call",
+              "name": "each",
+              "args": [],
+              "named": {},
+              "line": 138,
+              "col": 9,
+              "endLine": 140,
+              "endCol": 10,
+              "receiver": "PYTHON_VERSIONS",
+              "body": [
+                {
+                  "k": "assign",
+                  "op": "+=",
+                  "target": "pythonImages",
+                  "value": {
+                    "t": "gstr",
+                    "v": "\"dev-python-${version}\"",
+                    "vars": [
+                      "{version}"
+                    ],
+                    "calls": [],
+                    "line": 139,
+                    "col": 29,
+                    "endLine": 139,
+                    "endCol": 52
+                  },
+                  "line": 139,
+                  "col": 13,
+                  "endLine": 139,
+                  "endCol": 52
+                }
+              ]
+            },
+            {
+              "k": "call",
+              "name": "buildInParallel",
+              "args": [
+                {
+                  "t": "var",
+                  "name": "pipelineContext",
+                  "line": 141,
+                  "col": 25,
+                  "endLine": 141,
+                  "endCol": 40
+                },
+                {
+                  "t": "var",
+                  "name": "pythonImages",
+                  "line": 141,
+                  "col": 42,
+                  "endLine": 141,
+                  "endCol": 54
+                }
+              ],
+              "named": {},
+              "line": 141,
+              "col": 9,
+              "endLine": 141,
+              "endCol": 55
+            },
+            {
+              "k": "call",
+              "name": "buildInParallel",
+              "args": [
+                {
+                  "t": "var",
+                  "name": "pipelineContext",
+                  "line": 143,
+                  "col": 25,
+                  "endLine": 143,
+                  "endCol": 40
+                },
+                {
+                  "t": "list",
+                  "v": [
+                    {
+                      "t": "str",
+                      "v": "dev-r-base",
+                      "line": 143,
+                      "col": 43,
+                      "endLine": 143,
+                      "endCol": 55
+                    }
+                  ],
+                  "line": 143,
+                  "col": 42,
+                  "endLine": 143,
+                  "endCol": 56
+                }
+              ],
+              "named": {},
+              "line": 143,
+              "col": 9,
+              "endLine": 143,
+              "endCol": 57
+            },
+            {
+              "k": "decl",
+              "name": "componentImages",
+              "value": {
+                "t": "list",
+                "v": [],
+                "line": 144,
+                "col": 31,
+                "endLine": 144,
+                "endCol": 33
+              },
+              "annotations": [],
+              "line": 144,
+              "col": 9,
+              "endLine": 144,
+              "endCol": 33
+            },
+            {
+              "k": "call",
+              "name": "each",
+              "args": [],
+              "named": {},
+              "line": 145,
+              "col": 9,
+              "endLine": 147,
+              "endCol": 10,
+              "receiver": "R_VERSIONS",
+              "body": [
+                {
+                  "k": "assign",
+                  "op": "+=",
+                  "target": "componentImages",
+                  "value": {
+                    "t": "gstr",
+                    "v": "\"dev-r-${version}\"",
+                    "vars": [
+                      "{version}"
+                    ],
+                    "calls": [],
+                    "line": 146,
+                    "col": 32,
+                    "endLine": 146,
+                    "endCol": 50
+                  },
+                  "line": 146,
+                  "col": 13,
+                  "endLine": 146,
+                  "endCol": 50
+                }
+              ]
+            },
+            {
+              "k": "call",
+              "name": "each",
+              "args": [],
+              "named": {},
+              "line": 148,
+              "col": 9,
+              "endLine": 150,
+              "endCol": 10,
+              "receiver": "JDK_VERSIONS",
+              "body": [
+                {
+                  "k": "assign",
+                  "op": "+=",
+                  "target": "componentImages",
+                  "value": {
+                    "t": "gstr",
+                    "v": "\"dev-jdk-${version}\"",
+                    "vars": [
+                      "{version}"
+                    ],
+                    "calls": [],
+                    "line": 149,
+                    "col": 32,
+                    "endLine": 149,
+                    "endCol": 52
+                  },
+                  "line": 149,
+                  "col": 13,
+                  "endLine": 149,
+                  "endCol": 52
+                }
+              ]
+            },
+            {
+              "k": "assign",
+              "op": "+=",
+              "target": "componentImages",
+              "value": {
+                "t": "str",
+                "v": "dev-mojocompat",
+                "line": 151,
+                "col": 28,
+                "endLine": 151,
+                "endCol": 44
+              },
+              "line": 151,
+              "col": 9,
+              "endLine": 151,
+              "endCol": 44
+            },
+            {
+              "k": "call",
+              "name": "buildInParallel",
+              "args": [
+                {
+                  "t": "var",
+                  "name": "pipelineContext",
+                  "line": 152,
+                  "col": 25,
+                  "endLine": 152,
+                  "endCol": 40
+                },
+                {
+                  "t": "var",
+                  "name": "componentImages",
+                  "line": 152,
+                  "col": 42,
+                  "endLine": 152,
+                  "endCol": 57
+                }
+              ],
+              "named": {},
+              "line": 152,
+              "col": 9,
+              "endLine": 152,
+              "endCol": 58
+            },
+            {
+              "k": "call",
+              "name": "buildInParallel",
+              "args": [
+                {
+                  "t": "var",
+                  "name": "pipelineContext",
+                  "line": 154,
+                  "col": 25,
+                  "endLine": 154,
+                  "endCol": 40
+                },
+                {
+                  "t": "list",
+                  "v": [
+                    {
+                      "t": "str",
+                      "v": "dev-build-base",
+                      "line": 154,
+                      "col": 43,
+                      "endLine": 154,
+                      "endCol": 59
+                    }
+                  ],
+                  "line": 154,
+                  "col": 42,
+                  "endLine": 154,
+                  "endCol": 60
+                }
+              ],
+              "named": {},
+              "line": 154,
+              "col": 9,
+              "endLine": 154,
+              "endCol": 61
+            },
+            {
+              "k": "call",
+              "name": "buildInParallel",
+              "args": [
+                {
+                  "t": "var",
+                  "name": "pipelineContext",
+                  "line": 155,
+                  "col": 25,
+                  "endLine": 155,
+                  "endCol": 40
+                },
+                {
+                  "t": "list",
+                  "v": [
+                    {
+                      "t": "str",
+                      "v": "dev-build-hadoop",
+                      "line": 155,
+                      "col": 43,
+                      "endLine": 155,
+                      "endCol": 61
+                    }
+                  ],
+                  "line": 155,
+                  "col": 42,
+                  "endLine": 155,
+                  "endCol": 62
+                }
+              ],
+              "named": {},
+              "line": 155,
+              "col": 9,
+              "endLine": 155,
+              "endCol": 64
+            },
+            {
+              "k": "call",
+              "name": "buildInParallel",
+              "args": [
+                {
+                  "t": "var",
+                  "name": "pipelineContext",
+                  "line": 156,
+                  "col": 25,
+                  "endLine": 156,
+                  "endCol": 40
+                },
+                {
+                  "t": "list",
+                  "v": [
+                    {
+                      "t": "str",
+                      "v": "dev-release",
+                      "line": 156,
+                      "col": 43,
+                      "endLine": 156,
+                      "endCol": 56
+                    }
+                  ],
+                  "line": 156,
+                  "col": 42,
+                  "endLine": 156,
+                  "endCol": 57
+                }
+              ],
+              "named": {},
+              "line": 156,
+              "col": 9,
+              "endLine": 156,
+              "endCol": 58
+            },
+            {
+              "k": "decl",
+              "name": "componentJdkImages",
+              "value": {
+                "t": "list",
+                "v": [],
+                "line": 158,
+                "col": 34,
+                "endLine": 158,
+                "endCol": 36
+              },
+              "annotations": [],
+              "line": 158,
+              "col": 9,
+              "endLine": 158,
+              "endCol": 36
+            },
+            {
+              "k": "call",
+              "name": "each",
+              "args": [],
+              "named": {},
+              "line": 159,
+              "col": 9,
+              "endLine": 163,
+              "endCol": 10,
+              "receiver": "PYTHON_VERSIONS",
+              "body": [
+                {
+                  "k": "call",
+                  "name": "each",
+                  "args": [],
+                  "named": {},
+                  "line": 160,
+                  "col": 13,
+                  "endLine": 162,
+                  "endCol": 14,
+                  "receiver": "JDK_VERSIONS_PY_R",
+                  "body": [
+                    {
+                      "k": "assign",
+                      "op": "+=",
+                      "target": "componentJdkImages",
+                      "value": {
+                        "t": "gstr",
+                        "v": "\"dev-python-${version}-jdk-${jdkVersion}\"",
+                        "vars": [
+                          "{version}",
+                          "{jdkVersion}"
+                        ],
+                        "calls": [],
+                        "line": 161,
+                        "col": 39,
+                        "endLine": 161,
+                        "endCol": 80
+                      },
+                      "line": 161,
+                      "col": 17,
+                      "endLine": 161,
+                      "endCol": 80
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "k": "call",
+              "name": "each",
+              "args": [],
+              "named": {},
+              "line": 164,
+              "col": 9,
+              "endLine": 168,
+              "endCol": 10,
+              "receiver": "R_VERSIONS",
+              "body": [
+                {
+                  "k": "call",
+                  "name": "each",
+                  "args": [],
+                  "named": {},
+                  "line": 165,
+                  "col": 13,
+                  "endLine": 167,
+                  "endCol": 14,
+                  "receiver": "JDK_VERSIONS_PY_R",
+                  "body": [
+                    {
+                      "k": "assign",
+                      "op": "+=",
+                      "target": "componentJdkImages",
+                      "value": {
+                        "t": "gstr",
+                        "v": "\"dev-r-${version}-jdk-${jdkVersion}\"",
+                        "vars": [
+                          "{version}",
+                          "{jdkVersion}"
+                        ],
+                        "calls": [],
+                        "line": 166,
+                        "col": 39,
+                        "endLine": 166,
+                        "endCol": 75
+                      },
+                      "line": 166,
+                      "col": 17,
+                      "endLine": 166,
+                      "endCol": 75
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "k": "call",
+              "name": "buildInParallel",
+              "args": [
+                {
+                  "t": "var",
+                  "name": "pipelineContext",
+                  "line": 169,
+                  "col": 25,
+                  "endLine": 169,
+                  "endCol": 40
+                },
+                {
+                  "t": "var",
+                  "name": "componentJdkImages",
+                  "line": 169,
+                  "col": 42,
+                  "endLine": 169,
+                  "endCol": 60
+                }
+              ],
+              "named": {},
+              "line": 169,
+              "col": 9,
+              "endLine": 169,
+              "endCol": 61
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "source_sha256": "dfaf33c9263cfde5e5ed81231c2631ef8fd735ced7689cc7a019b2f5b28bd67c"
+}

@@ -1,0 +1,98 @@
+{
+ "viewport": {
+  "width": 1440,
+  "height": 810
+ },
+ "auth": {
+  "user": "admin",
+  "pass": "j2gha-local-only"
+ },
+ "shots": [
+  {
+   "name": "01-dashboard",
+   "url": "http://127.0.0.1:18080/",
+   "waitFor": 2000
+  },
+  {
+   "name": "02-credentials",
+   "url": "http://127.0.0.1:18080/manage/credentials/store/system/domain/_/",
+   "waitFor": 2000
+  },
+  {
+   "name": "04-stages-waiting",
+   "url": "http://127.0.0.1:18080/job/inventory-service/1/stages",
+   "waitFor": 3000
+  },
+  {
+   "name": "05-input",
+   "url": "http://127.0.0.1:18080/job/inventory-service/1/input/",
+   "waitFor": 2000
+  },
+  {
+   "name": "06-build-page",
+   "url": "http://127.0.0.1:18080/job/inventory-service/1/",
+   "waitFor": 2500
+  },
+  {
+   "name": "07-stages-done",
+   "url": "http://127.0.0.1:18080/job/inventory-service/1/stages",
+   "waitFor": 3000
+  },
+  {
+   "name": "08-tests",
+   "url": "http://127.0.0.1:18080/job/inventory-service/1/testReport/",
+   "waitFor": 2500
+  },
+  {
+   "name": "09-unit-report",
+   "url": "http://127.0.0.1:18080/job/inventory-service/1/Unit_20test_20report/",
+   "waitFor": 2500
+  },
+  {
+   "name": "10-artifacts",
+   "url": "http://127.0.0.1:18080/job/inventory-service/1/artifact/",
+   "waitFor": 2500
+  },
+  {
+   "name": "11-fingerprints",
+   "url": "http://127.0.0.1:18080/job/inventory-service/1/fingerprints",
+   "waitFor": 2500
+  },
+  {
+   "name": "12-console-approval",
+   "url": "http://127.0.0.1:18080/job/inventory-service/1/console",
+   "waitFor": 3500,
+   "clip": {
+    "x": 0,
+    "y": 7150,
+    "width": 1440,
+    "height": 840
+   }
+  },
+  {
+   "name": "13-job-page",
+   "url": "http://127.0.0.1:18080/job/inventory-service/",
+   "waitFor": 3000
+  },
+  {
+   "name": "14-job-stages",
+   "url": "http://127.0.0.1:18080/job/inventory-service/multi-pipeline-graph",
+   "waitFor": 3500
+  },
+  {
+   "name": "15-b2-build-page",
+   "url": "http://127.0.0.1:18080/job/inventory-service/2/",
+   "waitFor": 2500
+  },
+  {
+   "name": "16-b2-stages",
+   "url": "http://127.0.0.1:18080/job/inventory-service/2/stages",
+   "waitFor": 3000
+  },
+  {
+   "name": "17-b2-tests",
+   "url": "http://127.0.0.1:18080/job/inventory-service/2/testReport/",
+   "waitFor": 2500
+  }
+ ]
+}

@@ -1,0 +1,495 @@
+[2026-10-10T08:48:05.295Z] Started by user admin
+[2026-10-10T08:48:05.515Z] [Pipeline] Start of Pipeline
+[2026-10-10T08:48:05.700Z] [Pipeline] node
+[2026-10-10T08:48:05.712Z] Running on Jenkins in /var/jenkins_home/workspace/ex-014-full
+[2026-10-10T08:48:05.733Z] [Pipeline] {
+[2026-10-10T08:48:05.771Z] [Pipeline] stage
+[2026-10-10T08:48:05.780Z] [Pipeline] { (Declarative: Checkout SCM)
+[2026-10-10T08:48:05.835Z] [Pipeline] checkout
+[2026-10-10T08:48:05.848Z] The recommended git tool is: NONE
+[2026-10-10T08:48:05.848Z] No credentials specified
+[2026-10-10T08:48:05.848Z]  > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/ex-014-full/.git # timeout=10
+[2026-10-10T08:48:05.857Z] Fetching changes from the remote Git repository
+[2026-10-10T08:48:05.859Z]  > git config remote.origin.url https://github.com/The-OpenROAD-Project/OpenLane.git # timeout=10
+[2026-10-10T08:48:05.867Z] Fetching upstream changes from https://github.com/The-OpenROAD-Project/OpenLane.git
+[2026-10-10T08:48:05.867Z]  > git --version # timeout=10
+[2026-10-10T08:48:05.874Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T08:48:05.874Z]  > git fetch --no-tags --force --progress -- https://github.com/The-OpenROAD-Project/OpenLane.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T08:48:06.384Z]  > git rev-parse 32dc185225c45f1a3d3756f231b4cbdfaac2f68c^{commit} # timeout=10
+[2026-10-10T08:48:06.391Z] Checking out Revision 32dc185225c45f1a3d3756f231b4cbdfaac2f68c (detached)
+[2026-10-10T08:48:06.391Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T08:48:06.398Z]  > git checkout -f 32dc185225c45f1a3d3756f231b4cbdfaac2f68c # timeout=10
+[2026-10-10T08:48:06.434Z] Commit message: "OR CI: consider that designs moved to submodule (#1900)"
+[2026-10-10T08:48:06.434Z]  > git rev-list --no-walk 32dc185225c45f1a3d3756f231b4cbdfaac2f68c # timeout=10
+[2026-10-10T08:48:06.474Z] [Pipeline] }
+[2026-10-10T08:48:06.502Z] [Pipeline] // stage
+[2026-10-10T08:48:06.527Z] [Pipeline] withEnv
+[2026-10-10T08:48:06.532Z] [Pipeline] {
+[2026-10-10T08:48:06.564Z] [Pipeline] withEnv
+[2026-10-10T08:48:06.571Z] [Pipeline] {
+[2026-10-10T08:48:06.611Z] [Pipeline] timeout
+[2026-10-10T08:48:06.611Z] Timeout set to expire in 8 hr 0 min
+[2026-10-10T08:48:06.618Z] [Pipeline] {
+[2026-10-10T08:48:06.653Z] [Pipeline] stage
+[2026-10-10T08:48:06.659Z] [Pipeline] { (Update OpenROAD to HEAD of master branch)
+[2026-10-10T08:48:06.706Z] [Pipeline] checkout
+[2026-10-10T08:48:06.713Z] The recommended git tool is: NONE
+[2026-10-10T08:48:06.713Z] No credentials specified
+[2026-10-10T08:48:06.713Z] DEPRECATED: Relative target directory is deprecated for Pipeline jobs. Use the 'dir' step instead.
+[2026-10-10T08:48:06.714Z]  > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/ex-014-full/openroad/.git # timeout=10
+[2026-10-10T08:48:06.721Z] Fetching changes from the remote Git repository
+[2026-10-10T08:48:06.722Z]  > git config remote.origin.url https://github.com/The-OpenROAD-Project/OpenROAD # timeout=10
+[2026-10-10T08:48:06.729Z] Fetching upstream changes from https://github.com/The-OpenROAD-Project/OpenROAD
+[2026-10-10T08:48:06.729Z]  > git --version # timeout=10
+[2026-10-10T08:48:06.735Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T08:48:06.735Z]  > git fetch --tags --force --progress -- https://github.com/The-OpenROAD-Project/OpenROAD +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T08:48:09.625Z]  > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+[2026-10-10T08:48:09.632Z] Checking out Revision 8a05d8549b295e8bb84be52d1e3b3d323e539375 (refs/remotes/origin/master)
+[2026-10-10T08:48:09.632Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T08:48:09.641Z]  > git checkout -f 8a05d8549b295e8bb84be52d1e3b3d323e539375 # timeout=10
+[2026-10-10T08:48:13.460Z] Commit message: "Merge pull request #11685 from gudeh/gpl-large-tests"
+[2026-10-10T08:48:13.461Z]  > git rev-list --no-walk 0907a8656e1fbd26c71295af95f27cd45a0babee # timeout=10
+[2026-10-10T08:48:13.536Z] [Pipeline] }
+[2026-10-10T08:48:13.563Z] [Pipeline] // stage
+[2026-10-10T08:48:13.587Z] [Pipeline] stage
+[2026-10-10T08:48:13.593Z] [Pipeline] { (Build Docker OpenLane image with openroad_app master)
+[2026-10-10T08:48:13.625Z] [Pipeline] script
+[2026-10-10T08:48:13.635Z] [Pipeline] {
+[2026-10-10T08:48:13.670Z] [Pipeline] retry
+[2026-10-10T08:48:13.677Z] [Pipeline] {
+[2026-10-10T08:48:13.708Z] [Pipeline] sh
+[2026-10-10T08:48:13.970Z] + pwd
+[2026-10-10T08:48:13.970Z] + PDK_ROOT=/var/jenkins_home/workspace/ex-014-full/pdks OPENLANE_IMAGE_NAME=efabless/openlane python3 .github/scripts/update_tools.py openroad_app
+[2026-10-10T08:48:14.521Z] [Repo Object] Initializing repo Openlane with URL https://github.com/The-OpenROAD-Project/OpenLane.git…
+[2026-10-10T08:48:14.521Z] [Repo Object] Initializing repo openroad_app with URL https://github.com/The-OpenROAD-Project/OpenROAD…
+[2026-10-10T08:48:14.521Z] [Repo Object] Fetching latest commit for openroad_app…
+[2026-10-10T08:48:14.521Z] Found https://github.com/The-OpenROAD-Project/OpenROAD@41a51eaf4ca2171c92ff38afb91eb37bbd3f36da (latest: 8a05d8549b295e8bb84be52d1e3b3d323e539375).
+[2026-10-10T08:48:14.521Z] Setting ENV[TOOL_COMMIT_HASH] to 8a05d8549b295e8bb84be52d1e3b3d323e539375...
+[2026-10-10T08:48:14.521Z] Setting ENV[NO_UPDATE] to 0...
+[2026-10-10T08:48:14.549Z] [Pipeline] sh
+[2026-10-10T08:48:14.812Z] + make -C docker build-openroad_app
+[2026-10-10T08:48:14.812Z] make: Entering directory '/var/jenkins_home/workspace/ex-014-full/docker'
+[2026-10-10T08:48:15.723Z] python3 ./utils.py pull-if-doesnt-exist --repository efabless/openlane-tools --os centos-7 --architecture amd64 build-base
+[2026-10-10T08:48:15.723Z] Traceback (most recent call last):
+[2026-10-10T08:48:15.723Z]   File "/var/jenkins_home/workspace/ex-014-full/docker/./utils.py", line 18, in <module>
+[2026-10-10T08:48:15.723Z]     import click
+[2026-10-10T08:48:15.723Z] ModuleNotFoundError: No module named 'click'
+[2026-10-10T08:48:15.723Z] make: *** [Makefile:46: pull-build-base] Error 1
+[2026-10-10T08:48:15.723Z] make: Leaving directory '/var/jenkins_home/workspace/ex-014-full/docker'
+[2026-10-10T08:48:15.755Z] [Pipeline] sleep
+[2026-10-10T08:48:15.760Z] Sleeping for 1 min 0 sec
+[2026-10-10T08:49:15.516Z] [Pipeline] sh
+[2026-10-10T08:49:15.795Z] + exit 1
+[2026-10-10T08:49:15.850Z] [Pipeline] }
+[2026-10-10T08:49:15.869Z] ERROR: script returned exit code 1
+[2026-10-10T08:49:15.869Z] Retrying
+[2026-10-10T08:49:15.920Z] [Pipeline] {
+[2026-10-10T08:49:15.949Z] [Pipeline] sh
+[2026-10-10T08:49:16.217Z] + pwd
+[2026-10-10T08:49:16.217Z] + PDK_ROOT=/var/jenkins_home/workspace/ex-014-full/pdks OPENLANE_IMAGE_NAME=efabless/openlane python3 .github/scripts/update_tools.py openroad_app
+[2026-10-10T08:49:16.768Z] [Repo Object] Initializing repo Openlane with URL https://github.com/The-OpenROAD-Project/OpenLane.git…
+[2026-10-10T08:49:16.768Z] [Repo Object] Initializing repo openroad_app with URL https://github.com/The-OpenROAD-Project/OpenROAD…
+[2026-10-10T08:49:16.768Z] [Repo Object] Fetching latest commit for openroad_app…
+[2026-10-10T08:49:16.768Z] Found https://github.com/The-OpenROAD-Project/OpenROAD@8a05d8549b295e8bb84be52d1e3b3d323e539375 (latest: 8a05d8549b295e8bb84be52d1e3b3d323e539375).
+[2026-10-10T08:49:16.768Z] Setting ENV[NO_UPDATE] to 1...
+[2026-10-10T08:49:16.799Z] [Pipeline] sh
+[2026-10-10T08:49:17.062Z] + make -C docker build-openroad_app
+[2026-10-10T08:49:17.062Z] make: Entering directory '/var/jenkins_home/workspace/ex-014-full/docker'
+[2026-10-10T08:49:17.614Z] python3 ./utils.py pull-if-doesnt-exist --repository efabless/openlane-tools --os centos-7 --architecture amd64 build-base
+[2026-10-10T08:49:17.614Z] Traceback (most recent call last):
+[2026-10-10T08:49:17.614Z]   File "/var/jenkins_home/workspace/ex-014-full/docker/./utils.py", line 18, in <module>
+[2026-10-10T08:49:17.614Z]     import click
+[2026-10-10T08:49:17.614Z] ModuleNotFoundError: No module named 'click'
+[2026-10-10T08:49:17.614Z] make: *** [Makefile:46: pull-build-base] Error 1
+[2026-10-10T08:49:17.614Z] make: Leaving directory '/var/jenkins_home/workspace/ex-014-full/docker'
+[2026-10-10T08:49:17.679Z] [Pipeline] sleep
+[2026-10-10T08:49:17.692Z] Sleeping for 1 min 0 sec
+[2026-10-10T08:50:17.434Z] [Pipeline] sh
+[2026-10-10T08:50:17.698Z] + exit 1
+[2026-10-10T08:50:17.754Z] [Pipeline] }
+[2026-10-10T08:50:17.772Z] ERROR: script returned exit code 1
+[2026-10-10T08:50:17.772Z] Retrying
+[2026-10-10T08:50:17.806Z] [Pipeline] {
+[2026-10-10T08:50:17.825Z] [Pipeline] sh
+[2026-10-10T08:50:18.087Z] + pwd
+[2026-10-10T08:50:18.087Z] + PDK_ROOT=/var/jenkins_home/workspace/ex-014-full/pdks OPENLANE_IMAGE_NAME=efabless/openlane python3 .github/scripts/update_tools.py openroad_app
+[2026-10-10T08:50:18.639Z] [Repo Object] Initializing repo Openlane with URL https://github.com/The-OpenROAD-Project/OpenLane.git…
+[2026-10-10T08:50:18.639Z] [Repo Object] Initializing repo openroad_app with URL https://github.com/The-OpenROAD-Project/OpenROAD…
+[2026-10-10T08:50:18.639Z] [Repo Object] Fetching latest commit for openroad_app…
+[2026-10-10T08:50:18.639Z] Found https://github.com/The-OpenROAD-Project/OpenROAD@8a05d8549b295e8bb84be52d1e3b3d323e539375 (latest: 8a05d8549b295e8bb84be52d1e3b3d323e539375).
+[2026-10-10T08:50:18.639Z] Setting ENV[NO_UPDATE] to 1...
+[2026-10-10T08:50:18.687Z] [Pipeline] sh
+[2026-10-10T08:50:18.956Z] + make -C docker build-openroad_app
+[2026-10-10T08:50:18.956Z] make: Entering directory '/var/jenkins_home/workspace/ex-014-full/docker'
+[2026-10-10T08:50:19.507Z] python3 ./utils.py pull-if-doesnt-exist --repository efabless/openlane-tools --os centos-7 --architecture amd64 build-base
+[2026-10-10T08:50:19.507Z] Traceback (most recent call last):
+[2026-10-10T08:50:19.507Z]   File "/var/jenkins_home/workspace/ex-014-full/docker/./utils.py", line 18, in <module>
+[2026-10-10T08:50:19.507Z]     import click
+[2026-10-10T08:50:19.507Z] ModuleNotFoundError: No module named 'click'
+[2026-10-10T08:50:19.507Z] make: *** [Makefile:46: pull-build-base] Error 1
+[2026-10-10T08:50:19.507Z] make: Leaving directory '/var/jenkins_home/workspace/ex-014-full/docker'
+[2026-10-10T08:50:19.543Z] [Pipeline] sleep
+[2026-10-10T08:50:19.550Z] Sleeping for 1 min 0 sec
+[2026-10-10T08:51:19.300Z] [Pipeline] sh
+[2026-10-10T08:51:19.580Z] + exit 1
+[2026-10-10T08:51:19.603Z] [Pipeline] }
+[2026-10-10T08:51:19.640Z] [Pipeline] // retry
+[2026-10-10T08:51:19.658Z] [Pipeline] }
+[2026-10-10T08:51:19.697Z] [Pipeline] // script
+[2026-10-10T08:51:19.724Z] [Pipeline] }
+[2026-10-10T08:51:19.758Z] [Pipeline] // stage
+[2026-10-10T08:51:19.787Z] [Pipeline] stage
+[2026-10-10T08:51:19.793Z] [Pipeline] { (Run Tests)
+[2026-10-10T08:51:19.812Z] Stage "Run Tests" skipped due to earlier failure(s)
+[2026-10-10T08:51:19.824Z] [Pipeline] getContext
+[2026-10-10T08:51:19.856Z] [Pipeline] parallel
+[2026-10-10T08:51:20.004Z] [Pipeline] { (Branch: Matrix - DESIGN = 'ci/aes')
+[2026-10-10T08:51:20.009Z] [Pipeline] { (Branch: Matrix - DESIGN = 'ci/aes_core')
+[2026-10-10T08:51:20.015Z] [Pipeline] { (Branch: Matrix - DESIGN = 'ci/APU')
+[2026-10-10T08:51:20.021Z] [Pipeline] { (Branch: Matrix - DESIGN = 'ci/blabla')
+[2026-10-10T08:51:20.026Z] [Pipeline] { (Branch: Matrix - DESIGN = ''ci/BM64 -override_env QUIT_ON_LINTER_ERRORS=0'')
+[2026-10-10T08:51:20.031Z] [Pipeline] { (Branch: Matrix - DESIGN = 'ci/gcd')
+[2026-10-10T08:51:20.037Z] [Pipeline] { (Branch: Matrix - DESIGN = 'ci/inverter')
+[2026-10-10T08:51:20.043Z] [Pipeline] { (Branch: Matrix - DESIGN = 'ci/manual_macro_placement_test')
+[2026-10-10T08:51:20.048Z] [Pipeline] { (Branch: Matrix - DESIGN = 'ci/picorv32a')
+[2026-10-10T08:51:20.053Z] [Pipeline] { (Branch: Matrix - DESIGN = 'ci/PPU')
+[2026-10-10T08:51:20.059Z] [Pipeline] { (Branch: Matrix - DESIGN = 'ci/s44')
+[2026-10-10T08:51:20.064Z] [Pipeline] { (Branch: Matrix - DESIGN = 'ci/salsa20')
+[2026-10-10T08:51:20.070Z] [Pipeline] { (Branch: Matrix - DESIGN = 'ci/usb')
+[2026-10-10T08:51:20.076Z] [Pipeline] { (Branch: Matrix - DESIGN = 'ci/usb_cdc_core')
+[2026-10-10T08:51:20.081Z] [Pipeline] { (Branch: Matrix - DESIGN = 'ci/wbqspiflash')
+[2026-10-10T08:51:20.087Z] [Pipeline] { (Branch: Matrix - DESIGN = 'ci/xtea')
+[2026-10-10T08:51:20.092Z] [Pipeline] { (Branch: Matrix - DESIGN = ''ci/y_huff -override_env QUIT_ON_SYNTH_CHECKS=0'')
+[2026-10-10T08:51:20.097Z] [Pipeline] { (Branch: Matrix - DESIGN = 'ci/zipdiv')
+[2026-10-10T08:51:20.102Z] [Pipeline] { (Branch: Matrix - DESIGN = 'ci/aes_user_project_wrapper')
+[2026-10-10T08:51:20.107Z] [Pipeline] { (Branch: Matrix - DESIGN = 'ci/caravel_upw')
+[2026-10-10T08:51:20.112Z] [Pipeline] { (Branch: Matrix - DESIGN = 'ci/mem_1r1w')
+[2026-10-10T08:51:20.117Z] [Pipeline] { (Branch: Matrix - DESIGN = 'spm')
+[2026-10-10T08:51:20.151Z] [Pipeline] stage
+[2026-10-10T08:51:20.159Z] [Pipeline] { (Matrix - DESIGN = 'ci/aes')
+[2026-10-10T08:51:20.174Z] [Pipeline] stage
+[2026-10-10T08:51:20.180Z] [Pipeline] { (Matrix - DESIGN = 'ci/aes_core')
+[2026-10-10T08:51:20.195Z] [Pipeline] stage
+[2026-10-10T08:51:20.201Z] [Pipeline] { (Matrix - DESIGN = 'ci/APU')
+[2026-10-10T08:51:20.216Z] [Pipeline] stage
+[2026-10-10T08:51:20.221Z] [Pipeline] { (Matrix - DESIGN = 'ci/blabla')
+[2026-10-10T08:51:20.238Z] [Pipeline] stage
+[2026-10-10T08:51:20.243Z] [Pipeline] { (Matrix - DESIGN = ''ci/BM64 -override_env QUIT_ON_LINTER_ERRORS=0'')
+[2026-10-10T08:51:20.258Z] [Pipeline] stage
+[2026-10-10T08:51:20.263Z] [Pipeline] { (Matrix - DESIGN = 'ci/gcd')
+[2026-10-10T08:51:20.280Z] [Pipeline] stage
+[2026-10-10T08:51:20.286Z] [Pipeline] { (Matrix - DESIGN = 'ci/inverter')
+[2026-10-10T08:51:20.306Z] [Pipeline] stage
+[2026-10-10T08:51:20.312Z] [Pipeline] { (Matrix - DESIGN = 'ci/manual_macro_placement_test')
+[2026-10-10T08:51:20.331Z] [Pipeline] stage
+[2026-10-10T08:51:20.338Z] [Pipeline] { (Matrix - DESIGN = 'ci/picorv32a')
+[2026-10-10T08:51:20.357Z] [Pipeline] stage
+[2026-10-10T08:51:20.364Z] [Pipeline] { (Matrix - DESIGN = 'ci/PPU')
+[2026-10-10T08:51:20.382Z] [Pipeline] stage
+[2026-10-10T08:51:20.388Z] [Pipeline] { (Matrix - DESIGN = 'ci/s44')
+[2026-10-10T08:51:20.412Z] [Pipeline] stage
+[2026-10-10T08:51:20.420Z] [Pipeline] { (Matrix - DESIGN = 'ci/salsa20')
+[2026-10-10T08:51:20.437Z] [Pipeline] stage
+[2026-10-10T08:51:20.442Z] [Pipeline] { (Matrix - DESIGN = 'ci/usb')
+[2026-10-10T08:51:20.458Z] [Pipeline] stage
+[2026-10-10T08:51:20.464Z] [Pipeline] { (Matrix - DESIGN = 'ci/usb_cdc_core')
+[2026-10-10T08:51:20.480Z] [Pipeline] stage
+[2026-10-10T08:51:20.486Z] [Pipeline] { (Matrix - DESIGN = 'ci/wbqspiflash')
+[2026-10-10T08:51:20.502Z] [Pipeline] stage
+[2026-10-10T08:51:20.507Z] [Pipeline] { (Matrix - DESIGN = 'ci/xtea')
+[2026-10-10T08:51:20.523Z] [Pipeline] stage
+[2026-10-10T08:51:20.529Z] [Pipeline] { (Matrix - DESIGN = ''ci/y_huff -override_env QUIT_ON_SYNTH_CHECKS=0'')
+[2026-10-10T08:51:20.545Z] [Pipeline] stage
+[2026-10-10T08:51:20.551Z] [Pipeline] { (Matrix - DESIGN = 'ci/zipdiv')
+[2026-10-10T08:51:20.566Z] [Pipeline] stage
+[2026-10-10T08:51:20.572Z] [Pipeline] { (Matrix - DESIGN = 'ci/aes_user_project_wrapper')
+[2026-10-10T08:51:20.589Z] [Pipeline] stage
+[2026-10-10T08:51:20.594Z] [Pipeline] { (Matrix - DESIGN = 'ci/caravel_upw')
+[2026-10-10T08:51:20.611Z] [Pipeline] stage
+[2026-10-10T08:51:20.617Z] [Pipeline] { (Matrix - DESIGN = 'ci/mem_1r1w')
+[2026-10-10T08:51:20.633Z] [Pipeline] stage
+[2026-10-10T08:51:20.639Z] [Pipeline] { (Matrix - DESIGN = 'spm')
+[2026-10-10T08:51:20.657Z] Stage "Matrix - DESIGN = 'ci/aes'" skipped due to earlier failure(s)
+[2026-10-10T08:51:20.668Z] [Pipeline] getContext
+[2026-10-10T08:51:20.685Z] Stage "Matrix - DESIGN = 'ci/aes_core'" skipped due to earlier failure(s)
+[2026-10-10T08:51:20.697Z] [Pipeline] getContext
+[2026-10-10T08:51:20.714Z] Stage "Matrix - DESIGN = 'ci/APU'" skipped due to earlier failure(s)
+[2026-10-10T08:51:20.725Z] [Pipeline] getContext
+[2026-10-10T08:51:20.741Z] Stage "Matrix - DESIGN = 'ci/blabla'" skipped due to earlier failure(s)
+[2026-10-10T08:51:20.751Z] [Pipeline] getContext
+[2026-10-10T08:51:20.766Z] Stage "Matrix - DESIGN = ''ci/BM64 -override_env QUIT_ON_LINTER_ERRORS=0''" skipped due to earlier failure(s)
+[2026-10-10T08:51:20.776Z] [Pipeline] getContext
+[2026-10-10T08:51:20.790Z] Stage "Matrix - DESIGN = 'ci/gcd'" skipped due to earlier failure(s)
+[2026-10-10T08:51:20.800Z] [Pipeline] getContext
+[2026-10-10T08:51:20.814Z] Stage "Matrix - DESIGN = 'ci/inverter'" skipped due to earlier failure(s)
+[2026-10-10T08:51:20.825Z] [Pipeline] getContext
+[2026-10-10T08:51:20.839Z] Stage "Matrix - DESIGN = 'ci/manual_macro_placement_test'" skipped due to earlier failure(s)
+[2026-10-10T08:51:20.849Z] [Pipeline] getContext
+[2026-10-10T08:51:20.863Z] Stage "Matrix - DESIGN = 'ci/picorv32a'" skipped due to earlier failure(s)
+[2026-10-10T08:51:20.872Z] [Pipeline] getContext
+[2026-10-10T08:51:20.886Z] Stage "Matrix - DESIGN = 'ci/PPU'" skipped due to earlier failure(s)
+[2026-10-10T08:51:20.896Z] [Pipeline] getContext
+[2026-10-10T08:51:20.910Z] Stage "Matrix - DESIGN = 'ci/s44'" skipped due to earlier failure(s)
+[2026-10-10T08:51:20.919Z] [Pipeline] getContext
+[2026-10-10T08:51:20.934Z] Stage "Matrix - DESIGN = 'ci/salsa20'" skipped due to earlier failure(s)
+[2026-10-10T08:51:20.943Z] [Pipeline] getContext
+[2026-10-10T08:51:20.957Z] Stage "Matrix - DESIGN = 'ci/usb'" skipped due to earlier failure(s)
+[2026-10-10T08:51:20.968Z] [Pipeline] getContext
+[2026-10-10T08:51:20.984Z] Stage "Matrix - DESIGN = 'ci/usb_cdc_core'" skipped due to earlier failure(s)
+[2026-10-10T08:51:20.996Z] [Pipeline] getContext
+[2026-10-10T08:51:21.011Z] Stage "Matrix - DESIGN = 'ci/wbqspiflash'" skipped due to earlier failure(s)
+[2026-10-10T08:51:21.022Z] [Pipeline] getContext
+[2026-10-10T08:51:21.037Z] Stage "Matrix - DESIGN = 'ci/xtea'" skipped due to earlier failure(s)
+[2026-10-10T08:51:21.048Z] [Pipeline] getContext
+[2026-10-10T08:51:21.066Z] Stage "Matrix - DESIGN = ''ci/y_huff -override_env QUIT_ON_SYNTH_CHECKS=0''" skipped due to earlier failure(s)
+[2026-10-10T08:51:21.077Z] [Pipeline] getContext
+[2026-10-10T08:51:21.095Z] Stage "Matrix - DESIGN = 'ci/zipdiv'" skipped due to earlier failure(s)
+[2026-10-10T08:51:21.107Z] [Pipeline] getContext
+[2026-10-10T08:51:21.127Z] Stage "Matrix - DESIGN = 'ci/aes_user_project_wrapper'" skipped due to earlier failure(s)
+[2026-10-10T08:51:21.139Z] [Pipeline] getContext
+[2026-10-10T08:51:21.165Z] Stage "Matrix - DESIGN = 'ci/caravel_upw'" skipped due to earlier failure(s)
+[2026-10-10T08:51:21.178Z] [Pipeline] getContext
+[2026-10-10T08:51:21.201Z] Stage "Matrix - DESIGN = 'ci/mem_1r1w'" skipped due to earlier failure(s)
+[2026-10-10T08:51:21.213Z] [Pipeline] getContext
+[2026-10-10T08:51:21.230Z] Stage "Matrix - DESIGN = 'spm'" skipped due to earlier failure(s)
+[2026-10-10T08:51:21.243Z] [Pipeline] getContext
+[2026-10-10T08:51:21.290Z] [Pipeline] stage
+[2026-10-10T08:51:21.296Z] [Pipeline] { (Test)
+[2026-10-10T08:51:21.313Z] [Pipeline] stage
+[2026-10-10T08:51:21.318Z] [Pipeline] { (Test)
+[2026-10-10T08:51:21.334Z] [Pipeline] stage
+[2026-10-10T08:51:21.339Z] [Pipeline] { (Test)
+[2026-10-10T08:51:21.355Z] [Pipeline] stage
+[2026-10-10T08:51:21.362Z] [Pipeline] { (Test)
+[2026-10-10T08:51:21.378Z] [Pipeline] stage
+[2026-10-10T08:51:21.383Z] [Pipeline] { (Test)
+[2026-10-10T08:51:21.399Z] [Pipeline] stage
+[2026-10-10T08:51:21.405Z] [Pipeline] { (Test)
+[2026-10-10T08:51:21.420Z] [Pipeline] stage
+[2026-10-10T08:51:21.426Z] [Pipeline] { (Test)
+[2026-10-10T08:51:21.442Z] [Pipeline] stage
+[2026-10-10T08:51:21.451Z] [Pipeline] { (Test)
+[2026-10-10T08:51:21.469Z] [Pipeline] stage
+[2026-10-10T08:51:21.475Z] [Pipeline] { (Test)
+[2026-10-10T08:51:21.492Z] [Pipeline] stage
+[2026-10-10T08:51:21.499Z] [Pipeline] { (Test)
+[2026-10-10T08:51:21.516Z] [Pipeline] stage
+[2026-10-10T08:51:21.522Z] [Pipeline] { (Test)
+[2026-10-10T08:51:21.540Z] [Pipeline] stage
+[2026-10-10T08:51:21.546Z] [Pipeline] { (Test)
+[2026-10-10T08:51:21.563Z] [Pipeline] stage
+[2026-10-10T08:51:21.568Z] [Pipeline] { (Test)
+[2026-10-10T08:51:21.586Z] [Pipeline] stage
+[2026-10-10T08:51:21.591Z] [Pipeline] { (Test)
+[2026-10-10T08:51:21.607Z] [Pipeline] stage
+[2026-10-10T08:51:21.613Z] [Pipeline] { (Test)
+[2026-10-10T08:51:21.629Z] [Pipeline] stage
+[2026-10-10T08:51:21.635Z] [Pipeline] { (Test)
+[2026-10-10T08:51:21.652Z] [Pipeline] stage
+[2026-10-10T08:51:21.658Z] [Pipeline] { (Test)
+[2026-10-10T08:51:21.676Z] [Pipeline] stage
+[2026-10-10T08:51:21.682Z] [Pipeline] { (Test)
+[2026-10-10T08:51:21.699Z] [Pipeline] stage
+[2026-10-10T08:51:21.705Z] [Pipeline] { (Test)
+[2026-10-10T08:51:21.722Z] [Pipeline] stage
+[2026-10-10T08:51:21.728Z] [Pipeline] { (Test)
+[2026-10-10T08:51:21.747Z] [Pipeline] stage
+[2026-10-10T08:51:21.753Z] [Pipeline] { (Test)
+[2026-10-10T08:51:21.770Z] [Pipeline] stage
+[2026-10-10T08:51:21.777Z] [Pipeline] { (Test)
+[2026-10-10T08:51:21.798Z] Stage "Matrix - DESIGN = 'ci/aes'" skipped due to earlier failure(s)
+[2026-10-10T08:51:21.810Z] [Pipeline] getContext
+[2026-10-10T08:51:21.828Z] [Pipeline] }
+[2026-10-10T08:51:21.835Z] Stage "Matrix - DESIGN = 'ci/aes_core'" skipped due to earlier failure(s)
+[2026-10-10T08:51:21.847Z] [Pipeline] getContext
+[2026-10-10T08:51:21.865Z] [Pipeline] }
+[2026-10-10T08:51:21.871Z] Stage "Matrix - DESIGN = 'ci/APU'" skipped due to earlier failure(s)
+[2026-10-10T08:51:21.883Z] [Pipeline] getContext
+[2026-10-10T08:51:21.900Z] [Pipeline] }
+[2026-10-10T08:51:21.907Z] Stage "Matrix - DESIGN = 'ci/blabla'" skipped due to earlier failure(s)
+[2026-10-10T08:51:21.918Z] [Pipeline] getContext
+[2026-10-10T08:51:21.936Z] [Pipeline] }
+[2026-10-10T08:51:21.942Z] Stage "Matrix - DESIGN = ''ci/BM64 -override_env QUIT_ON_LINTER_ERRORS=0''" skipped due to earlier failure(s)
+[2026-10-10T08:51:21.954Z] [Pipeline] getContext
+[2026-10-10T08:51:21.972Z] [Pipeline] }
+[2026-10-10T08:51:21.980Z] Stage "Matrix - DESIGN = 'ci/gcd'" skipped due to earlier failure(s)
+[2026-10-10T08:51:21.993Z] [Pipeline] getContext
+[2026-10-10T08:51:22.014Z] [Pipeline] }
+[2026-10-10T08:51:22.020Z] Stage "Matrix - DESIGN = 'ci/inverter'" skipped due to earlier failure(s)
+[2026-10-10T08:51:22.030Z] [Pipeline] getContext
+[2026-10-10T08:51:22.042Z] [Pipeline] }
+[2026-10-10T08:51:22.046Z] Stage "Matrix - DESIGN = 'ci/manual_macro_placement_test'" skipped due to earlier failure(s)
+[2026-10-10T08:51:22.055Z] [Pipeline] getContext
+[2026-10-10T08:51:22.072Z] [Pipeline] }
+[2026-10-10T08:51:22.079Z] Stage "Matrix - DESIGN = 'ci/picorv32a'" skipped due to earlier failure(s)
+[2026-10-10T08:51:22.091Z] [Pipeline] getContext
+[2026-10-10T08:51:22.110Z] [Pipeline] }
+[2026-10-10T08:51:22.117Z] Stage "Matrix - DESIGN = 'ci/PPU'" skipped due to earlier failure(s)
+[2026-10-10T08:51:22.129Z] [Pipeline] getContext
+[2026-10-10T08:51:22.148Z] [Pipeline] }
+[2026-10-10T08:51:22.154Z] Stage "Matrix - DESIGN = 'ci/s44'" skipped due to earlier failure(s)
+[2026-10-10T08:51:22.166Z] [Pipeline] getContext
+[2026-10-10T08:51:22.182Z] [Pipeline] }
+[2026-10-10T08:51:22.188Z] Stage "Matrix - DESIGN = 'ci/salsa20'" skipped due to earlier failure(s)
+[2026-10-10T08:51:22.199Z] [Pipeline] getContext
+[2026-10-10T08:51:22.216Z] [Pipeline] }
+[2026-10-10T08:51:22.222Z] Stage "Matrix - DESIGN = 'ci/usb'" skipped due to earlier failure(s)
+[2026-10-10T08:51:22.234Z] [Pipeline] getContext
+[2026-10-10T08:51:22.249Z] [Pipeline] }
+[2026-10-10T08:51:22.254Z] Stage "Matrix - DESIGN = 'ci/usb_cdc_core'" skipped due to earlier failure(s)
+[2026-10-10T08:51:22.263Z] [Pipeline] getContext
+[2026-10-10T08:51:22.279Z] [Pipeline] }
+[2026-10-10T08:51:22.284Z] Stage "Matrix - DESIGN = 'ci/wbqspiflash'" skipped due to earlier failure(s)
+[2026-10-10T08:51:22.296Z] [Pipeline] getContext
+[2026-10-10T08:51:22.312Z] [Pipeline] }
+[2026-10-10T08:51:22.318Z] Stage "Matrix - DESIGN = 'ci/xtea'" skipped due to earlier failure(s)
+[2026-10-10T08:51:22.334Z] [Pipeline] getContext
+[2026-10-10T08:51:22.349Z] [Pipeline] }
+[2026-10-10T08:51:22.354Z] Stage "Matrix - DESIGN = ''ci/y_huff -override_env QUIT_ON_SYNTH_CHECKS=0''" skipped due to earlier failure(s)
+[2026-10-10T08:51:22.365Z] [Pipeline] getContext
+[2026-10-10T08:51:22.379Z] [Pipeline] }
+[2026-10-10T08:51:22.384Z] Stage "Matrix - DESIGN = 'ci/zipdiv'" skipped due to earlier failure(s)
+[2026-10-10T08:51:22.393Z] [Pipeline] getContext
+[2026-10-10T08:51:22.408Z] [Pipeline] }
+[2026-10-10T08:51:22.414Z] Stage "Matrix - DESIGN = 'ci/aes_user_project_wrapper'" skipped due to earlier failure(s)
+[2026-10-10T08:51:22.426Z] [Pipeline] getContext
+[2026-10-10T08:51:22.448Z] [Pipeline] }
+[2026-10-10T08:51:22.455Z] Stage "Matrix - DESIGN = 'ci/caravel_upw'" skipped due to earlier failure(s)
+[2026-10-10T08:51:22.468Z] [Pipeline] getContext
+[2026-10-10T08:51:22.486Z] [Pipeline] }
+[2026-10-10T08:51:22.491Z] Stage "Matrix - DESIGN = 'ci/mem_1r1w'" skipped due to earlier failure(s)
+[2026-10-10T08:51:22.503Z] [Pipeline] getContext
+[2026-10-10T08:51:22.523Z] [Pipeline] }
+[2026-10-10T08:51:22.528Z] Stage "Matrix - DESIGN = 'spm'" skipped due to earlier failure(s)
+[2026-10-10T08:51:22.539Z] [Pipeline] getContext
+[2026-10-10T08:51:22.557Z] [Pipeline] }
+[2026-10-10T08:51:22.611Z] [Pipeline] // stage
+[2026-10-10T08:51:22.664Z] [Pipeline] // stage
+[2026-10-10T08:51:22.696Z] [Pipeline] // stage
+[2026-10-10T08:51:22.728Z] [Pipeline] // stage
+[2026-10-10T08:51:22.759Z] [Pipeline] // stage
+[2026-10-10T08:51:22.791Z] [Pipeline] // stage
+[2026-10-10T08:51:22.823Z] [Pipeline] // stage
+[2026-10-10T08:51:22.862Z] [Pipeline] // stage
+[2026-10-10T08:51:22.899Z] [Pipeline] // stage
+[2026-10-10T08:51:22.932Z] [Pipeline] // stage
+[2026-10-10T08:51:22.964Z] [Pipeline] // stage
+[2026-10-10T08:51:22.994Z] [Pipeline] // stage
+[2026-10-10T08:51:23.029Z] [Pipeline] // stage
+[2026-10-10T08:51:23.066Z] [Pipeline] // stage
+[2026-10-10T08:51:23.096Z] [Pipeline] // stage
+[2026-10-10T08:51:23.122Z] [Pipeline] // stage
+[2026-10-10T08:51:23.149Z] [Pipeline] // stage
+[2026-10-10T08:51:23.185Z] [Pipeline] // stage
+[2026-10-10T08:51:23.221Z] [Pipeline] // stage
+[2026-10-10T08:51:23.255Z] [Pipeline] // stage
+[2026-10-10T08:51:23.286Z] [Pipeline] // stage
+[2026-10-10T08:51:23.320Z] [Pipeline] // stage
+[2026-10-10T08:51:23.346Z] [Pipeline] }
+[2026-10-10T08:51:23.361Z] [Pipeline] }
+[2026-10-10T08:51:23.374Z] [Pipeline] }
+[2026-10-10T08:51:23.389Z] [Pipeline] }
+[2026-10-10T08:51:23.402Z] [Pipeline] }
+[2026-10-10T08:51:23.414Z] [Pipeline] }
+[2026-10-10T08:51:23.426Z] [Pipeline] }
+[2026-10-10T08:51:23.438Z] [Pipeline] }
+[2026-10-10T08:51:23.451Z] [Pipeline] }
+[2026-10-10T08:51:23.464Z] [Pipeline] }
+[2026-10-10T08:51:23.476Z] [Pipeline] }
+[2026-10-10T08:51:23.490Z] [Pipeline] }
+[2026-10-10T08:51:23.502Z] [Pipeline] }
+[2026-10-10T08:51:23.515Z] [Pipeline] }
+[2026-10-10T08:51:23.528Z] [Pipeline] }
+[2026-10-10T08:51:23.540Z] [Pipeline] }
+[2026-10-10T08:51:23.554Z] [Pipeline] }
+[2026-10-10T08:51:23.568Z] [Pipeline] }
+[2026-10-10T08:51:23.580Z] [Pipeline] }
+[2026-10-10T08:51:23.593Z] [Pipeline] }
+[2026-10-10T08:51:23.606Z] [Pipeline] }
+[2026-10-10T08:51:23.619Z] [Pipeline] }
+[2026-10-10T08:51:23.660Z] [Pipeline] // stage
+[2026-10-10T08:51:23.689Z] [Pipeline] // stage
+[2026-10-10T08:51:23.718Z] [Pipeline] // stage
+[2026-10-10T08:51:23.747Z] [Pipeline] // stage
+[2026-10-10T08:51:23.776Z] [Pipeline] // stage
+[2026-10-10T08:51:23.805Z] [Pipeline] // stage
+[2026-10-10T08:51:23.833Z] [Pipeline] // stage
+[2026-10-10T08:51:23.862Z] [Pipeline] // stage
+[2026-10-10T08:51:23.895Z] [Pipeline] // stage
+[2026-10-10T08:51:23.931Z] [Pipeline] // stage
+[2026-10-10T08:51:23.961Z] [Pipeline] // stage
+[2026-10-10T08:51:23.991Z] [Pipeline] // stage
+[2026-10-10T08:51:24.020Z] [Pipeline] // stage
+[2026-10-10T08:51:24.049Z] [Pipeline] // stage
+[2026-10-10T08:51:24.078Z] [Pipeline] // stage
+[2026-10-10T08:51:24.108Z] [Pipeline] // stage
+[2026-10-10T08:51:24.136Z] [Pipeline] // stage
+[2026-10-10T08:51:24.164Z] [Pipeline] // stage
+[2026-10-10T08:51:24.193Z] [Pipeline] // stage
+[2026-10-10T08:51:24.222Z] [Pipeline] // stage
+[2026-10-10T08:51:24.250Z] [Pipeline] // stage
+[2026-10-10T08:51:24.280Z] [Pipeline] // stage
+[2026-10-10T08:51:24.300Z] [Pipeline] }
+[2026-10-10T08:51:24.313Z] Failed in branch Matrix - DESIGN = 'ci/aes'
+[2026-10-10T08:51:24.318Z] [Pipeline] }
+[2026-10-10T08:51:24.328Z] Failed in branch Matrix - DESIGN = 'ci/aes_core'
+[2026-10-10T08:51:24.334Z] [Pipeline] }
+[2026-10-10T08:51:24.344Z] Failed in branch Matrix - DESIGN = 'ci/APU'
+[2026-10-10T08:51:24.350Z] [Pipeline] }
+[2026-10-10T08:51:24.360Z] Failed in branch Matrix - DESIGN = 'ci/blabla'
+[2026-10-10T08:51:24.365Z] [Pipeline] }
+[2026-10-10T08:51:24.376Z] Failed in branch Matrix - DESIGN = ''ci/BM64 -override_env QUIT_ON_LINTER_ERRORS=0''
+[2026-10-10T08:51:24.382Z] [Pipeline] }
+[2026-10-10T08:51:24.393Z] Failed in branch Matrix - DESIGN = 'ci/gcd'
+[2026-10-10T08:51:24.399Z] [Pipeline] }
+[2026-10-10T08:51:24.410Z] Failed in branch Matrix - DESIGN = 'ci/inverter'
+[2026-10-10T08:51:24.415Z] [Pipeline] }
+[2026-10-10T08:51:24.426Z] Failed in branch Matrix - DESIGN = 'ci/manual_macro_placement_test'
+[2026-10-10T08:51:24.431Z] [Pipeline] }
+[2026-10-10T08:51:24.442Z] Failed in branch Matrix - DESIGN = 'ci/picorv32a'
+[2026-10-10T08:51:24.447Z] [Pipeline] }
+[2026-10-10T08:51:24.457Z] Failed in branch Matrix - DESIGN = 'ci/PPU'
+[2026-10-10T08:51:24.462Z] [Pipeline] }
+[2026-10-10T08:51:24.472Z] Failed in branch Matrix - DESIGN = 'ci/s44'
+[2026-10-10T08:51:24.478Z] [Pipeline] }
+[2026-10-10T08:51:24.489Z] Failed in branch Matrix - DESIGN = 'ci/salsa20'
+[2026-10-10T08:51:24.494Z] [Pipeline] }
+[2026-10-10T08:51:24.505Z] Failed in branch Matrix - DESIGN = 'ci/usb'
+[2026-10-10T08:51:24.510Z] [Pipeline] }
+[2026-10-10T08:51:24.521Z] Failed in branch Matrix - DESIGN = 'ci/usb_cdc_core'
+[2026-10-10T08:51:24.526Z] [Pipeline] }
+[2026-10-10T08:51:24.536Z] Failed in branch Matrix - DESIGN = 'ci/wbqspiflash'
+[2026-10-10T08:51:24.542Z] [Pipeline] }
+[2026-10-10T08:51:24.552Z] Failed in branch Matrix - DESIGN = 'ci/xtea'
+[2026-10-10T08:51:24.557Z] [Pipeline] }
+[2026-10-10T08:51:24.567Z] Failed in branch Matrix - DESIGN = ''ci/y_huff -override_env QUIT_ON_SYNTH_CHECKS=0''
+[2026-10-10T08:51:24.572Z] [Pipeline] }
+[2026-10-10T08:51:24.582Z] Failed in branch Matrix - DESIGN = 'ci/zipdiv'
+[2026-10-10T08:51:24.587Z] [Pipeline] }
+[2026-10-10T08:51:24.598Z] Failed in branch Matrix - DESIGN = 'ci/aes_user_project_wrapper'
+[2026-10-10T08:51:24.603Z] [Pipeline] }
+[2026-10-10T08:51:24.614Z] Failed in branch Matrix - DESIGN = 'ci/caravel_upw'
+[2026-10-10T08:51:24.619Z] [Pipeline] }
+[2026-10-10T08:51:24.633Z] Failed in branch Matrix - DESIGN = 'ci/mem_1r1w'
+[2026-10-10T08:51:24.639Z] [Pipeline] }
+[2026-10-10T08:51:24.649Z] Failed in branch Matrix - DESIGN = 'spm'
+[2026-10-10T08:51:25.194Z] [Pipeline] // parallel
+[2026-10-10T08:51:25.218Z] [Pipeline] }
+[2026-10-10T08:51:25.253Z] [Pipeline] // stage
+[2026-10-10T08:51:25.283Z] [Pipeline] stage
+[2026-10-10T08:51:25.289Z] [Pipeline] { (Declarative: Post Actions)
+[2026-10-10T08:51:25.325Z] [Pipeline] echo
+[2026-10-10T08:51:25.331Z] J2GHA-TRACE {"stage":"Declarative: Post Actions","step":"emailext"}
+[2026-10-10T08:51:25.348Z] [Pipeline] }
+[2026-10-10T08:51:25.374Z] [Pipeline] // stage
+[2026-10-10T08:51:25.386Z] [Pipeline] }
+[2026-10-10T08:51:25.419Z] [Pipeline] // timeout
+[2026-10-10T08:51:25.437Z] [Pipeline] }
+[2026-10-10T08:51:25.471Z] [Pipeline] // withEnv
+[2026-10-10T08:51:25.490Z] [Pipeline] }
+[2026-10-10T08:51:25.528Z] [Pipeline] // withEnv
+[2026-10-10T08:51:25.549Z] [Pipeline] }
+[2026-10-10T08:51:25.590Z] [Pipeline] // node
+[2026-10-10T08:51:25.616Z] [Pipeline] End of Pipeline
+[2026-10-10T08:51:25.657Z] ERROR: script returned exit code 1
+[2026-10-10T08:51:25.677Z] Finished: FAILURE

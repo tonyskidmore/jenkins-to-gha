@@ -1,0 +1,428 @@
+{
+  "tier": "jenkins",
+  "mode": "trace",
+  "scenario": {
+    "branch": "master",
+    "git_branch": "origin/master"
+  },
+  "localisation": {
+    "changes": [
+      "L23: node(maven-21-nonspot) -> node('built-in')",
+      "L75: node(agentContainerLabel) -> node('built-in')",
+      "L224: node(docker-highmem) -> node('built-in')",
+      "L230: infra.withArtifactCachingProxy(...) {} on a stub runs its block (j2ghaBody)",
+      "undefined property 'infra' (plugin/library global) replaced by a permissive stub"
+    ],
+    "stubs": [
+      "sh",
+      "bat",
+      "powershell",
+      "pwsh",
+      "echo",
+      "checkout",
+      "git",
+      "archiveArtifacts",
+      "archive",
+      "junit",
+      "stash",
+      "unstash",
+      "input",
+      "build",
+      "error",
+      "unstable",
+      "mail",
+      "emailext",
+      "slackSend",
+      "office365ConnectorSend",
+      "publishHTML",
+      "publishCoverage",
+      "recordCoverage",
+      "jacoco",
+      "cobertura",
+      "recordIssues",
+      "deleteDir",
+      "cleanWs",
+      "sleep",
+      "writeFile",
+      "httpRequest",
+      "copyArtifacts",
+      "waitForQualityGate",
+      "githubNotify",
+      "setGitHubPullRequestStatus",
+      "step",
+      "fingerprint",
+      "s3Upload",
+      "s3Download",
+      "milestone",
+      "properties",
+      "buildDiscarder",
+      "readFile",
+      "fileExists",
+      "findFiles",
+      "readJSON",
+      "readYaml",
+      "readProperties",
+      "readMavenPom",
+      "readCSV",
+      "tool",
+      "load",
+      "evaluate",
+      "library",
+      "withCredentials",
+      "sshagent",
+      "withDockerRegistry",
+      "withMaven",
+      "withSonarQubeEnv",
+      "container",
+      "wrap",
+      "ansiColor",
+      "withAWS",
+      "withKubeConfig",
+      "withVault",
+      "configFileProvider",
+      "withGradle",
+      "nodejs",
+      "withPythonEnv",
+      "timestamps",
+      "withDockerContainer",
+      "withDockerServer",
+      "azureCLI",
+      "retry",
+      "podTemplate",
+      "lock",
+      "discoverGitReferenceBuild",
+      "realtimeJUnit",
+      "withChecks",
+      "checkStyle",
+      "esLint",
+      "excludeFile",
+      "java",
+      "javaDoc",
+      "kubernetesAgent",
+      "logRotator",
+      "nonresumable",
+      "spotBugs",
+      "styleLint",
+      "j2ghaBody",
+      "node"
+    ],
+    "auto_repairs": {
+      "removed": [
+        [
+          "stub-property",
+          "infra"
+        ]
+      ],
+      "stubbed": [],
+      "ineffective": []
+    }
+  },
+  "attempts": [
+    {
+      "attempt": 0,
+      "phase": "run",
+      "build": 5,
+      "result": "FAILURE",
+      "seconds": 2.6,
+      "repairs": [
+        [
+          "stub-property",
+          "infra"
+        ]
+      ],
+      "stubs": []
+    },
+    {
+      "attempt": 1,
+      "phase": "run",
+      "build": 6,
+      "result": "SUCCESS",
+      "seconds": 4.8,
+      "repairs": [],
+      "stubs": []
+    }
+  ],
+  "result": "SUCCESS",
+  "build": 6,
+  "duration_ms": 2960,
+  "stages": [
+    {
+      "name": "Record build",
+      "status": "SUCCESS",
+      "durationMillis": 342
+    },
+    {
+      "name": "Linux - JDK 21 - Checkout",
+      "status": "SUCCESS",
+      "durationMillis": 163
+    },
+    {
+      "name": "Linux - JDK 25 - Checkout",
+      "status": "SUCCESS",
+      "durationMillis": 163
+    },
+    {
+      "name": "Windows - JDK 25 - Checkout",
+      "status": "SUCCESS",
+      "durationMillis": 157
+    },
+    {
+      "name": "Linux - JDK 21 - Build / Test",
+      "status": "SUCCESS",
+      "durationMillis": 882
+    },
+    {
+      "name": "Linux - JDK 25 - Build / Test",
+      "status": "SUCCESS",
+      "durationMillis": 850
+    },
+    {
+      "name": "Windows - JDK 25 - Build / Test",
+      "status": "SUCCESS",
+      "durationMillis": 830
+    },
+    {
+      "name": "Linux - JDK 21 - Publish",
+      "status": "SUCCESS",
+      "durationMillis": 710
+    },
+    {
+      "name": "Linux - JDK 25 - Publish",
+      "status": "SUCCESS",
+      "durationMillis": 280
+    },
+    {
+      "name": "Windows - JDK 25 - Publish",
+      "status": "SUCCESS",
+      "durationMillis": 269
+    }
+  ],
+  "traces": [
+    {
+      "stage": "Record build",
+      "step": "sh"
+    },
+    {
+      "stage": "Record build",
+      "step": "sh"
+    },
+    {
+      "stage": "Record build",
+      "step": "stash"
+    },
+    {
+      "stage": "Record build",
+      "step": "sh"
+    },
+    {
+      "stage": "Record build",
+      "step": "stash"
+    },
+    {
+      "stage": "Record build",
+      "step": "sh"
+    },
+    {
+      "stage": "Record build",
+      "step": "stash"
+    },
+    {
+      "stage": "Record build",
+      "step": "sh"
+    },
+    {
+      "stage": "Record build",
+      "step": "sh"
+    },
+    {
+      "stage": "",
+      "step": "deleteDir"
+    },
+    {
+      "stage": "",
+      "step": "checkout"
+    },
+    {
+      "stage": "",
+      "step": "withChecks"
+    },
+    {
+      "stage": "",
+      "step": "sh"
+    },
+    {
+      "stage": "",
+      "step": "junit"
+    },
+    {
+      "stage": "Linux - JDK 21 - Build / Test",
+      "step": "unstash"
+    },
+    {
+      "stage": "Linux - JDK 25 - Build / Test",
+      "step": "unstash"
+    },
+    {
+      "stage": "Windows - JDK 25 - Build / Test",
+      "step": "unstash"
+    },
+    {
+      "stage": "Linux - JDK 21 - Build / Test",
+      "step": "withChecks"
+    },
+    {
+      "stage": "Linux - JDK 25 - Build / Test",
+      "step": "withChecks"
+    },
+    {
+      "stage": "Windows - JDK 25 - Build / Test",
+      "step": "withChecks"
+    },
+    {
+      "stage": "Linux - JDK 21 - Build / Test",
+      "step": "realtimeJUnit"
+    },
+    {
+      "stage": "Linux - JDK 25 - Build / Test",
+      "step": "realtimeJUnit"
+    },
+    {
+      "stage": "Windows - JDK 25 - Build / Test",
+      "step": "realtimeJUnit"
+    },
+    {
+      "stage": "Linux - JDK 21 - Build / Test",
+      "step": "sh"
+    },
+    {
+      "stage": "Linux - JDK 25 - Build / Test",
+      "step": "sh"
+    },
+    {
+      "stage": "Windows - JDK 25 - Build / Test",
+      "step": "sh"
+    },
+    {
+      "stage": "Linux - JDK 21 - Publish",
+      "step": "archiveArtifacts"
+    },
+    {
+      "stage": "Linux - JDK 25 - Publish",
+      "step": "archiveArtifacts"
+    },
+    {
+      "stage": "Windows - JDK 25 - Publish",
+      "step": "archiveArtifacts"
+    },
+    {
+      "stage": "Linux - JDK 21 - Publish",
+      "step": "recordCoverage"
+    },
+    {
+      "stage": "Linux - JDK 21 - Publish",
+      "step": "echo"
+    },
+    {
+      "stage": "Linux - JDK 25 - Publish",
+      "step": "sh"
+    },
+    {
+      "stage": "Windows - JDK 25 - Publish",
+      "step": "sh"
+    },
+    {
+      "stage": "Linux - JDK 21 - Publish",
+      "step": "recordIssues"
+    },
+    {
+      "stage": "Linux - JDK 21 - Publish",
+      "step": "recordIssues"
+    },
+    {
+      "stage": "Linux - JDK 21 - Publish",
+      "step": "recordIssues"
+    },
+    {
+      "stage": "Linux - JDK 21 - Publish",
+      "step": "recordIssues"
+    },
+    {
+      "stage": "Linux - JDK 21 - Publish",
+      "step": "recordIssues"
+    },
+    {
+      "stage": "Linux - JDK 21 - Publish",
+      "step": "recordIssues"
+    },
+    {
+      "stage": "Linux - JDK 21 - Publish",
+      "step": "archiveArtifacts"
+    },
+    {
+      "stage": "Linux - JDK 21 - Publish",
+      "step": "sh"
+    }
+  ],
+  "approved_inputs": [],
+  "error_tail": null,
+  "provenance": {
+    "jenkinsfile_sha256": "a90b1a7fa5039c2bf37e64d3c3b264ae251f278628eb320edc58d9794d63bbb8",
+    "scenario": {
+      "branch": "master",
+      "git_branch": "origin/master"
+    },
+    "mode": "trace",
+    "localizer_version": 5,
+    "images": {
+      "jenkins": {
+        "ref": "j2gha/jenkins:local",
+        "present": true,
+        "id": "sha256:672c4b841b2c934f224d4f1b3523d77a1b651f8f491f8f04da47ca764eb86775",
+        "repo_digests": [],
+        "created": "2026-10-09T18:21:15.545465961Z",
+        "labels": {
+          "j2gha.base-image": "jenkins/jenkins:lts-jdk21@sha256:a660310e39ade10631f774bacd5219de767dfd08947ea5c32a739b5e5bb382c1",
+          "org.opencontainers.image.version": "2.580.1",
+          "org.opencontainers.image.revision": "457b9316d71b43cdf3e2ba6ec7c27efc40f5dc60",
+          "org.opencontainers.image.source": "https://github.com/jenkinsci/docker"
+        },
+        "jenkins_version": "2.580.1"
+      },
+      "act": {
+        "ref": "j2gha/act:local",
+        "present": true,
+        "id": "sha256:0781bb0384b914fba362a2a2483d55d30c3d3cc9b59598856146778aa88662a4",
+        "repo_digests": [],
+        "created": "2026-10-03T06:26:46.552472741Z",
+        "labels": {},
+        "act_version": "0.2.89"
+      },
+      "act_runner": {
+        "ref": "j2gha/act-runner:local",
+        "present": true,
+        "id": "sha256:134418998a1ca958b148ee6befb038aa3ff598bf147b39ce9e99b60a563a15be",
+        "repo_digests": [],
+        "created": "2026-10-09T18:54:04.157825772Z",
+        "labels": {
+          "j2gha.base-image": "catthehacker/ubuntu:act-latest@sha256:c58e2b364da03b0c804c7d660f2ecbedf2f221a382b9baa0b344b0144780ff43",
+          "org.opencontainers.image.version": "20260815",
+          "org.opencontainers.image.revision": "e2f8efe464c82732f78e967ee709c00b6af53643",
+          "org.opencontainers.image.source": "https://github.com/catthehacker/catthehacker/docker_images"
+        }
+      },
+      "jit_runner": {
+        "ref": "j2gha/runner:local",
+        "present": true,
+        "id": "sha256:4847cf6e3e915577d28244aedfbe1b633eafa060a49d4ef313129d6841e2e667",
+        "repo_digests": [],
+        "created": "2026-10-09T18:52:46.515242869Z",
+        "labels": {
+          "j2gha.base-image": "ghcr.io/actions/actions-runner:latest@sha256:4ffadc0002b2581327e06101fc8c06cd189232baf79fe561fac9caeb76f5e807",
+          "org.opencontainers.image.version": "24.04",
+          "org.opencontainers.image.source": "https://github.com/actions/runner"
+        }
+      }
+    }
+  },
+  "finished_at": "2026-10-10T08:02:01+00:00"
+}

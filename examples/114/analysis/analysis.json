@@ -1,0 +1,227 @@
+{
+  "analysis_version": 1,
+  "parser": {
+    "engine": "groovy-ast (Jenkins-bundled Groovy 2.4, CONVERSION phase)",
+    "ok": true,
+    "errors": []
+  },
+  "dialect": "declarative",
+  "metrics": {
+    "artifact_steps": 3,
+    "classes": 0,
+    "credentials": 0,
+    "distinct_steps": 11,
+    "env_vars": 1,
+    "libraries": 0,
+    "loc": 112,
+    "matrix_axes": 1,
+    "matrix_blocks": 1,
+    "matrix_cells": 22,
+    "max_stage_depth": 2,
+    "methods": 0,
+    "options": 1,
+    "parameters": 0,
+    "post_conditions": 2,
+    "script_blocks": 2,
+    "script_statements": 28,
+    "shell_steps": 13,
+    "stages": 4,
+    "steps": 28,
+    "tools": 0,
+    "top_level_stages": 3,
+    "triggers": 0,
+    "try_catch": 1,
+    "unknown_steps": 0
+  },
+  "steps": {
+    "sh": {
+      "count": 13,
+      "category": "direct",
+      "lines": [
+        30,
+        31,
+        32,
+        33,
+        34,
+        39,
+        81,
+        82,
+        83,
+        87,
+        90,
+        91
+      ],
+      "gha": "run: (shell: bash)"
+    },
+    "stage": {
+      "count": 4,
+      "category": "direct",
+      "lines": [
+        80,
+        85,
+        89,
+        93
+      ],
+      "gha": "job or step group"
+    },
+    "script": {
+      "count": 2,
+      "category": "dynamic",
+      "lines": [
+        32,
+        90
+      ],
+      "gha": "manual: shell script / composite action"
+    },
+    "trim": {
+      "count": 2,
+      "category": "groovy",
+      "lines": [
+        32,
+        90
+      ],
+      "gha": null
+    },
+    "checkout": {
+      "count": 1,
+      "category": "direct",
+      "lines": [
+        17
+      ],
+      "gha": "actions/checkout"
+    },
+    "retry": {
+      "count": 1,
+      "category": "policy",
+      "lines": [
+        28
+      ],
+      "gha": "shell retry loop / retry action"
+    },
+    "stash": {
+      "count": 1,
+      "category": "policy",
+      "lines": [
+        35
+      ],
+      "gha": "actions/upload-artifact (cross-job hand-off)"
+    },
+    "sleep": {
+      "count": 1,
+      "category": "direct",
+      "lines": [
+        38
+      ],
+      "gha": "run: sleep"
+    },
+    "unstash": {
+      "count": 1,
+      "category": "policy",
+      "lines": [
+        86
+      ],
+      "gha": "actions/download-artifact"
+    },
+    "archiveArtifacts": {
+      "count": 1,
+      "category": "direct",
+      "lines": [
+        100
+      ],
+      "gha": "actions/upload-artifact"
+    },
+    "emailext": {
+      "count": 1,
+      "category": "policy",
+      "lines": [
+        112
+      ],
+      "gha": "email action / GitHub notifications"
+    }
+  },
+  "unknown_steps": [],
+  "agents": [
+    {
+      "kind": "any",
+      "label": null,
+      "image": null,
+      "line": 5,
+      "scope": "pipeline"
+    },
+    {
+      "kind": "any",
+      "label": null,
+      "image": null,
+      "line": 77,
+      "scope": "stage:Test"
+    }
+  ],
+  "credentials": [],
+  "dsl_symbols": [],
+  "libraries": [],
+  "methods": [],
+  "jenkins_model": {
+    "result": "success",
+    "errors": [],
+    "stages": [
+      "Update OpenROAD to HEAD of master branch",
+      "Build Docker OpenLane image with openroad_app master",
+      "Run Tests",
+      "Test"
+    ],
+    "agent": "any",
+    "discrepancies": []
+  },
+  "findings": [
+    {
+      "id": "ScriptBlocks",
+      "severity": "medium",
+      "line": null,
+      "evidence": "2 script{} block(s), 28 Groovy statements",
+      "recommendation": "Move imperative logic into versioned shell/Python scripts or composite actions"
+    }
+  ],
+  "hard_gates": [],
+  "styles": [
+    "declarative",
+    "when-post",
+    "matrix",
+    "artifacts-tests",
+    "dynamic-groovy"
+  ],
+  "coverage": {
+    "by_category": {
+      "direct": 20,
+      "dynamic": 2,
+      "groovy": 2,
+      "policy": 4
+    },
+    "weighted_mapped_pct": 78.5
+  },
+  "complexity": {
+    "score": 20,
+    "classification": "straightforward",
+    "dimensions": {
+      "declarative_structure": 10,
+      "step_mapping": 5.4,
+      "plugin_coupling": 3.0,
+      "library_opacity": 0.0,
+      "runtime_coupling": 0.0,
+      "security_identity": 0,
+      "control_flow": 2.0
+    },
+    "hard_gates": [],
+    "weights": {
+      "declarative_structure": 20,
+      "step_mapping": 25,
+      "plugin_coupling": 15,
+      "library_opacity": 15,
+      "runtime_coupling": 10,
+      "security_identity": 10,
+      "control_flow": 5
+    }
+  },
+  "convertibility": "automatic",
+  "ir_notes": [],
+  "source_sha256": "8485f238d3d6957557d4b5be1f35add7d2b0f47c7e2e6d69e3f2f570c17ec583"
+}

@@ -1,0 +1,204 @@
+{
+  "tier": "jenkins",
+  "mode": "full",
+  "scenario": {
+    "branch": "main",
+    "git_branch": "origin/main"
+  },
+  "localisation": {
+    "changes": [
+      "L394: options buildDiscarder removed",
+      "L403: agent -> any (was ?)",
+      "L446: agent -> any (was ?)",
+      "L472: agent -> any (was ?)",
+      "L123: node(platform) -> node('built-in')",
+      "L295: node(meta[platform].get(...)) -> node('built-in')",
+      "L296: docker.withRegistry(...) {} on a stub runs its block (j2ghaBody)",
+      "undefined property 'docker' (plugin/library global) replaced by a permissive stub"
+    ],
+    "stubs": [
+      "build",
+      "mail",
+      "emailext",
+      "slackSend",
+      "office365ConnectorSend",
+      "githubNotify",
+      "setGitHubPullRequestStatus",
+      "publishChecks",
+      "s3Upload",
+      "s3Download",
+      "copyArtifacts",
+      "waitForQualityGate",
+      "recordIssues",
+      "publishCoverage",
+      "recordCoverage",
+      "jacoco",
+      "cobertura",
+      "milestone",
+      "properties",
+      "buildDiscarder",
+      "checkout(GIT_BRANCH kept)",
+      "withSonarQubeEnv",
+      "withAWS",
+      "withKubeConfig",
+      "withVault",
+      "azureCLI",
+      "container",
+      "sshagent",
+      "withDockerRegistry",
+      "configFileProvider",
+      "withMaven",
+      "withGradle",
+      "withPythonEnv",
+      "podTemplate",
+      "wrap",
+      "withDockerContainer",
+      "j2ghaBody"
+    ],
+    "auto_repairs": {
+      "removed": [],
+      "stubbed": [],
+      "ineffective": []
+    }
+  },
+  "attempts": [
+    {
+      "attempt": 0,
+      "phase": "run",
+      "build": 2,
+      "result": "SUCCESS",
+      "seconds": 28.5,
+      "repairs": [],
+      "stubs": []
+    }
+  ],
+  "result": "SUCCESS",
+  "build": 2,
+  "duration_ms": 27619,
+  "stages": [
+    {
+      "name": "Setup Env",
+      "status": "SUCCESS",
+      "durationMillis": 9283
+    },
+    {
+      "name": "Build Docs",
+      "status": "NOT_EXECUTED",
+      "durationMillis": 80
+    },
+    {
+      "name": "Build Release Tarball",
+      "status": "SUCCESS",
+      "durationMillis": 9443
+    },
+    {
+      "name": "Test and Package",
+      "status": "SUCCESS",
+      "durationMillis": 142
+    },
+    {
+      "name": "base",
+      "status": "SUCCESS",
+      "durationMillis": 144
+    },
+    {
+      "name": "Debian x86_64 - build & test",
+      "status": "SUCCESS",
+      "durationMillis": 4773
+    },
+    {
+      "name": "Debian x86_64 - package",
+      "status": "SUCCESS",
+      "durationMillis": 2161
+    }
+  ],
+  "traces": [],
+  "approved_inputs": [],
+  "error_tail": null,
+  "outputs": {
+    "archived": [
+      {
+        "path": "apache-couchdb-3.5.2.tar.gz",
+        "size": 18234,
+        "sha256": "ae4388d628183842fec8bd6401bcb5e9cc18e6e2bc15eb1b02ef22a4c8c4af8c"
+      },
+      {
+        "path": "pkgs/base/couchdb_3.5.2_amd64.deb",
+        "size": 39,
+        "sha256": "651ac0d5f84831bfa266efb3789048b44243159bc829d7444e083ba29803d309"
+      }
+    ],
+    "tests": [
+      {
+        "class": "couch_tests",
+        "name": "basic",
+        "status": "passed"
+      },
+      {
+        "class": "couch_tests",
+        "name": "config",
+        "status": "passed"
+      }
+    ]
+  },
+  "provenance": {
+    "jenkinsfile_sha256": "9db974eb80c9ecaa5aed415d31b6614d39431a47767ffe1be4d8558dc2003b1d",
+    "scenario": {
+      "branch": "main",
+      "git_branch": "origin/main"
+    },
+    "mode": "full",
+    "localizer_version": 5,
+    "images": {
+      "jenkins": {
+        "ref": "j2gha/jenkins:local",
+        "present": true,
+        "id": "sha256:672c4b841b2c934f224d4f1b3523d77a1b651f8f491f8f04da47ca764eb86775",
+        "repo_digests": [],
+        "created": "2026-10-09T18:21:15.545465961Z",
+        "labels": {
+          "j2gha.base-image": "jenkins/jenkins:lts-jdk21@sha256:a660310e39ade10631f774bacd5219de767dfd08947ea5c32a739b5e5bb382c1",
+          "org.opencontainers.image.version": "2.580.1",
+          "org.opencontainers.image.revision": "457b9316d71b43cdf3e2ba6ec7c27efc40f5dc60",
+          "org.opencontainers.image.source": "https://github.com/jenkinsci/docker"
+        },
+        "jenkins_version": "2.580.1"
+      },
+      "act": {
+        "ref": "j2gha/act:local",
+        "present": true,
+        "id": "sha256:0781bb0384b914fba362a2a2483d55d30c3d3cc9b59598856146778aa88662a4",
+        "repo_digests": [],
+        "created": "2026-10-03T06:26:46.552472741Z",
+        "labels": {},
+        "act_version": "0.2.89"
+      },
+      "act_runner": {
+        "ref": "j2gha/act-runner:local",
+        "present": true,
+        "id": "sha256:134418998a1ca958b148ee6befb038aa3ff598bf147b39ce9e99b60a563a15be",
+        "repo_digests": [],
+        "created": "2026-10-09T18:54:04.157825772Z",
+        "labels": {
+          "j2gha.base-image": "catthehacker/ubuntu:act-latest@sha256:c58e2b364da03b0c804c7d660f2ecbedf2f221a382b9baa0b344b0144780ff43",
+          "org.opencontainers.image.version": "20260815",
+          "org.opencontainers.image.revision": "e2f8efe464c82732f78e967ee709c00b6af53643",
+          "org.opencontainers.image.source": "https://github.com/catthehacker/catthehacker/docker_images"
+        }
+      },
+      "jit_runner": {
+        "ref": "j2gha/runner:local",
+        "present": true,
+        "id": "sha256:4847cf6e3e915577d28244aedfbe1b633eafa060a49d4ef313129d6841e2e667",
+        "repo_digests": [],
+        "created": "2026-10-09T18:52:46.515242869Z",
+        "labels": {
+          "j2gha.base-image": "ghcr.io/actions/actions-runner:latest@sha256:4ffadc0002b2581327e06101fc8c06cd189232baf79fe561fac9caeb76f5e807",
+          "org.opencontainers.image.version": "24.04",
+          "org.opencontainers.image.source": "https://github.com/actions/runner"
+        }
+      }
+    }
+  },
+  "finished_at": "2026-10-10T09:03:41+00:00"
+}

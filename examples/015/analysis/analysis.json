@@ -1,0 +1,767 @@
+{
+  "analysis_version": 1,
+  "parser": {
+    "engine": "groovy-ast (Jenkins-bundled Groovy 2.4, CONVERSION phase)",
+    "ok": true,
+    "errors": []
+  },
+  "dialect": "declarative",
+  "metrics": {
+    "artifact_steps": 1,
+    "classes": 0,
+    "conditionals": 5,
+    "credentials": 4,
+    "distinct_steps": 36,
+    "downstream_builds": 2,
+    "env_vars": 6,
+    "libraries": 0,
+    "loc": 340,
+    "max_stage_depth": 1,
+    "methods": 12,
+    "options": 0,
+    "parameters": 1,
+    "post_conditions": 2,
+    "script_blocks": 3,
+    "script_statements": 27,
+    "shell_steps": 16,
+    "stages": 9,
+    "steps": 68,
+    "tools": 0,
+    "top_level_stages": 9,
+    "triggers": 0,
+    "try_catch": 1,
+    "unknown_steps": 15,
+    "when_conditions": 7
+  },
+  "steps": {
+    "sh": {
+      "count": 16,
+      "category": "direct",
+      "lines": [
+        51,
+        52,
+        116,
+        189,
+        239,
+        253,
+        282,
+        305,
+        324,
+        328,
+        330,
+        383
+      ],
+      "gha": "run: (shell: bash)"
+    },
+    "withEnv": {
+      "count": 6,
+      "category": "direct",
+      "lines": [
+        39,
+        104,
+        321,
+        372,
+        381,
+        392
+      ],
+      "gha": "env:"
+    },
+    "withCredentials": {
+      "count": 5,
+      "category": "policy",
+      "lines": [
+        45,
+        320,
+        380,
+        391,
+        401
+      ],
+      "gha": "secrets.* / environment secrets / OIDC"
+    },
+    "withNpmEnv": {
+      "count": 4,
+      "category": "local",
+      "lines": [
+        322,
+        382,
+        393,
+        403
+      ],
+      "gha": null
+    },
+    "bumpVersion": {
+      "count": 2,
+      "category": "unknown",
+      "lines": [
+        102,
+        187
+      ],
+      "gha": null
+    },
+    "build": {
+      "count": 2,
+      "category": "redesign",
+      "lines": [
+        143,
+        150
+      ],
+      "gha": "workflow_call / workflow_dispatch / repository_dispatch"
+    },
+    "gitsh": {
+      "count": 2,
+      "category": "unknown",
+      "lines": [
+        185,
+        206
+      ],
+      "gha": null
+    },
+    "getNewVersion": {
+      "count": 2,
+      "category": "unknown",
+      "lines": [
+        232,
+        326
+      ],
+      "gha": null
+    },
+    "publishNpm": {
+      "count": 2,
+      "category": "local",
+      "lines": [
+        394,
+        404
+      ],
+      "gha": null
+    },
+    "detectSecrets": {
+      "count": 1,
+      "category": "unknown",
+      "lines": [
+        24
+      ],
+      "gha": null
+    },
+    "defaultInit": {
+      "count": 1,
+      "category": "local",
+      "lines": [
+        31
+      ],
+      "gha": null
+    },
+    "applyCustomizations": {
+      "count": 1,
+      "category": "local",
+      "lines": [
+        32
+      ],
+      "gha": null
+    },
+    "take": {
+      "count": 1,
+      "category": "groovy",
+      "lines": [
+        33
+      ],
+      "gha": null
+    },
+    "runTests": {
+      "count": 1,
+      "category": "local",
+      "lines": [
+        54
+      ],
+      "gha": null
+    },
+    "junit": {
+      "count": 1,
+      "category": "policy",
+      "lines": [
+        61
+      ],
+      "gha": "upload JUnit XML + test reporting action"
+    },
+    "scanCode": {
+      "count": 1,
+      "category": "unknown",
+      "lines": [
+        88
+      ],
+      "gha": null
+    },
+    "customizePublishingInfo": {
+      "count": 1,
+      "category": "unknown",
+      "lines": [
+        103
+      ],
+      "gha": null
+    },
+    "publishStaging": {
+      "count": 1,
+      "category": "local",
+      "lines": [
+        109
+      ],
+      "gha": null
+    },
+    "publishArtifactoryBuildInfo": {
+      "count": 1,
+      "category": "unknown",
+      "lines": [
+        110
+      ],
+      "gha": null
+    },
+    "contains": {
+      "count": 1,
+      "category": "groovy",
+      "lines": [
+        148
+      ],
+      "gha": null
+    },
+    "getMessage": {
+      "count": 1,
+      "category": "groovy",
+      "lines": [
+        148
+      ],
+      "gha": null
+    },
+    "echo": {
+      "count": 1,
+      "category": "direct",
+      "lines": [
+        149
+      ],
+      "gha": "run: echo"
+    },
+    "mendScan": {
+      "count": 1,
+      "category": "unknown",
+      "lines": [
+        169
+      ],
+      "gha": null
+    },
+    "publishPublic": {
+      "count": 1,
+      "category": "local",
+      "lines": [
+        205
+      ],
+      "gha": null
+    },
+    "publishDocs": {
+      "count": 1,
+      "category": "local",
+      "lines": [
+        207
+      ],
+      "gha": null
+    },
+    "doVersionBump": {
+      "count": 1,
+      "category": "unknown",
+      "lines": [
+        235
+      ],
+      "gha": null
+    },
+    "customizeVersion": {
+      "count": 1,
+      "category": "unknown",
+      "lines": [
+        244
+      ],
+      "gha": null
+    },
+    "trim": {
+      "count": 1,
+      "category": "groovy",
+      "lines": [
+        255
+      ],
+      "gha": null
+    },
+    "getTargetVersion": {
+      "count": 1,
+      "category": "unknown",
+      "lines": [
+        259
+      ],
+      "gha": null
+    },
+    "rtBuildInfo": {
+      "count": 1,
+      "category": "unknown",
+      "lines": [
+        287
+      ],
+      "gha": null
+    },
+    "rtPublishBuildInfo": {
+      "count": 1,
+      "category": "unknown",
+      "lines": [
+        295
+      ],
+      "gha": null
+    },
+    "publishArtifactoryBuildInfoScript": {
+      "count": 1,
+      "category": "unknown",
+      "lines": [
+        300
+      ],
+      "gha": null
+    },
+    "withSonarQubeEnv": {
+      "count": 1,
+      "category": "policy",
+      "lines": [
+        304
+      ],
+      "gha": "SonarSource/sonarqube-scan-action"
+    },
+    "replace": {
+      "count": 1,
+      "category": "groovy",
+      "lines": [
+        339
+      ],
+      "gha": null
+    },
+    "substring": {
+      "count": 1,
+      "category": "groovy",
+      "lines": [
+        368
+      ],
+      "gha": null
+    },
+    "closure": {
+      "count": 1,
+      "category": "unknown",
+      "lines": [
+        375
+      ],
+      "gha": null
+    }
+  },
+  "unknown_steps": [
+    {
+      "name": "bumpVersion",
+      "lines": [
+        102,
+        187
+      ],
+      "count": 2
+    },
+    {
+      "name": "closure",
+      "lines": [
+        375
+      ],
+      "count": 1
+    },
+    {
+      "name": "customizePublishingInfo",
+      "lines": [
+        103
+      ],
+      "count": 1
+    },
+    {
+      "name": "customizeVersion",
+      "lines": [
+        244
+      ],
+      "count": 1
+    },
+    {
+      "name": "detectSecrets",
+      "lines": [
+        24
+      ],
+      "count": 1
+    },
+    {
+      "name": "doVersionBump",
+      "lines": [
+        235
+      ],
+      "count": 1
+    },
+    {
+      "name": "getNewVersion",
+      "lines": [
+        232,
+        326
+      ],
+      "count": 2
+    },
+    {
+      "name": "getTargetVersion",
+      "lines": [
+        259
+      ],
+      "count": 1
+    },
+    {
+      "name": "gitsh",
+      "lines": [
+        185,
+        206
+      ],
+      "count": 2
+    },
+    {
+      "name": "mendScan",
+      "lines": [
+        169
+      ],
+      "count": 1
+    },
+    {
+      "name": "publishArtifactoryBuildInfo",
+      "lines": [
+        110
+      ],
+      "count": 1
+    },
+    {
+      "name": "publishArtifactoryBuildInfoScript",
+      "lines": [
+        300
+      ],
+      "count": 1
+    },
+    {
+      "name": "rtBuildInfo",
+      "lines": [
+        287
+      ],
+      "count": 1
+    },
+    {
+      "name": "rtPublishBuildInfo",
+      "lines": [
+        295
+      ],
+      "count": 1
+    },
+    {
+      "name": "scanCode",
+      "lines": [
+        88
+      ],
+      "count": 1
+    }
+  ],
+  "agents": [
+    {
+      "kind": "kubernetes",
+      "label": null,
+      "image": null,
+      "line": 4,
+      "scope": "pipeline"
+    }
+  ],
+  "credentials": [
+    {
+      "id": "container-test-server",
+      "type": "usernamePassword",
+      "lines": [
+        46
+      ]
+    },
+    {
+      "id": "artifactory",
+      "type": "usernamePassword",
+      "lines": [
+        320,
+        380,
+        391,
+        17
+      ]
+    },
+    {
+      "id": "npm-mail",
+      "type": "string",
+      "lines": [
+        401
+      ]
+    },
+    {
+      "id": "npm-creds",
+      "type": "usernamePassword",
+      "lines": [
+        402
+      ]
+    }
+  ],
+  "dsl_symbols": [
+    "getDevVersion",
+    "getTargetVersion"
+  ],
+  "libraries": [],
+  "methods": [
+    "defaultInit",
+    "applyCustomizations",
+    "getRegistryPublic",
+    "getRegistryArtifactoryUp",
+    "getRegistryArtifactoryDown",
+    "noScheme",
+    "withNpmEnv",
+    "runTests",
+    "publishStaging",
+    "publishPublic",
+    "publishNpm",
+    "publishDocs"
+  ],
+  "jenkins_model": {
+    "result": "success",
+    "errors": [],
+    "stages": [
+      "Detect Secrets",
+      "Init",
+      "QA",
+      "SonarQube analysis",
+      "Publish[staging]",
+      "Run Gauge tests",
+      "Mend scan",
+      "Update version and tag",
+      "Publish[repository]"
+    ],
+    "agent": "kubernetes",
+    "discrepancies": []
+  },
+  "findings": [
+    {
+      "id": "ScriptBlocks",
+      "severity": "medium",
+      "line": null,
+      "evidence": "3 script{} block(s), 27 Groovy statements",
+      "recommendation": "Move imperative logic into versioned shell/Python scripts or composite actions"
+    },
+    {
+      "id": "KubernetesAgent",
+      "severity": "medium",
+      "line": 4,
+      "evidence": "agent { kubernetes }",
+      "recommendation": "Use job container + services, or ARC runner scale sets"
+    },
+    {
+      "id": "UnknownStep",
+      "severity": "medium",
+      "line": 24,
+      "evidence": "detectSecrets x1",
+      "recommendation": "Plugin or shared-library step with no catalog mapping - inspect implementation"
+    },
+    {
+      "id": "GroovyWhenExpression",
+      "severity": "medium",
+      "line": 76,
+      "evidence": "env.BRANCH_IS_PRIMARY ",
+      "recommendation": "Re-express as a GHA if: expression or a step output"
+    },
+    {
+      "id": "UnknownStep",
+      "severity": "medium",
+      "line": 88,
+      "evidence": "scanCode x1",
+      "recommendation": "Plugin or shared-library step with no catalog mapping - inspect implementation"
+    },
+    {
+      "id": "UnknownStep",
+      "severity": "medium",
+      "line": 102,
+      "evidence": "bumpVersion x2",
+      "recommendation": "Plugin or shared-library step with no catalog mapping - inspect implementation"
+    },
+    {
+      "id": "UnknownStep",
+      "severity": "medium",
+      "line": 103,
+      "evidence": "customizePublishingInfo x1",
+      "recommendation": "Plugin or shared-library step with no catalog mapping - inspect implementation"
+    },
+    {
+      "id": "UnknownStep",
+      "severity": "medium",
+      "line": 110,
+      "evidence": "publishArtifactoryBuildInfo x1",
+      "recommendation": "Plugin or shared-library step with no catalog mapping - inspect implementation"
+    },
+    {
+      "id": "DownstreamBuild",
+      "severity": "medium",
+      "line": 143,
+      "evidence": "build job: /${env.SDKS_GAUGE_PIPELINE_PROJECT}/${gaugeBranchName}",
+      "recommendation": "Use workflow_call (reusable workflow) or workflow_dispatch/repository_dispatch"
+    },
+    {
+      "id": "DownstreamBuild",
+      "severity": "medium",
+      "line": 150,
+      "evidence": "build job: /${env.SDKS_GAUGE_PIPELINE_PROJECT}/${fallbackBranchName}",
+      "recommendation": "Use workflow_call (reusable workflow) or workflow_dispatch/repository_dispatch"
+    },
+    {
+      "id": "GroovyWhenExpression",
+      "severity": "medium",
+      "line": 163,
+      "evidence": "env.BRANCH_IS_PRIMARY ",
+      "recommendation": "Re-express as a GHA if: expression or a step output"
+    },
+    {
+      "id": "UnknownStep",
+      "severity": "medium",
+      "line": 169,
+      "evidence": "mendScan x1",
+      "recommendation": "Plugin or shared-library step with no catalog mapping - inspect implementation"
+    },
+    {
+      "id": "UnknownStep",
+      "severity": "medium",
+      "line": 185,
+      "evidence": "gitsh x2",
+      "recommendation": "Plugin or shared-library step with no catalog mapping - inspect implementation"
+    },
+    {
+      "id": "UnknownStep",
+      "severity": "medium",
+      "line": 232,
+      "evidence": "getNewVersion x2",
+      "recommendation": "Plugin or shared-library step with no catalog mapping - inspect implementation"
+    },
+    {
+      "id": "UnknownStep",
+      "severity": "medium",
+      "line": 235,
+      "evidence": "doVersionBump x1",
+      "recommendation": "Plugin or shared-library step with no catalog mapping - inspect implementation"
+    },
+    {
+      "id": "UnknownStep",
+      "severity": "medium",
+      "line": 244,
+      "evidence": "customizeVersion x1",
+      "recommendation": "Plugin or shared-library step with no catalog mapping - inspect implementation"
+    },
+    {
+      "id": "UnknownStep",
+      "severity": "medium",
+      "line": 259,
+      "evidence": "getTargetVersion x1",
+      "recommendation": "Plugin or shared-library step with no catalog mapping - inspect implementation"
+    },
+    {
+      "id": "UnknownStep",
+      "severity": "medium",
+      "line": 287,
+      "evidence": "rtBuildInfo x1",
+      "recommendation": "Plugin or shared-library step with no catalog mapping - inspect implementation"
+    },
+    {
+      "id": "UnknownStep",
+      "severity": "medium",
+      "line": 295,
+      "evidence": "rtPublishBuildInfo x1",
+      "recommendation": "Plugin or shared-library step with no catalog mapping - inspect implementation"
+    },
+    {
+      "id": "UnknownStep",
+      "severity": "medium",
+      "line": 300,
+      "evidence": "publishArtifactoryBuildInfoScript x1",
+      "recommendation": "Plugin or shared-library step with no catalog mapping - inspect implementation"
+    },
+    {
+      "id": "UnknownStep",
+      "severity": "medium",
+      "line": 375,
+      "evidence": "closure x1",
+      "recommendation": "Plugin or shared-library step with no catalog mapping - inspect implementation"
+    },
+    {
+      "id": "CredentialBinding",
+      "severity": "low",
+      "line": 46,
+      "evidence": "usernamePassword 'container-test-server'",
+      "recommendation": "Create GitHub secret(s) or use OIDC; never inline values"
+    },
+    {
+      "id": "CredentialBinding",
+      "severity": "low",
+      "line": 320,
+      "evidence": "usernamePassword 'artifactory'",
+      "recommendation": "Create GitHub secret(s) or use OIDC; never inline values"
+    },
+    {
+      "id": "CredentialBinding",
+      "severity": "low",
+      "line": 401,
+      "evidence": "string 'npm-mail'",
+      "recommendation": "Create GitHub secret(s) or use OIDC; never inline values"
+    },
+    {
+      "id": "CredentialBinding",
+      "severity": "low",
+      "line": 402,
+      "evidence": "usernamePassword 'npm-creds'",
+      "recommendation": "Create GitHub secret(s) or use OIDC; never inline values"
+    }
+  ],
+  "hard_gates": [],
+  "styles": [
+    "declarative",
+    "when-post",
+    "kubernetes-agent",
+    "credentials",
+    "parameters-triggers",
+    "artifacts-tests",
+    "downstream-build",
+    "dynamic-groovy"
+  ],
+  "coverage": {
+    "by_category": {
+      "direct": 23,
+      "policy": 7,
+      "local": 12,
+      "unknown": 18,
+      "redesign": 2,
+      "groovy": 6
+    },
+    "weighted_mapped_pct": 43.7
+  },
+  "complexity": {
+    "score": 56,
+    "classification": "significant-redesign",
+    "dimensions": {
+      "declarative_structure": 10,
+      "step_mapping": 14.1,
+      "plugin_coupling": 15,
+      "library_opacity": 4,
+      "runtime_coupling": 6.0,
+      "security_identity": 6,
+      "control_flow": 1.0
+    },
+    "hard_gates": [],
+    "weights": {
+      "declarative_structure": 20,
+      "step_mapping": 25,
+      "plugin_coupling": 15,
+      "library_opacity": 15,
+      "runtime_coupling": 10,
+      "security_identity": 10,
+      "control_flow": 5
+    }
+  },
+  "convertibility": "partial",
+  "ir_notes": [],
+  "source_sha256": "b290837721dd3b2e00704c2c16e238d51796a276fdc06f134701254872f8e13a"
+}

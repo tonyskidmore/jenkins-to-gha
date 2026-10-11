@@ -1,0 +1,56 @@
+{
+  "skill_name": "narrated-explainer",
+  "evals": [
+    {
+      "id": 1,
+      "name": "chapter-from-walkthrough-parts-2-4",
+      "prompt": "Make a narrated explainer video chapter from Parts 2, 3 and 4 of examples/000/README.md (Analyse, Convert, Validate). Audience is mixed technical and non-technical. Aim for roughly 4 to 6 minutes. Use British Emma.",
+      "expected_output": "A project dir with scenes.json, pronunciations.json, captures/ of real output, source-facts.md; stops for script approval; after approval, audio + video.mp4 + QA report with an honest 'not listened' statement.",
+      "assertions": [
+        "nx check passes with zero errors",
+        "Every terminal beat's text comes from a capture file produced by nx capture (no retyped output)",
+        "Every scene has a source pointer",
+        "The summary scene states what the demo does not cover, taken from the README's own caveats (e.g. the policy warning means a human is needed; Part 6 and 7 not covered)",
+        "No narration word is dropped by Kokoro (audit lists no 'no phonemes' words in the final run)",
+        "The agent did not run selfhosted/hosted tiers, gh commands, sudo or commit anything",
+        "The final report lists what was NOT checked (how it sounds)"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "two-minute-overview-from-readme",
+      "prompt": "Turn the Prerequisites and quick-start sections of this repo's top-level README.md into a 2 minute overview video for new contributors. No terminal replay needed unless a command is safe to run locally.",
+      "expected_output": "A short script using explainer/steps/cmdlist scenes (commands shown, not run, unless safe), real or no captures, limits stated, plain narration.",
+      "assertions": [
+        "Commands shown with cmdlist say 'shown, not run' and are copied from the README",
+        "No capture was produced for a command that needs credentials, network pushes or sudo",
+        "Narration contains no digits or code symbols (nx check shows no TTS warnings)"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "edit-pronunciation-and-rerender",
+      "prompt": "In the existing chapter project, the narrator says 'j2gha' wrong. It should be spoken as 'J two G H A'. Fix it and re-render, and don't redo anything that doesn't need redoing.",
+      "expected_output": "A respell entry added; only the units whose spoken text changed are regenerated; video re-rendered; QA re-run.",
+      "assertions": [
+        "pronunciations.json gains a respell (or phonemes) entry for the term",
+        "Only units containing the term were regenerated (others reported as cached)",
+        "Captures were not re-run"
+      ]
+    },
+    {
+      "id": 4,
+      "name": "live-footage-clip-scene",
+      "prompt": "In the chapter one project, add a short scene that shows the real Jenkins build running, using the capture that is already in .cache/video/000-walkthrough-60s/capture/jenkins. Don't film anything new.",
+      "expected_output": "A clips entry pointing at the existing capture with the walkthrough's cut points, a clip scene with url steps and callouts at capture events, footage aligned with the narration via start; nx clips, nx check, nx timeline, stills, render and nx qa; script shown for approval before audio.",
+      "assertions": [
+        "No hfw capture was run (the existing capture was reused)",
+        "Every sped-up stretch is labelled in the rendered frames (speed label in the frame's top bar)",
+        "Callout and url times are capture events or clip seconds that nx check validates against the built clip",
+        "Identifying names visible in the footage are masked, or the report says none are visible after reading frames",
+        "nx check passes and nx qa reports no long silence",
+        "The final report says the narration was not listened to"
+      ]
+    }
+  ]
+}

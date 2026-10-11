@@ -1,0 +1,523 @@
+{
+  "counts": {
+    "mapped": 17,
+    "manual": 29,
+    "approximated": 15,
+    "info": 1
+  },
+  "automation_pct": 42.6,
+  "items": [
+    {
+      "jenkins": "parameters: booleanParam forceBuild",
+      "line": 15,
+      "stage": null,
+      "status": "mapped",
+      "gha": "on.workflow_dispatch.inputs",
+      "note": ""
+    },
+    {
+      "jenkins": "parameters: booleanParam publish",
+      "line": 16,
+      "stage": null,
+      "status": "mapped",
+      "gha": "on.workflow_dispatch.inputs",
+      "note": ""
+    },
+    {
+      "jenkins": "parameters: string h2oBranch",
+      "line": 17,
+      "stage": null,
+      "status": "mapped",
+      "gha": "on.workflow_dispatch.inputs",
+      "note": ""
+    },
+    {
+      "jenkins": "parameters: booleanParam noCache",
+      "line": 18,
+      "stage": null,
+      "status": "mapped",
+      "gha": "on.workflow_dispatch.inputs",
+      "note": ""
+    },
+    {
+      "jenkins": "cleanWs",
+      "line": 94,
+      "stage": "Checkout and Init",
+      "status": "mapped",
+      "gha": "run: workspace cleanup",
+      "note": "runners are ephemeral; kept for parity"
+    },
+    {
+      "jenkins": "checkout scm",
+      "line": 95,
+      "stage": "Checkout and Init",
+      "status": "mapped",
+      "gha": "actions/checkout@v4",
+      "note": ""
+    },
+    {
+      "jenkins": "dir",
+      "line": 111,
+      "stage": "Checkout and Init",
+      "status": "mapped",
+      "gha": "working-directory",
+      "note": ""
+    },
+    {
+      "jenkins": "withCredentials aws 'H2O-AWS_CT-JENKINS-SHARED-SERVICE-PROD'",
+      "line": 112,
+      "stage": "Checkout and Init",
+      "status": "mapped",
+      "gha": "secrets -> step env",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 114,
+      "stage": "Checkout and Init",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 115,
+      "stage": "Checkout and Init",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 116,
+      "stage": "Checkout and Init",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 117,
+      "stage": "Checkout and Init",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 118,
+      "stage": "Checkout and Init",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 119,
+      "stage": "Checkout and Init",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 120,
+      "stage": "Checkout and Init",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 121,
+      "stage": "Checkout and Init",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 122,
+      "stage": "Checkout and Init",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "(no pipeline timeout)",
+      "line": null,
+      "stage": null,
+      "status": "approximated",
+      "gha": "timeout-minutes: 60",
+      "note": "explicit job timeout added (GitHub's default is 360 minutes); set J2GHA_DEFAULT_TIMEOUT to change"
+    },
+    {
+      "jenkins": "node (in steps)",
+      "line": 92,
+      "stage": "Checkout and Init",
+      "status": "approximated",
+      "gha": "inlined",
+      "note": "nested agent allocation flattened"
+    },
+    {
+      "jenkins": "docker.image().inside",
+      "line": 113,
+      "stage": "Checkout and Init",
+      "status": "approximated",
+      "gha": "docker run wrapper",
+      "note": "consider a job container instead"
+    },
+    {
+      "jenkins": "stash 'docker-sources'",
+      "line": 125,
+      "stage": "Checkout and Init",
+      "status": "approximated",
+      "gha": "actions/upload-artifact@v4",
+      "note": "artifact hand-off between jobs; file permissions are not preserved; no matching files fails the step, as the stash does in Jenkins (if-no-files-found: error)"
+    },
+    {
+      "jenkins": "buildInParallel() (local helper method)",
+      "line": 133,
+      "stage": "",
+      "status": "approximated",
+      "gha": "inlined",
+      "note": "body of the Jenkinsfile helper method inlined with pipelineContext substituted"
+    },
+    {
+      "jenkins": "buildInParallel() (local helper method)",
+      "line": 134,
+      "stage": "",
+      "status": "approximated",
+      "gha": "inlined",
+      "note": "body of the Jenkinsfile helper method inlined with pipelineContext substituted"
+    },
+    {
+      "jenkins": "buildInParallel() (local helper method)",
+      "line": 136,
+      "stage": "",
+      "status": "approximated",
+      "gha": "inlined",
+      "note": "body of the Jenkinsfile helper method inlined with pipelineContext substituted"
+    },
+    {
+      "jenkins": "buildInParallel() (local helper method)",
+      "line": 141,
+      "stage": "",
+      "status": "approximated",
+      "gha": "inlined",
+      "note": "body of the Jenkinsfile helper method inlined with pipelineContext, targets substituted"
+    },
+    {
+      "jenkins": "buildInParallel() (local helper method)",
+      "line": 143,
+      "stage": "",
+      "status": "approximated",
+      "gha": "inlined",
+      "note": "body of the Jenkinsfile helper method inlined with pipelineContext substituted"
+    },
+    {
+      "jenkins": "buildInParallel() (local helper method)",
+      "line": 152,
+      "stage": "",
+      "status": "approximated",
+      "gha": "inlined",
+      "note": "body of the Jenkinsfile helper method inlined with pipelineContext, targets substituted"
+    },
+    {
+      "jenkins": "buildInParallel() (local helper method)",
+      "line": 154,
+      "stage": "",
+      "status": "approximated",
+      "gha": "inlined",
+      "note": "body of the Jenkinsfile helper method inlined with pipelineContext substituted"
+    },
+    {
+      "jenkins": "buildInParallel() (local helper method)",
+      "line": 155,
+      "stage": "",
+      "status": "approximated",
+      "gha": "inlined",
+      "note": "body of the Jenkinsfile helper method inlined with pipelineContext substituted"
+    },
+    {
+      "jenkins": "buildInParallel() (local helper method)",
+      "line": 156,
+      "stage": "",
+      "status": "approximated",
+      "gha": "inlined",
+      "note": "body of the Jenkinsfile helper method inlined with pipelineContext substituted"
+    },
+    {
+      "jenkins": "buildInParallel() (local helper method)",
+      "line": 169,
+      "stage": "",
+      "status": "approximated",
+      "gha": "inlined",
+      "note": "body of the Jenkinsfile helper method inlined with pipelineContext, targets substituted"
+    },
+    {
+      "jenkins": "parallel (step)",
+      "line": 174,
+      "stage": "",
+      "status": "approximated",
+      "gha": "sequential steps",
+      "note": "scripted parallel branches serialised; split into jobs/matrix for real parallelism"
+    },
+    {
+      "jenkins": "decl _ = <not implemented yet for class: org.codehaus.g",
+      "line": 1,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "assign DEFAULT_LABEL = h2o3_linux",
+      "line": 4,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "assign H2O_ECR = 353750902984.dkr.ecr.us-east-1.amazonaws",
+      "line": 6,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "buildSummary",
+      "line": 9,
+      "stage": "",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "addStagesSummary",
+      "line": 11,
+      "stage": "",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "assign JDK_VERSIONS = [8, 11, 17]",
+      "line": 24,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "assign JDK_VERSIONS_PY_R = [8, 11, 17]",
+      "line": 25,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "decl pipelineContext = <not implemented yet for class: ",
+      "line": 86,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "decl checkoutStageName = Checkout and Init",
+      "line": 90,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "refreshStage",
+      "line": 93,
+      "stage": "Checkout and Init",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "decl scmEnv = checkout(...)",
+      "line": 95,
+      "stage": "Checkout and Init",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment from a step"
+    },
+    {
+      "jenkins": "decl pipelineContextFactory = load(...)",
+      "line": 97,
+      "stage": "Checkout and Init",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment from a step"
+    },
+    {
+      "jenkins": "load",
+      "line": 97,
+      "stage": "Checkout and Init",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "dynamic step with no deterministic mapping"
+    },
+    {
+      "jenkins": "assign pipelineContext = pipelineContextFactory(...)",
+      "line": 98,
+      "stage": "Checkout and Init",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment from a step"
+    },
+    {
+      "jenkins": "pipelineContextFactory",
+      "line": 98,
+      "stage": "Checkout and Init",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "decl currentVersion = pipelineContext.getBuildConfig().",
+      "line": 99,
+      "stage": "Checkout and Init",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment from a step"
+    },
+    {
+      "jenkins": "getDefaultImageVersion",
+      "line": 99,
+      "stage": "Checkout and Init",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "assign currentBuild.displayName = v${currentVersion} #${c",
+      "line": 100,
+      "stage": "Checkout and Init",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "assign PYTHON_VERSIONS = pipelineContext.getBuildConfig()",
+      "line": 130,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "assign R_VERSIONS = pipelineContext.getBuildConfig().R_VE",
+      "line": 131,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "decl pythonImages = []",
+      "line": 137,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "each",
+      "line": 138,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy method / helper call - port logic to a script"
+    },
+    {
+      "jenkins": "decl componentImages = []",
+      "line": 144,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "each",
+      "line": 145,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy method / helper call - port logic to a script"
+    },
+    {
+      "jenkins": "each",
+      "line": 148,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy method / helper call - port logic to a script"
+    },
+    {
+      "jenkins": "assign componentImages = dev-mojocompat",
+      "line": 151,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "decl componentJdkImages = []",
+      "line": 158,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "each",
+      "line": 159,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy method / helper call - port logic to a script"
+    },
+    {
+      "jenkins": "each",
+      "line": 164,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy method / helper call - port logic to a script"
+    },
+    {
+      "jenkins": "checkout: SCM environment (GIT_COMMIT, GIT_BRANCH, GIT_URL)",
+      "line": null,
+      "stage": null,
+      "status": "info",
+      "gha": "env",
+      "note": "Jenkins' git plugin exports them to every step after a checkout, so called scripts may read them; defined at workflow level even when the Jenkinsfile does not"
+    }
+  ],
+  "secrets": {
+    "H2O_AWS_CT_JENKINS_SHARED_SERVICE_PROD_USR": "Jenkins credential 'H2O-AWS_CT-JENKINS-SHARED-SERVICE-PROD'",
+    "H2O_AWS_CT_JENKINS_SHARED_SERVICE_PROD_PSW": "Jenkins credential 'H2O-AWS_CT-JENKINS-SHARED-SERVICE-PROD'"
+  },
+  "jobs": {
+    "main": {
+      "name": "main, Checkout and Init",
+      "runs-on": "ubuntu-latest",
+      "steps": 20,
+      "matrix": false
+    }
+  },
+  "notes": [],
+  "handoff": {},
+  "source_sha256": "dfaf33c9263cfde5e5ed81231c2631ef8fd735ced7689cc7a019b2f5b28bd67c",
+  "model_sha256": "c8f19b4de909ab93d8aa45f55397f35252af53bdfdf069f1de233ffd7d438502"
+}

@@ -1,0 +1,438 @@
+{
+  "tier": "jenkins",
+  "mode": "full",
+  "scenario": {
+    "branch": "master",
+    "git_branch": "origin/master"
+  },
+  "localisation": {
+    "changes": [
+      "L92: node(DEFAULT_LABEL) -> node('built-in')",
+      "L186: node(DEFAULT_LABEL) -> node('built-in')",
+      "L1: @Library removed - library steps are stubbed",
+      "L2: import ai.h2o.ci.buildsummary.StagesSummary removed (class stubbed)",
+      "L113: docker.image('d3fk/s3cmd').inside(...) {} on a stub runs its block (j2ghaBody)",
+      "undefined property 'buildSummary' (plugin/library global) replaced by a permissive stub",
+      "undefined property 'docker' (plugin/library global) replaced by a permissive stub"
+    ],
+    "stubs": [
+      "build",
+      "mail",
+      "emailext",
+      "slackSend",
+      "office365ConnectorSend",
+      "githubNotify",
+      "setGitHubPullRequestStatus",
+      "publishChecks",
+      "s3Upload",
+      "s3Download",
+      "copyArtifacts",
+      "waitForQualityGate",
+      "recordIssues",
+      "publishCoverage",
+      "recordCoverage",
+      "jacoco",
+      "cobertura",
+      "milestone",
+      "properties(parameters kept)",
+      "buildDiscarder",
+      "checkout(GIT_BRANCH kept)",
+      "withSonarQubeEnv",
+      "withAWS",
+      "withKubeConfig",
+      "withVault",
+      "azureCLI",
+      "container",
+      "sshagent",
+      "withDockerRegistry",
+      "configFileProvider",
+      "withMaven",
+      "withGradle",
+      "withPythonEnv",
+      "podTemplate",
+      "wrap",
+      "withDockerContainer",
+      "buildSummary",
+      "pipelineContextFactory",
+      "j2ghaBody",
+      "node"
+    ],
+    "auto_repairs": {
+      "removed": [
+        [
+          "stub-property",
+          "buildSummary"
+        ]
+      ],
+      "stubbed": [],
+      "ineffective": []
+    }
+  },
+  "attempts": [
+    {
+      "attempt": 0,
+      "phase": "run",
+      "build": 5,
+      "result": "FAILURE",
+      "seconds": 2.6,
+      "repairs": [
+        [
+          "stub-property",
+          "buildSummary"
+        ]
+      ],
+      "stubs": []
+    },
+    {
+      "attempt": 1,
+      "phase": "run",
+      "build": 6,
+      "result": "SUCCESS",
+      "seconds": 126.8,
+      "repairs": [],
+      "stubs": []
+    }
+  ],
+  "result": "SUCCESS",
+  "build": 6,
+  "duration_ms": 124594,
+  "stages": [
+    {
+      "name": "Checkout and Init",
+      "status": "SUCCESS",
+      "durationMillis": 67915
+    },
+    {
+      "name": "Build dev-base",
+      "status": "SUCCESS",
+      "durationMillis": 2456
+    },
+    {
+      "name": "Build dev-jdk-8-base",
+      "status": "SUCCESS",
+      "durationMillis": 3211
+    },
+    {
+      "name": "Build dev-jdk-others-base",
+      "status": "SUCCESS",
+      "durationMillis": 3307
+    },
+    {
+      "name": "Build dev-python-base",
+      "status": "SUCCESS",
+      "durationMillis": 3186
+    },
+    {
+      "name": "Build dev-python-3.7",
+      "status": "SUCCESS",
+      "durationMillis": 4049
+    },
+    {
+      "name": "Build dev-python-3.8",
+      "status": "SUCCESS",
+      "durationMillis": 3403
+    },
+    {
+      "name": "Build dev-python-3.9",
+      "status": "SUCCESS",
+      "durationMillis": 3561
+    },
+    {
+      "name": "Build dev-python-3.10",
+      "status": "SUCCESS",
+      "durationMillis": 3661
+    },
+    {
+      "name": "Build dev-python-3.11",
+      "status": "SUCCESS",
+      "durationMillis": 3782
+    },
+    {
+      "name": "Build dev-r-base",
+      "status": "SUCCESS",
+      "durationMillis": 3029
+    },
+    {
+      "name": "Build dev-r-3.4.1",
+      "status": "SUCCESS",
+      "durationMillis": 5416
+    },
+    {
+      "name": "Build dev-r-3.5.3",
+      "status": "SUCCESS",
+      "durationMillis": 5444
+    },
+    {
+      "name": "Build dev-r-4.0.2",
+      "status": "SUCCESS",
+      "durationMillis": 5495
+    },
+    {
+      "name": "Build dev-r-4.4.0",
+      "status": "SUCCESS",
+      "durationMillis": 5763
+    },
+    {
+      "name": "Build dev-r-4.5.2",
+      "status": "SUCCESS",
+      "durationMillis": 6493
+    },
+    {
+      "name": "Build dev-jdk-8",
+      "status": "SUCCESS",
+      "durationMillis": 6087
+    },
+    {
+      "name": "Build dev-jdk-11",
+      "status": "SUCCESS",
+      "durationMillis": 6100
+    },
+    {
+      "name": "Build dev-jdk-17",
+      "status": "SUCCESS",
+      "durationMillis": 6182
+    },
+    {
+      "name": "Build dev-mojocompat",
+      "status": "SUCCESS",
+      "durationMillis": 6221
+    },
+    {
+      "name": "Build dev-build-base",
+      "status": "SUCCESS",
+      "durationMillis": 3192
+    },
+    {
+      "name": "Build dev-build-hadoop",
+      "status": "SUCCESS",
+      "durationMillis": 2997
+    },
+    {
+      "name": "Build dev-release",
+      "status": "SUCCESS",
+      "durationMillis": 2439
+    },
+    {
+      "name": "Build dev-python-3.7-jdk-8",
+      "status": "SUCCESS",
+      "durationMillis": 11415
+    },
+    {
+      "name": "Build dev-python-3.7-jdk-11",
+      "status": "SUCCESS",
+      "durationMillis": 11522
+    },
+    {
+      "name": "Build dev-python-3.7-jdk-17",
+      "status": "SUCCESS",
+      "durationMillis": 11708
+    },
+    {
+      "name": "Build dev-python-3.8-jdk-8",
+      "status": "SUCCESS",
+      "durationMillis": 11892
+    },
+    {
+      "name": "Build dev-python-3.8-jdk-11",
+      "status": "SUCCESS",
+      "durationMillis": 11907
+    },
+    {
+      "name": "Build dev-python-3.8-jdk-17",
+      "status": "SUCCESS",
+      "durationMillis": 12104
+    },
+    {
+      "name": "Build dev-python-3.9-jdk-8",
+      "status": "SUCCESS",
+      "durationMillis": 12144
+    },
+    {
+      "name": "Build dev-python-3.9-jdk-11",
+      "status": "SUCCESS",
+      "durationMillis": 12197
+    },
+    {
+      "name": "Build dev-python-3.9-jdk-17",
+      "status": "SUCCESS",
+      "durationMillis": 12414
+    },
+    {
+      "name": "Build dev-python-3.10-jdk-8",
+      "status": "SUCCESS",
+      "durationMillis": 12525
+    },
+    {
+      "name": "Build dev-python-3.10-jdk-11",
+      "status": "SUCCESS",
+      "durationMillis": 12733
+    },
+    {
+      "name": "Build dev-python-3.10-jdk-17",
+      "status": "SUCCESS",
+      "durationMillis": 12775
+    },
+    {
+      "name": "Build dev-python-3.11-jdk-8",
+      "status": "SUCCESS",
+      "durationMillis": 13031
+    },
+    {
+      "name": "Build dev-python-3.11-jdk-11",
+      "status": "SUCCESS",
+      "durationMillis": 13033
+    },
+    {
+      "name": "Build dev-python-3.11-jdk-17",
+      "status": "SUCCESS",
+      "durationMillis": 13215
+    },
+    {
+      "name": "Build dev-r-3.4.1-jdk-8",
+      "status": "SUCCESS",
+      "durationMillis": 13409
+    },
+    {
+      "name": "Build dev-r-3.4.1-jdk-11",
+      "status": "SUCCESS",
+      "durationMillis": 21062
+    },
+    {
+      "name": "Build dev-r-3.4.1-jdk-17",
+      "status": "SUCCESS",
+      "durationMillis": 21179
+    },
+    {
+      "name": "Build dev-r-3.5.3-jdk-8",
+      "status": "SUCCESS",
+      "durationMillis": 21222
+    },
+    {
+      "name": "Build dev-r-3.5.3-jdk-11",
+      "status": "SUCCESS",
+      "durationMillis": 21312
+    },
+    {
+      "name": "Build dev-r-3.5.3-jdk-17",
+      "status": "SUCCESS",
+      "durationMillis": 21451
+    },
+    {
+      "name": "Build dev-r-4.0.2-jdk-8",
+      "status": "SUCCESS",
+      "durationMillis": 21451
+    },
+    {
+      "name": "Build dev-r-4.0.2-jdk-11",
+      "status": "SUCCESS",
+      "durationMillis": 21544
+    },
+    {
+      "name": "Build dev-r-4.0.2-jdk-17",
+      "status": "SUCCESS",
+      "durationMillis": 21640
+    },
+    {
+      "name": "Build dev-r-4.4.0-jdk-8",
+      "status": "SUCCESS",
+      "durationMillis": 21751
+    },
+    {
+      "name": "Build dev-r-4.4.0-jdk-11",
+      "status": "SUCCESS",
+      "durationMillis": 21753
+    },
+    {
+      "name": "Build dev-r-4.4.0-jdk-17",
+      "status": "SUCCESS",
+      "durationMillis": 21796
+    },
+    {
+      "name": "Build dev-r-4.5.2-jdk-8",
+      "status": "SUCCESS",
+      "durationMillis": 21826
+    },
+    {
+      "name": "Build dev-r-4.5.2-jdk-11",
+      "status": "SUCCESS",
+      "durationMillis": 21857
+    },
+    {
+      "name": "Build dev-r-4.5.2-jdk-17",
+      "status": "SUCCESS",
+      "durationMillis": 21881
+    }
+  ],
+  "traces": [
+    {
+      "stage": "",
+      "step": "buildSummary"
+    }
+  ],
+  "approved_inputs": [],
+  "error_tail": null,
+  "outputs": {
+    "archived": [],
+    "tests": null
+  },
+  "provenance": {
+    "jenkinsfile_sha256": "dfaf33c9263cfde5e5ed81231c2631ef8fd735ced7689cc7a019b2f5b28bd67c",
+    "scenario": {
+      "branch": "master",
+      "git_branch": "origin/master"
+    },
+    "mode": "full",
+    "localizer_version": 5,
+    "images": {
+      "jenkins": {
+        "ref": "j2gha/jenkins:local",
+        "present": true,
+        "id": "sha256:672c4b841b2c934f224d4f1b3523d77a1b651f8f491f8f04da47ca764eb86775",
+        "repo_digests": [],
+        "created": "2026-10-09T18:21:15.545465961Z",
+        "labels": {
+          "j2gha.base-image": "jenkins/jenkins:lts-jdk21@sha256:a660310e39ade10631f774bacd5219de767dfd08947ea5c32a739b5e5bb382c1",
+          "org.opencontainers.image.version": "2.580.1",
+          "org.opencontainers.image.revision": "457b9316d71b43cdf3e2ba6ec7c27efc40f5dc60",
+          "org.opencontainers.image.source": "https://github.com/jenkinsci/docker"
+        },
+        "jenkins_version": "2.580.1"
+      },
+      "act": {
+        "ref": "j2gha/act:local",
+        "present": true,
+        "id": "sha256:0781bb0384b914fba362a2a2483d55d30c3d3cc9b59598856146778aa88662a4",
+        "repo_digests": [],
+        "created": "2026-10-03T06:26:46.552472741Z",
+        "labels": {},
+        "act_version": "0.2.89"
+      },
+      "act_runner": {
+        "ref": "j2gha/act-runner:local",
+        "present": true,
+        "id": "sha256:134418998a1ca958b148ee6befb038aa3ff598bf147b39ce9e99b60a563a15be",
+        "repo_digests": [],
+        "created": "2026-10-09T18:54:04.157825772Z",
+        "labels": {
+          "j2gha.base-image": "catthehacker/ubuntu:act-latest@sha256:c58e2b364da03b0c804c7d660f2ecbedf2f221a382b9baa0b344b0144780ff43",
+          "org.opencontainers.image.version": "20260815",
+          "org.opencontainers.image.revision": "e2f8efe464c82732f78e967ee709c00b6af53643",
+          "org.opencontainers.image.source": "https://github.com/catthehacker/catthehacker/docker_images"
+        }
+      },
+      "jit_runner": {
+        "ref": "j2gha/runner:local",
+        "present": true,
+        "id": "sha256:4847cf6e3e915577d28244aedfbe1b633eafa060a49d4ef313129d6841e2e667",
+        "repo_digests": [],
+        "created": "2026-10-09T18:52:46.515242869Z",
+        "labels": {
+          "j2gha.base-image": "ghcr.io/actions/actions-runner:latest@sha256:4ffadc0002b2581327e06101fc8c06cd189232baf79fe561fac9caeb76f5e807",
+          "org.opencontainers.image.version": "24.04",
+          "org.opencontainers.image.source": "https://github.com/actions/runner"
+        }
+      }
+    }
+  },
+  "finished_at": "2026-10-10T09:13:52+00:00"
+}

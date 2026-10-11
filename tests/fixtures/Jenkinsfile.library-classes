@@ -1,0 +1,26 @@
+@Library('platform-lib@main')
+import org.acme.Settings
+import org.acme.Tools
+
+def settings = new Settings()
+def tools = new Tools()
+Map<String, Map<String, String>> repos = settings.repos()
+List<String> targets = settings.targets()
+
+node('linux') {
+  stageName = 'Build'
+  stage(stageName) {
+    tools.log('building')
+    dir(Settings.WORKDIR) {
+      sh 'make'
+    }
+    platformPublish(service: 'orders')
+    tools.build('app')
+    dir(Settings.WORKDIR) { sh 'make test' }
+  }
+}
+env.REGION = 'eu'
+def opts = [branch: APP_BRANCH, target: TARGET_ENV, build: BUILD_NUMBER, region: REGION]
+settings.inStage('Deploy') {
+  sh 'deploy'
+}

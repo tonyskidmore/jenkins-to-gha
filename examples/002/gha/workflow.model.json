@@ -1,0 +1,224 @@
+{
+  "name": "j2gha 002: jenkinsci/jenkins Jenkinsfile (j2gha)",
+  "on": {
+    "push": {
+      "branches": [
+        "**"
+      ]
+    },
+    "pull_request": null,
+    "workflow_dispatch": null
+  },
+  "permissions": {
+    "contents": "read"
+  },
+  "concurrency": {
+    "group": "${{ github.workflow }}-${{ github.ref }}",
+    "cancel-in-progress": false
+  },
+  "env": {
+    "BRANCH_NAME": "${{ github.head_ref || github.ref_name }}",
+    "TAG_NAME": "${{ github.ref_type == 'tag' && github.ref_name || '' }}",
+    "CHANGE_ID": "${{ github.event.pull_request.number }}",
+    "BUILD_TAG": "gha-${{ github.repository_owner }}-${{ github.event.repository.name }}-${{ github.run_number }}",
+    "JOB_NAME": "${{ github.workflow }}",
+    "GIT_COMMIT": "${{ github.sha }}",
+    "GIT_BRANCH": "${{ github.head_ref || github.ref_name }}",
+    "GIT_URL": "${{ github.server_url }}/${{ github.repository }}.git"
+  },
+  "defaults": {
+    "run": {
+      "shell": "bash"
+    }
+  },
+  "jobs": {
+    "main": {
+      "name": "main, Record build",
+      "runs-on": "ubuntu-latest",
+      "timeout-minutes": 60,
+      "steps": [
+        {
+          "name": "Checkout",
+          "uses": "actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "with": {
+            "persist-credentials": false
+          },
+          "_j2gha": {
+            "kind": "checkout",
+            "line": null,
+            "trace": false,
+            "trace_events": [],
+            "role": "checkout"
+          }
+        },
+        {
+          "name": "Record build: checkoutSCM (manual migration)",
+          "id": "s1",
+          "run": "j2gha_script=\"$(mktemp \"${RUNNER_TEMP:-/tmp}/j2gha-retry.XXXXXX\")\"\ncat > \"$j2gha_script\" <<'J2GHA_RETRY_EOF'\necho \"::warning::Jenkins step 'checkoutSCM' requires manual migration\"\nJ2GHA_RETRY_EOF\nfor attempt in $(seq 1 2); do\n  rc=0\n  bash --noprofile --norc -eo pipefail \"$j2gha_script\" || rc=$?\n  if [ \"$rc\" = 0 ]; then break; fi\n  if [ \"$attempt\" = 2 ]; then exit \"$rc\"; fi\n  echo \"retrying ($attempt/2)\"\ndone",
+          "shell": "bash",
+          "_j2gha": {
+            "kind": "checkoutSCM",
+            "stage": "Record build",
+            "line": 24,
+            "trace": false
+          }
+        },
+        {
+          "name": "Record build: launchable verify && launchable record build --name ${launchableName}",
+          "id": "s2",
+          "run": "j2gha_script=\"$(mktemp \"${RUNNER_TEMP:-/tmp}/j2gha-retry.XXXXXX\")\"\ncat > \"$j2gha_script\" <<'J2GHA_RETRY_EOF'\nlaunchable verify && launchable record build --name ${launchableName} --source jenkinsci/jenkins=.\nJ2GHA_RETRY_EOF\nfor attempt in $(seq 1 2); do\n  rc=0\n  bash --noprofile --norc -eo pipefail \"$j2gha_script\" || rc=$?\n  if [ \"$rc\" = 0 ]; then break; fi\n  if [ \"$attempt\" = 2 ]; then exit \"$rc\"; fi\n  echo \"retrying ($attempt/2)\"\ndone",
+          "shell": "bash",
+          "env": {
+            "LAUNCHABLE_TOKEN": "${{ secrets.LAUNCHABLE_JENKINS_JENKINS }}"
+          },
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Record build",
+            "line": 35,
+            "trace": true
+          }
+        },
+        {
+          "name": "Record build: combinations (manual migration)",
+          "id": "s6",
+          "run": "j2gha_script=\"$(mktemp \"${RUNNER_TEMP:-/tmp}/j2gha-retry.XXXXXX\")\"\ncat > \"$j2gha_script\" <<'J2GHA_RETRY_EOF'\necho \"::warning::Jenkins step 'combinations' requires manual migration\"\nJ2GHA_RETRY_EOF\nfor attempt in $(seq 1 2); do\n  rc=0\n  bash --noprofile --norc -eo pipefail \"$j2gha_script\" || rc=$?\n  if [ \"$rc\" = 0 ]; then break; fi\n  if [ \"$attempt\" = 2 ]; then exit \"$rc\"; fi\n  echo \"retrying ($attempt/2)\"\ndone",
+          "shell": "bash",
+          "env": {
+            "LAUNCHABLE_TOKEN": "${{ secrets.LAUNCHABLE_JENKINS_JENKINS }}"
+          },
+          "_j2gha": {
+            "kind": "combinations",
+            "stage": "Record build",
+            "line": 36,
+            "trace": false
+          }
+        },
+        {
+          "name": "Record build: Groovy if (manual)",
+          "id": "s3",
+          "run": "j2gha_script=\"$(mktemp \"${RUNNER_TEMP:-/tmp}/j2gha-retry.XXXXXX\")\"\ncat > \"$j2gha_script\" <<'J2GHA_RETRY_EOF'\necho \"::warning::manual migration: Groovy condition at line 38: platform == 'windows' && jdk != axes.jdks.last()\"\nJ2GHA_RETRY_EOF\nfor attempt in $(seq 1 2); do\n  rc=0\n  bash --noprofile --norc -eo pipefail \"$j2gha_script\" || rc=$?\n  if [ \"$rc\" = 0 ]; then break; fi\n  if [ \"$attempt\" = 2 ]; then exit \"$rc\"; fi\n  echo \"retrying ($attempt/2)\"\ndone",
+          "shell": "bash",
+          "env": {
+            "LAUNCHABLE_TOKEN": "${{ secrets.LAUNCHABLE_JENKINS_JENKINS }}"
+          },
+          "_j2gha": {
+            "kind": "script-manual",
+            "stage": "Record build",
+            "line": 38,
+            "trace": false
+          }
+        },
+        {
+          "name": "Record build: launchable record session --build ${launchableName} --flavor platform=",
+          "id": "s4",
+          "run": "j2gha_script=\"$(mktemp \"${RUNNER_TEMP:-/tmp}/j2gha-retry.XXXXXX\")\"\ncat > \"$j2gha_script\" <<'J2GHA_RETRY_EOF'\nlaunchable record session --build ${launchableName} --flavor platform=${platform} --flavor jdk=${jdk} >${sessionFile}\nJ2GHA_RETRY_EOF\nfor attempt in $(seq 1 2); do\n  rc=0\n  bash --noprofile --norc -eo pipefail \"$j2gha_script\" || rc=$?\n  if [ \"$rc\" = 0 ]; then break; fi\n  if [ \"$attempt\" = 2 ]; then exit \"$rc\"; fi\n  echo \"retrying ($attempt/2)\"\ndone",
+          "shell": "bash",
+          "env": {
+            "LAUNCHABLE_TOKEN": "${{ secrets.LAUNCHABLE_JENKINS_JENKINS }}"
+          },
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Record build",
+            "line": 42,
+            "trace": true
+          }
+        },
+        {
+          "name": "Record build: stash sessionFile",
+          "id": "s5",
+          "uses": "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "with": {
+            "name": "stash-sessionFile",
+            "path": "sessionFile\n!**/.git\n!**/.git/**\n!**/.gitignore\n!**/.gitattributes\n!**/.gitmodules\n!**/.svn\n!**/.svn/**\n!**/.hg\n!**/.hg/**\n!**/.hgignore\n!**/.hgtags\n!**/.bzr\n!**/.bzr/**\n!**/.bzrignore\n!**/CVS\n!**/CVS/**\n!**/.cvsignore\n!**/SCCS\n!**/SCCS/**\n!**/vssver.scc\n!**/.DS_Store\n!**/*~\n!**/#*#\n!**/.#*\n!**/%*%\n!**/._*",
+            "retention-days": 1,
+            "include-hidden-files": true,
+            "if-no-files-found": "error"
+          },
+          "env": {
+            "LAUNCHABLE_TOKEN": "${{ secrets.LAUNCHABLE_JENKINS_JENKINS }}"
+          },
+          "_j2gha": {
+            "kind": "stash",
+            "stage": "Record build",
+            "line": 43,
+            "trace": true
+          }
+        },
+        {
+          "name": "Record build: launchable verify && launchable record commit",
+          "id": "s7",
+          "run": "j2gha_script=\"$(mktemp \"${RUNNER_TEMP:-/tmp}/j2gha-retry.XXXXXX\")\"\ncat > \"$j2gha_script\" <<'J2GHA_RETRY_EOF'\nlaunchable verify && launchable record commit\nJ2GHA_RETRY_EOF\nfor attempt in $(seq 1 2); do\n  rc=0\n  bash --noprofile --norc -eo pipefail \"$j2gha_script\" || rc=$?\n  if [ \"$rc\" = 0 ]; then break; fi\n  if [ \"$attempt\" = 2 ]; then exit \"$rc\"; fi\n  echo \"retrying ($attempt/2)\"\ndone",
+          "shell": "bash",
+          "env": {
+            "LAUNCHABLE_TOKEN": "${{ secrets.LAUNCHABLE_JENKINS_ACCEPTANCE_TEST_HARNESS }}"
+          },
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Record build",
+            "line": 51,
+            "trace": true
+          }
+        },
+        {
+          "name": "Record build: launchable verify && launchable record commit",
+          "id": "s8",
+          "run": "j2gha_script=\"$(mktemp \"${RUNNER_TEMP:-/tmp}/j2gha-retry.XXXXXX\")\"\ncat > \"$j2gha_script\" <<'J2GHA_RETRY_EOF'\nlaunchable verify && launchable record commit\nJ2GHA_RETRY_EOF\nfor attempt in $(seq 1 2); do\n  rc=0\n  bash --noprofile --norc -eo pipefail \"$j2gha_script\" || rc=$?\n  if [ \"$rc\" = 0 ]; then break; fi\n  if [ \"$attempt\" = 2 ]; then exit \"$rc\"; fi\n  echo \"retrying ($attempt/2)\"\ndone",
+          "shell": "bash",
+          "env": {
+            "LAUNCHABLE_TOKEN": "${{ secrets.LAUNCHABLE_JENKINS_BOM }}"
+          },
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Record build",
+            "line": 54,
+            "trace": true
+          }
+        },
+        {
+          "name": "combinations (manual migration)",
+          "id": "s10",
+          "run": "echo \"::warning::Jenkins step 'combinations' requires manual migration\"",
+          "_j2gha": {
+            "kind": "combinations",
+            "stage": "",
+            "line": 62,
+            "trace": false
+          }
+        },
+        {
+          "name": ": Groovy if (manual)",
+          "id": "s9",
+          "run": "echo \"::warning::manual migration: Groovy condition at line 64: platform == 'windows' && jdk != axes.jdks.last()\"",
+          "_j2gha": {
+            "kind": "script-manual",
+            "stage": "",
+            "line": 64,
+            "trace": false
+          }
+        },
+        {
+          "name": "combinations (manual migration)",
+          "id": "s11",
+          "run": "echo \"::warning::Jenkins step 'combinations' requires manual migration\"",
+          "_j2gha": {
+            "kind": "combinations",
+            "stage": "",
+            "line": 220,
+            "trace": false
+          }
+        },
+        {
+          "name": "maybePublishIncrementals (manual migration)",
+          "id": "s12",
+          "run": "echo \"::warning::Jenkins step 'maybePublishIncrementals' requires manual migration\"",
+          "_j2gha": {
+            "kind": "maybePublishIncrementals",
+            "stage": "",
+            "line": 252,
+            "trace": false
+          }
+        }
+      ]
+    }
+  }
+}

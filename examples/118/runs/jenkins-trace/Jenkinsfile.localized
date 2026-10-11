@@ -1,0 +1,319 @@
+/*
+ * Common packages we need access to
+ */
+import hudson.AbortException
+import hudson.console.HyperlinkNote
+import java.util.concurrent.CancellationException
+/* j2gha: import org.jvnet.jenkins.plugins.nodelabelparameter. removed */
+
+properties([parameters([                                                                                                 // j2gha-local: the original reads job-configuration parameters (H2: `--param` cannot set those); declared here with the twin's defaults so `--param` and the converted inputs carry them
+    booleanParam(name: 'DRYRUN', defaultValue: false, description: 'j2gha-local: true lists and checks only, builds nothing'),  // j2gha-local
+    string(name: 'VERSION', defaultValue: '1.0.0', description: 'j2gha-local: release version named in the manifest commit'),  // j2gha-local
+    string(name: 'olcs_transxchange_version', defaultValue: '2.0.0', description: 'j2gha-local: txc package version'),  // j2gha-local
+    string(name: 'olcs_auth_version', defaultValue: '3.0.0', description: 'j2gha-local: openam package version')     // j2gha-local
+])])                                                                                                                     // j2gha-local
+
+/**** BEGIN PIPELINE STAGES ****/
+node('built-in') {
+
+    def VERSION = params.VERSION
+    def GitRepo = "file://${env.WORKSPACE}/.gitlab/"  // j2gha-local: the internal GitLab is unreachable; local repositories created in Get Repos stand in for it
+    def defaultS3Bucket = 'devapp-olcs-pri-olcs-deploy-s3/'
+    def templateS3Bucket = 'devapp-shd-pri-file-deploy-s3/'
+    def ldifLabel = 'olcs-dir-ldif-version'
+    def txcLabel = 'olcs-transxchange-version'
+    def txcFile = 'txc'
+    def authLabel = 'olcs_auth_version'
+    def authFile = 'openam'
+    def appVersionFile = ''
+
+    // [0]: name of variable in hiera
+    // [1]: name of repo
+    // [2]: S3 Location for artefact
+    // [3]: name of S3 artifact (minus [version].tar.gz)
+    // [4]: name of Build Job to create artefact
+    // [5]: populated by scripts: current tag version (master)
+    def repos = [
+            ['olcs-ssweb-version', 'olcs/olcs-selfserve', defaultS3Bucket + 'selfserve/', 'olcs-selfserve-', 'Build_Selfserve'],
+            ['olcs-static-version', 'olcs/olcs-static', defaultS3Bucket + 'staticcontent/', 'olcs-static-', 'Build_Static'],
+            ['olcs-iuweb-version', 'olcs/olcs-internal', defaultS3Bucket + 'internal/', 'olcs-internal-', 'Build_Internal'],
+            ['olcs-api-version', 'olcs/olcs-backend', defaultS3Bucket + 'api/', 'olcs-backend-', 'Build_Backend'],
+            ['olcs-search-version', 'olcs/olcs-elasticsearch', defaultS3Bucket + 'search/elasticv5/', 'olcs-elasticsearch-', 'Build_Elastic'],
+            ['olcs-address-base-version', 'sc/address-base', defaultS3Bucket + 'addressbase/', 'address-scripts-', 'Build_Address_Base'],
+            ['olcs-address-service-version', 'sc/address-service', defaultS3Bucket + 'addressbase/', 'address-service-', 'Build_Address_Service'],
+            ['olcs_dir_version', 'olcs/olcs-oa', defaultS3Bucket + 'opendj/', 'opendj-', 'Build_OpenDJ'],
+            ['olcs_etl_version', 'olcs/olcs-etl', defaultS3Bucket + 'api/', 'olcs-etl-', 'Build_ETL'],
+            ['olcs_templates_version', 'olcs/olcs-templates', templateS3Bucket, 'olcs-templates-', 'Build_Templates']
+    ]
+
+    stageName = "App Branch Close and Tag (not currently integrated)"
+    stage(stageName) {
+        //build job: 'Release_Branch_Close_Clone', parameters: [
+        //        [$class: 'StringParameterValue', name: 'VERSION', value: params.VERSION],
+        //        [$class: 'BooleanParameterValue', name: 'DRYRUN', value: params.DRYRUN]
+
+        //]
+    }
+
+    stageName = 'Get Repos'
+    stage(stageName) {
+
+        deleteDir()
+
+        for (int i = 0; i < repos.size; i++) {
+            dir(repos[i][0]) {
+                sh "git init -q -b master ${env.WORKSPACE}/.gitlab/${repos[i][1]}.git && cd ${env.WORKSPACE}/.gitlab/${repos[i][1]}.git && n=28 && for t in v1.0.0 v1.0.1; do n=\$((n+1)) && GIT_AUTHOR_DATE=2018-03-\${n}T12:00:00 GIT_COMMITTER_DATE=2018-03-\${n}T12:00:00 git -c user.name=j2gha -c user.email=j2gha@localhost commit -q --allow-empty -m \$t && git tag \$t; done"  // j2gha-local: stand-in for the GitLab repository: two tagged commits a day apart (rev-list orders by commit date), so the git describe commands below work unchanged
+                checkout([$class                           : 'GitSCM', branches: [[name: 'refs/heads/master']],
+                          doGenerateSubmoduleConfigurations: false,
+                          extensions                       : [],
+                          submoduleCfg                     : [],
+                          userRemoteConfigs                : [[credentialsId: 'OLCS-Jenkins', url: GitRepo + repos[i][1] + '.git']]
+                ])
+
+                sh 'git describe --abbrev=0 --tags > result'
+                def version = readFile('result').trim()
+                repos[i] += version //Add version as repos[i][5]
+            }
+
+        }
+    }
+
+    stageName = "Get App Release Tags"
+    stage(stageName) {
+        for (int i = 0; i < repos.size; i++) {
+            if (repos[i][0].contains('address')) {
+                if (repos[i][5].equalsIgnoreCase(repos[i + 1][5])) {
+                    appVersionFile += "olcs-address-version: '" + repos[i][5] + "'\n"
+                    i += 1 //don't run again for second address var
+                } else {
+                    appVersionFile += "olcs-address-version: '" + repos[i + 1][5] + "'\n"
+                    i += 1
+                    print '**** PROBLEM WITH ADDRESS TAGS****'
+                }
+            } else {
+
+                appVersionFile += repos[i][0] + ": '" + repos[i][5] + "'\n"
+            }
+        }
+
+        // Add Special Cases -
+        // Ldif which is (api version -1)
+        dir('olcs-api-version') {
+            sh 'git describe --abbrev=0 --tags `git rev-list --tags --skip=1 --max-count=1` > result'
+            def version = readFile('result').trim()
+            appVersionFile += ldifLabel + " : '" + version + "'\n"
+        }
+
+        //tcx read from input params
+        appVersionFile += txcLabel + " : '" + params.olcs_transxchange_version + "'\n"
+
+        //auth from input params
+        appVersionFile += authLabel + " : '" + params.olcs_auth_version + "'\n"
+
+        print appVersionFile
+    }
+
+
+    stageName = "Check and Build Release Artefacts"
+    stage(stageName) {
+        def message = ''
+    for (int i = 0; i < repos.size; i++) {
+
+        // Jenkins sh doesn't like pipes so splitting into two commands
+        def cmd = 'echo "2018-03-29 13:20      1024   s3://' + repos[i][2] + repos[i][3] + 'v1.0.0.tar.gz" > result'  // j2gha-local: no s3cmd/AWS: a listing holding only the previous release, so every current tag is "Creating" and its build job is called
+        sh "${cmd}"
+        print readFile('result').trim()
+        def cmd2 = 'grep ' + repos[i][3] + repos[i][5] + '.tar.gz result > result2 || true'
+        sh "${cmd2}"
+        def file = readFile('result2').trim()
+        print 'File: ' + file
+        if (file.contains(repos[i][3] + repos[i][5])) {
+            message += 'Exists: ' + repos[i][3] + repos[i][5] + '\n'
+        } else {
+            if (params.DRYRUN) {
+                message += 'MISSING: ' + repos[i][3] + repos[i][5] + '\n'
+            } else {
+                message += 'Creating: ' + repos[i][3] + repos[i][5] + '\n'
+
+                build job: repos[i][4], parameters: [
+                    [$class: 'StringParameterValue', name: 'TAG', value: repos[i][5]],
+                    [$class: 'StringParameterValue', name: 'TAR_SUFFIX', value: repos[i][5]]]
+                print "Built ${repos[i][3]} ${repos[i][4]} with ${repos[i][5]} \n"
+
+            }
+        }
+        print "Completed " + repos[i][0]
+    }
+    print message
+}
+
+    stageName = "Check Artefacts from Input Params"
+    stage(stageName) {
+        def message = ''
+
+        // Jenkins sh doesn't like pipes so splitting into two commands
+        def cmd = 'echo "2018-03-29 13:20      1024   s3://' + defaultS3Bucket + 'openam/' + authFile + '-' + params.olcs_auth_version + '.tar.gz" > result'  // j2gha-local: no s3cmd/AWS: a listing holding the requested openam package ("Exists" branch)
+        sh "${cmd}"
+        print readFile('result').trim()
+        def cmd2 = 'grep ' + authFile + '-' + params.olcs_auth_version + '.tar.gz result > result2 || true'
+        sh "${cmd2}"
+        def file = readFile('result2').trim()
+        print 'File: ' + file
+        if (file.contains(authFile + '-' + params.olcs_auth_version)) {
+            message += 'Exists: ' + authFile + '-' + params.olcs_auth_version + '\n'
+        } else {
+            if (params.DRYRUN) {
+                message += 'MISSING: ' + authFile + '-' + params.olcs_auth_version + '\n'
+            } else {
+                message += 'MISSING: ' + authFile + '-' + params.olcs_auth_version + '\n'
+                error('Missing package:\n' + message)
+            }
+        }
+
+        // Jenkins sh doesn't like pipes so splitting into two commands
+        def cmd3 = 'echo "2018-03-29 13:20      1024   s3://' + defaultS3Bucket + 'api/' + txcFile + '-' + params.olcs_transxchange_version + '.war" > result'  // j2gha-local: no s3cmd/AWS: a listing holding the requested txc package ("Exists" branch)
+        sh "${cmd3}"
+        print readFile('result').trim()
+        def cmd4 = 'grep ' + txcFile + '-' + params.olcs_transxchange_version + '.war result > result2 || true'
+        sh "${cmd4}"
+        def file2 = readFile('result2').trim()
+        print 'File: ' + file2
+        if (file2.contains(txcFile + '-' + params.olcs_transxchange_version)) {
+            message += 'Exists: ' + txcFile + '-' + params.olcs_transxchange_version + '\n'
+        } else {
+            if (params.DRYRUN) {
+                message += 'MISSING: ' + txcFile + '-' + params.olcs_transxchange_version + '\n'
+            } else {
+                message += 'MISSING: ' + txcFile + '-' + params.olcs_transxchange_version + '\n'
+                error('Missing package:\n' + message)
+            }
+        }
+
+        print message
+    }
+
+    stageName = "Check App Version against Built artefacts"
+    stage(stageName) {
+        if (params.DRYRUN) {
+            print 'Not Running external check for DryRun'
+        } else {
+
+            build job: 'Check App Release Tags', parameters: [
+                    [$class: 'StringParameterValue', name: 'olcs_transxchange_version', value: params.olcs_transxchange_version],
+                    [$class: 'StringParameterValue', name: 'olcs_auth_version', value: params.olcs_auth_version]
+            ]
+        }
+    }
+
+
+    stageName = "Create and Push Release Manifest"
+    stage(stageName) {
+        if (params.DRYRUN) {
+            print appVersionFile
+        } else {
+            dir('app-version') {
+                deleteDir()
+                sh "git init -q -b develop ${env.WORKSPACE}/.gitlab/aws/app-version.git && cd ${env.WORKSPACE}/.gitlab/aws/app-version.git && mkdir hiera && touch hiera/app_version.eyaml && git add hiera && git -c user.name=j2gha -c user.email=j2gha@localhost commit -q -m develop"  // j2gha-local: stand-in for the GitLab app-version repository (a develop branch with the hiera file), the target of the push below
+                checkout([$class                           : 'GitSCM', branches: [[name: 'refs/heads/develop']],
+                          doGenerateSubmoduleConfigurations: false,
+                          extensions                       : [],
+                          submoduleCfg                     : [],
+                          userRemoteConfigs                : [[credentialsId: 'OLCS-Jenkins', url: GitRepo + 'aws/app-version.git']]  // j2gha-local: the hard-coded GitLab URL takes the same stand-in prefix as the other repositories
+                ])
+                sh 'ls -lrt'
+                sh 'git checkout -b release-candidate'
+                writeFile file: 'hiera/app_version.eyaml', text: "${appVersionFile}"
+                sh 'git status'
+                sh 'git add hiera/app_version.eyaml'
+                sh "git -c user.name=j2gha -c user.email=j2gha@localhost commit -m \"Release ${VERSION}\""  // j2gha-local: the harness node has no git identity configured
+                sh "git push --set-upstream origin release-candidate"
+            }
+        }
+    }
+}
+
+// ---- j2gha localisation block (trace mode) - generated, not part of the original pipeline ----
+@groovy.transform.Field def scm = [$class: 'GitSCM', branches: [[name: 'main']], userRemoteConfigs: [[url: 'https://example.invalid/j2gha.git']]]
+class J2ghaAny implements Serializable { @NonCPS def propertyMissing(String n) { new J2ghaAny() }; @NonCPS def methodMissing(String n, Object a) { new J2ghaAny() }; @NonCPS String toString() { 'j2gha-stub' }; @NonCPS boolean asBoolean() { true }; @NonCPS boolean isEmpty() { false }; @NonCPS def getAt(Object k) { new J2ghaAny() }; @NonCPS Iterator iterator() { [].iterator() } }
+class J2ghaConfig extends LinkedHashMap { @NonCPS Object get(Object k) { super.containsKey(k) ? super.get(k) : new J2ghaAny() }; @NonCPS def methodMissing(String n, Object a) { new J2ghaAny() } }
+def j2ghaTrace(String kind) {
+  steps.echo('J2GHA-TRACE ' + groovy.json.JsonOutput.toJson([stage: (env.STAGE_NAME ?: ''), step: kind]))
+}
+def sh(Object... a) { j2ghaTrace('sh'); if (a && a[0] instanceof Map && a[0].returnStdout) { return '' }; if (a && a[0] instanceof Map && a[0].returnStatus) { return 0 }; return null }
+def bat(Object... a) { j2ghaTrace('bat'); if (a && a[0] instanceof Map && a[0].returnStdout) { return '' }; if (a && a[0] instanceof Map && a[0].returnStatus) { return 0 }; return null }
+def powershell(Object... a) { j2ghaTrace('powershell'); if (a && a[0] instanceof Map && (a[0].returnStdout)) { return '' }; return null }
+def pwsh(Object... a) { j2ghaTrace('pwsh'); return null }
+def echo(Object... a) { j2ghaTrace('echo'); steps.echo(String.valueOf(a ? a[0] : '')) }
+def checkout(Object... a) { j2ghaTrace('checkout'); return [GIT_COMMIT: '0000000000000000000000000000000000000000', GIT_BRANCH: (env.GIT_BRANCH ?: env.BRANCH_NAME)] }
+def git(Object... a) { j2ghaTrace('git'); return null }
+def archiveArtifacts(Object... a) { j2ghaTrace('archiveArtifacts'); return null }
+def archive(Object... a) { j2ghaTrace('archive'); return null }
+def junit(Object... a) { j2ghaTrace('junit'); return null }
+def stash(Object... a) { j2ghaTrace('stash'); return null }
+def unstash(Object... a) { j2ghaTrace('unstash'); return null }
+def input(Object... a) { j2ghaTrace('input'); return null }
+def build(Object... a) { j2ghaTrace('build'); return [result: 'SUCCESS', number: 1, currentResult: 'SUCCESS', absoluteUrl: '', getResult: { -> 'SUCCESS' }, buildVariables: [:]] }
+def error(Object... a) { j2ghaTrace('error'); steps.error(String.valueOf(a ? a[0] : 'error')) }
+def unstable(Object... a) { j2ghaTrace('unstable'); return null }
+def mail(Object... a) { j2ghaTrace('mail'); return null }
+def emailext(Object... a) { j2ghaTrace('emailext'); return null }
+def slackSend(Object... a) { j2ghaTrace('slackSend'); return null }
+def office365ConnectorSend(Object... a) { j2ghaTrace('office365ConnectorSend'); return null }
+def publishHTML(Object... a) { j2ghaTrace('publishHTML'); return null }
+def publishCoverage(Object... a) { j2ghaTrace('publishCoverage'); return null }
+def recordCoverage(Object... a) { j2ghaTrace('recordCoverage'); return null }
+def jacoco(Object... a) { j2ghaTrace('jacoco'); return null }
+def cobertura(Object... a) { j2ghaTrace('cobertura'); return null }
+def recordIssues(Object... a) { j2ghaTrace('recordIssues'); return null }
+def deleteDir(Object... a) { j2ghaTrace('deleteDir'); return null }
+def cleanWs(Object... a) { j2ghaTrace('cleanWs'); return null }
+def sleep(Object... a) { j2ghaTrace('sleep'); return null }
+def writeFile(Object... a) { j2ghaTrace('writeFile'); return null }
+def httpRequest(Object... a) { j2ghaTrace('httpRequest'); return [status: 200, content: '{}'] }
+def copyArtifacts(Object... a) { j2ghaTrace('copyArtifacts'); return null }
+def waitForQualityGate(Object... a) { j2ghaTrace('waitForQualityGate'); return null }
+def githubNotify(Object... a) { j2ghaTrace('githubNotify'); return null }
+def setGitHubPullRequestStatus(Object... a) { j2ghaTrace('setGitHubPullRequestStatus'); return null }
+def step(Object... a) { j2ghaTrace('step'); return null }
+def fingerprint(Object... a) { j2ghaTrace('fingerprint'); return null }
+def s3Upload(Object... a) { j2ghaTrace('s3Upload'); return null }
+def s3Download(Object... a) { j2ghaTrace('s3Download'); return null }
+def milestone(Object... a) { return null }
+def properties(Object... a) { return null }
+def buildDiscarder(Object... a) { return null }
+def readFile(Object... a) { return '' }
+def fileExists(Object... a) { return false }
+def findFiles(Object... a) { return [] }
+def readJSON(Object... a) { return new J2ghaConfig() }
+def readYaml(Object... a) { return new J2ghaConfig() }
+def readProperties(Object... a) { return new J2ghaConfig() }
+def readMavenPom(Object... a) { return new J2ghaAny() }
+def readCSV(Object... a) { return [] }
+def tool(Object... a) { return '/usr' }
+def load(Object... a) { return new J2ghaAny() }
+def evaluate(Object... a) { return new J2ghaAny() }
+def library(Object... a) { return new J2ghaAny() }
+def withCredentials(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def sshagent(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withDockerRegistry(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withMaven(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withSonarQubeEnv(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def container(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def wrap(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def ansiColor(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withAWS(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withKubeConfig(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withVault(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def configFileProvider(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withGradle(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def nodejs(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withPythonEnv(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def timestamps(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withDockerContainer(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withDockerServer(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def azureCLI(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def retry(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def podTemplate(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def lock(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def node(Object... a) { def body = a[-1]; return steps.node('built-in') { body() } }
+// ---- end of j2gha localisation block ----

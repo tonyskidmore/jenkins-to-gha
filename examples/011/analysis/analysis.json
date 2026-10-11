@@ -1,0 +1,167 @@
+{
+  "analysis_version": 1,
+  "parser": {
+    "engine": "groovy-ast (Jenkins-bundled Groovy 2.4, CONVERSION phase)",
+    "ok": true,
+    "errors": []
+  },
+  "dialect": "library-template",
+  "metrics": {
+    "artifact_steps": 2,
+    "classes": 0,
+    "credentials": 0,
+    "distinct_steps": 6,
+    "env_vars": 1,
+    "libraries": 0,
+    "loc": 54,
+    "max_stage_depth": 1,
+    "methods": 1,
+    "options": 3,
+    "parameters": 0,
+    "post_conditions": 3,
+    "shell_steps": 3,
+    "stages": 4,
+    "steps": 9,
+    "tools": 0,
+    "top_level_stages": 4,
+    "triggers": 0,
+    "unknown_steps": 0
+  },
+  "steps": {
+    "sh": {
+      "count": 3,
+      "category": "direct",
+      "lines": [
+        33,
+        39,
+        45
+      ],
+      "gha": "run: (shell: bash)"
+    },
+    "echo": {
+      "count": 2,
+      "category": "direct",
+      "lines": [
+        56,
+        59
+      ],
+      "gha": "run: echo"
+    },
+    "resolve": {
+      "count": 1,
+      "category": "groovy",
+      "lines": [
+        4
+      ],
+      "gha": null
+    },
+    "checkout": {
+      "count": 1,
+      "category": "direct",
+      "lines": [
+        27
+      ],
+      "gha": "actions/checkout"
+    },
+    "junit": {
+      "count": 1,
+      "category": "policy",
+      "lines": [
+        52
+      ],
+      "gha": "upload JUnit XML + test reporting action"
+    },
+    "archiveArtifacts": {
+      "count": 1,
+      "category": "direct",
+      "lines": [
+        53
+      ],
+      "gha": "actions/upload-artifact"
+    }
+  },
+  "unknown_steps": [],
+  "agents": [
+    {
+      "kind": "any",
+      "label": null,
+      "image": null,
+      "line": 12,
+      "scope": "pipeline"
+    }
+  ],
+  "credentials": [],
+  "dsl_symbols": [
+    "libraryResource"
+  ],
+  "libraries": [],
+  "methods": [
+    "call"
+  ],
+  "jenkins_model": {
+    "result": "failure",
+    "errors": [
+      "Environment variable values must either be single quoted, double quoted, or function calls. @ line 11, column 32.",
+      "No variables specified for environment @ line 10, column 9."
+    ]
+  },
+  "findings": [
+    {
+      "id": "JenkinsValidationFailed",
+      "severity": "high",
+      "line": null,
+      "evidence": "Environment variable values must either be single quoted, double quoted, or function calls. @ line 11, column 32.; No variables specified for environment @ line 10, column 9.",
+      "recommendation": "Jenkins rejects this Declarative pipeline - fix syntax/plugins before migrating"
+    },
+    {
+      "id": "LibraryTemplate",
+      "severity": "medium",
+      "line": null,
+      "evidence": "Declarative pipeline defined in a shared-library var",
+      "recommendation": "Convert to a reusable workflow (on: workflow_call) with explicit inputs"
+    }
+  ],
+  "hard_gates": [],
+  "styles": [
+    "library-template",
+    "declarative",
+    "when-post",
+    "artifacts-tests"
+  ],
+  "coverage": {
+    "by_category": {
+      "direct": 7,
+      "groovy": 1,
+      "policy": 1
+    },
+    "weighted_mapped_pct": 92.7
+  },
+  "complexity": {
+    "score": 9,
+    "classification": "straightforward",
+    "dimensions": {
+      "declarative_structure": 6.0,
+      "step_mapping": 1.8,
+      "plugin_coupling": 0.8,
+      "library_opacity": 0.0,
+      "runtime_coupling": 0.0,
+      "security_identity": 0,
+      "control_flow": 0.0
+    },
+    "hard_gates": [],
+    "weights": {
+      "declarative_structure": 20,
+      "step_mapping": 25,
+      "plugin_coupling": 15,
+      "library_opacity": 15,
+      "runtime_coupling": 10,
+      "security_identity": 10,
+      "control_flow": 5
+    }
+  },
+  "convertibility": "automatic",
+  "ir_notes": [
+    "pipeline {} is defined inside shared-library method 'call()'"
+  ],
+  "source_sha256": "e52088342d265caee49a51835c101555c57057d5e8cdc899835eb6e3c0249083"
+}

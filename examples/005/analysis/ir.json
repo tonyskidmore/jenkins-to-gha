@@ -1,0 +1,857 @@
+{
+  "dialect": "declarative",
+  "line": 27,
+  "agent": {
+    "kind": "label",
+    "label": "?:",
+    "line": 28
+  },
+  "options": {
+    "lock": {
+      "label": "params.STAGE",
+      "quantity": 1,
+      "variable": "stage"
+    },
+    "timeout": {
+      "time": 3,
+      "unit": "HOURS",
+      "minutes": 180
+    },
+    "buildDiscarder": "logRotator(...)",
+    "skipDefaultCheckout": true
+  },
+  "parameters": [
+    {
+      "kind": "string",
+      "name": "GIT_REPO_URL",
+      "default": "https://github.com/opensearch-project/opensearch-migrations.git",
+      "description": "Git repository url",
+      "line": 31
+    },
+    {
+      "kind": "string",
+      "name": "GIT_BRANCH",
+      "description": "Git branch to use for repository",
+      "line": 32
+    },
+    {
+      "kind": "string",
+      "name": "GIT_COMMIT",
+      "description": "(Optional) Specific commit to checkout after cloning branch",
+      "line": 33
+    },
+    {
+      "kind": "string",
+      "name": "STAGE",
+      "description": "Stage name for deployment environment",
+      "line": 34
+    },
+    {
+      "kind": "string",
+      "name": "VERSION",
+      "description": "Release version to deploy (e.g. \"2.9.0\"). When set, checks out the release tag instead of GIT_BRANCH.",
+      "line": 35
+    }
+  ],
+  "triggers": [
+    {
+      "kind": "other",
+      "value": {
+        "step": "GenericTrigger"
+      },
+      "line": 47
+    },
+    {
+      "kind": "cron",
+      "value": {
+        "step": "cron",
+        "text": "periodicCron(...)"
+      },
+      "line": 59
+    }
+  ],
+  "stages": [
+    {
+      "name": "Checkout",
+      "line": 63,
+      "steps": [
+        {
+          "name": "script",
+          "line": 65,
+          "body": [
+            {
+              "name": "<decl>",
+              "line": 66,
+              "named": {
+                "_target": "checkoutBranch"
+              },
+              "category": "dynamic",
+              "source": "checkoutBranch = ?",
+              "dynamic": true
+            },
+            {
+              "name": "<assign>",
+              "line": 67,
+              "named": {
+                "_target": "env.CHECKOUT_BRANCH"
+              },
+              "category": "dynamic",
+              "source": "env.CHECKOUT_BRANCH = checkoutBranch",
+              "dynamic": true
+            },
+            {
+              "name": "echo",
+              "line": 68,
+              "args": [
+                "\n                            ================================================================\n                            Default Integration Pipeline\n                            ================================================================\n                            Git:                    ${params.GIT_REPO_URL} @ ${checkoutBranch}\n                            Stage:                  ${params.STAGE}\n                            Version:                ${params.VERSION ?: 'N/A (using GIT_BRANCH)'}\n                            ================================================================\n                        "
+              ],
+              "category": "direct",
+              "dynamic": true
+            },
+            {
+              "name": "<if>",
+              "line": 78,
+              "named": {
+                "_else": [
+                  {
+                    "name": "checkoutStep",
+                    "line": 81,
+                    "named": {
+                      "branch": "checkoutBranch",
+                      "repo": "params.GIT_REPO_URL",
+                      "commit": "params.GIT_COMMIT"
+                    },
+                    "category": "unknown",
+                    "dynamic": true
+                  }
+                ]
+              },
+              "body": [
+                {
+                  "name": "checkoutStep",
+                  "line": 79,
+                  "category": "unknown",
+                  "receiver": "config"
+                }
+              ],
+              "category": "dynamic",
+              "source": "config.checkoutStep",
+              "dynamic": true
+            }
+          ],
+          "category": "dynamic"
+        }
+      ]
+    },
+    {
+      "name": "Test Caller Identity",
+      "line": 87,
+      "steps": [
+        {
+          "name": "script",
+          "line": 89,
+          "body": [
+            {
+              "name": "<if>",
+              "line": 91,
+              "named": {
+                "_else": [
+                  {
+                    "name": "sh",
+                    "line": 94,
+                    "args": [
+                      "aws sts get-caller-identity"
+                    ],
+                    "category": "direct"
+                  }
+                ]
+              },
+              "body": [
+                {
+                  "name": "awsIdentityCheckStep",
+                  "line": 92,
+                  "category": "unknown",
+                  "receiver": "config"
+                }
+              ],
+              "category": "dynamic",
+              "source": "config.awsIdentityCheckStep",
+              "dynamic": true
+            }
+          ],
+          "category": "dynamic"
+        }
+      ]
+    },
+    {
+      "name": "Setup E2E CDK Context",
+      "line": 100,
+      "steps": [
+        {
+          "name": "script",
+          "line": 102,
+          "body": [
+            {
+              "name": "<if>",
+              "line": 104,
+              "named": {
+                "_else": [
+                  {
+                    "name": "writeFile",
+                    "line": 107,
+                    "named": {
+                      "file": "test/$source_context_file_name",
+                      "text": "sourceContext"
+                    },
+                    "category": "direct",
+                    "dynamic": true
+                  },
+                  {
+                    "name": "sh",
+                    "line": 108,
+                    "args": [
+                      "echo 'Using source context file options: ' && cat test/$source_context_file_name"
+                    ],
+                    "category": "direct",
+                    "dynamic": true
+                  },
+                  {
+                    "name": "writeFile",
+                    "line": 109,
+                    "named": {
+                      "file": "test/$migration_context_file_name",
+                      "text": "migrationContext"
+                    },
+                    "category": "direct",
+                    "dynamic": true
+                  },
+                  {
+                    "name": "sh",
+                    "line": 110,
+                    "args": [
+                      "echo 'Using migration context file options: ' && cat test/$migration_context_file_name"
+                    ],
+                    "category": "direct",
+                    "dynamic": true
+                  }
+                ]
+              },
+              "body": [
+                {
+                  "name": "cdkContextStep",
+                  "line": 105,
+                  "category": "unknown",
+                  "receiver": "config"
+                }
+              ],
+              "category": "dynamic",
+              "source": "config.cdkContextStep",
+              "dynamic": true
+            }
+          ],
+          "category": "dynamic"
+        }
+      ]
+    },
+    {
+      "name": "Build",
+      "line": 116,
+      "steps": [
+        {
+          "name": "timeout",
+          "line": 118,
+          "named": {
+            "time": 1,
+            "unit": "HOURS"
+          },
+          "body": [
+            {
+              "name": "script",
+              "line": 119,
+              "body": [
+                {
+                  "name": "configureMavenCache",
+                  "line": 120,
+                  "category": "unknown"
+                },
+                {
+                  "name": "<if>",
+                  "line": 122,
+                  "named": {
+                    "_else": [
+                      {
+                        "name": "sh",
+                        "line": 125,
+                        "args": [
+                          "./gradlew clean build -x test --no-daemon --stacktrace"
+                        ],
+                        "category": "direct"
+                      }
+                    ]
+                  },
+                  "body": [
+                    {
+                      "name": "buildStep",
+                      "line": 123,
+                      "category": "unknown",
+                      "receiver": "config"
+                    }
+                  ],
+                  "category": "dynamic",
+                  "source": "config.buildStep",
+                  "dynamic": true
+                }
+              ],
+              "category": "dynamic"
+            }
+          ],
+          "category": "direct"
+        }
+      ]
+    },
+    {
+      "name": "Pre-Deploy Cleanup",
+      "line": 132,
+      "when": {
+        "conditions": [
+          {
+            "kind": "expression",
+            "text": "config.preDeployStep != null",
+            "line": 134
+          }
+        ]
+      },
+      "steps": [
+        {
+          "name": "timeout",
+          "line": 137,
+          "named": {
+            "time": 60,
+            "unit": "MINUTES"
+          },
+          "body": [
+            {
+              "name": "dir",
+              "line": 138,
+              "args": [
+                "test"
+              ],
+              "body": [
+                {
+                  "name": "script",
+                  "line": 139,
+                  "body": [
+                    {
+                      "name": "withCredentials",
+                      "line": 140,
+                      "args": [
+                        [
+                          {
+                            "expr": "string(...)"
+                          }
+                        ]
+                      ],
+                      "named": {
+                        "bindings": [
+                          {
+                            "type": "string",
+                            "credentialsId": "migrations-test-account-id",
+                            "variable": "MIGRATIONS_TEST_ACCOUNT_ID"
+                          }
+                        ]
+                      },
+                      "body": [
+                        {
+                          "name": "withAWS",
+                          "line": 141,
+                          "named": {
+                            "role": "JenkinsDeploymentRole",
+                            "roleAccount": "${MIGRATIONS_TEST_ACCOUNT_ID}",
+                            "duration": 5400,
+                            "roleSessionName": "jenkins-session"
+                          },
+                          "body": [
+                            {
+                              "name": "preDeployStep",
+                              "line": 142,
+                              "named": {
+                                "stage": "stage",
+                                "sourceContextFileName": "source_context_file_name",
+                                "migrationContextFileName": "migration_context_file_name",
+                                "sourceContextId": "source_context_id",
+                                "migrationContextId": "migration_context_id"
+                              },
+                              "category": "unknown",
+                              "receiver": "config",
+                              "dynamic": true
+                            }
+                          ],
+                          "category": "policy",
+                          "dynamic": true
+                        }
+                      ],
+                      "category": "policy",
+                      "dynamic": true
+                    }
+                  ],
+                  "category": "dynamic"
+                }
+              ],
+              "category": "direct"
+            }
+          ],
+          "category": "direct"
+        }
+      ]
+    },
+    {
+      "name": "Deploy",
+      "line": 157,
+      "steps": [
+        {
+          "name": "timeout",
+          "line": 159,
+          "named": {
+            "time": 90,
+            "unit": "MINUTES"
+          },
+          "body": [
+            {
+              "name": "dir",
+              "line": 160,
+              "args": [
+                "test"
+              ],
+              "body": [
+                {
+                  "name": "script",
+                  "line": 161,
+                  "body": [
+                    {
+                      "name": "<if>",
+                      "line": 163,
+                      "named": {
+                        "_else": [
+                          {
+                            "name": "echo",
+                            "line": 166,
+                            "args": [
+                              "Acquired deployment stage: ${stage}"
+                            ],
+                            "category": "direct",
+                            "dynamic": true
+                          },
+                          {
+                            "name": "<decl>",
+                            "line": 167,
+                            "named": {
+                              "_target": "baseCommand"
+                            },
+                            "category": "dynamic",
+                            "source": "baseCommand = ./awsE2ESolutionSetup.sh --source-context-file './$source_context_file_name' --migration-context-file './$migration_context_file_name' --source-context-id $source_context_id --migration-context-id $migration_context_id --stage ${stage}",
+                            "dynamic": true
+                          },
+                          {
+                            "name": "withCredentials",
+                            "line": 172,
+                            "args": [
+                              [
+                                {
+                                  "expr": "string(...)"
+                                }
+                              ]
+                            ],
+                            "named": {
+                              "bindings": [
+                                {
+                                  "type": "string",
+                                  "credentialsId": "migrations-test-account-id",
+                                  "variable": "MIGRATIONS_TEST_ACCOUNT_ID"
+                                }
+                              ]
+                            },
+                            "body": [
+                              {
+                                "name": "withAWS",
+                                "line": 173,
+                                "named": {
+                                  "role": "JenkinsDeploymentRole",
+                                  "roleAccount": "${MIGRATIONS_TEST_ACCOUNT_ID}",
+                                  "duration": 5400,
+                                  "roleSessionName": "jenkins-session"
+                                },
+                                "body": [
+                                  {
+                                    "name": "withEnv",
+                                    "line": 174,
+                                    "args": [
+                                      [
+                                        {
+                                          "expr": "DOCKER_BUILD_RETRIES=${config.dockerBuildRetries ?: 3}"
+                                        }
+                                      ]
+                                    ],
+                                    "body": [
+                                      {
+                                        "name": "sh",
+                                        "line": 175,
+                                        "args": [
+                                          "baseCommand"
+                                        ],
+                                        "category": "direct",
+                                        "dynamic": true,
+                                        "variable_args": [
+                                          0
+                                        ]
+                                      }
+                                    ],
+                                    "category": "direct",
+                                    "dynamic": true
+                                  }
+                                ],
+                                "category": "policy",
+                                "dynamic": true
+                              }
+                            ],
+                            "category": "policy",
+                            "dynamic": true
+                          }
+                        ]
+                      },
+                      "body": [
+                        {
+                          "name": "deployStep",
+                          "line": 164,
+                          "category": "unknown",
+                          "receiver": "config"
+                        }
+                      ],
+                      "category": "dynamic",
+                      "source": "config.deployStep",
+                      "dynamic": true
+                    }
+                  ],
+                  "category": "dynamic"
+                }
+              ],
+              "category": "direct"
+            }
+          ],
+          "category": "direct"
+        }
+      ]
+    },
+    {
+      "name": "Pre-Integ Test Cleanup",
+      "line": 186,
+      "steps": [
+        {
+          "name": "timeout",
+          "line": 188,
+          "named": {
+            "time": 10,
+            "unit": "MINUTES"
+          },
+          "body": [
+            {
+              "name": "dir",
+              "line": 189,
+              "args": [
+                "test"
+              ],
+              "body": [
+                {
+                  "name": "script",
+                  "line": 190,
+                  "body": [
+                    {
+                      "name": "<if>",
+                      "line": 191,
+                      "body": [
+                        {
+                          "name": "withCredentials",
+                          "line": 192,
+                          "args": [
+                            [
+                              {
+                                "expr": "string(...)"
+                              }
+                            ]
+                          ],
+                          "named": {
+                            "bindings": [
+                              {
+                                "type": "string",
+                                "credentialsId": "migrations-test-account-id",
+                                "variable": "MIGRATIONS_TEST_ACCOUNT_ID"
+                              }
+                            ]
+                          },
+                          "body": [
+                            {
+                              "name": "withAWS",
+                              "line": 193,
+                              "named": {
+                                "role": "JenkinsDeploymentRole",
+                                "roleAccount": "${MIGRATIONS_TEST_ACCOUNT_ID}",
+                                "duration": 3600,
+                                "roleSessionName": "jenkins-session"
+                              },
+                              "body": [
+                                {
+                                  "name": "preIntegTestStep",
+                                  "line": 194,
+                                  "args": [
+                                    "stage"
+                                  ],
+                                  "category": "unknown",
+                                  "receiver": "config",
+                                  "dynamic": true,
+                                  "variable_args": [
+                                    0
+                                  ]
+                                }
+                              ],
+                              "category": "policy",
+                              "dynamic": true
+                            }
+                          ],
+                          "category": "policy",
+                          "dynamic": true
+                        }
+                      ],
+                      "category": "dynamic",
+                      "source": "config.preIntegTestStep",
+                      "dynamic": true
+                    }
+                  ],
+                  "category": "dynamic"
+                }
+              ],
+              "category": "direct"
+            }
+          ],
+          "category": "direct"
+        }
+      ]
+    },
+    {
+      "name": "Integ Tests",
+      "line": 204,
+      "steps": [
+        {
+          "name": "timeout",
+          "line": 206,
+          "named": {
+            "time": 1,
+            "unit": "HOURS"
+          },
+          "body": [
+            {
+              "name": "dir",
+              "line": 207,
+              "args": [
+                "test"
+              ],
+              "body": [
+                {
+                  "name": "script",
+                  "line": 208,
+                  "body": [
+                    {
+                      "name": "<if>",
+                      "line": 210,
+                      "named": {
+                        "_else": [
+                          {
+                            "name": "<decl>",
+                            "line": 213,
+                            "named": {
+                              "_target": "test_result_file"
+                            },
+                            "category": "dynamic",
+                            "source": "test_result_file = ${testDir}/reports/${testUniqueId}/report.xml",
+                            "dynamic": true
+                          },
+                          {
+                            "name": "<decl>",
+                            "line": 214,
+                            "named": {
+                              "_target": "populatedIntegTestCommand"
+                            },
+                            "body": [
+                              {
+                                "name": "replaceAll",
+                                "line": 214,
+                                "args": [
+                                  "<STAGE>",
+                                  "stage"
+                                ],
+                                "category": "groovy",
+                                "receiver": "integTestCommand",
+                                "dynamic": true,
+                                "variable_args": [
+                                  1
+                                ]
+                              }
+                            ],
+                            "category": "dynamic",
+                            "source": "populatedIntegTestCommand = integTestCommand.replaceAll(...)",
+                            "dynamic": true
+                          },
+                          {
+                            "name": "<decl>",
+                            "line": 215,
+                            "named": {
+                              "_target": "command"
+                            },
+                            "category": "dynamic",
+                            "source": "command = pipenv run pytest --log-file=${testDir}/reports/${testUniqueId}/pytest.log --junitxml=${test_result_file} ${populatedIntegTestCommand} --unique_id ${testUniqueId} --stage ${stage} -s",
+                            "dynamic": true
+                          },
+                          {
+                            "name": "withCredentials",
+                            "line": 220,
+                            "args": [
+                              [
+                                {
+                                  "expr": "string(...)"
+                                }
+                              ]
+                            ],
+                            "named": {
+                              "bindings": [
+                                {
+                                  "type": "string",
+                                  "credentialsId": "migrations-test-account-id",
+                                  "variable": "MIGRATIONS_TEST_ACCOUNT_ID"
+                                }
+                              ]
+                            },
+                            "body": [
+                              {
+                                "name": "withAWS",
+                                "line": 221,
+                                "named": {
+                                  "role": "JenkinsDeploymentRole",
+                                  "roleAccount": "${MIGRATIONS_TEST_ACCOUNT_ID}",
+                                  "duration": 3600,
+                                  "roleSessionName": "jenkins-session"
+                                },
+                                "body": [
+                                  {
+                                    "name": "sh",
+                                    "line": 222,
+                                    "args": [
+                                      "./awsRunIntegTests.sh --command '${command}' --test-result-file ${test_result_file} --stage ${stage}"
+                                    ],
+                                    "category": "direct",
+                                    "dynamic": true
+                                  }
+                                ],
+                                "category": "policy",
+                                "dynamic": true
+                              }
+                            ],
+                            "category": "policy",
+                            "dynamic": true
+                          }
+                        ]
+                      },
+                      "body": [
+                        {
+                          "name": "integTestStep",
+                          "line": 211,
+                          "category": "unknown",
+                          "receiver": "config"
+                        }
+                      ],
+                      "category": "dynamic",
+                      "source": "config.integTestStep",
+                      "dynamic": true
+                    }
+                  ],
+                  "category": "dynamic"
+                }
+              ],
+              "category": "direct"
+            }
+          ],
+          "category": "direct"
+        }
+      ]
+    }
+  ],
+  "post": {
+    "always": [
+      {
+        "name": "timeout",
+        "line": 236,
+        "named": {
+          "time": 10,
+          "unit": "MINUTES"
+        },
+        "body": [
+          {
+            "name": "dir",
+            "line": 237,
+            "args": [
+              "test"
+            ],
+            "body": [
+              {
+                "name": "script",
+                "line": 238,
+                "body": [
+                  {
+                    "name": "<if>",
+                    "line": 240,
+                    "named": {
+                      "_else": [
+                        {
+                          "name": "sh",
+                          "line": 243,
+                          "args": [
+                            "echo 'Default post step performs no actions'"
+                          ],
+                          "category": "direct"
+                        }
+                      ]
+                    },
+                    "body": [
+                      {
+                        "name": "finishStep",
+                        "line": 241,
+                        "category": "unknown",
+                        "receiver": "config"
+                      }
+                    ],
+                    "category": "dynamic",
+                    "source": "config.finishStep",
+                    "dynamic": true
+                  }
+                ],
+                "category": "dynamic"
+              }
+            ],
+            "category": "direct"
+          }
+        ],
+        "category": "direct"
+      }
+    ],
+    "cleanup": [
+      {
+        "name": "cleanupMavenCache",
+        "line": 250,
+        "category": "unknown"
+      }
+    ]
+  },
+  "methods": [
+    "call"
+  ],
+  "notes": [
+    "pipeline {} is defined inside shared-library method 'call()'"
+  ]
+}

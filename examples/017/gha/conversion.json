@@ -1,0 +1,1545 @@
+{
+  "counts": {
+    "mapped": 26,
+    "approximated": 54,
+    "manual": 100,
+    "info": 1,
+    "dropped": 3
+  },
+  "automation_pct": 33.2,
+  "items": [
+    {
+      "jenkins": "options: disableConcurrentBuilds",
+      "line": null,
+      "stage": null,
+      "status": "mapped",
+      "gha": "concurrency",
+      "note": "GHA keeps only the latest pending run per group"
+    },
+    {
+      "jenkins": "post always",
+      "line": null,
+      "stage": null,
+      "status": "mapped",
+      "gha": "final job if: always()",
+      "note": ""
+    },
+    {
+      "jenkins": "post failure",
+      "line": null,
+      "stage": null,
+      "status": "mapped",
+      "gha": "final job if: always() && (contains(needs.*.result, 'failure') || failure())",
+      "note": ""
+    },
+    {
+      "jenkins": "dir",
+      "line": 214,
+      "stage": "Init: TF deployment bucket",
+      "status": "mapped",
+      "gha": "working-directory",
+      "note": ""
+    },
+    {
+      "jenkins": "dir",
+      "line": 252,
+      "stage": "Init: Verify environment",
+      "status": "mapped",
+      "gha": "working-directory",
+      "note": ""
+    },
+    {
+      "jenkins": "dir",
+      "line": 322,
+      "stage": "Build: CVR frontend",
+      "status": "mapped",
+      "gha": "working-directory",
+      "note": ""
+    },
+    {
+      "jenkins": "deleteDir",
+      "line": 323,
+      "stage": "Build: CVR frontend",
+      "status": "mapped",
+      "gha": "run: workspace cleanup",
+      "note": "runners are ephemeral; kept for parity"
+    },
+    {
+      "jenkins": "dir",
+      "line": 335,
+      "stage": "Build: CVR frontend",
+      "status": "mapped",
+      "gha": "working-directory",
+      "note": ""
+    },
+    {
+      "jenkins": "dir",
+      "line": 355,
+      "stage": "Build: CVR backend",
+      "status": "mapped",
+      "gha": "working-directory",
+      "note": ""
+    },
+    {
+      "jenkins": "deleteDir",
+      "line": 356,
+      "stage": "Build: CVR backend",
+      "status": "mapped",
+      "gha": "run: workspace cleanup",
+      "note": "runners are ephemeral; kept for parity"
+    },
+    {
+      "jenkins": "dir",
+      "line": 368,
+      "stage": "Build: CVR backend",
+      "status": "mapped",
+      "gha": "working-directory",
+      "note": ""
+    },
+    {
+      "jenkins": "dir",
+      "line": 387,
+      "stage": "Build: frontend assets",
+      "status": "mapped",
+      "gha": "working-directory",
+      "note": ""
+    },
+    {
+      "jenkins": "deleteDir",
+      "line": 388,
+      "stage": "Build: frontend assets",
+      "status": "mapped",
+      "gha": "run: workspace cleanup",
+      "note": "runners are ephemeral; kept for parity"
+    },
+    {
+      "jenkins": "dir",
+      "line": 401,
+      "stage": "Build: frontend assets",
+      "status": "mapped",
+      "gha": "working-directory",
+      "note": ""
+    },
+    {
+      "jenkins": "dir",
+      "line": 402,
+      "stage": "Build: frontend assets",
+      "status": "mapped",
+      "gha": "working-directory",
+      "note": ""
+    },
+    {
+      "jenkins": "dir",
+      "line": 454,
+      "stage": "Build: CVR data update module",
+      "status": "mapped",
+      "gha": "working-directory",
+      "note": ""
+    },
+    {
+      "jenkins": "deleteDir",
+      "line": 455,
+      "stage": "Build: CVR data update module",
+      "status": "mapped",
+      "gha": "run: workspace cleanup",
+      "note": "runners are ephemeral; kept for parity"
+    },
+    {
+      "jenkins": "dir",
+      "line": 467,
+      "stage": "Build: CVR data update module",
+      "status": "mapped",
+      "gha": "working-directory",
+      "note": ""
+    },
+    {
+      "jenkins": "dir",
+      "line": 492,
+      "stage": "Deploy: Upload CVR frontend package",
+      "status": "mapped",
+      "gha": "working-directory",
+      "note": ""
+    },
+    {
+      "jenkins": "dir",
+      "line": 511,
+      "stage": "Deploy: Upload CVR backend package",
+      "status": "mapped",
+      "gha": "working-directory",
+      "note": ""
+    },
+    {
+      "jenkins": "dir",
+      "line": 530,
+      "stage": "Deploy: Upload CVR data update package",
+      "status": "mapped",
+      "gha": "working-directory",
+      "note": ""
+    },
+    {
+      "jenkins": "dir",
+      "line": 549,
+      "stage": "Deploy: Terraform CVR",
+      "status": "mapped",
+      "gha": "working-directory",
+      "note": ""
+    },
+    {
+      "jenkins": "dir",
+      "line": 642,
+      "stage": "Deploy: Upload CVR frontend assets",
+      "status": "mapped",
+      "gha": "working-directory",
+      "note": ""
+    },
+    {
+      "jenkins": "dir",
+      "line": 647,
+      "stage": "Deploy: Upload CVR frontend assets",
+      "status": "mapped",
+      "gha": "working-directory",
+      "note": ""
+    },
+    {
+      "jenkins": "dir",
+      "line": 692,
+      "stage": "Load test data to DB",
+      "status": "mapped",
+      "gha": "working-directory",
+      "note": ""
+    },
+    {
+      "jenkins": "dir",
+      "line": 700,
+      "stage": "Load test data to DB",
+      "status": "mapped",
+      "gha": "working-directory",
+      "note": ""
+    },
+    {
+      "jenkins": "options: ansiColor",
+      "line": null,
+      "stage": null,
+      "status": "dropped",
+      "gha": "-",
+      "note": "native in GitHub Actions"
+    },
+    {
+      "jenkins": "options: timestamps",
+      "line": null,
+      "stage": null,
+      "status": "dropped",
+      "gha": "-",
+      "note": "native in GitHub Actions"
+    },
+    {
+      "jenkins": "options: timeout",
+      "line": null,
+      "stage": null,
+      "status": "approximated",
+      "gha": "timeout-minutes: 60 (per job)",
+      "note": "Jenkins timeout covers the whole pipeline"
+    },
+    {
+      "jenkins": "options: buildDiscarder",
+      "line": null,
+      "stage": null,
+      "status": "dropped",
+      "gha": "-",
+      "note": "use artifact retention-days / repo settings"
+    },
+    {
+      "jenkins": "agent label '${jenkinsCtrlNodeLabel} && ${account}'",
+      "line": 173,
+      "stage": "Init",
+      "status": "approximated",
+      "gha": "runs-on: ubuntu-latest",
+      "note": "use a self-hosted runner label if the agent provides special tooling/network"
+    },
+    {
+      "jenkins": "stage 'Init: Check DB data completion' when",
+      "line": 176,
+      "stage": "Init: Check DB data completion",
+      "status": "approximated",
+      "gha": "if: env.action == 'apply'",
+      "note": "evaluated once at stage entry against env"
+    },
+    {
+      "jenkins": "script {}",
+      "line": 178,
+      "stage": "Init: Check DB data completion",
+      "status": "approximated",
+      "gha": "inner steps translated individually",
+      "note": "imperative Groovy is not executed; review control flow"
+    },
+    {
+      "jenkins": "if (params.force_reload_data == 'true')",
+      "line": 180,
+      "stage": "Init: Check DB data completion",
+      "status": "approximated",
+      "gha": "if: env.force_reload_data == 'true'",
+      "note": ""
+    },
+    {
+      "jenkins": "destroyExistingDbTables() (local helper method)",
+      "line": 182,
+      "stage": "Init: Check DB data completion",
+      "status": "approximated",
+      "gha": "inlined",
+      "note": "body of the Jenkinsfile helper method inlined with params substituted"
+    },
+    {
+      "jenkins": "isAnyDbTableMissing() (local helper method)",
+      "line": 184,
+      "stage": "Init: Check DB data completion",
+      "status": "approximated",
+      "gha": "inlined",
+      "note": "body of the Jenkinsfile helper method inlined with params substituted"
+    },
+    {
+      "jenkins": "script {}",
+      "line": 191,
+      "stage": "Init: TF deployment bucket",
+      "status": "approximated",
+      "gha": "inner steps translated individually",
+      "note": "imperative Groovy is not executed; review control flow"
+    },
+    {
+      "jenkins": "wrap",
+      "line": 192,
+      "stage": "Init: TF deployment bucket",
+      "status": "approximated",
+      "gha": "body inlined",
+      "note": "wrapper semantics not reproduced"
+    },
+    {
+      "jenkins": "getAwsFunctions() (local helper method)",
+      "line": 193,
+      "stage": "Init: TF deployment bucket",
+      "status": "approximated",
+      "gha": "inlined",
+      "note": "body of the Jenkinsfile helper method inlined"
+    },
+    {
+      "jenkins": "decl releaseTimestamp = sh(script: 'date +%Y%m%d%H%M%S'",
+      "line": 202,
+      "stage": "Init: TF deployment bucket",
+      "status": "approximated",
+      "gha": "run step (captured output not propagated)",
+      "note": "write values to $GITHUB_OUTPUT/$GITHUB_ENV"
+    },
+    {
+      "jenkins": "sh",
+      "line": 202,
+      "stage": "Init: TF deployment bucket",
+      "status": "approximated",
+      "gha": "run",
+      "note": "Groovy interpolation of non-env values needs review"
+    },
+    {
+      "jenkins": "stage 'Init: Verify environment' when",
+      "line": 239,
+      "stage": "Init: Verify environment",
+      "status": "approximated",
+      "gha": "if: env.action != 'destroy'",
+      "note": "evaluated once at stage entry against env"
+    },
+    {
+      "jenkins": "script {}",
+      "line": 242,
+      "stage": "Init: Verify environment",
+      "status": "approximated",
+      "gha": "inner steps translated individually",
+      "note": "imperative Groovy is not executed; review control flow"
+    },
+    {
+      "jenkins": "getOutputOrFail() (local helper method)",
+      "line": 253,
+      "stage": "Init: Verify environment",
+      "status": "approximated",
+      "gha": "inlined",
+      "note": "body of the Jenkinsfile helper method inlined with output, messageOnFailure substituted"
+    },
+    {
+      "jenkins": "getOutputOrFail() (local helper method)",
+      "line": 256,
+      "stage": "Init: Verify environment",
+      "status": "approximated",
+      "gha": "inlined",
+      "note": "body of the Jenkinsfile helper method inlined with output, messageOnFailure substituted"
+    },
+    {
+      "jenkins": "getOutputOrFail() (local helper method)",
+      "line": 259,
+      "stage": "Init: Verify environment",
+      "status": "approximated",
+      "gha": "inlined",
+      "note": "body of the Jenkinsfile helper method inlined with output, messageOnFailure substituted"
+    },
+    {
+      "jenkins": "getOutputOrFail() (local helper method)",
+      "line": 262,
+      "stage": "Init: Verify environment",
+      "status": "approximated",
+      "gha": "inlined",
+      "note": "body of the Jenkinsfile helper method inlined with output, messageOnFailure substituted"
+    },
+    {
+      "jenkins": "getAwsFunctions() (local helper method)",
+      "line": 267,
+      "stage": "Init: Verify environment",
+      "status": "approximated",
+      "gha": "inlined",
+      "note": "body of the Jenkinsfile helper method inlined"
+    },
+    {
+      "jenkins": "stage 'Build' failFast",
+      "line": 313,
+      "stage": "Build",
+      "status": "approximated",
+      "gha": "-",
+      "note": "GHA cannot cancel sibling jobs outside a matrix; consider strategy.fail-fast"
+    },
+    {
+      "jenkins": "stage 'Build' parallel (4 branches)",
+      "line": 313,
+      "stage": "Build",
+      "status": "approximated",
+      "gha": "parallel jobs with needs",
+      "note": "branches and later stages no longer share the workspace: files made by earlier stages are not available (add stash/unstash or artifacts)"
+    },
+    {
+      "jenkins": "stage 'Build' when",
+      "line": 314,
+      "stage": "Build",
+      "status": "approximated",
+      "gha": "if: env.action == 'apply'",
+      "note": "evaluated once at stage entry against env"
+    },
+    {
+      "jenkins": "agent label '${jenkinsBuildLabel} && ${account}'",
+      "line": 319,
+      "stage": "Build / Build: CVR frontend",
+      "status": "approximated",
+      "gha": "runs-on: ubuntu-latest",
+      "note": "use a self-hosted runner label if the agent provides special tooling/network"
+    },
+    {
+      "jenkins": "script {}",
+      "line": 321,
+      "stage": "Build: CVR frontend",
+      "status": "approximated",
+      "gha": "inner steps translated individually",
+      "note": "imperative Groovy is not executed; review control flow"
+    },
+    {
+      "jenkins": "getRevisionFromArtifactName() (local helper method)",
+      "line": 336,
+      "stage": "Build: CVR frontend",
+      "status": "approximated",
+      "gha": "inlined",
+      "note": "body of the Jenkinsfile helper method inlined with artifactName substituted"
+    },
+    {
+      "jenkins": "agent label '${jenkinsBuildLabel} && ${account}'",
+      "line": 352,
+      "stage": "Build / Build: CVR backend",
+      "status": "approximated",
+      "gha": "runs-on: ubuntu-latest",
+      "note": "use a self-hosted runner label if the agent provides special tooling/network"
+    },
+    {
+      "jenkins": "script {}",
+      "line": 354,
+      "stage": "Build: CVR backend",
+      "status": "approximated",
+      "gha": "inner steps translated individually",
+      "note": "imperative Groovy is not executed; review control flow"
+    },
+    {
+      "jenkins": "getRevisionFromArtifactName() (local helper method)",
+      "line": 369,
+      "stage": "Build: CVR backend",
+      "status": "approximated",
+      "gha": "inlined",
+      "note": "body of the Jenkinsfile helper method inlined with artifactName substituted"
+    },
+    {
+      "jenkins": "agent label '${jenkinsBuildLabel} && ${account}'",
+      "line": 384,
+      "stage": "Build / Build: frontend assets",
+      "status": "approximated",
+      "gha": "runs-on: ubuntu-latest",
+      "note": "use a self-hosted runner label if the agent provides special tooling/network"
+    },
+    {
+      "jenkins": "script {}",
+      "line": 386,
+      "stage": "Build: frontend assets",
+      "status": "approximated",
+      "gha": "inner steps translated individually",
+      "note": "imperative Groovy is not executed; review control flow"
+    },
+    {
+      "jenkins": "agent label '${jenkinsBuildLabel} && ${account}'",
+      "line": 451,
+      "stage": "Build / Build: CVR data update module",
+      "status": "approximated",
+      "gha": "runs-on: ubuntu-latest",
+      "note": "use a self-hosted runner label if the agent provides special tooling/network"
+    },
+    {
+      "jenkins": "script {}",
+      "line": 453,
+      "stage": "Build: CVR data update module",
+      "status": "approximated",
+      "gha": "inner steps translated individually",
+      "note": "imperative Groovy is not executed; review control flow"
+    },
+    {
+      "jenkins": "getRevisionFromArtifactName() (local helper method)",
+      "line": 468,
+      "stage": "Build: CVR data update module",
+      "status": "approximated",
+      "gha": "inlined",
+      "note": "body of the Jenkinsfile helper method inlined with artifactName substituted"
+    },
+    {
+      "jenkins": "script {}",
+      "line": 491,
+      "stage": "Deploy: Upload CVR frontend package",
+      "status": "approximated",
+      "gha": "inner steps translated individually",
+      "note": "imperative Groovy is not executed; review control flow"
+    },
+    {
+      "jenkins": "script {}",
+      "line": 510,
+      "stage": "Deploy: Upload CVR backend package",
+      "status": "approximated",
+      "gha": "inner steps translated individually",
+      "note": "imperative Groovy is not executed; review control flow"
+    },
+    {
+      "jenkins": "script {}",
+      "line": 529,
+      "stage": "Deploy: Upload CVR data update package",
+      "status": "approximated",
+      "gha": "inner steps translated individually",
+      "note": "imperative Groovy is not executed; review control flow"
+    },
+    {
+      "jenkins": "script {}",
+      "line": 547,
+      "stage": "Deploy: Terraform CVR",
+      "status": "approximated",
+      "gha": "inner steps translated individually",
+      "note": "imperative Groovy is not executed; review control flow"
+    },
+    {
+      "jenkins": "stage 'Deploy: Upload CVR frontend assets' when",
+      "line": 603,
+      "stage": "Deploy: Upload CVR frontend assets",
+      "status": "approximated",
+      "gha": "if: env.action == 'apply'",
+      "note": "evaluated once at stage entry against env"
+    },
+    {
+      "jenkins": "script {}",
+      "line": 606,
+      "stage": "Deploy: Upload CVR frontend assets",
+      "status": "approximated",
+      "gha": "inner steps translated individually",
+      "note": "imperative Groovy is not executed; review control flow"
+    },
+    {
+      "jenkins": "stage 'Deploy: Manifest' when",
+      "line": 658,
+      "stage": "Deploy: Manifest",
+      "status": "approximated",
+      "gha": "if: env.action == 'apply'",
+      "note": "evaluated once at stage entry against env"
+    },
+    {
+      "jenkins": "script {}",
+      "line": 660,
+      "stage": "Deploy: Manifest",
+      "status": "approximated",
+      "gha": "inner steps translated individually",
+      "note": "imperative Groovy is not executed; review control flow"
+    },
+    {
+      "jenkins": "agent label '${jenkinsBuildLabel} && ${account}'",
+      "line": 680,
+      "stage": "Load test data to DB",
+      "status": "approximated",
+      "gha": "runs-on: ubuntu-latest",
+      "note": "use a self-hosted runner label if the agent provides special tooling/network"
+    },
+    {
+      "jenkins": "script {}",
+      "line": 682,
+      "stage": "Load test data to DB",
+      "status": "approximated",
+      "gha": "inner steps translated individually",
+      "note": "imperative Groovy is not executed; review control flow"
+    },
+    {
+      "jenkins": "agent label '${jenkinsCtrlNodeLabel} && ${account}'",
+      "line": 714,
+      "stage": "Tests",
+      "status": "approximated",
+      "gha": "runs-on: ubuntu-latest",
+      "note": "use a self-hosted runner label if the agent provides special tooling/network"
+    },
+    {
+      "jenkins": "stage 'Tests' when",
+      "line": 715,
+      "stage": "Tests",
+      "status": "approximated",
+      "gha": "if: env.action == 'apply' && env.skip_tests != 'true'",
+      "note": "evaluated once at stage entry against env"
+    },
+    {
+      "jenkins": "script {}",
+      "line": 717,
+      "stage": "Tests",
+      "status": "approximated",
+      "gha": "inner steps translated individually",
+      "note": "imperative Groovy is not executed; review control flow"
+    },
+    {
+      "jenkins": "sh",
+      "line": 719,
+      "stage": "Tests",
+      "status": "approximated",
+      "gha": "run",
+      "note": "Groovy interpolation of non-env values needs review"
+    },
+    {
+      "jenkins": "node (in steps)",
+      "line": 773,
+      "stage": "Declarative: Post Actions",
+      "status": "approximated",
+      "gha": "inlined",
+      "note": "nested agent allocation flattened"
+    },
+    {
+      "jenkins": "script {}",
+      "line": 774,
+      "stage": "Declarative: Post Actions",
+      "status": "approximated",
+      "gha": "inner steps translated individually",
+      "note": "imperative Groovy is not executed; review control flow"
+    },
+    {
+      "jenkins": "if (params.clean_workspace == \"true\")",
+      "line": 775,
+      "stage": "Declarative: Post Actions",
+      "status": "approximated",
+      "gha": "if: env.clean_workspace == 'true'",
+      "note": ""
+    },
+    {
+      "jenkins": "node (in steps)",
+      "line": 789,
+      "stage": "Declarative: Post Actions",
+      "status": "approximated",
+      "gha": "inlined",
+      "note": "nested agent allocation flattened"
+    },
+    {
+      "jenkins": "script {}",
+      "line": 790,
+      "stage": "Declarative: Post Actions",
+      "status": "approximated",
+      "gha": "inner steps translated individually",
+      "note": "imperative Groovy is not executed; review control flow"
+    },
+    {
+      "jenkins": "if (params.clean_workspace == \"true\")",
+      "line": 791,
+      "stage": "Declarative: Post Actions",
+      "status": "approximated",
+      "gha": "if: env.clean_workspace == 'true'",
+      "note": ""
+    },
+    {
+      "jenkins": "script {}",
+      "line": 802,
+      "stage": "Declarative: Post Actions",
+      "status": "approximated",
+      "gha": "inner steps translated individually",
+      "note": "imperative Groovy is not executed; review control flow"
+    },
+    {
+      "jenkins": "return ()",
+      "line": 66,
+      "stage": "Init: TF deployment bucket",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "Groovy control flow requires manual migration"
+    },
+    {
+      "jenkins": "info",
+      "line": 85,
+      "stage": "Build: CVR frontend",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "return ()",
+      "line": 86,
+      "stage": "Build: CVR frontend",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "Groovy control flow requires manual migration"
+    },
+    {
+      "jenkins": "if (output.status)",
+      "line": 90,
+      "stage": "Init: Verify environment",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "return ()",
+      "line": 95,
+      "stage": "Init: Verify environment",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "Groovy control flow requires manual migration"
+    },
+    {
+      "jenkins": "decl isAnyTableMissing = False",
+      "line": 122,
+      "stage": "Init: Check DB data completion",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "for (getDbTables(params))",
+      "line": 124,
+      "stage": "Init: Check DB data completion",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "Groovy control flow requires manual migration"
+    },
+    {
+      "jenkins": "info",
+      "line": 130,
+      "stage": "Init: Check DB data completion",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "return ()",
+      "line": 131,
+      "stage": "Init: Check DB data completion",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "Groovy control flow requires manual migration"
+    },
+    {
+      "jenkins": "for (getDbTables(params))",
+      "line": 135,
+      "stage": "Init: Check DB data completion",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "Groovy control flow requires manual migration"
+    },
+    {
+      "jenkins": "assign shouldLoadDbData = False",
+      "line": 179,
+      "stage": "Init: Check DB data completion",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "info",
+      "line": 181,
+      "stage": "Init: Check DB data completion",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "assign shouldLoadDbData = isAnyDbTableMissing(...)",
+      "line": 184,
+      "stage": "Init: Check DB data completion",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment from a step"
+    },
+    {
+      "jenkins": "assign buildUser = env.BUILD_USER ",
+      "line": 192,
+      "stage": "Init: TF deployment bucket",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "decl output = getAwsFunctions().awsCli(...)",
+      "line": 193,
+      "stage": "Init: TF deployment bucket",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment from a step"
+    },
+    {
+      "jenkins": "if (output.status)",
+      "line": 196,
+      "stage": "Init: TF deployment bucket",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "assign accountId = output.stdout.trim(...)",
+      "line": 200,
+      "stage": "Init: TF deployment bucket",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment from a step"
+    },
+    {
+      "jenkins": "trim",
+      "line": 200,
+      "stage": "Init: TF deployment bucket",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy method / helper call - port logic to a script"
+    },
+    {
+      "jenkins": "assign projectBucketPrefix = ${project}-${accountId}-${gl",
+      "line": 201,
+      "stage": "Init: TF deployment bucket",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "assign manifestVersion = ${releaseTimestamp}_${env.BUILD_",
+      "line": 203,
+      "stage": "Init: TF deployment bucket",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "assign currentBuild.description = CVR ${params.action} <b",
+      "line": 204,
+      "stage": "Init: TF deployment bucket",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "if (!repoFunctionsFactory.checkoutGitRepo(\n           )",
+      "line": 205,
+      "stage": "Init: TF deployment bucket",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "if (getAwsFunctions().terraformScaffold(\n             )",
+      "line": 215,
+      "stage": "Init: TF deployment bucket",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "if (!repoFunctionsFactory.checkoutGitRepo(\n           )",
+      "line": 243,
+      "stage": "Init: Verify environment",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "decl backendRevision = getOutputOrFail(...)",
+      "line": 253,
+      "stage": "Init: Verify environment",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment from a step"
+    },
+    {
+      "jenkins": "decl frontendRevision = getOutputOrFail(...)",
+      "line": 256,
+      "stage": "Init: Verify environment",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment from a step"
+    },
+    {
+      "jenkins": "decl commonsRevision = getOutputOrFail(...)",
+      "line": 259,
+      "stage": "Init: Verify environment",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment from a step"
+    },
+    {
+      "jenkins": "decl dataUpdateRevision = getOutputOrFail(...)",
+      "line": 262,
+      "stage": "Init: Verify environment",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment from a step"
+    },
+    {
+      "jenkins": "decl isNewCommonsRevision = True",
+      "line": 265,
+      "stage": "Init: Verify environment",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "decl manifestsListing = getAwsFunctions().awsCli(...)",
+      "line": 267,
+      "stage": "Init: Verify environment",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment from a step"
+    },
+    {
+      "jenkins": "if (!manifestsListing.status && manifestsListing.stdou)",
+      "line": 268,
+      "stage": "Init: Verify environment",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "if (isNewVersion[frontendAppName])",
+      "line": 294,
+      "stage": "Init: Verify environment",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "if (isNewVersion[backendAppName])",
+      "line": 297,
+      "stage": "Init: Verify environment",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "if (isNewVersion[dataUpdateModuleName])",
+      "line": 300,
+      "stage": "Init: Verify environment",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "if (isNewCommonsRevision)",
+      "line": 303,
+      "stage": "Init: Verify environment",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "stage 'Build: CVR frontend' when",
+      "line": 318,
+      "stage": "Build: CVR frontend",
+      "status": "manual",
+      "gha": "if: vars.J2GHA_WHEN_L318 == 'true'",
+      "note": "untranslatable condition: repository variable(s) J2GHA_WHEN_L<line> stand in for it ('true'/'false'); unset, the stage runs only where it would run whatever that condition's value"
+    },
+    {
+      "jenkins": "if (!repoFunctionsFactory.checkoutGitRepo(\n           )",
+      "line": 326,
+      "stage": "Build: CVR frontend",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "decl revision = getRevisionFromArtifactName(...)",
+      "line": 336,
+      "stage": "Build: CVR frontend",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment from a step"
+    },
+    {
+      "jenkins": "info",
+      "line": 337,
+      "stage": "Build: CVR frontend",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "decl feVersion = \"${manifestVersion}_${revision}\".toStr",
+      "line": 338,
+      "stage": "Build: CVR frontend",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment from a step"
+    },
+    {
+      "jenkins": "toString",
+      "line": 338,
+      "stage": "Build: CVR frontend",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy method / helper call - port logic to a script"
+    },
+    {
+      "jenkins": "if (buildPackage(frontendAppName, feVersion))",
+      "line": 340,
+      "stage": "Build: CVR frontend",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "stage 'Build: CVR backend' when",
+      "line": 351,
+      "stage": "Build: CVR backend",
+      "status": "manual",
+      "gha": "if: vars.J2GHA_WHEN_L351 == 'true'",
+      "note": "untranslatable condition: repository variable(s) J2GHA_WHEN_L<line> stand in for it ('true'/'false'); unset, the stage runs only where it would run whatever that condition's value"
+    },
+    {
+      "jenkins": "if (!repoFunctionsFactory.checkoutGitRepo(\n           )",
+      "line": 359,
+      "stage": "Build: CVR backend",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "decl revision = getRevisionFromArtifactName(...)",
+      "line": 369,
+      "stage": "Build: CVR backend",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment from a step"
+    },
+    {
+      "jenkins": "info",
+      "line": 370,
+      "stage": "Build: CVR backend",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "decl backendVersion = \"${manifestVersion}_${revision}\".",
+      "line": 371,
+      "stage": "Build: CVR backend",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment from a step"
+    },
+    {
+      "jenkins": "toString",
+      "line": 371,
+      "stage": "Build: CVR backend",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy method / helper call - port logic to a script"
+    },
+    {
+      "jenkins": "if (buildPackage(backendAppName, backendVersion))",
+      "line": 373,
+      "stage": "Build: CVR backend",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "if (!repoFunctionsFactory.checkoutGitRepo(\n           )",
+      "line": 391,
+      "stage": "Build: frontend assets",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "decl assetsVersion = null",
+      "line": 400,
+      "stage": "Build: frontend assets",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "assign assetsVersion = readFile(...)",
+      "line": 403,
+      "stage": "Build: frontend assets",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment from a step"
+    },
+    {
+      "jenkins": "readFile",
+      "line": 403,
+      "stage": "Build: frontend assets",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "policy step with no deterministic mapping"
+    },
+    {
+      "jenkins": "if (!assetsVersion)",
+      "line": 404,
+      "stage": "Build: frontend assets",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "info",
+      "line": 409,
+      "stage": "Build: frontend assets",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "if (!repoFunctionsFactory.checkoutGitRepo(\n           )",
+      "line": 411,
+      "stage": "Build: frontend assets",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "stage 'Build: CVR data update module' when",
+      "line": 450,
+      "stage": "Build: CVR data update module",
+      "status": "manual",
+      "gha": "if: vars.J2GHA_WHEN_L450 == 'true'",
+      "note": "untranslatable condition: repository variable(s) J2GHA_WHEN_L<line> stand in for it ('true'/'false'); unset, the stage runs only where it would run whatever that condition's value"
+    },
+    {
+      "jenkins": "if (!repoFunctionsFactory.checkoutGitRepo(\n           )",
+      "line": 458,
+      "stage": "Build: CVR data update module",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "decl revision = getRevisionFromArtifactName(...)",
+      "line": 468,
+      "stage": "Build: CVR data update module",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment from a step"
+    },
+    {
+      "jenkins": "info",
+      "line": 469,
+      "stage": "Build: CVR data update module",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "decl dataUpdateVersion = \"${manifestVersion}_${revision",
+      "line": 470,
+      "stage": "Build: CVR data update module",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment from a step"
+    },
+    {
+      "jenkins": "toString",
+      "line": 470,
+      "stage": "Build: CVR data update module",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy method / helper call - port logic to a script"
+    },
+    {
+      "jenkins": "if (buildPackage(dataUpdateModuleName, dataUpdateVersi)",
+      "line": 472,
+      "stage": "Build: CVR data update module",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "stage 'Deploy: Upload CVR frontend package' when",
+      "line": 488,
+      "stage": "Deploy: Upload CVR frontend package",
+      "status": "manual",
+      "gha": "if: vars.J2GHA_WHEN_L488 == 'true'",
+      "note": "untranslatable condition: repository variable(s) J2GHA_WHEN_L<line> stand in for it ('true'/'false'); unset, the stage runs only where it would run whatever that condition's value"
+    },
+    {
+      "jenkins": "if (!fileExists(frontendArtifact))",
+      "line": 493,
+      "stage": "Deploy: Upload CVR frontend package",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "info",
+      "line": 497,
+      "stage": "Deploy: Upload CVR frontend package",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "if (getAwsFunctions().copyFilesToS3(s3DeploymentBucket)",
+      "line": 498,
+      "stage": "Deploy: Upload CVR frontend package",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "stage 'Deploy: Upload CVR backend package' when",
+      "line": 507,
+      "stage": "Deploy: Upload CVR backend package",
+      "status": "manual",
+      "gha": "if: vars.J2GHA_WHEN_L507 == 'true'",
+      "note": "untranslatable condition: repository variable(s) J2GHA_WHEN_L<line> stand in for it ('true'/'false'); unset, the stage runs only where it would run whatever that condition's value"
+    },
+    {
+      "jenkins": "if (!fileExists(backendArtifact))",
+      "line": 512,
+      "stage": "Deploy: Upload CVR backend package",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "info",
+      "line": 516,
+      "stage": "Deploy: Upload CVR backend package",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "if (getAwsFunctions().copyFilesToS3(s3DeploymentBucket)",
+      "line": 517,
+      "stage": "Deploy: Upload CVR backend package",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "stage 'Deploy: Upload CVR data update package' when",
+      "line": 526,
+      "stage": "Deploy: Upload CVR data update package",
+      "status": "manual",
+      "gha": "if: vars.J2GHA_WHEN_L526 == 'true'",
+      "note": "untranslatable condition: repository variable(s) J2GHA_WHEN_L<line> stand in for it ('true'/'false'); unset, the stage runs only where it would run whatever that condition's value"
+    },
+    {
+      "jenkins": "if (!fileExists(dataUpdateArtifact))",
+      "line": 531,
+      "stage": "Deploy: Upload CVR data update package",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "info",
+      "line": 535,
+      "stage": "Deploy: Upload CVR data update package",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "if (getAwsFunctions().copyFilesToS3(s3DeploymentBucket)",
+      "line": 536,
+      "stage": "Deploy: Upload CVR data update package",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "checkoutGitRepo",
+      "line": 548,
+      "stage": "Deploy: Terraform CVR",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "decl frontendTfVar = -var lambda_frontend_s3_key=${mani",
+      "line": 550,
+      "stage": "Deploy: Terraform CVR",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "decl backendTfVar = -var lambda_backend_s3_key=${manife",
+      "line": 551,
+      "stage": "Deploy: Terraform CVR",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "decl dataUpdateTfVar = -var lambda_data_update_s3_key=$",
+      "line": 552,
+      "stage": "Deploy: Terraform CVR",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "decl tfLambdaParams = \"${frontendTfVar} ${backendTfVar}",
+      "line": 553,
+      "stage": "Deploy: Terraform CVR",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment from a step"
+    },
+    {
+      "jenkins": "toString",
+      "line": 553,
+      "stage": "Deploy: Terraform CVR",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy method / helper call - port logic to a script"
+    },
+    {
+      "jenkins": "if (getAwsFunctions().terraformScaffold(\n             )",
+      "line": 554,
+      "stage": "Deploy: Terraform CVR",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "if (isNewVersion['assets'])",
+      "line": 607,
+      "stage": "Deploy: Upload CVR frontend assets",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "if (!repoFunctionsFactory.checkoutGitRepo(\n           )",
+      "line": 634,
+      "stage": "Deploy: Upload CVR frontend assets",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "if (getAwsFunctions().copyFilesToS3(s3AssetsBucket, 'd)",
+      "line": 643,
+      "stage": "Deploy: Upload CVR frontend assets",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "if (getAwsFunctions().copyFilesToS3(s3AssetsBucket, 'e)",
+      "line": 648,
+      "stage": "Deploy: Upload CVR frontend assets",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "writeJSON",
+      "line": 661,
+      "stage": "Deploy: Manifest",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "policy step with no deterministic mapping"
+    },
+    {
+      "jenkins": "if (!fileExists(\"${env.WORKSPACE}/manifests/manifest_$)",
+      "line": 665,
+      "stage": "Deploy: Manifest",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "if (getAwsFunctions().copyFilesToS3(\"${s3DeploymentBuc)",
+      "line": 669,
+      "stage": "Deploy: Manifest",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "stage 'Load test data to DB' when",
+      "line": 679,
+      "stage": "Load test data to DB",
+      "status": "manual",
+      "gha": "if: vars.J2GHA_WHEN_L679 == 'true'",
+      "note": "untranslatable condition: repository variable(s) J2GHA_WHEN_L<line> stand in for it ('true'/'false'); unset, the stage runs only where it would run whatever that condition's value"
+    },
+    {
+      "jenkins": "if (!repoFunctionsFactory.checkoutGitRepo(\n           )",
+      "line": 683,
+      "stage": "Load test data to DB",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "if (sh (\n                script: \"npm run build:${data)",
+      "line": 693,
+      "stage": "Load test data to DB",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "if (sh(\n                  script: \"AWS_REGION=${global)",
+      "line": 701,
+      "stage": "Load test data to DB",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "info",
+      "line": 718,
+      "stage": "Tests",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "if (!repoFunctionsFactory.checkoutGitRepo(\n           )",
+      "line": 720,
+      "stage": "Tests",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "if (fileExists(github.front_end.name))",
+      "line": 776,
+      "stage": "Declarative: Post Actions",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "if (fileExists(github.cvr_app.name))",
+      "line": 781,
+      "stage": "Declarative: Post Actions",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "if (fileExists(gitlab.cvr_terraform.name))",
+      "line": 792,
+      "stage": "Declarative: Post Actions",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "if (monitoredEnvironments.contains(params.environment))",
+      "line": 803,
+      "stage": "Declarative: Post Actions",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "fatal",
+      "line": 810,
+      "stage": "Declarative: Post Actions",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "checkout: SCM environment (GIT_COMMIT, GIT_BRANCH, GIT_URL)",
+      "line": null,
+      "stage": null,
+      "status": "info",
+      "gha": "env",
+      "note": "Jenkins' git plugin exports them to every step after a checkout, so called scripts may read them; defined at workflow level even when the Jenkinsfile does not"
+    }
+  ],
+  "secrets": {},
+  "jobs": {
+    "init": {
+      "name": "Init",
+      "runs-on": "ubuntu-latest",
+      "steps": 32,
+      "matrix": false
+    },
+    "build-build-cvr-frontend": {
+      "name": "Build / Build: CVR frontend",
+      "runs-on": "ubuntu-latest",
+      "steps": 11,
+      "matrix": false
+    },
+    "build-build-cvr-backend": {
+      "name": "Build / Build: CVR backend",
+      "runs-on": "ubuntu-latest",
+      "steps": 11,
+      "matrix": false
+    },
+    "build-build-frontend-assets": {
+      "name": "Build / Build: frontend assets",
+      "runs-on": "ubuntu-latest",
+      "steps": 11,
+      "matrix": false
+    },
+    "build-build-cvr-data-update-module": {
+      "name": "Build / Build: CVR data update module",
+      "runs-on": "ubuntu-latest",
+      "steps": 11,
+      "matrix": false
+    },
+    "deploy": {
+      "name": "Deploy",
+      "runs-on": "ubuntu-latest",
+      "steps": 30,
+      "matrix": false
+    },
+    "load-test-data-to-db": {
+      "name": "Load test data to DB",
+      "runs-on": "ubuntu-latest",
+      "steps": 7,
+      "matrix": false
+    },
+    "tests": {
+      "name": "Tests",
+      "runs-on": "ubuntu-latest",
+      "steps": 5,
+      "matrix": false
+    },
+    "post": {
+      "name": "post",
+      "runs-on": "ubuntu-latest",
+      "steps": 7,
+      "matrix": false
+    }
+  },
+  "notes": [],
+  "handoff": {},
+  "source_sha256": "f8db85ef184a9b246e43eefd8f1b88ef4076d17dcaad0b7f3f8574be53832273",
+  "model_sha256": "c61291619de22edb1d9f91dc6685d5cf44fc60b72b9dab9d15233c3a0316c9ee"
+}

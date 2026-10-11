@@ -1,0 +1,36 @@
+# Prerequisites
+
+What you need depends on how far you go. Analysing, converting, validating and running pipelines locally needs Docker,
+Python and uv; the GitHub tiers also need the GitHub CLI and a repository you administer.
+
+| Requirement | Needed for | Notes |
+|---|---|---|
+| An x86-64 (amd64) Docker host: Linux, macOS or Windows with WSL2 | everything | Developed and tested on WSL2 (Ubuntu 22.04, x86_64); other hosts are untested. The images download x86-64 binaries (act, Node) and act runs jobs with `--container-architecture linux/amd64`, so ARM hosts (Apple Silicon, ARM Linux) are not supported; they could only run under x86-64 emulation, which is untested and slow. |
+| [Docker Engine](https://docs.docker.com/engine/install/), usable without `sudo` | every stage | Parses Jenkinsfiles with the Groovy inside the Jenkins image (`convert` skips this when an up-to-date analysis exists) and runs the Jenkins controller, act, actionlint, zizmor and the self-hosted runners. `uv run j2gha docker build` builds four images: `j2gha/jenkins:local`, `j2gha/act:local`, and the two runner images `j2gha/act-runner:local` and `j2gha/runner:local` (the upstream act and Actions runner images plus the Jenkins image's toolchain, so converted pipelines find the same Maven, Node, make and Python on both sides). It also pulls the pinned actionlint and zizmor images. The images take about 6.5 GB (Jenkins 1.7 GB, act runner 2.2 GB, Actions runner 2.3 GB, act and the two linters 0.3 GB); allow about **10 GB of disk** for the build cache, act's cache and run workspaces. Allow **4 GB of free memory**: the controller is capped at 3 GB. |
+| Internet access | `docker build`, `crawl`, `convert` (SHA pinning), local runs, the GitHub tiers, `docs fetch` | The image build downloads base images (Docker Hub, ghcr.io), Jenkins plugins and the act release. Local runs need it too: act downloads each action the first time it is used, and full mode fetches the example's source repository and whatever its build downloads. |
+| Python 3.10+ and [uv](https://docs.astral.sh/uv/getting-started/installation/) | everything | `uv sync` installs the harness into `.venv` (uv downloads a suitable Python if none is installed). The unit tests pass on 3.10 and 3.13. |
+| git | everything | The remote GitHub tiers use the `origin` remote of your clone. |
+| [GitHub CLI](https://cli.github.com/) (`gh`), logged in with the `repo` and `workflow` scopes | `crawl`, `--tier selfhosted`, `--tier hosted`, `budget`, `environments`; optional for `convert` | `gh auth login`, then check with `gh auth status`. The harness takes its token from `GH_TOKEN`, `GITHUB_TOKEN` or `gh auth token`. Without a token, `convert` still works but leaves actions on their version tags instead of pinning them to commit SHAs. |
+| Billing access | `budget`, and `--tier hosted` on a private repository | Not needed when the target repository is public: standard GitHub-hosted runners are free there, so only the per-run cap applies. For a private repository you own: `gh auth refresh -h github.com -s user` (a fine-grained token needs *Plan: read*). For an organisation's repository: an owner or billing manager. Without complete billing data the guard refuses hosted runs (unless `J2GHA_ALLOW_INCOMPLETE_USAGE=1`, see the [walkthrough's Part 7.2](../examples/000/README.md#72-github-hosted-runners-spends-actions-minutes)). |
+| A GitHub repository you administer, with Actions enabled | `--tier selfhosted` and `--tier hosted` | The `origin` of this clone, or `J2GHA_REPO=owner/repo`. Admin rights are needed to register just-in-time self-hosted runners and to create the `j2gha-*` environments (`--environments`). Throw-away `j2gha/run/...` branches are pushed and deleted again. |
+| GitHub Actions minutes | `--tier hosted` only | Hosted runs on a private repository spend your allowance; check `uv run j2gha budget` first. `--tier selfhosted` uses no hosted-runner minutes. Both tiers upload artifacts (the workspace hand-off and archived files), which count towards the account's artifact storage (the hand-off and stash artifacts are kept for one day); the budget guard does not track that. |
+| A web browser, `curl`, `tar`, `unzip`, `sha256sum` and `python3` | the [walkthrough](../examples/000/README.md) | Used to watch Jenkins and GitHub Actions and to check the artifacts. |
+| Node.js 18+ (22+ for `hyperframes-walkthrough`), npm, ffmpeg and Chrome or Chromium | the video skills only (optional) | `nx setup` and `hfw setup` check these; see [skills.md](skills.md). Not needed to run the harness. |
+
+Ports: the Jenkins controller listens on `127.0.0.1:18080` (change it with `J2GHA_JENKINS_PORT`).
+
+## Versions in use
+
+Checked on 2026-10-11. These are the versions this repository was last run with, not minimums.
+
+| Tool | Version |
+|---|---|
+| Docker Engine | 29.8.1 |
+| uv | 0.11.21 |
+| Python | 3.13.5 (unit tests also on 3.10.12) |
+| GitHub CLI | 2.94.0 |
+| git | 2.34.1 |
+| Node.js, ffmpeg (video skills) | 22.17.0, 4.4.2 |
+
+Pinned inside the harness, so they need no installation: Jenkins 2.580.1 (the LTS base image is pinned by digest in `docker/jenkins/Dockerfile`), act 0.2.89
+(`docker/act/Dockerfile`), actionlint 1.7.12 and zizmor 1.30.1 (`j2gha/validate/static.py`).

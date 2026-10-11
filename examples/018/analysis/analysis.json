@@ -1,0 +1,279 @@
+{
+  "analysis_version": 1,
+  "parser": {
+    "engine": "groovy-ast (Jenkins-bundled Groovy 2.4, CONVERSION phase)",
+    "ok": true,
+    "errors": []
+  },
+  "dialect": "scripted",
+  "metrics": {
+    "classes": 0,
+    "conditionals": 10,
+    "credentials": 0,
+    "distinct_steps": 14,
+    "downstream_builds": 2,
+    "env_vars": 0,
+    "libraries": 0,
+    "loc": 178,
+    "loops": 3,
+    "max_stage_depth": 1,
+    "methods": 0,
+    "options": 0,
+    "parameters": 0,
+    "post_conditions": 0,
+    "shell_steps": 14,
+    "stages": 14,
+    "steps": 66,
+    "tools": 0,
+    "top_level_stages": 7,
+    "triggers": 0,
+    "unknown_steps": 0
+  },
+  "steps": {
+    "sh": {
+      "count": 14,
+      "category": "direct",
+      "lines": [
+        66,
+        95,
+        117,
+        120,
+        149,
+        152,
+        168,
+        171,
+        215,
+        216,
+        218,
+        219
+      ],
+      "gha": "run: (shell: bash)"
+    },
+    "print": {
+      "count": 14,
+      "category": "groovy",
+      "lines": [
+        84,
+        106,
+        118,
+        122,
+        134,
+        138,
+        140,
+        150,
+        154,
+        169,
+        173,
+        185
+      ],
+      "gha": null
+    },
+    "readFile": {
+      "count": 8,
+      "category": "policy",
+      "lines": [
+        67,
+        96,
+        118,
+        121,
+        150,
+        153,
+        169,
+        172
+      ],
+      "gha": "run: cat > $GITHUB_OUTPUT (value used by Groovy: port the logic)"
+    },
+    "stage": {
+      "count": 7,
+      "category": "direct",
+      "lines": [
+        44,
+        53,
+        75,
+        111,
+        144,
+        189,
+        203
+      ],
+      "gha": "job or step group"
+    },
+    "trim": {
+      "count": 5,
+      "category": "groovy",
+      "lines": [
+        67,
+        96,
+        121,
+        153,
+        172
+      ],
+      "gha": null
+    },
+    "contains": {
+      "count": 4,
+      "category": "groovy",
+      "lines": [
+        77,
+        123,
+        155,
+        174
+      ],
+      "gha": null
+    },
+    "dir": {
+      "count": 3,
+      "category": "direct",
+      "lines": [
+        58,
+        94,
+        207
+      ],
+      "gha": "working-directory:"
+    },
+    "deleteDir": {
+      "count": 2,
+      "category": "direct",
+      "lines": [
+        55,
+        208
+      ],
+      "gha": "run: rm -rf (runners are ephemeral)"
+    },
+    "checkout": {
+      "count": 2,
+      "category": "direct",
+      "lines": [
+        59,
+        209
+      ],
+      "gha": "actions/checkout"
+    },
+    "build": {
+      "count": 2,
+      "category": "redesign",
+      "lines": [
+        131,
+        194
+      ],
+      "gha": "workflow_call / workflow_dispatch / repository_dispatch"
+    },
+    "error": {
+      "count": 2,
+      "category": "direct",
+      "lines": [
+        162,
+        181
+      ],
+      "gha": "run: echo ::error:: && exit 1"
+    },
+    "node": {
+      "count": 1,
+      "category": "policy",
+      "lines": [
+        11
+      ],
+      "gha": "runs-on:"
+    },
+    "equalsIgnoreCase": {
+      "count": 1,
+      "category": "groovy",
+      "lines": [
+        78
+      ],
+      "gha": null
+    },
+    "writeFile": {
+      "count": 1,
+      "category": "direct",
+      "lines": [
+        217
+      ],
+      "gha": "run: cat > file <<EOF"
+    }
+  },
+  "unknown_steps": [],
+  "agents": [
+    {
+      "kind": "label",
+      "label": "master",
+      "line": 11,
+      "scope": "scripted"
+    }
+  ],
+  "credentials": [],
+  "dsl_symbols": [],
+  "libraries": [],
+  "methods": [],
+  "jenkins_model": {
+    "result": "failure",
+    "errors": [
+      "Jenkinsfile content '/*\n * Common packages we need access to\n */\nimport hudson.AbortException\nimport hudson.console.HyperlinkNote\nimport java.util.concurrent.CancellationException\nimport org.jvnet.jenkins.plugins.nodelabelparameter.*\n\n\n/**** BEGIN PIPELINE STAGES ****/\nnode('master') {\n\n    def VERSION = params.VERSION\n    def GitRepo = 'git@repo.shd.ci.nonprod.dvsa.aws:'\n    def defaultS3Bucket = 'devapp-olcs-pri-olcs-deploy-s3/'\n    def templateS3Bucket = 'devapp-shd-pri-file-deploy-s3/'\n    def ldifLabel = 'olcs-dir-ldif-version'\n    def txcLabel = 'olcs-transxchange-version'\n    def txcFile = 'txc'\n    def authLabel = 'olcs_auth_version'\n    def authFile = 'openam'\n    def appVersionFile = ''\n\n    // [0]: name of variable in hiera\n    // [1]: name of repo\n    // [2]: S3 Location for artefact\n    // [3]: name of S3 artifact (minus [version].tar.gz)\n    // [4]: name of Build Job to create artefact\n    // [5]: populated by scripts: current tag version (master)\n    def repos = [\n            ['olcs-ssweb-version', 'olcs/olcs-selfserve', defaultS3Bucket + 'selfserve/', 'olcs-selfserve-', 'Build_Selfserve'],\n            ['olcs-static-version', 'olcs/olcs-static', defaultS3Bucket + 'staticcontent/', 'olcs-static-', 'Build_Static'],\n            ['olcs-iuweb-version', 'olcs/olcs-internal', defaultS3Bucket + 'internal/', 'olcs-internal-', 'Build_Internal'],\n            ['olcs-api-version', 'olcs/olcs-backend', defaultS3Bucket + 'api/', 'olcs-backend-', 'Build_Backend'],\n            ['olcs-search-version', 'olcs/olcs-elasticsearch', defaultS3Bucket + 'search/elasticv5/', 'olcs-elasticsearch-', 'Build_Elastic'],\n            ['olcs-address-base-version', 'sc/address-base', defaultS3Bucket + 'addressbase/', 'address-scripts-', 'Build_Address_Base'],\n            ['olcs-address-service-version', 'sc/address-service', defaultS3Bucket + 'addressbase/', 'address-service-', 'Build_Address_Service'],\n            ['olcs_dir_version', 'olcs/olcs-oa', defaultS3Bucket + 'opendj/', 'opendj-', 'Build_OpenDJ'],\n            ['olcs_etl_version', 'olcs/olcs-etl', defaultS3Bucket + 'api/', 'olcs-etl-', 'Build_ETL'],\n            ['olcs_templates_version', 'olcs/olcs-templates', templateS3Bucket, 'olcs-templates-', 'Build_Templates']\n    ]\n\n    stageName = \"App Branch Close and Tag (not currently integrated)\"\n    stage(stageName) {\n        //build job: 'Release_Branch_Close_Clone', parameters: [\n        //        [$class: 'StringParameterValue', name: 'VERSION', value: params.VERSION],\n        //        [$class: 'BooleanParameterValue', name: 'DRYRUN', value: params.DRYRUN]\n\n        //]\n    }\n\n    stageName = 'Get Repos'\n    stage(stageName) {\n\n        deleteDir()\n\n        for (int i = 0; i < repos.size; i++) {\n            dir(repos[i][0]) {\n                checkout([$class                           : 'GitSCM', branches: [[name: 'refs/heads/master']],\n                          doGenerateSubmoduleConfigurations: false,\n                          extensions                       : [],\n                          submoduleCfg                     : [],\n                          userRemoteConfigs                : [[credentialsId: 'OLCS-Jenkins', url: GitRepo + repos[i][1] + '.git']]\n                ])\n\n                sh 'git describe --abbrev=0 --tags > result'\n                def version = readFile('result').trim()\n                repos[i] += version //Add version as repos[i][5]\n            }\n\n        }\n    }\n\n    stageName = \"Get App Release Tags\"\n    stage(stageName) {\n        for (int i = 0; i < repos.size; i++) {\n            if (repos[i][0].contains('address')) {\n                if (repos[i][5].equalsIgnoreCase(repos[i + 1][5])) {\n                    appVersionFile += \"olcs-address-version: '\" + repos[i][5] + \"'\\n\"\n                    i += 1 //don't run again for second address var\n                } else {\n                    appVersionFile += \"olcs-address-version: '\" + repos[i + 1][5] + \"'\\n\"\n                    i += 1\n                    print '**** PROBLEM WITH ADDRESS TAGS****'\n                }\n            } else {\n\n                appVersionFile += repos[i][0] + \": '\" + repos[i][5] + \"'\\n\"\n            }\n        }\n\n        // Add Special Cases -\n        // Ldif which is (api version -1)\n        dir('olcs-api-version') {\n            sh 'git describe --abbrev=0 --tags `git rev-list --tags --skip=1 --max-count=1` > result'\n            def version = readFile('result').trim()\n            appVersionFile += ldifLabel + \" : '\" + version + \"'\\n\"\n        }\n\n        //tcx read from input params\n        appVersionFile += txcLabel + \" : '\" + params.olcs_transxchange_version + \"'\\n\"\n\n        //auth from input params\n        appVersionFile += authLabel + \" : '\" + params.olcs_auth_version + \"'\\n\"\n\n        print appVersionFile\n    }\n\n\n    stageName = \"Check and Build Release Artefacts\"\n    stage(stageName) {\n        def message = ''\n    for (int i = 0; i < repos.size; i++) {\n\n        // Jenkins sh doesn't like pipes so splitting into two commands\n        def cmd = 's3cmd ls s3://' + repos[i][2] + ' > result'\n        sh \"${cmd}\"\n        print readFile('result').trim()\n        def cmd2 = 'grep ' + repos[i][3] + repos[i][5] + '.tar.gz result > result2 || true'\n        sh \"${cmd2}\"\n        def file = readFile('result2').trim()\n        print 'File: ' + file\n        if (file.contains(repos[i][3] + repos[i][5])) {\n            message += 'Exists: ' + repos[i][3] + repos[i][5] + '\\n'\n        } else {\n            if (params.DRYRUN) {\n                message += 'MISSING: ' + repos[i][3] + repos[i][5] + '\\n'\n            } else {\n                message += 'Creating: ' + repos[i][3] + repos[i][5] + '\\n'\n\n                build job: repos[i][4], parameters: [\n                    [$class: 'StringParameterValue', name: 'TAG', value: repos[i][5]],\n                    [$class: 'StringParameterValue', name: 'TAR_SUFFIX', value: repos[i][5]]]\n                print \"Built ${repos[i][3]} ${repos[i][4]} with ${repos[i][5]} \\n\"\n\n            }\n        }\n        print \"Completed \" + repos[i][0]\n    }\n    print message\n}\n\n    stageName = \"Check Artefacts from Input Params\"\n    stage(stageName) {\n        def message = ''\n\n        // Jenkins sh doesn't like pipes so splitting into two commands\n        def cmd = 's3cmd ls s3://' + defaultS3Bucket + 'openam/ > result'\n        sh \"${cmd}\"\n        print readFile('result').trim()\n        def cmd2 = 'grep ' + authFile + '-' + params.olcs_auth_version + '.tar.gz result > result2 || true'\n        sh \"${cmd2}\"\n        def file = readFile('result2').trim()\n        print 'File: ' + file\n        if (file.contains(authFile + '-' + params.olcs_auth_version)) {\n            message += 'Exists: ' + authFile + '-' + params.olcs_auth_version + '\\n'\n        } else {\n            if (params.DRYRUN) {\n                message += 'MISSING: ' + authFile + '-' + params.olcs_auth_version + '\\n'\n            } else {\n                message += 'MISSING: ' + authFile + '-' + params.olcs_auth_version + '\\n'\n                error('Missing package:\\n' + message)\n            }\n        }\n\n        // Jenkins sh doesn't like pipes so splitting into two commands\n        def cmd3 = 's3cmd ls s3://' + defaultS3Bucket + 'api/ > result'\n        sh \"${cmd3}\"\n        print readFile('result').trim()\n        def cmd4 = 'grep ' + txcFile + '-' + params.olcs_transxchange_version + '.war result > result2 || true'\n        sh \"${cmd4}\"\n        def file2 = readFile('result2').trim()\n        print 'File: ' + file2\n        if (file2.contains(txcFile + '-' + params.olcs_transxchange_version)) {\n            message += 'Exists: ' + txcFile + '-' + params.olcs_transxchange_version + '\\n'\n        } else {\n            if (params.DRYRUN) {\n                message += 'MISSING: ' + txcFile + '-' + params.olcs_transxchange_version + '\\n'\n            } else {\n                message += 'MISSING: ' + txcFile + '-' + params.olcs_transxchange_version + '\\n'\n                error('Missing package:\\n' + message)\n            }\n        }\n\n        print message\n    }\n\n    stageName = \"Check App Version against Built artefacts\"\n    stage(stageName) {\n        if (params.DRYRUN) {\n            print 'Not Running external check for DryRun'\n        } else {\n\n            build job: 'Check App Release Tags', parameters: [\n                    [$class: 'StringParameterValue', name: 'olcs_transxchange_version', value: params.olcs_transxchange_version],\n                    [$class: 'StringParameterValue', name: 'olcs_auth_version', value: params.olcs_auth_version]\n            ]\n        }\n    }\n\n\n    stageName = \"Create and Push Release Manifest\"\n    stage(stageName) {\n        if (params.DRYRUN) {\n            print appVersionFile\n        } else {\n            dir('app-version') {\n                deleteDir()\n                checkout([$class                           : 'GitSCM', branches: [[name: 'refs/heads/develop']],\n                          doGenerateSubmoduleConfigurations: false,\n                          extensions                       : [],\n                          submoduleCfg                     : [],\n                          userRemoteConfigs                : [[credentialsId: 'OLCS-Jenkins', url: 'git@repo.shd.ci.nonprod.dvsa.aws:aws/app-version.git']]\n                ])\n                sh 'ls -lrt'\n                sh 'git checkout -b release-candidate'\n                writeFile file: 'hiera/app_version.eyaml', text: \"${appVersionFile}\"\n                sh 'git status'\n                sh 'git add hiera/app_version.eyaml'\n                sh \"git commit -m \\\"Release ${VERSION}\\\"\"\n                sh \"git push --set-upstream origin release-candidate\"\n            }\n        }\n    }\n}\n' did not contain the 'pipeline' step"
+    ]
+  },
+  "findings": [
+    {
+      "id": "ScriptedPipeline",
+      "severity": "high",
+      "line": null,
+      "evidence": "node {}/stage() scripted pipeline",
+      "recommendation": "Re-model as Declarative or design GHA jobs around intent; automated conversion is best-effort"
+    },
+    {
+      "id": "DownstreamBuild",
+      "severity": "medium",
+      "line": 131,
+      "evidence": "build job: repos[i][4]",
+      "recommendation": "Use workflow_call (reusable workflow) or workflow_dispatch/repository_dispatch"
+    },
+    {
+      "id": "DownstreamBuild",
+      "severity": "medium",
+      "line": 194,
+      "evidence": "build job: Check App Release Tags",
+      "recommendation": "Use workflow_call (reusable workflow) or workflow_dispatch/repository_dispatch"
+    }
+  ],
+  "hard_gates": [],
+  "styles": [
+    "scripted",
+    "downstream-build",
+    "dynamic-groovy"
+  ],
+  "coverage": {
+    "by_category": {
+      "direct": 31,
+      "groovy": 24,
+      "policy": 9,
+      "redesign": 2
+    },
+    "weighted_mapped_pct": 75.6
+  },
+  "complexity": {
+    "score": 22,
+    "classification": "assisted",
+    "dimensions": {
+      "declarative_structure": 13.0,
+      "step_mapping": 6.1,
+      "plugin_coupling": 2.2,
+      "library_opacity": 0.0,
+      "runtime_coupling": 0.0,
+      "security_identity": 0,
+      "control_flow": 1.0
+    },
+    "hard_gates": [],
+    "weights": {
+      "declarative_structure": 20,
+      "step_mapping": 25,
+      "plugin_coupling": 15,
+      "library_opacity": 15,
+      "runtime_coupling": 10,
+      "security_identity": 10,
+      "control_flow": 5
+    }
+  },
+  "convertibility": "partial",
+  "ir_notes": [
+    "18 statement(s) outside any stage kept in source order in 7 unnamed segment(s) (from line(s) 13, 52, 74, 110, 143, 188, 202)"
+  ],
+  "source_sha256": "b169b2a52c27f40349a809ad0d34259b3ff9bb074f6abca4d93d7ad2a4b60807"
+}

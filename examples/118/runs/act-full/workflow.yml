@@ -1,0 +1,167 @@
+# j2gha act variant (full) of examples/118
+name: 'j2gha 118: dvsa/olcs-ci pipelines/app_release_package/Jenkinsfile (j2gha)'
+on:
+  push:
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  BRANCH_NAME: master
+  TAG_NAME: ''
+  CHANGE_ID: ''
+  WORKSPACE: ${{ github.workspace }}
+  DRYRUN: ${{ github.event_name != 'workflow_dispatch' && 'false' || format('{0}', inputs.DRYRUN) }}
+  VERSION: ${{ github.event_name != 'workflow_dispatch' && '1.0.0' || format('{0}', inputs.VERSION) }}
+  olcs_transxchange_version: ${{ github.event_name != 'workflow_dispatch' && '2.0.0' || format('{0}', inputs.olcs_transxchange_version)
+    }}
+  olcs_auth_version: ${{ github.event_name != 'workflow_dispatch' && '3.0.0' || format('{0}', inputs.olcs_auth_version) }}
+  GIT_COMMIT: e7e9913a6090bd18f16fb85eb98b7b5f0dbfa87c
+  GIT_BRANCH: origin/master
+  GIT_URL: ${{ github.server_url }}/${{ github.repository }}.git
+defaults:
+  run:
+    shell: bash
+jobs:
+  main:
+    name: main, App Branch Close and Tag (not currently integrated), Get Repos, Get App Release Tags
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+    - name: Checkout
+      uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      with:
+        persist-credentials: false
+    - name: 'Get Repos: deleteDir'
+      id: s1
+      run: find . -mindepth 1 -delete || true
+    - name: 'Get Repos: Groovy for (manual)'
+      id: s2
+      run: 'echo "::warning::manual migration: Groovy for at line 63"'
+    - name: 'Get App Release Tags: Groovy for (manual)'
+      id: s3
+      run: 'echo "::warning::manual migration: Groovy for at line 83"'
+    - name: 'Get App Release Tags: dir olcs-api-version'
+      id: s4
+      run: mkdir -p -- "$J2GHA_DIR"
+      env:
+        J2GHA_DIR: olcs-api-version
+    - name: 'Get App Release Tags: git describe --abbrev=0 --tags `git rev-list --tags --skip=1 --max-cou'
+      id: s5
+      run: git describe --abbrev=0 --tags `git rev-list --tags --skip=1 --max-count=1` > result
+      working-directory: olcs-api-version
+    - name: 'Get App Release Tags: readFile (manual migration)'
+      id: s6
+      run: echo "::warning::Jenkins step 'readFile' requires manual migration"
+      working-directory: olcs-api-version
+    - name: 'Check and Build Release Artefacts: Groovy for (manual)'
+      id: s7
+      run: 'echo "::warning::manual migration: Groovy for at line 120"'
+    - name: 'Check Artefacts from Input Params: ${cmd}'
+      id: s8
+      run: ${cmd}
+    - name: 'Check Artefacts from Input Params: ${cmd2}'
+      id: s9
+      run: ${cmd2}
+    - name: 'Check Artefacts from Input Params: readFile (manual migration)'
+      id: s10
+      run: echo "::warning::Jenkins step 'readFile' requires manual migration"
+    - name: 'Check Artefacts from Input Params: Groovy if (manual)'
+      id: s11
+      run: 'echo "::warning::manual migration: Groovy condition at line 162: file.contains(authFile + ''-'' + params.olcs_auth_version)"'
+    - name: 'Check Artefacts from Input Params: ${cmd3}'
+      id: s12
+      run: ${cmd3}
+    - name: 'Check Artefacts from Input Params: ${cmd4}'
+      id: s13
+      run: ${cmd4}
+    - name: 'Check Artefacts from Input Params: readFile (manual migration)'
+      id: s14
+      run: echo "::warning::Jenkins step 'readFile' requires manual migration"
+    - name: 'Check Artefacts from Input Params: Groovy if (manual)'
+      id: s15
+      run: 'echo "::warning::manual migration: Groovy condition at line 181: file2.contains(txcFile + ''-'' + params.olcs_transxchange_version)"'
+    - name: 'Check App Version against Built artefacts: if (line 197)'
+      id: s16
+      if: env.DRYRUN == 'true'
+      run: echo "taken=true" >> "$GITHUB_OUTPUT"
+    - name: 'Check App Version against Built artefacts: if (line 197)'
+      id: s17
+      if: steps.s16.outcome == 'skipped'
+      run: echo "taken=false" >> "$GITHUB_OUTPUT"
+    - name: 'Check App Version against Built artefacts: trigger downstream ''Check App Release Tags'''
+      id: s18
+      if: steps.s17.outputs.taken == 'false'
+      run: 'echo "::warning::Downstream Jenkins job ''Check App Release Tags'' - migrate to a reusable workflow or call: gh
+        workflow run <workflow> --ref <ref>"'
+    - name: 'Create and Push Release Manifest: if (line 211)'
+      id: s19
+      if: env.DRYRUN == 'true'
+      run: echo "taken=true" >> "$GITHUB_OUTPUT"
+    - name: 'Create and Push Release Manifest: if (line 211)'
+      id: s20
+      if: steps.s19.outcome == 'skipped'
+      run: echo "taken=false" >> "$GITHUB_OUTPUT"
+    - name: 'Create and Push Release Manifest: dir app-version'
+      id: s21
+      if: steps.s20.outputs.taken == 'false'
+      run: mkdir -p -- "$J2GHA_DIR"
+      env:
+        J2GHA_DIR: app-version
+    - name: 'Create and Push Release Manifest: deleteDir'
+      id: s22
+      if: steps.s20.outputs.taken == 'false'
+      run: find . -mindepth 1 -delete || true
+      working-directory: app-version
+    - name: 'Create and Push Release Manifest: git init -q -b develop ${WORKSPACE}/.gitlab/aws/app-version.git && cd'
+      id: s23
+      if: steps.s20.outputs.taken == 'false'
+      run: git init -q -b develop ${WORKSPACE}/.gitlab/aws/app-version.git && cd ${WORKSPACE}/.gitlab/aws/app-version.git
+        && mkdir hiera && touch hiera/app_version.eyaml && git add hiera && git -c user.name=j2gha -c user.email=j2gha@localhost
+        commit -q -m develop
+      working-directory: app-version
+    - name: 'Create and Push Release Manifest: checkout'
+      id: s24
+      if: steps.s20.outputs.taken == 'false'
+      uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      with:
+        persist-credentials: false
+        path: app-version
+    - name: 'Create and Push Release Manifest: ls -lrt'
+      id: s25
+      if: steps.s20.outputs.taken == 'false'
+      run: ls -lrt
+      working-directory: app-version
+    - name: 'Create and Push Release Manifest: git checkout -b release-candidate'
+      id: s26
+      if: steps.s20.outputs.taken == 'false'
+      run: git checkout -b release-candidate
+      working-directory: app-version
+    - name: 'Create and Push Release Manifest: writeFile hiera/app_version.eyaml'
+      id: s27
+      if: steps.s20.outputs.taken == 'false'
+      run: |-
+        J2GHA_W="$(cat <<J2GHA_EOF
+        ${appVersionFile}
+        J2GHA_EOF
+        printf x)"; J2GHA_W=${J2GHA_W%x}; printf '%s' "${J2GHA_W%$'\n'}" > hiera/app_version.eyaml
+      working-directory: app-version
+    - name: 'Create and Push Release Manifest: git status'
+      id: s28
+      if: steps.s20.outputs.taken == 'false'
+      run: git status
+      working-directory: app-version
+    - name: 'Create and Push Release Manifest: git add hiera/app_version.eyaml'
+      id: s29
+      if: steps.s20.outputs.taken == 'false'
+      run: git add hiera/app_version.eyaml
+      working-directory: app-version
+    - name: 'Create and Push Release Manifest: git -c user.name=j2gha -c user.email=j2gha@localhost commit -m "Releas'
+      id: s30
+      if: steps.s20.outputs.taken == 'false'
+      run: git -c user.name=j2gha -c user.email=j2gha@localhost commit -m "Release ${VERSION}"
+      working-directory: app-version
+    - name: 'Create and Push Release Manifest: git push --set-upstream origin release-candidate'
+      id: s31
+      if: steps.s20.outputs.taken == 'false'
+      run: git push --set-upstream origin release-candidate
+      working-directory: app-version

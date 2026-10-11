@@ -1,0 +1,277 @@
+{
+  "result": "success",
+  "json": {
+    "pipeline": {
+      "stages": [
+        {
+          "name": "Update OpenROAD to HEAD of master branch",
+          "branches": [
+            {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "checkout",
+                  "arguments": [
+                    {
+                      "key": "scm",
+                      "value": {
+                        "isLiteral": false,
+                        "value": "[$class: \"GitSCM\",\n                        branches: [[name: \"*/master\"]],\n                        userRemoteConfigs: [[url: \"https://github.com/The-OpenROAD-Project/OpenROAD\"]],\n                        extensions: [[$class: 'RelativeTargetDirectory', relativeTargetDir: 'openroad']]\n                ]"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Build Docker OpenLane image with openroad_app master",
+          "branches": [
+            {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "script",
+                  "arguments": [
+                    {
+                      "key": "scriptBlock",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "retry(3) {\n                        try {\n                            sh 'PDK_ROOT=$(pwd)/pdks OPENLANE_IMAGE_NAME=efabless/openlane python3 .github/scripts/update_tools.py openroad_app';\n                            sh 'echo make -C docker build-openroad_app'; // j2gha-local: builds the OpenROAD image (multi-GB, hours); no Docker daemon in the harness\n                            script { NEW_SHA  = sh (returnStdout: true, script: \"python3 dependencies/tool.py -f commit openroad_app\").trim(); }\n                            sh 'echo make -C docker openlane OPENLANE_IMAGE_NAME=current:latest'; // j2gha-local: builds the OpenLane image; no Docker daemon in the harness\n                            sh 'echo \"docker save current:latest-amd64 (j2gha-local stand-in for the image)\" | gzip > openlane-current.tar.gz'; // j2gha-local: no image to save; a small gzip keeps the stash/unstash of openlane-current.tar.gz real\n                            stash name: 'data', includes: 'openlane-current.tar.gz';\n                        }\n                        catch (e) {\n                            sleep(60);\n                            sh 'exit 1';\n                        }\n                    }"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Run Tests",
+          "matrix": {
+            "axes": [
+              {
+                "name": "DESIGN",
+                "values": [
+                  {
+                    "isLiteral": true,
+                    "value": "ci/aes"
+                  },
+                  {
+                    "isLiteral": true,
+                    "value": "ci/aes_core"
+                  },
+                  {
+                    "isLiteral": true,
+                    "value": "ci/APU"
+                  },
+                  {
+                    "isLiteral": true,
+                    "value": "ci/blabla"
+                  },
+                  {
+                    "isLiteral": true,
+                    "value": "'ci/BM64 -override_env QUIT_ON_LINTER_ERRORS=0'"
+                  },
+                  {
+                    "isLiteral": true,
+                    "value": "ci/gcd"
+                  },
+                  {
+                    "isLiteral": true,
+                    "value": "ci/inverter"
+                  },
+                  {
+                    "isLiteral": true,
+                    "value": "ci/manual_macro_placement_test"
+                  },
+                  {
+                    "isLiteral": true,
+                    "value": "ci/picorv32a"
+                  },
+                  {
+                    "isLiteral": true,
+                    "value": "ci/PPU"
+                  },
+                  {
+                    "isLiteral": true,
+                    "value": "ci/s44"
+                  },
+                  {
+                    "isLiteral": true,
+                    "value": "ci/salsa20"
+                  },
+                  {
+                    "isLiteral": true,
+                    "value": "ci/usb"
+                  },
+                  {
+                    "isLiteral": true,
+                    "value": "ci/usb_cdc_core"
+                  },
+                  {
+                    "isLiteral": true,
+                    "value": "ci/wbqspiflash"
+                  },
+                  {
+                    "isLiteral": true,
+                    "value": "ci/xtea"
+                  },
+                  {
+                    "isLiteral": true,
+                    "value": "'ci/y_huff -override_env QUIT_ON_SYNTH_CHECKS=0'"
+                  },
+                  {
+                    "isLiteral": true,
+                    "value": "ci/zipdiv"
+                  },
+                  {
+                    "isLiteral": true,
+                    "value": "ci/aes_user_project_wrapper"
+                  },
+                  {
+                    "isLiteral": true,
+                    "value": "ci/caravel_upw"
+                  },
+                  {
+                    "isLiteral": true,
+                    "value": "ci/mem_1r1w"
+                  },
+                  {
+                    "isLiteral": true,
+                    "value": "spm"
+                  }
+                ]
+              }
+            ],
+            "stages": [
+              {
+                "agent": {
+                  "type": "any"
+                },
+                "post": {
+                  "conditions": [
+                    {
+                      "condition": "failure",
+                      "branch": {
+                        "name": "default",
+                        "steps": [
+                          {
+                            "name": "archiveArtifacts",
+                            "arguments": [
+                              {
+                                "key": "artifacts",
+                                "value": {
+                                  "isLiteral": true,
+                                  "value": "designs/**/*.log, designs/**/openroad_issue_reproducible/**/*"
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                },
+                "name": "Test",
+                "branches": [
+                  {
+                    "name": "default",
+                    "steps": [
+                      {
+                        "name": "script",
+                        "arguments": [
+                          {
+                            "key": "scriptBlock",
+                            "value": {
+                              "isLiteral": true,
+                              "value": "stage(\"${DESIGN} - Install PDK\") {\n                                    sh 'echo python3 -m pip install --user --upgrade --no-cache-dir pip'; // j2gha-local: pip into the system Python is refused on Debian 13 (PEP 668)\n                                    sh 'echo python3 -m pip install --user --upgrade --no-cache-dir volare'; // j2gha-local: same; volare is only needed by the real make pdk\n                                    sh 'echo make pdk'; // j2gha-local: downloads a PDK (GB) through volare\n                                }\n                                stage(\"${DESIGN} - Import Docker image\") {\n                                    unstash \"data\";\n                                    sh 'echo docker load --input openlane-current.tar.gz && gzip -dc openlane-current.tar.gz'; // j2gha-local: no Docker daemon; decompressing the unstashed file proves it arrived intact\n                                }\n                                stage(\"${DESIGN} - Update OpenROAD commit\") {\n                                    script { OLD_SHA  = sh (returnStdout: true, script: \"python3 dependencies/tool.py -f commit openroad_app\").trim(); }\n                                    sh \"sed -i s/${OLD_SHA}/${NEW_SHA}/ ./dependencies/tool_metadata.yml\"\n                                }\n                                stage(\"${DESIGN} - Run test\") {\n                                    sh \"echo make OPENLANE_IMAGE_NAME=current:latest TEST_DESIGN=${DESIGN} test\"; // j2gha-local: runs the RTL-to-GDS flow inside the image (no Docker daemon, hours per design)\n                                }"
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "post": {
+        "conditions": [
+          {
+            "condition": "failure",
+            "branch": {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "emailext",
+                  "arguments": [
+                    {
+                      "key": "to",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "$DEFAULT_RECIPIENTS"
+                      }
+                    },
+                    {
+                      "key": "subject",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "$DEFAULT_SUBJECT"
+                      }
+                    },
+                    {
+                      "key": "body",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "$DEFAULT_CONTENT"
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "environment": [
+        {
+          "key": "ROUTING_CORES",
+          "value": {
+            "isLiteral": true,
+            "value": 32
+          }
+        }
+      ],
+      "agent": {
+        "type": "any"
+      },
+      "options": {
+        "options": [
+          {
+            "name": "timeout",
+            "arguments": [
+              {
+                "key": "time",
+                "value": {
+                  "isLiteral": true,
+                  "value": 8
+                }
+              },
+              {
+                "key": "unit",
+                "value": {
+                  "isLiteral": true,
+                  "value": "HOURS"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

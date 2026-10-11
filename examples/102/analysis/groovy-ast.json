@@ -1,0 +1,3544 @@
+{
+  "file": "102",
+  "ok": true,
+  "errors": [],
+  "imports": [],
+  "annotations": [],
+  "methods": [],
+  "classes": [],
+  "statements": [
+    {
+      "k": "decl",
+      "name": "failFast",
+      "value": {
+        "t": "bool",
+        "v": false,
+        "line": 8,
+        "col": 16,
+        "endLine": 8,
+        "endCol": 21
+      },
+      "annotations": [],
+      "line": 8,
+      "col": 1,
+      "endLine": 8,
+      "endCol": 21
+    },
+    {
+      "k": "decl",
+      "name": "numBuildToKeep",
+      "value": {
+        "t": "expr",
+        "kind": "TernaryExpression",
+        "text": "?",
+        "calls": [],
+        "line": 9,
+        "col": 36,
+        "endLine": 9,
+        "endCol": 37
+      },
+      "annotations": [],
+      "line": 9,
+      "col": 1,
+      "endLine": 9,
+      "endCol": 49
+    },
+    {
+      "k": "call",
+      "name": "properties",
+      "args": [
+        {
+          "t": "list",
+          "v": [
+            {
+              "t": "call",
+              "call": {
+                "k": "call",
+                "name": "buildDiscarder",
+                "args": [
+                  {
+                    "t": "call",
+                    "call": {
+                      "k": "call",
+                      "name": "logRotator",
+                      "args": [],
+                      "named": {
+                        "numToKeepStr": {
+                          "t": "var",
+                          "name": "numBuildToKeep",
+                          "line": 12,
+                          "col": 43,
+                          "endLine": 12,
+                          "endCol": 57
+                        },
+                        "artifactNumToKeepStr": {
+                          "t": "str",
+                          "v": "3",
+                          "line": 12,
+                          "col": 81,
+                          "endLine": 12,
+                          "endCol": 84
+                        }
+                      },
+                      "line": 12,
+                      "col": 18,
+                      "endLine": 12,
+                      "endCol": 85
+                    },
+                    "line": 12,
+                    "col": 18,
+                    "endLine": 12,
+                    "endCol": 85
+                  }
+                ],
+                "named": {},
+                "line": 12,
+                "col": 3,
+                "endLine": 12,
+                "endCol": 86
+              },
+              "line": 12,
+              "col": 3,
+              "endLine": 12,
+              "endCol": 86
+            },
+            {
+              "t": "call",
+              "call": {
+                "k": "call",
+                "name": "disableConcurrentBuilds",
+                "args": [],
+                "named": {
+                  "abortPrevious": {
+                    "t": "bool",
+                    "v": true,
+                    "line": 13,
+                    "col": 42,
+                    "endLine": 13,
+                    "endCol": 46
+                  }
+                },
+                "line": 13,
+                "col": 3,
+                "endLine": 14,
+                "endCol": 1
+              },
+              "line": 13,
+              "col": 3,
+              "endLine": 14,
+              "endCol": 1
+            }
+          ],
+          "line": 11,
+          "col": 12,
+          "endLine": 14,
+          "endCol": 2
+        }
+      ],
+      "named": {},
+      "line": 11,
+      "col": 1,
+      "endLine": 14,
+      "endCol": 3
+    },
+    {
+      "k": "decl",
+      "name": "axes",
+      "value": {
+        "t": "map",
+        "v": {
+          "platforms": {
+            "t": "list",
+            "v": [
+              {
+                "t": "str",
+                "v": "linux",
+                "line": 17,
+                "col": 15,
+                "endLine": 17,
+                "endCol": 22
+              }
+            ],
+            "line": 17,
+            "col": 14,
+            "endLine": 17,
+            "endCol": 23
+          },
+          "jdks": {
+            "t": "list",
+            "v": [
+              {
+                "t": "num",
+                "v": 21,
+                "line": 18,
+                "col": 10,
+                "endLine": 18,
+                "endCol": 12
+              },
+              {
+                "t": "num",
+                "v": 25,
+                "line": 18,
+                "col": 14,
+                "endLine": 18,
+                "endCol": 16
+              }
+            ],
+            "line": 18,
+            "col": 9,
+            "endLine": 18,
+            "endCol": 17
+          }
+        },
+        "line": 16,
+        "col": 12,
+        "endLine": 19,
+        "endCol": 2
+      },
+      "annotations": [],
+      "line": 16,
+      "col": 1,
+      "endLine": 19,
+      "endCol": 2
+    },
+    {
+      "k": "call",
+      "name": "stage",
+      "args": [
+        {
+          "t": "str",
+          "v": "Record build",
+          "line": 21,
+          "col": 7,
+          "endLine": 21,
+          "endCol": 21
+        }
+      ],
+      "named": {},
+      "line": 21,
+      "col": 1,
+      "endLine": 58,
+      "endCol": 2,
+      "body": [
+        {
+          "k": "call",
+          "name": "retry",
+          "args": [],
+          "named": {
+            "conditions": {
+              "t": "list",
+              "v": [
+                {
+                  "t": "call",
+                  "call": {
+                    "k": "call",
+                    "name": "kubernetesAgent",
+                    "args": [],
+                    "named": {
+                      "handleNonKubernetes": {
+                        "t": "bool",
+                        "v": true,
+                        "line": 22,
+                        "col": 59,
+                        "endLine": 22,
+                        "endCol": 63
+                      }
+                    },
+                    "line": 22,
+                    "col": 22,
+                    "endLine": 22,
+                    "endCol": 64
+                  },
+                  "line": 22,
+                  "col": 22,
+                  "endLine": 22,
+                  "endCol": 64
+                },
+                {
+                  "t": "call",
+                  "call": {
+                    "k": "call",
+                    "name": "nonresumable",
+                    "args": [],
+                    "named": {},
+                    "line": 22,
+                    "col": 66,
+                    "endLine": 22,
+                    "endCol": 80
+                  },
+                  "line": 22,
+                  "col": 66,
+                  "endLine": 22,
+                  "endCol": 80
+                }
+              ],
+              "line": 22,
+              "col": 21,
+              "endLine": 22,
+              "endCol": 81
+            },
+            "count": {
+              "t": "num",
+              "v": 2,
+              "line": 22,
+              "col": 90,
+              "endLine": 22,
+              "endCol": 91
+            }
+          },
+          "line": 22,
+          "col": 3,
+          "endLine": 57,
+          "endCol": 4,
+          "body": [
+            {
+              "k": "call",
+              "name": "node",
+              "args": [
+                {
+                  "t": "str",
+                  "v": "maven-21-nonspot",
+                  "line": 23,
+                  "col": 10,
+                  "endLine": 23,
+                  "endCol": 28
+                }
+              ],
+              "named": {},
+              "line": 23,
+              "col": 5,
+              "endLine": 56,
+              "endCol": 6,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "checkout",
+                  "args": [
+                    {
+                      "t": "var",
+                      "name": "scm",
+                      "line": 24,
+                      "col": 16,
+                      "endLine": 24,
+                      "endCol": 19
+                    }
+                  ],
+                  "named": {},
+                  "line": 24,
+                  "col": 7,
+                  "endLine": 24,
+                  "endCol": 138
+                },
+                {
+                  "k": "call",
+                  "name": "withCredentials",
+                  "args": [
+                    {
+                      "t": "list",
+                      "v": [
+                        {
+                          "t": "call",
+                          "call": {
+                            "k": "call",
+                            "name": "string",
+                            "args": [],
+                            "named": {
+                              "credentialsId": {
+                                "t": "str",
+                                "v": "launchable-jenkins-jenkins",
+                                "line": 29,
+                                "col": 46,
+                                "endLine": 29,
+                                "endCol": 74
+                              },
+                              "variable": {
+                                "t": "str",
+                                "v": "LAUNCHABLE_TOKEN",
+                                "line": 29,
+                                "col": 86,
+                                "endLine": 29,
+                                "endCol": 104
+                              }
+                            },
+                            "line": 29,
+                            "col": 24,
+                            "endLine": 29,
+                            "endCol": 105
+                          },
+                          "line": 29,
+                          "col": 24,
+                          "endLine": 29,
+                          "endCol": 105
+                        }
+                      ],
+                      "line": 29,
+                      "col": 23,
+                      "endLine": 29,
+                      "endCol": 106
+                    }
+                  ],
+                  "named": {},
+                  "line": 29,
+                  "col": 7,
+                  "endLine": 45,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "decl",
+                      "name": "launchableName",
+                      "value": {
+                        "t": "call",
+                        "call": {
+                          "k": "call",
+                          "name": "replaceAll",
+                          "args": [
+                            {
+                              "t": "str",
+                              "v": "(%[0-9A-Fa-f]{2})+",
+                              "line": 34,
+                              "col": 55,
+                              "endLine": 34,
+                              "endCol": 75
+                            },
+                            {
+                              "t": "str",
+                              "v": "-",
+                              "line": 34,
+                              "col": 77,
+                              "endLine": 34,
+                              "endCol": 80
+                            }
+                          ],
+                          "named": {},
+                          "line": 34,
+                          "col": 30,
+                          "endLine": 34,
+                          "endCol": 81,
+                          "receiver": "env.BUILD_TAG"
+                        },
+                        "line": 34,
+                        "col": 30,
+                        "endLine": 34,
+                        "endCol": 81
+                      },
+                      "annotations": [],
+                      "line": 34,
+                      "col": 9,
+                      "endLine": 34,
+                      "endCol": 81
+                    },
+                    {
+                      "k": "call",
+                      "name": "sh",
+                      "args": [
+                        {
+                          "t": "gstr",
+                          "v": "\"echo launchable verify && echo launchable record build --name ${launchableName} --source jenkinsci/jenkins=.\" // j2gha-local: no Launchable CLI",
+                          "vars": [
+                            "{launchableName}"
+                          ],
+                          "calls": [],
+                          "line": 35,
+                          "col": 12,
+                          "endLine": 35,
+                          "endCol": 156
+                        }
+                      ],
+                      "named": {},
+                      "line": 35,
+                      "col": 9,
+                      "endLine": 35,
+                      "endCol": 156
+                    },
+                    {
+                      "k": "call",
+                      "name": "combinations",
+                      "args": [],
+                      "named": {},
+                      "line": 36,
+                      "col": 9,
+                      "endLine": 44,
+                      "endCol": 10,
+                      "receiver": "axes.values()",
+                      "receiverCalls": [
+                        {
+                          "k": "call",
+                          "name": "values",
+                          "args": [],
+                          "named": {},
+                          "line": 36,
+                          "col": 9,
+                          "endLine": 36,
+                          "endCol": 22,
+                          "receiver": "axes"
+                        }
+                      ],
+                      "body": [
+                        {
+                          "k": "decl",
+                          "name": "(",
+                          "value": {
+                            "t": "var",
+                            "name": "it",
+                            "line": 37,
+                            "col": 33,
+                            "endLine": 37,
+                            "endCol": 35
+                          },
+                          "annotations": [],
+                          "line": 37,
+                          "col": 11,
+                          "endLine": 37,
+                          "endCol": 35
+                        },
+                        {
+                          "k": "if",
+                          "cond": "platform == 'windows' && jdk != axes.jdks.last()",
+                          "condCalls": [
+                            {
+                              "k": "call",
+                              "name": "last",
+                              "args": [],
+                              "named": {},
+                              "line": 38,
+                              "col": 47,
+                              "endLine": 38,
+                              "endCol": 63,
+                              "receiver": "axes.jdks"
+                            }
+                          ],
+                          "then": [
+                            {
+                              "k": "return",
+                              "value": {
+                                "t": "null",
+                                "v": null
+                              },
+                              "line": 39,
+                              "col": 13,
+                              "endLine": 39,
+                              "endCol": 50
+                            }
+                          ],
+                          "else": [],
+                          "line": 38,
+                          "col": 11,
+                          "endLine": 40,
+                          "endCol": 12
+                        },
+                        {
+                          "k": "decl",
+                          "name": "sessionFile",
+                          "value": {
+                            "t": "gstr",
+                            "v": "\"launchable-session-${platform}-jdk${jdk}.txt\"",
+                            "vars": [
+                              "{platform}",
+                              "{jdk}"
+                            ],
+                            "calls": [],
+                            "line": 41,
+                            "col": 29,
+                            "endLine": 41,
+                            "endCol": 75
+                          },
+                          "annotations": [],
+                          "line": 41,
+                          "col": 11,
+                          "endLine": 41,
+                          "endCol": 75
+                        },
+                        {
+                          "k": "call",
+                          "name": "sh",
+                          "args": [
+                            {
+                              "t": "gstr",
+                              "v": "\"echo launchable record session --build ${launchableName} --flavor platform=${platform} --flavor jdk=${jdk} >${sessionFile}\" // j2gha-local: no Launchable CLI; the echoed command is the session file the stash, unstash and readFile carry",
+                              "vars": [
+                                "{launchableName}",
+                                "{platform}",
+                                "{jdk}",
+                                "{sessionFile}"
+                              ],
+                              "calls": [],
+                              "line": 42,
+                              "col": 14,
+                              "endLine": 42,
+                              "endCol": 250
+                            }
+                          ],
+                          "named": {},
+                          "line": 42,
+                          "col": 11,
+                          "endLine": 42,
+                          "endCol": 250
+                        },
+                        {
+                          "k": "call",
+                          "name": "stash",
+                          "args": [],
+                          "named": {
+                            "name": {
+                              "t": "var",
+                              "name": "sessionFile",
+                              "line": 43,
+                              "col": 23,
+                              "endLine": 43,
+                              "endCol": 34
+                            },
+                            "includes": {
+                              "t": "var",
+                              "name": "sessionFile",
+                              "line": 43,
+                              "col": 46,
+                              "endLine": 43,
+                              "endCol": 57
+                            }
+                          },
+                          "line": 43,
+                          "col": 11,
+                          "endLine": 43,
+                          "endCol": 57
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "k": "call",
+                  "name": "withCredentials",
+                  "args": [
+                    {
+                      "t": "list",
+                      "v": [
+                        {
+                          "t": "call",
+                          "call": {
+                            "k": "call",
+                            "name": "string",
+                            "args": [],
+                            "named": {
+                              "credentialsId": {
+                                "t": "str",
+                                "v": "launchable-jenkins-acceptance-test-harness",
+                                "line": 50,
+                                "col": 46,
+                                "endLine": 50,
+                                "endCol": 90
+                              },
+                              "variable": {
+                                "t": "str",
+                                "v": "LAUNCHABLE_TOKEN",
+                                "line": 50,
+                                "col": 102,
+                                "endLine": 50,
+                                "endCol": 120
+                              }
+                            },
+                            "line": 50,
+                            "col": 24,
+                            "endLine": 50,
+                            "endCol": 121
+                          },
+                          "line": 50,
+                          "col": 24,
+                          "endLine": 50,
+                          "endCol": 121
+                        }
+                      ],
+                      "line": 50,
+                      "col": 23,
+                      "endLine": 50,
+                      "endCol": 122
+                    }
+                  ],
+                  "named": {},
+                  "line": 50,
+                  "col": 7,
+                  "endLine": 52,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "sh",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "echo launchable verify && echo launchable record commit",
+                          "line": 51,
+                          "col": 12,
+                          "endLine": 51,
+                          "endCol": 69
+                        }
+                      ],
+                      "named": {},
+                      "line": 51,
+                      "col": 9,
+                      "endLine": 51,
+                      "endCol": 103
+                    }
+                  ]
+                },
+                {
+                  "k": "call",
+                  "name": "withCredentials",
+                  "args": [
+                    {
+                      "t": "list",
+                      "v": [
+                        {
+                          "t": "call",
+                          "call": {
+                            "k": "call",
+                            "name": "string",
+                            "args": [],
+                            "named": {
+                              "credentialsId": {
+                                "t": "str",
+                                "v": "launchable-jenkins-bom",
+                                "line": 53,
+                                "col": 46,
+                                "endLine": 53,
+                                "endCol": 70
+                              },
+                              "variable": {
+                                "t": "str",
+                                "v": "LAUNCHABLE_TOKEN",
+                                "line": 53,
+                                "col": 82,
+                                "endLine": 53,
+                                "endCol": 100
+                              }
+                            },
+                            "line": 53,
+                            "col": 24,
+                            "endLine": 53,
+                            "endCol": 101
+                          },
+                          "line": 53,
+                          "col": 24,
+                          "endLine": 53,
+                          "endCol": 101
+                        }
+                      ],
+                      "line": 53,
+                      "col": 23,
+                      "endLine": 53,
+                      "endCol": 102
+                    }
+                  ],
+                  "named": {},
+                  "line": 53,
+                  "col": 7,
+                  "endLine": 55,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "sh",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "echo launchable verify && echo launchable record commit",
+                          "line": 54,
+                          "col": 12,
+                          "endLine": 54,
+                          "endCol": 69
+                        }
+                      ],
+                      "named": {},
+                      "line": 54,
+                      "col": 9,
+                      "endLine": 54,
+                      "endCol": 103
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "k": "decl",
+      "name": "builds",
+      "value": {
+        "t": "map",
+        "v": {},
+        "line": 60,
+        "col": 14,
+        "endLine": 60,
+        "endCol": 15
+      },
+      "annotations": [],
+      "line": 60,
+      "col": 1,
+      "endLine": 60,
+      "endCol": 17
+    },
+    {
+      "k": "call",
+      "name": "combinations",
+      "args": [],
+      "named": {},
+      "line": 62,
+      "col": 1,
+      "endLine": 228,
+      "endCol": 2,
+      "receiver": "axes.values()",
+      "receiverCalls": [
+        {
+          "k": "call",
+          "name": "values",
+          "args": [],
+          "named": {},
+          "line": 62,
+          "col": 1,
+          "endLine": 62,
+          "endCol": 14,
+          "receiver": "axes"
+        }
+      ],
+      "body": [
+        {
+          "k": "decl",
+          "name": "(",
+          "value": {
+            "t": "var",
+            "name": "it",
+            "line": 63,
+            "col": 25,
+            "endLine": 63,
+            "endCol": 27
+          },
+          "annotations": [],
+          "line": 63,
+          "col": 3,
+          "endLine": 63,
+          "endCol": 27
+        },
+        {
+          "k": "if",
+          "cond": "platform == 'windows' && jdk != axes.jdks.last()",
+          "condCalls": [
+            {
+              "k": "call",
+              "name": "last",
+              "args": [],
+              "named": {},
+              "line": 64,
+              "col": 39,
+              "endLine": 64,
+              "endCol": 55,
+              "receiver": "axes.jdks"
+            }
+          ],
+          "then": [
+            {
+              "k": "return",
+              "value": {
+                "t": "null",
+                "v": null
+              },
+              "line": 65,
+              "col": 5,
+              "endLine": 65,
+              "endCol": 42
+            }
+          ],
+          "else": [],
+          "line": 64,
+          "col": 3,
+          "endLine": 66,
+          "endCol": 4
+        },
+        {
+          "k": "assign",
+          "op": "=",
+          "target": "builds[\"${platform}-jdk${jdk}\"]",
+          "value": {
+            "t": "closure",
+            "params": [],
+            "body": [
+              {
+                "k": "decl",
+                "name": "agentContainerLabel",
+                "value": {
+                  "t": "concat",
+                  "parts": [
+                    {
+                      "t": "str",
+                      "v": "maven-",
+                      "line": 69,
+                      "col": 31,
+                      "endLine": 69,
+                      "endCol": 39
+                    },
+                    {
+                      "t": "var",
+                      "name": "jdk",
+                      "line": 69,
+                      "col": 42,
+                      "endLine": 69,
+                      "endCol": 45
+                    }
+                  ],
+                  "line": 69,
+                  "col": 40,
+                  "endLine": 69,
+                  "endCol": 41
+                },
+                "annotations": [],
+                "line": 69,
+                "col": 5,
+                "endLine": 69,
+                "endCol": 45
+              },
+              {
+                "k": "if",
+                "cond": "platform == 'windows'",
+                "condCalls": [],
+                "then": [
+                  {
+                    "k": "assign",
+                    "op": "+=",
+                    "target": "agentContainerLabel",
+                    "value": {
+                      "t": "str",
+                      "v": "-windows",
+                      "line": 71,
+                      "col": 30,
+                      "endLine": 71,
+                      "endCol": 40
+                    },
+                    "line": 71,
+                    "col": 7,
+                    "endLine": 71,
+                    "endCol": 40
+                  }
+                ],
+                "else": [],
+                "line": 70,
+                "col": 5,
+                "endLine": 72,
+                "endCol": 6
+              },
+              {
+                "k": "assign",
+                "op": "+=",
+                "target": "agentContainerLabel",
+                "value": {
+                  "t": "str",
+                  "v": "-nonspot",
+                  "line": 73,
+                  "col": 28,
+                  "endLine": 73,
+                  "endCol": 38
+                },
+                "line": 73,
+                "col": 5,
+                "endLine": 73,
+                "endCol": 38
+              },
+              {
+                "k": "call",
+                "name": "retry",
+                "args": [],
+                "named": {
+                  "conditions": {
+                    "t": "list",
+                    "v": [
+                      {
+                        "t": "call",
+                        "call": {
+                          "k": "call",
+                          "name": "kubernetesAgent",
+                          "args": [],
+                          "named": {
+                            "handleNonKubernetes": {
+                              "t": "bool",
+                              "v": true,
+                              "line": 74,
+                              "col": 61,
+                              "endLine": 74,
+                              "endCol": 65
+                            }
+                          },
+                          "line": 74,
+                          "col": 24,
+                          "endLine": 74,
+                          "endCol": 66
+                        },
+                        "line": 74,
+                        "col": 24,
+                        "endLine": 74,
+                        "endCol": 66
+                      },
+                      {
+                        "t": "call",
+                        "call": {
+                          "k": "call",
+                          "name": "nonresumable",
+                          "args": [],
+                          "named": {},
+                          "line": 74,
+                          "col": 68,
+                          "endLine": 74,
+                          "endCol": 82
+                        },
+                        "line": 74,
+                        "col": 68,
+                        "endLine": 74,
+                        "endCol": 82
+                      }
+                    ],
+                    "line": 74,
+                    "col": 23,
+                    "endLine": 74,
+                    "endCol": 83
+                  },
+                  "count": {
+                    "t": "num",
+                    "v": 2,
+                    "line": 74,
+                    "col": 92,
+                    "endLine": 74,
+                    "endCol": 93
+                  }
+                },
+                "line": 74,
+                "col": 5,
+                "endLine": 226,
+                "endCol": 6,
+                "body": [
+                  {
+                    "k": "call",
+                    "name": "node",
+                    "args": [
+                      {
+                        "t": "var",
+                        "name": "agentContainerLabel",
+                        "line": 75,
+                        "col": 12,
+                        "endLine": 75,
+                        "endCol": 31
+                      }
+                    ],
+                    "named": {},
+                    "line": 75,
+                    "col": 7,
+                    "endLine": 225,
+                    "endCol": 8,
+                    "body": [
+                      {
+                        "k": "call",
+                        "name": "stage",
+                        "args": [
+                          {
+                            "t": "gstr",
+                            "v": "\"${platform.capitalize()} - JDK ${jdk} - Checkout\"",
+                            "vars": [
+                              "{platform.capitalize()}",
+                              "{jdk}"
+                            ],
+                            "calls": [
+                              {
+                                "k": "call",
+                                "name": "capitalize",
+                                "args": [],
+                                "named": {},
+                                "line": 78,
+                                "col": 17,
+                                "endLine": 78,
+                                "endCol": 40,
+                                "receiver": "platform"
+                              }
+                            ],
+                            "line": 78,
+                            "col": 15,
+                            "endLine": 78,
+                            "endCol": 65
+                          }
+                        ],
+                        "named": {},
+                        "line": 78,
+                        "col": 9,
+                        "endLine": 81,
+                        "endCol": 10,
+                        "body": [
+                          {
+                            "k": "call",
+                            "name": "deleteDir",
+                            "args": [],
+                            "named": {},
+                            "line": 79,
+                            "col": 11,
+                            "endLine": 79,
+                            "endCol": 219
+                          },
+                          {
+                            "k": "call",
+                            "name": "checkout",
+                            "args": [
+                              {
+                                "t": "var",
+                                "name": "scm",
+                                "line": 80,
+                                "col": 20,
+                                "endLine": 80,
+                                "endCol": 23
+                              }
+                            ],
+                            "named": {},
+                            "line": 80,
+                            "col": 11,
+                            "endLine": 80,
+                            "endCol": 142
+                          }
+                        ]
+                      },
+                      {
+                        "k": "decl",
+                        "name": "tmpDir",
+                        "value": {
+                          "t": "call",
+                          "call": {
+                            "k": "call",
+                            "name": "pwd",
+                            "args": [],
+                            "named": {
+                              "tmp": {
+                                "t": "bool",
+                                "v": true,
+                                "line": 83,
+                                "col": 31,
+                                "endLine": 83,
+                                "endCol": 35
+                              }
+                            },
+                            "line": 83,
+                            "col": 22,
+                            "endLine": 83,
+                            "endCol": 36
+                          },
+                          "line": 83,
+                          "col": 22,
+                          "endLine": 83,
+                          "endCol": 36
+                        },
+                        "annotations": [],
+                        "line": 83,
+                        "col": 9,
+                        "endLine": 83,
+                        "endCol": 36
+                      },
+                      {
+                        "k": "decl",
+                        "name": "changelistF",
+                        "value": {
+                          "t": "gstr",
+                          "v": "\"${tmpDir}/changelist\"",
+                          "vars": [
+                            "{tmpDir}"
+                          ],
+                          "calls": [],
+                          "line": 84,
+                          "col": 27,
+                          "endLine": 84,
+                          "endCol": 49
+                        },
+                        "annotations": [],
+                        "line": 84,
+                        "col": 9,
+                        "endLine": 84,
+                        "endCol": 49
+                      },
+                      {
+                        "k": "decl",
+                        "name": "m2repo",
+                        "value": {
+                          "t": "gstr",
+                          "v": "\"${tmpDir}/m2repo\"",
+                          "vars": [
+                            "{tmpDir}"
+                          ],
+                          "calls": [],
+                          "line": 85,
+                          "col": 22,
+                          "endLine": 85,
+                          "endCol": 40
+                        },
+                        "annotations": [],
+                        "line": 85,
+                        "col": 9,
+                        "endLine": 85,
+                        "endCol": 40
+                      },
+                      {
+                        "k": "decl",
+                        "name": "session",
+                        "value": {
+                          "t": "expr",
+                          "kind": "EmptyExpression",
+                          "text": "<not implemented yet for class: org.codehaus.groovy.ast.expr.EmptyExpression>",
+                          "calls": []
+                        },
+                        "annotations": [],
+                        "line": 86,
+                        "col": 9,
+                        "endLine": 86,
+                        "endCol": 20
+                      },
+                      {
+                        "k": "call",
+                        "name": "stage",
+                        "args": [
+                          {
+                            "t": "gstr",
+                            "v": "\"${platform.capitalize()} - JDK ${jdk} - Build / Test\"",
+                            "vars": [
+                              "{platform.capitalize()}",
+                              "{jdk}"
+                            ],
+                            "calls": [
+                              {
+                                "k": "call",
+                                "name": "capitalize",
+                                "args": [],
+                                "named": {},
+                                "line": 89,
+                                "col": 17,
+                                "endLine": 89,
+                                "endCol": 40,
+                                "receiver": "platform"
+                              }
+                            ],
+                            "line": 89,
+                            "col": 15,
+                            "endLine": 89,
+                            "endCol": 69
+                          }
+                        ],
+                        "named": {},
+                        "line": 89,
+                        "col": 9,
+                        "endLine": 149,
+                        "endCol": 10,
+                        "body": [
+                          {
+                            "k": "call",
+                            "name": "timeout",
+                            "args": [],
+                            "named": {
+                              "time": {
+                                "t": "num",
+                                "v": 6,
+                                "line": 90,
+                                "col": 25,
+                                "endLine": 90,
+                                "endCol": 26
+                              },
+                              "unit": {
+                                "t": "str",
+                                "v": "HOURS",
+                                "line": 90,
+                                "col": 34,
+                                "endLine": 90,
+                                "endCol": 41
+                              }
+                            },
+                            "line": 90,
+                            "col": 11,
+                            "endLine": 148,
+                            "endCol": 12,
+                            "body": [
+                              {
+                                "k": "call",
+                                "name": "dir",
+                                "args": [
+                                  {
+                                    "t": "var",
+                                    "name": "tmpDir",
+                                    "line": 91,
+                                    "col": 17,
+                                    "endLine": 91,
+                                    "endCol": 23
+                                  }
+                                ],
+                                "named": {},
+                                "line": 91,
+                                "col": 13,
+                                "endLine": 95,
+                                "endCol": 14,
+                                "body": [
+                                  {
+                                    "k": "decl",
+                                    "name": "sessionFile",
+                                    "value": {
+                                      "t": "gstr",
+                                      "v": "\"launchable-session-${platform}-jdk${jdk}.txt\"",
+                                      "vars": [
+                                        "{platform}",
+                                        "{jdk}"
+                                      ],
+                                      "calls": [],
+                                      "line": 92,
+                                      "col": 33,
+                                      "endLine": 92,
+                                      "endCol": 79
+                                    },
+                                    "annotations": [],
+                                    "line": 92,
+                                    "col": 15,
+                                    "endLine": 92,
+                                    "endCol": 79
+                                  },
+                                  {
+                                    "k": "call",
+                                    "name": "unstash",
+                                    "args": [
+                                      {
+                                        "t": "var",
+                                        "name": "sessionFile",
+                                        "line": 93,
+                                        "col": 23,
+                                        "endLine": 93,
+                                        "endCol": 34
+                                      }
+                                    ],
+                                    "named": {},
+                                    "line": 93,
+                                    "col": 15,
+                                    "endLine": 93,
+                                    "endCol": 34
+                                  },
+                                  {
+                                    "k": "assign",
+                                    "op": "=",
+                                    "target": "session",
+                                    "value": {
+                                      "t": "call",
+                                      "call": {
+                                        "k": "call",
+                                        "name": "trim",
+                                        "args": [],
+                                        "named": {},
+                                        "line": 94,
+                                        "col": 25,
+                                        "endLine": 94,
+                                        "endCol": 53,
+                                        "receiver": "readFile(sessionFile)",
+                                        "receiverCalls": [
+                                          {
+                                            "k": "call",
+                                            "name": "readFile",
+                                            "args": [
+                                              {
+                                                "t": "var",
+                                                "name": "sessionFile",
+                                                "line": 94,
+                                                "col": 34,
+                                                "endLine": 94,
+                                                "endCol": 45
+                                              }
+                                            ],
+                                            "named": {},
+                                            "line": 94,
+                                            "col": 25,
+                                            "endLine": 94,
+                                            "endCol": 46
+                                          }
+                                        ]
+                                      },
+                                      "line": 94,
+                                      "col": 25,
+                                      "endLine": 94,
+                                      "endCol": 53
+                                    },
+                                    "line": 94,
+                                    "col": 15,
+                                    "endLine": 94,
+                                    "endCol": 53
+                                  }
+                                ]
+                              },
+                              {
+                                "k": "decl",
+                                "name": "mavenOptions",
+                                "value": {
+                                  "t": "list",
+                                  "v": [
+                                    {
+                                      "t": "str",
+                                      "v": "-Pdebug",
+                                      "line": 97,
+                                      "col": 15,
+                                      "endLine": 97,
+                                      "endCol": 24
+                                    },
+                                    {
+                                      "t": "str",
+                                      "v": "-Penable-jacoco",
+                                      "line": 98,
+                                      "col": 15,
+                                      "endLine": 98,
+                                      "endCol": 32
+                                    },
+                                    {
+                                      "t": "str",
+                                      "v": "--update-snapshots",
+                                      "line": 99,
+                                      "col": 15,
+                                      "endLine": 99,
+                                      "endCol": 35
+                                    },
+                                    {
+                                      "t": "gstr",
+                                      "v": "\"-Dmaven.repo.local=$m2repo\"",
+                                      "vars": [
+                                        "m2repo"
+                                      ],
+                                      "calls": [],
+                                      "line": 100,
+                                      "col": 15,
+                                      "endLine": 100,
+                                      "endCol": 43
+                                    },
+                                    {
+                                      "t": "str",
+                                      "v": "-Dmaven.test.failure.ignore",
+                                      "line": 101,
+                                      "col": 15,
+                                      "endLine": 101,
+                                      "endCol": 44
+                                    },
+                                    {
+                                      "t": "str",
+                                      "v": "-DforkCount=2",
+                                      "line": 102,
+                                      "col": 15,
+                                      "endLine": 102,
+                                      "endCol": 30
+                                    },
+                                    {
+                                      "t": "str",
+                                      "v": "-Dspotbugs.failOnError=false",
+                                      "line": 103,
+                                      "col": 15,
+                                      "endLine": 103,
+                                      "endCol": 45
+                                    },
+                                    {
+                                      "t": "str",
+                                      "v": "-Dcheckstyle.failOnViolation=false",
+                                      "line": 104,
+                                      "col": 15,
+                                      "endLine": 104,
+                                      "endCol": 51
+                                    },
+                                    {
+                                      "t": "str",
+                                      "v": "-Dset.changelist",
+                                      "line": 105,
+                                      "col": 15,
+                                      "endLine": 105,
+                                      "endCol": 33
+                                    },
+                                    {
+                                      "t": "str",
+                                      "v": "help:evaluate",
+                                      "line": 106,
+                                      "col": 15,
+                                      "endLine": 106,
+                                      "endCol": 30
+                                    },
+                                    {
+                                      "t": "str",
+                                      "v": "-Dexpression=changelist",
+                                      "line": 107,
+                                      "col": 15,
+                                      "endLine": 107,
+                                      "endCol": 40
+                                    },
+                                    {
+                                      "t": "gstr",
+                                      "v": "\"-Doutput=$changelistF\"",
+                                      "vars": [
+                                        "changelistF"
+                                      ],
+                                      "calls": [],
+                                      "line": 108,
+                                      "col": 15,
+                                      "endLine": 108,
+                                      "endCol": 38
+                                    },
+                                    {
+                                      "t": "str",
+                                      "v": "clean",
+                                      "line": 109,
+                                      "col": 15,
+                                      "endLine": 109,
+                                      "endCol": 22
+                                    },
+                                    {
+                                      "t": "str",
+                                      "v": "install",
+                                      "line": 110,
+                                      "col": 15,
+                                      "endLine": 110,
+                                      "endCol": 24
+                                    }
+                                  ],
+                                  "line": 96,
+                                  "col": 32,
+                                  "endLine": 111,
+                                  "endCol": 14
+                                },
+                                "annotations": [],
+                                "line": 96,
+                                "col": 13,
+                                "endLine": 111,
+                                "endCol": 14
+                              },
+                              {
+                                "k": "if",
+                                "cond": "env.CHANGE_ID && !pullRequest.labels.contains('full-test')",
+                                "condCalls": [
+                                  {
+                                    "k": "call",
+                                    "name": "contains",
+                                    "args": [
+                                      {
+                                        "t": "str",
+                                        "v": "full-test",
+                                        "line": 112,
+                                        "col": 63,
+                                        "endLine": 112,
+                                        "endCol": 74
+                                      }
+                                    ],
+                                    "named": {},
+                                    "line": 112,
+                                    "col": 35,
+                                    "endLine": 112,
+                                    "endCol": 75,
+                                    "receiver": "pullRequest.labels"
+                                  }
+                                ],
+                                "then": [
+                                  {
+                                    "k": "decl",
+                                    "name": "excludesFile",
+                                    "value": {
+                                      "t": "expr",
+                                      "kind": "EmptyExpression",
+                                      "text": "<not implemented yet for class: org.codehaus.groovy.ast.expr.EmptyExpression>",
+                                      "calls": []
+                                    },
+                                    "annotations": [],
+                                    "line": 113,
+                                    "col": 15,
+                                    "endLine": 113,
+                                    "endCol": 31
+                                  },
+                                  {
+                                    "k": "decl",
+                                    "name": "target",
+                                    "value": {
+                                      "t": "expr",
+                                      "kind": "TernaryExpression",
+                                      "text": "?",
+                                      "calls": [],
+                                      "line": 114,
+                                      "col": 50,
+                                      "endLine": 114,
+                                      "endCol": 51
+                                    },
+                                    "annotations": [],
+                                    "line": 114,
+                                    "col": 15,
+                                    "endLine": 114,
+                                    "endCol": 66
+                                  },
+                                  {
+                                    "k": "call",
+                                    "name": "withCredentials",
+                                    "args": [
+                                      {
+                                        "t": "list",
+                                        "v": [
+                                          {
+                                            "t": "call",
+                                            "call": {
+                                              "k": "call",
+                                              "name": "string",
+                                              "args": [],
+                                              "named": {
+                                                "credentialsId": {
+                                                  "t": "str",
+                                                  "v": "launchable-jenkins-jenkins",
+                                                  "line": 115,
+                                                  "col": 54,
+                                                  "endLine": 115,
+                                                  "endCol": 82
+                                                },
+                                                "variable": {
+                                                  "t": "str",
+                                                  "v": "LAUNCHABLE_TOKEN",
+                                                  "line": 115,
+                                                  "col": 94,
+                                                  "endLine": 115,
+                                                  "endCol": 112
+                                                }
+                                              },
+                                              "line": 115,
+                                              "col": 32,
+                                              "endLine": 115,
+                                              "endCol": 113
+                                            },
+                                            "line": 115,
+                                            "col": 32,
+                                            "endLine": 115,
+                                            "endCol": 113
+                                          }
+                                        ],
+                                        "line": 115,
+                                        "col": 31,
+                                        "endLine": 115,
+                                        "endCol": 114
+                                      }
+                                    ],
+                                    "named": {},
+                                    "line": 115,
+                                    "col": 15,
+                                    "endLine": 123,
+                                    "endCol": 16,
+                                    "body": [
+                                      {
+                                        "k": "if",
+                                        "cond": "isUnix()",
+                                        "condCalls": [
+                                          {
+                                            "k": "call",
+                                            "name": "isUnix",
+                                            "args": [],
+                                            "named": {},
+                                            "line": 116,
+                                            "col": 21,
+                                            "endLine": 116,
+                                            "endCol": 29
+                                          }
+                                        ],
+                                        "then": [
+                                          {
+                                            "k": "assign",
+                                            "op": "=",
+                                            "target": "excludesFile",
+                                            "value": {
+                                              "t": "gstr",
+                                              "v": "\"${tmpDir}/excludes.txt\"",
+                                              "vars": [
+                                                "{tmpDir}"
+                                              ],
+                                              "calls": [],
+                                              "line": 117,
+                                              "col": 34,
+                                              "endLine": 117,
+                                              "endCol": 58
+                                            },
+                                            "line": 117,
+                                            "col": 19,
+                                            "endLine": 117,
+                                            "endCol": 58
+                                          },
+                                          {
+                                            "k": "call",
+                                            "name": "sh",
+                                            "args": [
+                                              {
+                                                "t": "gstr",
+                                                "v": "\"launchable verify && launchable subset --session ${session} --target ${target} --get-tests-from-previous-sessions --output-exclusion-rules maven >${excludesFile}\"",
+                                                "vars": [
+                                                  "{session}",
+                                                  "{target}",
+                                                  "{excludesFile}"
+                                                ],
+                                                "calls": [],
+                                                "line": 118,
+                                                "col": 22,
+                                                "endLine": 118,
+                                                "endCol": 185
+                                              }
+                                            ],
+                                            "named": {},
+                                            "line": 118,
+                                            "col": 19,
+                                            "endLine": 118,
+                                            "endCol": 185
+                                          }
+                                        ],
+                                        "else": [
+                                          {
+                                            "k": "assign",
+                                            "op": "=",
+                                            "target": "excludesFile",
+                                            "value": {
+                                              "t": "gstr",
+                                              "v": "\"${tmpDir}\\\\excludes.txt\"",
+                                              "vars": [
+                                                "{tmpDir}"
+                                              ],
+                                              "calls": [],
+                                              "line": 120,
+                                              "col": 34,
+                                              "endLine": 120,
+                                              "endCol": 59
+                                            },
+                                            "line": 120,
+                                            "col": 19,
+                                            "endLine": 120,
+                                            "endCol": 59
+                                          },
+                                          {
+                                            "k": "call",
+                                            "name": "bat",
+                                            "args": [
+                                              {
+                                                "t": "gstr",
+                                                "v": "\"launchable verify && launchable subset --session ${session} --target ${target}% --get-tests-from-previous-sessions --output-exclusion-rules maven >${excludesFile}\"",
+                                                "vars": [
+                                                  "{session}",
+                                                  "{target}",
+                                                  "{excludesFile}"
+                                                ],
+                                                "calls": [],
+                                                "line": 121,
+                                                "col": 23,
+                                                "endLine": 121,
+                                                "endCol": 187
+                                              }
+                                            ],
+                                            "named": {},
+                                            "line": 121,
+                                            "col": 19,
+                                            "endLine": 121,
+                                            "endCol": 187
+                                          }
+                                        ],
+                                        "line": 116,
+                                        "col": 17,
+                                        "endLine": 122,
+                                        "endCol": 18
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "k": "call",
+                                    "name": "add",
+                                    "args": [
+                                      {
+                                        "t": "num",
+                                        "v": 0,
+                                        "line": 124,
+                                        "col": 32,
+                                        "endLine": 124,
+                                        "endCol": 33
+                                      },
+                                      {
+                                        "t": "gstr",
+                                        "v": "\"-Dsurefire.excludesFile=${excludesFile}\"",
+                                        "vars": [
+                                          "{excludesFile}"
+                                        ],
+                                        "calls": [],
+                                        "line": 124,
+                                        "col": 35,
+                                        "endLine": 124,
+                                        "endCol": 76
+                                      }
+                                    ],
+                                    "named": {},
+                                    "line": 124,
+                                    "col": 15,
+                                    "endLine": 124,
+                                    "endCol": 77,
+                                    "receiver": "mavenOptions"
+                                  }
+                                ],
+                                "else": [],
+                                "line": 112,
+                                "col": 13,
+                                "endLine": 125,
+                                "endCol": 14
+                              },
+                              {
+                                "k": "call",
+                                "name": "withChecks",
+                                "args": [],
+                                "named": {
+                                  "name": {
+                                    "t": "str",
+                                    "v": "Tests",
+                                    "line": 126,
+                                    "col": 30,
+                                    "endLine": 126,
+                                    "endCol": 37
+                                  },
+                                  "includeStage": {
+                                    "t": "bool",
+                                    "v": true,
+                                    "line": 126,
+                                    "col": 53,
+                                    "endLine": 126,
+                                    "endCol": 57
+                                  }
+                                },
+                                "line": 126,
+                                "col": 13,
+                                "endLine": 147,
+                                "endCol": 14,
+                                "body": [
+                                  {
+                                    "k": "call",
+                                    "name": "sh",
+                                    "args": [
+                                      {
+                                        "t": "gstr",
+                                        "v": "\"\"\"\n                echo mvn ${mavenOptions.join(' ')}  # j2gha-local: JDK ${jdk}; not run\n                mkdir -p core/target/surefire-reports target/vitest-reports war/target\n                printf '<?xml version=\"1.0\" encoding=\"UTF-8\"?>\\\\n<testsuite name=\"jenkins.j2gha.LocalTest\" tests=\"2\" failures=\"0\" errors=\"0\" skipped=\"0\" time=\"0.01\"><testcase classname=\"jenkins.j2gha.LocalTest\" name=\"buildsOnJdk${jdk}\" time=\"0.01\"/><testcase classname=\"jenkins.j2gha.LocalTest\" name=\"archivesWar\" time=\"0.00\"/></testsuite>\\\\n' > core/target/surefire-reports/TEST-jenkins.j2gha.LocalTest.xml\n                printf '<?xml version=\"1.0\" encoding=\"UTF-8\"?>\\\\n<testsuite name=\"vitest\" tests=\"1\" failures=\"0\" errors=\"0\" skipped=\"0\" time=\"0.01\"><testcase classname=\"j2gha.frontend\" name=\"lints\" time=\"0.01\"/></testsuite>\\\\n' > target/vitest-reports/vitest.xml\n                echo 'j2gha stand-in dumpstream' > core/target/surefire-reports/jenkins.j2gha.LocalTest-output.dumpstream\n                echo 'j2gha stand-in war' > war/target/jenkins.war\n                changelist=\"-rc1.\\$(git rev-parse --short=12 HEAD)\"\n                printf '%s' \"\\$changelist\" > ${changelistF}\n                mkdir -p ${m2repo}/org/jenkins-ci/main/jenkins-war/2.999\\$changelist ${m2repo}/org/jenkins-ci/main/jenkins-core/2.999\\$changelist\n                echo 'j2gha stand-in war' > ${m2repo}/org/jenkins-ci/main/jenkins-war/2.999\\$changelist/jenkins-war-2.999\\$changelist.war\n                echo 'j2gha stand-in jar' > ${m2repo}/org/jenkins-ci/main/jenkins-core/2.999\\$changelist/jenkins-core-2.999\\$changelist.jar\n              \"\"\"",
+                                        "vars": [
+                                          "{mavenOptions.join(' ')}",
+                                          "{jdk}",
+                                          "{jdk}",
+                                          "{changelistF}",
+                                          "{m2repo}",
+                                          "{m2repo}",
+                                          "{m2repo}",
+                                          "{m2repo}"
+                                        ],
+                                        "calls": [
+                                          {
+                                            "k": "call",
+                                            "name": "join",
+                                            "args": [
+                                              {
+                                                "t": "str",
+                                                "v": " ",
+                                                "line": 131,
+                                                "col": 46,
+                                                "endLine": 131,
+                                                "endCol": 49
+                                              }
+                                            ],
+                                            "named": {},
+                                            "line": 131,
+                                            "col": 27,
+                                            "endLine": 131,
+                                            "endCol": 51,
+                                            "receiver": "mavenOptions"
+                                          }
+                                        ],
+                                        "line": 130,
+                                        "col": 18,
+                                        "endLine": 142,
+                                        "endCol": 18
+                                      }
+                                    ],
+                                    "named": {},
+                                    "line": 130,
+                                    "col": 15,
+                                    "endLine": 142,
+                                    "endCol": 18
+                                  },
+                                  {
+                                    "k": "if",
+                                    "cond": "isUnix()",
+                                    "condCalls": [
+                                      {
+                                        "k": "call",
+                                        "name": "isUnix",
+                                        "args": [],
+                                        "named": {},
+                                        "line": 143,
+                                        "col": 19,
+                                        "endLine": 143,
+                                        "endCol": 27
+                                      }
+                                    ],
+                                    "then": [
+                                      {
+                                        "k": "call",
+                                        "name": "sh",
+                                        "args": [
+                                          {
+                                            "t": "str",
+                                            "v": "git add . && git diff --exit-code HEAD",
+                                            "line": 144,
+                                            "col": 20,
+                                            "endLine": 144,
+                                            "endCol": 60
+                                          }
+                                        ],
+                                        "named": {},
+                                        "line": 144,
+                                        "col": 17,
+                                        "endLine": 144,
+                                        "endCol": 60
+                                      }
+                                    ],
+                                    "else": [],
+                                    "line": 143,
+                                    "col": 15,
+                                    "endLine": 145,
+                                    "endCol": 16
+                                  },
+                                  {
+                                    "k": "call",
+                                    "name": "junit",
+                                    "args": [],
+                                    "named": {
+                                      "healthScaleFactor": {
+                                        "t": "num",
+                                        "v": 20.0,
+                                        "line": 146,
+                                        "col": 40,
+                                        "endLine": 146,
+                                        "endCol": 44
+                                      },
+                                      "testResults": {
+                                        "t": "str",
+                                        "v": "*/target/surefire-reports/*.xml,target/vitest-reports/*.xml",
+                                        "line": 146,
+                                        "col": 59,
+                                        "endLine": 146,
+                                        "endCol": 120
+                                      }
+                                    },
+                                    "line": 146,
+                                    "col": 15,
+                                    "endLine": 146,
+                                    "endCol": 184
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "k": "call",
+                        "name": "stage",
+                        "args": [
+                          {
+                            "t": "gstr",
+                            "v": "\"${platform.capitalize()} - JDK ${jdk} - Publish\"",
+                            "vars": [
+                              "{platform.capitalize()}",
+                              "{jdk}"
+                            ],
+                            "calls": [
+                              {
+                                "k": "call",
+                                "name": "capitalize",
+                                "args": [],
+                                "named": {},
+                                "line": 152,
+                                "col": 17,
+                                "endLine": 152,
+                                "endCol": 40,
+                                "receiver": "platform"
+                              }
+                            ],
+                            "line": 152,
+                            "col": 15,
+                            "endLine": 152,
+                            "endCol": 64
+                          }
+                        ],
+                        "named": {},
+                        "line": 152,
+                        "col": 9,
+                        "endLine": 224,
+                        "endCol": 10,
+                        "body": [
+                          {
+                            "k": "call",
+                            "name": "archiveArtifacts",
+                            "args": [],
+                            "named": {
+                              "allowEmptyArchive": {
+                                "t": "bool",
+                                "v": true,
+                                "line": 153,
+                                "col": 47,
+                                "endLine": 153,
+                                "endCol": 51
+                              },
+                              "artifacts": {
+                                "t": "str",
+                                "v": "**/target/surefire-reports/*.dumpstream",
+                                "line": 153,
+                                "col": 64,
+                                "endLine": 153,
+                                "endCol": 105
+                              }
+                            },
+                            "line": 153,
+                            "col": 11,
+                            "endLine": 153,
+                            "endCol": 105
+                          },
+                          {
+                            "k": "if",
+                            "cond": "failFast && currentBuild.result == 'UNSTABLE'",
+                            "condCalls": [],
+                            "then": [
+                              {
+                                "k": "call",
+                                "name": "error",
+                                "args": [
+                                  {
+                                    "t": "str",
+                                    "v": "There were test failures; halting early",
+                                    "line": 156,
+                                    "col": 19,
+                                    "endLine": 156,
+                                    "endCol": 60
+                                  }
+                                ],
+                                "named": {},
+                                "line": 156,
+                                "col": 13,
+                                "endLine": 156,
+                                "endCol": 60
+                              }
+                            ],
+                            "else": [],
+                            "line": 155,
+                            "col": 11,
+                            "endLine": 157,
+                            "endCol": 12
+                          },
+                          {
+                            "k": "if",
+                            "cond": "platform == 'linux' && jdk == axes['jdks'][0]",
+                            "condCalls": [],
+                            "then": [
+                              {
+                                "k": "decl",
+                                "name": "folders",
+                                "value": {
+                                  "t": "call",
+                                  "call": {
+                                    "k": "call",
+                                    "name": "split",
+                                    "args": [
+                                      {
+                                        "t": "str",
+                                        "v": "/",
+                                        "line": 159,
+                                        "col": 46,
+                                        "endLine": 159,
+                                        "endCol": 49
+                                      }
+                                    ],
+                                    "named": {},
+                                    "line": 159,
+                                    "col": 27,
+                                    "endLine": 159,
+                                    "endCol": 50,
+                                    "receiver": "env.JOB_NAME"
+                                  },
+                                  "line": 159,
+                                  "col": 27,
+                                  "endLine": 159,
+                                  "endCol": 50
+                                },
+                                "annotations": [],
+                                "line": 159,
+                                "col": 13,
+                                "endLine": 159,
+                                "endCol": 50
+                              },
+                              {
+                                "k": "if",
+                                "cond": "folders.length > 1",
+                                "condCalls": [],
+                                "then": [
+                                  {
+                                    "k": "call",
+                                    "name": "discoverGitReferenceBuild",
+                                    "args": [],
+                                    "named": {
+                                      "scm": {
+                                        "t": "expr",
+                                        "kind": "BinaryExpression",
+                                        "text": "folders[1]",
+                                        "calls": [],
+                                        "line": 161,
+                                        "col": 46,
+                                        "endLine": 161,
+                                        "endCol": 56
+                                      }
+                                    },
+                                    "line": 161,
+                                    "col": 15,
+                                    "endLine": 161,
+                                    "endCol": 57
+                                  }
+                                ],
+                                "else": [],
+                                "line": 160,
+                                "col": 13,
+                                "endLine": 162,
+                                "endCol": 14
+                              },
+                              {
+                                "k": "call",
+                                "name": "recordCoverage",
+                                "args": [],
+                                "named": {
+                                  "tools": {
+                                    "t": "list",
+                                    "v": [
+                                      {
+                                        "t": "map",
+                                        "v": {
+                                          "parser": {
+                                            "t": "str",
+                                            "v": "JACOCO",
+                                            "line": 163,
+                                            "col": 45,
+                                            "endLine": 163,
+                                            "endCol": 53
+                                          },
+                                          "pattern": {
+                                            "t": "str",
+                                            "v": "coverage/target/site/jacoco-aggregate/jacoco.xml",
+                                            "line": 163,
+                                            "col": 64,
+                                            "endLine": 163,
+                                            "endCol": 114
+                                          }
+                                        },
+                                        "line": 163,
+                                        "col": 36,
+                                        "endLine": 163,
+                                        "endCol": 115
+                                      }
+                                    ],
+                                    "line": 163,
+                                    "col": 35,
+                                    "endLine": 163,
+                                    "endCol": 116
+                                  },
+                                  "sourceCodeRetention": {
+                                    "t": "str",
+                                    "v": "MODIFIED",
+                                    "line": 164,
+                                    "col": 34,
+                                    "endLine": 164,
+                                    "endCol": 44
+                                  },
+                                  "sourceDirectories": {
+                                    "t": "list",
+                                    "v": [
+                                      {
+                                        "t": "map",
+                                        "v": {
+                                          "path": {
+                                            "t": "str",
+                                            "v": "core/src/main/java",
+                                            "line": 164,
+                                            "col": 73,
+                                            "endLine": 164,
+                                            "endCol": 93
+                                          }
+                                        },
+                                        "line": 164,
+                                        "col": 66,
+                                        "endLine": 164,
+                                        "endCol": 94
+                                      }
+                                    ],
+                                    "line": 164,
+                                    "col": 65,
+                                    "endLine": 164,
+                                    "endCol": 95
+                                  }
+                                },
+                                "line": 163,
+                                "col": 13,
+                                "endLine": 164,
+                                "endCol": 96
+                              },
+                              {
+                                "k": "call",
+                                "name": "echo",
+                                "args": [
+                                  {
+                                    "t": "gstr",
+                                    "v": "\"Recording static analysis results for '${platform.capitalize()}'\"",
+                                    "vars": [
+                                      "{platform.capitalize()}"
+                                    ],
+                                    "calls": [
+                                      {
+                                        "k": "call",
+                                        "name": "capitalize",
+                                        "args": [],
+                                        "named": {},
+                                        "line": 166,
+                                        "col": 59,
+                                        "endLine": 166,
+                                        "endCol": 82,
+                                        "receiver": "platform"
+                                      }
+                                    ],
+                                    "line": 166,
+                                    "col": 18,
+                                    "endLine": 166,
+                                    "endCol": 84
+                                  }
+                                ],
+                                "named": {},
+                                "line": 166,
+                                "col": 13,
+                                "endLine": 166,
+                                "endCol": 84
+                              },
+                              {
+                                "k": "call",
+                                "name": "recordIssues",
+                                "args": [],
+                                "named": {
+                                  "enabledForFailure": {
+                                    "t": "bool",
+                                    "v": true,
+                                    "line": 168,
+                                    "col": 36,
+                                    "endLine": 168,
+                                    "endCol": 40
+                                  },
+                                  "tools": {
+                                    "t": "list",
+                                    "v": [
+                                      {
+                                        "t": "call",
+                                        "call": {
+                                          "k": "call",
+                                          "name": "java",
+                                          "args": [],
+                                          "named": {},
+                                          "line": 169,
+                                          "col": 25,
+                                          "endLine": 169,
+                                          "endCol": 31
+                                        },
+                                        "line": 169,
+                                        "col": 25,
+                                        "endLine": 169,
+                                        "endCol": 31
+                                      }
+                                    ],
+                                    "line": 169,
+                                    "col": 24,
+                                    "endLine": 169,
+                                    "endCol": 32
+                                  },
+                                  "filters": {
+                                    "t": "list",
+                                    "v": [
+                                      {
+                                        "t": "call",
+                                        "call": {
+                                          "k": "call",
+                                          "name": "excludeFile",
+                                          "args": [
+                                            {
+                                              "t": "str",
+                                              "v": ".*Assert.java",
+                                              "line": 170,
+                                              "col": 39,
+                                              "endLine": 170,
+                                              "endCol": 54
+                                            }
+                                          ],
+                                          "named": {},
+                                          "line": 170,
+                                          "col": 27,
+                                          "endLine": 170,
+                                          "endCol": 55
+                                        },
+                                        "line": 170,
+                                        "col": 27,
+                                        "endLine": 170,
+                                        "endCol": 55
+                                      }
+                                    ],
+                                    "line": 170,
+                                    "col": 26,
+                                    "endLine": 170,
+                                    "endCol": 56
+                                  },
+                                  "sourceCodeEncoding": {
+                                    "t": "str",
+                                    "v": "UTF-8",
+                                    "line": 171,
+                                    "col": 37,
+                                    "endLine": 171,
+                                    "endCol": 44
+                                  },
+                                  "skipBlames": {
+                                    "t": "bool",
+                                    "v": true,
+                                    "line": 172,
+                                    "col": 29,
+                                    "endLine": 172,
+                                    "endCol": 33
+                                  },
+                                  "trendChartType": {
+                                    "t": "str",
+                                    "v": "TOOLS_ONLY",
+                                    "line": 173,
+                                    "col": 33,
+                                    "endLine": 174,
+                                    "endCol": 17
+                                  }
+                                },
+                                "line": 167,
+                                "col": 13,
+                                "endLine": 174,
+                                "endCol": 18
+                              },
+                              {
+                                "k": "call",
+                                "name": "recordIssues",
+                                "args": [],
+                                "named": {
+                                  "enabledForFailure": {
+                                    "t": "bool",
+                                    "v": true,
+                                    "line": 176,
+                                    "col": 36,
+                                    "endLine": 176,
+                                    "endCol": 40
+                                  },
+                                  "tools": {
+                                    "t": "list",
+                                    "v": [
+                                      {
+                                        "t": "call",
+                                        "call": {
+                                          "k": "call",
+                                          "name": "javaDoc",
+                                          "args": [],
+                                          "named": {},
+                                          "line": 177,
+                                          "col": 25,
+                                          "endLine": 177,
+                                          "endCol": 34
+                                        },
+                                        "line": 177,
+                                        "col": 25,
+                                        "endLine": 177,
+                                        "endCol": 34
+                                      }
+                                    ],
+                                    "line": 177,
+                                    "col": 24,
+                                    "endLine": 177,
+                                    "endCol": 35
+                                  },
+                                  "filters": {
+                                    "t": "list",
+                                    "v": [
+                                      {
+                                        "t": "call",
+                                        "call": {
+                                          "k": "call",
+                                          "name": "excludeFile",
+                                          "args": [
+                                            {
+                                              "t": "str",
+                                              "v": ".*Assert.java",
+                                              "line": 178,
+                                              "col": 39,
+                                              "endLine": 178,
+                                              "endCol": 54
+                                            }
+                                          ],
+                                          "named": {},
+                                          "line": 178,
+                                          "col": 27,
+                                          "endLine": 178,
+                                          "endCol": 55
+                                        },
+                                        "line": 178,
+                                        "col": 27,
+                                        "endLine": 178,
+                                        "endCol": 55
+                                      }
+                                    ],
+                                    "line": 178,
+                                    "col": 26,
+                                    "endLine": 178,
+                                    "endCol": 56
+                                  },
+                                  "sourceCodeEncoding": {
+                                    "t": "str",
+                                    "v": "UTF-8",
+                                    "line": 179,
+                                    "col": 37,
+                                    "endLine": 179,
+                                    "endCol": 44
+                                  },
+                                  "skipBlames": {
+                                    "t": "bool",
+                                    "v": true,
+                                    "line": 180,
+                                    "col": 29,
+                                    "endLine": 180,
+                                    "endCol": 33
+                                  },
+                                  "trendChartType": {
+                                    "t": "str",
+                                    "v": "TOOLS_ONLY",
+                                    "line": 181,
+                                    "col": 33,
+                                    "endLine": 181,
+                                    "endCol": 45
+                                  },
+                                  "qualityGates": {
+                                    "t": "list",
+                                    "v": [
+                                      {
+                                        "t": "map",
+                                        "v": {
+                                          "threshold": {
+                                            "t": "num",
+                                            "v": 1,
+                                            "line": 182,
+                                            "col": 44,
+                                            "endLine": 182,
+                                            "endCol": 45
+                                          },
+                                          "type": {
+                                            "t": "str",
+                                            "v": "TOTAL",
+                                            "line": 182,
+                                            "col": 53,
+                                            "endLine": 182,
+                                            "endCol": 60
+                                          },
+                                          "unstable": {
+                                            "t": "bool",
+                                            "v": true,
+                                            "line": 182,
+                                            "col": 72,
+                                            "endLine": 182,
+                                            "endCol": 76
+                                          }
+                                        },
+                                        "line": 182,
+                                        "col": 32,
+                                        "endLine": 182,
+                                        "endCol": 77
+                                      }
+                                    ],
+                                    "line": 182,
+                                    "col": 31,
+                                    "endLine": 183,
+                                    "endCol": 13
+                                  }
+                                },
+                                "line": 175,
+                                "col": 13,
+                                "endLine": 183,
+                                "endCol": 14
+                              },
+                              {
+                                "k": "call",
+                                "name": "recordIssues",
+                                "args": [],
+                                "named": {
+                                  "tool": {
+                                    "t": "call",
+                                    "call": {
+                                      "k": "call",
+                                      "name": "spotBugs",
+                                      "args": [],
+                                      "named": {
+                                        "pattern": {
+                                          "t": "str",
+                                          "v": "**/target/spotbugsXml.xml",
+                                          "line": 184,
+                                          "col": 51,
+                                          "endLine": 184,
+                                          "endCol": 78
+                                        }
+                                      },
+                                      "line": 184,
+                                      "col": 33,
+                                      "endLine": 184,
+                                      "endCol": 79
+                                    },
+                                    "line": 184,
+                                    "col": 33,
+                                    "endLine": 184,
+                                    "endCol": 79
+                                  },
+                                  "sourceCodeEncoding": {
+                                    "t": "str",
+                                    "v": "UTF-8",
+                                    "line": 185,
+                                    "col": 35,
+                                    "endLine": 185,
+                                    "endCol": 42
+                                  },
+                                  "skipBlames": {
+                                    "t": "bool",
+                                    "v": true,
+                                    "line": 186,
+                                    "col": 27,
+                                    "endLine": 186,
+                                    "endCol": 31
+                                  },
+                                  "trendChartType": {
+                                    "t": "str",
+                                    "v": "TOOLS_ONLY",
+                                    "line": 187,
+                                    "col": 31,
+                                    "endLine": 187,
+                                    "endCol": 43
+                                  },
+                                  "qualityGates": {
+                                    "t": "list",
+                                    "v": [
+                                      {
+                                        "t": "map",
+                                        "v": {
+                                          "threshold": {
+                                            "t": "num",
+                                            "v": 1,
+                                            "line": 188,
+                                            "col": 42,
+                                            "endLine": 188,
+                                            "endCol": 43
+                                          },
+                                          "type": {
+                                            "t": "str",
+                                            "v": "NEW",
+                                            "line": 188,
+                                            "col": 51,
+                                            "endLine": 188,
+                                            "endCol": 56
+                                          },
+                                          "unstable": {
+                                            "t": "bool",
+                                            "v": true,
+                                            "line": 188,
+                                            "col": 68,
+                                            "endLine": 188,
+                                            "endCol": 72
+                                          }
+                                        },
+                                        "line": 188,
+                                        "col": 30,
+                                        "endLine": 188,
+                                        "endCol": 73
+                                      }
+                                    ],
+                                    "line": 188,
+                                    "col": 29,
+                                    "endLine": 188,
+                                    "endCol": 74
+                                  }
+                                },
+                                "line": 184,
+                                "col": 13,
+                                "endLine": 188,
+                                "endCol": 76
+                              },
+                              {
+                                "k": "call",
+                                "name": "recordIssues",
+                                "args": [],
+                                "named": {
+                                  "tool": {
+                                    "t": "call",
+                                    "call": {
+                                      "k": "call",
+                                      "name": "checkStyle",
+                                      "args": [],
+                                      "named": {
+                                        "pattern": {
+                                          "t": "str",
+                                          "v": "**/target/checkstyle-result.xml",
+                                          "line": 189,
+                                          "col": 53,
+                                          "endLine": 189,
+                                          "endCol": 86
+                                        }
+                                      },
+                                      "line": 189,
+                                      "col": 33,
+                                      "endLine": 189,
+                                      "endCol": 87
+                                    },
+                                    "line": 189,
+                                    "col": 33,
+                                    "endLine": 189,
+                                    "endCol": 87
+                                  },
+                                  "sourceCodeEncoding": {
+                                    "t": "str",
+                                    "v": "UTF-8",
+                                    "line": 190,
+                                    "col": 35,
+                                    "endLine": 190,
+                                    "endCol": 42
+                                  },
+                                  "skipBlames": {
+                                    "t": "bool",
+                                    "v": true,
+                                    "line": 191,
+                                    "col": 27,
+                                    "endLine": 191,
+                                    "endCol": 31
+                                  },
+                                  "trendChartType": {
+                                    "t": "str",
+                                    "v": "TOOLS_ONLY",
+                                    "line": 192,
+                                    "col": 31,
+                                    "endLine": 192,
+                                    "endCol": 43
+                                  },
+                                  "qualityGates": {
+                                    "t": "list",
+                                    "v": [
+                                      {
+                                        "t": "map",
+                                        "v": {
+                                          "threshold": {
+                                            "t": "num",
+                                            "v": 1,
+                                            "line": 193,
+                                            "col": 42,
+                                            "endLine": 193,
+                                            "endCol": 43
+                                          },
+                                          "type": {
+                                            "t": "str",
+                                            "v": "TOTAL",
+                                            "line": 193,
+                                            "col": 51,
+                                            "endLine": 193,
+                                            "endCol": 58
+                                          },
+                                          "unstable": {
+                                            "t": "bool",
+                                            "v": true,
+                                            "line": 193,
+                                            "col": 70,
+                                            "endLine": 193,
+                                            "endCol": 74
+                                          }
+                                        },
+                                        "line": 193,
+                                        "col": 30,
+                                        "endLine": 193,
+                                        "endCol": 75
+                                      }
+                                    ],
+                                    "line": 193,
+                                    "col": 29,
+                                    "endLine": 193,
+                                    "endCol": 76
+                                  }
+                                },
+                                "line": 189,
+                                "col": 13,
+                                "endLine": 193,
+                                "endCol": 78
+                              },
+                              {
+                                "k": "call",
+                                "name": "recordIssues",
+                                "args": [],
+                                "named": {
+                                  "tool": {
+                                    "t": "call",
+                                    "call": {
+                                      "k": "call",
+                                      "name": "esLint",
+                                      "args": [],
+                                      "named": {
+                                        "pattern": {
+                                          "t": "str",
+                                          "v": "**/target/eslint-warnings.xml",
+                                          "line": 194,
+                                          "col": 49,
+                                          "endLine": 194,
+                                          "endCol": 80
+                                        }
+                                      },
+                                      "line": 194,
+                                      "col": 33,
+                                      "endLine": 194,
+                                      "endCol": 81
+                                    },
+                                    "line": 194,
+                                    "col": 33,
+                                    "endLine": 194,
+                                    "endCol": 81
+                                  },
+                                  "sourceCodeEncoding": {
+                                    "t": "str",
+                                    "v": "UTF-8",
+                                    "line": 195,
+                                    "col": 35,
+                                    "endLine": 195,
+                                    "endCol": 42
+                                  },
+                                  "skipBlames": {
+                                    "t": "bool",
+                                    "v": true,
+                                    "line": 196,
+                                    "col": 27,
+                                    "endLine": 196,
+                                    "endCol": 31
+                                  },
+                                  "trendChartType": {
+                                    "t": "str",
+                                    "v": "TOOLS_ONLY",
+                                    "line": 197,
+                                    "col": 31,
+                                    "endLine": 197,
+                                    "endCol": 43
+                                  },
+                                  "qualityGates": {
+                                    "t": "list",
+                                    "v": [
+                                      {
+                                        "t": "map",
+                                        "v": {
+                                          "threshold": {
+                                            "t": "num",
+                                            "v": 1,
+                                            "line": 198,
+                                            "col": 42,
+                                            "endLine": 198,
+                                            "endCol": 43
+                                          },
+                                          "type": {
+                                            "t": "str",
+                                            "v": "TOTAL",
+                                            "line": 198,
+                                            "col": 51,
+                                            "endLine": 198,
+                                            "endCol": 58
+                                          },
+                                          "unstable": {
+                                            "t": "bool",
+                                            "v": true,
+                                            "line": 198,
+                                            "col": 70,
+                                            "endLine": 198,
+                                            "endCol": 74
+                                          }
+                                        },
+                                        "line": 198,
+                                        "col": 30,
+                                        "endLine": 198,
+                                        "endCol": 75
+                                      }
+                                    ],
+                                    "line": 198,
+                                    "col": 29,
+                                    "endLine": 198,
+                                    "endCol": 76
+                                  }
+                                },
+                                "line": 194,
+                                "col": 13,
+                                "endLine": 198,
+                                "endCol": 78
+                              },
+                              {
+                                "k": "call",
+                                "name": "recordIssues",
+                                "args": [],
+                                "named": {
+                                  "tool": {
+                                    "t": "call",
+                                    "call": {
+                                      "k": "call",
+                                      "name": "styleLint",
+                                      "args": [],
+                                      "named": {
+                                        "pattern": {
+                                          "t": "str",
+                                          "v": "**/target/stylelint-warnings.xml",
+                                          "line": 199,
+                                          "col": 52,
+                                          "endLine": 199,
+                                          "endCol": 86
+                                        }
+                                      },
+                                      "line": 199,
+                                      "col": 33,
+                                      "endLine": 199,
+                                      "endCol": 87
+                                    },
+                                    "line": 199,
+                                    "col": 33,
+                                    "endLine": 199,
+                                    "endCol": 87
+                                  },
+                                  "sourceCodeEncoding": {
+                                    "t": "str",
+                                    "v": "UTF-8",
+                                    "line": 200,
+                                    "col": 35,
+                                    "endLine": 200,
+                                    "endCol": 42
+                                  },
+                                  "skipBlames": {
+                                    "t": "bool",
+                                    "v": true,
+                                    "line": 201,
+                                    "col": 27,
+                                    "endLine": 201,
+                                    "endCol": 31
+                                  },
+                                  "trendChartType": {
+                                    "t": "str",
+                                    "v": "TOOLS_ONLY",
+                                    "line": 202,
+                                    "col": 31,
+                                    "endLine": 202,
+                                    "endCol": 43
+                                  },
+                                  "qualityGates": {
+                                    "t": "list",
+                                    "v": [
+                                      {
+                                        "t": "map",
+                                        "v": {
+                                          "threshold": {
+                                            "t": "num",
+                                            "v": 1,
+                                            "line": 203,
+                                            "col": 42,
+                                            "endLine": 203,
+                                            "endCol": 43
+                                          },
+                                          "type": {
+                                            "t": "str",
+                                            "v": "TOTAL",
+                                            "line": 203,
+                                            "col": 51,
+                                            "endLine": 203,
+                                            "endCol": 58
+                                          },
+                                          "unstable": {
+                                            "t": "bool",
+                                            "v": true,
+                                            "line": 203,
+                                            "col": 70,
+                                            "endLine": 203,
+                                            "endCol": 74
+                                          }
+                                        },
+                                        "line": 203,
+                                        "col": 30,
+                                        "endLine": 203,
+                                        "endCol": 75
+                                      }
+                                    ],
+                                    "line": 203,
+                                    "col": 29,
+                                    "endLine": 203,
+                                    "endCol": 76
+                                  }
+                                },
+                                "line": 199,
+                                "col": 13,
+                                "endLine": 203,
+                                "endCol": 78
+                              },
+                              {
+                                "k": "if",
+                                "cond": "failFast && currentBuild.result == 'UNSTABLE'",
+                                "condCalls": [],
+                                "then": [
+                                  {
+                                    "k": "call",
+                                    "name": "error",
+                                    "args": [
+                                      {
+                                        "t": "str",
+                                        "v": "Static analysis quality gates not passed; halting early",
+                                        "line": 205,
+                                        "col": 21,
+                                        "endLine": 205,
+                                        "endCol": 78
+                                      }
+                                    ],
+                                    "named": {},
+                                    "line": 205,
+                                    "col": 15,
+                                    "endLine": 205,
+                                    "endCol": 78
+                                  }
+                                ],
+                                "else": [],
+                                "line": 204,
+                                "col": 13,
+                                "endLine": 206,
+                                "endCol": 14
+                              },
+                              {
+                                "k": "decl",
+                                "name": "changelist",
+                                "value": {
+                                  "t": "call",
+                                  "call": {
+                                    "k": "call",
+                                    "name": "readFile",
+                                    "args": [
+                                      {
+                                        "t": "var",
+                                        "name": "changelistF",
+                                        "line": 207,
+                                        "col": 39,
+                                        "endLine": 207,
+                                        "endCol": 50
+                                      }
+                                    ],
+                                    "named": {},
+                                    "line": 207,
+                                    "col": 30,
+                                    "endLine": 207,
+                                    "endCol": 51
+                                  },
+                                  "line": 207,
+                                  "col": 30,
+                                  "endLine": 207,
+                                  "endCol": 51
+                                },
+                                "annotations": [],
+                                "line": 207,
+                                "col": 13,
+                                "endLine": 207,
+                                "endCol": 51
+                              },
+                              {
+                                "k": "call",
+                                "name": "dir",
+                                "args": [
+                                  {
+                                    "t": "var",
+                                    "name": "m2repo",
+                                    "line": 208,
+                                    "col": 17,
+                                    "endLine": 208,
+                                    "endCol": 23
+                                  }
+                                ],
+                                "named": {},
+                                "line": 208,
+                                "col": 13,
+                                "endLine": 215,
+                                "endCol": 14,
+                                "body": [
+                                  {
+                                    "k": "call",
+                                    "name": "archiveArtifacts",
+                                    "args": [],
+                                    "named": {
+                                      "artifacts": {
+                                        "t": "gstr",
+                                        "v": "\"**/*$changelist/*$changelist*\"",
+                                        "vars": [
+                                          "changelist",
+                                          "changelist"
+                                        ],
+                                        "calls": [],
+                                        "line": 210,
+                                        "col": 30,
+                                        "endLine": 210,
+                                        "endCol": 61
+                                      },
+                                      "excludes": {
+                                        "t": "str",
+                                        "v": "**/*.lastUpdated,**/jenkins-coverage*/,**/jenkins-test*/",
+                                        "line": 211,
+                                        "col": 29,
+                                        "endLine": 211,
+                                        "endCol": 87
+                                      },
+                                      "allowEmptyArchive": {
+                                        "t": "bool",
+                                        "v": true,
+                                        "line": 212,
+                                        "col": 38,
+                                        "endLine": 212,
+                                        "endCol": 42
+                                      },
+                                      "fingerprint": {
+                                        "t": "bool",
+                                        "v": true,
+                                        "line": 213,
+                                        "col": 32,
+                                        "endLine": 214,
+                                        "endCol": 19
+                                      }
+                                    },
+                                    "line": 209,
+                                    "col": 15,
+                                    "endLine": 214,
+                                    "endCol": 20
+                                  }
+                                ]
+                              }
+                            ],
+                            "else": [],
+                            "line": 158,
+                            "col": 11,
+                            "endLine": 216,
+                            "endCol": 12
+                          },
+                          {
+                            "k": "call",
+                            "name": "withCredentials",
+                            "args": [
+                              {
+                                "t": "list",
+                                "v": [
+                                  {
+                                    "t": "call",
+                                    "call": {
+                                      "k": "call",
+                                      "name": "string",
+                                      "args": [],
+                                      "named": {
+                                        "credentialsId": {
+                                          "t": "str",
+                                          "v": "launchable-jenkins-jenkins",
+                                          "line": 217,
+                                          "col": 50,
+                                          "endLine": 217,
+                                          "endCol": 78
+                                        },
+                                        "variable": {
+                                          "t": "str",
+                                          "v": "LAUNCHABLE_TOKEN",
+                                          "line": 217,
+                                          "col": 90,
+                                          "endLine": 217,
+                                          "endCol": 108
+                                        }
+                                      },
+                                      "line": 217,
+                                      "col": 28,
+                                      "endLine": 217,
+                                      "endCol": 109
+                                    },
+                                    "line": 217,
+                                    "col": 28,
+                                    "endLine": 217,
+                                    "endCol": 109
+                                  }
+                                ],
+                                "line": 217,
+                                "col": 27,
+                                "endLine": 217,
+                                "endCol": 110
+                              }
+                            ],
+                            "named": {},
+                            "line": 217,
+                            "col": 11,
+                            "endLine": 223,
+                            "endCol": 12,
+                            "body": [
+                              {
+                                "k": "if",
+                                "cond": "isUnix()",
+                                "condCalls": [
+                                  {
+                                    "k": "call",
+                                    "name": "isUnix",
+                                    "args": [],
+                                    "named": {},
+                                    "line": 218,
+                                    "col": 17,
+                                    "endLine": 218,
+                                    "endCol": 25
+                                  }
+                                ],
+                                "then": [
+                                  {
+                                    "k": "call",
+                                    "name": "sh",
+                                    "args": [
+                                      {
+                                        "t": "gstr",
+                                        "v": "\"echo launchable verify && echo launchable record tests --session ${session} --flavor platform=${platform} --flavor jdk=${jdk} maven './**/target/surefire-reports'\" // j2gha-local: no Launchable CLI",
+                                        "vars": [
+                                          "{session}",
+                                          "{platform}",
+                                          "{jdk}"
+                                        ],
+                                        "calls": [],
+                                        "line": 219,
+                                        "col": 18,
+                                        "endLine": 219,
+                                        "endCol": 216
+                                      }
+                                    ],
+                                    "named": {},
+                                    "line": 219,
+                                    "col": 15,
+                                    "endLine": 219,
+                                    "endCol": 216
+                                  }
+                                ],
+                                "else": [
+                                  {
+                                    "k": "call",
+                                    "name": "bat",
+                                    "args": [
+                                      {
+                                        "t": "gstr",
+                                        "v": "\"launchable verify && launchable record tests --session ${session} --flavor platform=${platform} --flavor jdk=${jdk} maven ./**/target/surefire-reports\"",
+                                        "vars": [
+                                          "{session}",
+                                          "{platform}",
+                                          "{jdk}"
+                                        ],
+                                        "calls": [],
+                                        "line": 221,
+                                        "col": 19,
+                                        "endLine": 221,
+                                        "endCol": 171
+                                      }
+                                    ],
+                                    "named": {},
+                                    "line": 221,
+                                    "col": 15,
+                                    "endLine": 221,
+                                    "endCol": 171
+                                  }
+                                ],
+                                "line": 218,
+                                "col": 13,
+                                "endLine": 222,
+                                "endCol": 14
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "line": 67,
+            "col": 37,
+            "endLine": 227,
+            "endCol": 4
+          },
+          "line": 67,
+          "col": 3,
+          "endLine": 227,
+          "endCol": 4
+        }
+      ]
+    },
+    {
+      "k": "decl",
+      "name": "athAxes",
+      "value": {
+        "t": "map",
+        "v": {
+          "platforms": {
+            "t": "list",
+            "v": [
+              {
+                "t": "str",
+                "v": "linux",
+                "line": 231,
+                "col": 15,
+                "endLine": 231,
+                "endCol": 22
+              }
+            ],
+            "line": 231,
+            "col": 14,
+            "endLine": 231,
+            "endCol": 23
+          },
+          "jdks": {
+            "t": "list",
+            "v": [
+              {
+                "t": "num",
+                "v": 21,
+                "line": 232,
+                "col": 10,
+                "endLine": 232,
+                "endCol": 12
+              }
+            ],
+            "line": 232,
+            "col": 9,
+            "endLine": 232,
+            "endCol": 13
+          },
+          "browsers": {
+            "t": "list",
+            "v": [
+              {
+                "t": "str",
+                "v": "firefox",
+                "line": 233,
+                "col": 14,
+                "endLine": 233,
+                "endCol": 23
+              }
+            ],
+            "line": 233,
+            "col": 13,
+            "endLine": 233,
+            "endCol": 24
+          }
+        },
+        "line": 230,
+        "col": 15,
+        "endLine": 234,
+        "endCol": 2
+      },
+      "annotations": [],
+      "line": 230,
+      "col": 1,
+      "endLine": 234,
+      "endCol": 2
+    },
+    {
+      "k": "call",
+      "name": "combinations",
+      "args": [],
+      "named": {},
+      "line": 235,
+      "col": 1,
+      "endLine": 268,
+      "endCol": 2,
+      "receiver": "athAxes.values()",
+      "receiverCalls": [
+        {
+          "k": "call",
+          "name": "values",
+          "args": [],
+          "named": {},
+          "line": 235,
+          "col": 1,
+          "endLine": 235,
+          "endCol": 17,
+          "receiver": "athAxes"
+        }
+      ],
+      "body": [
+        {
+          "k": "decl",
+          "name": "(",
+          "value": {
+            "t": "var",
+            "name": "it",
+            "line": 236,
+            "col": 34,
+            "endLine": 236,
+            "endCol": 36
+          },
+          "annotations": [],
+          "line": 236,
+          "col": 3,
+          "endLine": 236,
+          "endCol": 36
+        },
+        {
+          "k": "assign",
+          "op": "=",
+          "target": "builds[\"ath-${platform}-jdk${jdk}-${browser}\"]",
+          "value": {
+            "t": "closure",
+            "params": [],
+            "body": [
+              {
+                "k": "call",
+                "name": "retry",
+                "args": [],
+                "named": {
+                  "conditions": {
+                    "t": "list",
+                    "v": [
+                      {
+                        "t": "call",
+                        "call": {
+                          "k": "call",
+                          "name": "agent",
+                          "args": [],
+                          "named": {},
+                          "line": 238,
+                          "col": 24,
+                          "endLine": 238,
+                          "endCol": 31
+                        },
+                        "line": 238,
+                        "col": 24,
+                        "endLine": 238,
+                        "endCol": 31
+                      },
+                      {
+                        "t": "call",
+                        "call": {
+                          "k": "call",
+                          "name": "nonresumable",
+                          "args": [],
+                          "named": {},
+                          "line": 238,
+                          "col": 33,
+                          "endLine": 238,
+                          "endCol": 47
+                        },
+                        "line": 238,
+                        "col": 33,
+                        "endLine": 238,
+                        "endCol": 47
+                      }
+                    ],
+                    "line": 238,
+                    "col": 23,
+                    "endLine": 238,
+                    "endCol": 48
+                  },
+                  "count": {
+                    "t": "num",
+                    "v": 2,
+                    "line": 238,
+                    "col": 57,
+                    "endLine": 238,
+                    "endCol": 58
+                  }
+                },
+                "line": 238,
+                "col": 5,
+                "endLine": 266,
+                "endCol": 6,
+                "body": [
+                  {
+                    "k": "call",
+                    "name": "node",
+                    "args": [
+                      {
+                        "t": "str",
+                        "v": "docker-highmem",
+                        "line": 239,
+                        "col": 12,
+                        "endLine": 239,
+                        "endCol": 28
+                      }
+                    ],
+                    "named": {},
+                    "line": 239,
+                    "col": 7,
+                    "endLine": 265,
+                    "endCol": 8,
+                    "body": [
+                      {
+                        "k": "call",
+                        "name": "deleteDir",
+                        "args": [],
+                        "named": {},
+                        "line": 241,
+                        "col": 9,
+                        "endLine": 241,
+                        "endCol": 20
+                      },
+                      {
+                        "k": "call",
+                        "name": "checkout",
+                        "args": [
+                          {
+                            "t": "var",
+                            "name": "scm",
+                            "line": 242,
+                            "col": 18,
+                            "endLine": 242,
+                            "endCol": 21
+                          }
+                        ],
+                        "named": {},
+                        "line": 242,
+                        "col": 9,
+                        "endLine": 242,
+                        "endCol": 21
+                      },
+                      {
+                        "k": "call",
+                        "name": "withChecks",
+                        "args": [],
+                        "named": {
+                          "name": {
+                            "t": "str",
+                            "v": "Tests",
+                            "line": 244,
+                            "col": 26,
+                            "endLine": 244,
+                            "endCol": 33
+                          },
+                          "includeStage": {
+                            "t": "bool",
+                            "v": true,
+                            "line": 244,
+                            "col": 49,
+                            "endLine": 244,
+                            "endCol": 53
+                          }
+                        },
+                        "line": 244,
+                        "col": 9,
+                        "endLine": 254,
+                        "endCol": 10,
+                        "body": [
+                          {
+                            "k": "call",
+                            "name": "withArtifactCachingProxy",
+                            "args": [],
+                            "named": {},
+                            "line": 245,
+                            "col": 11,
+                            "endLine": 252,
+                            "endCol": 12,
+                            "receiver": "infra",
+                            "body": [
+                              {
+                                "k": "call",
+                                "name": "sh",
+                                "args": [
+                                  {
+                                    "t": "gstr",
+                                    "v": "\"\"\"\n              echo bash ath.sh ${jdk} ${browser}  # j2gha-local: not run\n              mkdir -p target/ath-reports\n              printf '<?xml version=\"1.0\" encoding=\"UTF-8\"?>\\\\n<testsuite name=\"j2gha.AthSmokeTest\" tests=\"1\" failures=\"0\" errors=\"0\" skipped=\"0\" time=\"0.01\"><testcase classname=\"j2gha.AthSmokeTest\" name=\"loginPage_${browser}\" time=\"0.01\"/></testsuite>\\\\n' > target/ath-reports/TEST-j2gha.AthSmokeTest.xml\n            \"\"\"",
+                                    "vars": [
+                                      "{jdk}",
+                                      "{browser}",
+                                      "{browser}"
+                                    ],
+                                    "calls": [],
+                                    "line": 247,
+                                    "col": 16,
+                                    "endLine": 251,
+                                    "endCol": 16
+                                  }
+                                ],
+                                "named": {},
+                                "line": 247,
+                                "col": 13,
+                                "endLine": 251,
+                                "endCol": 16
+                              }
+                            ]
+                          },
+                          {
+                            "k": "call",
+                            "name": "junit",
+                            "args": [],
+                            "named": {
+                              "testResults": {
+                                "t": "str",
+                                "v": "target/ath-reports/TEST-*.xml",
+                                "line": 253,
+                                "col": 30,
+                                "endLine": 253,
+                                "endCol": 61
+                              }
+                            },
+                            "line": 253,
+                            "col": 11,
+                            "endLine": 253,
+                            "endCol": 186
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ],
+            "line": 237,
+            "col": 52,
+            "endLine": 267,
+            "endCol": 4
+          },
+          "line": 237,
+          "col": 3,
+          "endLine": 267,
+          "endCol": 4
+        }
+      ]
+    },
+    {
+      "k": "assign",
+      "op": "=",
+      "target": "builds.failFast ",
+      "value": {
+        "t": "var",
+        "name": "failFast",
+        "line": 270,
+        "col": 19,
+        "endLine": 270,
+        "endCol": 27
+      },
+      "line": 270,
+      "col": 1,
+      "endLine": 270,
+      "endCol": 27
+    },
+    {
+      "k": "call",
+      "name": "parallel",
+      "args": [
+        {
+          "t": "var",
+          "name": "builds",
+          "line": 271,
+          "col": 10,
+          "endLine": 271,
+          "endCol": 16
+        }
+      ],
+      "named": {},
+      "line": 271,
+      "col": 1,
+      "endLine": 271,
+      "endCol": 16
+    },
+    {
+      "k": "call",
+      "name": "maybePublishIncrementals",
+      "args": [],
+      "named": {},
+      "line": 272,
+      "col": 1,
+      "endLine": 272,
+      "endCol": 33,
+      "receiver": "infra"
+    }
+  ],
+  "source_sha256": "2268feedf9cc739f636357ffa80b58d56a1e5e73f515bbdba93f7ef28c1cc067"
+}

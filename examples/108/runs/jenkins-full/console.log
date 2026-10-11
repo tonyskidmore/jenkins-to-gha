@@ -1,0 +1,2594 @@
+[2026-10-10T09:11:45.562Z] Started by user admin
+[2026-10-10T09:11:45.683Z] [Pipeline] Start of Pipeline
+[2026-10-10T09:11:45.695Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named DEFAULT_LABEL (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:11:45.696Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:11:45.711Z] [Pipeline] echo
+[2026-10-10T09:11:45.717Z] J2GHA-TRACE {"stage":"","step":"buildSummary"}
+[2026-10-10T09:11:45.742Z] [Pipeline] properties
+[2026-10-10T09:11:45.756Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named JDK_VERSIONS (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:11:45.757Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named JDK_VERSIONS_PY_R (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:11:45.772Z] [Pipeline] ansiColor
+[2026-10-10T09:11:45.777Z] [Pipeline] {
+[2026-10-10T09:11:45.782Z] 
+[2026-10-10T09:11:45.805Z] [Pipeline] timestamps
+[2026-10-10T09:11:45.805Z] The timestamps step is unnecessary when timestamps are enabled for all Pipeline builds.
+[2026-10-10T09:11:45.811Z] [Pipeline] {
+[2026-10-10T09:11:45.841Z] [Pipeline] stage
+[2026-10-10T09:11:45.849Z] [Pipeline] { (Checkout and Init)
+[2026-10-10T09:11:45.881Z] [Pipeline] node
+[2026-10-10T09:11:45.896Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full
+[2026-10-10T09:11:45.910Z] [Pipeline] {
+[2026-10-10T09:11:45.947Z] [Pipeline] cleanWs
+[2026-10-10T09:11:45.956Z] [WS-CLEANUP] Deleting project workspace...
+[2026-10-10T09:11:45.956Z] [WS-CLEANUP] Deferred wipeout is used...
+[2026-10-10T09:11:45.966Z] [WS-CLEANUP] done
+[2026-10-10T09:11:46.019Z] [Pipeline] checkout
+[2026-10-10T09:11:46.027Z] The recommended git tool is: NONE
+[2026-10-10T09:11:46.028Z] No credentials specified
+[2026-10-10T09:11:46.028Z] Cloning the remote Git repository
+[2026-10-10T09:11:46.028Z] Avoid fetching tags
+[2026-10-10T09:11:46.028Z] Cloning repository https://github.com/h2oai/h2o-3.git
+[2026-10-10T09:11:46.029Z]  > git init /var/jenkins_home/workspace/ex-108-full # timeout=10
+[2026-10-10T09:11:46.049Z] Fetching upstream changes from https://github.com/h2oai/h2o-3.git
+[2026-10-10T09:11:46.049Z]  > git --version # timeout=10
+[2026-10-10T09:11:46.057Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T09:11:46.057Z]  > git fetch --no-tags --force --progress -- https://github.com/h2oai/h2o-3.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:12:45.600Z]  > git config remote.origin.url https://github.com/h2oai/h2o-3.git # timeout=10
+[2026-10-10T09:12:45.606Z]  > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:12:45.614Z] Avoid second fetch
+[2026-10-10T09:12:45.614Z]  > git rev-parse f26129ff5c9c3646573f98af753c8cd227462a7c^{commit} # timeout=10
+[2026-10-10T09:12:45.621Z] Checking out Revision f26129ff5c9c3646573f98af753c8cd227462a7c (detached)
+[2026-10-10T09:12:45.621Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T09:12:45.627Z]  > git checkout -f f26129ff5c9c3646573f98af753c8cd227462a7c # timeout=10
+[2026-10-10T09:12:47.976Z] Commit message: "Merge branch 'rel-3.46.0' into tomf_resolve_rel-3.46.0_merge_conflict"
+[2026-10-10T09:12:47.977Z]  > git rev-list --no-walk f26129ff5c9c3646573f98af753c8cd227462a7c # timeout=10
+[2026-10-10T09:12:48.065Z] [Pipeline] load
+[2026-10-10T09:12:48.160Z] [Pipeline] { (scripts/jenkins/groovy/pipelineContext.groovy)
+[2026-10-10T09:12:48.178Z] [Pipeline] }
+[2026-10-10T09:12:48.197Z] [Pipeline] // load
+[2026-10-10T09:12:48.219Z] [Pipeline] sh
+[2026-10-10T09:12:48.481Z] + cd .
+[2026-10-10T09:12:48.481Z] + git log -1 --pretty=%B
+[2026-10-10T09:12:48.560Z] [Pipeline] sh
+[2026-10-10T09:12:48.834Z] + cd .
+[2026-10-10T09:12:48.834Z] + git show -s --format=%ci
+[2026-10-10T09:12:48.898Z] [Pipeline] load
+[2026-10-10T09:12:49.041Z] [Pipeline] { (./scripts/jenkins/groovy/buildSummary.groovy)
+[2026-10-10T09:12:49.059Z] [Pipeline] }
+[2026-10-10T09:12:49.087Z] [Pipeline] // load
+[2026-10-10T09:12:49.111Z] [Pipeline] load
+[2026-10-10T09:12:49.180Z] [Pipeline] { (./scripts/jenkins/groovy/buildConfig.groovy)
+[2026-10-10T09:12:49.198Z] [Pipeline] }
+[2026-10-10T09:12:49.220Z] [Pipeline] // load
+[2026-10-10T09:12:49.237Z] [Pipeline] load
+[2026-10-10T09:12:49.316Z] [Pipeline] { (./scripts/jenkins/groovy/pipelineUtils.groovy)
+[2026-10-10T09:12:49.337Z] [Pipeline] }
+[2026-10-10T09:12:49.366Z] [Pipeline] // load
+[2026-10-10T09:12:49.393Z] [Pipeline] load
+[2026-10-10T09:12:49.452Z] [Pipeline] { (./scripts/jenkins/groovy/emailer.groovy)
+[2026-10-10T09:12:49.470Z] [Pipeline] }
+[2026-10-10T09:12:49.495Z] [Pipeline] // load
+[2026-10-10T09:12:49.523Z] [Pipeline] load
+[2026-10-10T09:12:49.669Z] [Pipeline] { (./scripts/jenkins/groovy/healthChecker.groovy)
+[2026-10-10T09:12:49.692Z] [Pipeline] }
+[2026-10-10T09:12:49.714Z] [Pipeline] // load
+[2026-10-10T09:12:49.737Z] [Pipeline] sh
+[2026-10-10T09:12:49.997Z] + sed s/SUBST_BUILD_TIME_MILLIS/"SUBST_BUILD_TIME_MILLIS"/g ./h2o-dist/buildinfo.json
+[2026-10-10T09:12:49.997Z] + sed -e s/SUBST_BUILD_NUMBER/"SUBST_BUILD_NUMBER"/g
+[2026-10-10T09:12:50.045Z] [Pipeline] sh
+[2026-10-10T09:12:50.312Z] + cd .
+[2026-10-10T09:12:50.312Z] + cat h2o-extensions/xgboost/build.gradle
+[2026-10-10T09:12:50.312Z] + grep xgboost4jVersion =
+[2026-10-10T09:12:50.312Z] + egrep -o ([0-9]+\.+)+[-_a-zA-Z0-9.]+
+[2026-10-10T09:12:50.361Z] [Pipeline] echo
+[2026-10-10T09:12:50.375Z] XGBoost Version: 1.6.1.24
+[2026-10-10T09:12:50.423Z] [Pipeline] sh
+[2026-10-10T09:12:50.697Z] + cd .
+[2026-10-10T09:12:50.697Z] + cat gradle/wrapper/gradle-wrapper.properties
+[2026-10-10T09:12:50.697Z] + grep distributionUrl
+[2026-10-10T09:12:50.697Z] + egrep -o ([0-9]+\.+)+[0-9]+
+[2026-10-10T09:12:50.745Z] [Pipeline] echo
+[2026-10-10T09:12:50.756Z] Gradle Version: 7.2
+[2026-10-10T09:12:50.867Z] [Pipeline] dir
+[2026-10-10T09:12:50.868Z] Running in /var/jenkins_home/workspace/ex-108-full/docker
+[2026-10-10T09:12:50.873Z] [Pipeline] {
+[2026-10-10T09:12:50.907Z] [Pipeline] withCredentials
+[2026-10-10T09:12:50.918Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:12:50.929Z] [Pipeline] {
+[2026-10-10T09:12:50.950Z] [Pipeline] sh
+[2026-10-10T09:12:51.212Z] + echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-8/x64-linux/jdk-8u311-linux-x64.tar.gz
+[2026-10-10T09:12:51.264Z] [Pipeline] sh
+[2026-10-10T09:12:51.534Z] + echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-10/x64-linux/jdk-10.0.2_linux-x64_bin.tar.gz
+[2026-10-10T09:12:51.419Z] [Pipeline] sh
+[2026-10-10T09:12:51.681Z] + echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-11/x64-linux/jdk-11.0.3_linux-x64_bin.tar.gz
+[2026-10-10T09:12:51.707Z] [Pipeline] sh
+[2026-10-10T09:12:51.968Z] + echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-12/x64-linux/jdk-12.0.2_linux-x64_bin.tar.gz
+[2026-10-10T09:12:52.016Z] [Pipeline] sh
+[2026-10-10T09:12:52.287Z] + echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-13/x64-linux/jdk-13.0.2_linux-x64_bin.tar.gz
+[2026-10-10T09:12:52.339Z] [Pipeline] sh
+[2026-10-10T09:12:52.612Z] + echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-14/x64-linux/jdk-14.0.2_linux-x64_bin.tar.gz
+[2026-10-10T09:12:52.656Z] [Pipeline] sh
+[2026-10-10T09:12:52.921Z] + echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-15/x64-linux/jdk-15.0.2_linux-x64_bin.tar.gz
+[2026-10-10T09:12:52.957Z] [Pipeline] sh
+[2026-10-10T09:12:53.233Z] + echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-16/x64-linux/jdk-16.0.2_linux-x64_bin.tar.gz
+[2026-10-10T09:12:53.277Z] [Pipeline] sh
+[2026-10-10T09:12:53.546Z] + echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-17/x64-linux/jdk-17.0.0_linux-x64_bin.tar.gz
+[2026-10-10T09:12:53.566Z] [Pipeline] }
+[2026-10-10T09:12:53.596Z] [Pipeline] // withCredentials
+[2026-10-10T09:12:53.618Z] [Pipeline] stash
+[2026-10-10T09:12:53.655Z] Stashed 127 file(s)
+[2026-10-10T09:12:53.660Z] [Pipeline] }
+[2026-10-10T09:12:53.684Z] [Pipeline] // dir
+[2026-10-10T09:12:53.697Z] [Pipeline] }
+[2026-10-10T09:12:53.724Z] [Pipeline] // node
+[2026-10-10T09:12:53.738Z] [Pipeline] }
+[2026-10-10T09:12:53.763Z] [Pipeline] // stage
+[2026-10-10T09:12:53.771Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named PYTHON_VERSIONS (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:12:53.771Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named R_VERSIONS (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:12:53.781Z] [Pipeline] parallel
+[2026-10-10T09:12:53.785Z] [Pipeline] { (Branch: dev-base)
+[2026-10-10T09:12:53.809Z] [Pipeline] stage
+[2026-10-10T09:12:53.814Z] [Pipeline] { (Build dev-base)
+[2026-10-10T09:12:53.843Z] [Pipeline] node
+[2026-10-10T09:12:53.858Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full
+[2026-10-10T09:12:53.867Z] [Pipeline] {
+[2026-10-10T09:12:53.896Z] [Pipeline] dir
+[2026-10-10T09:12:53.897Z] Running in /var/jenkins_home/workspace/ex-108-full/dev-base
+[2026-10-10T09:12:53.900Z] [Pipeline] {
+[2026-10-10T09:12:53.920Z] [Pipeline] deleteDir
+[2026-10-10T09:12:53.951Z] [Pipeline] withCredentials
+[2026-10-10T09:12:53.960Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:12:53.971Z] [Pipeline] {
+[2026-10-10T09:12:53.989Z] [Pipeline] sh
+[2026-10-10T09:12:54.250Z] + echo aws ecr get-login-password --region us-east-1
+[2026-10-10T09:12:54.275Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR_PWD (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:12:54.304Z] [Pipeline] sh
+[2026-10-10T09:12:54.583Z] + echo docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:12:54.584Z] docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:12:54.622Z] [Pipeline] }
+[2026-10-10T09:12:54.672Z] [Pipeline] // withCredentials
+[2026-10-10T09:12:54.705Z] [Pipeline] withCredentials
+[2026-10-10T09:12:54.717Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:12:54.748Z] [Pipeline] {
+[2026-10-10T09:12:54.772Z] [Pipeline] sh
+[2026-10-10T09:12:55.036Z] + echo aws ecr batch-get-image --registry-id=353750902984 --repository-name=h2o-3/dev-base --image-ids=imageTag=47 --query images[].imageId.imageTag --output text
+[2026-10-10T09:12:55.072Z] [Pipeline] }
+[2026-10-10T09:12:55.125Z] [Pipeline] // withCredentials
+[2026-10-10T09:12:55.146Z] [Pipeline] unstash
+[2026-10-10T09:12:55.202Z] [Pipeline] sh
+[2026-10-10T09:12:55.465Z] + echo make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-base
+[2026-10-10T09:12:55.465Z] make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-base
+[2026-10-10T09:12:55.486Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named toPersist (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:12:55.518Z] [Pipeline] sh
+[2026-10-10T09:12:55.792Z] + echo docker save -o dev-base.tar 353750902984.dkr.ecr.us-east-1.amazonaws.com/h2o-3/dev-base
+[2026-10-10T09:12:55.813Z] [Pipeline] stash
+[2026-10-10T09:12:55.819Z] Stashed 1 file(s)
+[2026-10-10T09:12:55.851Z] [Pipeline] sh
+[2026-10-10T09:12:56.116Z] + rm dev-base.tar
+[2026-10-10T09:12:56.135Z] [Pipeline] }
+[2026-10-10T09:12:56.165Z] [Pipeline] // dir
+[2026-10-10T09:12:56.189Z] [Pipeline] }
+[2026-10-10T09:12:56.226Z] [Pipeline] // node
+[2026-10-10T09:12:56.241Z] [Pipeline] }
+[2026-10-10T09:12:56.271Z] [Pipeline] // stage
+[2026-10-10T09:12:56.287Z] [Pipeline] }
+[2026-10-10T09:12:56.316Z] [Pipeline] // parallel
+[2026-10-10T09:12:56.338Z] [Pipeline] parallel
+[2026-10-10T09:12:56.351Z] [Pipeline] { (Branch: dev-jdk-8-base)
+[2026-10-10T09:12:56.356Z] [Pipeline] { (Branch: dev-jdk-others-base)
+[2026-10-10T09:12:56.384Z] [Pipeline] stage
+[2026-10-10T09:12:56.388Z] [Pipeline] { (Build dev-jdk-8-base)
+[2026-10-10T09:12:56.405Z] [Pipeline] stage
+[2026-10-10T09:12:56.411Z] [Pipeline] { (Build dev-jdk-others-base)
+[2026-10-10T09:12:56.440Z] [Pipeline] node
+[2026-10-10T09:12:56.456Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full
+[2026-10-10T09:12:56.468Z] [Pipeline] node
+[2026-10-10T09:12:56.480Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full@2
+[2026-10-10T09:12:56.493Z] [Pipeline] {
+[2026-10-10T09:12:56.505Z] [Pipeline] {
+[2026-10-10T09:12:56.555Z] [Pipeline] dir
+[2026-10-10T09:12:56.555Z] Running in /var/jenkins_home/workspace/ex-108-full/dev-jdk-8-base
+[2026-10-10T09:12:56.563Z] [Pipeline] {
+[2026-10-10T09:12:56.585Z] [Pipeline] dir
+[2026-10-10T09:12:56.585Z] Running in /var/jenkins_home/workspace/ex-108-full@2/dev-jdk-others-base
+[2026-10-10T09:12:56.592Z] [Pipeline] {
+[2026-10-10T09:12:56.619Z] [Pipeline] deleteDir
+[2026-10-10T09:12:56.629Z] [Pipeline] deleteDir
+[2026-10-10T09:12:56.666Z] [Pipeline] withCredentials
+[2026-10-10T09:12:56.672Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:12:56.686Z] [Pipeline] {
+[2026-10-10T09:12:56.710Z] [Pipeline] withCredentials
+[2026-10-10T09:12:56.716Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:12:56.721Z] [Pipeline] sh
+[2026-10-10T09:12:56.754Z] [Pipeline] {
+[2026-10-10T09:12:56.774Z] [Pipeline] sh
+[2026-10-10T09:12:56.982Z] + echo aws ecr get-login-password --region us-east-1
+[2026-10-10T09:12:56.993Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR_PWD (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:12:57.005Z] [Pipeline] sh
+[2026-10-10T09:12:57.035Z] + echo aws ecr get-login-password --region us-east-1
+[2026-10-10T09:12:57.043Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR_PWD (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:12:57.054Z] [Pipeline] sh
+[2026-10-10T09:12:57.266Z] + echo docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:12:57.266Z] docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:12:57.281Z] [Pipeline] }
+[2026-10-10T09:12:57.310Z] [Pipeline] // withCredentials
+[2026-10-10T09:12:57.315Z] + echo docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:12:57.315Z] docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:12:57.336Z] [Pipeline] }
+[2026-10-10T09:12:57.357Z] [Pipeline] unstash
+[2026-10-10T09:12:57.391Z] [Pipeline] // withCredentials
+[2026-10-10T09:12:57.411Z] [Pipeline] sh
+[2026-10-10T09:12:57.443Z] [Pipeline] unstash
+[2026-10-10T09:12:57.475Z] [Pipeline] sh
+[2026-10-10T09:12:57.673Z] + echo docker load -i dev-base.tar
+[2026-10-10T09:12:57.673Z] docker load -i dev-base.tar
+[2026-10-10T09:12:57.719Z] [Pipeline] sh
+[2026-10-10T09:12:57.735Z] + echo docker load -i dev-base.tar
+[2026-10-10T09:12:57.735Z] docker load -i dev-base.tar
+[2026-10-10T09:12:57.790Z] [Pipeline] sh
+[2026-10-10T09:12:57.989Z] + rm dev-base.tar
+[2026-10-10T09:12:58.016Z] [Pipeline] withCredentials
+[2026-10-10T09:12:58.022Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:12:58.036Z] [Pipeline] {
+[2026-10-10T09:12:58.051Z] + rm dev-base.tar
+[2026-10-10T09:12:58.054Z] [Pipeline] sh
+[2026-10-10T09:12:58.111Z] [Pipeline] withCredentials
+[2026-10-10T09:12:58.118Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:12:58.137Z] [Pipeline] {
+[2026-10-10T09:12:58.154Z] [Pipeline] sh
+[2026-10-10T09:12:58.316Z] + echo aws ecr batch-get-image --registry-id=353750902984 --repository-name=h2o-3/dev-jdk-8-base --image-ids=imageTag=47 --query images[].imageId.imageTag --output text
+[2026-10-10T09:12:58.350Z] [Pipeline] }
+[2026-10-10T09:12:58.385Z] [Pipeline] // withCredentials
+[2026-10-10T09:12:58.404Z] [Pipeline] unstash
+[2026-10-10T09:12:58.414Z] + echo aws ecr batch-get-image --registry-id=353750902984 --repository-name=h2o-3/dev-jdk-others-base --image-ids=imageTag=47 --query images[].imageId.imageTag --output text
+[2026-10-10T09:12:58.437Z] [Pipeline] }
+[2026-10-10T09:12:58.466Z] [Pipeline] // withCredentials
+[2026-10-10T09:12:58.479Z] [Pipeline] unstash
+[2026-10-10T09:12:58.508Z] [Pipeline] sh
+[2026-10-10T09:12:58.549Z] [Pipeline] sh
+[2026-10-10T09:12:58.770Z] + echo make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-jdk-8-base
+[2026-10-10T09:12:58.770Z] make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-jdk-8-base
+[2026-10-10T09:12:58.787Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named toPersist (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:12:58.801Z] [Pipeline] sh
+[2026-10-10T09:12:58.810Z] + echo make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-jdk-others-base
+[2026-10-10T09:12:58.810Z] make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-jdk-others-base
+[2026-10-10T09:12:58.846Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named toPersist (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:12:58.855Z] [Pipeline] sh
+[2026-10-10T09:12:59.066Z] + echo docker save -o dev-jdk-8-base.tar 353750902984.dkr.ecr.us-east-1.amazonaws.com/h2o-3/dev-jdk-8-base
+[2026-10-10T09:12:59.112Z] [Pipeline] stash
+[2026-10-10T09:12:59.114Z] + echo docker save -o dev-jdk-others-base.tar 353750902984.dkr.ecr.us-east-1.amazonaws.com/h2o-3/dev-jdk-others-base
+[2026-10-10T09:12:59.130Z] Stashed 1 file(s)
+[2026-10-10T09:12:59.188Z] [Pipeline] sh
+[2026-10-10T09:12:59.214Z] [Pipeline] stash
+[2026-10-10T09:12:59.220Z] Stashed 1 file(s)
+[2026-10-10T09:12:59.244Z] [Pipeline] sh
+[2026-10-10T09:12:59.450Z] + rm dev-jdk-8-base.tar
+[2026-10-10T09:12:59.470Z] [Pipeline] }
+[2026-10-10T09:12:59.500Z] [Pipeline] // dir
+[2026-10-10T09:12:59.505Z] + rm dev-jdk-others-base.tar
+[2026-10-10T09:12:59.512Z] [Pipeline] }
+[2026-10-10T09:12:59.558Z] [Pipeline] // node
+[2026-10-10T09:12:59.566Z] [Pipeline] }
+[2026-10-10T09:12:59.573Z] [Pipeline] }
+[2026-10-10T09:12:59.600Z] [Pipeline] // stage
+[2026-10-10T09:12:59.619Z] [Pipeline] // dir
+[2026-10-10T09:12:59.632Z] [Pipeline] }
+[2026-10-10T09:12:59.637Z] [Pipeline] }
+[2026-10-10T09:12:59.680Z] [Pipeline] // node
+[2026-10-10T09:12:59.693Z] [Pipeline] }
+[2026-10-10T09:12:59.718Z] [Pipeline] // stage
+[2026-10-10T09:12:59.730Z] [Pipeline] }
+[2026-10-10T09:12:59.768Z] [Pipeline] // parallel
+[2026-10-10T09:12:59.791Z] [Pipeline] parallel
+[2026-10-10T09:12:59.796Z] [Pipeline] { (Branch: dev-python-base)
+[2026-10-10T09:12:59.828Z] [Pipeline] stage
+[2026-10-10T09:12:59.834Z] [Pipeline] { (Build dev-python-base)
+[2026-10-10T09:12:59.865Z] [Pipeline] node
+[2026-10-10T09:12:59.880Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full
+[2026-10-10T09:12:59.892Z] [Pipeline] {
+[2026-10-10T09:12:59.935Z] [Pipeline] dir
+[2026-10-10T09:12:59.935Z] Running in /var/jenkins_home/workspace/ex-108-full/dev-python-base
+[2026-10-10T09:12:59.940Z] [Pipeline] {
+[2026-10-10T09:12:59.967Z] [Pipeline] deleteDir
+[2026-10-10T09:13:00.011Z] [Pipeline] withCredentials
+[2026-10-10T09:13:00.018Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:00.035Z] [Pipeline] {
+[2026-10-10T09:13:00.052Z] [Pipeline] sh
+[2026-10-10T09:13:00.315Z] + echo aws ecr get-login-password --region us-east-1
+[2026-10-10T09:13:00.328Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR_PWD (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:00.343Z] [Pipeline] sh
+[2026-10-10T09:13:00.607Z] + echo docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:00.607Z] docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:00.637Z] [Pipeline] }
+[2026-10-10T09:13:00.675Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:00.695Z] [Pipeline] unstash
+[2026-10-10T09:13:00.727Z] [Pipeline] sh
+[2026-10-10T09:13:00.988Z] + echo docker load -i dev-jdk-8-base.tar
+[2026-10-10T09:13:00.988Z] docker load -i dev-jdk-8-base.tar
+[2026-10-10T09:13:01.040Z] [Pipeline] sh
+[2026-10-10T09:13:01.314Z] + rm dev-jdk-8-base.tar
+[2026-10-10T09:13:01.371Z] [Pipeline] withCredentials
+[2026-10-10T09:13:01.381Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:01.407Z] [Pipeline] {
+[2026-10-10T09:13:01.426Z] [Pipeline] sh
+[2026-10-10T09:13:01.688Z] + echo aws ecr batch-get-image --registry-id=353750902984 --repository-name=h2o-3/dev-python-base --image-ids=imageTag=47 --query images[].imageId.imageTag --output text
+[2026-10-10T09:13:01.729Z] [Pipeline] }
+[2026-10-10T09:13:01.782Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:01.816Z] [Pipeline] unstash
+[2026-10-10T09:13:01.889Z] [Pipeline] sh
+[2026-10-10T09:13:02.150Z] + echo make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-python-base
+[2026-10-10T09:13:02.150Z] make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-python-base
+[2026-10-10T09:13:02.162Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named toPersist (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:02.174Z] [Pipeline] sh
+[2026-10-10T09:13:02.437Z] + echo docker save -o dev-python-base.tar 353750902984.dkr.ecr.us-east-1.amazonaws.com/h2o-3/dev-python-base
+[2026-10-10T09:13:02.458Z] [Pipeline] stash
+[2026-10-10T09:13:02.463Z] Stashed 1 file(s)
+[2026-10-10T09:13:02.486Z] [Pipeline] sh
+[2026-10-10T09:13:02.764Z] + rm dev-python-base.tar
+[2026-10-10T09:13:02.802Z] [Pipeline] }
+[2026-10-10T09:13:02.874Z] [Pipeline] // dir
+[2026-10-10T09:13:02.903Z] [Pipeline] }
+[2026-10-10T09:13:02.955Z] [Pipeline] // node
+[2026-10-10T09:13:02.982Z] [Pipeline] }
+[2026-10-10T09:13:03.023Z] [Pipeline] // stage
+[2026-10-10T09:13:03.043Z] [Pipeline] }
+[2026-10-10T09:13:03.086Z] [Pipeline] // parallel
+[2026-10-10T09:13:03.122Z] [Pipeline] parallel
+[2026-10-10T09:13:03.171Z] [Pipeline] { (Branch: dev-python-3.7)
+[2026-10-10T09:13:03.178Z] [Pipeline] { (Branch: dev-python-3.8)
+[2026-10-10T09:13:03.186Z] [Pipeline] { (Branch: dev-python-3.9)
+[2026-10-10T09:13:03.192Z] [Pipeline] { (Branch: dev-python-3.10)
+[2026-10-10T09:13:03.199Z] [Pipeline] { (Branch: dev-python-3.11)
+[2026-10-10T09:13:03.231Z] [Pipeline] stage
+[2026-10-10T09:13:03.236Z] [Pipeline] { (Build dev-python-3.7)
+[2026-10-10T09:13:03.251Z] [Pipeline] stage
+[2026-10-10T09:13:03.257Z] [Pipeline] { (Build dev-python-3.8)
+[2026-10-10T09:13:03.271Z] [Pipeline] stage
+[2026-10-10T09:13:03.277Z] [Pipeline] { (Build dev-python-3.9)
+[2026-10-10T09:13:03.291Z] [Pipeline] stage
+[2026-10-10T09:13:03.297Z] [Pipeline] { (Build dev-python-3.10)
+[2026-10-10T09:13:03.312Z] [Pipeline] stage
+[2026-10-10T09:13:03.317Z] [Pipeline] { (Build dev-python-3.11)
+[2026-10-10T09:13:03.348Z] [Pipeline] node
+[2026-10-10T09:13:03.363Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full
+[2026-10-10T09:13:03.372Z] [Pipeline] node
+[2026-10-10T09:13:03.403Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full@2
+[2026-10-10T09:13:03.412Z] [Pipeline] node
+[2026-10-10T09:13:03.431Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full@3
+[2026-10-10T09:13:03.444Z] [Pipeline] node
+[2026-10-10T09:13:03.463Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full@4
+[2026-10-10T09:13:03.476Z] [Pipeline] node
+[2026-10-10T09:13:03.490Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full@5
+[2026-10-10T09:13:03.510Z] [Pipeline] {
+[2026-10-10T09:13:03.523Z] [Pipeline] {
+[2026-10-10T09:13:03.536Z] [Pipeline] {
+[2026-10-10T09:13:03.550Z] [Pipeline] {
+[2026-10-10T09:13:03.562Z] [Pipeline] {
+[2026-10-10T09:13:03.593Z] [Pipeline] dir
+[2026-10-10T09:13:03.593Z] Running in /var/jenkins_home/workspace/ex-108-full/dev-python-3.7
+[2026-10-10T09:13:03.598Z] [Pipeline] {
+[2026-10-10T09:13:03.613Z] [Pipeline] dir
+[2026-10-10T09:13:03.613Z] Running in /var/jenkins_home/workspace/ex-108-full@2/dev-python-3.8
+[2026-10-10T09:13:03.618Z] [Pipeline] {
+[2026-10-10T09:13:03.633Z] [Pipeline] dir
+[2026-10-10T09:13:03.633Z] Running in /var/jenkins_home/workspace/ex-108-full@3/dev-python-3.9
+[2026-10-10T09:13:03.638Z] [Pipeline] {
+[2026-10-10T09:13:03.654Z] [Pipeline] dir
+[2026-10-10T09:13:03.654Z] Running in /var/jenkins_home/workspace/ex-108-full@4/dev-python-3.10
+[2026-10-10T09:13:03.659Z] [Pipeline] {
+[2026-10-10T09:13:03.673Z] [Pipeline] dir
+[2026-10-10T09:13:03.673Z] Running in /var/jenkins_home/workspace/ex-108-full@5/dev-python-3.11
+[2026-10-10T09:13:03.679Z] [Pipeline] {
+[2026-10-10T09:13:03.701Z] [Pipeline] deleteDir
+[2026-10-10T09:13:03.712Z] [Pipeline] deleteDir
+[2026-10-10T09:13:03.723Z] [Pipeline] deleteDir
+[2026-10-10T09:13:03.736Z] [Pipeline] deleteDir
+[2026-10-10T09:13:03.749Z] [Pipeline] deleteDir
+[2026-10-10T09:13:03.789Z] [Pipeline] withCredentials
+[2026-10-10T09:13:03.798Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:03.809Z] [Pipeline] withCredentials
+[2026-10-10T09:13:03.817Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:03.828Z] [Pipeline] withCredentials
+[2026-10-10T09:13:03.835Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:03.847Z] [Pipeline] withCredentials
+[2026-10-10T09:13:03.853Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:03.871Z] [Pipeline] {
+[2026-10-10T09:13:03.884Z] [Pipeline] {
+[2026-10-10T09:13:03.896Z] [Pipeline] {
+[2026-10-10T09:13:03.910Z] [Pipeline] {
+[2026-10-10T09:13:03.941Z] [Pipeline] withCredentials
+[2026-10-10T09:13:03.949Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:03.957Z] [Pipeline] sh
+[2026-10-10T09:13:03.982Z] [Pipeline] sh
+[2026-10-10T09:13:04.006Z] [Pipeline] sh
+[2026-10-10T09:13:04.030Z] [Pipeline] sh
+[2026-10-10T09:13:04.064Z] [Pipeline] {
+[2026-10-10T09:13:04.086Z] [Pipeline] sh
+[2026-10-10T09:13:04.219Z] + echo aws ecr get-login-password --region us-east-1
+[2026-10-10T09:13:04.244Z] + echo aws ecr get-login-password --region us-east-1
+[2026-10-10T09:13:04.244Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR_PWD (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:04.269Z] + echo aws ecr get-login-password --region us-east-1
+[2026-10-10T09:13:04.270Z] [Pipeline] sh
+[2026-10-10T09:13:04.292Z] + echo aws ecr get-login-password --region us-east-1
+[2026-10-10T09:13:04.343Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR_PWD (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:04.347Z] + echo aws ecr get-login-password --region us-east-1
+[2026-10-10T09:13:04.356Z] [Pipeline] sh
+[2026-10-10T09:13:04.369Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR_PWD (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:04.388Z] [Pipeline] sh
+[2026-10-10T09:13:04.401Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR_PWD (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:04.416Z] [Pipeline] sh
+[2026-10-10T09:13:04.451Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR_PWD (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:04.465Z] [Pipeline] sh
+[2026-10-10T09:13:04.538Z] + echo docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:04.538Z] docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:04.554Z] [Pipeline] }
+[2026-10-10T09:13:04.585Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:04.615Z] [Pipeline] unstash
+[2026-10-10T09:13:04.619Z] + echo docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:04.619Z] docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:04.651Z] + echo docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:04.651Z] docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:04.660Z] [Pipeline] sh
+[2026-10-10T09:13:04.675Z] [Pipeline] }
+[2026-10-10T09:13:04.676Z] + echo docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:04.676Z] docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:04.719Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:04.725Z] [Pipeline] }
+[2026-10-10T09:13:04.726Z] + echo docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:04.726Z] docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:04.736Z] [Pipeline] }
+[2026-10-10T09:13:04.757Z] [Pipeline] unstash
+[2026-10-10T09:13:04.800Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:04.821Z] [Pipeline] }
+[2026-10-10T09:13:04.829Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:04.851Z] [Pipeline] sh
+[2026-10-10T09:13:04.875Z] [Pipeline] unstash
+[2026-10-10T09:13:04.909Z] [Pipeline] unstash
+[2026-10-10T09:13:04.920Z] + echo docker load -i dev-python-base.tar
+[2026-10-10T09:13:04.920Z] docker load -i dev-python-base.tar
+[2026-10-10T09:13:04.926Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:04.946Z] [Pipeline] unstash
+[2026-10-10T09:13:04.971Z] [Pipeline] sh
+[2026-10-10T09:13:05.023Z] [Pipeline] sh
+[2026-10-10T09:13:05.048Z] [Pipeline] sh
+[2026-10-10T09:13:05.112Z] [Pipeline] sh
+[2026-10-10T09:13:05.113Z] + echo docker load -i dev-python-base.tar
+[2026-10-10T09:13:05.113Z] docker load -i dev-python-base.tar
+[2026-10-10T09:13:05.165Z] [Pipeline] sh
+[2026-10-10T09:13:05.231Z] + echo docker load -i dev-python-base.tar
+[2026-10-10T09:13:05.232Z] docker load -i dev-python-base.tar
+[2026-10-10T09:13:05.268Z] [Pipeline] sh
+[2026-10-10T09:13:05.283Z] + rm dev-python-base.tar
+[2026-10-10T09:13:05.319Z] + echo docker load -i dev-python-base.tar
+[2026-10-10T09:13:05.319Z] docker load -i dev-python-base.tar
+[2026-10-10T09:13:05.333Z] [Pipeline] withCredentials
+[2026-10-10T09:13:05.345Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:05.363Z] [Pipeline] {
+[2026-10-10T09:13:05.373Z] [Pipeline] sh
+[2026-10-10T09:13:05.374Z] + echo docker load -i dev-python-base.tar
+[2026-10-10T09:13:05.374Z] docker load -i dev-python-base.tar
+[2026-10-10T09:13:05.427Z] + rm dev-python-base.tar
+[2026-10-10T09:13:05.441Z] [Pipeline] sh
+[2026-10-10T09:13:05.491Z] [Pipeline] sh
+[2026-10-10T09:13:05.534Z] + rm dev-python-base.tar
+[2026-10-10T09:13:05.544Z] [Pipeline] withCredentials
+[2026-10-10T09:13:05.550Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:05.574Z] [Pipeline] {
+[2026-10-10T09:13:05.597Z] [Pipeline] sh
+[2026-10-10T09:13:05.635Z] + rm dev-python-base.tar
+[2026-10-10T09:13:05.663Z] [Pipeline] withCredentials
+[2026-10-10T09:13:05.679Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:05.697Z] [Pipeline] {
+[2026-10-10T09:13:05.704Z] + echo aws ecr batch-get-image --registry-id=353750902984 --repository-name=h2o-3/dev-python-3.7 --image-ids=imageTag=47 --query images[].imageId.imageTag --output text
+[2026-10-10T09:13:05.717Z] [Pipeline] sh
+[2026-10-10T09:13:05.751Z] + rm dev-python-base.tar
+[2026-10-10T09:13:05.758Z] [Pipeline] withCredentials
+[2026-10-10T09:13:05.767Z] [Pipeline] }
+[2026-10-10T09:13:05.769Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:05.814Z] [Pipeline] {
+[2026-10-10T09:13:05.820Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:05.831Z] [Pipeline] unstash
+[2026-10-10T09:13:05.858Z] + echo aws ecr batch-get-image --registry-id=353750902984 --repository-name=h2o-3/dev-python-3.8 --image-ids=imageTag=47 --query images[].imageId.imageTag --output text
+[2026-10-10T09:13:05.865Z] [Pipeline] sh
+[2026-10-10T09:13:05.919Z] [Pipeline] withCredentials
+[2026-10-10T09:13:05.925Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:05.947Z] [Pipeline] }
+[2026-10-10T09:13:05.974Z] [Pipeline] {
+[2026-10-10T09:13:05.977Z] + echo aws ecr batch-get-image --registry-id=353750902984 --repository-name=h2o-3/dev-python-3.9 --image-ids=imageTag=47 --query images[].imageId.imageTag --output text
+[2026-10-10T09:13:05.999Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:06.011Z] [Pipeline] unstash
+[2026-10-10T09:13:06.026Z] [Pipeline] sh
+[2026-10-10T09:13:06.061Z] [Pipeline] sh
+[2026-10-10T09:13:06.104Z] [Pipeline] }
+[2026-10-10T09:13:06.134Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:06.135Z] + echo aws ecr batch-get-image --registry-id=353750902984 --repository-name=h2o-3/dev-python-3.10 --image-ids=imageTag=47 --query images[].imageId.imageTag --output text
+[2026-10-10T09:13:06.146Z] [Pipeline] unstash
+[2026-10-10T09:13:06.162Z] [Pipeline] sh
+[2026-10-10T09:13:06.206Z] [Pipeline] }
+[2026-10-10T09:13:06.239Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:06.254Z] [Pipeline] unstash
+[2026-10-10T09:13:06.273Z] [Pipeline] sh
+[2026-10-10T09:13:06.285Z] + echo aws ecr batch-get-image --registry-id=353750902984 --repository-name=h2o-3/dev-python-3.11 --image-ids=imageTag=47 --query images[].imageId.imageTag --output text
+[2026-10-10T09:13:06.319Z] [Pipeline] }
+[2026-10-10T09:13:06.322Z] + echo make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-python-3.7
+[2026-10-10T09:13:06.322Z] make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-python-3.7
+[2026-10-10T09:13:06.354Z] [Pipeline] sh
+[2026-10-10T09:13:06.387Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:06.404Z] [Pipeline] unstash
+[2026-10-10T09:13:06.418Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named toPersist (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:06.423Z] + echo make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-python-3.8
+[2026-10-10T09:13:06.423Z] make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-python-3.8
+[2026-10-10T09:13:06.431Z] [Pipeline] sh
+[2026-10-10T09:13:06.488Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named toPersist (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:06.498Z] [Pipeline] }
+[2026-10-10T09:13:06.526Z] [Pipeline] sh
+[2026-10-10T09:13:06.535Z] + echo make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-python-3.9
+[2026-10-10T09:13:06.535Z] make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-python-3.9
+[2026-10-10T09:13:06.575Z] [Pipeline] // dir
+[2026-10-10T09:13:06.579Z] [Pipeline] }
+[2026-10-10T09:13:06.615Z] + echo make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-python-3.10
+[2026-10-10T09:13:06.615Z] make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-python-3.10
+[2026-10-10T09:13:06.616Z] [Pipeline] // node
+[2026-10-10T09:13:06.620Z] [Pipeline] }
+[2026-10-10T09:13:06.620Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named toPersist (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:06.626Z] [Pipeline] }
+[2026-10-10T09:13:06.661Z] [Pipeline] // stage
+[2026-10-10T09:13:06.684Z] [Pipeline] // dir
+[2026-10-10T09:13:06.690Z] [Pipeline] }
+[2026-10-10T09:13:06.697Z] [Pipeline] }
+[2026-10-10T09:13:06.697Z] + echo docker save -o dev-python-3.7.tar 353750902984.dkr.ecr.us-east-1.amazonaws.com/h2o-3/dev-python-3.7
+[2026-10-10T09:13:06.697Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named toPersist (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:06.704Z] [Pipeline] }
+[2026-10-10T09:13:06.752Z] [Pipeline] // node
+[2026-10-10T09:13:06.777Z] [Pipeline] // dir
+[2026-10-10T09:13:06.790Z] [Pipeline] }
+[2026-10-10T09:13:06.793Z] + echo make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-python-3.11
+[2026-10-10T09:13:06.793Z] make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-python-3.11
+[2026-10-10T09:13:06.796Z] [Pipeline] }
+[2026-10-10T09:13:06.806Z] [Pipeline] stash
+[2026-10-10T09:13:06.811Z] Stashed 1 file(s)
+[2026-10-10T09:13:06.837Z] [Pipeline] // stage
+[2026-10-10T09:13:06.871Z] [Pipeline] // node
+[2026-10-10T09:13:06.885Z] [Pipeline] }
+[2026-10-10T09:13:06.891Z] [Pipeline] }
+[2026-10-10T09:13:06.904Z] [Pipeline] sh
+[2026-10-10T09:13:06.914Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named toPersist (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:06.921Z] [Pipeline] }
+[2026-10-10T09:13:06.959Z] [Pipeline] // stage
+[2026-10-10T09:13:06.974Z] [Pipeline] }
+[2026-10-10T09:13:07.006Z] [Pipeline] // dir
+[2026-10-10T09:13:07.020Z] [Pipeline] }
+[2026-10-10T09:13:07.063Z] [Pipeline] // node
+[2026-10-10T09:13:07.076Z] [Pipeline] }
+[2026-10-10T09:13:07.100Z] [Pipeline] // stage
+[2026-10-10T09:13:07.113Z] [Pipeline] }
+[2026-10-10T09:13:07.164Z] + rm dev-python-3.7.tar
+[2026-10-10T09:13:07.178Z] [Pipeline] }
+[2026-10-10T09:13:07.205Z] [Pipeline] // dir
+[2026-10-10T09:13:07.218Z] [Pipeline] }
+[2026-10-10T09:13:07.248Z] [Pipeline] // node
+[2026-10-10T09:13:07.261Z] [Pipeline] }
+[2026-10-10T09:13:07.286Z] [Pipeline] // stage
+[2026-10-10T09:13:07.299Z] [Pipeline] }
+[2026-10-10T09:13:07.385Z] [Pipeline] // parallel
+[2026-10-10T09:13:07.404Z] [Pipeline] parallel
+[2026-10-10T09:13:07.410Z] [Pipeline] { (Branch: dev-r-base)
+[2026-10-10T09:13:07.443Z] [Pipeline] stage
+[2026-10-10T09:13:07.451Z] [Pipeline] { (Build dev-r-base)
+[2026-10-10T09:13:07.492Z] [Pipeline] node
+[2026-10-10T09:13:07.509Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full
+[2026-10-10T09:13:07.524Z] [Pipeline] {
+[2026-10-10T09:13:07.555Z] [Pipeline] dir
+[2026-10-10T09:13:07.556Z] Running in /var/jenkins_home/workspace/ex-108-full/dev-r-base
+[2026-10-10T09:13:07.561Z] [Pipeline] {
+[2026-10-10T09:13:07.582Z] [Pipeline] deleteDir
+[2026-10-10T09:13:07.622Z] [Pipeline] withCredentials
+[2026-10-10T09:13:07.630Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:07.649Z] [Pipeline] {
+[2026-10-10T09:13:07.672Z] [Pipeline] sh
+[2026-10-10T09:13:07.934Z] + echo aws ecr get-login-password --region us-east-1
+[2026-10-10T09:13:07.948Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR_PWD (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:07.960Z] [Pipeline] sh
+[2026-10-10T09:13:08.222Z] + echo docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:08.222Z] docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:08.254Z] [Pipeline] }
+[2026-10-10T09:13:08.307Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:08.340Z] [Pipeline] unstash
+[2026-10-10T09:13:08.378Z] [Pipeline] sh
+[2026-10-10T09:13:08.640Z] + echo docker load -i dev-python-3.7.tar
+[2026-10-10T09:13:08.640Z] docker load -i dev-python-3.7.tar
+[2026-10-10T09:13:08.662Z] [Pipeline] sh
+[2026-10-10T09:13:08.928Z] + rm dev-python-3.7.tar
+[2026-10-10T09:13:08.981Z] [Pipeline] withCredentials
+[2026-10-10T09:13:08.988Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:09.005Z] [Pipeline] {
+[2026-10-10T09:13:09.022Z] [Pipeline] sh
+[2026-10-10T09:13:09.283Z] + echo aws ecr batch-get-image --registry-id=353750902984 --repository-name=h2o-3/dev-r-base --image-ids=imageTag=47 --query images[].imageId.imageTag --output text
+[2026-10-10T09:13:09.322Z] [Pipeline] }
+[2026-10-10T09:13:09.368Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:09.394Z] [Pipeline] unstash
+[2026-10-10T09:13:09.456Z] [Pipeline] sh
+[2026-10-10T09:13:09.717Z] + echo make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-r-base
+[2026-10-10T09:13:09.718Z] make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-r-base
+[2026-10-10T09:13:09.742Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named toPersist (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:09.760Z] [Pipeline] sh
+[2026-10-10T09:13:10.027Z] + echo docker save -o dev-r-base.tar 353750902984.dkr.ecr.us-east-1.amazonaws.com/h2o-3/dev-r-base
+[2026-10-10T09:13:10.055Z] [Pipeline] stash
+[2026-10-10T09:13:10.063Z] Stashed 1 file(s)
+[2026-10-10T09:13:10.087Z] [Pipeline] sh
+[2026-10-10T09:13:10.347Z] + rm dev-r-base.tar
+[2026-10-10T09:13:10.362Z] [Pipeline] }
+[2026-10-10T09:13:10.390Z] [Pipeline] // dir
+[2026-10-10T09:13:10.404Z] [Pipeline] }
+[2026-10-10T09:13:10.437Z] [Pipeline] // node
+[2026-10-10T09:13:10.450Z] [Pipeline] }
+[2026-10-10T09:13:10.477Z] [Pipeline] // stage
+[2026-10-10T09:13:10.492Z] [Pipeline] }
+[2026-10-10T09:13:10.516Z] [Pipeline] // parallel
+[2026-10-10T09:13:10.541Z] [Pipeline] parallel
+[2026-10-10T09:13:10.610Z] [Pipeline] { (Branch: dev-r-3.4.1)
+[2026-10-10T09:13:10.615Z] [Pipeline] { (Branch: dev-r-3.5.3)
+[2026-10-10T09:13:10.620Z] [Pipeline] { (Branch: dev-r-4.0.2)
+[2026-10-10T09:13:10.625Z] [Pipeline] { (Branch: dev-r-4.4.0)
+[2026-10-10T09:13:10.630Z] [Pipeline] { (Branch: dev-r-4.5.2)
+[2026-10-10T09:13:10.637Z] [Pipeline] { (Branch: dev-jdk-8)
+[2026-10-10T09:13:10.643Z] [Pipeline] { (Branch: dev-jdk-11)
+[2026-10-10T09:13:10.650Z] [Pipeline] { (Branch: dev-jdk-17)
+[2026-10-10T09:13:10.657Z] [Pipeline] { (Branch: dev-mojocompat)
+[2026-10-10T09:13:10.697Z] [Pipeline] stage
+[2026-10-10T09:13:10.703Z] [Pipeline] { (Build dev-r-3.4.1)
+[2026-10-10T09:13:10.720Z] [Pipeline] stage
+[2026-10-10T09:13:10.725Z] [Pipeline] { (Build dev-r-3.5.3)
+[2026-10-10T09:13:10.738Z] [Pipeline] stage
+[2026-10-10T09:13:10.743Z] [Pipeline] { (Build dev-r-4.0.2)
+[2026-10-10T09:13:10.756Z] [Pipeline] stage
+[2026-10-10T09:13:10.762Z] [Pipeline] { (Build dev-r-4.4.0)
+[2026-10-10T09:13:10.780Z] [Pipeline] stage
+[2026-10-10T09:13:10.786Z] [Pipeline] { (Build dev-r-4.5.2)
+[2026-10-10T09:13:10.803Z] [Pipeline] stage
+[2026-10-10T09:13:10.809Z] [Pipeline] { (Build dev-jdk-8)
+[2026-10-10T09:13:10.830Z] [Pipeline] stage
+[2026-10-10T09:13:10.838Z] [Pipeline] { (Build dev-jdk-11)
+[2026-10-10T09:13:10.858Z] [Pipeline] stage
+[2026-10-10T09:13:10.863Z] [Pipeline] { (Build dev-jdk-17)
+[2026-10-10T09:13:10.878Z] [Pipeline] stage
+[2026-10-10T09:13:10.883Z] [Pipeline] { (Build dev-mojocompat)
+[2026-10-10T09:13:10.916Z] [Pipeline] node
+[2026-10-10T09:13:10.933Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full
+[2026-10-10T09:13:10.942Z] [Pipeline] node
+[2026-10-10T09:13:10.958Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full@2
+[2026-10-10T09:13:10.966Z] [Pipeline] node
+[2026-10-10T09:13:10.982Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full@3
+[2026-10-10T09:13:10.991Z] [Pipeline] node
+[2026-10-10T09:13:11.005Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full@4
+[2026-10-10T09:13:11.013Z] [Pipeline] node
+[2026-10-10T09:13:11.028Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full@5
+[2026-10-10T09:13:11.038Z] [Pipeline] node
+[2026-10-10T09:13:11.054Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full@6
+[2026-10-10T09:13:11.062Z] [Pipeline] node
+[2026-10-10T09:13:11.074Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full@7
+[2026-10-10T09:13:11.083Z] [Pipeline] node
+[2026-10-10T09:13:11.097Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full@8
+[2026-10-10T09:13:11.104Z] [Pipeline] node
+[2026-10-10T09:13:11.116Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full@9
+[2026-10-10T09:13:11.140Z] [Pipeline] {
+[2026-10-10T09:13:11.153Z] [Pipeline] {
+[2026-10-10T09:13:11.165Z] [Pipeline] {
+[2026-10-10T09:13:11.177Z] [Pipeline] {
+[2026-10-10T09:13:11.188Z] [Pipeline] {
+[2026-10-10T09:13:11.199Z] [Pipeline] {
+[2026-10-10T09:13:11.211Z] [Pipeline] {
+[2026-10-10T09:13:11.223Z] [Pipeline] {
+[2026-10-10T09:13:11.235Z] [Pipeline] {
+[2026-10-10T09:13:11.263Z] [Pipeline] dir
+[2026-10-10T09:13:11.263Z] Running in /var/jenkins_home/workspace/ex-108-full/dev-r-3.4.1
+[2026-10-10T09:13:11.268Z] [Pipeline] {
+[2026-10-10T09:13:11.281Z] [Pipeline] dir
+[2026-10-10T09:13:11.282Z] Running in /var/jenkins_home/workspace/ex-108-full@2/dev-r-3.5.3
+[2026-10-10T09:13:11.287Z] [Pipeline] {
+[2026-10-10T09:13:11.303Z] [Pipeline] dir
+[2026-10-10T09:13:11.303Z] Running in /var/jenkins_home/workspace/ex-108-full@3/dev-r-4.0.2
+[2026-10-10T09:13:11.309Z] [Pipeline] {
+[2026-10-10T09:13:11.326Z] [Pipeline] dir
+[2026-10-10T09:13:11.326Z] Running in /var/jenkins_home/workspace/ex-108-full@4/dev-r-4.4.0
+[2026-10-10T09:13:11.332Z] [Pipeline] {
+[2026-10-10T09:13:11.348Z] [Pipeline] dir
+[2026-10-10T09:13:11.348Z] Running in /var/jenkins_home/workspace/ex-108-full@5/dev-r-4.5.2
+[2026-10-10T09:13:11.353Z] [Pipeline] {
+[2026-10-10T09:13:11.369Z] [Pipeline] dir
+[2026-10-10T09:13:11.369Z] Running in /var/jenkins_home/workspace/ex-108-full@6/dev-jdk-8
+[2026-10-10T09:13:11.375Z] [Pipeline] {
+[2026-10-10T09:13:11.390Z] [Pipeline] dir
+[2026-10-10T09:13:11.390Z] Running in /var/jenkins_home/workspace/ex-108-full@7/dev-jdk-11
+[2026-10-10T09:13:11.395Z] [Pipeline] {
+[2026-10-10T09:13:11.411Z] [Pipeline] dir
+[2026-10-10T09:13:11.411Z] Running in /var/jenkins_home/workspace/ex-108-full@8/dev-jdk-17
+[2026-10-10T09:13:11.416Z] [Pipeline] {
+[2026-10-10T09:13:11.432Z] [Pipeline] dir
+[2026-10-10T09:13:11.432Z] Running in /var/jenkins_home/workspace/ex-108-full@9/dev-mojocompat
+[2026-10-10T09:13:11.439Z] [Pipeline] {
+[2026-10-10T09:13:11.467Z] [Pipeline] deleteDir
+[2026-10-10T09:13:11.481Z] [Pipeline] deleteDir
+[2026-10-10T09:13:11.494Z] [Pipeline] deleteDir
+[2026-10-10T09:13:11.506Z] [Pipeline] deleteDir
+[2026-10-10T09:13:11.518Z] [Pipeline] deleteDir
+[2026-10-10T09:13:11.531Z] [Pipeline] deleteDir
+[2026-10-10T09:13:11.543Z] [Pipeline] deleteDir
+[2026-10-10T09:13:11.559Z] [Pipeline] deleteDir
+[2026-10-10T09:13:11.572Z] [Pipeline] deleteDir
+[2026-10-10T09:13:11.624Z] [Pipeline] withCredentials
+[2026-10-10T09:13:11.637Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:11.648Z] [Pipeline] withCredentials
+[2026-10-10T09:13:11.655Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:11.667Z] [Pipeline] withCredentials
+[2026-10-10T09:13:11.673Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:11.684Z] [Pipeline] withCredentials
+[2026-10-10T09:13:11.689Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:11.700Z] [Pipeline] withCredentials
+[2026-10-10T09:13:11.705Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:11.715Z] [Pipeline] withCredentials
+[2026-10-10T09:13:11.721Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:11.731Z] [Pipeline] withCredentials
+[2026-10-10T09:13:11.737Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:11.747Z] [Pipeline] withCredentials
+[2026-10-10T09:13:11.753Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:11.763Z] [Pipeline] withCredentials
+[2026-10-10T09:13:11.770Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:11.784Z] [Pipeline] {
+[2026-10-10T09:13:11.797Z] [Pipeline] {
+[2026-10-10T09:13:11.811Z] [Pipeline] {
+[2026-10-10T09:13:11.823Z] [Pipeline] {
+[2026-10-10T09:13:11.836Z] [Pipeline] {
+[2026-10-10T09:13:11.850Z] [Pipeline] {
+[2026-10-10T09:13:11.864Z] [Pipeline] {
+[2026-10-10T09:13:11.878Z] [Pipeline] {
+[2026-10-10T09:13:11.892Z] [Pipeline] {
+[2026-10-10T09:13:11.913Z] [Pipeline] sh
+[2026-10-10T09:13:11.938Z] [Pipeline] sh
+[2026-10-10T09:13:11.961Z] [Pipeline] sh
+[2026-10-10T09:13:11.986Z] [Pipeline] sh
+[2026-10-10T09:13:12.010Z] [Pipeline] sh
+[2026-10-10T09:13:12.033Z] [Pipeline] sh
+[2026-10-10T09:13:12.056Z] [Pipeline] sh
+[2026-10-10T09:13:12.088Z] [Pipeline] sh
+[2026-10-10T09:13:12.114Z] [Pipeline] sh
+[2026-10-10T09:13:12.174Z] + echo aws ecr get-login-password --region us-east-1
+[2026-10-10T09:13:12.184Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR_PWD (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:12.197Z] [Pipeline] sh
+[2026-10-10T09:13:12.198Z] + echo aws ecr get-login-password --region us-east-1
+[2026-10-10T09:13:12.221Z] + echo aws ecr get-login-password --region us-east-1
+[2026-10-10T09:13:12.244Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR_PWD (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:12.247Z] + echo aws ecr get-login-password --region us-east-1
+[2026-10-10T09:13:12.256Z] [Pipeline] sh
+[2026-10-10T09:13:12.267Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR_PWD (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:12.271Z] + echo aws ecr get-login-password --region us-east-1
+[2026-10-10T09:13:12.280Z] [Pipeline] sh
+[2026-10-10T09:13:12.294Z] + echo aws ecr get-login-password --region us-east-1
+[2026-10-10T09:13:12.318Z] + echo aws ecr get-login-password --region us-east-1
+[2026-10-10T09:13:12.340Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR_PWD (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:12.349Z] + echo aws ecr get-login-password --region us-east-1
+[2026-10-10T09:13:12.352Z] [Pipeline] sh
+[2026-10-10T09:13:12.364Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR_PWD (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:12.376Z] + echo aws ecr get-login-password --region us-east-1
+[2026-10-10T09:13:12.378Z] [Pipeline] sh
+[2026-10-10T09:13:12.390Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR_PWD (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:12.406Z] [Pipeline] sh
+[2026-10-10T09:13:12.437Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR_PWD (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:12.448Z] [Pipeline] sh
+[2026-10-10T09:13:12.458Z] + echo docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:12.458Z] docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:12.495Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR_PWD (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:12.506Z] [Pipeline] sh
+[2026-10-10T09:13:12.515Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR_PWD (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:12.517Z] + echo docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:12.517Z] docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:12.529Z] [Pipeline] sh
+[2026-10-10T09:13:12.542Z] + echo docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:12.542Z] docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:12.573Z] [Pipeline] }
+[2026-10-10T09:13:12.614Z] + echo docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:12.614Z] docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:12.616Z] [Pipeline] }
+[2026-10-10T09:13:12.629Z] [Pipeline] }
+[2026-10-10T09:13:12.640Z] + echo docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:12.640Z] docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:12.664Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:12.668Z] + echo docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:12.668Z] docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:12.698Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:12.708Z] + echo docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:12.708Z] docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:12.720Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:12.748Z] [Pipeline] unstash
+[2026-10-10T09:13:12.758Z] [Pipeline] }
+[2026-10-10T09:13:12.765Z] + echo docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:12.766Z] docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:12.769Z] [Pipeline] }
+[2026-10-10T09:13:12.786Z] [Pipeline] unstash
+[2026-10-10T09:13:12.789Z] + echo docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:12.789Z] docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:12.802Z] [Pipeline] unstash
+[2026-10-10T09:13:12.830Z] [Pipeline] }
+[2026-10-10T09:13:12.861Z] [Pipeline] }
+[2026-10-10T09:13:12.900Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:12.928Z] [Pipeline] sh
+[2026-10-10T09:13:12.947Z] [Pipeline] }
+[2026-10-10T09:13:12.958Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:12.991Z] [Pipeline] sh
+[2026-10-10T09:13:13.016Z] [Pipeline] sh
+[2026-10-10T09:13:13.045Z] [Pipeline] unstash
+[2026-10-10T09:13:13.058Z] [Pipeline] }
+[2026-10-10T09:13:13.084Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:13.110Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:13.120Z] [Pipeline] unstash
+[2026-10-10T09:13:13.139Z] [Pipeline] unstash
+[2026-10-10T09:13:13.166Z] [Pipeline] unstash
+[2026-10-10T09:13:13.189Z] + echo docker load -i dev-r-base.tar
+[2026-10-10T09:13:13.189Z] docker load -i dev-r-base.tar
+[2026-10-10T09:13:13.205Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:13.223Z] [Pipeline] unstash
+[2026-10-10T09:13:13.251Z] + echo docker load -i dev-r-base.tar
+[2026-10-10T09:13:13.251Z] docker load -i dev-r-base.tar
+[2026-10-10T09:13:13.266Z] [Pipeline] sh
+[2026-10-10T09:13:13.280Z] + echo docker load -i dev-r-base.tar
+[2026-10-10T09:13:13.280Z] docker load -i dev-r-base.tar
+[2026-10-10T09:13:13.290Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:13.309Z] [Pipeline] unstash
+[2026-10-10T09:13:13.342Z] [Pipeline] sh
+[2026-10-10T09:13:13.396Z] [Pipeline] sh
+[2026-10-10T09:13:13.423Z] [Pipeline] sh
+[2026-10-10T09:13:13.448Z] [Pipeline] sh
+[2026-10-10T09:13:13.485Z] [Pipeline] sh
+[2026-10-10T09:13:13.526Z] + echo docker load -i dev-r-base.tar
+[2026-10-10T09:13:13.526Z] docker load -i dev-r-base.tar
+[2026-10-10T09:13:13.539Z] [Pipeline] sh
+[2026-10-10T09:13:13.563Z] [Pipeline] sh
+[2026-10-10T09:13:13.602Z] + echo docker load -i dev-r-base.tar
+[2026-10-10T09:13:13.602Z] docker load -i dev-r-base.tar
+[2026-10-10T09:13:13.603Z] [Pipeline] sh
+[2026-10-10T09:13:13.658Z] [Pipeline] sh
+[2026-10-10T09:13:13.659Z] + rm dev-r-base.tar
+[2026-10-10T09:13:13.686Z] + echo docker load -i dev-jdk-others-base.tar
+[2026-10-10T09:13:13.686Z] docker load -i dev-jdk-others-base.tar
+[2026-10-10T09:13:13.708Z] + echo docker load -i dev-jdk-others-base.tar
+[2026-10-10T09:13:13.708Z] docker load -i dev-jdk-others-base.tar
+[2026-10-10T09:13:13.710Z] [Pipeline] sh
+[2026-10-10T09:13:13.744Z] + echo docker load -i dev-jdk-others-base.tar
+[2026-10-10T09:13:13.744Z] docker load -i dev-jdk-others-base.tar
+[2026-10-10T09:13:13.773Z] [Pipeline] sh
+[2026-10-10T09:13:13.801Z] + rm dev-r-base.tar
+[2026-10-10T09:13:13.823Z] [Pipeline] sh
+[2026-10-10T09:13:13.825Z] + rm dev-r-base.tar
+[2026-10-10T09:13:13.845Z] [Pipeline] sh
+[2026-10-10T09:13:13.864Z] + echo docker load -i dev-python-3.7.tar
+[2026-10-10T09:13:13.864Z] docker load -i dev-python-3.7.tar
+[2026-10-10T09:13:13.881Z] [Pipeline] withCredentials
+[2026-10-10T09:13:13.886Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:13.920Z] + rm dev-r-base.tar
+[2026-10-10T09:13:13.951Z] [Pipeline] {
+[2026-10-10T09:13:13.971Z] [Pipeline] withCredentials
+[2026-10-10T09:13:13.971Z] + rm dev-r-base.tar
+[2026-10-10T09:13:13.980Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:13.987Z] [Pipeline] sh
+[2026-10-10T09:13:14.016Z] [Pipeline] withCredentials
+[2026-10-10T09:13:14.023Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:14.030Z] [Pipeline] sh
+[2026-10-10T09:13:14.035Z] + rm dev-jdk-others-base.tar
+[2026-10-10T09:13:14.080Z] [Pipeline] withCredentials
+[2026-10-10T09:13:14.083Z] + rm dev-jdk-others-base.tar
+[2026-10-10T09:13:14.087Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:14.106Z] + rm dev-jdk-others-base.tar
+[2026-10-10T09:13:14.113Z] [Pipeline] {
+[2026-10-10T09:13:14.126Z] [Pipeline] {
+[2026-10-10T09:13:14.158Z] [Pipeline] sh
+[2026-10-10T09:13:14.185Z] [Pipeline] sh
+[2026-10-10T09:13:14.217Z] [Pipeline] withCredentials
+[2026-10-10T09:13:14.223Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:14.236Z] [Pipeline] withCredentials
+[2026-10-10T09:13:14.242Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:14.247Z] + rm dev-python-3.7.tar
+[2026-10-10T09:13:14.269Z] [Pipeline] {
+[2026-10-10T09:13:14.292Z] + echo aws ecr batch-get-image --registry-id=353750902984 --repository-name=h2o-3/dev-r-3.4.1 --image-ids=imageTag=47 --query images[].imageId.imageTag --output text
+[2026-10-10T09:13:14.298Z] [Pipeline] sh
+[2026-10-10T09:13:14.333Z] [Pipeline] withCredentials
+[2026-10-10T09:13:14.345Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:14.354Z] [Pipeline] withCredentials
+[2026-10-10T09:13:14.360Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:14.376Z] [Pipeline] {
+[2026-10-10T09:13:14.389Z] [Pipeline] {
+[2026-10-10T09:13:14.422Z] + echo aws ecr batch-get-image --registry-id=353750902984 --repository-name=h2o-3/dev-r-3.5.3 --image-ids=imageTag=47 --query images[].imageId.imageTag --output text
+[2026-10-10T09:13:14.425Z] [Pipeline] sh
+[2026-10-10T09:13:14.447Z] + echo aws ecr batch-get-image --registry-id=353750902984 --repository-name=h2o-3/dev-r-4.0.2 --image-ids=imageTag=47 --query images[].imageId.imageTag --output text
+[2026-10-10T09:13:14.453Z] [Pipeline] sh
+[2026-10-10T09:13:14.482Z] [Pipeline] withCredentials
+[2026-10-10T09:13:14.488Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:14.515Z] [Pipeline] }
+[2026-10-10T09:13:14.539Z] [Pipeline] {
+[2026-10-10T09:13:14.554Z] [Pipeline] {
+[2026-10-10T09:13:14.558Z] + echo aws ecr batch-get-image --registry-id=353750902984 --repository-name=h2o-3/dev-r-4.4.0 --image-ids=imageTag=47 --query images[].imageId.imageTag --output text
+[2026-10-10T09:13:14.574Z] [Pipeline] sh
+[2026-10-10T09:13:14.596Z] [Pipeline] sh
+[2026-10-10T09:13:14.649Z] [Pipeline] }
+[2026-10-10T09:13:14.659Z] [Pipeline] }
+[2026-10-10T09:13:14.685Z] [Pipeline] {
+[2026-10-10T09:13:14.687Z] + echo aws ecr batch-get-image --registry-id=353750902984 --repository-name=h2o-3/dev-r-4.5.2 --image-ids=imageTag=47 --query images[].imageId.imageTag --output text
+[2026-10-10T09:13:14.710Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:14.714Z] + echo aws ecr batch-get-image --registry-id=353750902984 --repository-name=h2o-3/dev-jdk-8 --image-ids=imageTag=47 --query images[].imageId.imageTag --output text
+[2026-10-10T09:13:14.731Z] [Pipeline] unstash
+[2026-10-10T09:13:14.749Z] [Pipeline] sh
+[2026-10-10T09:13:14.797Z] [Pipeline] }
+[2026-10-10T09:13:14.832Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:14.834Z] + echo aws ecr batch-get-image --registry-id=353750902984 --repository-name=h2o-3/dev-jdk-11 --image-ids=imageTag=47 --query images[].imageId.imageTag --output text
+[2026-10-10T09:13:14.855Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:14.856Z] + echo aws ecr batch-get-image --registry-id=353750902984 --repository-name=h2o-3/dev-jdk-17 --image-ids=imageTag=47 --query images[].imageId.imageTag --output text
+[2026-10-10T09:13:14.875Z] [Pipeline] unstash
+[2026-10-10T09:13:14.893Z] [Pipeline] unstash
+[2026-10-10T09:13:14.938Z] [Pipeline] }
+[2026-10-10T09:13:14.969Z] [Pipeline] }
+[2026-10-10T09:13:14.994Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:15.010Z] + echo aws ecr batch-get-image --registry-id=353750902984 --repository-name=h2o-3/dev-mojocompat --image-ids=imageTag=47 --query images[].imageId.imageTag --output text
+[2026-10-10T09:13:15.012Z] [Pipeline] unstash
+[2026-10-10T09:13:15.047Z] [Pipeline] sh
+[2026-10-10T09:13:15.065Z] [Pipeline] }
+[2026-10-10T09:13:15.099Z] [Pipeline] }
+[2026-10-10T09:13:15.124Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:15.134Z] [Pipeline] unstash
+[2026-10-10T09:13:15.156Z] [Pipeline] sh
+[2026-10-10T09:13:15.213Z] [Pipeline] sh
+[2026-10-10T09:13:15.242Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:15.260Z] [Pipeline] unstash
+[2026-10-10T09:13:15.296Z] [Pipeline] }
+[2026-10-10T09:13:15.309Z] + echo make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-r-3.4.1
+[2026-10-10T09:13:15.309Z] make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-r-3.4.1
+[2026-10-10T09:13:15.326Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:15.343Z] [Pipeline] unstash
+[2026-10-10T09:13:15.386Z] [Pipeline] sh
+[2026-10-10T09:13:15.412Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:15.423Z] + echo make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-r-3.5.3
+[2026-10-10T09:13:15.423Z] make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-r-3.5.3
+[2026-10-10T09:13:15.431Z] [Pipeline] unstash
+[2026-10-10T09:13:15.470Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:15.475Z] + echo make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-r-4.0.2
+[2026-10-10T09:13:15.475Z] make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-r-4.0.2
+[2026-10-10T09:13:15.491Z] [Pipeline] sh
+[2026-10-10T09:13:15.514Z] [Pipeline] unstash
+[2026-10-10T09:13:15.527Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named toPersist (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:15.533Z] [Pipeline] }
+[2026-10-10T09:13:15.554Z] [Pipeline] sh
+[2026-10-10T09:13:15.592Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named toPersist (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:15.597Z] [Pipeline] }
+[2026-10-10T09:13:15.609Z] [Pipeline] sh
+[2026-10-10T09:13:15.647Z] + echo make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-r-4.4.0
+[2026-10-10T09:13:15.647Z] make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-r-4.4.0
+[2026-10-10T09:13:15.648Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named toPersist (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:15.654Z] [Pipeline] }
+[2026-10-10T09:13:15.675Z] [Pipeline] // dir
+[2026-10-10T09:13:15.681Z] [Pipeline] }
+[2026-10-10T09:13:15.691Z] [Pipeline] sh
+[2026-10-10T09:13:15.735Z] [Pipeline] sh
+[2026-10-10T09:13:15.751Z] + echo make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-r-4.5.2
+[2026-10-10T09:13:15.751Z] make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-r-4.5.2
+[2026-10-10T09:13:15.779Z] [Pipeline] // dir
+[2026-10-10T09:13:15.793Z] [Pipeline] }
+[2026-10-10T09:13:15.814Z] + echo make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-jdk-8
+[2026-10-10T09:13:15.814Z] make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-jdk-8
+[2026-10-10T09:13:15.830Z] [Pipeline] // dir
+[2026-10-10T09:13:15.836Z] [Pipeline] }
+[2026-10-10T09:13:15.837Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named toPersist (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:15.843Z] [Pipeline] }
+[2026-10-10T09:13:15.870Z] + echo make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-jdk-11
+[2026-10-10T09:13:15.871Z] make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-jdk-11
+[2026-10-10T09:13:15.880Z] [Pipeline] // node
+[2026-10-10T09:13:15.909Z] [Pipeline] }
+[2026-10-10T09:13:15.952Z] + echo make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-jdk-17
+[2026-10-10T09:13:15.952Z] make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-jdk-17
+[2026-10-10T09:13:15.962Z] [Pipeline] // node
+[2026-10-10T09:13:15.969Z] [Pipeline] }
+[2026-10-10T09:13:15.969Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named toPersist (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:15.984Z] [Pipeline] sh
+[2026-10-10T09:13:15.997Z] + echo make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-mojocompat
+[2026-10-10T09:13:15.997Z] make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-mojocompat
+[2026-10-10T09:13:16.054Z] [Pipeline] // node
+[2026-10-10T09:13:16.070Z] [Pipeline] // dir
+[2026-10-10T09:13:16.087Z] [Pipeline] }
+[2026-10-10T09:13:16.092Z] [Pipeline] }
+[2026-10-10T09:13:16.093Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named toPersist (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:16.098Z] [Pipeline] }
+[2026-10-10T09:13:16.119Z] [Pipeline] // stage
+[2026-10-10T09:13:16.125Z] [Pipeline] }
+[2026-10-10T09:13:16.125Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named toPersist (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:16.130Z] [Pipeline] }
+[2026-10-10T09:13:16.171Z] [Pipeline] // stage
+[2026-10-10T09:13:16.177Z] [Pipeline] }
+[2026-10-10T09:13:16.177Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named toPersist (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:16.182Z] [Pipeline] }
+[2026-10-10T09:13:16.206Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named toPersist (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:16.211Z] [Pipeline] }
+[2026-10-10T09:13:16.239Z] [Pipeline] // stage
+[2026-10-10T09:13:16.255Z] + echo docker save -o dev-r-4.5.2.tar 353750902984.dkr.ecr.us-east-1.amazonaws.com/h2o-3/dev-r-4.5.2
+[2026-10-10T09:13:16.267Z] [Pipeline] // node
+[2026-10-10T09:13:16.289Z] [Pipeline] // dir
+[2026-10-10T09:13:16.296Z] [Pipeline] }
+[2026-10-10T09:13:16.302Z] [Pipeline] }
+[2026-10-10T09:13:16.309Z] [Pipeline] }
+[2026-10-10T09:13:16.345Z] [Pipeline] // dir
+[2026-10-10T09:13:16.350Z] [Pipeline] }
+[2026-10-10T09:13:16.385Z] [Pipeline] // dir
+[2026-10-10T09:13:16.390Z] [Pipeline] }
+[2026-10-10T09:13:16.418Z] [Pipeline] // dir
+[2026-10-10T09:13:16.432Z] [Pipeline] }
+[2026-10-10T09:13:16.463Z] [Pipeline] stash
+[2026-10-10T09:13:16.470Z] Stashed 1 file(s)
+[2026-10-10T09:13:16.526Z] [Pipeline] // stage
+[2026-10-10T09:13:16.649Z] [Pipeline] // node
+[2026-10-10T09:13:16.668Z] [Pipeline] }
+[2026-10-10T09:13:16.674Z] [Pipeline] }
+[2026-10-10T09:13:16.714Z] [Pipeline] // node
+[2026-10-10T09:13:16.727Z] [Pipeline] }
+[2026-10-10T09:13:16.764Z] [Pipeline] // node
+[2026-10-10T09:13:16.776Z] [Pipeline] }
+[2026-10-10T09:13:16.814Z] [Pipeline] // node
+[2026-10-10T09:13:16.820Z] [Pipeline] }
+[2026-10-10T09:13:16.848Z] [Pipeline] sh
+[2026-10-10T09:13:16.896Z] [Pipeline] // stage
+[2026-10-10T09:13:16.911Z] [Pipeline] }
+[2026-10-10T09:13:16.937Z] [Pipeline] // stage
+[2026-10-10T09:13:16.950Z] [Pipeline] }
+[2026-10-10T09:13:17.047Z] [Pipeline] // stage
+[2026-10-10T09:13:17.064Z] [Pipeline] }
+[2026-10-10T09:13:17.106Z] [Pipeline] // stage
+[2026-10-10T09:13:17.109Z] + rm dev-r-4.5.2.tar
+[2026-10-10T09:13:17.113Z] [Pipeline] }
+[2026-10-10T09:13:17.176Z] [Pipeline] }
+[2026-10-10T09:13:17.206Z] [Pipeline] // dir
+[2026-10-10T09:13:17.216Z] [Pipeline] }
+[2026-10-10T09:13:17.244Z] [Pipeline] // node
+[2026-10-10T09:13:17.254Z] [Pipeline] }
+[2026-10-10T09:13:17.277Z] [Pipeline] // stage
+[2026-10-10T09:13:17.290Z] [Pipeline] }
+[2026-10-10T09:13:17.435Z] [Pipeline] // parallel
+[2026-10-10T09:13:17.457Z] [Pipeline] parallel
+[2026-10-10T09:13:17.462Z] [Pipeline] { (Branch: dev-build-base)
+[2026-10-10T09:13:17.495Z] [Pipeline] stage
+[2026-10-10T09:13:17.502Z] [Pipeline] { (Build dev-build-base)
+[2026-10-10T09:13:17.534Z] [Pipeline] node
+[2026-10-10T09:13:17.546Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full
+[2026-10-10T09:13:17.560Z] [Pipeline] {
+[2026-10-10T09:13:17.591Z] [Pipeline] dir
+[2026-10-10T09:13:17.591Z] Running in /var/jenkins_home/workspace/ex-108-full/dev-build-base
+[2026-10-10T09:13:17.597Z] [Pipeline] {
+[2026-10-10T09:13:17.620Z] [Pipeline] deleteDir
+[2026-10-10T09:13:17.661Z] [Pipeline] withCredentials
+[2026-10-10T09:13:17.668Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:17.684Z] [Pipeline] {
+[2026-10-10T09:13:17.705Z] [Pipeline] sh
+[2026-10-10T09:13:17.968Z] + echo aws ecr get-login-password --region us-east-1
+[2026-10-10T09:13:17.994Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR_PWD (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:18.020Z] [Pipeline] sh
+[2026-10-10T09:13:18.286Z] + echo docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:18.287Z] docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:18.332Z] [Pipeline] }
+[2026-10-10T09:13:18.372Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:18.390Z] [Pipeline] unstash
+[2026-10-10T09:13:18.424Z] [Pipeline] sh
+[2026-10-10T09:13:18.686Z] + echo docker load -i dev-r-4.5.2.tar
+[2026-10-10T09:13:18.686Z] docker load -i dev-r-4.5.2.tar
+[2026-10-10T09:13:18.731Z] [Pipeline] sh
+[2026-10-10T09:13:19.007Z] + rm dev-r-4.5.2.tar
+[2026-10-10T09:13:19.059Z] [Pipeline] withCredentials
+[2026-10-10T09:13:19.065Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:19.081Z] [Pipeline] {
+[2026-10-10T09:13:19.102Z] [Pipeline] sh
+[2026-10-10T09:13:19.364Z] + echo aws ecr batch-get-image --registry-id=353750902984 --repository-name=h2o-3/dev-build-base --image-ids=imageTag=47 --query images[].imageId.imageTag --output text
+[2026-10-10T09:13:19.404Z] [Pipeline] }
+[2026-10-10T09:13:19.473Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:19.497Z] [Pipeline] unstash
+[2026-10-10T09:13:19.565Z] [Pipeline] sh
+[2026-10-10T09:13:19.827Z] + echo make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-build-base
+[2026-10-10T09:13:19.827Z] make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-build-base
+[2026-10-10T09:13:19.834Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named toPersist (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:19.852Z] [Pipeline] sh
+[2026-10-10T09:13:20.115Z] + echo docker save -o dev-build-base.tar 353750902984.dkr.ecr.us-east-1.amazonaws.com/h2o-3/dev-build-base
+[2026-10-10T09:13:20.165Z] [Pipeline] stash
+[2026-10-10T09:13:20.182Z] Stashed 1 file(s)
+[2026-10-10T09:13:20.225Z] [Pipeline] sh
+[2026-10-10T09:13:20.494Z] + rm dev-build-base.tar
+[2026-10-10T09:13:20.533Z] [Pipeline] }
+[2026-10-10T09:13:20.584Z] [Pipeline] // dir
+[2026-10-10T09:13:20.608Z] [Pipeline] }
+[2026-10-10T09:13:20.654Z] [Pipeline] // node
+[2026-10-10T09:13:20.668Z] [Pipeline] }
+[2026-10-10T09:13:20.696Z] [Pipeline] // stage
+[2026-10-10T09:13:20.711Z] [Pipeline] }
+[2026-10-10T09:13:20.736Z] [Pipeline] // parallel
+[2026-10-10T09:13:20.756Z] [Pipeline] parallel
+[2026-10-10T09:13:20.760Z] [Pipeline] { (Branch: dev-build-hadoop)
+[2026-10-10T09:13:20.801Z] [Pipeline] stage
+[2026-10-10T09:13:20.806Z] [Pipeline] { (Build dev-build-hadoop)
+[2026-10-10T09:13:20.837Z] [Pipeline] node
+[2026-10-10T09:13:20.851Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full
+[2026-10-10T09:13:20.863Z] [Pipeline] {
+[2026-10-10T09:13:20.895Z] [Pipeline] dir
+[2026-10-10T09:13:20.895Z] Running in /var/jenkins_home/workspace/ex-108-full/dev-build-hadoop
+[2026-10-10T09:13:20.901Z] [Pipeline] {
+[2026-10-10T09:13:20.922Z] [Pipeline] deleteDir
+[2026-10-10T09:13:20.959Z] [Pipeline] withCredentials
+[2026-10-10T09:13:20.965Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:20.980Z] [Pipeline] {
+[2026-10-10T09:13:21.002Z] [Pipeline] sh
+[2026-10-10T09:13:21.264Z] + echo aws ecr get-login-password --region us-east-1
+[2026-10-10T09:13:21.289Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR_PWD (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:21.317Z] [Pipeline] sh
+[2026-10-10T09:13:21.451Z] + echo docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:21.452Z] docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:21.488Z] [Pipeline] }
+[2026-10-10T09:13:21.536Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:21.555Z] [Pipeline] unstash
+[2026-10-10T09:13:21.595Z] [Pipeline] sh
+[2026-10-10T09:13:21.858Z] + echo docker load -i dev-build-base.tar
+[2026-10-10T09:13:21.858Z] docker load -i dev-build-base.tar
+[2026-10-10T09:13:21.879Z] [Pipeline] sh
+[2026-10-10T09:13:22.141Z] + rm dev-build-base.tar
+[2026-10-10T09:13:22.197Z] [Pipeline] withCredentials
+[2026-10-10T09:13:22.207Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:22.226Z] [Pipeline] {
+[2026-10-10T09:13:22.251Z] [Pipeline] sh
+[2026-10-10T09:13:22.513Z] + echo aws ecr batch-get-image --registry-id=353750902984 --repository-name=h2o-3/dev-build-hadoop --image-ids=imageTag=47 --query images[].imageId.imageTag --output text
+[2026-10-10T09:13:22.549Z] [Pipeline] }
+[2026-10-10T09:13:22.606Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:22.631Z] [Pipeline] unstash
+[2026-10-10T09:13:22.675Z] [Pipeline] sh
+[2026-10-10T09:13:22.935Z] + echo make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-build-hadoop
+[2026-10-10T09:13:22.935Z] make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-build-hadoop
+[2026-10-10T09:13:22.959Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named toPersist (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:22.984Z] [Pipeline] sh
+[2026-10-10T09:13:23.250Z] + echo docker save -o dev-build-hadoop.tar 353750902984.dkr.ecr.us-east-1.amazonaws.com/h2o-3/dev-build-hadoop
+[2026-10-10T09:13:23.302Z] [Pipeline] stash
+[2026-10-10T09:13:23.318Z] Stashed 1 file(s)
+[2026-10-10T09:13:23.357Z] [Pipeline] sh
+[2026-10-10T09:13:23.619Z] + rm dev-build-hadoop.tar
+[2026-10-10T09:13:23.659Z] [Pipeline] }
+[2026-10-10T09:13:23.710Z] [Pipeline] // dir
+[2026-10-10T09:13:23.724Z] [Pipeline] }
+[2026-10-10T09:13:23.761Z] [Pipeline] // node
+[2026-10-10T09:13:23.775Z] [Pipeline] }
+[2026-10-10T09:13:23.803Z] [Pipeline] // stage
+[2026-10-10T09:13:23.817Z] [Pipeline] }
+[2026-10-10T09:13:23.844Z] [Pipeline] // parallel
+[2026-10-10T09:13:23.862Z] [Pipeline] parallel
+[2026-10-10T09:13:23.867Z] [Pipeline] { (Branch: dev-release)
+[2026-10-10T09:13:23.891Z] [Pipeline] stage
+[2026-10-10T09:13:23.897Z] [Pipeline] { (Build dev-release)
+[2026-10-10T09:13:23.928Z] [Pipeline] node
+[2026-10-10T09:13:23.942Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full
+[2026-10-10T09:13:23.953Z] [Pipeline] {
+[2026-10-10T09:13:23.982Z] [Pipeline] dir
+[2026-10-10T09:13:23.982Z] Running in /var/jenkins_home/workspace/ex-108-full/dev-release
+[2026-10-10T09:13:23.989Z] [Pipeline] {
+[2026-10-10T09:13:24.008Z] [Pipeline] deleteDir
+[2026-10-10T09:13:24.051Z] [Pipeline] withCredentials
+[2026-10-10T09:13:24.057Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:24.075Z] [Pipeline] {
+[2026-10-10T09:13:24.096Z] [Pipeline] sh
+[2026-10-10T09:13:24.361Z] + echo aws ecr get-login-password --region us-east-1
+[2026-10-10T09:13:24.382Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR_PWD (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:24.396Z] [Pipeline] sh
+[2026-10-10T09:13:24.659Z] + echo docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:24.659Z] docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:24.689Z] [Pipeline] }
+[2026-10-10T09:13:24.724Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:24.742Z] [Pipeline] unstash
+[2026-10-10T09:13:24.774Z] [Pipeline] sh
+[2026-10-10T09:13:25.035Z] + echo docker load -i dev-build-hadoop.tar
+[2026-10-10T09:13:25.035Z] docker load -i dev-build-hadoop.tar
+[2026-10-10T09:13:25.064Z] [Pipeline] sh
+[2026-10-10T09:13:25.326Z] + rm dev-build-hadoop.tar
+[2026-10-10T09:13:25.404Z] [Pipeline] withCredentials
+[2026-10-10T09:13:25.413Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:25.435Z] [Pipeline] {
+[2026-10-10T09:13:25.458Z] [Pipeline] sh
+[2026-10-10T09:13:25.719Z] + echo aws ecr batch-get-image --registry-id=353750902984 --repository-name=h2o-3/dev-release --image-ids=imageTag=47 --query images[].imageId.imageTag --output text
+[2026-10-10T09:13:25.743Z] [Pipeline] }
+[2026-10-10T09:13:25.773Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:25.798Z] [Pipeline] unstash
+[2026-10-10T09:13:25.912Z] [Pipeline] sh
+[2026-10-10T09:13:26.180Z] + echo make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-release
+[2026-10-10T09:13:26.180Z] make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-release
+[2026-10-10T09:13:26.200Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named toPersist (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:26.206Z] [Pipeline] }
+[2026-10-10T09:13:26.239Z] [Pipeline] // dir
+[2026-10-10T09:13:26.251Z] [Pipeline] }
+[2026-10-10T09:13:26.301Z] [Pipeline] // node
+[2026-10-10T09:13:26.313Z] [Pipeline] }
+[2026-10-10T09:13:26.336Z] [Pipeline] // stage
+[2026-10-10T09:13:26.348Z] [Pipeline] }
+[2026-10-10T09:13:26.372Z] [Pipeline] // parallel
+[2026-10-10T09:13:26.416Z] [Pipeline] parallel
+[2026-10-10T09:13:26.652Z] [Pipeline] { (Branch: dev-python-3.7-jdk-8)
+[2026-10-10T09:13:26.657Z] [Pipeline] { (Branch: dev-python-3.7-jdk-11)
+[2026-10-10T09:13:26.662Z] [Pipeline] { (Branch: dev-python-3.7-jdk-17)
+[2026-10-10T09:13:26.667Z] [Pipeline] { (Branch: dev-python-3.8-jdk-8)
+[2026-10-10T09:13:26.671Z] [Pipeline] { (Branch: dev-python-3.8-jdk-11)
+[2026-10-10T09:13:26.677Z] [Pipeline] { (Branch: dev-python-3.8-jdk-17)
+[2026-10-10T09:13:26.682Z] [Pipeline] { (Branch: dev-python-3.9-jdk-8)
+[2026-10-10T09:13:26.688Z] [Pipeline] { (Branch: dev-python-3.9-jdk-11)
+[2026-10-10T09:13:26.693Z] [Pipeline] { (Branch: dev-python-3.9-jdk-17)
+[2026-10-10T09:13:26.699Z] [Pipeline] { (Branch: dev-python-3.10-jdk-8)
+[2026-10-10T09:13:26.705Z] [Pipeline] { (Branch: dev-python-3.10-jdk-11)
+[2026-10-10T09:13:26.710Z] [Pipeline] { (Branch: dev-python-3.10-jdk-17)
+[2026-10-10T09:13:26.715Z] [Pipeline] { (Branch: dev-python-3.11-jdk-8)
+[2026-10-10T09:13:26.720Z] [Pipeline] { (Branch: dev-python-3.11-jdk-11)
+[2026-10-10T09:13:26.725Z] [Pipeline] { (Branch: dev-python-3.11-jdk-17)
+[2026-10-10T09:13:26.730Z] [Pipeline] { (Branch: dev-r-3.4.1-jdk-8)
+[2026-10-10T09:13:26.735Z] [Pipeline] { (Branch: dev-r-3.4.1-jdk-11)
+[2026-10-10T09:13:26.741Z] [Pipeline] { (Branch: dev-r-3.4.1-jdk-17)
+[2026-10-10T09:13:26.747Z] [Pipeline] { (Branch: dev-r-3.5.3-jdk-8)
+[2026-10-10T09:13:26.752Z] [Pipeline] { (Branch: dev-r-3.5.3-jdk-11)
+[2026-10-10T09:13:26.757Z] [Pipeline] { (Branch: dev-r-3.5.3-jdk-17)
+[2026-10-10T09:13:26.762Z] [Pipeline] { (Branch: dev-r-4.0.2-jdk-8)
+[2026-10-10T09:13:26.768Z] [Pipeline] { (Branch: dev-r-4.0.2-jdk-11)
+[2026-10-10T09:13:26.773Z] [Pipeline] { (Branch: dev-r-4.0.2-jdk-17)
+[2026-10-10T09:13:26.778Z] [Pipeline] { (Branch: dev-r-4.4.0-jdk-8)
+[2026-10-10T09:13:26.784Z] [Pipeline] { (Branch: dev-r-4.4.0-jdk-11)
+[2026-10-10T09:13:26.788Z] [Pipeline] { (Branch: dev-r-4.4.0-jdk-17)
+[2026-10-10T09:13:26.792Z] [Pipeline] { (Branch: dev-r-4.5.2-jdk-8)
+[2026-10-10T09:13:26.796Z] [Pipeline] { (Branch: dev-r-4.5.2-jdk-11)
+[2026-10-10T09:13:26.802Z] [Pipeline] { (Branch: dev-r-4.5.2-jdk-17)
+[2026-10-10T09:13:26.844Z] [Pipeline] stage
+[2026-10-10T09:13:26.851Z] [Pipeline] { (Build dev-python-3.7-jdk-8)
+[2026-10-10T09:13:26.871Z] [Pipeline] stage
+[2026-10-10T09:13:26.877Z] [Pipeline] { (Build dev-python-3.7-jdk-11)
+[2026-10-10T09:13:26.893Z] [Pipeline] stage
+[2026-10-10T09:13:26.898Z] [Pipeline] { (Build dev-python-3.7-jdk-17)
+[2026-10-10T09:13:26.918Z] [Pipeline] stage
+[2026-10-10T09:13:26.926Z] [Pipeline] { (Build dev-python-3.8-jdk-8)
+[2026-10-10T09:13:26.944Z] [Pipeline] stage
+[2026-10-10T09:13:26.949Z] [Pipeline] { (Build dev-python-3.8-jdk-11)
+[2026-10-10T09:13:26.966Z] [Pipeline] stage
+[2026-10-10T09:13:26.971Z] [Pipeline] { (Build dev-python-3.8-jdk-17)
+[2026-10-10T09:13:26.988Z] [Pipeline] stage
+[2026-10-10T09:13:26.994Z] [Pipeline] { (Build dev-python-3.9-jdk-8)
+[2026-10-10T09:13:27.010Z] [Pipeline] stage
+[2026-10-10T09:13:27.015Z] [Pipeline] { (Build dev-python-3.9-jdk-11)
+[2026-10-10T09:13:27.032Z] [Pipeline] stage
+[2026-10-10T09:13:27.038Z] [Pipeline] { (Build dev-python-3.9-jdk-17)
+[2026-10-10T09:13:27.054Z] [Pipeline] stage
+[2026-10-10T09:13:27.060Z] [Pipeline] { (Build dev-python-3.10-jdk-8)
+[2026-10-10T09:13:27.076Z] [Pipeline] stage
+[2026-10-10T09:13:27.081Z] [Pipeline] { (Build dev-python-3.10-jdk-11)
+[2026-10-10T09:13:27.097Z] [Pipeline] stage
+[2026-10-10T09:13:27.102Z] [Pipeline] { (Build dev-python-3.10-jdk-17)
+[2026-10-10T09:13:27.118Z] [Pipeline] stage
+[2026-10-10T09:13:27.123Z] [Pipeline] { (Build dev-python-3.11-jdk-8)
+[2026-10-10T09:13:27.140Z] [Pipeline] stage
+[2026-10-10T09:13:27.145Z] [Pipeline] { (Build dev-python-3.11-jdk-11)
+[2026-10-10T09:13:27.162Z] [Pipeline] stage
+[2026-10-10T09:13:27.167Z] [Pipeline] { (Build dev-python-3.11-jdk-17)
+[2026-10-10T09:13:27.185Z] [Pipeline] stage
+[2026-10-10T09:13:27.191Z] [Pipeline] { (Build dev-r-3.4.1-jdk-8)
+[2026-10-10T09:13:27.207Z] [Pipeline] stage
+[2026-10-10T09:13:27.212Z] [Pipeline] { (Build dev-r-3.4.1-jdk-11)
+[2026-10-10T09:13:27.228Z] [Pipeline] stage
+[2026-10-10T09:13:27.233Z] [Pipeline] { (Build dev-r-3.4.1-jdk-17)
+[2026-10-10T09:13:27.249Z] [Pipeline] stage
+[2026-10-10T09:13:27.254Z] [Pipeline] { (Build dev-r-3.5.3-jdk-8)
+[2026-10-10T09:13:27.268Z] [Pipeline] stage
+[2026-10-10T09:13:27.273Z] [Pipeline] { (Build dev-r-3.5.3-jdk-11)
+[2026-10-10T09:13:27.288Z] [Pipeline] stage
+[2026-10-10T09:13:27.293Z] [Pipeline] { (Build dev-r-3.5.3-jdk-17)
+[2026-10-10T09:13:27.308Z] [Pipeline] stage
+[2026-10-10T09:13:27.313Z] [Pipeline] { (Build dev-r-4.0.2-jdk-8)
+[2026-10-10T09:13:27.327Z] [Pipeline] stage
+[2026-10-10T09:13:27.332Z] [Pipeline] { (Build dev-r-4.0.2-jdk-11)
+[2026-10-10T09:13:27.348Z] [Pipeline] stage
+[2026-10-10T09:13:27.353Z] [Pipeline] { (Build dev-r-4.0.2-jdk-17)
+[2026-10-10T09:13:27.369Z] [Pipeline] stage
+[2026-10-10T09:13:27.374Z] [Pipeline] { (Build dev-r-4.4.0-jdk-8)
+[2026-10-10T09:13:27.389Z] [Pipeline] stage
+[2026-10-10T09:13:27.394Z] [Pipeline] { (Build dev-r-4.4.0-jdk-11)
+[2026-10-10T09:13:27.409Z] [Pipeline] stage
+[2026-10-10T09:13:27.414Z] [Pipeline] { (Build dev-r-4.4.0-jdk-17)
+[2026-10-10T09:13:27.429Z] [Pipeline] stage
+[2026-10-10T09:13:27.434Z] [Pipeline] { (Build dev-r-4.5.2-jdk-8)
+[2026-10-10T09:13:27.450Z] [Pipeline] stage
+[2026-10-10T09:13:27.455Z] [Pipeline] { (Build dev-r-4.5.2-jdk-11)
+[2026-10-10T09:13:27.470Z] [Pipeline] stage
+[2026-10-10T09:13:27.475Z] [Pipeline] { (Build dev-r-4.5.2-jdk-17)
+[2026-10-10T09:13:27.508Z] [Pipeline] node
+[2026-10-10T09:13:27.524Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full
+[2026-10-10T09:13:27.534Z] [Pipeline] node
+[2026-10-10T09:13:27.550Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full@2
+[2026-10-10T09:13:27.565Z] [Pipeline] node
+[2026-10-10T09:13:27.582Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full@3
+[2026-10-10T09:13:27.593Z] [Pipeline] node
+[2026-10-10T09:13:27.611Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full@4
+[2026-10-10T09:13:27.621Z] [Pipeline] node
+[2026-10-10T09:13:27.638Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full@5
+[2026-10-10T09:13:27.649Z] [Pipeline] node
+[2026-10-10T09:13:27.663Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full@6
+[2026-10-10T09:13:27.673Z] [Pipeline] node
+[2026-10-10T09:13:27.690Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full@7
+[2026-10-10T09:13:27.699Z] [Pipeline] node
+[2026-10-10T09:13:27.714Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full@8
+[2026-10-10T09:13:27.724Z] [Pipeline] node
+[2026-10-10T09:13:27.740Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full@9
+[2026-10-10T09:13:27.750Z] [Pipeline] node
+[2026-10-10T09:13:27.766Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full@10
+[2026-10-10T09:13:27.775Z] [Pipeline] node
+[2026-10-10T09:13:27.789Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full@11
+[2026-10-10T09:13:27.799Z] [Pipeline] node
+[2026-10-10T09:13:27.817Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full@12
+[2026-10-10T09:13:27.828Z] [Pipeline] node
+[2026-10-10T09:13:27.845Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full@13
+[2026-10-10T09:13:27.853Z] [Pipeline] node
+[2026-10-10T09:13:27.865Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full@14
+[2026-10-10T09:13:27.873Z] [Pipeline] node
+[2026-10-10T09:13:27.885Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full@15
+[2026-10-10T09:13:27.893Z] [Pipeline] node
+[2026-10-10T09:13:27.916Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full@16
+[2026-10-10T09:13:27.929Z] [Pipeline] node
+[2026-10-10T09:13:27.951Z] [Pipeline] node
+[2026-10-10T09:13:27.974Z] [Pipeline] node
+[2026-10-10T09:13:27.998Z] [Pipeline] node
+[2026-10-10T09:13:28.019Z] [Pipeline] node
+[2026-10-10T09:13:28.043Z] [Pipeline] node
+[2026-10-10T09:13:28.070Z] [Pipeline] node
+[2026-10-10T09:13:28.096Z] [Pipeline] node
+[2026-10-10T09:13:28.122Z] [Pipeline] node
+[2026-10-10T09:13:28.141Z] [Pipeline] node
+[2026-10-10T09:13:28.160Z] [Pipeline] node
+[2026-10-10T09:13:28.178Z] [Pipeline] node
+[2026-10-10T09:13:28.198Z] [Pipeline] node
+[2026-10-10T09:13:28.217Z] [Pipeline] node
+[2026-10-10T09:13:28.256Z] [Pipeline] {
+[2026-10-10T09:13:28.272Z] [Pipeline] {
+[2026-10-10T09:13:28.287Z] [Pipeline] {
+[2026-10-10T09:13:28.303Z] [Pipeline] {
+[2026-10-10T09:13:28.318Z] [Pipeline] {
+[2026-10-10T09:13:28.334Z] [Pipeline] {
+[2026-10-10T09:13:28.350Z] [Pipeline] {
+[2026-10-10T09:13:28.367Z] [Pipeline] {
+[2026-10-10T09:13:28.385Z] [Pipeline] {
+[2026-10-10T09:13:28.399Z] [Pipeline] {
+[2026-10-10T09:13:28.413Z] [Pipeline] {
+[2026-10-10T09:13:28.428Z] [Pipeline] {
+[2026-10-10T09:13:28.443Z] [Pipeline] {
+[2026-10-10T09:13:28.461Z] [Pipeline] {
+[2026-10-10T09:13:28.478Z] [Pipeline] {
+[2026-10-10T09:13:28.495Z] [Pipeline] {
+[2026-10-10T09:13:28.539Z] [Pipeline] dir
+[2026-10-10T09:13:28.539Z] Running in /var/jenkins_home/workspace/ex-108-full/dev-python-3.7-jdk-8
+[2026-10-10T09:13:28.547Z] [Pipeline] {
+[2026-10-10T09:13:28.570Z] [Pipeline] dir
+[2026-10-10T09:13:28.570Z] Running in /var/jenkins_home/workspace/ex-108-full@2/dev-python-3.7-jdk-11
+[2026-10-10T09:13:28.577Z] [Pipeline] {
+[2026-10-10T09:13:28.595Z] [Pipeline] dir
+[2026-10-10T09:13:28.595Z] Running in /var/jenkins_home/workspace/ex-108-full@3/dev-python-3.7-jdk-17
+[2026-10-10T09:13:28.600Z] [Pipeline] {
+[2026-10-10T09:13:28.615Z] [Pipeline] dir
+[2026-10-10T09:13:28.615Z] Running in /var/jenkins_home/workspace/ex-108-full@4/dev-python-3.8-jdk-8
+[2026-10-10T09:13:28.621Z] [Pipeline] {
+[2026-10-10T09:13:28.636Z] [Pipeline] dir
+[2026-10-10T09:13:28.636Z] Running in /var/jenkins_home/workspace/ex-108-full@5/dev-python-3.8-jdk-11
+[2026-10-10T09:13:28.641Z] [Pipeline] {
+[2026-10-10T09:13:28.657Z] [Pipeline] dir
+[2026-10-10T09:13:28.657Z] Running in /var/jenkins_home/workspace/ex-108-full@6/dev-python-3.8-jdk-17
+[2026-10-10T09:13:28.664Z] [Pipeline] {
+[2026-10-10T09:13:28.681Z] [Pipeline] dir
+[2026-10-10T09:13:28.681Z] Running in /var/jenkins_home/workspace/ex-108-full@7/dev-python-3.9-jdk-8
+[2026-10-10T09:13:28.687Z] [Pipeline] {
+[2026-10-10T09:13:28.704Z] [Pipeline] dir
+[2026-10-10T09:13:28.704Z] Running in /var/jenkins_home/workspace/ex-108-full@8/dev-python-3.9-jdk-11
+[2026-10-10T09:13:28.710Z] [Pipeline] {
+[2026-10-10T09:13:28.727Z] [Pipeline] dir
+[2026-10-10T09:13:28.727Z] Running in /var/jenkins_home/workspace/ex-108-full@9/dev-python-3.9-jdk-17
+[2026-10-10T09:13:28.733Z] [Pipeline] {
+[2026-10-10T09:13:28.751Z] [Pipeline] dir
+[2026-10-10T09:13:28.751Z] Running in /var/jenkins_home/workspace/ex-108-full@10/dev-python-3.10-jdk-8
+[2026-10-10T09:13:28.757Z] [Pipeline] {
+[2026-10-10T09:13:28.773Z] [Pipeline] dir
+[2026-10-10T09:13:28.773Z] Running in /var/jenkins_home/workspace/ex-108-full@11/dev-python-3.10-jdk-11
+[2026-10-10T09:13:28.778Z] [Pipeline] {
+[2026-10-10T09:13:28.792Z] [Pipeline] dir
+[2026-10-10T09:13:28.792Z] Running in /var/jenkins_home/workspace/ex-108-full@12/dev-python-3.10-jdk-17
+[2026-10-10T09:13:28.797Z] [Pipeline] {
+[2026-10-10T09:13:28.812Z] [Pipeline] dir
+[2026-10-10T09:13:28.812Z] Running in /var/jenkins_home/workspace/ex-108-full@13/dev-python-3.11-jdk-8
+[2026-10-10T09:13:28.818Z] [Pipeline] {
+[2026-10-10T09:13:28.835Z] [Pipeline] dir
+[2026-10-10T09:13:28.835Z] Running in /var/jenkins_home/workspace/ex-108-full@14/dev-python-3.11-jdk-11
+[2026-10-10T09:13:28.840Z] [Pipeline] {
+[2026-10-10T09:13:28.858Z] [Pipeline] dir
+[2026-10-10T09:13:28.858Z] Running in /var/jenkins_home/workspace/ex-108-full@15/dev-python-3.11-jdk-17
+[2026-10-10T09:13:28.864Z] [Pipeline] {
+[2026-10-10T09:13:28.881Z] [Pipeline] dir
+[2026-10-10T09:13:28.881Z] Running in /var/jenkins_home/workspace/ex-108-full@16/dev-r-3.4.1-jdk-8
+[2026-10-10T09:13:28.888Z] [Pipeline] {
+[2026-10-10T09:13:28.913Z] [Pipeline] deleteDir
+[2026-10-10T09:13:28.924Z] [Pipeline] deleteDir
+[2026-10-10T09:13:28.935Z] [Pipeline] deleteDir
+[2026-10-10T09:13:28.948Z] [Pipeline] deleteDir
+[2026-10-10T09:13:28.962Z] [Pipeline] deleteDir
+[2026-10-10T09:13:28.975Z] [Pipeline] deleteDir
+[2026-10-10T09:13:28.987Z] [Pipeline] deleteDir
+[2026-10-10T09:13:29.000Z] [Pipeline] deleteDir
+[2026-10-10T09:13:29.012Z] [Pipeline] deleteDir
+[2026-10-10T09:13:29.025Z] [Pipeline] deleteDir
+[2026-10-10T09:13:29.038Z] [Pipeline] deleteDir
+[2026-10-10T09:13:29.051Z] [Pipeline] deleteDir
+[2026-10-10T09:13:29.064Z] [Pipeline] deleteDir
+[2026-10-10T09:13:29.087Z] [Pipeline] deleteDir
+[2026-10-10T09:13:29.100Z] [Pipeline] deleteDir
+[2026-10-10T09:13:29.112Z] [Pipeline] deleteDir
+[2026-10-10T09:13:29.156Z] [Pipeline] withCredentials
+[2026-10-10T09:13:29.162Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:29.170Z] [Pipeline] withCredentials
+[2026-10-10T09:13:29.175Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:29.183Z] [Pipeline] withCredentials
+[2026-10-10T09:13:29.188Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:29.196Z] [Pipeline] withCredentials
+[2026-10-10T09:13:29.201Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:29.210Z] [Pipeline] withCredentials
+[2026-10-10T09:13:29.217Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:29.231Z] [Pipeline] withCredentials
+[2026-10-10T09:13:29.239Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:29.252Z] [Pipeline] withCredentials
+[2026-10-10T09:13:29.260Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:29.271Z] [Pipeline] withCredentials
+[2026-10-10T09:13:29.277Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:29.288Z] [Pipeline] withCredentials
+[2026-10-10T09:13:29.293Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:29.302Z] [Pipeline] withCredentials
+[2026-10-10T09:13:29.308Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:29.317Z] [Pipeline] withCredentials
+[2026-10-10T09:13:29.322Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:29.330Z] [Pipeline] withCredentials
+[2026-10-10T09:13:29.335Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:29.343Z] [Pipeline] withCredentials
+[2026-10-10T09:13:29.349Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:29.357Z] [Pipeline] withCredentials
+[2026-10-10T09:13:29.362Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:29.370Z] [Pipeline] withCredentials
+[2026-10-10T09:13:29.376Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:29.400Z] [Pipeline] withCredentials
+[2026-10-10T09:13:29.405Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:29.425Z] [Pipeline] {
+[2026-10-10T09:13:29.439Z] [Pipeline] {
+[2026-10-10T09:13:29.452Z] [Pipeline] {
+[2026-10-10T09:13:29.465Z] [Pipeline] {
+[2026-10-10T09:13:29.479Z] [Pipeline] {
+[2026-10-10T09:13:29.492Z] [Pipeline] {
+[2026-10-10T09:13:29.506Z] [Pipeline] {
+[2026-10-10T09:13:29.519Z] [Pipeline] {
+[2026-10-10T09:13:29.533Z] [Pipeline] {
+[2026-10-10T09:13:29.547Z] [Pipeline] {
+[2026-10-10T09:13:29.560Z] [Pipeline] {
+[2026-10-10T09:13:29.572Z] [Pipeline] {
+[2026-10-10T09:13:29.585Z] [Pipeline] {
+[2026-10-10T09:13:29.600Z] [Pipeline] {
+[2026-10-10T09:13:29.613Z] [Pipeline] {
+[2026-10-10T09:13:29.624Z] [Pipeline] sh
+[2026-10-10T09:13:29.648Z] [Pipeline] sh
+[2026-10-10T09:13:29.670Z] [Pipeline] sh
+[2026-10-10T09:13:29.694Z] [Pipeline] sh
+[2026-10-10T09:13:29.718Z] [Pipeline] sh
+[2026-10-10T09:13:29.744Z] [Pipeline] sh
+[2026-10-10T09:13:29.769Z] [Pipeline] sh
+[2026-10-10T09:13:29.796Z] [Pipeline] sh
+[2026-10-10T09:13:29.821Z] [Pipeline] sh
+[2026-10-10T09:13:29.846Z] [Pipeline] sh
+[2026-10-10T09:13:29.872Z] [Pipeline] sh
+[2026-10-10T09:13:29.885Z] + echo aws ecr get-login-password --region us-east-1
+[2026-10-10T09:13:29.897Z] [Pipeline] sh
+[2026-10-10T09:13:29.909Z] + echo aws ecr get-login-password --region us-east-1
+[2026-10-10T09:13:29.923Z] [Pipeline] sh
+[2026-10-10T09:13:29.932Z] + echo aws ecr get-login-password --region us-east-1
+[2026-10-10T09:13:29.948Z] [Pipeline] sh
+[2026-10-10T09:13:29.955Z] + echo aws ecr get-login-password --region us-east-1
+[2026-10-10T09:13:29.973Z] [Pipeline] sh
+[2026-10-10T09:13:29.980Z] + echo aws ecr get-login-password --region us-east-1
+[2026-10-10T09:13:30.006Z] + echo aws ecr get-login-password --region us-east-1
+[2026-10-10T09:13:30.011Z] [Pipeline] {
+[2026-10-10T09:13:30.031Z] + echo aws ecr get-login-password --region us-east-1
+[2026-10-10T09:13:30.033Z] [Pipeline] sh
+[2026-10-10T09:13:30.058Z] + echo aws ecr get-login-password --region us-east-1
+[2026-10-10T09:13:30.083Z] + echo aws ecr get-login-password --region us-east-1
+[2026-10-10T09:13:30.107Z] + echo aws ecr get-login-password --region us-east-1
+[2026-10-10T09:13:30.134Z] + echo aws ecr get-login-password --region us-east-1
+[2026-10-10T09:13:30.142Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR_PWD (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:30.152Z] [Pipeline] sh
+[2026-10-10T09:13:30.158Z] + echo aws ecr get-login-password --region us-east-1
+[2026-10-10T09:13:30.166Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR_PWD (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:30.180Z] [Pipeline] sh
+[2026-10-10T09:13:30.185Z] + echo aws ecr get-login-password --region us-east-1
+[2026-10-10T09:13:30.195Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR_PWD (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:30.209Z] + echo aws ecr get-login-password --region us-east-1
+[2026-10-10T09:13:30.215Z] [Pipeline] sh
+[2026-10-10T09:13:30.229Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR_PWD (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:30.234Z] + echo aws ecr get-login-password --region us-east-1
+[2026-10-10T09:13:30.246Z] [Pipeline] sh
+[2026-10-10T09:13:30.260Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR_PWD (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:30.270Z] [Pipeline] sh
+[2026-10-10T09:13:30.281Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR_PWD (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:30.291Z] [Pipeline] sh
+[2026-10-10T09:13:30.294Z] + echo aws ecr get-login-password --region us-east-1
+[2026-10-10T09:13:30.349Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR_PWD (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:30.361Z] [Pipeline] sh
+[2026-10-10T09:13:30.371Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR_PWD (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:30.385Z] [Pipeline] sh
+[2026-10-10T09:13:30.416Z] + echo docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:30.416Z] docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:30.420Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR_PWD (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:30.432Z] [Pipeline] sh
+[2026-10-10T09:13:30.445Z] + echo docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:30.445Z] docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:30.479Z] + echo docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:30.479Z] docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:30.487Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR_PWD (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:30.499Z] [Pipeline] sh
+[2026-10-10T09:13:30.510Z] + echo docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:30.510Z] docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:30.531Z] + echo docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:30.531Z] docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:30.548Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR_PWD (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:30.551Z] + echo docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:30.551Z] docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:30.559Z] [Pipeline] sh
+[2026-10-10T09:13:30.622Z] + echo docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:30.622Z] docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:30.645Z] + echo docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:30.645Z] docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:30.653Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR_PWD (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:30.665Z] [Pipeline] sh
+[2026-10-10T09:13:30.675Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR_PWD (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:30.689Z] [Pipeline] sh
+[2026-10-10T09:13:30.693Z] + echo docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:30.693Z] docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:30.700Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR_PWD (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:30.715Z] [Pipeline] sh
+[2026-10-10T09:13:30.727Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR_PWD (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:30.742Z] [Pipeline] sh
+[2026-10-10T09:13:30.753Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR_PWD (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:30.759Z] + echo docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:30.759Z] docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:30.766Z] [Pipeline] sh
+[2026-10-10T09:13:30.816Z] [Pipeline] }
+[2026-10-10T09:13:30.820Z] + echo docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:30.821Z] docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:30.872Z] [Pipeline] }
+[2026-10-10T09:13:30.883Z] [Pipeline] }
+[2026-10-10T09:13:30.925Z] + echo docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:30.925Z] docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:30.935Z] [Pipeline] }
+[2026-10-10T09:13:30.947Z] [Pipeline] }
+[2026-10-10T09:13:30.950Z] + echo docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:30.951Z] docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:30.978Z] + echo docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:30.978Z] docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:30.988Z] [Pipeline] }
+[2026-10-10T09:13:31.003Z] + echo docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:31.004Z] docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:31.019Z] [Pipeline] }
+[2026-10-10T09:13:31.027Z] + echo docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:31.027Z] docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:31.052Z] [Pipeline] }
+[2026-10-10T09:13:31.107Z] [Pipeline] }
+[2026-10-10T09:13:31.116Z] [Pipeline] }
+[2026-10-10T09:13:31.162Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:31.167Z] [Pipeline] }
+[2026-10-10T09:13:31.194Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:31.220Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:31.239Z] [Pipeline] unstash
+[2026-10-10T09:13:31.263Z] [Pipeline] }
+[2026-10-10T09:13:31.292Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:31.330Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:31.341Z] [Pipeline] unstash
+[2026-10-10T09:13:31.362Z] [Pipeline] unstash
+[2026-10-10T09:13:31.377Z] [Pipeline] }
+[2026-10-10T09:13:31.416Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:31.434Z] [Pipeline] }
+[2026-10-10T09:13:31.445Z] [Pipeline] }
+[2026-10-10T09:13:31.471Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:31.492Z] [Pipeline] unstash
+[2026-10-10T09:13:31.505Z] [Pipeline] unstash
+[2026-10-10T09:13:31.514Z] [Pipeline] }
+[2026-10-10T09:13:31.542Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:31.557Z] [Pipeline] unstash
+[2026-10-10T09:13:31.580Z] [Pipeline] unstash
+[2026-10-10T09:13:31.614Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:31.640Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:31.652Z] [Pipeline] unstash
+[2026-10-10T09:13:31.691Z] [Pipeline] unstash
+[2026-10-10T09:13:31.710Z] [Pipeline] unstash
+[2026-10-10T09:13:31.733Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:31.754Z] [Pipeline] unstash
+[2026-10-10T09:13:31.783Z] [Pipeline] sh
+[2026-10-10T09:13:31.830Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:31.850Z] [Pipeline] unstash
+[2026-10-10T09:13:31.898Z] [Pipeline] sh
+[2026-10-10T09:13:31.921Z] [Pipeline] sh
+[2026-10-10T09:13:31.950Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:31.971Z] [Pipeline] unstash
+[2026-10-10T09:13:32.014Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:32.039Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:32.044Z] + echo docker load -i dev-python-base.tar
+[2026-10-10T09:13:32.044Z] docker load -i dev-python-base.tar
+[2026-10-10T09:13:32.059Z] [Pipeline] unstash
+[2026-10-10T09:13:32.097Z] [Pipeline] sh
+[2026-10-10T09:13:32.120Z] [Pipeline] sh
+[2026-10-10T09:13:32.143Z] [Pipeline] unstash
+[2026-10-10T09:13:32.159Z] + echo docker load -i dev-python-base.tar
+[2026-10-10T09:13:32.159Z] docker load -i dev-python-base.tar
+[2026-10-10T09:13:32.166Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:32.182Z] + echo docker load -i dev-python-base.tar
+[2026-10-10T09:13:32.182Z] docker load -i dev-python-base.tar
+[2026-10-10T09:13:32.188Z] [Pipeline] sh
+[2026-10-10T09:13:32.210Z] [Pipeline] unstash
+[2026-10-10T09:13:32.246Z] [Pipeline] sh
+[2026-10-10T09:13:32.286Z] [Pipeline] sh
+[2026-10-10T09:13:32.331Z] [Pipeline] sh
+[2026-10-10T09:13:32.358Z] + echo docker load -i dev-python-base.tar
+[2026-10-10T09:13:32.358Z] docker load -i dev-python-base.tar
+[2026-10-10T09:13:32.360Z] [Pipeline] sh
+[2026-10-10T09:13:32.380Z] + echo docker load -i dev-python-base.tar
+[2026-10-10T09:13:32.380Z] docker load -i dev-python-base.tar
+[2026-10-10T09:13:32.417Z] [Pipeline] sh
+[2026-10-10T09:13:32.449Z] + echo docker load -i dev-python-base.tar
+[2026-10-10T09:13:32.449Z] docker load -i dev-python-base.tar
+[2026-10-10T09:13:32.461Z] [Pipeline] sh
+[2026-10-10T09:13:32.505Z] [Pipeline] sh
+[2026-10-10T09:13:32.506Z] + echo docker load -i dev-python-base.tar
+[2026-10-10T09:13:32.506Z] docker load -i dev-python-base.tar
+[2026-10-10T09:13:32.548Z] + echo docker load -i dev-python-base.tar
+[2026-10-10T09:13:32.548Z] docker load -i dev-python-base.tar
+[2026-10-10T09:13:32.559Z] [Pipeline] sh
+[2026-10-10T09:13:32.594Z] + echo docker load -i dev-python-base.tar
+[2026-10-10T09:13:32.594Z] docker load -i dev-python-base.tar
+[2026-10-10T09:13:32.601Z] [Pipeline] sh
+[2026-10-10T09:13:32.623Z] + echo docker load -i dev-python-base.tar
+[2026-10-10T09:13:32.623Z] docker load -i dev-python-base.tar
+[2026-10-10T09:13:32.656Z] [Pipeline] sh
+[2026-10-10T09:13:32.680Z] + echo docker load -i dev-python-base.tar
+[2026-10-10T09:13:32.680Z] docker load -i dev-python-base.tar
+[2026-10-10T09:13:32.681Z] [Pipeline] sh
+[2026-10-10T09:13:32.722Z] + echo docker load -i dev-python-base.tar
+[2026-10-10T09:13:32.722Z] docker load -i dev-python-base.tar
+[2026-10-10T09:13:32.737Z] [Pipeline] sh
+[2026-10-10T09:13:32.764Z] [Pipeline] sh
+[2026-10-10T09:13:32.766Z] + echo docker load -i dev-python-base.tar
+[2026-10-10T09:13:32.766Z] docker load -i dev-python-base.tar
+[2026-10-10T09:13:32.831Z] + rm dev-python-base.tar
+[2026-10-10T09:13:32.847Z] [Pipeline] sh
+[2026-10-10T09:13:32.862Z] + echo docker load -i dev-python-base.tar
+[2026-10-10T09:13:32.862Z] docker load -i dev-python-base.tar
+[2026-10-10T09:13:32.874Z] [Pipeline] sh
+[2026-10-10T09:13:32.916Z] + rm dev-python-base.tar
+[2026-10-10T09:13:32.927Z] [Pipeline] sh
+[2026-10-10T09:13:32.942Z] + echo docker load -i dev-python-base.tar
+[2026-10-10T09:13:32.942Z] docker load -i dev-python-base.tar
+[2026-10-10T09:13:32.981Z] [Pipeline] sh
+[2026-10-10T09:13:33.016Z] + rm dev-python-base.tar
+[2026-10-10T09:13:33.025Z] + echo docker load -i dev-r-base.tar
+[2026-10-10T09:13:33.025Z] docker load -i dev-r-base.tar
+[2026-10-10T09:13:33.059Z] [Pipeline] sh
+[2026-10-10T09:13:33.108Z] + rm dev-python-base.tar
+[2026-10-10T09:13:33.118Z] [Pipeline] sh
+[2026-10-10T09:13:33.135Z] + rm dev-python-base.tar
+[2026-10-10T09:13:33.140Z] [Pipeline] sh
+[2026-10-10T09:13:33.188Z] + rm dev-python-base.tar
+[2026-10-10T09:13:33.190Z] [Pipeline] sh
+[2026-10-10T09:13:33.232Z] [Pipeline] sh
+[2026-10-10T09:13:33.242Z] + rm dev-python-base.tar
+[2026-10-10T09:13:33.287Z] [Pipeline] sh
+[2026-10-10T09:13:33.319Z] + rm dev-python-base.tar
+[2026-10-10T09:13:33.366Z] [Pipeline] sh
+[2026-10-10T09:13:33.377Z] + rm dev-python-base.tar
+[2026-10-10T09:13:33.401Z] + rm dev-python-base.tar
+[2026-10-10T09:13:33.438Z] [Pipeline] sh
+[2026-10-10T09:13:33.450Z] + rm dev-python-base.tar
+[2026-10-10T09:13:33.493Z] + rm dev-python-base.tar
+[2026-10-10T09:13:33.506Z] [Pipeline] sh
+[2026-10-10T09:13:33.550Z] [Pipeline] withCredentials
+[2026-10-10T09:13:33.556Z] + rm dev-python-base.tar
+[2026-10-10T09:13:33.557Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:33.580Z] [Pipeline] withCredentials
+[2026-10-10T09:13:33.587Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:33.618Z] [Pipeline] withCredentials
+[2026-10-10T09:13:33.625Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:33.626Z] + rm dev-python-base.tar
+[2026-10-10T09:13:33.682Z] [Pipeline] withCredentials
+[2026-10-10T09:13:33.688Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:33.700Z] [Pipeline] withCredentials
+[2026-10-10T09:13:33.701Z] + rm dev-python-base.tar
+[2026-10-10T09:13:33.706Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:33.718Z] [Pipeline] withCredentials
+[2026-10-10T09:13:33.724Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:33.745Z] [Pipeline] withCredentials
+[2026-10-10T09:13:33.751Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:33.768Z] + rm dev-r-base.tar
+[2026-10-10T09:13:33.775Z] [Pipeline] withCredentials
+[2026-10-10T09:13:33.781Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:33.825Z] [Pipeline] withCredentials
+[2026-10-10T09:13:33.834Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:33.848Z] [Pipeline] withCredentials
+[2026-10-10T09:13:33.853Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:33.884Z] [Pipeline] withCredentials
+[2026-10-10T09:13:33.891Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:33.913Z] [Pipeline] {
+[2026-10-10T09:13:33.937Z] [Pipeline] withCredentials
+[2026-10-10T09:13:33.944Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:33.949Z] [Pipeline] sh
+[2026-10-10T09:13:33.966Z] [Pipeline] {
+[2026-10-10T09:13:33.994Z] [Pipeline] withCredentials
+[2026-10-10T09:13:34.000Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:34.005Z] [Pipeline] sh
+[2026-10-10T09:13:34.034Z] [Pipeline] {
+[2026-10-10T09:13:34.062Z] [Pipeline] sh
+[2026-10-10T09:13:34.091Z] [Pipeline] withCredentials
+[2026-10-10T09:13:34.098Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:34.117Z] [Pipeline] {
+[2026-10-10T09:13:34.142Z] [Pipeline] {
+[2026-10-10T09:13:34.162Z] [Pipeline] sh
+[2026-10-10T09:13:34.180Z] [Pipeline] {
+[2026-10-10T09:13:34.201Z] [Pipeline] sh
+[2026-10-10T09:13:34.210Z] + echo aws ecr batch-get-image --registry-id=353750902984 --repository-name=h2o-3/dev-python-3.7-jdk-8 --image-ids=imageTag=47 --query images[].imageId.imageTag --output text
+[2026-10-10T09:13:34.219Z] [Pipeline] {
+[2026-10-10T09:13:34.233Z] [Pipeline] sh
+[2026-10-10T09:13:34.265Z] + echo aws ecr batch-get-image --registry-id=353750902984 --repository-name=h2o-3/dev-python-3.7-jdk-11 --image-ids=imageTag=47 --query images[].imageId.imageTag --output text
+[2026-10-10T09:13:34.280Z] [Pipeline] withCredentials
+[2026-10-10T09:13:34.290Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:34.300Z] [Pipeline] sh
+[2026-10-10T09:13:34.319Z] [Pipeline] {
+[2026-10-10T09:13:34.324Z] + echo aws ecr batch-get-image --registry-id=353750902984 --repository-name=h2o-3/dev-python-3.7-jdk-17 --image-ids=imageTag=47 --query images[].imageId.imageTag --output text
+[2026-10-10T09:13:34.332Z] [Pipeline] sh
+[2026-10-10T09:13:34.359Z] [Pipeline] withCredentials
+[2026-10-10T09:13:34.364Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:34.384Z] [Pipeline] {
+[2026-10-10T09:13:34.396Z] [Pipeline] {
+[2026-10-10T09:13:34.408Z] [Pipeline] sh
+[2026-10-10T09:13:34.423Z] + echo aws ecr batch-get-image --registry-id=353750902984 --repository-name=h2o-3/dev-python-3.8-jdk-8 --image-ids=imageTag=47 --query images[].imageId.imageTag --output text
+[2026-10-10T09:13:34.444Z] [Pipeline] sh
+[2026-10-10T09:13:34.462Z] + echo aws ecr batch-get-image --registry-id=353750902984 --repository-name=h2o-3/dev-python-3.8-jdk-11 --image-ids=imageTag=47 --query images[].imageId.imageTag --output text
+[2026-10-10T09:13:34.479Z] [Pipeline] {
+[2026-10-10T09:13:34.492Z] [Pipeline] sh
+[2026-10-10T09:13:34.495Z] + echo aws ecr batch-get-image --registry-id=353750902984 --repository-name=h2o-3/dev-python-3.8-jdk-17 --image-ids=imageTag=47 --query images[].imageId.imageTag --output text
+[2026-10-10T09:13:34.539Z] [Pipeline] {
+[2026-10-10T09:13:34.561Z] [Pipeline] sh
+[2026-10-10T09:13:34.563Z] + echo aws ecr batch-get-image --registry-id=353750902984 --repository-name=h2o-3/dev-python-3.9-jdk-8 --image-ids=imageTag=47 --query images[].imageId.imageTag --output text
+[2026-10-10T09:13:34.592Z] + echo aws ecr batch-get-image --registry-id=353750902984 --repository-name=h2o-3/dev-python-3.9-jdk-11 --image-ids=imageTag=47 --query images[].imageId.imageTag --output text
+[2026-10-10T09:13:34.607Z] [Pipeline] {
+[2026-10-10T09:13:34.626Z] [Pipeline] sh
+[2026-10-10T09:13:34.664Z] [Pipeline] {
+[2026-10-10T09:13:34.669Z] + echo aws ecr batch-get-image --registry-id=353750902984 --repository-name=h2o-3/dev-python-3.9-jdk-17 --image-ids=imageTag=47 --query images[].imageId.imageTag --output text
+[2026-10-10T09:13:34.682Z] [Pipeline] sh
+[2026-10-10T09:13:34.707Z] + echo aws ecr batch-get-image --registry-id=353750902984 --repository-name=h2o-3/dev-python-3.10-jdk-8 --image-ids=imageTag=47 --query images[].imageId.imageTag --output text
+[2026-10-10T09:13:34.730Z] [Pipeline] }
+[2026-10-10T09:13:34.755Z] + echo aws ecr batch-get-image --registry-id=353750902984 --repository-name=h2o-3/dev-python-3.10-jdk-11 --image-ids=imageTag=47 --query images[].imageId.imageTag --output text
+[2026-10-10T09:13:34.769Z] [Pipeline] {
+[2026-10-10T09:13:34.784Z] [Pipeline] }
+[2026-10-10T09:13:34.804Z] [Pipeline] sh
+[2026-10-10T09:13:34.827Z] + echo aws ecr batch-get-image --registry-id=353750902984 --repository-name=h2o-3/dev-python-3.10-jdk-17 --image-ids=imageTag=47 --query images[].imageId.imageTag --output text
+[2026-10-10T09:13:34.855Z] [Pipeline] }
+[2026-10-10T09:13:34.885Z] [Pipeline] {
+[2026-10-10T09:13:34.886Z] + echo aws ecr batch-get-image --registry-id=353750902984 --repository-name=h2o-3/dev-python-3.11-jdk-8 --image-ids=imageTag=47 --query images[].imageId.imageTag --output text
+[2026-10-10T09:13:34.904Z] [Pipeline] sh
+[2026-10-10T09:13:34.941Z] + echo aws ecr batch-get-image --registry-id=353750902984 --repository-name=h2o-3/dev-python-3.11-jdk-11 --image-ids=imageTag=47 --query images[].imageId.imageTag --output text
+[2026-10-10T09:13:34.962Z] [Pipeline] }
+[2026-10-10T09:13:34.972Z] [Pipeline] }
+[2026-10-10T09:13:35.009Z] [Pipeline] }
+[2026-10-10T09:13:35.058Z] [Pipeline] }
+[2026-10-10T09:13:35.065Z] + echo aws ecr batch-get-image --registry-id=353750902984 --repository-name=h2o-3/dev-python-3.11-jdk-17 --image-ids=imageTag=47 --query images[].imageId.imageTag --output text
+[2026-10-10T09:13:35.070Z] [Pipeline] }
+[2026-10-10T09:13:35.107Z] [Pipeline] }
+[2026-10-10T09:13:35.144Z] [Pipeline] }
+[2026-10-10T09:13:35.163Z] + echo aws ecr batch-get-image --registry-id=353750902984 --repository-name=h2o-3/dev-r-3.4.1-jdk-8 --image-ids=imageTag=47 --query images[].imageId.imageTag --output text
+[2026-10-10T09:13:35.181Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:35.204Z] [Pipeline] unstash
+[2026-10-10T09:13:35.215Z] [Pipeline] }
+[2026-10-10T09:13:35.257Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:35.294Z] [Pipeline] unstash
+[2026-10-10T09:13:35.307Z] [Pipeline] }
+[2026-10-10T09:13:35.346Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:35.370Z] [Pipeline] unstash
+[2026-10-10T09:13:35.407Z] [Pipeline] }
+[2026-10-10T09:13:35.453Z] [Pipeline] }
+[2026-10-10T09:13:35.492Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:35.518Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:35.531Z] [Pipeline] unstash
+[2026-10-10T09:13:35.548Z] [Pipeline] unstash
+[2026-10-10T09:13:35.593Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:35.605Z] [Pipeline] unstash
+[2026-10-10T09:13:35.660Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:35.686Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:35.698Z] [Pipeline] unstash
+[2026-10-10T09:13:35.715Z] [Pipeline] unstash
+[2026-10-10T09:13:35.726Z] [Pipeline] }
+[2026-10-10T09:13:35.765Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:35.777Z] [Pipeline] unstash
+[2026-10-10T09:13:35.826Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:35.864Z] [Pipeline] unstash
+[2026-10-10T09:13:35.877Z] [Pipeline] }
+[2026-10-10T09:13:35.937Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:35.953Z] [Pipeline] unstash
+[2026-10-10T09:13:35.983Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:36.002Z] [Pipeline] sh
+[2026-10-10T09:13:36.026Z] [Pipeline] unstash
+[2026-10-10T09:13:36.057Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:36.070Z] [Pipeline] sh
+[2026-10-10T09:13:36.095Z] [Pipeline] unstash
+[2026-10-10T09:13:36.127Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:36.149Z] [Pipeline] unstash
+[2026-10-10T09:13:36.176Z] [Pipeline] sh
+[2026-10-10T09:13:36.220Z] [Pipeline] sh
+[2026-10-10T09:13:36.245Z] [Pipeline] sh
+[2026-10-10T09:13:36.263Z] + echo make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-python-3.7-jdk-8
+[2026-10-10T09:13:36.263Z] make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-python-3.7-jdk-8
+[2026-10-10T09:13:36.276Z] [Pipeline] sh
+[2026-10-10T09:13:36.324Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:36.331Z] + echo make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-python-3.7-jdk-11
+[2026-10-10T09:13:36.331Z] make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-python-3.7-jdk-11
+[2026-10-10T09:13:36.346Z] [Pipeline] unstash
+[2026-10-10T09:13:36.379Z] [Pipeline] sh
+[2026-10-10T09:13:36.406Z] [Pipeline] sh
+[2026-10-10T09:13:36.437Z] + echo make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-python-3.7-jdk-17
+[2026-10-10T09:13:36.437Z] make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-python-3.7-jdk-17
+[2026-10-10T09:13:36.443Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:36.465Z] [Pipeline] unstash
+[2026-10-10T09:13:36.480Z] + echo make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-python-3.8-jdk-8
+[2026-10-10T09:13:36.480Z] make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-python-3.8-jdk-8
+[2026-10-10T09:13:36.485Z] [Pipeline] sh
+[2026-10-10T09:13:36.506Z] + echo make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-python-3.8-jdk-11
+[2026-10-10T09:13:36.506Z] make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-python-3.8-jdk-11
+[2026-10-10T09:13:36.527Z] [Pipeline] sh
+[2026-10-10T09:13:36.537Z] + echo make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-python-3.8-jdk-17
+[2026-10-10T09:13:36.537Z] make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-python-3.8-jdk-17
+[2026-10-10T09:13:36.569Z] [Pipeline] sh
+[2026-10-10T09:13:36.618Z] [Pipeline] sh
+[2026-10-10T09:13:36.642Z] + echo make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-python-3.9-jdk-8
+[2026-10-10T09:13:36.642Z] make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-python-3.9-jdk-8
+[2026-10-10T09:13:36.653Z] [Pipeline] sh
+[2026-10-10T09:13:36.667Z] + echo make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-python-3.9-jdk-11
+[2026-10-10T09:13:36.667Z] make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-python-3.9-jdk-11
+[2026-10-10T09:13:36.681Z] [Pipeline] sh
+[2026-10-10T09:13:36.735Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named toPersist (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:36.741Z] [Pipeline] }
+[2026-10-10T09:13:36.745Z] + echo make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-python-3.9-jdk-17
+[2026-10-10T09:13:36.745Z] make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-python-3.9-jdk-17
+[2026-10-10T09:13:36.774Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named toPersist (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:36.779Z] [Pipeline] }
+[2026-10-10T09:13:36.788Z] + echo make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-python-3.10-jdk-8
+[2026-10-10T09:13:36.788Z] make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-python-3.10-jdk-8
+[2026-10-10T09:13:36.809Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named toPersist (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:36.815Z] [Pipeline] }
+[2026-10-10T09:13:36.827Z] [Pipeline] sh
+[2026-10-10T09:13:36.830Z] + echo make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-python-3.10-jdk-11
+[2026-10-10T09:13:36.830Z] make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-python-3.10-jdk-11
+[2026-10-10T09:13:36.879Z] + echo make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-python-3.10-jdk-17
+[2026-10-10T09:13:36.879Z] make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-python-3.10-jdk-17
+[2026-10-10T09:13:36.898Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named toPersist (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:36.905Z] [Pipeline] }
+[2026-10-10T09:13:36.906Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named toPersist (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:36.913Z] [Pipeline] }
+[2026-10-10T09:13:36.916Z] + echo make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-python-3.11-jdk-8
+[2026-10-10T09:13:36.916Z] make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-python-3.11-jdk-8
+[2026-10-10T09:13:36.927Z] [Pipeline] sh
+[2026-10-10T09:13:36.945Z] + echo make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-python-3.11-jdk-11
+[2026-10-10T09:13:36.945Z] make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-python-3.11-jdk-11
+[2026-10-10T09:13:36.978Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named toPersist (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:36.988Z] [Pipeline] }
+[2026-10-10T09:13:37.037Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named toPersist (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:37.043Z] [Pipeline] }
+[2026-10-10T09:13:37.043Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named toPersist (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:37.049Z] [Pipeline] }
+[2026-10-10T09:13:37.082Z] [Pipeline] // dir
+[2026-10-10T09:13:37.088Z] + echo make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-python-3.11-jdk-17
+[2026-10-10T09:13:37.088Z] make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-python-3.11-jdk-17
+[2026-10-10T09:13:37.098Z] [Pipeline] }
+[2026-10-10T09:13:37.098Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named toPersist (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:37.104Z] [Pipeline] }
+[2026-10-10T09:13:37.112Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full
+[2026-10-10T09:13:37.139Z] [Pipeline] // dir
+[2026-10-10T09:13:37.155Z] [Pipeline] }
+[2026-10-10T09:13:37.155Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named toPersist (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:37.161Z] [Pipeline] }
+[2026-10-10T09:13:37.169Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full@2
+[2026-10-10T09:13:37.187Z] + echo make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-r-3.4.1-jdk-8
+[2026-10-10T09:13:37.187Z] make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-r-3.4.1-jdk-8
+[2026-10-10T09:13:37.195Z] [Pipeline] // dir
+[2026-10-10T09:13:37.220Z] [Pipeline] }
+[2026-10-10T09:13:37.229Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full@3
+[2026-10-10T09:13:37.231Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named toPersist (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:37.237Z] [Pipeline] }
+[2026-10-10T09:13:37.238Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named toPersist (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:37.243Z] [Pipeline] }
+[2026-10-10T09:13:37.278Z] [Pipeline] // dir
+[2026-10-10T09:13:37.285Z] [Pipeline] }
+[2026-10-10T09:13:37.299Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full@4
+[2026-10-10T09:13:37.320Z] [Pipeline] // dir
+[2026-10-10T09:13:37.354Z] [Pipeline] }
+[2026-10-10T09:13:37.355Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named toPersist (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:37.360Z] [Pipeline] }
+[2026-10-10T09:13:37.361Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named toPersist (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:37.367Z] [Pipeline] }
+[2026-10-10T09:13:37.373Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full@5
+[2026-10-10T09:13:37.402Z] [Pipeline] // dir
+[2026-10-10T09:13:37.408Z] [Pipeline] }
+[2026-10-10T09:13:37.421Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full@6
+[2026-10-10T09:13:37.457Z] [Pipeline] // dir
+[2026-10-10T09:13:37.465Z] [Pipeline] }
+[2026-10-10T09:13:37.482Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full@7
+[2026-10-10T09:13:37.510Z] [Pipeline] // dir
+[2026-10-10T09:13:37.524Z] [Pipeline] }
+[2026-10-10T09:13:37.538Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full@8
+[2026-10-10T09:13:37.582Z] [Pipeline] // node
+[2026-10-10T09:13:37.588Z] [Pipeline] }
+[2026-10-10T09:13:37.588Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named toPersist (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:37.594Z] [Pipeline] }
+[2026-10-10T09:13:37.627Z] [Pipeline] // dir
+[2026-10-10T09:13:37.642Z] [Pipeline] }
+[2026-10-10T09:13:37.650Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full@9
+[2026-10-10T09:13:37.688Z] [Pipeline] // node
+[2026-10-10T09:13:37.693Z] [Pipeline] }
+[2026-10-10T09:13:37.725Z] [Pipeline] // dir
+[2026-10-10T09:13:37.749Z] [Pipeline] }
+[2026-10-10T09:13:37.750Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named toPersist (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:37.756Z] [Pipeline] }
+[2026-10-10T09:13:37.762Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full@10
+[2026-10-10T09:13:37.800Z] [Pipeline] // node
+[2026-10-10T09:13:37.805Z] [Pipeline] }
+[2026-10-10T09:13:37.838Z] [Pipeline] // dir
+[2026-10-10T09:13:37.843Z] [Pipeline] }
+[2026-10-10T09:13:37.856Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full@11
+[2026-10-10T09:13:37.880Z] [Pipeline] // dir
+[2026-10-10T09:13:37.896Z] [Pipeline] }
+[2026-10-10T09:13:37.904Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full@12
+[2026-10-10T09:13:37.944Z] [Pipeline] // node
+[2026-10-10T09:13:37.958Z] [Pipeline] }
+[2026-10-10T09:13:38.001Z] [Pipeline] // node
+[2026-10-10T09:13:38.007Z] [Pipeline] }
+[2026-10-10T09:13:38.039Z] [Pipeline] // dir
+[2026-10-10T09:13:38.062Z] [Pipeline] // dir
+[2026-10-10T09:13:38.074Z] [Pipeline] }
+[2026-10-10T09:13:38.080Z] [Pipeline] }
+[2026-10-10T09:13:38.087Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full@13
+[2026-10-10T09:13:38.096Z] Running on Jenkins in /var/jenkins_home/workspace/ex-108-full@14
+[2026-10-10T09:13:38.125Z] [Pipeline] // node
+[2026-10-10T09:13:38.139Z] [Pipeline] }
+[2026-10-10T09:13:38.178Z] [Pipeline] // node
+[2026-10-10T09:13:38.191Z] [Pipeline] }
+[2026-10-10T09:13:38.229Z] [Pipeline] // node
+[2026-10-10T09:13:38.235Z] [Pipeline] }
+[2026-10-10T09:13:38.264Z] [Pipeline] // stage
+[2026-10-10T09:13:38.286Z] [Pipeline] // dir
+[2026-10-10T09:13:38.299Z] [Pipeline] }
+[2026-10-10T09:13:38.304Z] [Pipeline] }
+[2026-10-10T09:13:38.318Z] [Pipeline] {
+[2026-10-10T09:13:38.361Z] [Pipeline] // node
+[2026-10-10T09:13:38.376Z] [Pipeline] }
+[2026-10-10T09:13:38.399Z] [Pipeline] // stage
+[2026-10-10T09:13:38.413Z] [Pipeline] }
+[2026-10-10T09:13:38.420Z] [Pipeline] {
+[2026-10-10T09:13:38.445Z] [Pipeline] dir
+[2026-10-10T09:13:38.445Z] Running in /var/jenkins_home/workspace/ex-108-full/dev-r-3.4.1-jdk-11
+[2026-10-10T09:13:38.451Z] [Pipeline] {
+[2026-10-10T09:13:38.486Z] [Pipeline] // node
+[2026-10-10T09:13:38.491Z] [Pipeline] }
+[2026-10-10T09:13:38.519Z] [Pipeline] // dir
+[2026-10-10T09:13:38.539Z] [Pipeline] }
+[2026-10-10T09:13:38.559Z] [Pipeline] dir
+[2026-10-10T09:13:38.560Z] Running in /var/jenkins_home/workspace/ex-108-full@2/dev-r-3.4.1-jdk-17
+[2026-10-10T09:13:38.565Z] [Pipeline] {
+[2026-10-10T09:13:38.570Z] [Pipeline] deleteDir
+[2026-10-10T09:13:38.608Z] [Pipeline] // stage
+[2026-10-10T09:13:38.613Z] [Pipeline] {
+[2026-10-10T09:13:38.636Z] [Pipeline] }
+[2026-10-10T09:13:38.671Z] [Pipeline] // node
+[2026-10-10T09:13:38.686Z] [Pipeline] }
+[2026-10-10T09:13:38.691Z] [Pipeline] deleteDir
+[2026-10-10T09:13:38.730Z] [Pipeline] // node
+[2026-10-10T09:13:38.743Z] [Pipeline] }
+[2026-10-10T09:13:38.757Z] [Pipeline] dir
+[2026-10-10T09:13:38.757Z] Running in /var/jenkins_home/workspace/ex-108-full@3/dev-r-3.5.3-jdk-8
+[2026-10-10T09:13:38.762Z] [Pipeline] {
+[2026-10-10T09:13:38.779Z] [Pipeline] {
+[2026-10-10T09:13:38.816Z] [Pipeline] // stage
+[2026-10-10T09:13:38.830Z] [Pipeline] }
+[2026-10-10T09:13:38.857Z] [Pipeline] // stage
+[2026-10-10T09:13:38.873Z] [Pipeline] }
+[2026-10-10T09:13:38.884Z] [Pipeline] deleteDir
+[2026-10-10T09:13:38.919Z] [Pipeline] dir
+[2026-10-10T09:13:38.919Z] Running in /var/jenkins_home/workspace/ex-108-full@4/dev-r-3.5.3-jdk-11
+[2026-10-10T09:13:38.925Z] [Pipeline] {
+[2026-10-10T09:13:38.942Z] [Pipeline] {
+[2026-10-10T09:13:38.983Z] [Pipeline] // node
+[2026-10-10T09:13:39.016Z] [Pipeline] // node
+[2026-10-10T09:13:39.032Z] [Pipeline] }
+[2026-10-10T09:13:39.038Z] [Pipeline] }
+[2026-10-10T09:13:39.044Z] [Pipeline] {
+[2026-10-10T09:13:39.076Z] [Pipeline] // stage
+[2026-10-10T09:13:39.090Z] [Pipeline] }
+[2026-10-10T09:13:39.095Z] [Pipeline] deleteDir
+[2026-10-10T09:13:39.106Z] [Pipeline] {
+[2026-10-10T09:13:39.137Z] [Pipeline] // stage
+[2026-10-10T09:13:39.152Z] [Pipeline] }
+[2026-10-10T09:13:39.170Z] [Pipeline] dir
+[2026-10-10T09:13:39.170Z] Running in /var/jenkins_home/workspace/ex-108-full@5/dev-r-3.5.3-jdk-17
+[2026-10-10T09:13:39.175Z] [Pipeline] {
+[2026-10-10T09:13:39.181Z] [Pipeline] {
+[2026-10-10T09:13:39.213Z] [Pipeline] // stage
+[2026-10-10T09:13:39.227Z] [Pipeline] }
+[2026-10-10T09:13:39.243Z] [Pipeline] dir
+[2026-10-10T09:13:39.243Z] Running in /var/jenkins_home/workspace/ex-108-full@6/dev-r-4.0.2-jdk-8
+[2026-10-10T09:13:39.248Z] [Pipeline] {
+[2026-10-10T09:13:39.272Z] [Pipeline] dir
+[2026-10-10T09:13:39.272Z] Running in /var/jenkins_home/workspace/ex-108-full@7/dev-r-4.0.2-jdk-11
+[2026-10-10T09:13:39.278Z] [Pipeline] {
+[2026-10-10T09:13:39.284Z] [Pipeline] deleteDir
+[2026-10-10T09:13:39.333Z] [Pipeline] // node
+[2026-10-10T09:13:39.346Z] [Pipeline] }
+[2026-10-10T09:13:39.364Z] [Pipeline] dir
+[2026-10-10T09:13:39.365Z] Running in /var/jenkins_home/workspace/ex-108-full@8/dev-r-4.0.2-jdk-17
+[2026-10-10T09:13:39.372Z] [Pipeline] {
+[2026-10-10T09:13:39.380Z] [Pipeline] deleteDir
+[2026-10-10T09:13:39.403Z] [Pipeline] deleteDir
+[2026-10-10T09:13:39.415Z] [Pipeline] {
+[2026-10-10T09:13:39.454Z] [Pipeline] // stage
+[2026-10-10T09:13:39.462Z] [Pipeline] }
+[2026-10-10T09:13:39.470Z] [Pipeline] deleteDir
+[2026-10-10T09:13:39.514Z] [Pipeline] dir
+[2026-10-10T09:13:39.514Z] Running in /var/jenkins_home/workspace/ex-108-full@9/dev-r-4.4.0-jdk-8
+[2026-10-10T09:13:39.520Z] [Pipeline] {
+[2026-10-10T09:13:39.546Z] [Pipeline] deleteDir
+[2026-10-10T09:13:39.586Z] [Pipeline] // stage
+[2026-10-10T09:13:39.592Z] [Pipeline] }
+[2026-10-10T09:13:39.616Z] [Pipeline] {
+[2026-10-10T09:13:39.660Z] [Pipeline] // node
+[2026-10-10T09:13:39.675Z] [Pipeline] }
+[2026-10-10T09:13:39.701Z] [Pipeline] withCredentials
+[2026-10-10T09:13:39.708Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:39.719Z] [Pipeline] dir
+[2026-10-10T09:13:39.719Z] Running in /var/jenkins_home/workspace/ex-108-full@10/dev-r-4.4.0-jdk-11
+[2026-10-10T09:13:39.724Z] [Pipeline] {
+[2026-10-10T09:13:39.759Z] [Pipeline] deleteDir
+[2026-10-10T09:13:39.780Z] [Pipeline] {
+[2026-10-10T09:13:39.815Z] [Pipeline] // stage
+[2026-10-10T09:13:39.830Z] [Pipeline] }
+[2026-10-10T09:13:39.846Z] [Pipeline] {
+[2026-10-10T09:13:39.879Z] [Pipeline] // stage
+[2026-10-10T09:13:39.895Z] [Pipeline] }
+[2026-10-10T09:13:39.911Z] [Pipeline] withCredentials
+[2026-10-10T09:13:39.917Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:39.928Z] [Pipeline] dir
+[2026-10-10T09:13:39.929Z] Running in /var/jenkins_home/workspace/ex-108-full@11/dev-r-4.4.0-jdk-17
+[2026-10-10T09:13:39.934Z] [Pipeline] {
+[2026-10-10T09:13:39.959Z] [Pipeline] dir
+[2026-10-10T09:13:39.960Z] Running in /var/jenkins_home/workspace/ex-108-full@12/dev-r-4.5.2-jdk-8
+[2026-10-10T09:13:39.965Z] [Pipeline] {
+[2026-10-10T09:13:39.974Z] [Pipeline] deleteDir
+[2026-10-10T09:13:40.027Z] [Pipeline] deleteDir
+[2026-10-10T09:13:40.081Z] [Pipeline] withCredentials
+[2026-10-10T09:13:40.086Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:40.105Z] [Pipeline] {
+[2026-10-10T09:13:40.121Z] [Pipeline] {
+[2026-10-10T09:13:40.154Z] [Pipeline] // stage
+[2026-10-10T09:13:40.179Z] [Pipeline] // stage
+[2026-10-10T09:13:40.185Z] [Pipeline] }
+[2026-10-10T09:13:40.190Z] [Pipeline] }
+[2026-10-10T09:13:40.215Z] [Pipeline] dir
+[2026-10-10T09:13:40.215Z] Running in /var/jenkins_home/workspace/ex-108-full@13/dev-r-4.5.2-jdk-11
+[2026-10-10T09:13:40.220Z] [Pipeline] {
+[2026-10-10T09:13:40.234Z] [Pipeline] dir
+[2026-10-10T09:13:40.235Z] Running in /var/jenkins_home/workspace/ex-108-full@14/dev-r-4.5.2-jdk-17
+[2026-10-10T09:13:40.239Z] [Pipeline] {
+[2026-10-10T09:13:40.273Z] [Pipeline] deleteDir
+[2026-10-10T09:13:40.285Z] [Pipeline] deleteDir
+[2026-10-10T09:13:40.337Z] [Pipeline] withCredentials
+[2026-10-10T09:13:40.347Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:40.384Z] [Pipeline] // stage
+[2026-10-10T09:13:40.402Z] [Pipeline] }
+[2026-10-10T09:13:40.424Z] [Pipeline] withCredentials
+[2026-10-10T09:13:40.431Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:40.468Z] [Pipeline] withCredentials
+[2026-10-10T09:13:40.473Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:40.484Z] [Pipeline] withCredentials
+[2026-10-10T09:13:40.490Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:40.519Z] [Pipeline] withCredentials
+[2026-10-10T09:13:40.525Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:40.566Z] [Pipeline] withCredentials
+[2026-10-10T09:13:40.571Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:40.600Z] [Pipeline] // stage
+[2026-10-10T09:13:40.605Z] [Pipeline] }
+[2026-10-10T09:13:40.629Z] [Pipeline] {
+[2026-10-10T09:13:40.648Z] [Pipeline] sh
+[2026-10-10T09:13:40.704Z] [Pipeline] withCredentials
+[2026-10-10T09:13:40.710Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:40.738Z] [Pipeline] {
+[2026-10-10T09:13:40.759Z] [Pipeline] sh
+[2026-10-10T09:13:40.808Z] [Pipeline] withCredentials
+[2026-10-10T09:13:40.816Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:40.828Z] [Pipeline] withCredentials
+[2026-10-10T09:13:40.833Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:40.852Z] [Pipeline] {
+[2026-10-10T09:13:40.873Z] [Pipeline] sh
+[2026-10-10T09:13:40.909Z] + echo aws ecr get-login-password --region us-east-1
+[2026-10-10T09:13:40.931Z] [Pipeline] {
+[2026-10-10T09:13:40.946Z] [Pipeline] withCredentials
+[2026-10-10T09:13:40.954Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:40.970Z] [Pipeline] withCredentials
+[2026-10-10T09:13:40.977Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:40.983Z] [Pipeline] sh
+[2026-10-10T09:13:41.020Z] + echo aws ecr get-login-password --region us-east-1
+[2026-10-10T09:13:41.050Z] [Pipeline] {
+[2026-10-10T09:13:41.061Z] [Pipeline] sh
+[2026-10-10T09:13:41.100Z] [Pipeline] {
+[2026-10-10T09:13:41.112Z] [Pipeline] {
+[2026-10-10T09:13:41.121Z] [Pipeline] sh
+[2026-10-10T09:13:41.134Z] + echo aws ecr get-login-password --region us-east-1
+[2026-10-10T09:13:41.140Z] [Pipeline] sh
+[2026-10-10T09:13:41.172Z] [Pipeline] {
+[2026-10-10T09:13:41.183Z] [Pipeline] sh
+[2026-10-10T09:13:41.217Z] [Pipeline] {
+[2026-10-10T09:13:41.249Z] [Pipeline] sh
+[2026-10-10T09:13:41.250Z] + echo aws ecr get-login-password --region us-east-1
+[2026-10-10T09:13:41.284Z] [Pipeline] {
+[2026-10-10T09:13:41.304Z] [Pipeline] sh
+[2026-10-10T09:13:41.325Z] + echo aws ecr get-login-password --region us-east-1
+[2026-10-10T09:13:41.341Z] [Pipeline] {
+[2026-10-10T09:13:41.354Z] [Pipeline] {
+[2026-10-10T09:13:41.379Z] [Pipeline] sh
+[2026-10-10T09:13:41.380Z] + echo aws ecr get-login-password --region us-east-1
+[2026-10-10T09:13:41.399Z] + echo aws ecr get-login-password --region us-east-1
+[2026-10-10T09:13:41.407Z] [Pipeline] sh
+[2026-10-10T09:13:41.444Z] + echo aws ecr get-login-password --region us-east-1
+[2026-10-10T09:13:41.450Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR_PWD (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:41.465Z] [Pipeline] sh
+[2026-10-10T09:13:41.500Z] [Pipeline] {
+[2026-10-10T09:13:41.510Z] + echo aws ecr get-login-password --region us-east-1
+[2026-10-10T09:13:41.512Z] [Pipeline] {
+[2026-10-10T09:13:41.532Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR_PWD (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:41.548Z] [Pipeline] sh
+[2026-10-10T09:13:41.565Z] + echo aws ecr get-login-password --region us-east-1
+[2026-10-10T09:13:41.574Z] [Pipeline] sh
+[2026-10-10T09:13:41.597Z] [Pipeline] sh
+[2026-10-10T09:13:41.642Z] + echo aws ecr get-login-password --region us-east-1
+[2026-10-10T09:13:41.643Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR_PWD (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:41.655Z] [Pipeline] sh
+[2026-10-10T09:13:41.669Z] + echo aws ecr get-login-password --region us-east-1
+[2026-10-10T09:13:41.697Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR_PWD (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:41.706Z] [Pipeline] sh
+[2026-10-10T09:13:41.725Z] + echo docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:41.725Z] docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:41.753Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR_PWD (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:41.766Z] [Pipeline] sh
+[2026-10-10T09:13:41.811Z] + echo docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:41.811Z] docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:41.831Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR_PWD (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:41.835Z] + echo aws ecr get-login-password --region us-east-1
+[2026-10-10T09:13:41.844Z] [Pipeline] sh
+[2026-10-10T09:13:41.854Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR_PWD (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:41.860Z] + echo aws ecr get-login-password --region us-east-1
+[2026-10-10T09:13:41.868Z] [Pipeline] sh
+[2026-10-10T09:13:41.879Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR_PWD (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:41.893Z] [Pipeline] sh
+[2026-10-10T09:13:41.915Z] + echo docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:41.915Z] docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:41.946Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR_PWD (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:41.958Z] [Pipeline] sh
+[2026-10-10T09:13:41.965Z] + echo docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:41.965Z] docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:42.011Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR_PWD (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:42.023Z] [Pipeline] sh
+[2026-10-10T09:13:42.027Z] + echo docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:42.027Z] docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:42.079Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR_PWD (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:42.093Z] [Pipeline] sh
+[2026-10-10T09:13:42.105Z] + echo docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:42.105Z] docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:42.106Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR_PWD (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:42.120Z] [Pipeline] sh
+[2026-10-10T09:13:42.130Z] + echo docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:42.130Z] docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:42.154Z] + echo docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:42.154Z] docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:42.180Z] [Pipeline] }
+[2026-10-10T09:13:42.218Z] + echo docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:42.218Z] docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:42.225Z] [Pipeline] }
+[2026-10-10T09:13:42.285Z] + echo docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:42.285Z] docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:42.296Z] [Pipeline] }
+[2026-10-10T09:13:42.296Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR_PWD (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:42.311Z] [Pipeline] sh
+[2026-10-10T09:13:42.322Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named H2O_ECR_PWD (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:42.334Z] [Pipeline] sh
+[2026-10-10T09:13:42.356Z] + echo docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:42.356Z] docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:42.380Z] [Pipeline] }
+[2026-10-10T09:13:42.383Z] + echo docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:42.383Z] docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:42.419Z] [Pipeline] }
+[2026-10-10T09:13:42.476Z] [Pipeline] }
+[2026-10-10T09:13:42.487Z] [Pipeline] }
+[2026-10-10T09:13:42.498Z] [Pipeline] }
+[2026-10-10T09:13:42.533Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:42.572Z] + echo docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:42.572Z] docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:42.573Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:42.580Z] [Pipeline] }
+[2026-10-10T09:13:42.595Z] + echo docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:42.595Z] docker login --username AWS --password aws ecr get-login-password --region us-east-1 353750902984.dkr.ecr.us-east-1.amazonaws.com
+[2026-10-10T09:13:42.601Z] [Pipeline] unstash
+[2026-10-10T09:13:42.630Z] [Pipeline] unstash
+[2026-10-10T09:13:42.642Z] [Pipeline] }
+[2026-10-10T09:13:42.679Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:42.704Z] [Pipeline] }
+[2026-10-10T09:13:42.742Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:42.748Z] [Pipeline] }
+[2026-10-10T09:13:42.773Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:42.785Z] [Pipeline] unstash
+[2026-10-10T09:13:42.802Z] [Pipeline] unstash
+[2026-10-10T09:13:42.818Z] [Pipeline] unstash
+[2026-10-10T09:13:42.857Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:42.881Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:42.907Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:42.928Z] [Pipeline] unstash
+[2026-10-10T09:13:42.945Z] [Pipeline] unstash
+[2026-10-10T09:13:42.963Z] [Pipeline] unstash
+[2026-10-10T09:13:43.021Z] [Pipeline] }
+[2026-10-10T09:13:43.061Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:43.085Z] [Pipeline] }
+[2026-10-10T09:13:43.101Z] [Pipeline] sh
+[2026-10-10T09:13:43.139Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:43.160Z] [Pipeline] sh
+[2026-10-10T09:13:43.189Z] [Pipeline] unstash
+[2026-10-10T09:13:43.232Z] [Pipeline] unstash
+[2026-10-10T09:13:43.253Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:43.283Z] [Pipeline] unstash
+[2026-10-10T09:13:43.304Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:43.329Z] [Pipeline] sh
+[2026-10-10T09:13:43.355Z] [Pipeline] unstash
+[2026-10-10T09:13:43.360Z] + echo docker load -i dev-r-base.tar
+[2026-10-10T09:13:43.360Z] docker load -i dev-r-base.tar
+[2026-10-10T09:13:43.393Z] [Pipeline] sh
+[2026-10-10T09:13:43.416Z] [Pipeline] sh
+[2026-10-10T09:13:43.424Z] + echo docker load -i dev-r-base.tar
+[2026-10-10T09:13:43.424Z] docker load -i dev-r-base.tar
+[2026-10-10T09:13:43.459Z] [Pipeline] sh
+[2026-10-10T09:13:43.483Z] [Pipeline] sh
+[2026-10-10T09:13:43.506Z] [Pipeline] sh
+[2026-10-10T09:13:43.553Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:43.580Z] [Pipeline] unstash
+[2026-10-10T09:13:43.592Z] + echo docker load -i dev-r-base.tar
+[2026-10-10T09:13:43.592Z] docker load -i dev-r-base.tar
+[2026-10-10T09:13:43.603Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:43.626Z] [Pipeline] unstash
+[2026-10-10T09:13:43.653Z] + echo docker load -i dev-r-base.tar
+[2026-10-10T09:13:43.653Z] docker load -i dev-r-base.tar
+[2026-10-10T09:13:43.663Z] [Pipeline] sh
+[2026-10-10T09:13:43.677Z] + echo docker load -i dev-r-base.tar
+[2026-10-10T09:13:43.677Z] docker load -i dev-r-base.tar
+[2026-10-10T09:13:43.690Z] [Pipeline] sh
+[2026-10-10T09:13:43.719Z] + echo docker load -i dev-r-base.tar
+[2026-10-10T09:13:43.719Z] docker load -i dev-r-base.tar
+[2026-10-10T09:13:43.733Z] [Pipeline] sh
+[2026-10-10T09:13:43.743Z] + echo docker load -i dev-r-base.tar
+[2026-10-10T09:13:43.743Z] docker load -i dev-r-base.tar
+[2026-10-10T09:13:43.766Z] + echo docker load -i dev-r-base.tar
+[2026-10-10T09:13:43.766Z] docker load -i dev-r-base.tar
+[2026-10-10T09:13:43.786Z] [Pipeline] sh
+[2026-10-10T09:13:43.809Z] [Pipeline] sh
+[2026-10-10T09:13:43.858Z] [Pipeline] sh
+[2026-10-10T09:13:43.914Z] [Pipeline] sh
+[2026-10-10T09:13:43.923Z] + echo docker load -i dev-r-base.tar
+[2026-10-10T09:13:43.924Z] docker load -i dev-r-base.tar
+[2026-10-10T09:13:43.944Z] [Pipeline] sh
+[2026-10-10T09:13:43.952Z] + echo docker load -i dev-r-base.tar
+[2026-10-10T09:13:43.952Z] docker load -i dev-r-base.tar
+[2026-10-10T09:13:43.990Z] [Pipeline] sh
+[2026-10-10T09:13:43.995Z] + echo docker load -i dev-r-base.tar
+[2026-10-10T09:13:43.995Z] docker load -i dev-r-base.tar
+[2026-10-10T09:13:44.047Z] + rm dev-r-base.tar
+[2026-10-10T09:13:44.064Z] [Pipeline] sh
+[2026-10-10T09:13:44.070Z] + echo docker load -i dev-r-base.tar
+[2026-10-10T09:13:44.070Z] docker load -i dev-r-base.tar
+[2026-10-10T09:13:44.087Z] [Pipeline] sh
+[2026-10-10T09:13:44.113Z] [Pipeline] sh
+[2026-10-10T09:13:44.118Z] + rm dev-r-base.tar
+[2026-10-10T09:13:44.173Z] [Pipeline] sh
+[2026-10-10T09:13:44.181Z] + rm dev-r-base.tar
+[2026-10-10T09:13:44.203Z] [Pipeline] sh
+[2026-10-10T09:13:44.208Z] + echo docker load -i dev-r-base.tar
+[2026-10-10T09:13:44.208Z] docker load -i dev-r-base.tar
+[2026-10-10T09:13:44.251Z] + echo docker load -i dev-r-base.tar
+[2026-10-10T09:13:44.251Z] docker load -i dev-r-base.tar
+[2026-10-10T09:13:44.269Z] [Pipeline] sh
+[2026-10-10T09:13:44.291Z] [Pipeline] sh
+[2026-10-10T09:13:44.324Z] + rm dev-r-base.tar
+[2026-10-10T09:13:44.343Z] [Pipeline] sh
+[2026-10-10T09:13:44.348Z] + rm dev-r-base.tar
+[2026-10-10T09:13:44.373Z] + rm dev-r-base.tar
+[2026-10-10T09:13:44.416Z] [Pipeline] sh
+[2026-10-10T09:13:44.438Z] + rm dev-r-base.tar
+[2026-10-10T09:13:44.465Z] + rm dev-r-base.tar
+[2026-10-10T09:13:44.476Z] [Pipeline] withCredentials
+[2026-10-10T09:13:44.483Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:44.489Z] [Pipeline] sh
+[2026-10-10T09:13:44.529Z] + rm dev-r-base.tar
+[2026-10-10T09:13:44.533Z] [Pipeline] withCredentials
+[2026-10-10T09:13:44.541Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:44.548Z] [Pipeline] sh
+[2026-10-10T09:13:44.551Z] + rm dev-r-base.tar
+[2026-10-10T09:13:44.603Z] + rm dev-r-base.tar
+[2026-10-10T09:13:44.621Z] [Pipeline] withCredentials
+[2026-10-10T09:13:44.630Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:44.643Z] [Pipeline] withCredentials
+[2026-10-10T09:13:44.651Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:44.663Z] [Pipeline] withCredentials
+[2026-10-10T09:13:44.670Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:44.678Z] + rm dev-r-base.tar
+[2026-10-10T09:13:44.680Z] [Pipeline] withCredentials
+[2026-10-10T09:13:44.691Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:44.732Z] [Pipeline] {
+[2026-10-10T09:13:44.748Z] + rm dev-r-base.tar
+[2026-10-10T09:13:44.767Z] [Pipeline] withCredentials
+[2026-10-10T09:13:44.775Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:44.781Z] [Pipeline] sh
+[2026-10-10T09:13:44.810Z] + rm dev-r-base.tar
+[2026-10-10T09:13:44.816Z] [Pipeline] {
+[2026-10-10T09:13:44.854Z] [Pipeline] withCredentials
+[2026-10-10T09:13:44.860Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:44.866Z] [Pipeline] sh
+[2026-10-10T09:13:44.896Z] [Pipeline] withCredentials
+[2026-10-10T09:13:44.902Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:44.912Z] [Pipeline] withCredentials
+[2026-10-10T09:13:44.918Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:44.949Z] [Pipeline] {
+[2026-10-10T09:13:44.964Z] [Pipeline] {
+[2026-10-10T09:13:44.977Z] [Pipeline] {
+[2026-10-10T09:13:45.003Z] [Pipeline] {
+[2026-10-10T09:13:45.020Z] [Pipeline] withCredentials
+[2026-10-10T09:13:45.027Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:45.034Z] [Pipeline] sh
+[2026-10-10T09:13:45.042Z] + echo aws ecr batch-get-image --registry-id=353750902984 --repository-name=h2o-3/dev-r-3.4.1-jdk-11 --image-ids=imageTag=47 --query images[].imageId.imageTag --output text
+[2026-10-10T09:13:45.057Z] [Pipeline] sh
+[2026-10-10T09:13:45.080Z] [Pipeline] sh
+[2026-10-10T09:13:45.103Z] [Pipeline] sh
+[2026-10-10T09:13:45.126Z] + echo aws ecr batch-get-image --registry-id=353750902984 --repository-name=h2o-3/dev-r-3.4.1-jdk-17 --image-ids=imageTag=47 --query images[].imageId.imageTag --output text
+[2026-10-10T09:13:45.134Z] [Pipeline] withCredentials
+[2026-10-10T09:13:45.140Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:45.170Z] [Pipeline] {
+[2026-10-10T09:13:45.188Z] [Pipeline] sh
+[2026-10-10T09:13:45.232Z] [Pipeline] withCredentials
+[2026-10-10T09:13:45.237Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:45.247Z] [Pipeline] {
+[2026-10-10T09:13:45.271Z] [Pipeline] withCredentials
+[2026-10-10T09:13:45.280Z] Masking supported pattern matches of $AWS_ACCESS_KEY_ID or $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:13:45.289Z] [Pipeline] sh
+[2026-10-10T09:13:45.295Z] + echo aws ecr batch-get-image --registry-id=353750902984 --repository-name=h2o-3/dev-r-3.5.3-jdk-8 --image-ids=imageTag=47 --query images[].imageId.imageTag --output text
+[2026-10-10T09:13:45.318Z] + echo aws ecr batch-get-image --registry-id=353750902984 --repository-name=h2o-3/dev-r-3.5.3-jdk-11 --image-ids=imageTag=47 --query images[].imageId.imageTag --output text
+[2026-10-10T09:13:45.330Z] [Pipeline] {
+[2026-10-10T09:13:45.341Z] + echo aws ecr batch-get-image --registry-id=353750902984 --repository-name=h2o-3/dev-r-3.5.3-jdk-17 --image-ids=imageTag=47 --query images[].imageId.imageTag --output text
+[2026-10-10T09:13:45.346Z] [Pipeline] {
+[2026-10-10T09:13:45.360Z] [Pipeline] sh
+[2026-10-10T09:13:45.365Z] + echo aws ecr batch-get-image --registry-id=353750902984 --repository-name=h2o-3/dev-r-4.0.2-jdk-8 --image-ids=imageTag=47 --query images[].imageId.imageTag --output text
+[2026-10-10T09:13:45.387Z] [Pipeline] sh
+[2026-10-10T09:13:45.429Z] [Pipeline] {
+[2026-10-10T09:13:45.448Z] + echo aws ecr batch-get-image --registry-id=353750902984 --repository-name=h2o-3/dev-r-4.0.2-jdk-11 --image-ids=imageTag=47 --query images[].imageId.imageTag --output text
+[2026-10-10T09:13:45.456Z] [Pipeline] }
+[2026-10-10T09:13:45.478Z] [Pipeline] sh
+[2026-10-10T09:13:45.526Z] [Pipeline] {
+[2026-10-10T09:13:45.532Z] [Pipeline] }
+[2026-10-10T09:13:45.550Z] + echo aws ecr batch-get-image --registry-id=353750902984 --repository-name=h2o-3/dev-r-4.0.2-jdk-17 --image-ids=imageTag=47 --query images[].imageId.imageTag --output text
+[2026-10-10T09:13:45.558Z] [Pipeline] sh
+[2026-10-10T09:13:45.609Z] [Pipeline] {
+[2026-10-10T09:13:45.625Z] + echo aws ecr batch-get-image --registry-id=353750902984 --repository-name=h2o-3/dev-r-4.4.0-jdk-8 --image-ids=imageTag=47 --query images[].imageId.imageTag --output text
+[2026-10-10T09:13:45.640Z] [Pipeline] sh
+[2026-10-10T09:13:45.648Z] + echo aws ecr batch-get-image --registry-id=353750902984 --repository-name=h2o-3/dev-r-4.4.0-jdk-11 --image-ids=imageTag=47 --query images[].imageId.imageTag --output text
+[2026-10-10T09:13:45.687Z] [Pipeline] {
+[2026-10-10T09:13:45.724Z] [Pipeline] }
+[2026-10-10T09:13:45.738Z] [Pipeline] }
+[2026-10-10T09:13:45.738Z] + echo aws ecr batch-get-image --registry-id=353750902984 --repository-name=h2o-3/dev-r-4.4.0-jdk-17 --image-ids=imageTag=47 --query images[].imageId.imageTag --output text
+[2026-10-10T09:13:45.775Z] [Pipeline] }
+[2026-10-10T09:13:45.792Z] [Pipeline] sh
+[2026-10-10T09:13:45.818Z] + echo aws ecr batch-get-image --registry-id=353750902984 --repository-name=h2o-3/dev-r-4.5.2-jdk-8 --image-ids=imageTag=47 --query images[].imageId.imageTag --output text
+[2026-10-10T09:13:45.839Z] [Pipeline] }
+[2026-10-10T09:13:45.870Z] [Pipeline] }
+[2026-10-10T09:13:45.908Z] + echo aws ecr batch-get-image --registry-id=353750902984 --repository-name=h2o-3/dev-r-4.5.2-jdk-11 --image-ids=imageTag=47 --query images[].imageId.imageTag --output text
+[2026-10-10T09:13:45.916Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:45.938Z] [Pipeline] unstash
+[2026-10-10T09:13:46.001Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:46.051Z] [Pipeline] unstash
+[2026-10-10T09:13:46.052Z] + echo aws ecr batch-get-image --registry-id=353750902984 --repository-name=h2o-3/dev-r-4.5.2-jdk-17 --image-ids=imageTag=47 --query images[].imageId.imageTag --output text
+[2026-10-10T09:13:46.061Z] [Pipeline] }
+[2026-10-10T09:13:46.102Z] [Pipeline] }
+[2026-10-10T09:13:46.110Z] [Pipeline] }
+[2026-10-10T09:13:46.139Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:46.165Z] [Pipeline] unstash
+[2026-10-10T09:13:46.196Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:46.208Z] [Pipeline] unstash
+[2026-10-10T09:13:46.219Z] [Pipeline] }
+[2026-10-10T09:13:46.255Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:46.284Z] [Pipeline] unstash
+[2026-10-10T09:13:46.294Z] [Pipeline] }
+[2026-10-10T09:13:46.329Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:46.340Z] [Pipeline] unstash
+[2026-10-10T09:13:46.381Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:46.413Z] [Pipeline] unstash
+[2026-10-10T09:13:46.423Z] [Pipeline] }
+[2026-10-10T09:13:46.469Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:46.479Z] [Pipeline] unstash
+[2026-10-10T09:13:46.488Z] [Pipeline] }
+[2026-10-10T09:13:46.501Z] [Pipeline] sh
+[2026-10-10T09:13:46.535Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:46.560Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:46.578Z] [Pipeline] unstash
+[2026-10-10T09:13:46.592Z] [Pipeline] unstash
+[2026-10-10T09:13:46.620Z] [Pipeline] sh
+[2026-10-10T09:13:46.673Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:46.690Z] [Pipeline] unstash
+[2026-10-10T09:13:46.718Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:46.738Z] [Pipeline] sh
+[2026-10-10T09:13:46.759Z] [Pipeline] sh
+[2026-10-10T09:13:46.760Z] + echo make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-r-3.4.1-jdk-11
+[2026-10-10T09:13:46.760Z] make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-r-3.4.1-jdk-11
+[2026-10-10T09:13:46.782Z] [Pipeline] unstash
+[2026-10-10T09:13:46.812Z] [Pipeline] sh
+[2026-10-10T09:13:46.847Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:46.858Z] [Pipeline] sh
+[2026-10-10T09:13:46.881Z] [Pipeline] unstash
+[2026-10-10T09:13:46.883Z] + echo make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-r-3.4.1-jdk-17
+[2026-10-10T09:13:46.883Z] make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-r-3.4.1-jdk-17
+[2026-10-10T09:13:46.927Z] [Pipeline] sh
+[2026-10-10T09:13:46.953Z] [Pipeline] // withCredentials
+[2026-10-10T09:13:46.974Z] [Pipeline] unstash
+[2026-10-10T09:13:47.001Z] + echo make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-r-3.5.3-jdk-8
+[2026-10-10T09:13:47.001Z] make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-r-3.5.3-jdk-8
+[2026-10-10T09:13:47.020Z] + echo make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-r-3.5.3-jdk-11
+[2026-10-10T09:13:47.020Z] make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-r-3.5.3-jdk-11
+[2026-10-10T09:13:47.030Z] [Pipeline] sh
+[2026-10-10T09:13:47.072Z] + echo make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-r-3.5.3-jdk-17
+[2026-10-10T09:13:47.072Z] make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-r-3.5.3-jdk-17
+[2026-10-10T09:13:47.083Z] [Pipeline] sh
+[2026-10-10T09:13:47.109Z] [Pipeline] sh
+[2026-10-10T09:13:47.117Z] + echo make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-r-4.0.2-jdk-8
+[2026-10-10T09:13:47.117Z] make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-r-4.0.2-jdk-8
+[2026-10-10T09:13:47.153Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named toPersist (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:47.158Z] [Pipeline] }
+[2026-10-10T09:13:47.191Z] + echo make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-r-4.0.2-jdk-11
+[2026-10-10T09:13:47.191Z] make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-r-4.0.2-jdk-11
+[2026-10-10T09:13:47.191Z] [Pipeline] sh
+[2026-10-10T09:13:47.233Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named toPersist (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:47.237Z] [Pipeline] }
+[2026-10-10T09:13:47.247Z] [Pipeline] sh
+[2026-10-10T09:13:47.287Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named toPersist (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:47.291Z] [Pipeline] }
+[2026-10-10T09:13:47.299Z] + echo make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-r-4.0.2-jdk-17
+[2026-10-10T09:13:47.299Z] make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-r-4.0.2-jdk-17
+[2026-10-10T09:13:47.303Z] [Pipeline] sh
+[2026-10-10T09:13:47.338Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named toPersist (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:47.342Z] [Pipeline] }
+[2026-10-10T09:13:47.344Z] + echo make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-r-4.4.0-jdk-8
+[2026-10-10T09:13:47.345Z] make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-r-4.4.0-jdk-8
+[2026-10-10T09:13:47.350Z] [Pipeline] sh
+[2026-10-10T09:13:47.373Z] + echo make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-r-4.4.0-jdk-11
+[2026-10-10T09:13:47.373Z] make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-r-4.4.0-jdk-11
+[2026-10-10T09:13:47.389Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named toPersist (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:47.393Z] [Pipeline] }
+[2026-10-10T09:13:47.393Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named toPersist (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:47.398Z] [Pipeline] }
+[2026-10-10T09:13:47.427Z] [Pipeline] // dir
+[2026-10-10T09:13:47.433Z] [Pipeline] }
+[2026-10-10T09:13:47.455Z] + echo make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-r-4.4.0-jdk-17
+[2026-10-10T09:13:47.455Z] make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-r-4.4.0-jdk-17
+[2026-10-10T09:13:47.468Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named toPersist (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:47.474Z] [Pipeline] }
+[2026-10-10T09:13:47.506Z] + echo make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-r-4.5.2-jdk-8
+[2026-10-10T09:13:47.506Z] make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-r-4.5.2-jdk-8
+[2026-10-10T09:13:47.511Z] [Pipeline] // dir
+[2026-10-10T09:13:47.524Z] [Pipeline] }
+[2026-10-10T09:13:47.555Z] [Pipeline] // dir
+[2026-10-10T09:13:47.563Z] + echo make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-r-4.5.2-jdk-11
+[2026-10-10T09:13:47.563Z] make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-r-4.5.2-jdk-11
+[2026-10-10T09:13:47.575Z] [Pipeline] }
+[2026-10-10T09:13:47.576Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named toPersist (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:47.581Z] [Pipeline] }
+[2026-10-10T09:13:47.609Z] + echo make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-r-4.5.2-jdk-17
+[2026-10-10T09:13:47.609Z] make CI=1 H2O_BRANCH=master VERSION=47 PUSH=false NO_CACHE=--no-cache dev-r-4.5.2-jdk-17
+[2026-10-10T09:13:47.612Z] [Pipeline] // dir
+[2026-10-10T09:13:47.619Z] [Pipeline] }
+[2026-10-10T09:13:47.661Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named toPersist (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:47.668Z] [Pipeline] }
+[2026-10-10T09:13:47.668Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named toPersist (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:47.675Z] [Pipeline] }
+[2026-10-10T09:13:47.708Z] [Pipeline] // dir
+[2026-10-10T09:13:47.730Z] [Pipeline] // dir
+[2026-10-10T09:13:47.745Z] [Pipeline] }
+[2026-10-10T09:13:47.751Z] [Pipeline] }
+[2026-10-10T09:13:47.791Z] [Pipeline] // node
+[2026-10-10T09:13:47.805Z] [Pipeline] }
+[2026-10-10T09:13:47.806Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named toPersist (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:47.811Z] [Pipeline] }
+[2026-10-10T09:13:47.842Z] [Pipeline] // dir
+[2026-10-10T09:13:47.865Z] [Pipeline] }
+[2026-10-10T09:13:47.896Z] [Pipeline] // node
+[2026-10-10T09:13:47.910Z] [Pipeline] }
+[2026-10-10T09:13:47.911Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named toPersist (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:47.916Z] [Pipeline] }
+[2026-10-10T09:13:47.969Z] [Pipeline] // node
+[2026-10-10T09:13:47.974Z] [Pipeline] }
+[2026-10-10T09:13:47.998Z] [Pipeline] // dir
+[2026-10-10T09:13:48.023Z] [Pipeline] }
+[2026-10-10T09:13:48.024Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named toPersist (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:48.029Z] [Pipeline] }
+[2026-10-10T09:13:48.061Z] [Pipeline] // node
+[2026-10-10T09:13:48.067Z] [Pipeline] }
+[2026-10-10T09:13:48.067Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named toPersist (to a value of type ArrayList) which could lead to memory leaks or other issues.
+[2026-10-10T09:13:48.072Z] [Pipeline] }
+[2026-10-10T09:13:48.102Z] [Pipeline] // dir
+[2026-10-10T09:13:48.121Z] [Pipeline] // dir
+[2026-10-10T09:13:48.134Z] [Pipeline] }
+[2026-10-10T09:13:48.140Z] [Pipeline] }
+[2026-10-10T09:13:48.208Z] [Pipeline] // node
+[2026-10-10T09:13:48.233Z] [Pipeline] // node
+[2026-10-10T09:13:48.244Z] [Pipeline] }
+[2026-10-10T09:13:48.247Z] [Pipeline] }
+[2026-10-10T09:13:48.274Z] [Pipeline] // stage
+[2026-10-10T09:13:48.278Z] [Pipeline] }
+[2026-10-10T09:13:48.307Z] [Pipeline] // dir
+[2026-10-10T09:13:48.342Z] [Pipeline] }
+[2026-10-10T09:13:48.378Z] [Pipeline] // node
+[2026-10-10T09:13:48.383Z] [Pipeline] }
+[2026-10-10T09:13:48.412Z] [Pipeline] // stage
+[2026-10-10T09:13:48.435Z] [Pipeline] // dir
+[2026-10-10T09:13:48.441Z] [Pipeline] }
+[2026-10-10T09:13:48.447Z] [Pipeline] }
+[2026-10-10T09:13:48.478Z] [Pipeline] // stage
+[2026-10-10T09:13:48.483Z] [Pipeline] }
+[2026-10-10T09:13:48.520Z] [Pipeline] // node
+[2026-10-10T09:13:48.543Z] [Pipeline] // dir
+[2026-10-10T09:13:48.548Z] [Pipeline] }
+[2026-10-10T09:13:48.552Z] [Pipeline] }
+[2026-10-10T09:13:48.586Z] [Pipeline] // stage
+[2026-10-10T09:13:48.608Z] [Pipeline] // dir
+[2026-10-10T09:13:48.624Z] [Pipeline] }
+[2026-10-10T09:13:48.630Z] [Pipeline] }
+[2026-10-10T09:13:48.672Z] [Pipeline] // node
+[2026-10-10T09:13:48.700Z] [Pipeline] // node
+[2026-10-10T09:13:48.713Z] [Pipeline] }
+[2026-10-10T09:13:48.717Z] [Pipeline] }
+[2026-10-10T09:13:48.744Z] [Pipeline] // stage
+[2026-10-10T09:13:48.765Z] [Pipeline] // stage
+[2026-10-10T09:13:48.780Z] [Pipeline] }
+[2026-10-10T09:13:48.786Z] [Pipeline] }
+[2026-10-10T09:13:48.832Z] [Pipeline] // node
+[2026-10-10T09:13:48.847Z] [Pipeline] }
+[2026-10-10T09:13:48.876Z] [Pipeline] // stage
+[2026-10-10T09:13:48.890Z] [Pipeline] }
+[2026-10-10T09:13:48.935Z] [Pipeline] // node
+[2026-10-10T09:13:48.953Z] [Pipeline] }
+[2026-10-10T09:13:48.995Z] [Pipeline] // stage
+[2026-10-10T09:13:49.020Z] [Pipeline] // node
+[2026-10-10T09:13:49.035Z] [Pipeline] }
+[2026-10-10T09:13:49.040Z] [Pipeline] }
+[2026-10-10T09:13:49.081Z] [Pipeline] // node
+[2026-10-10T09:13:49.098Z] [Pipeline] }
+[2026-10-10T09:13:49.126Z] [Pipeline] // stage
+[2026-10-10T09:13:49.148Z] [Pipeline] // stage
+[2026-10-10T09:13:49.163Z] [Pipeline] }
+[2026-10-10T09:13:49.169Z] [Pipeline] }
+[2026-10-10T09:13:49.211Z] [Pipeline] // stage
+[2026-10-10T09:13:49.224Z] [Pipeline] }
+[2026-10-10T09:13:49.262Z] [Pipeline] // stage
+[2026-10-10T09:13:49.276Z] [Pipeline] }
+[2026-10-10T09:13:49.313Z] [Pipeline] // stage
+[2026-10-10T09:13:49.329Z] [Pipeline] }
+[2026-10-10T09:13:49.356Z] [Pipeline] // stage
+[2026-10-10T09:13:49.369Z] [Pipeline] }
+[2026-10-10T09:13:49.908Z] [Pipeline] // parallel
+[2026-10-10T09:13:49.922Z] [Pipeline] }
+[2026-10-10T09:13:49.948Z] [Pipeline] // timestamps
+[2026-10-10T09:13:49.962Z] [Pipeline] }
+[2026-10-10T09:13:49.967Z] 
+[2026-10-10T09:13:49.992Z] [Pipeline] // ansiColor
+[2026-10-10T09:13:50.006Z] [Pipeline] End of Pipeline
+[2026-10-10T09:13:50.208Z] Finished: SUCCESS

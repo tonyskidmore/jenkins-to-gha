@@ -1,0 +1,283 @@
+{
+  "result": "success",
+  "json": {
+    "pipeline": {
+      "stages": [
+        {
+          "name": "checkout",
+          "branches": [
+            {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "script",
+                  "arguments": [
+                    {
+                      "key": "scriptBlock",
+                      "value": {
+                        "isLiteral": true,
+                        "value": "if (env.BRANCH_NAME) {\n                        def buildNumber = env.BUILD_NUMBER as int\n                        if (buildNumber > 1) {\n                            milestone(buildNumber - 1)\n                        }\n                        milestone(buildNumber)\n                    }"
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "dir",
+                  "arguments": {
+                    "isLiteral": false,
+                    "value": "\"hpx_${env.BUILD_ID}\""
+                  },
+                  "children": [
+                    {
+                      "name": "checkout",
+                      "arguments": [
+                        {
+                          "key": "scm",
+                          "value": {
+                            "isLiteral": false,
+                            "value": "${scm}"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "name": "echo",
+                      "arguments": [
+                        {
+                          "key": "message",
+                          "value": {
+                            "isLiteral": false,
+                            "value": "\"Running ${env.BUILD_ID} on ${env.JENKINS_URL} (base directory: ${env.WORKSPACE})\""
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "build",
+          "matrix": {
+            "axes": [
+              {
+                "name": "configuration_name",
+                "values": [
+                  {
+                    "isLiteral": true,
+                    "value": "gcc-12"
+                  },
+                  {
+                    "isLiteral": true,
+                    "value": "gcc-13"
+                  },
+                  {
+                    "isLiteral": true,
+                    "value": "gcc-14"
+                  },
+                  {
+                    "isLiteral": true,
+                    "value": "gcc-15"
+                  },
+                  {
+                    "isLiteral": true,
+                    "value": "clang-17-apex"
+                  },
+                  {
+                    "isLiteral": true,
+                    "value": "clang-16"
+                  },
+                  {
+                    "isLiteral": true,
+                    "value": "clang-17"
+                  },
+                  {
+                    "isLiteral": true,
+                    "value": "clang-18"
+                  },
+                  {
+                    "isLiteral": true,
+                    "value": "clang-19"
+                  },
+                  {
+                    "isLiteral": true,
+                    "value": "clang-20"
+                  },
+                  {
+                    "isLiteral": true,
+                    "value": "gcc-12-cuda-12"
+                  },
+                  {
+                    "isLiteral": true,
+                    "value": "gcc-12-cuda-12-dgx"
+                  },
+                  {
+                    "isLiteral": true,
+                    "value": "hipcc"
+                  }
+                ]
+              },
+              {
+                "name": "build_type",
+                "values": [
+                  {
+                    "isLiteral": true,
+                    "value": "Release"
+                  },
+                  {
+                    "isLiteral": true,
+                    "value": "Debug"
+                  }
+                ]
+              }
+            ],
+            "stages": [
+              {
+                "name": "build",
+                "branches": [
+                  {
+                    "name": "default",
+                    "steps": [
+                      {
+                        "name": "dir",
+                        "arguments": {
+                          "isLiteral": false,
+                          "value": "\"hpx_${env.BUILD_ID}\""
+                        },
+                        "children": [
+                          {
+                            "name": "sh",
+                            "arguments": [
+                              {
+                                "key": "script",
+                                "value": {
+                                  "isLiteral": true,
+                                  "value": "\n                                #!/bin/bash -l\n                                .jenkins/lsu/entry.sh\n                                "
+                                }
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ],
+      "post": {
+        "conditions": [
+          {
+            "condition": "always",
+            "branch": {
+              "name": "default",
+              "steps": [
+                {
+                  "name": "archiveArtifacts",
+                  "arguments": [
+                    {
+                      "key": "artifacts",
+                      "value": {
+                        "isLiteral": false,
+                        "value": "\"hpx_${env.BUILD_ID}/jenkins-hpx-*\""
+                      }
+                    },
+                    {
+                      "key": "fingerprint",
+                      "value": {
+                        "isLiteral": true,
+                        "value": true
+                      }
+                    }
+                  ]
+                },
+                {
+                  "name": "archiveArtifacts",
+                  "arguments": [
+                    {
+                      "key": "artifacts",
+                      "value": {
+                        "isLiteral": false,
+                        "value": "\"hpx_${env.BUILD_ID}/build/*/Testing/**\""
+                      }
+                    },
+                    {
+                      "key": "fingerprint",
+                      "value": {
+                        "isLiteral": true,
+                        "value": true
+                      }
+                    }
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "environment": [
+        {
+          "key": "GITHUB_TOKEN",
+          "value": {
+            "name": "credentials",
+            "arguments": [
+              {
+                "isLiteral": true,
+                "value": "STELLARBOT_GITHUB_TOKEN"
+              }
+            ]
+          }
+        }
+      ],
+      "agent": {
+        "type": "any"
+      },
+      "options": {
+        "options": [
+          {
+            "name": "buildDiscarder",
+            "arguments": [
+              {
+                "name": "logRotator",
+                "arguments": [
+                  {
+                    "key": "daysToKeepStr",
+                    "value": {
+                      "isLiteral": true,
+                      "value": "14"
+                    }
+                  },
+                  {
+                    "key": "numToKeepStr",
+                    "value": {
+                      "isLiteral": true,
+                      "value": "50"
+                    }
+                  },
+                  {
+                    "key": "artifactDaysToKeepStr",
+                    "value": {
+                      "isLiteral": true,
+                      "value": "14"
+                    }
+                  },
+                  {
+                    "key": "artifactNumToKeepStr",
+                    "value": {
+                      "isLiteral": true,
+                      "value": "50"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  }
+}

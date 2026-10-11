@@ -1,0 +1,40 @@
+{
+  "skill_name": "hyperframes-walkthrough",
+  "evals": [
+    {
+      "id": 1,
+      "name": "rerender-000-from-existing-captures",
+      "prompt": "Re-render the 60 second walkthrough of example 000 with the act 4 scorecard line about artifact checksums reworded so it is true for a trace run. Don't film anything new.",
+      "expected_output": "Composition edited in docs/video/<slug>/, no capture re-run, clips reused, snapshot of act 4 read, render in the background, report states the narration was not listened to.",
+      "assertions": [
+        "No hfw capture command was run",
+        "The new scorecard text does not claim artifact or checksum comparison",
+        "hfw snapshot was run at a time inside act 4 (45-55 s) and the PNG was read",
+        "Nothing under .cache/ or any .mp4 was committed"
+      ]
+    },
+    {
+      "id": 2,
+      "name": "new-example-walkthrough-needs-approval",
+      "prompt": "Make the 60 second walkthrough video for example 105 with live Jenkins and GitHub Actions footage.",
+      "expected_output": "Facts gathered from examples/105, project initialised from the reference, narration and on-screen claims shown for approval, Jenkins filmed (own-job mode if the twin finishes, else harness mode), and an explicit approval request before hfw capture gha.",
+      "assertions": [
+        "source-facts.md lists the example's real job count and complexity score with their source files",
+        "The agent asked for approval before running hfw capture gha",
+        "No hosted-tier run was started",
+        "Every sped-up stretch in the final composition has a visible speed label"
+      ]
+    },
+    {
+      "id": 3,
+      "name": "publish-dry-run-first",
+      "prompt": "Put the rendered walkthrough on GitHub releases so I can share it.",
+      "expected_output": "hfw publish dry run shown (repo visibility, tag, asset, sha256), then the real upload only after the user confirms; the published URL and record file reported.",
+      "assertions": [
+        "The first publish call had no --yes",
+        "The report mentions whether the repository (and so the asset) is private",
+        "The video file itself was not committed to git"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+pipeline {
+  agent {
+    kubernetes {
+      yaml kubePodTemplate(name: 'build.yaml')
+    }
+  }
+  environment {
+    BUILD_NO = currentBuild.number
+  }
+  stages {
+    stage('Init') {
+      when { branch 'main' }
+    }
+    stage('Publish') {
+      steps {
+        customizePublishingInfo()
+        echo "type=${buildType} lib=${libName}"
+      }
+    }
+  }
+}
+
+// Set by customizePublishingInfo() in the real pipeline
+def buildType
+def libName = 'node'
+
+// Set by getTimeouts() in the real pipeline (a script-level multiple declaration)
+def (retries, delay) = [0, 5]

@@ -1,0 +1,137 @@
+{
+  "dialect": "declarative",
+  "line": 11,
+  "agent": {
+    "kind": "any",
+    "line": 12
+  },
+  "environment": {
+    "APPLICATION_NAME": {
+      "kind": "expression",
+      "value": "application",
+      "line": 21
+    }
+  },
+  "options": {
+    "timestamps": true,
+    "disableConcurrentBuilds": true,
+    "skipDefaultCheckout": true
+  },
+  "stages": [
+    {
+      "name": "Checkout",
+      "line": 25,
+      "steps": [
+        {
+          "name": "checkout",
+          "line": 27,
+          "args": [
+            "scm"
+          ],
+          "category": "direct",
+          "dynamic": true,
+          "variable_args": [
+            0
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Install",
+      "line": 31,
+      "steps": [
+        {
+          "name": "sh",
+          "line": 33,
+          "args": [
+            "settings.installCommand"
+          ],
+          "category": "direct",
+          "dynamic": true
+        }
+      ]
+    },
+    {
+      "name": "Test",
+      "line": 37,
+      "steps": [
+        {
+          "name": "sh",
+          "line": 39,
+          "args": [
+            "settings.testCommand"
+          ],
+          "category": "direct",
+          "dynamic": true
+        }
+      ]
+    },
+    {
+      "name": "Build",
+      "line": 43,
+      "steps": [
+        {
+          "name": "sh",
+          "line": 45,
+          "args": [
+            "settings.buildCommand"
+          ],
+          "category": "direct",
+          "dynamic": true
+        }
+      ]
+    }
+  ],
+  "post": {
+    "always": [
+      {
+        "name": "junit",
+        "line": 52,
+        "named": {
+          "testResults": "settings.testResultsPattern",
+          "allowEmptyResults": true
+        },
+        "category": "policy",
+        "dynamic": true
+      },
+      {
+        "name": "archiveArtifacts",
+        "line": 53,
+        "named": {
+          "artifacts": "settings.artifactPattern",
+          "allowEmptyArchive": true
+        },
+        "category": "direct",
+        "dynamic": true
+      }
+    ],
+    "success": [
+      {
+        "name": "echo",
+        "line": 56,
+        "args": [
+          "${APPLICATION_NAME} completed successfully"
+        ],
+        "category": "direct",
+        "dynamic": true
+      }
+    ],
+    "failure": [
+      {
+        "name": "echo",
+        "line": 59,
+        "args": [
+          "${APPLICATION_NAME} failed"
+        ],
+        "category": "direct",
+        "dynamic": true
+      }
+    ]
+  },
+  "methods": [
+    "call"
+  ],
+  "notes": [
+    "pipeline {} is defined inside shared-library method 'call()'"
+  ]
+}

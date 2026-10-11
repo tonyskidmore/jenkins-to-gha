@@ -1,0 +1,44 @@
+
+@@CMD@@ sed -n '86,99p' examples/000/RESULTS.md | awk -F'|' 'NR>=5 {printf "%-22s %-5s %s\n", $3, $4, $5}'
+ GroovyWhenExpression   108   return params.RUN_INTEGRATION_TESTS  
+ GroovyWhenExpression   181   params.RELEASE_VERSION.endsWith('-SNAPSHOT') 
+ GroovyWhenExpression   202   params.DEPLOY_ENV != 'none' 
+ InputGate              204   input step 
+ InputGate              204   stage 'Deploy' input directive 
+ PostConditionGap             post { unstable } 
+ ScriptBlocks                 1 script{} block(s), 5 Groovy statements 
+ HashedCron             19    H 2 * * 1-5 
+ CredentialBinding      185   usernamePassword 'artifact-repo' 
+ CredentialBinding      214   credentials() 'inventory-deploy-token' 
+@@END@@ rc=0 ms=10
+
+@@CMD@@ grep -nE "^  [a-z-]+:$" examples/000/gha/workflow.yml | tail -9
+54:  prepare-sources:
+426:  quality-unit-tests:
+736:  quality-lint:
+1049:  quality-integration-tests:
+1394:  compatibility:
+1648:  publish:
+1907:  deploy-gate:
+2108:  deploy:
+2391:  post:
+@@END@@ rc=0 ms=6
+
+@@CMD@@ grep -n -B2 'endsWith' examples/000/gha/workflow.yml
+393-    - name: 'Build: if (line 64)'
+394-      id: s8
+395:      if: endsWith(env.RELEASE_VERSION, '-SNAPSHOT')
+--
+1830-    - name: 'Publish: enter stage'
+1831-      id: s38
+1832:      if: '!(endsWith(env.RELEASE_VERSION, ''-SNAPSHOT''))'
+@@END@@ rc=0 ms=4
+
+@@CMD@@ grep -E '^- \*\*(Classification|Automated)' examples/000/gha/migration-report.md
+- **Classification:** assisted (difficulty 23/100)
+- **Automated mapping (effort estimate, not correctness):** 81.0% (41 mapped, 33 approximated, 1 manual, 3 dropped)
+@@END@@ rc=0 ms=5
+
+@@CMD@@ grep -n 'J2GHA_TODO' examples/000/gha/workflow.yml
+2610:      run: 'echo "${BUILD_LABEL} finished: ${J2GHA_TODO_currentBuild_currentResult}"'
+@@END@@ rc=0 ms=5

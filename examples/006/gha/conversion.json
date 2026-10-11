@@ -1,0 +1,466 @@
+{
+  "counts": {
+    "approximated": 27,
+    "manual": 11,
+    "mapped": 11,
+    "dropped": 1,
+    "info": 1
+  },
+  "automation_pct": 56.0,
+  "items": [
+    {
+      "jenkins": "post aborted",
+      "line": null,
+      "stage": null,
+      "status": "mapped",
+      "gha": "final job if: always() && contains(needs.*.result, 'cancelled')",
+      "note": ""
+    },
+    {
+      "jenkins": "post failure",
+      "line": null,
+      "stage": null,
+      "status": "mapped",
+      "gha": "final job if: always() && (contains(needs.*.result, 'failure') || failure())",
+      "note": ""
+    },
+    {
+      "jenkins": "post success",
+      "line": null,
+      "stage": null,
+      "status": "mapped",
+      "gha": "final job if: !failure() && !cancelled() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 43,
+      "stage": "Build",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 47,
+      "stage": "Build",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "withCredentials usernamePassword 'nexus-credential'",
+      "line": 62,
+      "stage": "Publish",
+      "status": "mapped",
+      "gha": "secrets -> step env",
+      "note": ""
+    },
+    {
+      "jenkins": "withCredentials usernamePassword 'rundeck-credential'",
+      "line": 71,
+      "stage": "DEV Deploy",
+      "status": "mapped",
+      "gha": "secrets -> step env",
+      "note": ""
+    },
+    {
+      "jenkins": "withCredentials usernamePassword 'rundeck-credential'",
+      "line": 91,
+      "stage": "PRE Deploy",
+      "status": "mapped",
+      "gha": "secrets -> step env",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 112,
+      "stage": "Acceptance Test",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 113,
+      "stage": "Acceptance Test",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "withCredentials usernamePassword 'rundeck-credential'",
+      "line": 137,
+      "stage": "PRO Deploy",
+      "status": "mapped",
+      "gha": "secrets -> step env",
+      "note": ""
+    },
+    {
+      "jenkins": "post unstable",
+      "line": null,
+      "stage": null,
+      "status": "dropped",
+      "gha": "-",
+      "note": "no GHA equivalent"
+    },
+    {
+      "jenkins": "(no pipeline timeout)",
+      "line": null,
+      "stage": null,
+      "status": "approximated",
+      "gha": "timeout-minutes: 60",
+      "note": "explicit job timeout added (GitHub's default is 360 minutes); set J2GHA_DEFAULT_TIMEOUT to change"
+    },
+    {
+      "jenkins": "script {}",
+      "line": 8,
+      "stage": "Setup",
+      "status": "approximated",
+      "gha": "inner steps translated individually",
+      "note": "imperative Groovy is not executed; review control flow"
+    },
+    {
+      "jenkins": "if (env.GIT_BRANCH == 'origin/develop' || env.GIT_BRAN) assigning target",
+      "line": 10,
+      "stage": "Setup",
+      "status": "approximated",
+      "gha": "run: bash if/elif -> $GITHUB_ENV + job outputs",
+      "note": "Java regexes run as POSIX ERE; later `when`/`if` read env.target"
+    },
+    {
+      "jenkins": "assign oversion = sh(script: \"jq -r '.variable.iac_versio",
+      "line": 21,
+      "stage": "Setup",
+      "status": "approximated",
+      "gha": "run step (captured output not propagated)",
+      "note": "write values to $GITHUB_OUTPUT/$GITHUB_ENV"
+    },
+    {
+      "jenkins": "sh",
+      "line": 21,
+      "stage": "Setup",
+      "status": "approximated",
+      "gha": "run",
+      "note": "Groovy interpolation of non-env values needs review"
+    },
+    {
+      "jenkins": "sh",
+      "line": 44,
+      "stage": "Build",
+      "status": "approximated",
+      "gha": "run",
+      "note": "Groovy interpolation of non-env values needs review"
+    },
+    {
+      "jenkins": "sh",
+      "line": 45,
+      "stage": "Build",
+      "status": "approximated",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 46,
+      "stage": "Build",
+      "status": "approximated",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 48,
+      "stage": "Build",
+      "status": "approximated",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 49,
+      "stage": "Build",
+      "status": "approximated",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 50,
+      "stage": "Build",
+      "status": "approximated",
+      "gha": "run",
+      "note": "Groovy interpolation of non-env values needs review"
+    },
+    {
+      "jenkins": "sh",
+      "line": 53,
+      "stage": "Build",
+      "status": "approximated",
+      "gha": "run",
+      "note": "Groovy interpolation of non-env values needs review"
+    },
+    {
+      "jenkins": "sh",
+      "line": 56,
+      "stage": "Build",
+      "status": "approximated",
+      "gha": "run",
+      "note": "Groovy interpolation of non-env values needs review"
+    },
+    {
+      "jenkins": "sh",
+      "line": 64,
+      "stage": "Publish",
+      "status": "approximated",
+      "gha": "run",
+      "note": "Groovy interpolation of non-env values needs review"
+    },
+    {
+      "jenkins": "configFileProvider",
+      "line": 77,
+      "stage": "DEV Deploy",
+      "status": "approximated",
+      "gha": "body inlined",
+      "note": "wrapper semantics not reproduced"
+    },
+    {
+      "jenkins": "sh",
+      "line": 79,
+      "stage": "DEV Deploy",
+      "status": "approximated",
+      "gha": "run",
+      "note": "Groovy interpolation of non-env values needs review"
+    },
+    {
+      "jenkins": "stage 'PRE Deploy' when",
+      "line": 88,
+      "stage": "PRE Deploy",
+      "status": "approximated",
+      "gha": "if: env.target == 'pre' || env.target == 'pro'",
+      "note": "evaluated once at stage entry against env"
+    },
+    {
+      "jenkins": "configFileProvider",
+      "line": 92,
+      "stage": "PRE Deploy",
+      "status": "approximated",
+      "gha": "body inlined",
+      "note": "wrapper semantics not reproduced"
+    },
+    {
+      "jenkins": "sh",
+      "line": 93,
+      "stage": "PRE Deploy",
+      "status": "approximated",
+      "gha": "run",
+      "note": "Groovy interpolation of non-env values needs review"
+    },
+    {
+      "jenkins": "stage 'Acceptance Test' when",
+      "line": 102,
+      "stage": "Acceptance Test",
+      "status": "approximated",
+      "gha": "if: env.target == 'pro'",
+      "note": "evaluated once at stage entry against env"
+    },
+    {
+      "jenkins": "agent label 'openshift_cli'",
+      "line": 106,
+      "stage": "Acceptance Test",
+      "status": "approximated",
+      "gha": "runs-on: ubuntu-latest",
+      "note": "use a self-hosted runner label if the agent provides special tooling/network"
+    },
+    {
+      "jenkins": "stage 'Approval' when",
+      "line": 122,
+      "stage": "Approval",
+      "status": "approximated",
+      "gha": "if: env.target == 'pro'",
+      "note": "evaluated once at stage entry against env"
+    },
+    {
+      "jenkins": "timeout",
+      "line": 126,
+      "stage": "Approval",
+      "status": "approximated",
+      "gha": "timeout-minutes per step",
+      "note": "Jenkins timeout covers the whole block"
+    },
+    {
+      "jenkins": "input",
+      "line": 127,
+      "stage": "Approval",
+      "status": "approximated",
+      "gha": "environment protection",
+      "note": "split the workflow at the gate; inline input step replaced by a notice"
+    },
+    {
+      "jenkins": "stage 'PRO Deploy' when",
+      "line": 134,
+      "stage": "PRO Deploy",
+      "status": "approximated",
+      "gha": "if: env.target == 'pro'",
+      "note": "evaluated once at stage entry against env"
+    },
+    {
+      "jenkins": "configFileProvider",
+      "line": 138,
+      "stage": "PRO Deploy",
+      "status": "approximated",
+      "gha": "body inlined",
+      "note": "wrapper semantics not reproduced"
+    },
+    {
+      "jenkins": "sh",
+      "line": 139,
+      "stage": "PRO Deploy",
+      "status": "approximated",
+      "gha": "run",
+      "note": "Groovy interpolation of non-env values needs review"
+    },
+    {
+      "jenkins": "assign version = ${oversion.take(...)}-${env.BUILD_NUMBER",
+      "line": 24,
+      "stage": "Setup",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "assign oversion = oversion.take(...)",
+      "line": 25,
+      "stage": "Setup",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment from a step"
+    },
+    {
+      "jenkins": "take",
+      "line": 25,
+      "stage": "Setup",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy method / helper call - port logic to a script"
+    },
+    {
+      "jenkins": "assign iacname = env.JOB_NAME",
+      "line": 26,
+      "stage": "Setup",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "assign prjname = oss-opensource",
+      "line": 29,
+      "stage": "Setup",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "assign packname = ${iacname}-v${version}.tar.gz",
+      "line": 32,
+      "stage": "Setup",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "assign publish_url = ${env.NEXUS_URL }/repository/raw-ter",
+      "line": 35,
+      "stage": "Setup",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "cucumber",
+      "line": 116,
+      "stage": "Acceptance Test",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "rocketSend",
+      "line": 150,
+      "stage": "Declarative: Post Actions",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "rocketSend",
+      "line": 173,
+      "stage": "Declarative: Post Actions",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "rocketSend",
+      "line": 219,
+      "stage": "Declarative: Post Actions",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "checkout: SCM environment (GIT_COMMIT, GIT_BRANCH, GIT_URL)",
+      "line": null,
+      "stage": null,
+      "status": "info",
+      "gha": "env",
+      "note": "Jenkins' git plugin exports them to every step after a checkout, so called scripts may read them; defined at workflow level even when the Jenkinsfile does not"
+    }
+  ],
+  "secrets": {
+    "NEXUS_CREDENTIAL_USR": "Jenkins credential 'nexus-credential'",
+    "NEXUS_CREDENTIAL_PSW": "Jenkins credential 'nexus-credential'",
+    "RUNDECK_CREDENTIAL_USR": "Jenkins credential 'rundeck-credential'",
+    "RUNDECK_CREDENTIAL_PSW": "Jenkins credential 'rundeck-credential'"
+  },
+  "jobs": {
+    "setup": {
+      "name": "Setup, Build, Publish, DEV Deploy, PRE Deploy",
+      "runs-on": "ubuntu-latest",
+      "steps": 19,
+      "matrix": false
+    },
+    "acceptance-test": {
+      "name": "Acceptance Test",
+      "runs-on": "ubuntu-latest",
+      "steps": 5,
+      "matrix": false
+    },
+    "approval": {
+      "name": "Approval, PRO Deploy",
+      "runs-on": "ubuntu-latest",
+      "steps": 9,
+      "matrix": false
+    },
+    "post": {
+      "name": "post",
+      "runs-on": "ubuntu-latest",
+      "steps": 6,
+      "matrix": false
+    }
+  },
+  "notes": [],
+  "handoff": {
+    "handed_on": [
+      "setup",
+      "approval"
+    ],
+    "merged": [],
+    "restored_by": [
+      "approval",
+      "post"
+    ]
+  },
+  "source_sha256": "90058ba0317b7c9aea122c345c7828513f6757a748da88a211ab4eb23c661122",
+  "model_sha256": "8a419b0db5c568ec43b4d4f80d2d03e9a1ef77b908cf807f138c946fb823db7c"
+}

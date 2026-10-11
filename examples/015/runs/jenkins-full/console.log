@@ -1,0 +1,155 @@
+[2026-10-10T08:55:20.467Z] Started by user admin
+[2026-10-10T08:55:20.690Z] [Pipeline] Start of Pipeline
+[2026-10-10T08:55:20.876Z] [Pipeline] node
+[2026-10-10T08:55:20.886Z] Running on Jenkins in /var/jenkins_home/workspace/ex-015-full
+[2026-10-10T08:55:20.903Z] [Pipeline] {
+[2026-10-10T08:55:20.929Z] [Pipeline] stage
+[2026-10-10T08:55:20.933Z] [Pipeline] { (Declarative: Checkout SCM)
+[2026-10-10T08:55:20.963Z] [Pipeline] checkout
+[2026-10-10T08:55:20.970Z] The recommended git tool is: NONE
+[2026-10-10T08:55:20.970Z] No credentials specified
+[2026-10-10T08:55:20.970Z]  > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/ex-015-full/.git # timeout=10
+[2026-10-10T08:55:20.976Z] Fetching changes from the remote Git repository
+[2026-10-10T08:55:20.978Z]  > git config remote.origin.url https://github.com/IBM/cloudant-node-sdk.git # timeout=10
+[2026-10-10T08:55:20.985Z] Fetching upstream changes from https://github.com/IBM/cloudant-node-sdk.git
+[2026-10-10T08:55:20.985Z]  > git --version # timeout=10
+[2026-10-10T08:55:20.990Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T08:55:20.990Z]  > git fetch --no-tags --force --progress -- https://github.com/IBM/cloudant-node-sdk.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T08:55:21.479Z]  > git rev-parse e775c33e2de8b8245290200c3e36e52208b09521^{commit} # timeout=10
+[2026-10-10T08:55:21.485Z] Checking out Revision e775c33e2de8b8245290200c3e36e52208b09521 (detached)
+[2026-10-10T08:55:21.485Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T08:55:21.491Z]  > git checkout -f e775c33e2de8b8245290200c3e36e52208b09521 # timeout=10
+[2026-10-10T08:55:21.503Z] Commit message: "chore(generated): cleanup extra whitespace"
+[2026-10-10T08:55:21.503Z]  > git rev-list --no-walk e775c33e2de8b8245290200c3e36e52208b09521 # timeout=10
+[2026-10-10T08:55:21.540Z] [Pipeline] }
+[2026-10-10T08:55:21.568Z] [Pipeline] // stage
+[2026-10-10T08:55:21.593Z] [Pipeline] withEnv
+[2026-10-10T08:55:21.599Z] [Pipeline] {
+[2026-10-10T08:55:21.633Z] [Pipeline] withCredentials
+[2026-10-10T08:55:21.644Z] Masking supported pattern matches of $ARTIFACTORY_CREDS or $ARTIFACTORY_CREDS_PSW
+[2026-10-10T08:55:21.652Z] [Pipeline] {
+[2026-10-10T08:55:21.675Z] [Pipeline] withEnv
+[2026-10-10T08:55:21.680Z] [Pipeline] {
+[2026-10-10T08:55:21.712Z] [Pipeline] stage
+[2026-10-10T08:55:21.726Z] [Pipeline] { (Detect Secrets)
+[2026-10-10T08:55:21.768Z] [Pipeline] echo
+[2026-10-10T08:55:21.775Z] J2GHA-TRACE {"stage":"Detect Secrets","step":"detectSecrets"}
+[2026-10-10T08:55:21.782Z] [Pipeline] }
+[2026-10-10T08:55:21.817Z] [Pipeline] // stage
+[2026-10-10T08:55:21.843Z] [Pipeline] stage
+[2026-10-10T08:55:21.849Z] [Pipeline] { (Init)
+[2026-10-10T08:55:21.880Z] [Pipeline] script
+[2026-10-10T08:55:21.888Z] [Pipeline] {
+[2026-10-10T08:55:21.907Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named bumpVersion (to a value of type CpsClosure2) which could lead to memory leaks or other issues.
+[2026-10-10T08:55:21.907Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named doVersionBump (to a value of type CpsClosure2) which could lead to memory leaks or other issues.
+[2026-10-10T08:55:21.907Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named getNewVersion (to a value of type CpsClosure2) which could lead to memory leaks or other issues.
+[2026-10-10T08:55:21.907Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named getTargetVersion (to a value of type CpsClosure2) which could lead to memory leaks or other issues.
+[2026-10-10T08:55:21.907Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named getDevVersion (to a value of type CpsClosure2) which could lead to memory leaks or other issues.
+[2026-10-10T08:55:21.907Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named customizeVersion (to a value of type CpsClosure2) which could lead to memory leaks or other issues.
+[2026-10-10T08:55:21.907Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named publishArtifactoryBuildInfoScript (to a value of type CpsClosure2) which could lead to memory leaks or other issues.
+[2026-10-10T08:55:21.907Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named publishArtifactoryBuildInfo (to a value of type CpsClosure2) which could lead to memory leaks or other issues.
+[2026-10-10T08:55:21.907Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named scanCode (to a value of type CpsClosure2) which could lead to memory leaks or other issues.
+[2026-10-10T08:55:21.907Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named libName (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T08:55:21.907Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named bumpVersion (to a value of type CpsClosure2) which could lead to memory leaks or other issues.
+[2026-10-10T08:55:21.907Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named customizeVersion (to a value of type CpsClosure2) which could lead to memory leaks or other issues.
+[2026-10-10T08:55:21.908Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named customizePublishingInfo (to a value of type CpsClosure2) which could lead to memory leaks or other issues.
+[2026-10-10T08:55:21.908Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named commitHash (to a value of type GStringImpl) which could lead to memory leaks or other issues.
+[2026-10-10T08:55:21.913Z] [Pipeline] }
+[2026-10-10T08:55:21.946Z] [Pipeline] // script
+[2026-10-10T08:55:21.962Z] [Pipeline] }
+[2026-10-10T08:55:21.992Z] [Pipeline] // stage
+[2026-10-10T08:55:22.018Z] [Pipeline] stage
+[2026-10-10T08:55:22.023Z] [Pipeline] { (QA)
+[2026-10-10T08:55:22.067Z] [Pipeline] withEnv
+[2026-10-10T08:55:22.073Z] [Pipeline] {
+[2026-10-10T08:55:22.108Z] [Pipeline] withCredentials
+[2026-10-10T08:55:22.114Z] Masking supported pattern matches of $SERVER_PASSWORD
+[2026-10-10T08:55:22.131Z] [Pipeline] {
+[2026-10-10T08:55:22.152Z] [Pipeline] script
+[2026-10-10T08:55:22.159Z] [Pipeline] {
+[2026-10-10T08:55:22.222Z] [Pipeline] sh
+[2026-10-10T08:55:22.500Z] + ./scripts/setup_couch.sh
+[2026-10-10T08:55:22.500Z] 
+[2026-10-10T08:55:22.500Z] printenv | grep "^SERVER_" >> cloudant_v1.env
+[2026-10-10T08:55:22.500Z] # if you change the image version please regenerate example output captures
+[2026-10-10T08:55:22.500Z] # use image at ARTIFACTORY_DOCKER_REPO_VIRTUAL registry if set, otherwise use default registry
+[2026-10-10T08:55:22.500Z] 
+[2026-10-10T08:55:22.500Z] # shellcheck disable=SC2016
+[2026-10-10T08:55:22.500Z] timeout 120 bash -c 'while [[ "$(curl -s -o /dev/null -w ''%{http_code}'' ${SERVER_URL}/_up)" != "200" ]]; do sleep 5; done' || false
+[2026-10-10T08:57:28.089Z] [Pipeline] }
+[2026-10-10T08:57:28.129Z] [Pipeline] // script
+[2026-10-10T08:57:28.148Z] [Pipeline] }
+[2026-10-10T08:57:28.185Z] [Pipeline] // withCredentials
+[2026-10-10T08:57:28.207Z] [Pipeline] }
+[2026-10-10T08:57:28.246Z] [Pipeline] // withEnv
+[2026-10-10T08:57:28.266Z] Post stage
+[2026-10-10T08:57:28.278Z] [Pipeline] junit
+[2026-10-10T08:57:28.283Z] Recording test results
+[2026-10-10T08:57:28.289Z] No test report files were found. Configuration error?
+[2026-10-10T08:57:28.310Z] Error when executing always post condition:
+[2026-10-10T08:57:28.310Z] Also:   org.jenkinsci.plugins.workflow.actions.ErrorAction$ErrorId: 2b6ee848-6eb0-4f44-9acd-990d05f733c5
+[2026-10-10T08:57:28.310Z] hudson.AbortException: No test report files were found. Configuration error?
+[2026-10-10T08:57:28.310Z] 	at PluginClassLoader for junit//hudson.tasks.junit.JUnitParser$ParseResultCallable.invoke(JUnitParser.java:253)
+[2026-10-10T08:57:28.310Z] 	at hudson.FilePath.act(FilePath.java:1226)
+[2026-10-10T08:57:28.310Z] 	at hudson.FilePath.act(FilePath.java:1209)
+[2026-10-10T08:57:28.310Z] 	at PluginClassLoader for junit//hudson.tasks.junit.JUnitParser.parseResult(JUnitParser.java:146)
+[2026-10-10T08:57:28.310Z] 	at PluginClassLoader for junit//hudson.tasks.junit.JUnitResultArchiver.parse(JUnitResultArchiver.java:177)
+[2026-10-10T08:57:28.310Z] 	at PluginClassLoader for junit//hudson.tasks.junit.JUnitResultArchiver.parseAndSummarize(JUnitResultArchiver.java:282)
+[2026-10-10T08:57:28.310Z] 	at PluginClassLoader for junit//hudson.tasks.junit.pipeline.JUnitResultsStepExecution.run(JUnitResultsStepExecution.java:62)
+[2026-10-10T08:57:28.310Z] 	at PluginClassLoader for junit//hudson.tasks.junit.pipeline.JUnitResultsStepExecution.run(JUnitResultsStepExecution.java:27)
+[2026-10-10T08:57:28.310Z] 	at PluginClassLoader for workflow-step-api//org.jenkinsci.plugins.workflow.steps.SynchronousNonBlockingStepExecution.lambda$start$0(SynchronousNonBlockingStepExecution.java:49)
+[2026-10-10T08:57:28.310Z] 	at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Unknown Source)
+[2026-10-10T08:57:28.310Z] 	at java.base/java.util.concurrent.FutureTask.run(Unknown Source)
+[2026-10-10T08:57:28.310Z] 	at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+[2026-10-10T08:57:28.310Z] 	at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+[2026-10-10T08:57:28.310Z] 	at java.base/java.lang.Thread.run(Unknown Source)
+[2026-10-10T08:57:28.310Z] 
+[2026-10-10T08:57:28.320Z] [Pipeline] }
+[2026-10-10T08:57:28.376Z] [Pipeline] // stage
+[2026-10-10T08:57:28.411Z] [Pipeline] stage
+[2026-10-10T08:57:28.417Z] [Pipeline] { (SonarQube analysis)
+[2026-10-10T08:57:28.438Z] Stage "SonarQube analysis" skipped due to earlier failure(s)
+[2026-10-10T08:57:28.449Z] [Pipeline] getContext
+[2026-10-10T08:57:28.462Z] [Pipeline] }
+[2026-10-10T08:57:28.496Z] [Pipeline] // stage
+[2026-10-10T08:57:28.535Z] [Pipeline] stage
+[2026-10-10T08:57:28.541Z] [Pipeline] { (Publish[staging])
+[2026-10-10T08:57:28.558Z] Stage "Publish[staging]" skipped due to earlier failure(s)
+[2026-10-10T08:57:28.568Z] [Pipeline] getContext
+[2026-10-10T08:57:28.585Z] [Pipeline] }
+[2026-10-10T08:57:28.623Z] [Pipeline] // stage
+[2026-10-10T08:57:28.654Z] [Pipeline] stage
+[2026-10-10T08:57:28.660Z] [Pipeline] { (Run Gauge tests)
+[2026-10-10T08:57:28.678Z] Stage "Run Gauge tests" skipped due to earlier failure(s)
+[2026-10-10T08:57:28.689Z] [Pipeline] getContext
+[2026-10-10T08:57:28.704Z] [Pipeline] }
+[2026-10-10T08:57:28.742Z] [Pipeline] // stage
+[2026-10-10T08:57:28.779Z] [Pipeline] stage
+[2026-10-10T08:57:28.787Z] [Pipeline] { (Mend scan)
+[2026-10-10T08:57:28.808Z] Stage "Mend scan" skipped due to earlier failure(s)
+[2026-10-10T08:57:28.822Z] [Pipeline] getContext
+[2026-10-10T08:57:28.839Z] [Pipeline] }
+[2026-10-10T08:57:28.878Z] [Pipeline] // stage
+[2026-10-10T08:57:28.910Z] [Pipeline] stage
+[2026-10-10T08:57:28.915Z] [Pipeline] { (Update version and tag)
+[2026-10-10T08:57:28.935Z] Stage "Update version and tag" skipped due to earlier failure(s)
+[2026-10-10T08:57:28.947Z] [Pipeline] getContext
+[2026-10-10T08:57:28.963Z] [Pipeline] }
+[2026-10-10T08:57:29.002Z] [Pipeline] // stage
+[2026-10-10T08:57:29.034Z] [Pipeline] stage
+[2026-10-10T08:57:29.039Z] [Pipeline] { (Publish[repository])
+[2026-10-10T08:57:29.059Z] Stage "Publish[repository]" skipped due to earlier failure(s)
+[2026-10-10T08:57:29.069Z] [Pipeline] getContext
+[2026-10-10T08:57:29.085Z] [Pipeline] }
+[2026-10-10T08:57:29.122Z] [Pipeline] // stage
+[2026-10-10T08:57:29.144Z] [Pipeline] }
+[2026-10-10T08:57:29.182Z] [Pipeline] // withEnv
+[2026-10-10T08:57:29.203Z] [Pipeline] }
+[2026-10-10T08:57:29.244Z] [Pipeline] // withCredentials
+[2026-10-10T08:57:29.265Z] [Pipeline] }
+[2026-10-10T08:57:29.302Z] [Pipeline] // withEnv
+[2026-10-10T08:57:29.321Z] [Pipeline] }
+[2026-10-10T08:57:29.365Z] [Pipeline] // node
+[2026-10-10T08:57:29.394Z] [Pipeline] End of Pipeline
+[2026-10-10T08:57:29.426Z] ERROR: script returned exit code 1
+[2026-10-10T08:57:29.447Z] Finished: FAILURE

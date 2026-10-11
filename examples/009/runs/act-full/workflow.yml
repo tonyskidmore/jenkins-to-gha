@@ -1,0 +1,480 @@
+# j2gha act variant (full) of examples/009
+name: 'j2gha 009: TheHPXProject/hpx .jenkins/lsu/Jenkinsfile (j2gha)'
+on:
+  push:
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  BRANCH_NAME: master
+  TAG_NAME: ''
+  CHANGE_ID: ''
+  BUILD_NUMBER: ${{ github.run_number }}
+  BUILD_ID: ${{ github.run_id }}
+  WORKSPACE: ${{ github.workspace }}
+  GITHUB_TOKEN: j2gha-fake-secret
+  GIT_COMMIT: 0aa9f24db04a24dbb87746b6c7210fa65089b769
+  GIT_BRANCH: origin/master
+  GIT_URL: ${{ github.server_url }}/${{ github.repository }}.git
+defaults:
+  run:
+    shell: bash
+jobs:
+  checkout:
+    name: checkout
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+    - name: Checkout
+      uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      with:
+        persist-credentials: false
+    - name: 'checkout: if (line 40)'
+      id: s1
+      if: env.BRANCH_NAME != ''
+      run: echo "taken=true" >> "$GITHUB_OUTPUT"
+    - name: 'checkout: if (line 40)'
+      id: s2
+      if: steps.s1.outcome == 'skipped'
+      run: echo "taken=false" >> "$GITHUB_OUTPUT"
+    - name: 'checkout: Groovy if (manual)'
+      id: s3
+      if: steps.s1.outputs.taken == 'true'
+      run: 'echo "::warning::manual migration: Groovy condition at line 42: buildNumber > 1"'
+    - name: 'checkout: dir'
+      id: s4
+      run: mkdir -p -- "$J2GHA_DIR"
+      env:
+        J2GHA_DIR: hpx_${{ env.BUILD_ID }}
+    - name: 'checkout: checkout'
+      id: s5
+      uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      with:
+        persist-credentials: false
+        path: hpx_${{ env.BUILD_ID }}
+    - name: 'checkout: echo'
+      id: s6
+      run: 'echo "Running ${BUILD_ID} on ${JENKINS_URL} (base directory: ${WORKSPACE})"'
+      working-directory: hpx_${{ env.BUILD_ID }}
+    - name: Hand on the pipeline workspace (archive)
+      if: always()
+      shell: bash
+      run: |
+        tar --exclude=./.j2gha-ws --exclude=./.j2gha-ws.tgz --exclude=./.j2gha-ws.changes \
+          -czf "$RUNNER_TEMP/j2gha-ws.tgz" -C "$GITHUB_WORKSPACE" .
+        mv "$RUNNER_TEMP/j2gha-ws.tgz" "$GITHUB_WORKSPACE/.j2gha-ws.tgz"
+    - name: Hand on the pipeline workspace (upload)
+      if: always()
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: j2gha-ws-checkout
+        path: .j2gha-ws.tgz
+        retention-days: 1
+        compression-level: 0
+        if-no-files-found: error
+        include-hidden-files: true
+  build:
+    name: build
+    needs: checkout
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        configuration_name:
+        - gcc-12
+        - gcc-13
+        - gcc-14
+        - gcc-15
+        - clang-17-apex
+        - clang-16
+        - clang-17
+        - clang-18
+        - clang-19
+        - clang-20
+        - gcc-12-cuda-12
+        - gcc-12-cuda-12-dgx
+        - hipcc
+        build_type:
+        - Release
+        - Debug
+    env:
+      configuration_name: ${{ matrix.configuration_name }}
+      build_type: ${{ matrix.build_type }}
+    steps:
+    - name: Restore pipeline workspace (checkout)
+      id: j2gha-ws-checkout
+      uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+      continue-on-error: true
+      with:
+        name: j2gha-ws-checkout
+        path: .j2gha-ws/checkout
+    - name: Restore pipeline workspace (merge)
+      id: j2gha-ws-restore
+      if: always()
+      shell: bash
+      env:
+        J2GHA_WS_ORDER: checkout
+        J2GHA_WS_LINEAGE: 'checkout:'
+        J2GHA_WS_HEADS: checkout
+        J2GHA_WS_RESULTS: checkout=${{ needs.checkout.result }}
+        J2GHA_WS_FALLBACKS: 'checkout:'
+      run: |
+        ws="$GITHUB_WORKSPACE"
+        d="$ws/.j2gha-ws"
+        # the downloaded producers a producer descends from
+        ancestors() {
+          local line
+          while IFS= read -r line; do
+            if [ "${line%%:*}" = "$1" ]; then printf '%s\n' "${line#*:}"; fi
+          done <<< "$J2GHA_WS_LINEAGE"
+        }
+        present() { [ -f "$d/$1/.j2gha-ws.tgz" ]; }
+        # read-only directories (a Go module cache) need write permission to be removed
+        remove() { rm -rf -- "$@" 2>/dev/null || { chmod -R u+w -- "$@"; rm -rf -- "$@"; }; }
+        isdir() { [ -d "$1" ] && [ ! -L "$1" ]; }
+        # replay a branch's own changes (its change list) onto the workspace
+        replay() {
+          local src="$d/$1" t="$d/.replay" rec p a
+          local -a recs=() gone=()
+          local -A want=() locked=() removed=()
+          if [ ! -f "$src/.j2gha-ws.changes" ]; then
+            echo "::error::the workspace of job '$1' has no change list (the workspace it started from was not recorded): it cannot be merged"
+            exit 1
+          fi
+          mapfile -t recs < "$src/.j2gha-ws.changes"
+          for rec in "${recs[@]}"; do
+            printf -v p '%b' "${rec:1}"
+            if [ "${rec:0:1}" = D ]; then
+              removed[$p]=1
+              continue
+            fi
+            want[$p]=1
+            # a parent directory an earlier branch removed or replaced is taken from this branch too
+            a=$p
+            while a=${a%/*}; [ "$a" != . ]; do
+              if isdir "$ws/$a"; then break; fi
+              want[$a]=1
+            done
+          done
+          # a removed directory takes its contents with it: only the top-most removed entries are removed
+          for p in "${!removed[@]}"; do
+            a=$p
+            while a=${a%/*}; [ "$a" != . ] && [ -z "${removed[$a]-}" ]; do :; done
+            if [ "$a" = . ]; then gone+=("$p"); fi
+          done
+          # only the entries to copy come out of the branch's workspace (parents first)
+          mkdir -p "$t"
+          printf '%s\0' "${!want[@]}" | LC_ALL=C sort -z > "$d/.want"
+          if [ "${#want[@]}" -gt 0 ]; then tar -xzpf "$src/.j2gha-ws.tgz" -C "$t" --null --no-unquote --no-recursion -T "$d/.want"; fi
+          # read-only directories (a Go module cache) are opened for the changes; their modes are put back afterwards
+          for p in "${gone[@]}" "${!want[@]}"; do
+            a=${p%/*}
+            if [ "$a" != . ] && isdir "$ws/$a" && [ ! -w "$ws/$a" ] && [ -z "${locked[$a]-}" ]; then
+              locked[$a]=$(stat -c %a "$ws/$a")
+              chmod u+w "$ws/$a"
+            fi
+          done
+          for p in "${gone[@]}"; do remove "$ws/$p"; done
+          # clear what is in the way of an entry's type: a file or link where the branch has a directory, or the reverse
+          for p in "${!want[@]}"; do
+            if isdir "$t/$p"; then
+              if [ -L "$ws/$p" ] || { [ -e "$ws/$p" ] && [ ! -d "$ws/$p" ]; }; then rm -f -- "$ws/$p"; fi
+              if isdir "$ws/$p" && [ ! -w "$ws/$p" ]; then chmod u+w "$ws/$p"; fi  # tar sets the branch's mode
+            elif isdir "$ws/$p"; then
+              remove "$ws/$p"
+            fi
+          done
+          if [ "${#want[@]}" -gt 0 ]; then
+            # tar sets directory modes after their contents
+            tar -C "$t" --null --no-unquote --no-recursion -T "$d/.want" -cf - | tar -xpf - -C "$ws"
+          fi
+          for a in "${!locked[@]}"; do
+            if [ -z "${want[$a]-}" ] && isdir "$ws/$a"; then chmod "${locked[$a]}" "$ws/$a"; fi
+          done
+          remove "$t"
+        }
+        # every producer the restore relies on is accounted for: its workspace arrived, or its job was skipped and the
+        # producers it would have started from are accounted for in turn (the fallback chain actually used)
+        declare -A result=() fallback=() seen=()
+        for r in $J2GHA_WS_RESULTS; do result[${r%%=*}]=${r#*=}; done
+        while IFS= read -r line; do
+          if [ -n "$line" ]; then fallback[${line%%:*}]=${line#*:}; fi
+        done <<< "$J2GHA_WS_FALLBACKS"
+        account() {
+          local p=$1 f
+          if [ -n "${seen[$p]-}" ] || present "$p"; then return 0; fi
+          seen[$p]=1
+          case "${result[$p]-}" in
+            success|failure)
+              echo "::error::job '$p' ran (${result[$p]}) but its workspace did not arrive: restoring an older one would lose its changes"
+              exit 1 ;;
+            skipped|cancelled) ;;
+            *) echo "::warning::the workspace of job '$p' did not arrive and its result is not known here (not a job this one needs): taken as skipped - if it ran, its changes are missing" ;;
+          esac
+          for f in ${fallback[$p]-}; do account "$f"; done
+        }
+        for p in $J2GHA_WS_HEADS; do account "$p"; done
+        # the workspaces to merge: those downloaded that no other downloaded one descends from
+        frontier=()
+        for p in $J2GHA_WS_ORDER; do
+          present "$p" || continue
+          covered=false
+          for q in $J2GHA_WS_ORDER; do
+            if [ "$q" != "$p" ] && present "$q"; then
+              case " $(ancestors "$q") " in *" $p "*) covered=true ;; esac
+            fi
+          done
+          if [ "$covered" = false ]; then frontier+=("$p"); fi
+        done
+        restored=false
+        if [ "${#frontier[@]}" -gt 0 ]; then
+          # the restored workspace replaces what the job started with (act copies the repository into every job)
+          shopt -s dotglob nullglob
+          for e in "$ws"/*; do
+            if [ "$e" != "$d" ]; then remove "$e"; fi
+          done
+          shopt -u dotglob nullglob
+          tar -xzpf "$d/${frontier[0]}/.j2gha-ws.tgz" -C "$ws"
+          for f in "${frontier[@]:1}"; do replay "$f"; done
+          restored=true
+        fi
+        remove "$d"
+        echo "restored=$restored" >> "$GITHUB_OUTPUT"
+    - name: Checkout
+      uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      with:
+        persist-credentials: false
+      if: steps.j2gha-ws-restore.outputs.restored != 'true'
+    - name: 'build: dir'
+      id: s7
+      run: mkdir -p -- "$J2GHA_DIR"
+      env:
+        J2GHA_DIR: hpx_${{ env.BUILD_ID }}
+    - name: 'build: .jenkins/lsu/entry.sh'
+      id: s8
+      run: .jenkins/lsu/entry.sh
+      shell: bash -l {0}
+      working-directory: hpx_${{ env.BUILD_ID }}
+  post:
+    name: post
+    needs:
+    - checkout
+    - build
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+    - name: Restore pipeline workspace (checkout)
+      id: j2gha-ws-checkout
+      uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+      continue-on-error: true
+      with:
+        name: j2gha-ws-checkout
+        path: .j2gha-ws/checkout
+    - name: Restore pipeline workspace (merge)
+      id: j2gha-ws-restore
+      if: always()
+      shell: bash
+      env:
+        J2GHA_WS_ORDER: checkout
+        J2GHA_WS_LINEAGE: 'checkout:'
+        J2GHA_WS_HEADS: checkout
+        J2GHA_WS_RESULTS: checkout=${{ needs.checkout.result }}
+        J2GHA_WS_FALLBACKS: 'checkout:'
+      run: |
+        ws="$GITHUB_WORKSPACE"
+        d="$ws/.j2gha-ws"
+        # the downloaded producers a producer descends from
+        ancestors() {
+          local line
+          while IFS= read -r line; do
+            if [ "${line%%:*}" = "$1" ]; then printf '%s\n' "${line#*:}"; fi
+          done <<< "$J2GHA_WS_LINEAGE"
+        }
+        present() { [ -f "$d/$1/.j2gha-ws.tgz" ]; }
+        # read-only directories (a Go module cache) need write permission to be removed
+        remove() { rm -rf -- "$@" 2>/dev/null || { chmod -R u+w -- "$@"; rm -rf -- "$@"; }; }
+        isdir() { [ -d "$1" ] && [ ! -L "$1" ]; }
+        # replay a branch's own changes (its change list) onto the workspace
+        replay() {
+          local src="$d/$1" t="$d/.replay" rec p a
+          local -a recs=() gone=()
+          local -A want=() locked=() removed=()
+          if [ ! -f "$src/.j2gha-ws.changes" ]; then
+            echo "::error::the workspace of job '$1' has no change list (the workspace it started from was not recorded): it cannot be merged"
+            exit 1
+          fi
+          mapfile -t recs < "$src/.j2gha-ws.changes"
+          for rec in "${recs[@]}"; do
+            printf -v p '%b' "${rec:1}"
+            if [ "${rec:0:1}" = D ]; then
+              removed[$p]=1
+              continue
+            fi
+            want[$p]=1
+            # a parent directory an earlier branch removed or replaced is taken from this branch too
+            a=$p
+            while a=${a%/*}; [ "$a" != . ]; do
+              if isdir "$ws/$a"; then break; fi
+              want[$a]=1
+            done
+          done
+          # a removed directory takes its contents with it: only the top-most removed entries are removed
+          for p in "${!removed[@]}"; do
+            a=$p
+            while a=${a%/*}; [ "$a" != . ] && [ -z "${removed[$a]-}" ]; do :; done
+            if [ "$a" = . ]; then gone+=("$p"); fi
+          done
+          # only the entries to copy come out of the branch's workspace (parents first)
+          mkdir -p "$t"
+          printf '%s\0' "${!want[@]}" | LC_ALL=C sort -z > "$d/.want"
+          if [ "${#want[@]}" -gt 0 ]; then tar -xzpf "$src/.j2gha-ws.tgz" -C "$t" --null --no-unquote --no-recursion -T "$d/.want"; fi
+          # read-only directories (a Go module cache) are opened for the changes; their modes are put back afterwards
+          for p in "${gone[@]}" "${!want[@]}"; do
+            a=${p%/*}
+            if [ "$a" != . ] && isdir "$ws/$a" && [ ! -w "$ws/$a" ] && [ -z "${locked[$a]-}" ]; then
+              locked[$a]=$(stat -c %a "$ws/$a")
+              chmod u+w "$ws/$a"
+            fi
+          done
+          for p in "${gone[@]}"; do remove "$ws/$p"; done
+          # clear what is in the way of an entry's type: a file or link where the branch has a directory, or the reverse
+          for p in "${!want[@]}"; do
+            if isdir "$t/$p"; then
+              if [ -L "$ws/$p" ] || { [ -e "$ws/$p" ] && [ ! -d "$ws/$p" ]; }; then rm -f -- "$ws/$p"; fi
+              if isdir "$ws/$p" && [ ! -w "$ws/$p" ]; then chmod u+w "$ws/$p"; fi  # tar sets the branch's mode
+            elif isdir "$ws/$p"; then
+              remove "$ws/$p"
+            fi
+          done
+          if [ "${#want[@]}" -gt 0 ]; then
+            # tar sets directory modes after their contents
+            tar -C "$t" --null --no-unquote --no-recursion -T "$d/.want" -cf - | tar -xpf - -C "$ws"
+          fi
+          for a in "${!locked[@]}"; do
+            if [ -z "${want[$a]-}" ] && isdir "$ws/$a"; then chmod "${locked[$a]}" "$ws/$a"; fi
+          done
+          remove "$t"
+        }
+        # every producer the restore relies on is accounted for: its workspace arrived, or its job was skipped and the
+        # producers it would have started from are accounted for in turn (the fallback chain actually used)
+        declare -A result=() fallback=() seen=()
+        for r in $J2GHA_WS_RESULTS; do result[${r%%=*}]=${r#*=}; done
+        while IFS= read -r line; do
+          if [ -n "$line" ]; then fallback[${line%%:*}]=${line#*:}; fi
+        done <<< "$J2GHA_WS_FALLBACKS"
+        account() {
+          local p=$1 f
+          if [ -n "${seen[$p]-}" ] || present "$p"; then return 0; fi
+          seen[$p]=1
+          case "${result[$p]-}" in
+            success|failure)
+              echo "::error::job '$p' ran (${result[$p]}) but its workspace did not arrive: restoring an older one would lose its changes"
+              exit 1 ;;
+            skipped|cancelled) ;;
+            *) echo "::warning::the workspace of job '$p' did not arrive and its result is not known here (not a job this one needs): taken as skipped - if it ran, its changes are missing" ;;
+          esac
+          for f in ${fallback[$p]-}; do account "$f"; done
+        }
+        for p in $J2GHA_WS_HEADS; do account "$p"; done
+        # the workspaces to merge: those downloaded that no other downloaded one descends from
+        frontier=()
+        for p in $J2GHA_WS_ORDER; do
+          present "$p" || continue
+          covered=false
+          for q in $J2GHA_WS_ORDER; do
+            if [ "$q" != "$p" ] && present "$q"; then
+              case " $(ancestors "$q") " in *" $p "*) covered=true ;; esac
+            fi
+          done
+          if [ "$covered" = false ]; then frontier+=("$p"); fi
+        done
+        restored=false
+        if [ "${#frontier[@]}" -gt 0 ]; then
+          # the restored workspace replaces what the job started with (act copies the repository into every job)
+          shopt -s dotglob nullglob
+          for e in "$ws"/*; do
+            if [ "$e" != "$d" ]; then remove "$e"; fi
+          done
+          shopt -u dotglob nullglob
+          tar -xzpf "$d/${frontier[0]}/.j2gha-ws.tgz" -C "$ws"
+          for f in "${frontier[@]:1}"; do replay "$f"; done
+          restored=true
+        fi
+        remove "$d"
+        echo "restored=$restored" >> "$GITHUB_OUTPUT"
+    - name: 'post: archive artifacts'
+      id: s9
+      if: always()
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: artifacts-9
+        path: |-
+          hpx_${{ env.BUILD_ID }}/jenkins-hpx-*
+          !**/.git
+          !**/.git/**
+          !**/.gitignore
+          !**/.gitattributes
+          !**/.gitmodules
+          !**/.svn
+          !**/.svn/**
+          !**/.hg
+          !**/.hg/**
+          !**/.hgignore
+          !**/.hgtags
+          !**/.bzr
+          !**/.bzr/**
+          !**/.bzrignore
+          !**/CVS
+          !**/CVS/**
+          !**/.cvsignore
+          !**/SCCS
+          !**/SCCS/**
+          !**/vssver.scc
+          !**/.DS_Store
+          !**/*~
+          !**/#*#
+          !**/.#*
+          !**/%*%
+          !**/._*
+          .j2gha-artifact-root
+        if-no-files-found: error
+        include-hidden-files: true
+    - name: 'post: archive artifacts'
+      id: s10
+      if: always()
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: artifacts-10
+        path: |-
+          hpx_${{ env.BUILD_ID }}/build/*/Testing/**
+          !**/.git
+          !**/.git/**
+          !**/.gitignore
+          !**/.gitattributes
+          !**/.gitmodules
+          !**/.svn
+          !**/.svn/**
+          !**/.hg
+          !**/.hg/**
+          !**/.hgignore
+          !**/.hgtags
+          !**/.bzr
+          !**/.bzr/**
+          !**/.bzrignore
+          !**/CVS
+          !**/CVS/**
+          !**/.cvsignore
+          !**/SCCS
+          !**/SCCS/**
+          !**/vssver.scc
+          !**/.DS_Store
+          !**/*~
+          !**/#*#
+          !**/.#*
+          !**/%*%
+          !**/._*
+          .j2gha-artifact-root
+        if-no-files-found: error
+        include-hidden-files: true
+    timeout-minutes: 10

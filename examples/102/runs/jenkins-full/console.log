@@ -1,0 +1,307 @@
+[2026-10-10T09:04:46.759Z] Started by user admin
+[2026-10-10T09:04:46.854Z] [Pipeline] Start of Pipeline
+[2026-10-10T09:04:46.886Z] [Pipeline] stage
+[2026-10-10T09:04:46.891Z] [Pipeline] { (Record build)
+[2026-10-10T09:04:46.925Z] [Pipeline] node
+[2026-10-10T09:04:46.937Z] Running on Jenkins in /var/jenkins_home/workspace/ex-102-full
+[2026-10-10T09:04:46.947Z] [Pipeline] {
+[2026-10-10T09:04:46.971Z] [Pipeline] checkout
+[2026-10-10T09:04:46.977Z] The recommended git tool is: NONE
+[2026-10-10T09:04:46.978Z] No credentials specified
+[2026-10-10T09:04:46.978Z]  > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/ex-102-full/.git # timeout=10
+[2026-10-10T09:04:46.984Z] Fetching changes from the remote Git repository
+[2026-10-10T09:04:46.985Z]  > git config remote.origin.url https://github.com/jenkinsci/jenkins.git # timeout=10
+[2026-10-10T09:04:46.992Z] Fetching upstream changes from https://github.com/jenkinsci/jenkins.git
+[2026-10-10T09:04:46.992Z]  > git --version # timeout=10
+[2026-10-10T09:04:46.997Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T09:04:46.998Z]  > git fetch --no-tags --force --progress -- https://github.com/jenkinsci/jenkins.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:04:47.490Z]  > git rev-parse d076aeb66b68af42c61568676bf29dba9ae3cee8^{commit} # timeout=10
+[2026-10-10T09:04:47.499Z] Checking out Revision d076aeb66b68af42c61568676bf29dba9ae3cee8 (detached)
+[2026-10-10T09:04:47.499Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T09:04:47.505Z]  > git checkout -f d076aeb66b68af42c61568676bf29dba9ae3cee8 # timeout=10
+[2026-10-10T09:04:47.600Z] Commit message: "Add abort support to FormChecker delayed checks (#26595)"
+[2026-10-10T09:04:47.600Z]  > git rev-list --no-walk d076aeb66b68af42c61568676bf29dba9ae3cee8 # timeout=10
+[2026-10-10T09:04:47.642Z] [Pipeline] withCredentials
+[2026-10-10T09:04:47.650Z] Masking supported pattern matches of $LAUNCHABLE_TOKEN
+[2026-10-10T09:04:47.663Z] [Pipeline] {
+[2026-10-10T09:04:47.686Z] [Pipeline] sh
+[2026-10-10T09:04:47.946Z] + echo launchable verify
+[2026-10-10T09:04:47.946Z] launchable verify
+[2026-10-10T09:04:47.946Z] + echo launchable record build --name jenkins-ex-102-full-4 --source jenkinsci/jenkins=.
+[2026-10-10T09:04:47.947Z] launchable record build --name jenkins-ex-102-full-4 --source jenkinsci/jenkins=.
+[2026-10-10T09:04:47.972Z] [Pipeline] sh
+[2026-10-10T09:04:48.234Z] + echo launchable record session --build jenkins-ex-102-full-4 --flavor platform=linux --flavor jdk=21
+[2026-10-10T09:04:48.290Z] [Pipeline] stash
+[2026-10-10T09:04:48.304Z] Stashed 1 file(s)
+[2026-10-10T09:04:48.345Z] [Pipeline] sh
+[2026-10-10T09:04:48.609Z] + echo launchable record session --build jenkins-ex-102-full-4 --flavor platform=linux --flavor jdk=25
+[2026-10-10T09:04:48.650Z] [Pipeline] stash
+[2026-10-10T09:04:48.661Z] Stashed 1 file(s)
+[2026-10-10T09:04:48.695Z] [Pipeline] }
+[2026-10-10T09:04:48.719Z] [Pipeline] // withCredentials
+[2026-10-10T09:04:48.738Z] [Pipeline] withCredentials
+[2026-10-10T09:04:48.743Z] Masking supported pattern matches of $LAUNCHABLE_TOKEN
+[2026-10-10T09:04:48.755Z] [Pipeline] {
+[2026-10-10T09:04:48.769Z] [Pipeline] sh
+[2026-10-10T09:04:49.029Z] + echo launchable verify
+[2026-10-10T09:04:49.029Z] launchable verify
+[2026-10-10T09:04:49.029Z] + echo launchable record commit
+[2026-10-10T09:04:49.029Z] launchable record commit
+[2026-10-10T09:04:49.054Z] [Pipeline] }
+[2026-10-10T09:04:49.082Z] [Pipeline] // withCredentials
+[2026-10-10T09:04:49.105Z] [Pipeline] withCredentials
+[2026-10-10T09:04:49.111Z] Masking supported pattern matches of $LAUNCHABLE_TOKEN
+[2026-10-10T09:04:49.125Z] [Pipeline] {
+[2026-10-10T09:04:49.142Z] [Pipeline] sh
+[2026-10-10T09:04:49.403Z] + echo launchable verify
+[2026-10-10T09:04:49.403Z] launchable verify
+[2026-10-10T09:04:49.403Z] + echo launchable record commit
+[2026-10-10T09:04:49.403Z] launchable record commit
+[2026-10-10T09:04:49.441Z] [Pipeline] }
+[2026-10-10T09:04:49.484Z] [Pipeline] // withCredentials
+[2026-10-10T09:04:49.497Z] [Pipeline] }
+[2026-10-10T09:04:49.533Z] [Pipeline] // node
+[2026-10-10T09:04:49.545Z] [Pipeline] }
+[2026-10-10T09:04:49.574Z] [Pipeline] // stage
+[2026-10-10T09:04:49.598Z] [Pipeline] parallel
+[2026-10-10T09:04:49.620Z] [Pipeline] { (Branch: linux-jdk21)
+[2026-10-10T09:04:49.626Z] [Pipeline] { (Branch: linux-jdk25)
+[2026-10-10T09:04:49.631Z] [Pipeline] { (Branch: ath-linux-jdk21-firefox)
+[2026-10-10T09:04:49.659Z] [Pipeline] node
+[2026-10-10T09:04:49.675Z] Running on Jenkins in /var/jenkins_home/workspace/ex-102-full
+[2026-10-10T09:04:49.685Z] [Pipeline] node
+[2026-10-10T09:04:49.704Z] Running on Jenkins in /var/jenkins_home/workspace/ex-102-full@2
+[2026-10-10T09:04:49.715Z] [Pipeline] node
+[2026-10-10T09:04:49.727Z] Running on Jenkins in /var/jenkins_home/workspace/ex-102-full@3
+[2026-10-10T09:04:49.740Z] [Pipeline] {
+[2026-10-10T09:04:49.753Z] [Pipeline] {
+[2026-10-10T09:04:49.766Z] [Pipeline] {
+[2026-10-10T09:04:49.785Z] [Pipeline] deleteDir
+[2026-10-10T09:04:49.805Z] [Pipeline] stage
+[2026-10-10T09:04:49.811Z] [Pipeline] { (Linux - JDK 21 - Checkout)
+[2026-10-10T09:04:49.827Z] [Pipeline] stage
+[2026-10-10T09:04:49.834Z] [Pipeline] { (Linux - JDK 25 - Checkout)
+[2026-10-10T09:04:49.848Z] [Pipeline] deleteDir
+[2026-10-10T09:04:49.861Z] [Pipeline] deleteDir
+[2026-10-10T09:04:50.446Z] [Pipeline] checkout
+[2026-10-10T09:04:50.453Z] The recommended git tool is: NONE
+[2026-10-10T09:04:50.453Z] No credentials specified
+[2026-10-10T09:04:50.453Z] Cloning the remote Git repository
+[2026-10-10T09:04:50.453Z] Avoid fetching tags
+[2026-10-10T09:04:50.454Z] Cloning repository https://github.com/jenkinsci/jenkins.git
+[2026-10-10T09:04:50.454Z]  > git init /var/jenkins_home/workspace/ex-102-full # timeout=10
+[2026-10-10T09:04:50.465Z] Fetching upstream changes from https://github.com/jenkinsci/jenkins.git
+[2026-10-10T09:04:50.466Z]  > git --version # timeout=10
+[2026-10-10T09:04:50.472Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T09:04:50.472Z]  > git fetch --no-tags --force --progress -- https://github.com/jenkinsci/jenkins.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:04:50.530Z] [Pipeline] checkout
+[2026-10-10T09:04:50.537Z] The recommended git tool is: NONE
+[2026-10-10T09:04:50.537Z] No credentials specified
+[2026-10-10T09:04:50.537Z] Cloning the remote Git repository
+[2026-10-10T09:04:50.537Z] Avoid fetching tags
+[2026-10-10T09:04:50.537Z] Cloning repository https://github.com/jenkinsci/jenkins.git
+[2026-10-10T09:04:50.537Z]  > git init /var/jenkins_home/workspace/ex-102-full@2 # timeout=10
+[2026-10-10T09:04:50.551Z] Fetching upstream changes from https://github.com/jenkinsci/jenkins.git
+[2026-10-10T09:04:50.551Z]  > git --version # timeout=10
+[2026-10-10T09:04:50.557Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T09:04:50.557Z]  > git fetch --no-tags --force --progress -- https://github.com/jenkinsci/jenkins.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:04:50.564Z] [Pipeline] checkout
+[2026-10-10T09:04:50.571Z] The recommended git tool is: NONE
+[2026-10-10T09:04:50.571Z] No credentials specified
+[2026-10-10T09:04:50.571Z] Cloning the remote Git repository
+[2026-10-10T09:04:50.571Z] Avoid fetching tags
+[2026-10-10T09:04:50.571Z] Cloning repository https://github.com/jenkinsci/jenkins.git
+[2026-10-10T09:04:50.571Z]  > git init /var/jenkins_home/workspace/ex-102-full@3 # timeout=10
+[2026-10-10T09:04:50.587Z] Fetching upstream changes from https://github.com/jenkinsci/jenkins.git
+[2026-10-10T09:04:50.587Z]  > git --version # timeout=10
+[2026-10-10T09:04:50.594Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T09:04:50.594Z]  > git fetch --no-tags --force --progress -- https://github.com/jenkinsci/jenkins.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:05:32.721Z]  > git config remote.origin.url https://github.com/jenkinsci/jenkins.git # timeout=10
+[2026-10-10T09:05:32.728Z]  > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:05:32.735Z] Avoid second fetch
+[2026-10-10T09:05:32.735Z]  > git rev-parse d076aeb66b68af42c61568676bf29dba9ae3cee8^{commit} # timeout=10
+[2026-10-10T09:05:32.742Z] Checking out Revision d076aeb66b68af42c61568676bf29dba9ae3cee8 (detached)
+[2026-10-10T09:05:32.742Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T09:05:32.747Z]  > git checkout -f d076aeb66b68af42c61568676bf29dba9ae3cee8 # timeout=10
+[2026-10-10T09:05:33.924Z] Commit message: "Add abort support to FormChecker delayed checks (#26595)"
+[2026-10-10T09:05:33.957Z] [Pipeline] echo
+[2026-10-10T09:05:33.962Z] J2GHA-TRACE {"stage":"","step":"withChecks"}
+[2026-10-10T09:05:33.980Z] [Pipeline] sh
+[2026-10-10T09:05:34.241Z] + echo bash ath.sh 21 firefox
+[2026-10-10T09:05:34.241Z] bash ath.sh 21 firefox
+[2026-10-10T09:05:34.241Z] + mkdir -p target/ath-reports
+[2026-10-10T09:05:34.241Z] + printf <?xml version="1.0" encoding="UTF-8"?>\n<testsuite name="j2gha.AthSmokeTest" tests="1" failures="0" errors="0" skipped="0" time="0.01"><testcase classname="j2gha.AthSmokeTest" name="loginPage_firefox" time="0.01"/></testsuite>\n
+[2026-10-10T09:05:34.284Z] [Pipeline] junit
+[2026-10-10T09:05:34.292Z] Recording test results
+[2026-10-10T09:05:34.305Z] [Checks API] No suitable checks publisher found.
+[2026-10-10T09:05:34.318Z] [Pipeline] }
+[2026-10-10T09:05:34.350Z] [Pipeline] // node
+[2026-10-10T09:05:34.362Z] [Pipeline] }
+[2026-10-10T09:05:51.578Z]  > git config remote.origin.url https://github.com/jenkinsci/jenkins.git # timeout=10
+[2026-10-10T09:05:51.583Z]  > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:05:51.591Z] Avoid second fetch
+[2026-10-10T09:05:51.591Z]  > git rev-parse d076aeb66b68af42c61568676bf29dba9ae3cee8^{commit} # timeout=10
+[2026-10-10T09:05:51.598Z] Checking out Revision d076aeb66b68af42c61568676bf29dba9ae3cee8 (detached)
+[2026-10-10T09:05:51.598Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T09:05:51.604Z]  > git checkout -f d076aeb66b68af42c61568676bf29dba9ae3cee8 # timeout=10
+[2026-10-10T09:05:52.880Z] Commit message: "Add abort support to FormChecker delayed checks (#26595)"
+[2026-10-10T09:05:52.898Z] [Pipeline] }
+[2026-10-10T09:05:52.924Z] [Pipeline] // stage
+[2026-10-10T09:05:52.941Z] [Pipeline] pwd
+[2026-10-10T09:05:52.962Z] [Pipeline] stage
+[2026-10-10T09:05:52.967Z] [Pipeline] { (Linux - JDK 21 - Build / Test)
+[2026-10-10T09:05:52.997Z] [Pipeline] timeout
+[2026-10-10T09:05:52.997Z] Timeout set to expire in 6 hr 0 min
+[2026-10-10T09:05:53.002Z] [Pipeline] {
+[2026-10-10T09:05:53.033Z] [Pipeline] dir
+[2026-10-10T09:05:53.033Z] Running in /var/jenkins_home/workspace/ex-102-full@2@tmp
+[2026-10-10T09:05:53.038Z] [Pipeline] {
+[2026-10-10T09:05:53.065Z] [Pipeline] unstash
+[2026-10-10T09:05:53.094Z] [Pipeline] readFile
+[2026-10-10T09:05:53.118Z] [Pipeline] }
+[2026-10-10T09:05:53.142Z] [Pipeline] // dir
+[2026-10-10T09:05:53.160Z] [Pipeline] echo
+[2026-10-10T09:05:53.165Z] J2GHA-TRACE {"stage":"Linux - JDK 21 - Build / Test","step":"withChecks"}
+[2026-10-10T09:05:53.183Z] [Pipeline] sh
+[2026-10-10T09:05:53.519Z] + echo mvn -Pdebug -Penable-jacoco --update-snapshots -Dmaven.repo.local=/var/jenkins_home/workspace/ex-102-full@2@tmp/m2repo -Dmaven.test.failure.ignore -DforkCount=2 -Dspotbugs.failOnError=false -Dcheckstyle.failOnViolation=false -Dset.changelist help:evaluate -Dexpression=changelist -Doutput=/var/jenkins_home/workspace/ex-102-full@2@tmp/changelist clean install
+[2026-10-10T09:05:53.519Z] mvn -Pdebug -Penable-jacoco --update-snapshots -Dmaven.repo.local=/var/jenkins_home/workspace/ex-102-full@2@tmp/m2repo -Dmaven.test.failure.ignore -DforkCount=2 -Dspotbugs.failOnError=false -Dcheckstyle.failOnViolation=false -Dset.changelist help:evaluate -Dexpression=changelist -Doutput=/var/jenkins_home/workspace/ex-102-full@2@tmp/changelist clean install
+[2026-10-10T09:05:53.519Z] + mkdir -p core/target/surefire-reports target/vitest-reports war/target
+[2026-10-10T09:05:53.519Z] + printf <?xml version="1.0" encoding="UTF-8"?>\n<testsuite name="jenkins.j2gha.LocalTest" tests="2" failures="0" errors="0" skipped="0" time="0.01"><testcase classname="jenkins.j2gha.LocalTest" name="buildsOnJdk21" time="0.01"/><testcase classname="jenkins.j2gha.LocalTest" name="archivesWar" time="0.00"/></testsuite>\n
+[2026-10-10T09:05:53.519Z] + printf <?xml version="1.0" encoding="UTF-8"?>\n<testsuite name="vitest" tests="1" failures="0" errors="0" skipped="0" time="0.01"><testcase classname="j2gha.frontend" name="lints" time="0.01"/></testsuite>\n
+[2026-10-10T09:05:53.519Z] + echo j2gha stand-in dumpstream
+[2026-10-10T09:05:53.519Z] + echo j2gha stand-in war
+[2026-10-10T09:05:53.519Z] + git rev-parse --short=12 HEAD
+[2026-10-10T09:05:53.519Z] + changelist=-rc1.d076aeb66b68
+[2026-10-10T09:05:53.519Z] + printf %s -rc1.d076aeb66b68
+[2026-10-10T09:05:53.519Z] + mkdir -p /var/jenkins_home/workspace/ex-102-full@2@tmp/m2repo/org/jenkins-ci/main/jenkins-war/2.999-rc1.d076aeb66b68 /var/jenkins_home/workspace/ex-102-full@2@tmp/m2repo/org/jenkins-ci/main/jenkins-core/2.999-rc1.d076aeb66b68
+[2026-10-10T09:05:53.519Z] + echo j2gha stand-in war
+[2026-10-10T09:05:53.519Z] + echo j2gha stand-in jar
+[2026-10-10T09:05:53.537Z] [Pipeline] isUnix
+[2026-10-10T09:05:53.553Z] [Pipeline] sh
+[2026-10-10T09:05:53.814Z] + git add .
+[2026-10-10T09:05:54.065Z] + git diff --exit-code HEAD
+[2026-10-10T09:05:54.091Z] [Pipeline] junit
+[2026-10-10T09:05:54.097Z] Recording test results
+[2026-10-10T09:05:54.112Z] [Checks API] No suitable checks publisher found.
+[2026-10-10T09:05:54.123Z] [Pipeline] }
+[2026-10-10T09:05:54.147Z] [Pipeline] // timeout
+[2026-10-10T09:05:54.157Z] [Pipeline] }
+[2026-10-10T09:05:54.180Z] [Pipeline] // stage
+[2026-10-10T09:05:54.200Z] [Pipeline] stage
+[2026-10-10T09:05:54.206Z] [Pipeline] { (Linux - JDK 21 - Publish)
+[2026-10-10T09:05:54.230Z] [Pipeline] archiveArtifacts
+[2026-10-10T09:05:54.237Z] Archiving artifacts
+[2026-10-10T09:05:54.274Z]  > git config remote.origin.url https://github.com/jenkinsci/jenkins.git # timeout=10
+[2026-10-10T09:05:54.280Z]  > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:05:54.287Z] Avoid second fetch
+[2026-10-10T09:05:54.287Z]  > git rev-parse d076aeb66b68af42c61568676bf29dba9ae3cee8^{commit} # timeout=10
+[2026-10-10T09:05:54.294Z] Checking out Revision d076aeb66b68af42c61568676bf29dba9ae3cee8 (detached)
+[2026-10-10T09:05:54.294Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T09:05:54.300Z]  > git checkout -f d076aeb66b68af42c61568676bf29dba9ae3cee8 # timeout=10
+[2026-10-10T09:05:54.415Z] [Pipeline] echo
+[2026-10-10T09:05:54.420Z] J2GHA-TRACE {"stage":"Linux - JDK 21 - Publish","step":"recordCoverage"}
+[2026-10-10T09:05:54.430Z] [Pipeline] echo
+[2026-10-10T09:05:54.434Z] Recording static analysis results for 'Linux'
+[2026-10-10T09:05:54.451Z] [Pipeline] echo
+[2026-10-10T09:05:54.456Z] J2GHA-TRACE {"stage":"Linux - JDK 21 - Publish","step":"recordIssues"}
+[2026-10-10T09:05:54.480Z] [Pipeline] echo
+[2026-10-10T09:05:54.486Z] J2GHA-TRACE {"stage":"Linux - JDK 21 - Publish","step":"recordIssues"}
+[2026-10-10T09:05:54.502Z] [Pipeline] echo
+[2026-10-10T09:05:54.507Z] J2GHA-TRACE {"stage":"Linux - JDK 21 - Publish","step":"recordIssues"}
+[2026-10-10T09:05:54.526Z] [Pipeline] echo
+[2026-10-10T09:05:54.531Z] J2GHA-TRACE {"stage":"Linux - JDK 21 - Publish","step":"recordIssues"}
+[2026-10-10T09:05:54.550Z] [Pipeline] echo
+[2026-10-10T09:05:54.555Z] J2GHA-TRACE {"stage":"Linux - JDK 21 - Publish","step":"recordIssues"}
+[2026-10-10T09:05:54.573Z] [Pipeline] echo
+[2026-10-10T09:05:54.578Z] J2GHA-TRACE {"stage":"Linux - JDK 21 - Publish","step":"recordIssues"}
+[2026-10-10T09:05:54.589Z] [Pipeline] readFile
+[2026-10-10T09:05:54.624Z] [Pipeline] dir
+[2026-10-10T09:05:54.624Z] Running in /var/jenkins_home/workspace/ex-102-full@2@tmp/m2repo
+[2026-10-10T09:05:54.630Z] [Pipeline] {
+[2026-10-10T09:05:54.659Z] [Pipeline] archiveArtifacts
+[2026-10-10T09:05:54.667Z] Archiving artifacts
+[2026-10-10T09:05:54.671Z] Recording fingerprints
+[2026-10-10T09:05:54.696Z] [Pipeline] }
+[2026-10-10T09:05:54.718Z] [Pipeline] // dir
+[2026-10-10T09:05:54.742Z] [Pipeline] withCredentials
+[2026-10-10T09:05:54.748Z] Masking supported pattern matches of $LAUNCHABLE_TOKEN
+[2026-10-10T09:05:54.763Z] [Pipeline] {
+[2026-10-10T09:05:54.775Z] [Pipeline] isUnix
+[2026-10-10T09:05:54.793Z] [Pipeline] sh
+[2026-10-10T09:05:55.053Z] + echo launchable verify
+[2026-10-10T09:05:55.053Z] launchable verify
+[2026-10-10T09:05:55.053Z] + echo launchable record tests --session launchable record session --build jenkins-ex-102-full-4 --flavor platform=linux --flavor jdk=21 --flavor platform=linux --flavor jdk=21 maven ./**/target/surefire-reports
+[2026-10-10T09:05:55.053Z] launchable record tests --session launchable record session --build jenkins-ex-102-full-4 --flavor platform=linux --flavor jdk=21 --flavor platform=linux --flavor jdk=21 maven ./**/target/surefire-reports
+[2026-10-10T09:05:55.076Z] [Pipeline] }
+[2026-10-10T09:05:55.095Z] [Pipeline] // withCredentials
+[2026-10-10T09:05:55.104Z] [Pipeline] }
+[2026-10-10T09:05:55.127Z] [Pipeline] // stage
+[2026-10-10T09:05:55.139Z] [Pipeline] }
+[2026-10-10T09:05:55.170Z] [Pipeline] // node
+[2026-10-10T09:05:55.180Z] [Pipeline] }
+[2026-10-10T09:05:55.690Z] Commit message: "Add abort support to FormChecker delayed checks (#26595)"
+[2026-10-10T09:05:55.711Z] [Pipeline] }
+[2026-10-10T09:05:55.755Z] [Pipeline] // stage
+[2026-10-10T09:05:55.779Z] [Pipeline] pwd
+[2026-10-10T09:05:55.804Z] [Pipeline] stage
+[2026-10-10T09:05:55.809Z] [Pipeline] { (Linux - JDK 25 - Build / Test)
+[2026-10-10T09:05:55.838Z] [Pipeline] timeout
+[2026-10-10T09:05:55.838Z] Timeout set to expire in 6 hr 0 min
+[2026-10-10T09:05:55.844Z] [Pipeline] {
+[2026-10-10T09:05:55.873Z] [Pipeline] dir
+[2026-10-10T09:05:55.873Z] Running in /var/jenkins_home/workspace/ex-102-full@3@tmp
+[2026-10-10T09:05:55.878Z] [Pipeline] {
+[2026-10-10T09:05:55.903Z] [Pipeline] unstash
+[2026-10-10T09:05:55.933Z] [Pipeline] readFile
+[2026-10-10T09:05:55.959Z] [Pipeline] }
+[2026-10-10T09:05:55.985Z] [Pipeline] // dir
+[2026-10-10T09:05:56.004Z] [Pipeline] echo
+[2026-10-10T09:05:56.009Z] J2GHA-TRACE {"stage":"Linux - JDK 25 - Build / Test","step":"withChecks"}
+[2026-10-10T09:05:56.027Z] [Pipeline] sh
+[2026-10-10T09:05:56.288Z] + echo mvn -Pdebug -Penable-jacoco --update-snapshots -Dmaven.repo.local=/var/jenkins_home/workspace/ex-102-full@3@tmp/m2repo -Dmaven.test.failure.ignore -DforkCount=2 -Dspotbugs.failOnError=false -Dcheckstyle.failOnViolation=false -Dset.changelist help:evaluate -Dexpression=changelist -Doutput=/var/jenkins_home/workspace/ex-102-full@3@tmp/changelist clean install
+[2026-10-10T09:05:56.288Z] mvn -Pdebug -Penable-jacoco --update-snapshots -Dmaven.repo.local=/var/jenkins_home/workspace/ex-102-full@3@tmp/m2repo -Dmaven.test.failure.ignore -DforkCount=2 -Dspotbugs.failOnError=false -Dcheckstyle.failOnViolation=false -Dset.changelist help:evaluate -Dexpression=changelist -Doutput=/var/jenkins_home/workspace/ex-102-full@3@tmp/changelist clean install
+[2026-10-10T09:05:56.288Z] + mkdir -p core/target/surefire-reports target/vitest-reports war/target
+[2026-10-10T09:05:56.288Z] + printf <?xml version="1.0" encoding="UTF-8"?>\n<testsuite name="jenkins.j2gha.LocalTest" tests="2" failures="0" errors="0" skipped="0" time="0.01"><testcase classname="jenkins.j2gha.LocalTest" name="buildsOnJdk25" time="0.01"/><testcase classname="jenkins.j2gha.LocalTest" name="archivesWar" time="0.00"/></testsuite>\n
+[2026-10-10T09:05:56.288Z] + printf <?xml version="1.0" encoding="UTF-8"?>\n<testsuite name="vitest" tests="1" failures="0" errors="0" skipped="0" time="0.01"><testcase classname="j2gha.frontend" name="lints" time="0.01"/></testsuite>\n
+[2026-10-10T09:05:56.288Z] + echo j2gha stand-in dumpstream
+[2026-10-10T09:05:56.288Z] + echo j2gha stand-in war
+[2026-10-10T09:05:56.288Z] + git rev-parse --short=12 HEAD
+[2026-10-10T09:05:56.288Z] + changelist=-rc1.d076aeb66b68
+[2026-10-10T09:05:56.288Z] + printf %s -rc1.d076aeb66b68
+[2026-10-10T09:05:56.288Z] + mkdir -p /var/jenkins_home/workspace/ex-102-full@3@tmp/m2repo/org/jenkins-ci/main/jenkins-war/2.999-rc1.d076aeb66b68 /var/jenkins_home/workspace/ex-102-full@3@tmp/m2repo/org/jenkins-ci/main/jenkins-core/2.999-rc1.d076aeb66b68
+[2026-10-10T09:05:56.288Z] + echo j2gha stand-in war
+[2026-10-10T09:05:56.288Z] + echo j2gha stand-in jar
+[2026-10-10T09:05:56.321Z] [Pipeline] isUnix
+[2026-10-10T09:05:56.346Z] [Pipeline] sh
+[2026-10-10T09:05:56.605Z] + git add .
+[2026-10-10T09:05:56.856Z] + git diff --exit-code HEAD
+[2026-10-10T09:05:56.897Z] [Pipeline] junit
+[2026-10-10T09:05:56.904Z] Recording test results
+[2026-10-10T09:05:56.927Z] [Checks API] No suitable checks publisher found.
+[2026-10-10T09:05:56.943Z] [Pipeline] }
+[2026-10-10T09:05:56.972Z] [Pipeline] // timeout
+[2026-10-10T09:05:56.984Z] [Pipeline] }
+[2026-10-10T09:05:57.010Z] [Pipeline] // stage
+[2026-10-10T09:05:57.032Z] [Pipeline] stage
+[2026-10-10T09:05:57.037Z] [Pipeline] { (Linux - JDK 25 - Publish)
+[2026-10-10T09:05:57.062Z] [Pipeline] archiveArtifacts
+[2026-10-10T09:05:57.070Z] Archiving artifacts
+[2026-10-10T09:05:57.280Z] [Pipeline] withCredentials
+[2026-10-10T09:05:57.287Z] Masking supported pattern matches of $LAUNCHABLE_TOKEN
+[2026-10-10T09:05:57.302Z] [Pipeline] {
+[2026-10-10T09:05:57.315Z] [Pipeline] isUnix
+[2026-10-10T09:05:57.332Z] [Pipeline] sh
+[2026-10-10T09:05:57.592Z] + echo launchable verify
+[2026-10-10T09:05:57.592Z] launchable verify
+[2026-10-10T09:05:57.592Z] + echo launchable record tests --session launchable record session --build jenkins-ex-102-full-4 --flavor platform=linux --flavor jdk=25 --flavor platform=linux --flavor jdk=25 maven ./**/target/surefire-reports
+[2026-10-10T09:05:57.592Z] launchable record tests --session launchable record session --build jenkins-ex-102-full-4 --flavor platform=linux --flavor jdk=25 --flavor platform=linux --flavor jdk=25 maven ./**/target/surefire-reports
+[2026-10-10T09:05:57.610Z] [Pipeline] }
+[2026-10-10T09:05:57.637Z] [Pipeline] // withCredentials
+[2026-10-10T09:05:57.650Z] [Pipeline] }
+[2026-10-10T09:05:57.675Z] [Pipeline] // stage
+[2026-10-10T09:05:57.687Z] [Pipeline] }
+[2026-10-10T09:05:57.718Z] [Pipeline] // node
+[2026-10-10T09:05:57.735Z] [Pipeline] }
+[2026-10-10T09:05:57.795Z] [Pipeline] // parallel
+[2026-10-10T09:05:57.811Z] [Pipeline] End of Pipeline
+[2026-10-10T09:05:57.857Z] Finished: SUCCESS

@@ -1,0 +1,612 @@
+{
+  "file": "011",
+  "ok": true,
+  "errors": [],
+  "imports": [
+    {
+      "name": "in.oneanupam.jenkins.PipelineDefaults",
+      "alias": "PipelineDefaults",
+      "annotations": [],
+      "line": 1,
+      "col": 1,
+      "endLine": 1,
+      "endCol": 45
+    }
+  ],
+  "annotations": [],
+  "methods": [
+    {
+      "name": "call",
+      "params": [
+        {
+          "name": "config",
+          "type": "Map",
+          "hasDefault": true
+        }
+      ],
+      "annotations": [],
+      "body": [
+        {
+          "k": "decl",
+          "name": "settings",
+          "value": {
+            "t": "call",
+            "call": {
+              "k": "call",
+              "name": "resolve",
+              "args": [
+                {
+                  "t": "var",
+                  "name": "config",
+                  "line": 5,
+                  "col": 9,
+                  "endLine": 5,
+                  "endCol": 15
+                },
+                {
+                  "t": "call",
+                  "call": {
+                    "k": "call",
+                    "name": "libraryResource",
+                    "args": [
+                      {
+                        "t": "str",
+                        "v": "in/oneanupam/jenkins/pipeline.properties",
+                        "line": 6,
+                        "col": 25,
+                        "endLine": 6,
+                        "endCol": 67
+                      }
+                    ],
+                    "named": {},
+                    "line": 6,
+                    "col": 9,
+                    "endLine": 6,
+                    "endCol": 68
+                  },
+                  "line": 6,
+                  "col": 9,
+                  "endLine": 6,
+                  "endCol": 68
+                },
+                {
+                  "t": "prop",
+                  "text": "env.JOB_NAME\n    ",
+                  "calls": [],
+                  "line": 7,
+                  "col": 9,
+                  "endLine": 8,
+                  "endCol": 5
+                }
+              ],
+              "named": {},
+              "line": 4,
+              "col": 20,
+              "endLine": 8,
+              "endCol": 6,
+              "receiver": "PipelineDefaults"
+            },
+            "line": 4,
+            "col": 20,
+            "endLine": 8,
+            "endCol": 6
+          },
+          "annotations": [],
+          "line": 4,
+          "col": 5,
+          "endLine": 8,
+          "endCol": 6
+        },
+        {
+          "k": "decl",
+          "name": "application",
+          "value": {
+            "t": "prop",
+            "text": "settings.application",
+            "calls": [],
+            "line": 9,
+            "col": 26,
+            "endLine": 9,
+            "endCol": 46
+          },
+          "annotations": [],
+          "line": 9,
+          "col": 5,
+          "endLine": 9,
+          "endCol": 46
+        },
+        {
+          "k": "call",
+          "name": "pipeline",
+          "args": [],
+          "named": {},
+          "line": 11,
+          "col": 5,
+          "endLine": 62,
+          "endCol": 6,
+          "body": [
+            {
+              "k": "call",
+              "name": "agent",
+              "args": [
+                {
+                  "t": "var",
+                  "name": "any",
+                  "line": 12,
+                  "col": 15,
+                  "endLine": 12,
+                  "endCol": 18
+                }
+              ],
+              "named": {},
+              "line": 12,
+              "col": 9,
+              "endLine": 12,
+              "endCol": 18
+            },
+            {
+              "k": "call",
+              "name": "options",
+              "args": [],
+              "named": {},
+              "line": 14,
+              "col": 9,
+              "endLine": 18,
+              "endCol": 10,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "timestamps",
+                  "args": [],
+                  "named": {},
+                  "line": 15,
+                  "col": 13,
+                  "endLine": 15,
+                  "endCol": 25
+                },
+                {
+                  "k": "call",
+                  "name": "disableConcurrentBuilds",
+                  "args": [],
+                  "named": {},
+                  "line": 16,
+                  "col": 13,
+                  "endLine": 16,
+                  "endCol": 38
+                },
+                {
+                  "k": "call",
+                  "name": "skipDefaultCheckout",
+                  "args": [
+                    {
+                      "t": "bool",
+                      "v": true,
+                      "line": 17,
+                      "col": 33,
+                      "endLine": 17,
+                      "endCol": 37
+                    }
+                  ],
+                  "named": {},
+                  "line": 17,
+                  "col": 13,
+                  "endLine": 17,
+                  "endCol": 38
+                }
+              ]
+            },
+            {
+              "k": "call",
+              "name": "environment",
+              "args": [],
+              "named": {},
+              "line": 20,
+              "col": 9,
+              "endLine": 22,
+              "endCol": 10,
+              "body": [
+                {
+                  "k": "assign",
+                  "op": "=",
+                  "target": "APPLICATION_NAME",
+                  "value": {
+                    "t": "var",
+                    "name": "application",
+                    "line": 21,
+                    "col": 32,
+                    "endLine": 21,
+                    "endCol": 43
+                  },
+                  "line": 21,
+                  "col": 13,
+                  "endLine": 21,
+                  "endCol": 43
+                }
+              ]
+            },
+            {
+              "k": "call",
+              "name": "stages",
+              "args": [],
+              "named": {},
+              "line": 24,
+              "col": 9,
+              "endLine": 48,
+              "endCol": 10,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "stage",
+                  "args": [
+                    {
+                      "t": "str",
+                      "v": "Checkout",
+                      "line": 25,
+                      "col": 19,
+                      "endLine": 25,
+                      "endCol": 29
+                    }
+                  ],
+                  "named": {},
+                  "line": 25,
+                  "col": 13,
+                  "endLine": 29,
+                  "endCol": 14,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "steps",
+                      "args": [],
+                      "named": {},
+                      "line": 26,
+                      "col": 17,
+                      "endLine": 28,
+                      "endCol": 18,
+                      "body": [
+                        {
+                          "k": "call",
+                          "name": "checkout",
+                          "args": [
+                            {
+                              "t": "var",
+                              "name": "scm",
+                              "line": 27,
+                              "col": 30,
+                              "endLine": 27,
+                              "endCol": 33
+                            }
+                          ],
+                          "named": {},
+                          "line": 27,
+                          "col": 21,
+                          "endLine": 27,
+                          "endCol": 33
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "k": "call",
+                  "name": "stage",
+                  "args": [
+                    {
+                      "t": "str",
+                      "v": "Install",
+                      "line": 31,
+                      "col": 19,
+                      "endLine": 31,
+                      "endCol": 28
+                    }
+                  ],
+                  "named": {},
+                  "line": 31,
+                  "col": 13,
+                  "endLine": 35,
+                  "endCol": 14,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "steps",
+                      "args": [],
+                      "named": {},
+                      "line": 32,
+                      "col": 17,
+                      "endLine": 34,
+                      "endCol": 18,
+                      "body": [
+                        {
+                          "k": "call",
+                          "name": "sh",
+                          "args": [
+                            {
+                              "t": "prop",
+                              "text": "settings.installCommand",
+                              "calls": [],
+                              "line": 33,
+                              "col": 24,
+                              "endLine": 33,
+                              "endCol": 47
+                            }
+                          ],
+                          "named": {},
+                          "line": 33,
+                          "col": 21,
+                          "endLine": 33,
+                          "endCol": 47
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "k": "call",
+                  "name": "stage",
+                  "args": [
+                    {
+                      "t": "str",
+                      "v": "Test",
+                      "line": 37,
+                      "col": 19,
+                      "endLine": 37,
+                      "endCol": 25
+                    }
+                  ],
+                  "named": {},
+                  "line": 37,
+                  "col": 13,
+                  "endLine": 41,
+                  "endCol": 14,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "steps",
+                      "args": [],
+                      "named": {},
+                      "line": 38,
+                      "col": 17,
+                      "endLine": 40,
+                      "endCol": 18,
+                      "body": [
+                        {
+                          "k": "call",
+                          "name": "sh",
+                          "args": [
+                            {
+                              "t": "prop",
+                              "text": "settings.testCommand",
+                              "calls": [],
+                              "line": 39,
+                              "col": 24,
+                              "endLine": 39,
+                              "endCol": 44
+                            }
+                          ],
+                          "named": {},
+                          "line": 39,
+                          "col": 21,
+                          "endLine": 39,
+                          "endCol": 44
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "k": "call",
+                  "name": "stage",
+                  "args": [
+                    {
+                      "t": "str",
+                      "v": "Build",
+                      "line": 43,
+                      "col": 19,
+                      "endLine": 43,
+                      "endCol": 26
+                    }
+                  ],
+                  "named": {},
+                  "line": 43,
+                  "col": 13,
+                  "endLine": 47,
+                  "endCol": 14,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "steps",
+                      "args": [],
+                      "named": {},
+                      "line": 44,
+                      "col": 17,
+                      "endLine": 46,
+                      "endCol": 18,
+                      "body": [
+                        {
+                          "k": "call",
+                          "name": "sh",
+                          "args": [
+                            {
+                              "t": "prop",
+                              "text": "settings.buildCommand",
+                              "calls": [],
+                              "line": 45,
+                              "col": 24,
+                              "endLine": 45,
+                              "endCol": 45
+                            }
+                          ],
+                          "named": {},
+                          "line": 45,
+                          "col": 21,
+                          "endLine": 45,
+                          "endCol": 45
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "k": "call",
+              "name": "post",
+              "args": [],
+              "named": {},
+              "line": 50,
+              "col": 9,
+              "endLine": 61,
+              "endCol": 10,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "always",
+                  "args": [],
+                  "named": {},
+                  "line": 51,
+                  "col": 13,
+                  "endLine": 54,
+                  "endCol": 14,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "junit",
+                      "args": [],
+                      "named": {
+                        "testResults": {
+                          "t": "prop",
+                          "text": "settings.testResultsPattern",
+                          "calls": [],
+                          "line": 52,
+                          "col": 36,
+                          "endLine": 52,
+                          "endCol": 63
+                        },
+                        "allowEmptyResults": {
+                          "t": "bool",
+                          "v": true,
+                          "line": 52,
+                          "col": 84,
+                          "endLine": 52,
+                          "endCol": 88
+                        }
+                      },
+                      "line": 52,
+                      "col": 17,
+                      "endLine": 52,
+                      "endCol": 88
+                    },
+                    {
+                      "k": "call",
+                      "name": "archiveArtifacts",
+                      "args": [],
+                      "named": {
+                        "artifacts": {
+                          "t": "prop",
+                          "text": "settings.artifactPattern",
+                          "calls": [],
+                          "line": 53,
+                          "col": 45,
+                          "endLine": 53,
+                          "endCol": 69
+                        },
+                        "allowEmptyArchive": {
+                          "t": "bool",
+                          "v": true,
+                          "line": 53,
+                          "col": 90,
+                          "endLine": 53,
+                          "endCol": 94
+                        }
+                      },
+                      "line": 53,
+                      "col": 17,
+                      "endLine": 53,
+                      "endCol": 94
+                    }
+                  ]
+                },
+                {
+                  "k": "call",
+                  "name": "success",
+                  "args": [],
+                  "named": {},
+                  "line": 55,
+                  "col": 13,
+                  "endLine": 57,
+                  "endCol": 14,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "echo",
+                      "args": [
+                        {
+                          "t": "gstr",
+                          "v": "\"${APPLICATION_NAME} completed successfully\"",
+                          "vars": [
+                            "{APPLICATION_NAME}"
+                          ],
+                          "calls": [],
+                          "line": 56,
+                          "col": 22,
+                          "endLine": 56,
+                          "endCol": 66
+                        }
+                      ],
+                      "named": {},
+                      "line": 56,
+                      "col": 17,
+                      "endLine": 56,
+                      "endCol": 66
+                    }
+                  ]
+                },
+                {
+                  "k": "call",
+                  "name": "failure",
+                  "args": [],
+                  "named": {},
+                  "line": 58,
+                  "col": 13,
+                  "endLine": 60,
+                  "endCol": 14,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "echo",
+                      "args": [
+                        {
+                          "t": "gstr",
+                          "v": "\"${APPLICATION_NAME} failed\"",
+                          "vars": [
+                            "{APPLICATION_NAME}"
+                          ],
+                          "calls": [],
+                          "line": 59,
+                          "col": 22,
+                          "endLine": 59,
+                          "endCol": 50
+                        }
+                      ],
+                      "named": {},
+                      "line": 59,
+                      "col": 17,
+                      "endLine": 59,
+                      "endCol": 50
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ],
+      "line": 3,
+      "col": 1,
+      "endLine": 63,
+      "endCol": 2
+    }
+  ],
+  "classes": [],
+  "statements": [],
+  "source_sha256": "e52088342d265caee49a51835c101555c57057d5e8cdc899835eb6e3c0249083"
+}

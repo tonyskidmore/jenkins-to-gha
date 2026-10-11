@@ -1,0 +1,317 @@
+# j2gha act variant (full) of examples/104
+name: 'j2gha 104: EclipseFdn/open-vsx.org Jenkinsfile (j2gha)'
+on:
+  push:
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  BRANCH_NAME: aws-main
+  TAG_NAME: ''
+  CHANGE_ID: ''
+  BUILD_NUMBER: ${{ github.run_number }}
+  JOB_NAME: ${{ github.workflow }}
+  BUILD_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+  GIT_COMMIT: 4d48d2d9d80c31817c6026a1b269589601f34de6
+  APP_NAME: open-vsx-org
+  NAMESPACE: foundation-internal-webdev-apps
+  IMAGE_NAME: ghcr.io/eclipsefdn/openvsx-website
+  CONTAINER_NAME: open-vsx-org
+  GIT_BRANCH: origin/aws-main
+  GIT_URL: ${{ github.server_url }}/${{ github.repository }}.git
+defaults:
+  run:
+    shell: bash
+jobs:
+  build-docker-image:
+    name: Build docker image
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+    - name: Checkout
+      uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      with:
+        persist-credentials: false
+    - name: Set pipeline environment (Jenkins environment {})
+      run: |-
+        IMAGE_TAG="$(if [ "${TAG_NAME:-null}" = "" ]; then
+          printf ${TAG_NAME:-null}-${BUILD_NUMBER}
+        else
+          printf $(git rev-parse --short ${GIT_COMMIT})-${BUILD_NUMBER}
+        fi)"; export IMAGE_TAG; echo "IMAGE_TAG=${IMAGE_TAG}" >> "$GITHUB_ENV"
+    - name: 'Build docker image: echo docker build --pull -t ${IMAGE_NAME}:${IMAGE_TAG} . # j2gha-loca'
+      id: s1
+      run: 'echo docker build --pull -t ${IMAGE_NAME}:${IMAGE_TAG} .  # j2gha-local: no Docker daemon in the harness'
+  push-docker-image:
+    name: Push docker image
+    needs: build-docker-image
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+    - name: Checkout
+      uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      with:
+        persist-credentials: false
+    - name: Set pipeline environment (Jenkins environment {})
+      run: |-
+        IMAGE_TAG="$(if [ "${TAG_NAME:-null}" = "" ]; then
+          printf ${TAG_NAME:-null}-${BUILD_NUMBER}
+        else
+          printf $(git rev-parse --short ${GIT_COMMIT})-${BUILD_NUMBER}
+        fi)"; export IMAGE_TAG; echo "IMAGE_TAG=${IMAGE_TAG}" >> "$GITHUB_ENV"
+    - name: 'Push docker image: echo docker push ${IMAGE_NAME}:${IMAGE_TAG} # j2gha-local: no registr'
+      id: s2
+      run: 'echo docker push ${IMAGE_NAME}:${IMAGE_TAG}  # j2gha-local: no registry credentials'
+  deploy-test:
+    name: Deploy test, Deploy staging, Deploy production, Deploy aws-staging, Deploy aws-production
+    needs: push-docker-image
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+    - name: Checkout
+      uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      with:
+        persist-credentials: false
+    - name: Set pipeline environment (Jenkins environment {})
+      run: |-
+        IMAGE_TAG="$(if [ "${TAG_NAME:-null}" = "" ]; then
+          printf ${TAG_NAME:-null}-${BUILD_NUMBER}
+        else
+          printf $(git rev-parse --short ${GIT_COMMIT})-${BUILD_NUMBER}
+        fi)"; export IMAGE_TAG; echo "IMAGE_TAG=${IMAGE_TAG}" >> "$GITHUB_ENV"
+    - name: 'Deploy test: enter stage'
+      id: s3
+      if: env.BRANCH_NAME == 'test'
+      run: echo "run=true" >> "$GITHUB_OUTPUT"
+    - name: 'Deploy test: echo ./kubernetes/helm-deploy.sh test "${IMAGE_TAG}" # j2gha-local: n'
+      id: s4
+      if: steps.s3.outputs.run == 'true'
+      run: 'echo ./kubernetes/helm-deploy.sh test "${IMAGE_TAG}"  # j2gha-local: no OKD cluster'
+    - name: 'Deploy staging: enter stage'
+      id: s5
+      if: env.BRANCH_NAME == 'main'
+      run: echo "run=true" >> "$GITHUB_OUTPUT"
+    - name: 'Deploy staging: echo ./kubernetes/helm-deploy.sh staging "${IMAGE_TAG}" # j2gha-local'
+      id: s6
+      if: steps.s5.outputs.run == 'true'
+      run: 'echo ./kubernetes/helm-deploy.sh staging "${IMAGE_TAG}"  # j2gha-local: no OKD cluster'
+    - name: 'Deploy production: enter stage'
+      id: s7
+      if: env.BRANCH_NAME == 'production'
+      run: echo "run=true" >> "$GITHUB_OUTPUT"
+    - name: 'Deploy production: echo ./kubernetes/helm-deploy.sh production "${IMAGE_TAG}" # j2gha-lo'
+      id: s8
+      if: steps.s7.outputs.run == 'true'
+      run: 'echo ./kubernetes/helm-deploy.sh production "${IMAGE_TAG}"  # j2gha-local: no OKD cluster'
+    - name: 'Deploy aws-staging: enter stage'
+      id: s9
+      if: env.BRANCH_NAME == 'aws-main'
+      run: echo "run=true" >> "$GITHUB_OUTPUT"
+    - name: 'Deploy aws-staging: set -e'
+      id: s10
+      if: steps.s9.outputs.run == 'true'
+      run: |-
+        set -e
+        export AWS_DEFAULT_REGION=eu-central-1
+        export KUBECONFIG="${HOME}/.kube/config"
+        echo aws eks update-kubeconfig --name eks-staging-openvsx --region eu-central-1  # j2gha-local: no AWS account
+        echo ./kubernetes/helm-deploy.sh aws-staging "${IMAGE_TAG}"  # j2gha-local: no EKS cluster
+      env:
+        AWS_ACCESS_KEY_ID: j2gha-fake-secret
+        AWS_SECRET_ACCESS_KEY: j2gha-fake-secret
+    - name: 'Deploy aws-production: enter stage'
+      id: s11
+      if: env.BRANCH_NAME == 'aws-production'
+      run: echo "run=true" >> "$GITHUB_OUTPUT"
+    - name: 'Deploy aws-production: set -e'
+      id: s12
+      if: steps.s11.outputs.run == 'true'
+      run: |-
+        set -e
+        export AWS_DEFAULT_REGION=eu-central-1
+        echo aws eks update-kubeconfig --name eks-production-openvsx --region eu-central-1  # j2gha-local: no AWS account
+        echo ./kubernetes/helm-deploy.sh aws-production "${IMAGE_TAG}"  # j2gha-local: no EKS cluster
+      env:
+        AWS_ACCESS_KEY_ID: j2gha-fake-secret
+        AWS_SECRET_ACCESS_KEY: j2gha-fake-secret
+    - name: Hand on the pipeline workspace (archive)
+      if: always()
+      shell: bash
+      run: |
+        tar --exclude=./.j2gha-ws --exclude=./.j2gha-ws.tgz --exclude=./.j2gha-ws.changes \
+          -czf "$RUNNER_TEMP/j2gha-ws.tgz" -C "$GITHUB_WORKSPACE" .
+        mv "$RUNNER_TEMP/j2gha-ws.tgz" "$GITHUB_WORKSPACE/.j2gha-ws.tgz"
+    - name: Hand on the pipeline workspace (upload)
+      if: always()
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: j2gha-ws-deploy-test
+        path: .j2gha-ws.tgz
+        retention-days: 1
+        compression-level: 0
+        if-no-files-found: error
+        include-hidden-files: true
+  post:
+    name: post
+    needs:
+    - build-docker-image
+    - push-docker-image
+    - deploy-test
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+    - name: Restore pipeline workspace (deploy-test)
+      id: j2gha-ws-deploy-test
+      uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+      continue-on-error: true
+      with:
+        name: j2gha-ws-deploy-test
+        path: .j2gha-ws/deploy-test
+    - name: Restore pipeline workspace (merge)
+      id: j2gha-ws-restore
+      if: always()
+      shell: bash
+      env:
+        J2GHA_WS_ORDER: deploy-test
+        J2GHA_WS_LINEAGE: 'deploy-test:'
+        J2GHA_WS_HEADS: deploy-test
+        J2GHA_WS_RESULTS: deploy-test=${{ needs.deploy-test.result }}
+        J2GHA_WS_FALLBACKS: 'deploy-test:'
+      run: |
+        ws="$GITHUB_WORKSPACE"
+        d="$ws/.j2gha-ws"
+        # the downloaded producers a producer descends from
+        ancestors() {
+          local line
+          while IFS= read -r line; do
+            if [ "${line%%:*}" = "$1" ]; then printf '%s\n' "${line#*:}"; fi
+          done <<< "$J2GHA_WS_LINEAGE"
+        }
+        present() { [ -f "$d/$1/.j2gha-ws.tgz" ]; }
+        # read-only directories (a Go module cache) need write permission to be removed
+        remove() { rm -rf -- "$@" 2>/dev/null || { chmod -R u+w -- "$@"; rm -rf -- "$@"; }; }
+        isdir() { [ -d "$1" ] && [ ! -L "$1" ]; }
+        # replay a branch's own changes (its change list) onto the workspace
+        replay() {
+          local src="$d/$1" t="$d/.replay" rec p a
+          local -a recs=() gone=()
+          local -A want=() locked=() removed=()
+          if [ ! -f "$src/.j2gha-ws.changes" ]; then
+            echo "::error::the workspace of job '$1' has no change list (the workspace it started from was not recorded): it cannot be merged"
+            exit 1
+          fi
+          mapfile -t recs < "$src/.j2gha-ws.changes"
+          for rec in "${recs[@]}"; do
+            printf -v p '%b' "${rec:1}"
+            if [ "${rec:0:1}" = D ]; then
+              removed[$p]=1
+              continue
+            fi
+            want[$p]=1
+            # a parent directory an earlier branch removed or replaced is taken from this branch too
+            a=$p
+            while a=${a%/*}; [ "$a" != . ]; do
+              if isdir "$ws/$a"; then break; fi
+              want[$a]=1
+            done
+          done
+          # a removed directory takes its contents with it: only the top-most removed entries are removed
+          for p in "${!removed[@]}"; do
+            a=$p
+            while a=${a%/*}; [ "$a" != . ] && [ -z "${removed[$a]-}" ]; do :; done
+            if [ "$a" = . ]; then gone+=("$p"); fi
+          done
+          # only the entries to copy come out of the branch's workspace (parents first)
+          mkdir -p "$t"
+          printf '%s\0' "${!want[@]}" | LC_ALL=C sort -z > "$d/.want"
+          if [ "${#want[@]}" -gt 0 ]; then tar -xzpf "$src/.j2gha-ws.tgz" -C "$t" --null --no-unquote --no-recursion -T "$d/.want"; fi
+          # read-only directories (a Go module cache) are opened for the changes; their modes are put back afterwards
+          for p in "${gone[@]}" "${!want[@]}"; do
+            a=${p%/*}
+            if [ "$a" != . ] && isdir "$ws/$a" && [ ! -w "$ws/$a" ] && [ -z "${locked[$a]-}" ]; then
+              locked[$a]=$(stat -c %a "$ws/$a")
+              chmod u+w "$ws/$a"
+            fi
+          done
+          for p in "${gone[@]}"; do remove "$ws/$p"; done
+          # clear what is in the way of an entry's type: a file or link where the branch has a directory, or the reverse
+          for p in "${!want[@]}"; do
+            if isdir "$t/$p"; then
+              if [ -L "$ws/$p" ] || { [ -e "$ws/$p" ] && [ ! -d "$ws/$p" ]; }; then rm -f -- "$ws/$p"; fi
+              if isdir "$ws/$p" && [ ! -w "$ws/$p" ]; then chmod u+w "$ws/$p"; fi  # tar sets the branch's mode
+            elif isdir "$ws/$p"; then
+              remove "$ws/$p"
+            fi
+          done
+          if [ "${#want[@]}" -gt 0 ]; then
+            # tar sets directory modes after their contents
+            tar -C "$t" --null --no-unquote --no-recursion -T "$d/.want" -cf - | tar -xpf - -C "$ws"
+          fi
+          for a in "${!locked[@]}"; do
+            if [ -z "${want[$a]-}" ] && isdir "$ws/$a"; then chmod "${locked[$a]}" "$ws/$a"; fi
+          done
+          remove "$t"
+        }
+        # every producer the restore relies on is accounted for: its workspace arrived, or its job was skipped and the
+        # producers it would have started from are accounted for in turn (the fallback chain actually used)
+        declare -A result=() fallback=() seen=()
+        for r in $J2GHA_WS_RESULTS; do result[${r%%=*}]=${r#*=}; done
+        while IFS= read -r line; do
+          if [ -n "$line" ]; then fallback[${line%%:*}]=${line#*:}; fi
+        done <<< "$J2GHA_WS_FALLBACKS"
+        account() {
+          local p=$1 f
+          if [ -n "${seen[$p]-}" ] || present "$p"; then return 0; fi
+          seen[$p]=1
+          case "${result[$p]-}" in
+            success|failure)
+              echo "::error::job '$p' ran (${result[$p]}) but its workspace did not arrive: restoring an older one would lose its changes"
+              exit 1 ;;
+            skipped|cancelled) ;;
+            *) echo "::warning::the workspace of job '$p' did not arrive and its result is not known here (not a job this one needs): taken as skipped - if it ran, its changes are missing" ;;
+          esac
+          for f in ${fallback[$p]-}; do account "$f"; done
+        }
+        for p in $J2GHA_WS_HEADS; do account "$p"; done
+        # the workspaces to merge: those downloaded that no other downloaded one descends from
+        frontier=()
+        for p in $J2GHA_WS_ORDER; do
+          present "$p" || continue
+          covered=false
+          for q in $J2GHA_WS_ORDER; do
+            if [ "$q" != "$p" ] && present "$q"; then
+              case " $(ancestors "$q") " in *" $p "*) covered=true ;; esac
+            fi
+          done
+          if [ "$covered" = false ]; then frontier+=("$p"); fi
+        done
+        restored=false
+        if [ "${#frontier[@]}" -gt 0 ]; then
+          # the restored workspace replaces what the job started with (act copies the repository into every job)
+          shopt -s dotglob nullglob
+          for e in "$ws"/*; do
+            if [ "$e" != "$d" ]; then remove "$e"; fi
+          done
+          shopt -u dotglob nullglob
+          tar -xzpf "$d/${frontier[0]}/.j2gha-ws.tgz" -C "$ws"
+          for f in "${frontier[@]:1}"; do replay "$f"; done
+          restored=true
+        fi
+        remove "$d"
+        echo "restored=$restored" >> "$GITHUB_OUTPUT"
+    - name: Set pipeline environment (Jenkins environment {})
+      run: |-
+        IMAGE_TAG="$(if [ "${TAG_NAME:-null}" = "" ]; then
+          printf ${TAG_NAME:-null}-${BUILD_NUMBER}
+        else
+          printf $(git rev-parse --short ${GIT_COMMIT})-${BUILD_NUMBER}
+        fi)"; export IMAGE_TAG; echo "IMAGE_TAG=${IMAGE_TAG}" >> "$GITHUB_ENV"
+    - name: 'post: mail notification'
+      id: s13
+      if: always() && (contains(needs.*.result, 'failure') || failure())
+      run: echo "::notice::mail notification (configure an approved notification action)"
+    - name: 'post: deleteDir'
+      id: s14
+      if: always()
+      run: find . -mindepth 1 -delete || true
+    timeout-minutes: 10

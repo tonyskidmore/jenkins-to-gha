@@ -1,0 +1,161 @@
+{
+  "counts": {
+    "mapped": 9,
+    "manual": 1,
+    "approximated": 5,
+    "info": 1,
+    "dropped": 1
+  },
+  "automation_pct": 80.0,
+  "items": [
+    {
+      "jenkins": "options: disableConcurrentBuilds",
+      "line": null,
+      "stage": null,
+      "status": "mapped",
+      "gha": "concurrency",
+      "note": "GHA keeps only the latest pending run per group"
+    },
+    {
+      "jenkins": "post always",
+      "line": null,
+      "stage": null,
+      "status": "mapped",
+      "gha": "if: always()",
+      "note": ""
+    },
+    {
+      "jenkins": "post failure",
+      "line": null,
+      "stage": null,
+      "status": "mapped",
+      "gha": "if: failure()",
+      "note": ""
+    },
+    {
+      "jenkins": "post success",
+      "line": null,
+      "stage": null,
+      "status": "mapped",
+      "gha": "if: success()",
+      "note": ""
+    },
+    {
+      "jenkins": "options: skipDefaultCheckout",
+      "line": null,
+      "stage": null,
+      "status": "mapped",
+      "gha": "no checkout step",
+      "note": ""
+    },
+    {
+      "jenkins": "checkout scm",
+      "line": 27,
+      "stage": "Checkout",
+      "status": "mapped",
+      "gha": "actions/checkout@v4",
+      "note": ""
+    },
+    {
+      "jenkins": "archiveArtifacts",
+      "line": 53,
+      "stage": "Declarative: Post Actions",
+      "status": "mapped",
+      "gha": "actions/upload-artifact@v4",
+      "note": ""
+    },
+    {
+      "jenkins": "echo",
+      "line": 56,
+      "stage": "Declarative: Post Actions",
+      "status": "mapped",
+      "gha": "run: echo",
+      "note": ""
+    },
+    {
+      "jenkins": "echo",
+      "line": 59,
+      "stage": "Declarative: Post Actions",
+      "status": "mapped",
+      "gha": "run: echo",
+      "note": ""
+    },
+    {
+      "jenkins": "(no pipeline timeout)",
+      "line": null,
+      "stage": null,
+      "status": "approximated",
+      "gha": "timeout-minutes: 60",
+      "note": "explicit job timeout added (GitHub's default is 360 minutes); set J2GHA_DEFAULT_TIMEOUT to change"
+    },
+    {
+      "jenkins": "options: timestamps",
+      "line": null,
+      "stage": null,
+      "status": "dropped",
+      "gha": "-",
+      "note": "native in GitHub Actions"
+    },
+    {
+      "jenkins": "sh",
+      "line": 33,
+      "stage": "Install",
+      "status": "approximated",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 39,
+      "stage": "Test",
+      "status": "approximated",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 45,
+      "stage": "Build",
+      "status": "approximated",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "junit",
+      "line": 52,
+      "stage": "Declarative: Post Actions",
+      "status": "approximated",
+      "gha": "upload-artifact + step summary",
+      "note": "no native test UI; failing tests cannot mark the run UNSTABLE"
+    },
+    {
+      "jenkins": "environment APPLICATION_NAME",
+      "line": 21,
+      "stage": null,
+      "status": "manual",
+      "gha": "env",
+      "note": "runtime Groovy expression `application` - compute in a step and write to $GITHUB_ENV"
+    },
+    {
+      "jenkins": "checkout: SCM environment (GIT_COMMIT, GIT_BRANCH, GIT_URL)",
+      "line": null,
+      "stage": null,
+      "status": "info",
+      "gha": "env",
+      "note": "Jenkins' git plugin exports them to every step after a checkout, so called scripts may read them; defined at workflow level even when the Jenkinsfile does not"
+    }
+  ],
+  "secrets": {},
+  "jobs": {
+    "checkout": {
+      "name": "Checkout, Install, Test, Build",
+      "runs-on": "ubuntu-latest",
+      "steps": 10,
+      "matrix": false
+    }
+  },
+  "notes": [],
+  "handoff": {},
+  "source_sha256": "e52088342d265caee49a51835c101555c57057d5e8cdc899835eb6e3c0249083",
+  "model_sha256": "5c4214ae62dc41150140140493d2b40e0e176596258e1b7546010ce8c1dcbfca"
+}

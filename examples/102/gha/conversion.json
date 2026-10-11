@@ -1,0 +1,317 @@
+{
+  "counts": {
+    "mapped": 7,
+    "manual": 20,
+    "approximated": 7,
+    "info": 1,
+    "dropped": 1
+  },
+  "automation_pct": 34.3,
+  "items": [
+    {
+      "jenkins": "options: disableConcurrentBuilds",
+      "line": null,
+      "stage": null,
+      "status": "mapped",
+      "gha": "concurrency",
+      "note": "GHA keeps only the latest pending run per group"
+    },
+    {
+      "jenkins": "checkout scm",
+      "line": 24,
+      "stage": "Record build",
+      "status": "mapped",
+      "gha": "actions/checkout@v4",
+      "note": ""
+    },
+    {
+      "jenkins": "withCredentials string 'launchable-jenkins-jenkins'",
+      "line": 29,
+      "stage": "Record build",
+      "status": "mapped",
+      "gha": "secrets -> step env",
+      "note": ""
+    },
+    {
+      "jenkins": "withCredentials string 'launchable-jenkins-acceptance-test-harness'",
+      "line": 50,
+      "stage": "Record build",
+      "status": "mapped",
+      "gha": "secrets -> step env",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 51,
+      "stage": "Record build",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "withCredentials string 'launchable-jenkins-bom'",
+      "line": 53,
+      "stage": "Record build",
+      "status": "mapped",
+      "gha": "secrets -> step env",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 54,
+      "stage": "Record build",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "(no pipeline timeout)",
+      "line": null,
+      "stage": null,
+      "status": "approximated",
+      "gha": "timeout-minutes: 60",
+      "note": "explicit job timeout added (GitHub's default is 360 minutes); set J2GHA_DEFAULT_TIMEOUT to change"
+    },
+    {
+      "jenkins": "options: buildDiscarder",
+      "line": null,
+      "stage": null,
+      "status": "dropped",
+      "gha": "-",
+      "note": "use artifact retention-days / repo settings"
+    },
+    {
+      "jenkins": "retry",
+      "line": 22,
+      "stage": "Record build",
+      "status": "approximated",
+      "gha": "shell retry loop",
+      "note": "only run steps are retried"
+    },
+    {
+      "jenkins": "node (in steps)",
+      "line": 23,
+      "stage": "Record build",
+      "status": "approximated",
+      "gha": "inlined",
+      "note": "nested agent allocation flattened"
+    },
+    {
+      "jenkins": "sh",
+      "line": 35,
+      "stage": "Record build",
+      "status": "approximated",
+      "gha": "run",
+      "note": "Groovy interpolation of non-env values needs review"
+    },
+    {
+      "jenkins": "sh",
+      "line": 42,
+      "stage": "Record build",
+      "status": "approximated",
+      "gha": "run",
+      "note": "Groovy interpolation of non-env values needs review"
+    },
+    {
+      "jenkins": "stash 'sessionFile'",
+      "line": 43,
+      "stage": "Record build",
+      "status": "approximated",
+      "gha": "actions/upload-artifact@v4",
+      "note": "artifact hand-off between jobs; file permissions are not preserved; no matching files fails the step, as the stash does in Jenkins (if-no-files-found: error)"
+    },
+    {
+      "jenkins": "parallel (step)",
+      "line": 271,
+      "stage": "",
+      "status": "approximated",
+      "gha": "sequential steps",
+      "note": "scripted parallel branches serialised; split into jobs/matrix for real parallelism"
+    },
+    {
+      "jenkins": "decl failFast = False",
+      "line": 8,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "decl numBuildToKeep = ?",
+      "line": 9,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "decl axes = [platforms: [linux], jdks: [21, 25]]",
+      "line": 16,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "decl launchableName = env.BUILD_TAG.replaceAll(...)",
+      "line": 34,
+      "stage": "Record build",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment from a step"
+    },
+    {
+      "jenkins": "replaceAll",
+      "line": 34,
+      "stage": "Record build",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy method / helper call - port logic to a script"
+    },
+    {
+      "jenkins": "combinations",
+      "line": 36,
+      "stage": "Record build",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "decl ( = it",
+      "line": 37,
+      "stage": "Record build",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "if (platform == 'windows' && jdk != axes.jdks.last())",
+      "line": 38,
+      "stage": "Record build",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "decl sessionFile = launchable-session-${platform}-jdk${",
+      "line": 41,
+      "stage": "Record build",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "decl builds = []",
+      "line": 60,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "combinations",
+      "line": 62,
+      "stage": "",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "decl ( = it",
+      "line": 63,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "if (platform == 'windows' && jdk != axes.jdks.last())",
+      "line": 64,
+      "stage": "",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "assign builds[\"${platform}-jdk${jdk}\"] = ",
+      "line": 67,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "decl athAxes = [platforms: [linux], jdks: [21], browser",
+      "line": 230,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "combinations",
+      "line": 235,
+      "stage": "",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "decl ( = it",
+      "line": 236,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "assign builds[\"ath-${platform}-jdk${jdk}-${browser}\"] = ",
+      "line": 237,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "assign builds.failFast = failFast",
+      "line": 270,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "maybePublishIncrementals",
+      "line": 272,
+      "stage": "",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "checkout: SCM environment (GIT_COMMIT, GIT_BRANCH, GIT_URL)",
+      "line": null,
+      "stage": null,
+      "status": "info",
+      "gha": "env",
+      "note": "Jenkins' git plugin exports them to every step after a checkout, so called scripts may read them; defined at workflow level even when the Jenkinsfile does not"
+    }
+  ],
+  "secrets": {
+    "LAUNCHABLE_JENKINS_JENKINS": "Jenkins credential 'launchable-jenkins-jenkins'",
+    "LAUNCHABLE_JENKINS_ACCEPTANCE_TEST_HARNESS": "Jenkins credential 'launchable-jenkins-acceptance-test-harness'",
+    "LAUNCHABLE_JENKINS_BOM": "Jenkins credential 'launchable-jenkins-bom'"
+  },
+  "jobs": {
+    "main": {
+      "name": "main, Record build",
+      "runs-on": "ubuntu-latest",
+      "steps": 13,
+      "matrix": false
+    }
+  },
+  "notes": [],
+  "handoff": {},
+  "source_sha256": "2268feedf9cc739f636357ffa80b58d56a1e5e73f515bbdba93f7ef28c1cc067",
+  "model_sha256": "9e967639a35900e06a40eac5d388c111a8f4d157c31bf38a8ce8c0b987915bef"
+}

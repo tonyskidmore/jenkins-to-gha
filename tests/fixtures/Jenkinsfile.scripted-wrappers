@@ -1,0 +1,19 @@
+node {
+  withCredentials([string(credentialsId: 'deploy-token', variable: 'TOKEN')]) {
+    withEnv(['TARGET=prod']) {
+      timeout(time: 10, unit: 'MINUTES') {
+        retry(3) {
+          dir('deploy') {
+            sh './prepare.sh'
+            stage('Deploy') { sh './deploy.sh "$TOKEN" "$TARGET"' }
+          }
+        }
+      }
+    }
+  }
+  timestamps {
+    docker.image('node:20').inside {
+      stage('Verify') { sh 'npm test' }
+    }
+  }
+}

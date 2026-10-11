@@ -1,0 +1,893 @@
+{
+  "name": "j2gha 019: dvsa/dvsa-mobile-pipeline ops/mobile_build.groovy (j2gha)",
+  "on": {
+    "push": {
+      "branches": [
+        "**"
+      ]
+    },
+    "pull_request": null,
+    "workflow_dispatch": null
+  },
+  "permissions": {
+    "contents": "read"
+  },
+  "env": {
+    "BRANCH_NAME": "${{ github.head_ref || github.ref_name }}",
+    "TAG_NAME": "${{ github.ref_type == 'tag' && github.ref_name || '' }}",
+    "CHANGE_ID": "${{ github.event.pull_request.number }}",
+    "GIT_BRANCH": "${{ github.head_ref || github.ref_name }}",
+    "WORKSPACE": "${{ github.workspace }}",
+    "GIT_COMMIT": "${{ github.sha }}",
+    "GIT_URL": "${{ github.server_url }}/${{ github.repository }}.git"
+  },
+  "defaults": {
+    "run": {
+      "shell": "bash"
+    }
+  },
+  "jobs": {
+    "main": {
+      "name": "main, Git Checkout",
+      "runs-on": "ubuntu-latest",
+      "timeout-minutes": 60,
+      "steps": [
+        {
+          "name": "Checkout",
+          "uses": "actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "with": {
+            "persist-credentials": false
+          },
+          "_j2gha": {
+            "kind": "checkout",
+            "line": null,
+            "trace": false,
+            "trace_events": [],
+            "role": "checkout"
+          }
+        },
+        {
+          "name": "new Globals (manual migration)",
+          "id": "s1",
+          "run": "echo \"::warning::Jenkins step 'new Globals' requires manual migration\"",
+          "_j2gha": {
+            "kind": "new Globals",
+            "stage": "",
+            "line": 8,
+            "trace": false
+          }
+        },
+        {
+          "name": "new CommonFunctions (manual migration)",
+          "id": "s2",
+          "run": "echo \"::warning::Jenkins step 'new CommonFunctions' requires manual migration\"",
+          "_j2gha": {
+            "kind": "new CommonFunctions",
+            "stage": "",
+            "line": 9,
+            "trace": false
+          }
+        },
+        {
+          "name": "new MobileCoreFunctions (manual migration)",
+          "id": "s3",
+          "run": "echo \"::warning::Jenkins step 'new MobileCoreFunctions' requires manual migration\"",
+          "_j2gha": {
+            "kind": "new MobileCoreFunctions",
+            "stage": "",
+            "line": 10,
+            "trace": false
+          }
+        },
+        {
+          "name": "new GitFunctions (manual migration)",
+          "id": "s4",
+          "run": "echo \"::warning::Jenkins step 'new GitFunctions' requires manual migration\"",
+          "_j2gha": {
+            "kind": "new GitFunctions",
+            "stage": "",
+            "line": 11,
+            "trace": false
+          }
+        },
+        {
+          "name": ": Groovy if (manual)",
+          "id": "s5",
+          "run": "echo \"::warning::manual migration: Groovy condition at line 18: plugin_check.toString() == 'Yes'\"",
+          "_j2gha": {
+            "kind": "script-manual",
+            "stage": "",
+            "line": 18,
+            "trace": false
+          }
+        },
+        {
+          "name": ": Groovy if (manual)",
+          "id": "s6",
+          "run": "echo \"::warning::manual migration: Groovy condition at line 28: integration_test_check.toString() == 'Yes'\"",
+          "_j2gha": {
+            "kind": "script-manual",
+            "stage": "",
+            "line": 28,
+            "trace": false
+          }
+        },
+        {
+          "name": "deleteDir",
+          "id": "s7",
+          "run": "find . -mindepth 1 -delete || true",
+          "_j2gha": {
+            "kind": "deleteDir",
+            "stage": "",
+            "line": 41,
+            "trace": true
+          }
+        },
+        {
+          "name": "Git Checkout: log (manual migration)",
+          "id": "s8",
+          "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
+          "_j2gha": {
+            "kind": "log",
+            "stage": "Git Checkout",
+            "line": 47,
+            "trace": false
+          }
+        },
+        {
+          "name": "Git Checkout: git_check_out (manual migration)",
+          "id": "s9",
+          "run": "echo \"::warning::Jenkins step 'git_check_out' requires manual migration\"",
+          "_j2gha": {
+            "kind": "git_check_out",
+            "stage": "Git Checkout",
+            "line": 50,
+            "trace": false,
+            "concurrent": true
+          }
+        },
+        {
+          "name": "Git Checkout: Groovy if (manual)",
+          "id": "s10",
+          "run": "echo \"::warning::manual migration: Groovy condition at line 53: plugin_check == 'Yes'\"",
+          "_j2gha": {
+            "kind": "script-manual",
+            "stage": "Git Checkout",
+            "line": 53,
+            "trace": false,
+            "concurrent": true
+          }
+        },
+        {
+          "name": "Git Checkout: Groovy if (manual)",
+          "id": "s11",
+          "run": "echo \"::warning::manual migration: Groovy condition at line 59: plugin_check == 'Yes'\"",
+          "_j2gha": {
+            "kind": "script-manual",
+            "stage": "Git Checkout",
+            "line": 59,
+            "trace": false
+          }
+        },
+        {
+          "name": "Git Checkout: log (manual migration)",
+          "id": "s12",
+          "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
+          "_j2gha": {
+            "kind": "log",
+            "stage": "Git Checkout",
+            "line": 66,
+            "trace": false
+          }
+        },
+        {
+          "name": "pwd (manual migration)",
+          "id": "s13",
+          "run": "echo \"::warning::Jenkins step 'pwd' requires manual migration\"",
+          "_j2gha": {
+            "kind": "pwd",
+            "stage": "",
+            "line": 69,
+            "trace": false
+          }
+        },
+        {
+          "name": "dir",
+          "id": "s14",
+          "run": "mkdir -p -- \"$J2GHA_DIR\"",
+          "env": {
+            "J2GHA_DIR": "${{ env.WORKSPACE }}"
+          },
+          "_j2gha": {
+            "kind": "dir",
+            "stage": "",
+            "line": null,
+            "trace": false
+          }
+        },
+        {
+          "name": "log (manual migration)",
+          "id": "s15",
+          "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
+          "working-directory": "${{ env.WORKSPACE }}",
+          "_j2gha": {
+            "kind": "log",
+            "stage": "",
+            "line": 72,
+            "trace": false
+          }
+        },
+        {
+          "name": "stash ${target_location}",
+          "id": "s16",
+          "uses": "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "with": {
+            "name": "stash-target_location",
+            "path": "${{ env.WORKSPACE }}/${{ env.target_location }}/**",
+            "retention-days": 1,
+            "include-hidden-files": true,
+            "if-no-files-found": "ignore"
+          },
+          "_j2gha": {
+            "kind": "stash",
+            "stage": "",
+            "line": 73,
+            "trace": true
+          }
+        },
+        {
+          "name": "log (manual migration)",
+          "id": "s17",
+          "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
+          "working-directory": "${{ env.WORKSPACE }}",
+          "_j2gha": {
+            "kind": "log",
+            "stage": "",
+            "line": 74,
+            "trace": false
+          }
+        }
+      ]
+    },
+    "main-2": {
+      "name": "main, NPM Install, Security Check, SonarQube, Unit Tests, NPM Build, Cordova Platform",
+      "needs": "main",
+      "runs-on": "macos-latest",
+      "timeout-minutes": 60,
+      "steps": [
+        {
+          "name": "Checkout",
+          "uses": "actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "with": {
+            "persist-credentials": false
+          },
+          "_j2gha": {
+            "kind": "checkout",
+            "line": null,
+            "trace": false,
+            "trace_events": [],
+            "role": "checkout"
+          }
+        },
+        {
+          "name": "deleteDir",
+          "id": "s18",
+          "run": "find . -mindepth 1 -delete || true",
+          "_j2gha": {
+            "kind": "deleteDir",
+            "stage": "",
+            "line": 82,
+            "trace": true
+          }
+        },
+        {
+          "name": "pwd (manual migration)",
+          "id": "s19",
+          "run": "echo \"::warning::Jenkins step 'pwd' requires manual migration\"",
+          "_j2gha": {
+            "kind": "pwd",
+            "stage": "",
+            "line": 84,
+            "trace": false
+          }
+        },
+        {
+          "name": "log (manual migration)",
+          "id": "s20",
+          "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
+          "_j2gha": {
+            "kind": "log",
+            "stage": "",
+            "line": 86,
+            "trace": false
+          }
+        },
+        {
+          "name": "unstash ${target_location}",
+          "id": "s21",
+          "uses": "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093",
+          "with": {
+            "pattern": "stash-target_location",
+            "merge-multiple": true,
+            "path": "${{ env.target_location }}"
+          },
+          "_j2gha": {
+            "kind": "unstash",
+            "stage": "",
+            "line": 87,
+            "trace": true
+          }
+        },
+        {
+          "name": "log (manual migration)",
+          "id": "s22",
+          "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
+          "_j2gha": {
+            "kind": "log",
+            "stage": "",
+            "line": 88,
+            "trace": false
+          }
+        },
+        {
+          "name": "NPM Install: dir",
+          "id": "s23",
+          "run": "mkdir -p -- \"$J2GHA_DIR\"",
+          "env": {
+            "J2GHA_DIR": "${{ env.mac_workspace }}/${{ env.target_location }}"
+          },
+          "_j2gha": {
+            "kind": "dir",
+            "stage": "NPM Install",
+            "line": null,
+            "trace": false
+          }
+        },
+        {
+          "name": "NPM Install: log (manual migration)",
+          "id": "s24",
+          "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
+          "working-directory": "${{ env.mac_workspace }}/${{ env.target_location }}",
+          "_j2gha": {
+            "kind": "log",
+            "stage": "NPM Install",
+            "line": 95,
+            "trace": false
+          }
+        },
+        {
+          "name": "NPM Install: install (manual migration)",
+          "id": "s25",
+          "run": "echo \"::warning::Jenkins step 'install' requires manual migration\"",
+          "working-directory": "${{ env.mac_workspace }}/${{ env.target_location }}",
+          "_j2gha": {
+            "kind": "install",
+            "stage": "NPM Install",
+            "line": 96,
+            "trace": false
+          }
+        },
+        {
+          "name": "NPM Install: log (manual migration)",
+          "id": "s26",
+          "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
+          "working-directory": "${{ env.mac_workspace }}/${{ env.target_location }}",
+          "_j2gha": {
+            "kind": "log",
+            "stage": "NPM Install",
+            "line": 97,
+            "trace": false
+          }
+        },
+        {
+          "name": "Security Check: dir",
+          "id": "s27",
+          "run": "mkdir -p -- \"$J2GHA_DIR\"",
+          "env": {
+            "J2GHA_DIR": "${{ env.mac_workspace }}/${{ env.target_location }}"
+          },
+          "_j2gha": {
+            "kind": "dir",
+            "stage": "Security Check",
+            "line": null,
+            "trace": false
+          }
+        },
+        {
+          "name": "Security Check: log (manual migration)",
+          "id": "s28",
+          "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
+          "working-directory": "${{ env.mac_workspace }}/${{ env.target_location }}",
+          "_j2gha": {
+            "kind": "log",
+            "stage": "Security Check",
+            "line": 104,
+            "trace": false
+          }
+        },
+        {
+          "name": "Security Check: security (manual migration)",
+          "id": "s29",
+          "run": "echo \"::warning::Jenkins step 'security' requires manual migration\"",
+          "working-directory": "${{ env.mac_workspace }}/${{ env.target_location }}",
+          "_j2gha": {
+            "kind": "security",
+            "stage": "Security Check",
+            "line": 105,
+            "trace": false
+          }
+        },
+        {
+          "name": "Security Check: log (manual migration)",
+          "id": "s30",
+          "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
+          "working-directory": "${{ env.mac_workspace }}/${{ env.target_location }}",
+          "_j2gha": {
+            "kind": "log",
+            "stage": "Security Check",
+            "line": 106,
+            "trace": false
+          }
+        },
+        {
+          "name": "SonarQube: dir",
+          "id": "s31",
+          "run": "mkdir -p -- \"$J2GHA_DIR\"",
+          "env": {
+            "J2GHA_DIR": "${{ env.mac_workspace }}/${{ env.target_location }}"
+          },
+          "_j2gha": {
+            "kind": "dir",
+            "stage": "SonarQube",
+            "line": null,
+            "trace": false
+          }
+        },
+        {
+          "name": "SonarQube: log (manual migration)",
+          "id": "s32",
+          "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
+          "working-directory": "${{ env.mac_workspace }}/${{ env.target_location }}",
+          "_j2gha": {
+            "kind": "log",
+            "stage": "SonarQube",
+            "line": 113,
+            "trace": false
+          }
+        },
+        {
+          "name": "SonarQube: sonar (manual migration)",
+          "id": "s33",
+          "run": "echo \"::warning::Jenkins step 'sonar' requires manual migration\"",
+          "working-directory": "${{ env.mac_workspace }}/${{ env.target_location }}",
+          "_j2gha": {
+            "kind": "sonar",
+            "stage": "SonarQube",
+            "line": 114,
+            "trace": false
+          }
+        },
+        {
+          "name": "SonarQube: log (manual migration)",
+          "id": "s34",
+          "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
+          "working-directory": "${{ env.mac_workspace }}/${{ env.target_location }}",
+          "_j2gha": {
+            "kind": "log",
+            "stage": "SonarQube",
+            "line": 115,
+            "trace": false
+          }
+        },
+        {
+          "name": "Unit Tests: dir",
+          "id": "s35",
+          "run": "mkdir -p -- \"$J2GHA_DIR\"",
+          "env": {
+            "J2GHA_DIR": "${{ env.mac_workspace }}/${{ env.target_location }}"
+          },
+          "_j2gha": {
+            "kind": "dir",
+            "stage": "Unit Tests",
+            "line": null,
+            "trace": false
+          }
+        },
+        {
+          "name": "Unit Tests: log (manual migration)",
+          "id": "s36",
+          "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
+          "working-directory": "${{ env.mac_workspace }}/${{ env.target_location }}",
+          "_j2gha": {
+            "kind": "log",
+            "stage": "Unit Tests",
+            "line": 122,
+            "trace": false
+          }
+        },
+        {
+          "name": "Unit Tests: testing (manual migration)",
+          "id": "s37",
+          "run": "echo \"::warning::Jenkins step 'testing' requires manual migration\"",
+          "working-directory": "${{ env.mac_workspace }}/${{ env.target_location }}",
+          "_j2gha": {
+            "kind": "testing",
+            "stage": "Unit Tests",
+            "line": 123,
+            "trace": false
+          }
+        },
+        {
+          "name": "Unit Tests: log (manual migration)",
+          "id": "s38",
+          "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
+          "working-directory": "${{ env.mac_workspace }}/${{ env.target_location }}",
+          "_j2gha": {
+            "kind": "log",
+            "stage": "Unit Tests",
+            "line": 124,
+            "trace": false
+          }
+        },
+        {
+          "name": "NPM Build: dir",
+          "id": "s39",
+          "run": "mkdir -p -- \"$J2GHA_DIR\"",
+          "env": {
+            "J2GHA_DIR": "${{ env.mac_workspace }}/${{ env.target_location }}"
+          },
+          "_j2gha": {
+            "kind": "dir",
+            "stage": "NPM Build",
+            "line": null,
+            "trace": false
+          }
+        },
+        {
+          "name": "NPM Build: log (manual migration)",
+          "id": "s40",
+          "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
+          "working-directory": "${{ env.mac_workspace }}/${{ env.target_location }}",
+          "_j2gha": {
+            "kind": "log",
+            "stage": "NPM Build",
+            "line": 131,
+            "trace": false
+          }
+        },
+        {
+          "name": "NPM Build: npmBuild (manual migration)",
+          "id": "s41",
+          "run": "echo \"::warning::Jenkins step 'npmBuild' requires manual migration\"",
+          "working-directory": "${{ env.mac_workspace }}/${{ env.target_location }}",
+          "_j2gha": {
+            "kind": "npmBuild",
+            "stage": "NPM Build",
+            "line": 132,
+            "trace": false
+          }
+        },
+        {
+          "name": "NPM Build: log (manual migration)",
+          "id": "s42",
+          "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
+          "working-directory": "${{ env.mac_workspace }}/${{ env.target_location }}",
+          "_j2gha": {
+            "kind": "log",
+            "stage": "NPM Build",
+            "line": 133,
+            "trace": false
+          }
+        },
+        {
+          "name": "dir",
+          "id": "s43",
+          "run": "mkdir -p -- \"$J2GHA_DIR\"",
+          "env": {
+            "J2GHA_DIR": "${{ env.mac_workspace }}/${{ env.target_location }}"
+          },
+          "_j2gha": {
+            "kind": "dir",
+            "stage": "",
+            "line": null,
+            "trace": false
+          }
+        },
+        {
+          "name": "log (manual migration)",
+          "id": "s44",
+          "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
+          "working-directory": "${{ env.mac_workspace }}/${{ env.target_location }}",
+          "_j2gha": {
+            "kind": "log",
+            "stage": "",
+            "line": 136,
+            "trace": false
+          }
+        },
+        {
+          "name": ": Groovy if (manual)",
+          "id": "s45",
+          "run": "echo \"::warning::manual migration: Groovy condition at line 137: plugin_check == 'Yes'\"",
+          "working-directory": "${{ env.mac_workspace }}/${{ env.target_location }}",
+          "_j2gha": {
+            "kind": "script-manual",
+            "stage": "",
+            "line": 137,
+            "trace": false
+          }
+        },
+        {
+          "name": "Cordova Platform: dir",
+          "id": "s46",
+          "run": "mkdir -p -- \"$J2GHA_DIR\"",
+          "env": {
+            "J2GHA_DIR": "${{ env.mac_workspace }}/${{ env.target_location }}"
+          },
+          "_j2gha": {
+            "kind": "dir",
+            "stage": "Cordova Platform",
+            "line": null,
+            "trace": false
+          }
+        },
+        {
+          "name": "Cordova Platform: log (manual migration)",
+          "id": "s47",
+          "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
+          "working-directory": "${{ env.mac_workspace }}/${{ env.target_location }}",
+          "_j2gha": {
+            "kind": "log",
+            "stage": "Cordova Platform",
+            "line": 152,
+            "trace": false
+          }
+        },
+        {
+          "name": "Cordova Platform: configure (manual migration)",
+          "id": "s48",
+          "run": "echo \"::warning::Jenkins step 'configure' requires manual migration\"",
+          "working-directory": "${{ env.mac_workspace }}/${{ env.target_location }}",
+          "_j2gha": {
+            "kind": "configure",
+            "stage": "Cordova Platform",
+            "line": 153,
+            "trace": false
+          }
+        },
+        {
+          "name": "Cordova Platform: log (manual migration)",
+          "id": "s49",
+          "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
+          "working-directory": "${{ env.mac_workspace }}/${{ env.target_location }}",
+          "_j2gha": {
+            "kind": "log",
+            "stage": "Cordova Platform",
+            "line": 154,
+            "trace": false
+          }
+        },
+        {
+          "name": "Build: dir",
+          "id": "s50",
+          "run": "mkdir -p -- \"$J2GHA_DIR\"",
+          "env": {
+            "J2GHA_DIR": "${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios"
+          },
+          "_j2gha": {
+            "kind": "dir",
+            "stage": "Build",
+            "line": null,
+            "trace": false
+          }
+        },
+        {
+          "name": "Build: log (manual migration)",
+          "id": "s51",
+          "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
+          "working-directory": "${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios",
+          "_j2gha": {
+            "kind": "log",
+            "stage": "Build",
+            "line": 163,
+            "trace": false
+          }
+        },
+        {
+          "name": "Build: build (manual migration)",
+          "id": "s52",
+          "run": "echo \"::warning::Jenkins step 'build' requires manual migration\"",
+          "working-directory": "${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios",
+          "_j2gha": {
+            "kind": "build",
+            "stage": "Build",
+            "line": 164,
+            "trace": false
+          }
+        },
+        {
+          "name": "Build: log (manual migration)",
+          "id": "s53",
+          "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
+          "working-directory": "${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios",
+          "_j2gha": {
+            "kind": "log",
+            "stage": "Build",
+            "line": 165,
+            "trace": false
+          }
+        },
+        {
+          "name": "dir",
+          "id": "s54",
+          "run": "mkdir -p -- \"$J2GHA_DIR\"",
+          "env": {
+            "J2GHA_DIR": "${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios"
+          },
+          "_j2gha": {
+            "kind": "dir",
+            "stage": "",
+            "line": null,
+            "trace": false
+          }
+        },
+        {
+          "name": "stash build",
+          "id": "s55",
+          "uses": "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "with": {
+            "name": "stash-build",
+            "path": "${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/build/**\n!${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/**/.git\n!${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/**/.git/**\n!${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/**/.gitignore\n!${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/**/.gitattributes\n!${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/**/.gitmodules\n!${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/**/.svn\n!${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/**/.svn/**\n!${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/**/.hg\n!${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/**/.hg/**\n!${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/**/.hgignore\n!${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/**/.hgtags\n!${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/**/.bzr\n!${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/**/.bzr/**\n!${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/**/.bzrignore\n!${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/**/CVS\n!${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/**/CVS/**\n!${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/**/.cvsignore\n!${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/**/SCCS\n!${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/**/SCCS/**\n!${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/**/vssver.scc\n!${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/**/.DS_Store\n!${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/**/*~\n!${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/**/#*#\n!${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/**/.#*\n!${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/**/%*%\n!${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/**/._*",
+            "retention-days": 1,
+            "include-hidden-files": true,
+            "if-no-files-found": "error"
+          },
+          "_j2gha": {
+            "kind": "stash",
+            "stage": "",
+            "line": 168,
+            "trace": true
+          }
+        },
+        {
+          "name": "log (manual migration)",
+          "id": "s56",
+          "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
+          "working-directory": "${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios",
+          "_j2gha": {
+            "kind": "log",
+            "stage": "",
+            "line": 170,
+            "trace": false
+          }
+        },
+        {
+          "name": ": Groovy if (manual)",
+          "id": "s57",
+          "run": "echo \"::warning::manual migration: Groovy condition at line 171: integration_test_check == 'Yes'\"",
+          "working-directory": "${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios",
+          "_j2gha": {
+            "kind": "script-manual",
+            "stage": "",
+            "line": 171,
+            "trace": false
+          }
+        }
+      ]
+    },
+    "main-3": {
+      "name": "main, Upload to S3, Generate bucket URL",
+      "needs": "main-2",
+      "runs-on": "ubuntu-latest",
+      "timeout-minutes": 60,
+      "steps": [
+        {
+          "name": "Checkout",
+          "uses": "actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "with": {
+            "persist-credentials": false
+          },
+          "_j2gha": {
+            "kind": "checkout",
+            "line": null,
+            "trace": false,
+            "trace_events": [],
+            "role": "checkout"
+          }
+        },
+        {
+          "name": "deleteDir",
+          "id": "s58",
+          "run": "find . -mindepth 1 -delete || true",
+          "_j2gha": {
+            "kind": "deleteDir",
+            "stage": "",
+            "line": 185,
+            "trace": true
+          }
+        },
+        {
+          "name": "unstash build",
+          "id": "s59",
+          "uses": "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093",
+          "with": {
+            "name": "stash-build",
+            "path": "build"
+          },
+          "_j2gha": {
+            "kind": "unstash",
+            "stage": "",
+            "line": 187,
+            "trace": true
+          }
+        },
+        {
+          "name": "Upload to S3: log (manual migration)",
+          "id": "s60",
+          "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
+          "_j2gha": {
+            "kind": "log",
+            "stage": "Upload to S3",
+            "line": 193,
+            "trace": false
+          }
+        },
+        {
+          "name": "Upload to S3: upload (manual migration)",
+          "id": "s61",
+          "run": "echo \"::warning::Jenkins step 'upload' requires manual migration\"",
+          "_j2gha": {
+            "kind": "upload",
+            "stage": "Upload to S3",
+            "line": 194,
+            "trace": false
+          }
+        },
+        {
+          "name": "Upload to S3: log (manual migration)",
+          "id": "s62",
+          "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
+          "_j2gha": {
+            "kind": "log",
+            "stage": "Upload to S3",
+            "line": 195,
+            "trace": false
+          }
+        },
+        {
+          "name": "Generate bucket URL: log (manual migration)",
+          "id": "s63",
+          "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
+          "_j2gha": {
+            "kind": "log",
+            "stage": "Generate bucket URL",
+            "line": 202,
+            "trace": false
+          }
+        },
+        {
+          "name": "Generate bucket URL: publish (manual migration)",
+          "id": "s64",
+          "run": "echo \"::warning::Jenkins step 'publish' requires manual migration\"",
+          "_j2gha": {
+            "kind": "publish",
+            "stage": "Generate bucket URL",
+            "line": 203,
+            "trace": false
+          }
+        },
+        {
+          "name": "Generate bucket URL: log (manual migration)",
+          "id": "s65",
+          "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
+          "_j2gha": {
+            "kind": "log",
+            "stage": "Generate bucket URL",
+            "line": 204,
+            "trace": false
+          }
+        }
+      ]
+    }
+  }
+}

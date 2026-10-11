@@ -1,0 +1,260 @@
+# Jenkins construct -> GitHub Actions documentation crosswalk (used by `j2gha docs xref` and <docs>/xref.md).
+#
+# This is the small, curated "compiled" layer over the raw downloaded docs: it says WHERE to read on each side,
+# not what the answer is (the step catalog in steps.yaml holds the conversion decision; `gha:` there is shown too).
+#
+#   kind:    directive | step | global | concept
+#   jenkins: pages in the jenkins bundle (relative to .docs/jenkins/<version>/), optionally with #anchor.
+#            Steps resolve automatically to steps/<name>.md (or the plugin page), so they rarely need this.
+#   gha:     docs.github.com Actions pages without the /en/actions/ prefix, optionally with #anchor
+#            (resolved to .docs/gha/<version>/actions/<page>.md when downloaded, else to docs.github.com).
+#   note:    the semantic trap worth knowing before reading.
+#
+# tests/test_docs.py checks every gha page exists in the docs.github.com page list snapshot and every anchor exists.
+
+xref:
+  # ------------------------------------------------------------------ Declarative sections and directives
+  pipeline:
+    kind: directive
+    jenkins: [handbook/pipeline/syntax.md#declarative-pipeline]
+    gha: [reference/workflows-and-actions/workflow-syntax, tutorials/migrate-to-github-actions/manual-migrations/migrate-from-jenkins]
+    note: one Jenkinsfile -> one workflow file; stages become jobs and/or steps.
+  agent:
+    kind: directive
+    jenkins: [handbook/pipeline/syntax.md#agent, declarative/INDEX.md]
+    gha: [reference/workflows-and-actions/workflow-syntax#jobsjob_idruns-on, how-tos/write-workflows/choose-where-workflows-run/choose-the-runner-for-a-job, how-tos/write-workflows/choose-where-workflows-run/run-jobs-in-a-container]
+    note: label expressions -> runs-on labels/groups; agent { docker } -> jobs.<id>.container (runs as root); a stage-level agent forces a separate job (workspace is not shared).
+  stages:
+    kind: directive
+    jenkins: [handbook/pipeline/syntax.md#stages]
+    gha: [how-tos/write-workflows/choose-what-workflows-do/use-jobs, reference/workflows-and-actions/workflow-syntax#jobsjob_idneeds]
+    note: sequential stages on one agent -> steps of one job; separate jobs need needs + artifacts to hand off files.
+  steps:
+    kind: directive
+    jenkins: [handbook/pipeline/syntax.md#steps]
+    gha: [reference/workflows-and-actions/workflow-syntax#jobsjob_idsteps]
+  post:
+    kind: directive
+    jenkins: [handbook/pipeline/syntax.md#post]
+    gha: [reference/workflows-and-actions/expressions#status-check-functions, reference/workflows-and-actions/workflow-syntax#jobsjob_idstepsif]
+    note: always/success/failure/aborted -> if always()/success()/failure()/cancelled(); unstable/changed/fixed/regression have no equivalent.
+  environment:
+    kind: directive
+    jenkins: [handbook/pipeline/syntax.md#environment]
+    gha: [reference/workflows-and-actions/workflow-syntax#env, reference/workflows-and-actions/variables, concepts/workflows-and-actions/variables]
+    note: the env context is not available in jobs.<id>.if; credentials('id') -> secrets.<NAME>.
+  options:
+    kind: directive
+    jenkins: [handbook/pipeline/syntax.md#options, declarative/INDEX.md]
+    gha: [reference/workflows-and-actions/workflow-syntax#jobsjob_idtimeout-minutes, reference/workflows-and-actions/workflow-syntax#concurrency]
+  parameters:
+    kind: directive
+    jenkins: [handbook/pipeline/syntax.md#parameters, declarative/INDEX.md]
+    gha: [reference/workflows-and-actions/workflow-syntax#onworkflow_dispatchinputs, reference/workflows-and-actions/events-that-trigger-workflows#workflow_dispatch]
+    note: inputs are empty on push/schedule events; choose defaults explicitly.
+  triggers:
+    kind: directive
+    jenkins: [handbook/pipeline/syntax.md#triggers, handbook/pipeline/syntax.md#cron-syntax, declarative/INDEX.md]
+    gha: [reference/workflows-and-actions/events-that-trigger-workflows, reference/workflows-and-actions/workflow-syntax#onschedule, how-tos/write-workflows/choose-when-workflows-run/trigger-a-workflow]
+    note: cron has no H; schedules run on the default branch only; pollSCM -> push; upstream -> workflow_run.
+  stage:
+    kind: directive
+    jenkins: [handbook/pipeline/syntax.md#stage]
+    gha: [how-tos/write-workflows/choose-what-workflows-do/use-jobs]
+  tools:
+    kind: directive
+    jenkins: [handbook/pipeline/syntax.md#tools]
+    gha: [how-tos/write-workflows/choose-what-workflows-do/find-and-customize-actions, tutorials/build-and-test-code/java-with-maven, concepts/workflows-and-actions/dependency-caching]
+    note: tool installers -> actions/setup-* (setup-java, setup-node...) with built-in caching.
+  input:
+    kind: directive
+    jenkins: [handbook/pipeline/syntax.md#input, steps/input.md]
+    gha: [concepts/workflows-and-actions/deployment-environments, how-tos/deploy/configure-and-manage-deployments/review-deployments, reference/workflows-and-actions/deployments-and-environments]
+    note: input/submitter -> environment with required reviewers (no free-form input parameters at approval time).
+  when:
+    kind: directive
+    jenkins: [handbook/pipeline/syntax.md#when, declarative/INDEX.md]
+    gha: [how-tos/write-workflows/choose-when-workflows-run/control-jobs-with-conditions, reference/workflows-and-actions/expressions, reference/workflows-and-actions/workflow-syntax#onpushpull_requestpull_request_targetpathspaths-ignore]
+    note: GHA == is case-insensitive; changeset -> paths filters (workflow level) or a paths-filter action (step level).
+  parallel:
+    kind: directive
+    jenkins: [handbook/pipeline/syntax.md#parallel, steps/parallel.md]
+    gha: [how-tos/write-workflows/choose-what-workflows-do/use-jobs, reference/workflows-and-actions/workflow-syntax#jobsjob_idneeds]
+    note: parallel stages -> independent jobs; failFast -> strategy.fail-fast only applies within a matrix.
+  matrix:
+    kind: directive
+    jenkins: [handbook/pipeline/syntax.md#declarative-matrix]
+    gha: [how-tos/write-workflows/choose-what-workflows-do/run-job-variations, reference/workflows-and-actions/workflow-syntax#jobsjob_idstrategymatrix]
+    note: excludes with notValues must be expanded explicitly; matrix job limit per workflow run.
+  libraries:
+    kind: directive
+    jenkins: [handbook/pipeline/shared-libraries.md]
+    gha: [concepts/workflows-and-actions/reusing-workflow-configurations, how-tos/reuse-automations/reuse-workflows, tutorials/create-actions/create-a-composite-action]
+    note: shared library vars -> composite actions or reusable workflows; dynamic Groovy has no equivalent.
+  # ------------------------------------------------------------------ options
+  timeout:
+    kind: step
+    gha: [reference/workflows-and-actions/workflow-syntax#jobsjob_idtimeout-minutes, reference/workflows-and-actions/workflow-syntax#jobsjob_idstepstimeout-minutes]
+  retry:
+    kind: step
+    gha: [reference/workflows-and-actions/workflow-syntax#jobsjob_idstepscontinue-on-error]
+    note: no native step retry; use a shell loop or a retry action.
+  disableConcurrentBuilds:
+    kind: directive
+    jenkins: [handbook/pipeline/syntax.md#options]
+    gha: [concepts/workflows-and-actions/concurrency, how-tos/write-workflows/choose-when-workflows-run/control-workflow-concurrency, reference/workflows-and-actions/workflow-syntax#concurrency]
+    note: abortPrevious true -> cancel-in-progress true.
+  buildDiscarder:
+    kind: directive
+    jenkins: [handbook/pipeline/syntax.md#options]
+    gha: [reference/workflows-and-actions/workflow-syntax#jobsjob_idstepswith, concepts/workflows-and-actions/workflow-artifacts]
+    note: no per-count run retention; artifact retention-days and the repository log retention setting.
+  skipDefaultCheckout:
+    kind: directive
+    jenkins: [handbook/pipeline/syntax.md#options]
+    gha: [reference/workflows-and-actions/workflow-syntax#jobsjob_idsteps]
+    note: GHA never checks out implicitly; add actions/checkout where Jenkins did.
+  # ------------------------------------------------------------------ triggers / when conditions
+  cron:
+    kind: directive
+    jenkins: [handbook/pipeline/syntax.md#cron-syntax]
+    gha: [reference/workflows-and-actions/workflow-syntax#onschedule, reference/workflows-and-actions/events-that-trigger-workflows#schedule]
+    note: no H (pick a fixed minute, avoid :00); TZ= -> schedule timezone on GitHub.com (GHES 3.18 is UTC-only - check the target bundle); default branch only; >= 5 min interval.
+  pollSCM:
+    kind: directive
+    jenkins: [handbook/pipeline/syntax.md#triggers]
+    gha: [reference/workflows-and-actions/events-that-trigger-workflows#push]
+    note: polling -> push / pull_request events (GitHub notifies; nothing to poll).
+  upstream:
+    kind: directive
+    jenkins: [handbook/pipeline/syntax.md#triggers]
+    gha: [reference/workflows-and-actions/events-that-trigger-workflows#workflow_run]
+    note: upstream job -> workflow_run (not needs); threshold -> filter on github.event.workflow_run.conclusion.
+  branch:
+    kind: directive
+    jenkins: [handbook/pipeline/syntax.md#when]
+    gha: [reference/workflows-and-actions/workflow-syntax#onpushbranchestagsbranches-ignoretags-ignore, reference/workflows-and-actions/contexts#github-context]
+    note: when { branch } -> step/job if on github.ref_name, or workflow-level branches filters.
+  changeset:
+    kind: directive
+    jenkins: [handbook/pipeline/syntax.md#when]
+    gha: [reference/workflows-and-actions/workflow-syntax#onpushpull_requestpull_request_targetpathspaths-ignore]
+    note: workflow-level paths filters skip the whole run; per-stage changesets need a paths-filter step.
+  expression:
+    kind: directive
+    jenkins: [handbook/pipeline/syntax.md#when]
+    gha: [reference/workflows-and-actions/expressions, how-tos/write-workflows/choose-when-workflows-run/control-jobs-with-conditions]
+    note: Groovy expressions -> GHA expressions where possible, else compute in a step and gate on its output.
+  timestamps:
+    kind: directive
+    jenkins: [handbook/pipeline/syntax.md#options]
+    gha: [how-tos/monitor-workflows/use-workflow-run-logs]
+    note: GHA logs are always timestamped - drop it.
+  # ------------------------------------------------------------------ steps
+  sh:
+    kind: step
+    gha: [reference/workflows-and-actions/workflow-syntax#jobsjob_idstepsrun, reference/workflows-and-actions/workflow-syntax#jobsjob_idstepsshell]
+    note: returnStdout -> write to $GITHUB_OUTPUT and read steps.<id>.outputs.
+  bat:
+    kind: step
+    gha: [reference/workflows-and-actions/workflow-syntax#jobsjob_idstepsshell]
+  powershell:
+    kind: step
+    gha: [reference/workflows-and-actions/workflow-syntax#jobsjob_idstepsshell]
+  checkout:
+    kind: step
+    gha: [how-tos/write-workflows/choose-what-workflows-do/find-and-customize-actions]
+    note: actions/checkout fetches one commit by default (fetch-depth 0 for history/tags).
+  stash:
+    kind: step
+    gha: [concepts/workflows-and-actions/workflow-artifacts, tutorials/store-and-share-data]
+    note: stash/unstash between stages on different agents -> upload-artifact/download-artifact between jobs (file permissions are lost).
+  unstash:
+    kind: step
+    gha: [concepts/workflows-and-actions/workflow-artifacts, tutorials/store-and-share-data]
+  archiveArtifacts:
+    kind: step
+    gha: [concepts/workflows-and-actions/workflow-artifacts, tutorials/store-and-share-data, how-tos/manage-workflow-runs/download-workflow-artifacts]
+  copyArtifacts:
+    kind: step
+    gha: [concepts/workflows-and-actions/workflow-artifacts, reference/workflows-and-actions/events-that-trigger-workflows#workflow_run]
+  junit:
+    kind: step
+    gha: [tutorials/store-and-share-data]
+    note: no built-in test report UI; upload results + a reporting action or job summary.
+  withCredentials:
+    kind: step
+    gha: [how-tos/write-workflows/choose-what-workflows-do/use-secrets, concepts/security/secrets, reference/security/secrets]
+    note: file/SSH credentials must be materialised by a step; OIDC replaces long-lived cloud keys.
+  build:
+    kind: step
+    gha: [how-tos/reuse-automations/reuse-workflows, reference/workflows-and-actions/events-that-trigger-workflows#workflow_dispatch, reference/workflows-and-actions/events-that-trigger-workflows#workflow_run]
+    note: downstream job -> reusable workflow call (wait) or workflow_dispatch via API (fire-and-forget).
+  lock:
+    kind: step
+    gha: [concepts/workflows-and-actions/concurrency, reference/workflows-and-actions/workflow-syntax#jobsjob_idconcurrency]
+  milestone:
+    kind: step
+    gha: [concepts/workflows-and-actions/concurrency]
+  catchError:
+    kind: step
+    gha: [reference/workflows-and-actions/workflow-syntax#jobsjob_idstepscontinue-on-error, reference/workflows-and-actions/expressions#status-check-functions]
+  unstable:
+    kind: step
+    gha: [reference/workflows-and-actions/workflow-commands#setting-a-warning-message]
+    note: GHA has no UNSTABLE result; emit a warning annotation.
+  error:
+    kind: step
+    gha: [reference/workflows-and-actions/workflow-commands#setting-an-error-message, how-tos/create-and-publish-actions/set-exit-codes]
+  dir:
+    kind: step
+    gha: [reference/workflows-and-actions/workflow-syntax#jobsjob_idstepsworking-directory]
+  withEnv:
+    kind: step
+    gha: [reference/workflows-and-actions/workflow-syntax#jobsjob_idstepsenv, reference/workflows-and-actions/workflow-commands#setting-an-environment-variable]
+  node:
+    kind: step
+    gha: [reference/workflows-and-actions/workflow-syntax#jobsjob_idruns-on, concepts/runners/self-hosted-runners]
+  podTemplate:
+    kind: step
+    gha: [concepts/runners/actions-runner-controller, how-tos/manage-runners/use-actions-runner-controller/use-arc-in-a-workflow, reference/workflows-and-actions/workflow-syntax#jobsjob_idservices]
+    note: Kubernetes pod agents -> ARC runner scale sets, or job container + services.
+  docker:
+    kind: global
+    jenkins: [globals/docker.md, handbook/pipeline/docker.md]
+    gha: [how-tos/write-workflows/choose-where-workflows-run/run-jobs-in-a-container, tutorials/use-containerized-services/use-docker-service-containers, tutorials/publish-packages/publish-docker-images]
+  env:
+    kind: global
+    jenkins: [globals/env.md]
+    gha: [reference/workflows-and-actions/variables#default-environment-variables, reference/workflows-and-actions/contexts#github-context]
+    note: BRANCH_NAME -> github.ref_name / github.head_ref; BUILD_NUMBER -> github.run_number.
+  currentBuild:
+    kind: global
+    jenkins: [globals/currentBuild.md]
+    gha: [reference/workflows-and-actions/contexts#job-context, reference/workflows-and-actions/expressions#status-check-functions]
+  params:
+    kind: global
+    jenkins: [globals/params.md]
+    gha: [reference/workflows-and-actions/contexts#inputs-context]
+  # ------------------------------------------------------------------ concepts
+  credentials:
+    kind: concept
+    jenkins: [handbook/using/using-credentials.md, handbook/pipeline/jenkinsfile.md#handling-credentials]
+    gha: [concepts/security/secrets, how-tos/write-workflows/choose-what-workflows-do/use-secrets, concepts/security/openid-connect, concepts/security/github_token]
+  multibranch:
+    kind: concept
+    jenkins: [handbook/pipeline/multibranch.md]
+    gha: [reference/workflows-and-actions/events-that-trigger-workflows#pull_request, reference/workflows-and-actions/events-that-trigger-workflows#push]
+  scripted:
+    kind: concept
+    jenkins: [handbook/pipeline/syntax.md#scripted-pipeline, handbook/pipeline/cps-method-mismatches.md]
+    gha: [tutorials/migrate-to-github-actions/manual-migrations/migrate-from-jenkins]
+    note: Groovy control flow -> expressions/if, matrix, or a script step; anything dynamic needs redesign.
+  migration:
+    kind: concept
+    jenkins: [handbook/pipeline/jenkinsfile.md]
+    gha: [tutorials/migrate-to-github-actions/manual-migrations/migrate-from-jenkins, tutorials/migrate-to-github-actions/automated-migrations/jenkins-migration, reference/github-actions-importer]
+  limits:
+    kind: concept
+    gha: [reference/limits, reference/runners/github-hosted-runners]
+    note: job/workflow time limits, matrix size, queue and API limits.

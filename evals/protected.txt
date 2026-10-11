@@ -1,0 +1,28 @@
+# Paths a rule-improvement change (human or agent) must not modify: they define how results are judged.
+# `j2gha guard` fails on a match in [protected] and prints a warning for [review]. Globs use fnmatch on repo paths.
+# Existing lines in tests/ may not be removed or altered either (adding tests is fine).
+
+[protected]
+j2gha/validate/*
+j2gha/runners/*
+j2gha/gha/*
+j2gha/provenance.py
+j2gha/improve.py
+j2gha/analysis/ast.py
+docker/jenkins/groovy/*
+evals/*
+.github/*
+
+[lists]
+# Files that hold both the lists a new step must join (fine) and the logic that judges results (not fine). Only the
+# named top-level assignments may change; any other change to the module is a violation.
+j2gha/trace.py: TRACED_STEPS, SILENT_STUBS, STUBBED_WRAPPERS
+j2gha/jenkins/localize.py: FULL_MODE_STUBS, FULL_MODE_WRAPPER_STUBS, LOCALIZER_VERSION
+
+[review]
+# A list edit still needs a human: both sides must stay in step (the generator and the Jenkins localiser share
+# TRACED_STEPS, but FULL_MODE_STUBS is localiser-only).
+j2gha/trace.py
+j2gha/jenkins/localize.py
+docker/jenkins/plugins.txt
+docker/jenkins/Dockerfile

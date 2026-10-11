@@ -1,0 +1,240 @@
+@Library('test-shared-library@dai-updated') _
+import ai.h2o.ci.buildsummary.StagesSummary
+
+DEFAULT_LABEL = 'h2o3_linux'
+
+H2O_ECR='353750902984.dkr.ecr.us-east-1.amazonaws.com'
+
+// initialize build summary
+buildSummary('https://github.com/h2oai/h2o-3', true)
+// use default StagesSummary implementation
+buildSummary.get().addStagesSummary(this, new StagesSummary())
+
+properties([
+    parameters([
+        booleanParam(defaultValue: false, description: 'Build even if the image is already present in the repository', name: 'forceBuild'),
+        booleanParam(defaultValue: false, description: 'Publish built images', name: 'publish'),
+        string(defaultValue: 'master', description: 'H2O-3 Branch used to load dependencies.', name: 'h2oBranch'),
+        booleanParam(name: 'noCache', defaultValue: true, description: 'If set to true, the docker image is built from scratch, with no stages used from the cache.')
+    ])
+])
+
+// IMAGE_NAME_PREFIX = 'harbor.h2o.ai/opsh2oai/h2o-3'
+
+JDK_VERSIONS = ['8', '11', '17']
+JDK_VERSIONS_PY_R = ['8', '11', '17'] // stable, last-supported, latest
+
+def stashDockerImage(image) {
+	sh "echo docker save -o ${image}.tar ${H2O_ECR}/h2o-3/${image} > ${image}.tar" // j2gha-local: no Docker daemon; the echoed command is the image tarball the stash carries
+	stash includes: "${image}.tar", name: "docker-image-${image}"
+	sh "rm ${image}.tar"
+}
+
+def unstashDockerImage(image) {
+	unstash "docker-image-${image}"
+	sh "echo docker load -i ${image}.tar" // j2gha-local: no Docker daemon (the rm below still fails if the unstash did not deliver the tarball)
+	sh "rm ${image}.tar"
+}
+
+def stashDockerImages(target){
+	if (!params.publish) {  // when publish this is noop since we can retrieve the image from registry
+		toPersist = ["dev-base", "dev-jdk-8-base", "dev-jdk-others-base", "dev-python-3.7", "dev-r-4.5.2",
+					 "dev-build-base", "dev-build-hadoop", "dev-python-base", "dev-r-base"]
+		if (toPersist.contains(target)) {
+			stashDockerImage(target)
+		}
+	}
+}
+
+def unstashDockerImages(target){
+	if (!params.publish) {  // when publish this is noop since we can retrieve the image from registry
+		switch (target) {
+			case 'dev-jdk-8-base':
+			case 'dev-jdk-others-base':
+				unstashDockerImage("dev-base")
+				break
+			case 'dev-python-base':
+				unstashDockerImage("dev-jdk-8-base")
+				break
+			case 'dev-r-base':
+			case 'dev-mojocompat':
+				unstashDockerImage("dev-python-3.7")
+				break
+			case 'dev-build-base':
+				unstashDockerImage("dev-r-4.5.2")
+				break
+			case 'dev-build-hadoop':
+				unstashDockerImage("dev-build-base")
+				break
+			case 'dev-release':
+				unstashDockerImage("dev-build-hadoop")
+				break
+			default:
+				if (target.startsWith('dev-python-')) {
+					unstashDockerImage("dev-python-base")
+				} else if (target.startsWith('dev-r-')) {
+					unstashDockerImage("dev-r-base")
+				} else if (target ==~ /dev-jdk-\d+/) { 
+					unstashDockerImage("dev-jdk-others-base")
+				}
+				break
+		}
+	}
+}
+
+
+def pipelineContext
+
+ansiColor('xterm') {
+    timestamps {
+        def checkoutStageName = 'Checkout and Init'
+        stage(checkoutStageName) { // j2gha-local: was buildSummary.stageWithSummary(checkoutStageName): a library step (stubbed, so it opens no stage); stage() keeps the stage name the trace and the converter use
+            node (DEFAULT_LABEL) {
+                buildSummary.refreshStage(checkoutStageName)
+                cleanWs()
+                def scmEnv = checkout scm
+
+                def final pipelineContextFactory = load('scripts/jenkins/groovy/pipelineContext.groovy')
+                pipelineContext = pipelineContextFactory('.', 'MODE_BUILD_DOCKER', scmEnv, true)
+                def currentVersion = pipelineContext.getBuildConfig().getDefaultImageVersion()
+                currentBuild.displayName = "v${currentVersion} #${currentBuild.number}"
+
+                // if (params.publish && !params.forceBuild) {
+				// 	dockerLoginH2OECR()
+                //     if (imageExistsH2OECR("h2o-3/dev-base", "${currentVersion}")) {
+                //         error "Image already exists. Use forceBuild if you wish to overwrite."
+                //     }
+                // } else {
+                //     manager.addBadge("warning.gif", "forceBuild enabled")
+                // }
+
+                dir('docker') {
+                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'H2O-AWS_CT-JENKINS-SHARED-SERVICE-PROD', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]) {
+                        docker.image('d3fk/s3cmd').inside("--entrypoint='' -e AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID} -e AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}") {
+                            sh "echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-8/x64-linux/jdk-8u311-linux-x64.tar.gz > jdk-8u311-linux-x64.tar.gz" // j2gha-local: private S3 bucket; a stand-in tarball of the same name goes into the docker-sources stash
+                            sh "echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-10/x64-linux/jdk-10.0.2_linux-x64_bin.tar.gz > jdk-10.0.2_linux-x64_bin.tar.gz" // j2gha-local: as above
+                            sh "echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-11/x64-linux/jdk-11.0.3_linux-x64_bin.tar.gz > jdk-11.0.3_linux-x64_bin.tar.gz" // j2gha-local: as above
+                            sh "echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-12/x64-linux/jdk-12.0.2_linux-x64_bin.tar.gz > jdk-12.0.2_linux-x64_bin.tar.gz" // j2gha-local: as above
+                            sh "echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-13/x64-linux/jdk-13.0.2_linux-x64_bin.tar.gz > jdk-13.0.2_linux-x64_bin.tar.gz" // j2gha-local: as above
+                            sh "echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-14/x64-linux/jdk-14.0.2_linux-x64_bin.tar.gz > jdk-14.0.2_linux-x64_bin.tar.gz" // j2gha-local: as above
+                            sh "echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-15/x64-linux/jdk-15.0.2_linux-x64_bin.tar.gz > jdk-15.0.2_linux-x64_bin.tar.gz" // j2gha-local: as above
+                            sh "echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-16/x64-linux/jdk-16.0.2_linux-x64_bin.tar.gz > jdk-16.0.2_linux-x64_bin.tar.gz" // j2gha-local: as above
+                            sh "echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-17/x64-linux/jdk-17.0.0_linux-x64_bin.tar.gz > jdk-17.0.0_linux-x64_bin.tar.gz" // j2gha-local: as above
+                        }
+                    }
+                    stash name: 'docker-sources'
+                }
+            }
+        }
+
+		PYTHON_VERSIONS = pipelineContext.getBuildConfig().PYTHON_VERSIONS
+		R_VERSIONS = pipelineContext.getBuildConfig().R_VERSIONS
+		
+        buildInParallel(pipelineContext, ['dev-base'])
+        buildInParallel(pipelineContext, ['dev-jdk-8-base', 'dev-jdk-others-base'])
+
+        buildInParallel(pipelineContext, ['dev-python-base'])
+        def pythonImages = []
+        PYTHON_VERSIONS.each {version ->
+            pythonImages += "dev-python-${version}"
+        }
+        buildInParallel(pipelineContext, pythonImages)
+
+        buildInParallel(pipelineContext, ['dev-r-base'])
+        def componentImages = []
+        R_VERSIONS.each {version ->
+            componentImages += "dev-r-${version}"
+        }
+        JDK_VERSIONS.each {version ->
+            componentImages += "dev-jdk-${version}"
+        }
+        componentImages += "dev-mojocompat"
+        buildInParallel(pipelineContext, componentImages)
+
+        buildInParallel(pipelineContext, ["dev-build-base"])
+        buildInParallel(pipelineContext, ["dev-build-hadoop"],)
+        buildInParallel(pipelineContext, ["dev-release"])
+
+        def componentJdkImages = []
+        PYTHON_VERSIONS.each {version ->
+            JDK_VERSIONS_PY_R.each {jdkVersion ->
+                componentJdkImages += "dev-python-${version}-jdk-${jdkVersion}"
+            }
+        }
+        R_VERSIONS.each {version ->
+            JDK_VERSIONS_PY_R.each {jdkVersion ->
+                componentJdkImages += "dev-r-${version}-jdk-${jdkVersion}"
+            }
+        }
+        buildInParallel(pipelineContext, componentJdkImages)
+    }
+}
+
+private buildInParallel(final pipelineContext, final targets) {
+    parallel(targets.collectEntries { target ->
+        [
+                (target): makeStage(pipelineContext, target),
+        ]
+    })
+}
+
+private Closure makeStage(final pipelineContext, String target) {
+    return {
+        def buildImageStageName = "Build $target"
+        stage(buildImageStageName) { // j2gha-local: was buildSummary.stageWithSummary(buildImageStageName), as at the checkout stage
+            final String noCache = params.noCache ? "--no-cache" : ""
+            node (DEFAULT_LABEL) {
+                buildSummary.refreshStage(buildImageStageName)
+                dir (target) {
+                    deleteDir()
+                    dockerLoginH2OECR()
+					unstashDockerImages(target)
+                    if(!imageExistsH2OECR("h2o-3/${target}", "${pipelineContext.getBuildConfig().getDefaultImageVersion()}") || params.forceBuild){
+                        unstash 'docker-sources'
+                        // j2gha-local: `make <target>` runs docker build (and docker push when PUSH=true); no Docker daemon here, so the command is echoed
+                        sh """
+                            echo make \
+                                CI=1 \
+                                H2O_BRANCH=${params.h2oBranch} \
+                                VERSION=${pipelineContext.getBuildConfig().getDefaultImageVersion()} \
+                                PUSH=${params.publish} \
+                                NO_CACHE=${noCache} \
+                                ${target}  # j2gha-local: not run
+                        """
+                    } else {
+                        println "${H2O_ECR}/h2o-3/${target} already exists"
+                    }  
+                    stashDockerImages(target)
+                }
+            }
+        }
+    }
+}
+
+def dockerLoginH2OECR(){
+    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: "H2O-AWS_CT-JENKINS-H2O-ECR"]]) {
+        H2O_ECR_PWD = sh(script: 'echo aws ecr get-login-password --region us-east-1', returnStdout: true).trim() // j2gha-local: no AWS CLI or account; the echoed command stands in for the password
+        sh """
+            echo docker login --username AWS --password $H2O_ECR_PWD $H2O_ECR  # j2gha-local: no Docker daemon, no ECR
+        """
+    }
+}
+
+def imageExistsH2OECR(String repository, String tag) {
+	try {
+		def result = "-1"
+		withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: "H2O-AWS_CT-JENKINS-H2O-ECR"]]) {
+			// j2gha-local: no AWS CLI; the echoed command never equals the tag, so every image is built, as against an empty registry
+			result = sh(
+				script: "echo aws ecr batch-get-image --registry-id=353750902984 --repository-name='${repository}' --image-ids=imageTag='${tag}' --query 'images[].imageId.imageTag' --output text",
+				returnStdout: true
+			).trim()
+		}
+    
+		return result == tag
+	} catch (Exception e) {
+		// We didn't find the image. Exception can be thrown due to status code 254 that corresponds to "The repository with name 'h2o-3/xyz' does not exist in the registry with id 'xxx'"
+		return false
+	}
+}
+

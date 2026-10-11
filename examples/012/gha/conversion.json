@@ -1,0 +1,256 @@
+{
+  "counts": {
+    "mapped": 16,
+    "approximated": 8,
+    "info": 1
+  },
+  "automation_pct": 86.7,
+  "items": [
+    {
+      "jenkins": "environment M2_HOME",
+      "line": 12,
+      "stage": null,
+      "status": "mapped",
+      "gha": "env",
+      "note": ""
+    },
+    {
+      "jenkins": "parameters: string PERSON",
+      "line": 18,
+      "stage": null,
+      "status": "mapped",
+      "gha": "on.workflow_dispatch.inputs",
+      "note": ""
+    },
+    {
+      "jenkins": "stage 'Init' when",
+      "line": 25,
+      "stage": "Init",
+      "status": "mapped",
+      "gha": "if: env.BRANCH == 'develop'",
+      "note": "evaluated once at stage entry against env"
+    },
+    {
+      "jenkins": "stage 'Parallel Stage' when",
+      "line": 44,
+      "stage": "Parallel Stage",
+      "status": "mapped",
+      "gha": "if: env.BRANCH == 'develop'",
+      "note": "evaluated once at stage entry against env"
+    },
+    {
+      "jenkins": "echo",
+      "line": 51,
+      "stage": "Branch A",
+      "status": "mapped",
+      "gha": "run: echo",
+      "note": ""
+    },
+    {
+      "jenkins": "echo",
+      "line": 56,
+      "stage": "Branch B",
+      "status": "mapped",
+      "gha": "run: echo",
+      "note": ""
+    },
+    {
+      "jenkins": "environment M2_HOME",
+      "line": 65,
+      "stage": "Build",
+      "status": "mapped",
+      "gha": "env",
+      "note": ""
+    },
+    {
+      "jenkins": "echo",
+      "line": 73,
+      "stage": "Build",
+      "status": "mapped",
+      "gha": "run: echo",
+      "note": ""
+    },
+    {
+      "jenkins": "echo",
+      "line": 75,
+      "stage": "Build",
+      "status": "mapped",
+      "gha": "run: echo",
+      "note": ""
+    },
+    {
+      "jenkins": "echo",
+      "line": 77,
+      "stage": "Build",
+      "status": "mapped",
+      "gha": "run: echo",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 79,
+      "stage": "Build",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 80,
+      "stage": "Build",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "echo",
+      "line": 81,
+      "stage": "Build",
+      "status": "mapped",
+      "gha": "run: echo",
+      "note": ""
+    },
+    {
+      "jenkins": "echo",
+      "line": 86,
+      "stage": "Deploy",
+      "status": "mapped",
+      "gha": "run: echo",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 87,
+      "stage": "Deploy",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 89,
+      "stage": "Deploy",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "(no pipeline timeout)",
+      "line": null,
+      "stage": null,
+      "status": "approximated",
+      "gha": "timeout-minutes: 60",
+      "note": "explicit job timeout added (GitHub's default is 360 minutes); set J2GHA_DEFAULT_TIMEOUT to change"
+    },
+    {
+      "jenkins": "agent label 'java'",
+      "line": 3,
+      "stage": "Init",
+      "status": "approximated",
+      "gha": "runs-on: ubuntu-latest",
+      "note": "use a self-hosted runner label if the agent provides special tooling/network"
+    },
+    {
+      "jenkins": "environment BRANCH",
+      "line": 11,
+      "stage": null,
+      "status": "approximated",
+      "gha": "evaluated by shell at runtime",
+      "note": "pipeline-level: written to $GITHUB_ENV; stage-level: exported before each run step"
+    },
+    {
+      "jenkins": "environment PATH",
+      "line": 14,
+      "stage": null,
+      "status": "approximated",
+      "gha": "evaluated by shell at runtime",
+      "note": "pipeline-level: written to $GITHUB_ENV; stage-level: exported before each run step"
+    },
+    {
+      "jenkins": "stage 'Init' input",
+      "line": 27,
+      "stage": "Init",
+      "status": "approximated",
+      "gha": "job environment 'Init'",
+      "note": "configure required reviewers on the environment; input parameters are not supported"
+    },
+    {
+      "jenkins": "stage 'Parallel Stage' failFast",
+      "line": 41,
+      "stage": "Parallel Stage",
+      "status": "approximated",
+      "gha": "-",
+      "note": "GHA cannot cancel sibling jobs outside a matrix; consider strategy.fail-fast"
+    },
+    {
+      "jenkins": "stage 'Parallel Stage' parallel (2 branches)",
+      "line": 41,
+      "stage": "Parallel Stage",
+      "status": "approximated",
+      "gha": "parallel jobs with needs",
+      "note": "branches run as separate jobs: the pipeline workspace is handed on to them and from them to later stages (j2gha-ws-* artifacts), but branches running at the same time do not see each other's files, and a file two branches write takes the later branch's version"
+    },
+    {
+      "jenkins": "stage 'Build' options: timeout",
+      "line": 62,
+      "stage": "Build",
+      "status": "approximated",
+      "gha": "timeout-minutes: 60 per step",
+      "note": "Jenkins times out the whole stage"
+    },
+    {
+      "jenkins": "checkout: SCM environment (GIT_COMMIT, GIT_BRANCH, GIT_URL)",
+      "line": null,
+      "stage": null,
+      "status": "info",
+      "gha": "env",
+      "note": "Jenkins' git plugin exports them to every step after a checkout, so called scripts may read them; defined at workflow level even when the Jenkinsfile does not"
+    }
+  ],
+  "secrets": {},
+  "jobs": {
+    "init": {
+      "name": "Init",
+      "runs-on": "ubuntu-latest",
+      "steps": 6,
+      "matrix": false
+    },
+    "parallel-stage-branch-a": {
+      "name": "Parallel Stage / Branch A",
+      "runs-on": "ubuntu-latest",
+      "steps": 9,
+      "matrix": false
+    },
+    "parallel-stage-branch-b": {
+      "name": "Parallel Stage / Branch B",
+      "runs-on": "ubuntu-latest",
+      "steps": 9,
+      "matrix": false
+    },
+    "build": {
+      "name": "Build, Deploy",
+      "runs-on": "ubuntu-latest",
+      "steps": 15,
+      "matrix": false
+    }
+  },
+  "notes": [],
+  "handoff": {
+    "handed_on": [
+      "init",
+      "parallel-stage-branch-a",
+      "parallel-stage-branch-b"
+    ],
+    "merged": [
+      "parallel-stage-branch-a",
+      "parallel-stage-branch-b"
+    ],
+    "restored_by": [
+      "parallel-stage-branch-a",
+      "parallel-stage-branch-b",
+      "build"
+    ]
+  },
+  "source_sha256": "44ca16fdca89ceb9c9d2302ea00447335893a3ef1fef6838d27009b26bb77253",
+  "model_sha256": "aec12b4c293dbfb69223b0fd4239ea68c6d70fd47b5b9bde43cd0b7a524ae567"
+}

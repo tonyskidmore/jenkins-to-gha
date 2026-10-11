@@ -1,0 +1,605 @@
+{
+  "dialect": "declarative",
+  "line": 376,
+  "agent": {
+    "kind": "none",
+    "line": 379
+  },
+  "environment": {
+    "GIT_COMMITTER_NAME": {
+      "kind": "literal",
+      "value": "Jenkins User",
+      "line": 384
+    },
+    "GIT_COMMITTER_EMAIL": {
+      "kind": "literal",
+      "value": "couchdb@apache.org",
+      "line": 385
+    },
+    "DOCKER_ARGS": {
+      "kind": "literal",
+      "value": "-e npm_config_cache=/home/jenkins/.npm -e HOME=. -e MIX_HOME=/home/jenkins/.mix -e HEX_HOME=/home/jenkins/.hex -e PIP_CACHE_DIR=/home/jenkins/.cache/pip -v=/etc/passwd:/etc/passwd -v /etc/group:/etc/group -v /home/jenkins/.gradle:/home/jenkins/.gradle:rw,z -v /home/jenkins/.hex:/home/jenkins/.hex:rw,z -v /home/jenkins/.npm:/home/jenkins/.npm:rw,z -v /home/jenkins/.cache/pip:/home/jenkins/.cache/pip:rw,z -v /home/jenkins/.mix:/home/jenkins/.mix:rw,z",
+      "line": 390
+    }
+  },
+  "options": {
+    "buildDiscarder": "logRotator(...)",
+    "preserveStashes": {
+      "buildCount": 10
+    },
+    "timeout": {
+      "time": 4,
+      "unit": "HOURS",
+      "minutes": 240
+    },
+    "timestamps": true
+  },
+  "stages": [
+    {
+      "name": "Setup Env",
+      "line": 402,
+      "agent": {
+        "kind": "docker",
+        "label": "docker",
+        "image": "${DOCKER_IMAGE_BASE}-${MINIMUM_ERLANG_VERSION}",
+        "args": "${DOCKER_ARGS}",
+        "raw": {
+          "image": "${DOCKER_IMAGE_BASE}-${MINIMUM_ERLANG_VERSION}",
+          "label": "docker",
+          "args": "${DOCKER_ARGS}",
+          "registryUrl": "https://docker.io/",
+          "registryCredentialsId": "dockerhub_creds"
+        },
+        "line": 403
+      },
+      "steps": [
+        {
+          "name": "script",
+          "line": 413,
+          "body": [
+            {
+              "name": "<assign>",
+              "line": 414,
+              "named": {
+                "_target": "env.DOCS_CHANGED",
+                "_literal": "0"
+              },
+              "category": "dynamic",
+              "source": "env.DOCS_CHANGED = 0",
+              "dynamic": true
+            },
+            {
+              "name": "<assign>",
+              "line": 415,
+              "named": {
+                "_target": "env.ONLY_DOCS_CHANGED",
+                "_literal": "0"
+              },
+              "category": "dynamic",
+              "source": "env.ONLY_DOCS_CHANGED = 0",
+              "dynamic": true
+            },
+            {
+              "name": "<assign>",
+              "line": 416,
+              "named": {
+                "_target": "env.GITHUB_CHANGED",
+                "_literal": "0"
+              },
+              "category": "dynamic",
+              "source": "env.GITHUB_CHANGED = 0",
+              "dynamic": true
+            },
+            {
+              "name": "<assign>",
+              "line": 417,
+              "named": {
+                "_target": "env.ONLY_GITHUB_CHANGED",
+                "_literal": "0"
+              },
+              "category": "dynamic",
+              "source": "env.ONLY_GITHUB_CHANGED = 0",
+              "dynamic": true
+            },
+            {
+              "name": "<if>",
+              "line": 418,
+              "body": [
+                {
+                  "name": "<assign>",
+                  "line": 419,
+                  "named": {
+                    "_target": "env.DOCS_CHANGED",
+                    "_literal": "1"
+                  },
+                  "category": "dynamic",
+                  "source": "env.DOCS_CHANGED = 1",
+                  "dynamic": true
+                },
+                {
+                  "name": "<if>",
+                  "line": 420,
+                  "body": [
+                    {
+                      "name": "<assign>",
+                      "line": 421,
+                      "named": {
+                        "_target": "env.ONLY_DOCS_CHANGED",
+                        "_literal": "1"
+                      },
+                      "category": "dynamic",
+                      "source": "env.ONLY_DOCS_CHANGED = 1",
+                      "dynamic": true
+                    }
+                  ],
+                  "category": "dynamic",
+                  "source": "sh(returnStatus: true, script: other_changes) == 1",
+                  "dynamic": true
+                }
+              ],
+              "category": "dynamic",
+              "source": "sh(returnStatus: true, script: docs_changed) == 0 ",
+              "dynamic": true
+            },
+            {
+              "name": "<if>",
+              "line": 424,
+              "body": [
+                {
+                  "name": "<assign>",
+                  "line": 425,
+                  "named": {
+                    "_target": "env.GITHUB_CHANGED",
+                    "_literal": "1"
+                  },
+                  "category": "dynamic",
+                  "source": "env.GITHUB_CHANGED = 1",
+                  "dynamic": true
+                },
+                {
+                  "name": "<if>",
+                  "line": 426,
+                  "body": [
+                    {
+                      "name": "<assign>",
+                      "line": 427,
+                      "named": {
+                        "_target": "env.ONLY_GITHUB_CHANGED",
+                        "_literal": "1"
+                      },
+                      "category": "dynamic",
+                      "source": "env.ONLY_GITHUB_CHANGED = 1",
+                      "dynamic": true
+                    }
+                  ],
+                  "category": "dynamic",
+                  "source": "sh(returnStatus: true, script: other_changes) == 1",
+                  "dynamic": true
+                }
+              ],
+              "category": "dynamic",
+              "source": "sh(returnStatus: true, script: github_changed) == 0 ",
+              "dynamic": true
+            }
+          ],
+          "category": "dynamic"
+        }
+      ],
+      "post": {
+        "cleanup": [
+          {
+            "name": "sh",
+            "line": 434,
+            "args": [
+              "${wscleanup()}"
+            ],
+            "category": "direct",
+            "dynamic": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "Build Docs",
+      "line": 439,
+      "agent": {
+        "kind": "docker",
+        "label": "docker",
+        "image": "${DOCKER_IMAGE_BASE}-${MINIMUM_ERLANG_VERSION}",
+        "args": "${DOCKER_ARGS}",
+        "raw": {
+          "image": "${DOCKER_IMAGE_BASE}-${MINIMUM_ERLANG_VERSION}",
+          "label": "docker",
+          "args": "${DOCKER_ARGS}",
+          "registryUrl": "https://docker.io/",
+          "registryCredentialsId": "dockerhub_creds"
+        },
+        "line": 446
+      },
+      "when": {
+        "conditions": [
+          {
+            "kind": "expression",
+            "text": "ONLY_DOCS_CHANGED == '1'",
+            "line": 444
+          }
+        ],
+        "before_options": true
+      },
+      "steps": [
+        {
+          "name": "sh",
+          "line": 456,
+          "args": [
+            "make python-black"
+          ],
+          "category": "direct"
+        },
+        {
+          "name": "sh",
+          "line": 457,
+          "args": [
+            "(cd src/docs && ./setup.sh  ; make check)"
+          ],
+          "category": "direct"
+        },
+        {
+          "name": "sh",
+          "line": 458,
+          "args": [
+            "(cd src/docs && make html)"
+          ],
+          "category": "direct"
+        }
+      ],
+      "post": {
+        "cleanup": [
+          {
+            "name": "sh",
+            "line": 462,
+            "args": [
+              "${wscleanup()}"
+            ],
+            "category": "direct",
+            "dynamic": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "Build Release Tarball",
+      "line": 467,
+      "agent": {
+        "kind": "docker",
+        "label": "docker",
+        "image": "${DOCKER_IMAGE_BASE}-${MINIMUM_ERLANG_VERSION}",
+        "args": "${DOCKER_ARGS}",
+        "raw": {
+          "label": "docker",
+          "image": "${DOCKER_IMAGE_BASE}-${MINIMUM_ERLANG_VERSION}",
+          "args": "${DOCKER_ARGS}",
+          "registryUrl": "https://docker.io/",
+          "registryCredentialsId": "dockerhub_creds"
+        },
+        "line": 472
+      },
+      "when": {
+        "conditions": [
+          {
+            "kind": "expression",
+            "text": "ONLY_DOCS_CHANGED == '0' && ONLY_GITHUB_CHANGED == '0'",
+            "line": 470
+          }
+        ],
+        "before_options": true
+      },
+      "steps": [
+        {
+          "name": "sh",
+          "line": 482,
+          "named": {
+            "script": "rm -rf apache-couchdb-*",
+            "label": "Clean workspace of any previous release artifacts"
+          },
+          "category": "direct"
+        },
+        {
+          "name": "sh",
+          "line": 483,
+          "args": [
+            "echo \"skipped: ./configure --spidermonkey-version 128 --with-nouveau\""
+          ],
+          "category": "direct"
+        },
+        {
+          "name": "sh",
+          "line": 484,
+          "args": [
+            "echo \"skipped: make erlfmt-check\""
+          ],
+          "category": "direct"
+        },
+        {
+          "name": "sh",
+          "line": 485,
+          "args": [
+            "echo \"skipped: make elixir-source-checks\""
+          ],
+          "category": "direct"
+        },
+        {
+          "name": "sh",
+          "line": 486,
+          "args": [
+            "echo \"skipped: make python-black\""
+          ],
+          "category": "direct"
+        },
+        {
+          "name": "sh",
+          "line": 487,
+          "args": [
+            "\n          # j2gha-local: was `make -j4 --output-sync=target dist` (needs Erlang, rebar, Elixir and Sphinx). Builds a\n          # stand-in release tarball named as the real dist target names it from version.mk (the tarball-build form,\n          # without the git sha suffix, so both sides archive the same name). Its configure and Makefile stand in for\n          # CouchDB's: the Test and Package stage runs its configure/make/junit/package commands against them unchanged.\n          . ./version.mk\n          rel=\"apache-couchdb-${vsn_major}.${vsn_minor}.${vsn_patch}\"\n          rm -rf \"$rel\" && mkdir -p \"$rel\"\n          cp LICENSE NOTICE version.mk \"$rel/\"\n          printf '%s\n' '#!/bin/sh' 'echo \"configure (j2gha-local stand-in): $*\"' > \"$rel/configure\"\n          chmod +x \"$rel/configure\"\n          printf '%s\n' \"<testsuite name='couch_tests' tests='2' failures='0' errors='0'>\"             \"<testcase classname='couch_tests' name='basic'/>\" \"<testcase classname='couch_tests' name='config'/>\"             '</testsuite>' > \"$rel/eunit-report.xml\"\n          printf '%s\n' '.RECIPEPREFIX := >'             'all xref elixir elixir-search mango-test weatherreport-test nouveau-test quickjs-test262 build-report:'             '>@echo \"make $@ (j2gha-local stand-in)\"'             'eunit:'             '>mkdir -p .eunit && cp eunit-report.xml .eunit/couch_tests.xml' > \"$rel/Makefile\"\n          tar czf \"$rel.tar.gz\" \"$rel\" && rm -rf \"$rel\"\n          echo \"Done: $rel.tar.gz\"\n        "
+          ],
+          "category": "direct"
+        }
+      ],
+      "post": {
+        "success": [
+          {
+            "name": "stash",
+            "line": 512,
+            "named": {
+              "includes": "apache-couchdb-*.tar.gz",
+              "name": "tarball"
+            },
+            "category": "policy"
+          },
+          {
+            "name": "archiveArtifacts",
+            "line": 513,
+            "named": {
+              "artifacts": "apache-couchdb-*.tar.gz",
+              "fingerprint": true
+            },
+            "category": "direct"
+          }
+        ],
+        "failure": [
+          {
+            "name": "sh",
+            "line": 516,
+            "args": [
+              "ls -l ${WORKSPACE}"
+            ],
+            "category": "direct"
+          }
+        ],
+        "cleanup": [
+          {
+            "name": "sh",
+            "line": 519,
+            "args": [
+              "${wscleanup()}"
+            ],
+            "category": "direct",
+            "dynamic": true
+          }
+        ]
+      }
+    },
+    {
+      "name": "Test and Package",
+      "line": 524,
+      "when": {
+        "conditions": [
+          {
+            "kind": "expression",
+            "text": "ONLY_DOCS_CHANGED == '0' && ONLY_GITHUB_CHANGED == '0'",
+            "line": 527
+          }
+        ],
+        "before_options": true
+      },
+      "steps": [
+        {
+          "name": "script",
+          "line": 530,
+          "body": [
+            {
+              "name": "<assign>",
+              "line": 532,
+              "named": {
+                "_target": "parallelStagesMap"
+              },
+              "body": [
+                {
+                  "name": "collectEntries",
+                  "line": 532,
+                  "body": [
+                    {
+                      "name": "<if>",
+                      "line": 533,
+                      "named": {
+                        "_else": [
+                          {
+                            "name": "<expr>",
+                            "line": 537,
+                            "category": "dynamic",
+                            "source": "[\"${key}\": generateNativeStage(key)]",
+                            "dynamic": true
+                          }
+                        ]
+                      },
+                      "body": [
+                        {
+                          "name": "<expr>",
+                          "line": 534,
+                          "category": "dynamic",
+                          "source": "[\"${key}\": generateContainerStage(key)]",
+                          "dynamic": true
+                        }
+                      ],
+                      "category": "dynamic",
+                      "source": "values.image",
+                      "dynamic": true
+                    }
+                  ],
+                  "category": "groovy",
+                  "receiver": "meta"
+                }
+              ],
+              "category": "dynamic",
+              "source": "parallelStagesMap = meta.collectEntries(...)",
+              "dynamic": true
+            },
+            {
+              "name": "parallel",
+              "line": 540,
+              "args": [
+                "parallelStagesMap"
+              ],
+              "category": "policy",
+              "dynamic": true,
+              "variable_args": [
+                0
+              ]
+            }
+          ],
+          "category": "dynamic"
+        }
+      ]
+    }
+  ],
+  "methods": [
+    "configure",
+    "wscleanup",
+    "generateNativeStage",
+    "generateContainerStage"
+  ],
+  "method_defs": {
+    "configure": {
+      "params": [
+        "config"
+      ],
+      "body": [
+        {
+          "name": "<if>",
+          "line": 83,
+          "named": {
+            "_else": [
+              {
+                "name": "<assign>",
+                "line": 86,
+                "named": {
+                  "_target": "result"
+                },
+                "category": "dynamic",
+                "source": "result = ./configure --skip-deps --spidermonkey-version ${config.spidermonkey_vsn}",
+                "dynamic": true
+              }
+            ]
+          },
+          "body": [
+            {
+              "name": "<assign>",
+              "line": 84,
+              "named": {
+                "_target": "result",
+                "_literal": "./configure --skip-deps --disable-spidermonkey"
+              },
+              "category": "dynamic",
+              "source": "result = ./configure --skip-deps --disable-spidermonkey",
+              "dynamic": true
+            }
+          ],
+          "category": "dynamic",
+          "source": "config.disable_spidermonkey",
+          "dynamic": true
+        },
+        {
+          "name": "<if>",
+          "line": 88,
+          "body": [
+            {
+              "name": "<assign>",
+              "line": 89,
+              "named": {
+                "_target": "result",
+                "_literal": " --with-nouveau"
+              },
+              "category": "dynamic",
+              "source": "result =  --with-nouveau",
+              "dynamic": true
+            }
+          ],
+          "category": "dynamic",
+          "source": "config.with_nouveau",
+          "dynamic": true
+        },
+        {
+          "name": "<if>",
+          "line": 91,
+          "body": [
+            {
+              "name": "<assign>",
+              "line": 92,
+              "named": {
+                "_target": "result",
+                "_literal": " --with-clouseau"
+              },
+              "category": "dynamic",
+              "source": "result =  --with-clouseau",
+              "dynamic": true
+            }
+          ],
+          "category": "dynamic",
+          "source": "config.with_clouseau",
+          "dynamic": true
+        },
+        {
+          "name": "<return>",
+          "line": 94,
+          "category": "dynamic",
+          "dynamic": true
+        }
+      ]
+    },
+    "wscleanup": {
+      "body": [
+        {
+          "name": "<return>",
+          "line": 104,
+          "category": "dynamic",
+          "dynamic": true
+        }
+      ]
+    },
+    "generateNativeStage": {
+      "params": [
+        "platform"
+      ],
+      "body": [
+        {
+          "name": "<return>",
+          "line": 121,
+          "category": "dynamic",
+          "dynamic": true
+        }
+      ]
+    },
+    "generateContainerStage": {
+      "params": [
+        "platform"
+      ],
+      "body": [
+        {
+          "name": "<return>",
+          "line": 291,
+          "category": "dynamic",
+          "dynamic": true
+        }
+      ]
+    }
+  }
+}

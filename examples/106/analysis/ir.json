@@ -1,0 +1,676 @@
+{
+  "dialect": "declarative",
+  "line": 1,
+  "agent": {
+    "kind": "any",
+    "line": 3
+  },
+  "stages": [
+    {
+      "name": "Setup",
+      "line": 6,
+      "steps": [
+        {
+          "name": "script",
+          "line": 8,
+          "body": [
+            {
+              "name": "<if>",
+              "line": 10,
+              "named": {
+                "_else": [
+                  {
+                    "name": "<if>",
+                    "line": 12,
+                    "named": {
+                      "_else": [
+                        {
+                          "name": "<if>",
+                          "line": 14,
+                          "named": {
+                            "_else": [
+                              {
+                                "name": "error",
+                                "line": 17,
+                                "args": [
+                                  "Unknown branch type: ${env.GIT_BRANCH}"
+                                ],
+                                "category": "direct",
+                                "dynamic": true
+                              }
+                            ]
+                          },
+                          "body": [
+                            {
+                              "name": "<assign>",
+                              "line": 15,
+                              "named": {
+                                "_target": "target",
+                                "_literal": "pro"
+                              },
+                              "category": "dynamic",
+                              "source": "target = pro",
+                              "dynamic": true
+                            }
+                          ],
+                          "category": "dynamic",
+                          "source": "env.GIT_BRANCH == 'origin/master'",
+                          "dynamic": true
+                        }
+                      ]
+                    },
+                    "body": [
+                      {
+                        "name": "<assign>",
+                        "line": 13,
+                        "named": {
+                          "_target": "target",
+                          "_literal": "pre"
+                        },
+                        "category": "dynamic",
+                        "source": "target = pre",
+                        "dynamic": true
+                      }
+                    ],
+                    "category": "dynamic",
+                    "source": "env.GIT_BRANCH ==~ /(.+)release-(.+)/",
+                    "dynamic": true
+                  }
+                ]
+              },
+              "body": [
+                {
+                  "name": "<assign>",
+                  "line": 11,
+                  "named": {
+                    "_target": "target",
+                    "_literal": "dev"
+                  },
+                  "category": "dynamic",
+                  "source": "target = dev",
+                  "dynamic": true
+                }
+              ],
+              "category": "dynamic",
+              "source": "env.GIT_BRANCH == 'origin/develop' || env.GIT_BRANCH ==~ /(.+)feature-(.+)/",
+              "dynamic": true
+            },
+            {
+              "name": "<assign>",
+              "line": 21,
+              "named": {
+                "_target": "oversion"
+              },
+              "body": [
+                {
+                  "name": "sh",
+                  "line": 21,
+                  "named": {
+                    "script": "jq -r '.variable.iac_version.default' src/package.tf",
+                    "returnStdout": true,
+                    "_chain": "trim"
+                  },
+                  "category": "direct"
+                }
+              ],
+              "category": "dynamic",
+              "source": "oversion = sh(script: \"jq -r '.variable.iac_version.default' src/package.tf\", returnStdout: true).trim(...)",
+              "dynamic": true
+            },
+            {
+              "name": "<assign>",
+              "line": 24,
+              "named": {
+                "_target": "version"
+              },
+              "category": "dynamic",
+              "source": "version = ${oversion.take(...)}-${env.BUILD_NUMBER}",
+              "dynamic": true
+            },
+            {
+              "name": "<assign>",
+              "line": 25,
+              "named": {
+                "_target": "oversion"
+              },
+              "body": [
+                {
+                  "name": "take",
+                  "line": 25,
+                  "args": [
+                    10
+                  ],
+                  "category": "groovy",
+                  "receiver": "oversion"
+                }
+              ],
+              "category": "dynamic",
+              "source": "oversion = oversion.take(...)",
+              "dynamic": true
+            },
+            {
+              "name": "<assign>",
+              "line": 26,
+              "named": {
+                "_target": "iacname"
+              },
+              "category": "dynamic",
+              "source": "iacname = env.JOB_NAME",
+              "dynamic": true
+            },
+            {
+              "name": "<assign>",
+              "line": 29,
+              "named": {
+                "_target": "prjname",
+                "_literal": "oss-opensource"
+              },
+              "category": "dynamic",
+              "source": "prjname = oss-opensource",
+              "dynamic": true
+            },
+            {
+              "name": "<assign>",
+              "line": 32,
+              "named": {
+                "_target": "packname"
+              },
+              "category": "dynamic",
+              "source": "packname = ${iacname}-v${version}.tar.gz",
+              "dynamic": true
+            },
+            {
+              "name": "<assign>",
+              "line": 35,
+              "named": {
+                "_target": "publish_url"
+              },
+              "category": "dynamic",
+              "source": "publish_url = ${env.NEXUS_URL }/repository/raw-terraform/${prjname}/${packname}",
+              "dynamic": true
+            }
+          ],
+          "category": "dynamic"
+        }
+      ]
+    },
+    {
+      "name": "Build",
+      "line": 40,
+      "steps": [
+        {
+          "name": "sh",
+          "line": 43,
+          "args": [
+            "sed -i 's/iac-provider/terraform/g' src/variables.tf"
+          ],
+          "category": "direct"
+        },
+        {
+          "name": "sh",
+          "line": 44,
+          "args": [
+            "sed -i 's/iac-artifact/${packname}/g' src/variables.tf"
+          ],
+          "category": "direct",
+          "dynamic": true
+        },
+        {
+          "name": "sh",
+          "line": 45,
+          "args": [
+            "sed -i 's/iac-scm-commit/${env.GIT_COMMIT}/g' src/variables.tf"
+          ],
+          "category": "direct",
+          "dynamic": true
+        },
+        {
+          "name": "sh",
+          "line": 46,
+          "args": [
+            "sed -i 's|iac-scm-branch|${env.GIT_BRANCH}|g' src/variables.tf"
+          ],
+          "category": "direct",
+          "dynamic": true
+        },
+        {
+          "name": "sh",
+          "line": 47,
+          "args": [
+            "sed -i 's/iac-build-by/jenkins/g' src/variables.tf"
+          ],
+          "category": "direct"
+        },
+        {
+          "name": "sh",
+          "line": 48,
+          "args": [
+            "sed -i 's/iac-build-name/${env.JOB_NAME}/g' src/variables.tf"
+          ],
+          "category": "direct",
+          "dynamic": true
+        },
+        {
+          "name": "sh",
+          "line": 49,
+          "args": [
+            "sed -i 's/iac-build-id/${env.BUILD_NUMBER}/g' src/variables.tf"
+          ],
+          "category": "direct",
+          "dynamic": true
+        },
+        {
+          "name": "sh",
+          "line": 50,
+          "args": [
+            "sed -i 's/iac-build-date/${currentBuild.startTimeInMillis}/g' src/variables.tf"
+          ],
+          "category": "direct",
+          "dynamic": true
+        },
+        {
+          "name": "sh",
+          "line": 53,
+          "args": [
+            "sed -i 's/${oversion}/${version}/g' src/package.tf"
+          ],
+          "category": "direct",
+          "dynamic": true
+        },
+        {
+          "name": "sh",
+          "line": 56,
+          "args": [
+            "tar --exclude='./.git' --exclude='./Jenkinsfile' --exclude='*.tar.gz' -czv ./src -f ${packname}"
+          ],
+          "category": "direct",
+          "dynamic": true
+        }
+      ]
+    },
+    {
+      "name": "Publish",
+      "line": 60,
+      "steps": [
+        {
+          "name": "withCredentials",
+          "line": 62,
+          "args": [
+            [
+              {
+                "expr": "usernamePassword(...)"
+              }
+            ]
+          ],
+          "named": {
+            "bindings": [
+              {
+                "type": "usernamePassword",
+                "credentialsId": "nexus-credential",
+                "passwordVariable": "NEXUS_PASSWORD",
+                "usernameVariable": "NEXUS_USERNAME"
+              }
+            ]
+          },
+          "body": [
+            {
+              "name": "sh",
+              "line": 64,
+              "args": [
+                "echo curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ${packname} ${publish_url}"
+              ],
+              "category": "direct",
+              "dynamic": true
+            }
+          ],
+          "category": "policy",
+          "dynamic": true
+        }
+      ]
+    },
+    {
+      "name": "DEV Deploy",
+      "line": 69,
+      "steps": [
+        {
+          "name": "withCredentials",
+          "line": 71,
+          "args": [
+            [
+              {
+                "expr": "usernamePassword(...)"
+              }
+            ]
+          ],
+          "named": {
+            "bindings": [
+              {
+                "type": "usernamePassword",
+                "credentialsId": "rundeck-credential",
+                "passwordVariable": "RUNDECK_PASSWORD",
+                "usernameVariable": "RUNDECK_USERNAME"
+              }
+            ]
+          },
+          "body": [
+            {
+              "name": "configFileProvider",
+              "line": 77,
+              "args": [
+                [
+                  {
+                    "expr": "configFile(...)"
+                  }
+                ]
+              ],
+              "body": [
+                {
+                  "name": "sh",
+                  "line": 79,
+                  "args": [
+                    "echo bash $FOLLOW \"artifact\" \"${publish_url}\" \"29cd3a68-e101-4176-907c-6fdf5bde13e7\""
+                  ],
+                  "category": "direct",
+                  "dynamic": true
+                }
+              ],
+              "category": "unknown",
+              "dynamic": true
+            }
+          ],
+          "category": "policy",
+          "dynamic": true
+        }
+      ]
+    },
+    {
+      "name": "PRE Deploy",
+      "line": 85,
+      "when": {
+        "conditions": [
+          {
+            "kind": "expression",
+            "text": "return target == 'pre' || target == 'pro'",
+            "line": 88
+          }
+        ]
+      },
+      "steps": [
+        {
+          "name": "withCredentials",
+          "line": 91,
+          "args": [
+            [
+              {
+                "expr": "usernamePassword(...)"
+              }
+            ]
+          ],
+          "named": {
+            "bindings": [
+              {
+                "type": "usernamePassword",
+                "credentialsId": "rundeck-credential",
+                "passwordVariable": "RUNDECK_PASSWORD",
+                "usernameVariable": "RUNDECK_USERNAME"
+              }
+            ]
+          },
+          "body": [
+            {
+              "name": "configFileProvider",
+              "line": 92,
+              "args": [
+                [
+                  {
+                    "expr": "configFile(...)"
+                  }
+                ]
+              ],
+              "body": [
+                {
+                  "name": "sh",
+                  "line": 93,
+                  "args": [
+                    "echo bash $FOLLOW \"artifact\" \"${publish_url}\" \"ec0393b9-f0eb-4341-8812-eae241ef6544\""
+                  ],
+                  "category": "direct",
+                  "dynamic": true
+                }
+              ],
+              "category": "unknown",
+              "dynamic": true
+            }
+          ],
+          "category": "policy",
+          "dynamic": true
+        }
+      ]
+    },
+    {
+      "name": "Acceptance Test",
+      "line": 99,
+      "agent": {
+        "kind": "label",
+        "label": "openshift_cli",
+        "line": 106
+      },
+      "when": {
+        "conditions": [
+          {
+            "kind": "expression",
+            "text": "target == 'pro'",
+            "line": 102
+          }
+        ]
+      },
+      "steps": [
+        {
+          "name": "sh",
+          "line": 112,
+          "args": [
+            "cd test && npm install"
+          ],
+          "category": "direct"
+        },
+        {
+          "name": "sh",
+          "line": 113,
+          "args": [
+            "cd test && echo npm test"
+          ],
+          "category": "direct"
+        },
+        {
+          "name": "cucumber",
+          "line": 116,
+          "args": [
+            "test/cucumber-report.json"
+          ],
+          "category": "unknown"
+        }
+      ]
+    },
+    {
+      "name": "Approval",
+      "line": 120,
+      "when": {
+        "conditions": [
+          {
+            "kind": "expression",
+            "text": "target == 'pro'",
+            "line": 122
+          }
+        ]
+      },
+      "steps": [
+        {
+          "name": "timeout",
+          "line": 126,
+          "named": {
+            "time": 30,
+            "unit": "MINUTES"
+          },
+          "body": [
+            {
+              "name": "input",
+              "line": 127,
+              "named": {
+                "message": "Deploy to Production?",
+                "id": "approval"
+              },
+              "category": "redesign"
+            }
+          ],
+          "category": "direct"
+        }
+      ]
+    },
+    {
+      "name": "PRO Deploy",
+      "line": 132,
+      "when": {
+        "conditions": [
+          {
+            "kind": "expression",
+            "text": "return target == 'pro'",
+            "line": 134
+          }
+        ]
+      },
+      "steps": [
+        {
+          "name": "withCredentials",
+          "line": 137,
+          "args": [
+            [
+              {
+                "expr": "usernamePassword(...)"
+              }
+            ]
+          ],
+          "named": {
+            "bindings": [
+              {
+                "type": "usernamePassword",
+                "credentialsId": "rundeck-credential",
+                "passwordVariable": "RUNDECK_PASSWORD",
+                "usernameVariable": "RUNDECK_USERNAME"
+              }
+            ]
+          },
+          "body": [
+            {
+              "name": "configFileProvider",
+              "line": 138,
+              "args": [
+                [
+                  {
+                    "expr": "configFile(...)"
+                  }
+                ]
+              ],
+              "body": [
+                {
+                  "name": "sh",
+                  "line": 139,
+                  "args": [
+                    "echo bash $FOLLOW \"artifact\" \"${publish_url}\" \"f31fb4bb-4f55-4f23-9c03-784008acb5c4\""
+                  ],
+                  "category": "direct",
+                  "dynamic": true
+                }
+              ],
+              "category": "unknown",
+              "dynamic": true
+            }
+          ],
+          "category": "policy",
+          "dynamic": true
+        }
+      ]
+    }
+  ],
+  "post": {
+    "success": [
+      {
+        "name": "rocketSend",
+        "line": 150,
+        "named": {
+          "attachments": [
+            {
+              "color": "green",
+              "text": "Success"
+            }
+          ],
+          "avatar": "${env.WEBSERVER_URL}/static/jenkins.png",
+          "channel": "oss-opensource",
+          "message": "Platform Build #${env.BUILD_NUMBER} finished - ${env.JOB_NAME} (<${env.BUILD_URL}|Open>)",
+          "rawMessage": true
+        },
+        "category": "unknown",
+        "dynamic": true
+      }
+    ],
+    "failure": [
+      {
+        "name": "rocketSend",
+        "line": 173,
+        "named": {
+          "attachments": [
+            {
+              "color": "red",
+              "text": "Failure"
+            }
+          ],
+          "avatar": "${env.WEBSERVER_URL}/static/jenkins.png",
+          "channel": "oss-opensource",
+          "message": "Platform Build #${env.BUILD_NUMBER} finished - ${env.JOB_NAME} (<${env.BUILD_URL}|Open>)",
+          "rawMessage": true
+        },
+        "category": "unknown",
+        "dynamic": true
+      }
+    ],
+    "unstable": [
+      {
+        "name": "rocketSend",
+        "line": 196,
+        "named": {
+          "attachments": [
+            {
+              "color": "yellow",
+              "text": "Unstable"
+            }
+          ],
+          "avatar": "${env.WEBSERVER_URL}/static/jenkins.png",
+          "channel": "oss-opensource",
+          "message": "Platform Build #${env.BUILD_NUMBER} finished - ${env.JOB_NAME} (<${env.BUILD_URL}|Open>)",
+          "rawMessage": true
+        },
+        "category": "unknown",
+        "dynamic": true
+      }
+    ],
+    "aborted": [
+      {
+        "name": "rocketSend",
+        "line": 219,
+        "named": {
+          "attachments": [
+            {
+              "color": "gray",
+              "text": "Aborted"
+            }
+          ],
+          "avatar": "${env.WEBSERVER_URL}/static/jenkins.png",
+          "channel": "oss-opensource",
+          "message": "Platform Build #${env.BUILD_NUMBER} finished - ${env.JOB_NAME} (<${env.BUILD_URL}|Open>)",
+          "rawMessage": true
+        },
+        "category": "unknown",
+        "dynamic": true
+      }
+    ]
+  }
+}

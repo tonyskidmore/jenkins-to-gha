@@ -1,0 +1,174 @@
+{
+  "tier": "act",
+  "mode": "trace",
+  "result": "success",
+  "exit_code": 0,
+  "seconds": 21.0,
+  "jobs": {
+    "init": {
+      "result": "success"
+    },
+    "build-build-frontend-assets": {
+      "result": "success"
+    },
+    "build-build-cvr-backend": {
+      "result": "success"
+    },
+    "build-build-cvr-frontend": {
+      "result": "success"
+    },
+    "build-build-cvr-data-update-module": {
+      "result": "success"
+    },
+    "deploy": {
+      "result": "success"
+    },
+    "load-test-data-to-db": {
+      "result": "success"
+    },
+    "tests": {
+      "result": "success"
+    },
+    "post": {
+      "result": "success"
+    }
+  },
+  "traces": [
+    {
+      "stage": "Init",
+      "step": "checkout"
+    },
+    {
+      "stage": "Init: TF deployment bucket",
+      "step": "sh"
+    },
+    {
+      "stage": "Load test data to DB",
+      "step": "checkout"
+    },
+    {
+      "stage": "Tests",
+      "step": "checkout"
+    }
+  ],
+  "failed_steps": [],
+  "error_tail": null,
+  "variant_notes": {
+    "dropped_jobs": [],
+    "matrix_jobs": 9,
+    "jobs": 9
+  },
+  "provenance": {
+    "jenkinsfile_sha256": "f8db85ef184a9b246e43eefd8f1b88ef4076d17dcaad0b7f3f8574be53832273",
+    "scenario": {
+      "branch": "master",
+      "git_branch": "origin/master"
+    },
+    "mode": "trace",
+    "model_sha256": "c61291619de22edb1d9f91dc6685d5cf44fc60b72b9dab9d15233c3a0316c9ee",
+    "images": {
+      "jenkins": {
+        "ref": "j2gha/jenkins:local",
+        "present": true,
+        "id": "sha256:672c4b841b2c934f224d4f1b3523d77a1b651f8f491f8f04da47ca764eb86775",
+        "repo_digests": [],
+        "created": "2026-10-09T18:21:15.545465961Z",
+        "labels": {
+          "j2gha.base-image": "jenkins/jenkins:lts-jdk21@sha256:a660310e39ade10631f774bacd5219de767dfd08947ea5c32a739b5e5bb382c1",
+          "org.opencontainers.image.version": "2.580.1",
+          "org.opencontainers.image.revision": "457b9316d71b43cdf3e2ba6ec7c27efc40f5dc60",
+          "org.opencontainers.image.source": "https://github.com/jenkinsci/docker"
+        },
+        "jenkins_version": "2.580.1"
+      },
+      "act": {
+        "ref": "j2gha/act:local",
+        "present": true,
+        "id": "sha256:0781bb0384b914fba362a2a2483d55d30c3d3cc9b59598856146778aa88662a4",
+        "repo_digests": [],
+        "created": "2026-10-03T06:26:46.552472741Z",
+        "labels": {},
+        "act_version": "0.2.89"
+      },
+      "act_runner": {
+        "ref": "j2gha/act-runner:local",
+        "present": true,
+        "id": "sha256:134418998a1ca958b148ee6befb038aa3ff598bf147b39ce9e99b60a563a15be",
+        "repo_digests": [],
+        "created": "2026-10-09T18:54:04.157825772Z",
+        "labels": {
+          "j2gha.base-image": "catthehacker/ubuntu:act-latest@sha256:c58e2b364da03b0c804c7d660f2ecbedf2f221a382b9baa0b344b0144780ff43",
+          "org.opencontainers.image.version": "20260815",
+          "org.opencontainers.image.revision": "e2f8efe464c82732f78e967ee709c00b6af53643",
+          "org.opencontainers.image.source": "https://github.com/catthehacker/catthehacker/docker_images"
+        }
+      },
+      "jit_runner": {
+        "ref": "j2gha/runner:local",
+        "present": true,
+        "id": "sha256:4847cf6e3e915577d28244aedfbe1b633eafa060a49d4ef313129d6841e2e667",
+        "repo_digests": [],
+        "created": "2026-10-09T18:52:46.515242869Z",
+        "labels": {
+          "j2gha.base-image": "ghcr.io/actions/actions-runner:latest@sha256:4ffadc0002b2581327e06101fc8c06cd189232baf79fe561fac9caeb76f5e807",
+          "org.opencontainers.image.version": "24.04",
+          "org.opencontainers.image.source": "https://github.com/actions/runner"
+        }
+      }
+    }
+  },
+  "finished_at": "2026-10-10T08:11:10+00:00",
+  "comparison": {
+    "equivalent": false,
+    "verdict": "inconclusive",
+    "similarity_pct": 25.0,
+    "stages": [
+      {
+        "stage": "Init",
+        "status": "match",
+        "jenkins": [
+          "checkout"
+        ],
+        "gha": [
+          "checkout"
+        ]
+      },
+      {
+        "stage": "Init: TF deployment bucket",
+        "status": "differs",
+        "jenkins": [
+          "error"
+        ],
+        "gha": [
+          "sh"
+        ]
+      },
+      {
+        "stage": "Load test data to DB",
+        "status": "extra-stage",
+        "jenkins": [],
+        "gha": [
+          "checkout"
+        ]
+      },
+      {
+        "stage": "Tests",
+        "status": "extra-stage",
+        "jenkins": [],
+        "gha": [
+          "checkout"
+        ]
+      }
+    ],
+    "reference_steps": 2,
+    "candidate_steps": 4,
+    "inconclusive": {
+      "stage": "Init: TF deployment bucket",
+      "stages_before": [
+        "Init"
+      ],
+      "stages_before_equivalent": true,
+      "reason": "Jenkins stopped on the pipeline's own error() - trace mode stubs the runtime values that decide it"
+    }
+  }
+}

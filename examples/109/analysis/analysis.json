@@ -1,0 +1,179 @@
+{
+  "analysis_version": 1,
+  "parser": {
+    "engine": "groovy-ast (Jenkins-bundled Groovy 2.4, CONVERSION phase)",
+    "ok": true,
+    "errors": []
+  },
+  "dialect": "declarative",
+  "metrics": {
+    "artifact_steps": 2,
+    "classes": 0,
+    "conditionals": 2,
+    "credentials": 1,
+    "distinct_steps": 6,
+    "env_vars": 1,
+    "libraries": 0,
+    "loc": 72,
+    "matrix_axes": 2,
+    "matrix_blocks": 1,
+    "matrix_cells": 26,
+    "max_stage_depth": 2,
+    "methods": 0,
+    "options": 1,
+    "parameters": 0,
+    "post_conditions": 1,
+    "script_blocks": 1,
+    "script_statements": 5,
+    "shell_steps": 1,
+    "stages": 3,
+    "steps": 9,
+    "tools": 0,
+    "top_level_stages": 2,
+    "triggers": 0,
+    "unknown_steps": 0
+  },
+  "steps": {
+    "milestone": {
+      "count": 2,
+      "category": "policy",
+      "lines": [
+        43,
+        45
+      ],
+      "gha": "concurrency: (cancel-in-progress)"
+    },
+    "dir": {
+      "count": 2,
+      "category": "direct",
+      "lines": [
+        48,
+        69
+      ],
+      "gha": "working-directory:"
+    },
+    "archiveArtifacts": {
+      "count": 2,
+      "category": "direct",
+      "lines": [
+        88,
+        89
+      ],
+      "gha": "actions/upload-artifact"
+    },
+    "checkout": {
+      "count": 1,
+      "category": "direct",
+      "lines": [
+        49
+      ],
+      "gha": "actions/checkout"
+    },
+    "echo": {
+      "count": 1,
+      "category": "direct",
+      "lines": [
+        50
+      ],
+      "gha": "run: echo"
+    },
+    "sh": {
+      "count": 1,
+      "category": "direct",
+      "lines": [
+        70
+      ],
+      "gha": "run: (shell: bash)"
+    }
+  },
+  "unknown_steps": [],
+  "agents": [
+    {
+      "kind": "any",
+      "label": null,
+      "image": null,
+      "line": 12,
+      "scope": "pipeline"
+    }
+  ],
+  "credentials": [
+    {
+      "id": "STELLARBOT_GITHUB_TOKEN",
+      "type": "credentials()",
+      "lines": [
+        24
+      ]
+    }
+  ],
+  "dsl_symbols": [],
+  "libraries": [],
+  "methods": [],
+  "jenkins_model": {
+    "result": "success",
+    "errors": [],
+    "stages": [
+      "checkout",
+      "build",
+      "build"
+    ],
+    "agent": "any",
+    "discrepancies": []
+  },
+  "findings": [
+    {
+      "id": "ScriptBlocks",
+      "severity": "low",
+      "line": null,
+      "evidence": "1 script{} block(s), 5 Groovy statements",
+      "recommendation": "Move imperative logic into versioned shell/Python scripts or composite actions"
+    },
+    {
+      "id": "CredentialBinding",
+      "severity": "low",
+      "line": 24,
+      "evidence": "credentials() 'STELLARBOT_GITHUB_TOKEN'",
+      "recommendation": "Create GitHub secret(s) or use OIDC; never inline values"
+    }
+  ],
+  "hard_gates": [],
+  "styles": [
+    "declarative",
+    "when-post",
+    "matrix",
+    "credentials",
+    "artifacts-tests"
+  ],
+  "coverage": {
+    "by_category": {
+      "policy": 2,
+      "direct": 7
+    },
+    "weighted_mapped_pct": 89.3
+  },
+  "complexity": {
+    "score": 10,
+    "classification": "straightforward",
+    "dimensions": {
+      "declarative_structure": 3.2,
+      "step_mapping": 2.7,
+      "plugin_coupling": 0.8,
+      "library_opacity": 0.0,
+      "runtime_coupling": 0.0,
+      "security_identity": 2,
+      "control_flow": 1.0
+    },
+    "hard_gates": [],
+    "weights": {
+      "declarative_structure": 20,
+      "step_mapping": 25,
+      "plugin_coupling": 15,
+      "library_opacity": 15,
+      "runtime_coupling": 10,
+      "security_identity": 10,
+      "control_flow": 5
+    }
+  },
+  "convertibility": "automatic",
+  "ir_notes": [],
+  "source_sha256": "da620abf48eee9166667d081b7b5fadb0e6f92771cc1b06d3f538eecb90bd78d"
+}

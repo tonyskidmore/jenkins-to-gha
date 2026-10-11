@@ -1,0 +1,198 @@
+# j2gha hosted variant (full) of examples/013
+name: 'j2gha 013: EclipseNebula/nebula Jenkinsfile (j2gha)'
+on:
+  push:
+    branches:
+    - j2gha/run/013-full-hosted-20261010110436
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  BRANCH_NAME: master
+  TAG_NAME: ''
+  CHANGE_ID: ''
+  BUILD_NUMBER: ${{ github.run_number }}
+  JOB_NAME: ${{ github.workflow }}
+  BUILD_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+  GIT_COMMIT: 811efd82360cc40cef0763362c38651a848a6d12
+  BUILD_TYPE: ${{ github.event_name != 'workflow_dispatch' && 'nightly' || format('{0}', inputs.BUILD_TYPE) }}
+  ECLIPSE_SIGN: ${{ github.event_name != 'workflow_dispatch' && 'true' || format('{0}', inputs.ECLIPSE_SIGN) }}
+  PROMOTE: 'false'
+  MAIN_BRANCH: master
+  GIT_BRANCH: origin/master
+  GIT_URL: ${{ github.server_url }}/${{ github.repository }}.git
+defaults:
+  run:
+    shell: bash
+jobs:
+  display-parameters:
+    name: Display Parameters, Build Nebula
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+    - name: Checkout
+      uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      with:
+        persist-credentials: false
+        repository: EclipseNebula/nebula
+        ref: 811efd82360cc40cef0763362c38651a848a6d12
+    - name: Set pipeline environment (Jenkins environment {})
+      run: BUILD_TIMESTAMP="$(date +%Y%m%d%H%M)"; export BUILD_TIMESTAMP; echo "BUILD_TIMESTAMP=${BUILD_TIMESTAMP}" >> "$GITHUB_ENV"
+    - name: Set up JDK (temurin-jdk21-latest)
+      uses: actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3
+      with:
+        distribution: temurin
+        java-version: '21'
+    - name: 'Display Parameters: if (line 53)'
+      id: s1
+      if: env.BRANCH_NAME == env.MAIN_BRANCH
+      run: echo "taken=true" >> "$GITHUB_OUTPUT"
+    - name: 'Display Parameters: if (line 53)'
+      id: s2
+      if: steps.s1.outcome == 'skipped'
+      run: echo "taken=false" >> "$GITHUB_OUTPUT"
+    - name: 'Display Parameters: echo'
+      id: s3
+      run: echo "description"
+    - name: 'Build Nebula: if (line 82)'
+      id: s4
+      if: env.PROMOTE == 'true'
+      run: echo "taken=true" >> "$GITHUB_OUTPUT"
+    - name: 'Build Nebula: if (line 82)'
+      id: s5
+      if: steps.s4.outcome == 'skipped'
+      run: echo "taken=false" >> "$GITHUB_OUTPUT"
+    - name: 'Build Nebula: if [[ $PROMOTE == true ]]; then'
+      id: s6
+      if: steps.s4.outputs.taken == 'true'
+      run: |-
+        if [[ $PROMOTE == true ]]; then
+          promotion_argument='-Ppromote -Pbuild-server'
+        fi
+        mvn         $promotion_argument         --no-transfer-progress         -Dproject.build.sourceEncoding=UTF-8         -Dbuild.id=${BUILD_TIMESTAMP}         -Dgit.commit=$GIT_COMMIT         -Dbuild.type=$BUILD_TYPE         -Dorg.eclipse.justj.p2.manager.build.url=$JOB_URL         clean         verify
+      env:
+        SSH_KEY_PROJECTS_STORAGE_ECLIPSE_ORG_BOT_SSH: j2gha-fake-secret
+    - name: 'Build Nebula: if [[ $PROMOTE == true ]]; then'
+      id: s7
+      if: steps.s5.outputs.taken == 'false'
+      run: |-
+        if [[ $PROMOTE == true ]]; then
+          promotion_argument='-Ppromote -Pbuild-server'
+        fi
+        mvn         $promotion_argument         --no-transfer-progress         -Dproject.build.sourceEncoding=UTF-8         -Dbuild.id=${BUILD_TIMESTAMP}         -Dgit.commit=$GIT_COMMIT         -Dbuild.type=$BUILD_TYPE         -Dorg.eclipse.justj.p2.manager.build.url=$JOB_URL         clean         verify
+    - name: 'Build Nebula: archive artifacts'
+      id: s8
+      if: steps.s5.outputs.taken == 'false'
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: artifacts-8
+        path: |-
+          releng/org.eclipse.nebula.site/target/repository/**
+          !**/.git
+          !**/.git/**
+          !**/.gitignore
+          !**/.gitattributes
+          !**/.gitmodules
+          !**/.svn
+          !**/.svn/**
+          !**/.hg
+          !**/.hg/**
+          !**/.hgignore
+          !**/.hgtags
+          !**/.bzr
+          !**/.bzr/**
+          !**/.bzrignore
+          !**/CVS
+          !**/CVS/**
+          !**/.cvsignore
+          !**/SCCS
+          !**/SCCS/**
+          !**/vssver.scc
+          !**/.DS_Store
+          !**/*~
+          !**/#*#
+          !**/.#*
+          !**/%*%
+          !**/._*
+          .j2gha-artifact-root
+        if-no-files-found: error
+        include-hidden-files: true
+        retention-days: 1
+    - name: 'post: junit summary'
+      id: s9
+      if: (always()) && (always())
+      run: |-
+        python3 - <<'PY'
+        import glob, os, xml.etree.ElementTree as ET
+        files = [f for p in os.environ['J2GHA_JUNIT'].splitlines() for f in glob.glob(p, recursive=True)]
+        t = f = e = s = 0
+        for x in files:
+            r = ET.parse(x).getroot()
+            for ts in ([r] if r.tag == 'testsuite' else r.iter('testsuite')):
+                t += int(ts.get('tests', 0)); f += int(ts.get('failures', 0)); e += int(ts.get('errors', 0)); s += int(ts.get('skipped', 0))
+        with open(os.environ.get('GITHUB_STEP_SUMMARY', os.devnull), 'a') as out:
+            out.write(f'### JUnit: {t} tests, {f} failures, {e} errors, {s} skipped ({len(files)} files)\n')
+        if not files and not True:
+            raise SystemExit('no test report files found')
+        PY
+      env:
+        J2GHA_JUNIT: '**/target/surefire-reports/*.xml'
+    - name: 'post: upload test reports'
+      id: s10
+      if: (always()) && (always())
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: test-reports-10
+        path: '**/target/surefire-reports/*.xml'
+        if-no-files-found: ignore
+        retention-days: 1
+    - name: 'post: recordIssues (report placeholder)'
+      id: s11
+      if: always()
+      run: echo "::notice::Jenkins 'recordIssues' report - publish with an approved action"
+    - name: 'post: archive artifacts'
+      id: s12
+      if: failure()
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: artifacts-12
+        path: |-
+          **
+          !**/.git
+          !**/.git/**
+          !**/.gitignore
+          !**/.gitattributes
+          !**/.gitmodules
+          !**/.svn
+          !**/.svn/**
+          !**/.hg
+          !**/.hg/**
+          !**/.hgignore
+          !**/.hgtags
+          !**/.bzr
+          !**/.bzr/**
+          !**/.bzrignore
+          !**/CVS
+          !**/CVS/**
+          !**/.cvsignore
+          !**/SCCS
+          !**/SCCS/**
+          !**/vssver.scc
+          !**/.DS_Store
+          !**/*~
+          !**/#*#
+          !**/.#*
+          !**/%*%
+          !**/._*
+          .j2gha-artifact-root
+        if-no-files-found: error
+        include-hidden-files: true
+        retention-days: 1
+    - name: 'post: mail notification'
+      id: s13
+      if: failure()
+      run: echo "::notice::mail notification (configure an approved notification action)"
+    - name: 'post: deleteDir'
+      id: s14
+      if: always()
+      run: find . -mindepth 1 -delete || true

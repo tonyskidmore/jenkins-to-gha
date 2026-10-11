@@ -1,0 +1,93 @@
+# j2gha selfhosted variant (trace) of examples/013
+name: 'j2gha 013: EclipseNebula/nebula Jenkinsfile (j2gha)'
+on:
+  push:
+    branches:
+    - j2gha/run/013-trace-selfhosted-20261010080751
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  BRANCH_NAME: master
+  TAG_NAME: ''
+  CHANGE_ID: ''
+  BUILD_NUMBER: ${{ github.run_number }}
+  JOB_NAME: ${{ github.workflow }}
+  BUILD_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+  GIT_COMMIT: ${{ github.sha }}
+  BUILD_TYPE: ${{ github.event_name != 'workflow_dispatch' && 'nightly' || format('{0}', inputs.BUILD_TYPE) }}
+  ECLIPSE_SIGN: ${{ github.event_name != 'workflow_dispatch' && 'true' || format('{0}', inputs.ECLIPSE_SIGN) }}
+  PROMOTE: ${{ github.event_name != 'workflow_dispatch' && 'true' || format('{0}', inputs.PROMOTE) }}
+  MAIN_BRANCH: master
+  GIT_BRANCH: origin/master
+  GIT_URL: ${{ github.server_url }}/${{ github.repository }}.git
+defaults:
+  run:
+    shell: bash
+jobs:
+  display-parameters:
+    name: Display Parameters, Build Nebula
+    runs-on:
+    - self-hosted
+    - j2gha-73c71299
+    timeout-minutes: 5
+    steps:
+    - name: Checkout
+      run: 'printf ''%s %s\n'' J2GHA-TRACE ''{"stage":"Declarative: Checkout SCM","step":"checkout"}'''
+    - name: Set pipeline environment (Jenkins environment {})
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"","step":"sh"}'
+    - name: 'Display Parameters: if (line 53)'
+      id: s1
+      if: env.BRANCH_NAME == env.MAIN_BRANCH
+      run: echo "taken=true" >> "$GITHUB_OUTPUT"
+    - name: 'Display Parameters: if (line 53)'
+      id: s2
+      if: steps.s1.outcome == 'skipped'
+      run: echo "taken=false" >> "$GITHUB_OUTPUT"
+    - name: 'Display Parameters: echo'
+      id: s3
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Display Parameters","step":"echo"}'
+    - name: 'Build Nebula: if (line 82)'
+      id: s4
+      if: env.PROMOTE == 'true'
+      run: echo "taken=true" >> "$GITHUB_OUTPUT"
+    - name: 'Build Nebula: if (line 82)'
+      id: s5
+      if: steps.s4.outcome == 'skipped'
+      run: echo "taken=false" >> "$GITHUB_OUTPUT"
+    - name: 'Build Nebula: if [[ $PROMOTE == true ]]; then'
+      id: s6
+      if: steps.s4.outputs.taken == 'true'
+      env:
+        SSH_KEY_PROJECTS_STORAGE_ECLIPSE_ORG_BOT_SSH: j2gha-fake-secret
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build Nebula","step":"sh"}'
+    - name: 'Build Nebula: if [[ $PROMOTE == true ]]; then'
+      id: s7
+      if: steps.s5.outputs.taken == 'false'
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build Nebula","step":"sh"}'
+    - name: 'Build Nebula: archive artifacts'
+      id: s8
+      if: steps.s5.outputs.taken == 'false'
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build Nebula","step":"archiveArtifacts"}'
+    - name: 'post: junit summary'
+      id: s9
+      if: (always()) && (always())
+      env:
+        J2GHA_JUNIT: '**/target/surefire-reports/*.xml'
+      run: 'printf ''%s %s\n'' J2GHA-TRACE ''{"stage":"Declarative: Post Actions","step":"junit"}'''
+    - name: 'post: recordIssues (report placeholder)'
+      id: s11
+      if: always()
+      run: 'printf ''%s %s\n'' J2GHA-TRACE ''{"stage":"Declarative: Post Actions","step":"recordIssues"}'''
+    - name: 'post: archive artifacts'
+      id: s12
+      if: failure()
+      run: 'printf ''%s %s\n'' J2GHA-TRACE ''{"stage":"Declarative: Post Actions","step":"archiveArtifacts"}'''
+    - name: 'post: mail notification'
+      id: s13
+      if: failure()
+      run: 'printf ''%s %s\n'' J2GHA-TRACE ''{"stage":"Declarative: Post Actions","step":"mail"}'''
+    - name: 'post: deleteDir'
+      id: s14
+      if: always()
+      run: 'printf ''%s %s\n'' J2GHA-TRACE ''{"stage":"Declarative: Post Actions","step":"deleteDir"}'''

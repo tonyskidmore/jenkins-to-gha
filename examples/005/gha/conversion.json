@@ -1,0 +1,434 @@
+{
+  "counts": {
+    "mapped": 14,
+    "manual": 17,
+    "approximated": 19,
+    "dropped": 1
+  },
+  "automation_pct": 51.4,
+  "items": [
+    {
+      "jenkins": "post always",
+      "line": null,
+      "stage": null,
+      "status": "mapped",
+      "gha": "if: always()",
+      "note": ""
+    },
+    {
+      "jenkins": "post cleanup",
+      "line": null,
+      "stage": null,
+      "status": "mapped",
+      "gha": "if: always()",
+      "note": ""
+    },
+    {
+      "jenkins": "options: skipDefaultCheckout",
+      "line": null,
+      "stage": null,
+      "status": "mapped",
+      "gha": "no checkout step",
+      "note": ""
+    },
+    {
+      "jenkins": "parameters: string GIT_REPO_URL",
+      "line": 31,
+      "stage": null,
+      "status": "mapped",
+      "gha": "on.workflow_dispatch.inputs",
+      "note": ""
+    },
+    {
+      "jenkins": "parameters: string GIT_BRANCH",
+      "line": 32,
+      "stage": null,
+      "status": "mapped",
+      "gha": "on.workflow_dispatch.inputs",
+      "note": ""
+    },
+    {
+      "jenkins": "parameters: string GIT_COMMIT",
+      "line": 33,
+      "stage": null,
+      "status": "mapped",
+      "gha": "on.workflow_dispatch.inputs",
+      "note": ""
+    },
+    {
+      "jenkins": "parameters: string STAGE",
+      "line": 34,
+      "stage": null,
+      "status": "mapped",
+      "gha": "on.workflow_dispatch.inputs",
+      "note": ""
+    },
+    {
+      "jenkins": "parameters: string VERSION",
+      "line": 35,
+      "stage": null,
+      "status": "mapped",
+      "gha": "on.workflow_dispatch.inputs",
+      "note": ""
+    },
+    {
+      "jenkins": "dir",
+      "line": 138,
+      "stage": "Pre-Deploy Cleanup",
+      "status": "mapped",
+      "gha": "working-directory",
+      "note": ""
+    },
+    {
+      "jenkins": "withCredentials string 'migrations-test-account-id'",
+      "line": 140,
+      "stage": "Pre-Deploy Cleanup",
+      "status": "mapped",
+      "gha": "secrets -> step env",
+      "note": ""
+    },
+    {
+      "jenkins": "dir",
+      "line": 160,
+      "stage": "Deploy",
+      "status": "mapped",
+      "gha": "working-directory",
+      "note": ""
+    },
+    {
+      "jenkins": "dir",
+      "line": 189,
+      "stage": "Pre-Integ Test Cleanup",
+      "status": "mapped",
+      "gha": "working-directory",
+      "note": ""
+    },
+    {
+      "jenkins": "dir",
+      "line": 207,
+      "stage": "Integ Tests",
+      "status": "mapped",
+      "gha": "working-directory",
+      "note": ""
+    },
+    {
+      "jenkins": "dir",
+      "line": 237,
+      "stage": "Declarative: Post Actions",
+      "status": "mapped",
+      "gha": "working-directory",
+      "note": ""
+    },
+    {
+      "jenkins": "options: timeout",
+      "line": null,
+      "stage": null,
+      "status": "approximated",
+      "gha": "timeout-minutes: 180 (per job)",
+      "note": "Jenkins timeout covers the whole pipeline"
+    },
+    {
+      "jenkins": "options: buildDiscarder",
+      "line": null,
+      "stage": null,
+      "status": "dropped",
+      "gha": "-",
+      "note": "use artifact retention-days / repo settings"
+    },
+    {
+      "jenkins": "agent label '?:'",
+      "line": 28,
+      "stage": "Checkout, Test Caller Identity, Setup E2E CDK Context, Build, Pre-Deploy Cleanup",
+      "status": "approximated",
+      "gha": "runs-on: ubuntu-latest",
+      "note": "use a self-hosted runner label if the agent provides special tooling/network"
+    },
+    {
+      "jenkins": "script {}",
+      "line": 65,
+      "stage": "Checkout",
+      "status": "approximated",
+      "gha": "inner steps translated individually",
+      "note": "imperative Groovy is not executed; review control flow"
+    },
+    {
+      "jenkins": "echo",
+      "line": 68,
+      "stage": "Checkout",
+      "status": "approximated",
+      "gha": "run: echo",
+      "note": ""
+    },
+    {
+      "jenkins": "script {}",
+      "line": 89,
+      "stage": "Test Caller Identity",
+      "status": "approximated",
+      "gha": "inner steps translated individually",
+      "note": "imperative Groovy is not executed; review control flow"
+    },
+    {
+      "jenkins": "script {}",
+      "line": 102,
+      "stage": "Setup E2E CDK Context",
+      "status": "approximated",
+      "gha": "inner steps translated individually",
+      "note": "imperative Groovy is not executed; review control flow"
+    },
+    {
+      "jenkins": "timeout",
+      "line": 118,
+      "stage": "Build",
+      "status": "approximated",
+      "gha": "timeout-minutes per step",
+      "note": "Jenkins timeout covers the whole block"
+    },
+    {
+      "jenkins": "script {}",
+      "line": 119,
+      "stage": "Build",
+      "status": "approximated",
+      "gha": "inner steps translated individually",
+      "note": "imperative Groovy is not executed; review control flow"
+    },
+    {
+      "jenkins": "timeout",
+      "line": 137,
+      "stage": "Pre-Deploy Cleanup",
+      "status": "approximated",
+      "gha": "timeout-minutes per step",
+      "note": "Jenkins timeout covers the whole block"
+    },
+    {
+      "jenkins": "script {}",
+      "line": 139,
+      "stage": "Pre-Deploy Cleanup",
+      "status": "approximated",
+      "gha": "inner steps translated individually",
+      "note": "imperative Groovy is not executed; review control flow"
+    },
+    {
+      "jenkins": "withAWS",
+      "line": 141,
+      "stage": "Pre-Deploy Cleanup",
+      "status": "approximated",
+      "gha": "body inlined",
+      "note": "configure identity via OIDC / approved action"
+    },
+    {
+      "jenkins": "timeout",
+      "line": 159,
+      "stage": "Deploy",
+      "status": "approximated",
+      "gha": "timeout-minutes per step",
+      "note": "Jenkins timeout covers the whole block"
+    },
+    {
+      "jenkins": "script {}",
+      "line": 161,
+      "stage": "Deploy",
+      "status": "approximated",
+      "gha": "inner steps translated individually",
+      "note": "imperative Groovy is not executed; review control flow"
+    },
+    {
+      "jenkins": "timeout",
+      "line": 188,
+      "stage": "Pre-Integ Test Cleanup",
+      "status": "approximated",
+      "gha": "timeout-minutes per step",
+      "note": "Jenkins timeout covers the whole block"
+    },
+    {
+      "jenkins": "script {}",
+      "line": 190,
+      "stage": "Pre-Integ Test Cleanup",
+      "status": "approximated",
+      "gha": "inner steps translated individually",
+      "note": "imperative Groovy is not executed; review control flow"
+    },
+    {
+      "jenkins": "timeout",
+      "line": 206,
+      "stage": "Integ Tests",
+      "status": "approximated",
+      "gha": "timeout-minutes per step",
+      "note": "Jenkins timeout covers the whole block"
+    },
+    {
+      "jenkins": "script {}",
+      "line": 208,
+      "stage": "Integ Tests",
+      "status": "approximated",
+      "gha": "inner steps translated individually",
+      "note": "imperative Groovy is not executed; review control flow"
+    },
+    {
+      "jenkins": "timeout",
+      "line": 236,
+      "stage": "Declarative: Post Actions",
+      "status": "approximated",
+      "gha": "timeout-minutes per step",
+      "note": "Jenkins timeout covers the whole block"
+    },
+    {
+      "jenkins": "script {}",
+      "line": 238,
+      "stage": "Declarative: Post Actions",
+      "status": "approximated",
+      "gha": "inner steps translated individually",
+      "note": "imperative Groovy is not executed; review control flow"
+    },
+    {
+      "jenkins": "options: lock",
+      "line": null,
+      "stage": null,
+      "status": "manual",
+      "gha": "-",
+      "note": "no GHA equivalent"
+    },
+    {
+      "jenkins": "triggers: {'step': 'GenericTrigger', 'text': ''}",
+      "line": 47,
+      "stage": null,
+      "status": "manual",
+      "gha": "-",
+      "note": "unsupported trigger"
+    },
+    {
+      "jenkins": "triggers: {'step': 'cron', 'text': 'periodicCron(...)'}",
+      "line": 59,
+      "stage": null,
+      "status": "manual",
+      "gha": "-",
+      "note": "unsupported trigger"
+    },
+    {
+      "jenkins": "decl checkoutBranch = ?",
+      "line": 66,
+      "stage": "Checkout",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "assign env.CHECKOUT_BRANCH = checkoutBranch",
+      "line": 67,
+      "stage": "Checkout",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "if (config.checkoutStep)",
+      "line": 78,
+      "stage": "Checkout",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "if (config.awsIdentityCheckStep)",
+      "line": 91,
+      "stage": "Test Caller Identity",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "if (config.cdkContextStep)",
+      "line": 104,
+      "stage": "Setup E2E CDK Context",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "configureMavenCache",
+      "line": 120,
+      "stage": "Build",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "if (config.buildStep)",
+      "line": 122,
+      "stage": "Build",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "stage 'Pre-Deploy Cleanup' when",
+      "line": 134,
+      "stage": "Pre-Deploy Cleanup",
+      "status": "manual",
+      "gha": "if: vars.J2GHA_WHEN_L134 == 'true'",
+      "note": "untranslatable condition: repository variable(s) J2GHA_WHEN_L<line> stand in for it ('true'/'false'); unset, the stage runs only where it would run whatever that condition's value"
+    },
+    {
+      "jenkins": "preDeployStep",
+      "line": 142,
+      "stage": "Pre-Deploy Cleanup",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    },
+    {
+      "jenkins": "if (config.deployStep)",
+      "line": 163,
+      "stage": "Deploy",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "if (config.preIntegTestStep)",
+      "line": 191,
+      "stage": "Pre-Integ Test Cleanup",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "if (config.integTestStep)",
+      "line": 210,
+      "stage": "Integ Tests",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "if (config.finishStep)",
+      "line": 240,
+      "stage": "Declarative: Post Actions",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "cleanupMavenCache",
+      "line": 250,
+      "stage": "Declarative: Post Actions",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
+    }
+  ],
+  "secrets": {
+    "MIGRATIONS_TEST_ACCOUNT_ID": "Jenkins credential 'migrations-test-account-id'"
+  },
+  "jobs": {
+    "checkout": {
+      "name": "Checkout, Test Caller Identity, Setup E2E CDK Context, Build, Pre-Deploy Cleanup",
+      "runs-on": "ubuntu-latest",
+      "steps": 18,
+      "matrix": false
+    }
+  },
+  "notes": [],
+  "handoff": {},
+  "source_sha256": "cc57bedea462fd0e757635ae59e2841f2ab359d511ef7e4fce067252ea7dfad0",
+  "model_sha256": "278f8f2bcb62a9af5d3a72b6bde17982bfff889aac21f3006be3382d7aed8d13"
+}

@@ -1,0 +1,30 @@
+#!/bin/sh
+# Fail unless the installed plugins are exactly the pinned set in plugins.txt (name:version, dependencies included),
+# so an image rebuild cannot silently pick up a newer plugin. Differences are printed in plugins.txt format.
+#   usage: j2gha-check-plugins [PLUGIN_DIR] [PLUGINS_TXT]
+set -eu
+dir=${1:-/usr/share/jenkins/ref/plugins}
+pins=${2:-/usr/share/jenkins/ref/plugins.txt}
+tmp=$(mktemp -d)
+trap 'rm -rf "$tmp"' EXIT
+for f in "$dir"/*.jpi "$dir"/*.hpi; do
+  [ -e "$f" ] || continue
+  unzip -p "$f" META-INF/MANIFEST.MF | tr -d '\r' \
+    | awk -F': ' '/^Short-Name: /{n=$2} /^Plugin-Version: /{v=$2} END{print n ":" v}'
+done | LC_ALL=C sort > "$tmp/installed"
+sed -e 's/#.*//' -e 's/[[:space:]]//g' "$pins" | grep -v '^$' | LC_ALL=C sort > "$tmp/pinned"
+LC_ALL=C comm -23 "$tmp/pinned" "$tmp/installed" > "$tmp/missing"
+LC_ALL=C comm -13 "$tmp/pinned" "$tmp/installed" > "$tmp/extra"
+if [ -s "$tmp/missing" ] || [ -s "$tmp/extra" ]; then
+  echo "plugins.txt does not pin the installed plugin set." >&2
+  if [ -s "$tmp/missing" ]; then
+    echo "Pinned but not installed as written (unpinned name, or upgraded to satisfy a dependency):" >&2
+    sed 's/^/  - /' "$tmp/missing" >&2
+  fi
+  if [ -s "$tmp/extra" ]; then
+    echo "Installed but not pinned - add these lines to docker/jenkins/plugins.txt:" >&2
+    sed 's/^/  + /' "$tmp/extra" >&2
+  fi
+  exit 1
+fi
+echo "plugins: $(wc -l < "$tmp/installed") installed, all pinned in $pins"

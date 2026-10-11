@@ -1,0 +1,405 @@
+{
+  "counts": {
+    "mapped": 22,
+    "approximated": 11,
+    "manual": 9,
+    "info": 1,
+    "dropped": 2
+  },
+  "automation_pct": 68.6,
+  "items": [
+    {
+      "jenkins": "stage 'Setup Env' post cleanup",
+      "line": null,
+      "stage": "Setup Env",
+      "status": "mapped",
+      "gha": "if: (always()) && (steps.s1.outcome == 'success')",
+      "note": ""
+    },
+    {
+      "jenkins": "stage 'Build Docs' post cleanup",
+      "line": null,
+      "stage": "Build Docs",
+      "status": "mapped",
+      "gha": "if: (always()) && (steps.s5.outcome == 'success')",
+      "note": ""
+    },
+    {
+      "jenkins": "stage 'Build Release Tarball' post failure",
+      "line": null,
+      "stage": "Build Release Tarball",
+      "status": "mapped",
+      "gha": "if: (always()) && (steps.s10.outcome == 'success') && ((steps.s11.outcome == 'failure' || steps.s12.outcome == 'failure' || steps.s13.outcome == 'failure' || steps.s14.outcome == 'failure' || steps.s15.outcome == 'failure' || steps.s16.outcome == 'failure'))",
+      "note": ""
+    },
+    {
+      "jenkins": "stage 'Build Release Tarball' post success",
+      "line": null,
+      "stage": "Build Release Tarball",
+      "status": "mapped",
+      "gha": "if: (!cancelled()) && (steps.s10.outcome == 'success') && (!(steps.s11.outcome == 'failure' || steps.s12.outcome == 'failure' || steps.s13.outcome == 'failure' || steps.s14.outcome == 'failure' || steps.s15.outcome == 'failure' || steps.s16.outcome == 'failure' || steps.s17.outcome == 'failure'))",
+      "note": ""
+    },
+    {
+      "jenkins": "stage 'Build Release Tarball' post cleanup",
+      "line": null,
+      "stage": "Build Release Tarball",
+      "status": "mapped",
+      "gha": "if: (always()) && (steps.s10.outcome == 'success')",
+      "note": ""
+    },
+    {
+      "jenkins": "environment GIT_COMMITTER_NAME",
+      "line": 384,
+      "stage": null,
+      "status": "mapped",
+      "gha": "env",
+      "note": ""
+    },
+    {
+      "jenkins": "environment GIT_COMMITTER_EMAIL",
+      "line": 385,
+      "stage": null,
+      "status": "mapped",
+      "gha": "env",
+      "note": ""
+    },
+    {
+      "jenkins": "environment DOCKER_ARGS",
+      "line": 390,
+      "stage": null,
+      "status": "mapped",
+      "gha": "env",
+      "note": ""
+    },
+    {
+      "jenkins": "agent docker '${DOCKER_IMAGE_BASE}-${MINIMUM_ERLANG_VERSION}'",
+      "line": 403,
+      "stage": "Setup Env",
+      "status": "mapped",
+      "gha": "job container",
+      "note": "job containers run as root; reuseNode has no equivalent"
+    },
+    {
+      "jenkins": "agent docker '${DOCKER_IMAGE_BASE}-${MINIMUM_ERLANG_VERSION}'",
+      "line": 446,
+      "stage": "Build Docs",
+      "status": "mapped",
+      "gha": "job container",
+      "note": "job containers run as root; reuseNode has no equivalent"
+    },
+    {
+      "jenkins": "sh",
+      "line": 456,
+      "stage": "Build Docs",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 457,
+      "stage": "Build Docs",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 458,
+      "stage": "Build Docs",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "agent docker '${DOCKER_IMAGE_BASE}-${MINIMUM_ERLANG_VERSION}'",
+      "line": 472,
+      "stage": "Build Release Tarball",
+      "status": "mapped",
+      "gha": "job container",
+      "note": "job containers run as root; reuseNode has no equivalent"
+    },
+    {
+      "jenkins": "sh",
+      "line": 482,
+      "stage": "Build Release Tarball",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 483,
+      "stage": "Build Release Tarball",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 484,
+      "stage": "Build Release Tarball",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 485,
+      "stage": "Build Release Tarball",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 486,
+      "stage": "Build Release Tarball",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 487,
+      "stage": "Build Release Tarball",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "archiveArtifacts",
+      "line": 513,
+      "stage": "Build Release Tarball",
+      "status": "mapped",
+      "gha": "actions/upload-artifact@v4",
+      "note": "fingerprinting has no equivalent"
+    },
+    {
+      "jenkins": "sh",
+      "line": 516,
+      "stage": "Build Release Tarball",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "options: buildDiscarder",
+      "line": null,
+      "stage": null,
+      "status": "dropped",
+      "gha": "-",
+      "note": "use artifact retention-days / repo settings"
+    },
+    {
+      "jenkins": "options: timeout",
+      "line": null,
+      "stage": null,
+      "status": "approximated",
+      "gha": "timeout-minutes: 240 (per job)",
+      "note": "Jenkins timeout covers the whole pipeline"
+    },
+    {
+      "jenkins": "options: timestamps",
+      "line": null,
+      "stage": null,
+      "status": "dropped",
+      "gha": "-",
+      "note": "native in GitHub Actions"
+    },
+    {
+      "jenkins": "script {}",
+      "line": 413,
+      "stage": "Setup Env",
+      "status": "approximated",
+      "gha": "inner steps translated individually",
+      "note": "imperative Groovy is not executed; review control flow"
+    },
+    {
+      "jenkins": "sh",
+      "line": 434,
+      "stage": "Setup Env",
+      "status": "approximated",
+      "gha": "run",
+      "note": "Groovy interpolation of non-env values needs review"
+    },
+    {
+      "jenkins": "stage 'Build Docs' when",
+      "line": 444,
+      "stage": "Build Docs",
+      "status": "approximated",
+      "gha": "if: env.ONLY_DOCS_CHANGED == '1'",
+      "note": "evaluated once at stage entry against env"
+    },
+    {
+      "jenkins": "sh",
+      "line": 462,
+      "stage": "Build Docs",
+      "status": "approximated",
+      "gha": "run",
+      "note": "Groovy interpolation of non-env values needs review"
+    },
+    {
+      "jenkins": "stage 'Build Release Tarball' when",
+      "line": 470,
+      "stage": "Build Release Tarball",
+      "status": "approximated",
+      "gha": "if: env.ONLY_DOCS_CHANGED == '0' && env.ONLY_GITHUB_CHANGED == '0'",
+      "note": "evaluated once at stage entry against env"
+    },
+    {
+      "jenkins": "stash 'tarball'",
+      "line": 512,
+      "stage": "Build Release Tarball",
+      "status": "approximated",
+      "gha": "actions/upload-artifact@v4",
+      "note": "artifact hand-off between jobs; file permissions are not preserved; no matching files fails the step, as the stash does in Jenkins (if-no-files-found: error)"
+    },
+    {
+      "jenkins": "sh",
+      "line": 519,
+      "stage": "Build Release Tarball",
+      "status": "approximated",
+      "gha": "run",
+      "note": "Groovy interpolation of non-env values needs review"
+    },
+    {
+      "jenkins": "stage 'Test and Package' when",
+      "line": 527,
+      "stage": "Test and Package",
+      "status": "approximated",
+      "gha": "if: env.ONLY_DOCS_CHANGED == '0' && env.ONLY_GITHUB_CHANGED == '0'",
+      "note": "evaluated once at stage entry against env"
+    },
+    {
+      "jenkins": "script {}",
+      "line": 530,
+      "stage": "Test and Package",
+      "status": "approximated",
+      "gha": "inner steps translated individually",
+      "note": "imperative Groovy is not executed; review control flow"
+    },
+    {
+      "jenkins": "parallel (step)",
+      "line": 540,
+      "stage": "Test and Package",
+      "status": "approximated",
+      "gha": "sequential steps",
+      "note": "scripted parallel branches serialised; split into jobs/matrix for real parallelism"
+    },
+    {
+      "jenkins": "options: preserveStashes",
+      "line": null,
+      "stage": null,
+      "status": "manual",
+      "gha": "-",
+      "note": "no GHA equivalent"
+    },
+    {
+      "jenkins": "assign env.DOCS_CHANGED = 0",
+      "line": 414,
+      "stage": "Setup Env",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "assign env.ONLY_DOCS_CHANGED = 0",
+      "line": 415,
+      "stage": "Setup Env",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "assign env.GITHUB_CHANGED = 0",
+      "line": 416,
+      "stage": "Setup Env",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "assign env.ONLY_GITHUB_CHANGED = 0",
+      "line": 417,
+      "stage": "Setup Env",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "if (sh(returnStatus: true, script: docs_changed) == 0 )",
+      "line": 418,
+      "stage": "Setup Env",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "if (sh(returnStatus: true, script: github_changed) == )",
+      "line": 424,
+      "stage": "Setup Env",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "assign parallelStagesMap = meta.collectEntries(...)",
+      "line": 532,
+      "stage": "Test and Package",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment from a step"
+    },
+    {
+      "jenkins": "collectEntries",
+      "line": 532,
+      "stage": "Test and Package",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy method / helper call - port logic to a script"
+    },
+    {
+      "jenkins": "checkout: SCM environment (GIT_COMMIT, GIT_BRANCH, GIT_URL)",
+      "line": null,
+      "stage": null,
+      "status": "info",
+      "gha": "env",
+      "note": "Jenkins' git plugin exports them to every step after a checkout, so called scripts may read them; defined at workflow level even when the Jenkinsfile does not"
+    }
+  ],
+  "secrets": {
+    "DOCKERHUB_CREDS": "Jenkins credential 'dockerhub_creds'"
+  },
+  "jobs": {
+    "setup-env": {
+      "name": "Setup Env",
+      "runs-on": "ubuntu-latest",
+      "steps": 5,
+      "matrix": false
+    },
+    "build-docs": {
+      "name": "Build Docs",
+      "runs-on": "ubuntu-latest",
+      "steps": 6,
+      "matrix": false
+    },
+    "build-release-tarball": {
+      "name": "Build Release Tarball",
+      "runs-on": "ubuntu-latest",
+      "steps": 12,
+      "matrix": false
+    },
+    "test-and-package": {
+      "name": "Test and Package",
+      "runs-on": "ubuntu-latest",
+      "steps": 2,
+      "matrix": false
+    }
+  },
+  "notes": [],
+  "handoff": {},
+  "source_sha256": "9db974eb80c9ecaa5aed415d31b6614d39431a47767ffe1be4d8558dc2003b1d",
+  "model_sha256": "b87a6fc2373b869895bd3d74aa21ace00bef8292d4022e82a9cbf5478be01d44"
+}

@@ -1,0 +1,480 @@
+{
+  "counts": {
+    "approximated": 6,
+    "manual": 47,
+    "mapped": 3,
+    "info": 1
+  },
+  "automation_pct": 11.8,
+  "items": [
+    {
+      "jenkins": "deleteDir",
+      "line": 55,
+      "stage": "Get Repos",
+      "status": "mapped",
+      "gha": "run: workspace cleanup",
+      "note": "runners are ephemeral; kept for parity"
+    },
+    {
+      "jenkins": "dir",
+      "line": 94,
+      "stage": "Get App Release Tags",
+      "status": "mapped",
+      "gha": "working-directory",
+      "note": ""
+    },
+    {
+      "jenkins": "sh",
+      "line": 95,
+      "stage": "Get App Release Tags",
+      "status": "mapped",
+      "gha": "run",
+      "note": ""
+    },
+    {
+      "jenkins": "(no pipeline timeout)",
+      "line": null,
+      "stage": null,
+      "status": "approximated",
+      "gha": "timeout-minutes: 60",
+      "note": "explicit job timeout added (GitHub's default is 360 minutes); set J2GHA_DEFAULT_TIMEOUT to change"
+    },
+    {
+      "jenkins": "agent label 'master'",
+      "line": 11,
+      "stage": "main, App Branch Close and Tag (not currently integrated), Get Repos, Get App Release Tags",
+      "status": "approximated",
+      "gha": "runs-on: ubuntu-latest",
+      "note": "use a self-hosted runner label if the agent provides special tooling/network"
+    },
+    {
+      "jenkins": "sh",
+      "line": 149,
+      "stage": "Check Artefacts from Input Params",
+      "status": "approximated",
+      "gha": "run",
+      "note": "Groovy interpolation of non-env values needs review"
+    },
+    {
+      "jenkins": "sh",
+      "line": 152,
+      "stage": "Check Artefacts from Input Params",
+      "status": "approximated",
+      "gha": "run",
+      "note": "Groovy interpolation of non-env values needs review"
+    },
+    {
+      "jenkins": "sh",
+      "line": 168,
+      "stage": "Check Artefacts from Input Params",
+      "status": "approximated",
+      "gha": "run",
+      "note": "Groovy interpolation of non-env values needs review"
+    },
+    {
+      "jenkins": "sh",
+      "line": 171,
+      "stage": "Check Artefacts from Input Params",
+      "status": "approximated",
+      "gha": "run",
+      "note": "Groovy interpolation of non-env values needs review"
+    },
+    {
+      "jenkins": "decl VERSION = params.VERSION",
+      "line": 13,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "decl GitRepo = git@repo.shd.ci.nonprod.dvsa.aws:",
+      "line": 14,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "decl defaultS3Bucket = devapp-olcs-pri-olcs-deploy-s3/",
+      "line": 15,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "decl templateS3Bucket = devapp-shd-pri-file-deploy-s3/",
+      "line": 16,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "decl ldifLabel = olcs-dir-ldif-version",
+      "line": 17,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "decl txcLabel = olcs-transxchange-version",
+      "line": 18,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "decl txcFile = txc",
+      "line": 19,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "decl authLabel = olcs_auth_version",
+      "line": 20,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "decl authFile = openam",
+      "line": 21,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "decl appVersionFile = ",
+      "line": 22,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "decl repos = [[olcs-ssweb-version, olcs/olcs-selfserve,",
+      "line": 30,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "assign stageName = App Branch Close and Tag (not currentl",
+      "line": 43,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "assign stageName = Get Repos",
+      "line": 52,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "for (int i = 0; i < repos.size; i++)",
+      "line": 57,
+      "stage": "Get Repos",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "Groovy control flow requires manual migration"
+    },
+    {
+      "jenkins": "assign stageName = Get App Release Tags",
+      "line": 74,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "for (int i = 0; i < repos.size; i++)",
+      "line": 76,
+      "stage": "Get App Release Tags",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "Groovy control flow requires manual migration"
+    },
+    {
+      "jenkins": "decl version = readFile('result').trim(...)",
+      "line": 96,
+      "stage": "Get App Release Tags",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment from a step"
+    },
+    {
+      "jenkins": "readFile",
+      "line": 96,
+      "stage": "Get App Release Tags",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "policy step with no deterministic mapping"
+    },
+    {
+      "jenkins": "assign appVersionFile = ${ldifLabel} : '${version}'\n",
+      "line": 97,
+      "stage": "Get App Release Tags",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "assign appVersionFile = ${txcLabel} : '${params.olcs_tran",
+      "line": 101,
+      "stage": "Get App Release Tags",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "assign appVersionFile = ${authLabel} : '${params.olcs_aut",
+      "line": 104,
+      "stage": "Get App Release Tags",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "print",
+      "line": 106,
+      "stage": "Get App Release Tags",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy method / helper call - port logic to a script"
+    },
+    {
+      "jenkins": "assign stageName = Check and Build Release Artefacts",
+      "line": 110,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "decl message = ",
+      "line": 112,
+      "stage": "Check and Build Release Artefacts",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "for (int i = 0; i < repos.size; i++)",
+      "line": 113,
+      "stage": "Check and Build Release Artefacts",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "Groovy control flow requires manual migration"
+    },
+    {
+      "jenkins": "print",
+      "line": 140,
+      "stage": "Check and Build Release Artefacts",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy method / helper call - port logic to a script"
+    },
+    {
+      "jenkins": "assign stageName = Check Artefacts from Input Params",
+      "line": 143,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "decl message = ",
+      "line": 145,
+      "stage": "Check Artefacts from Input Params",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "decl cmd = s3cmd ls s3://${defaultS3Bucket}openam/ > re",
+      "line": 148,
+      "stage": "Check Artefacts from Input Params",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "print",
+      "line": 150,
+      "stage": "Check Artefacts from Input Params",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy method / helper call - port logic to a script"
+    },
+    {
+      "jenkins": "decl cmd2 = grep ${authFile}-${params.olcs_auth_version",
+      "line": 151,
+      "stage": "Check Artefacts from Input Params",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "decl file = readFile('result2').trim(...)",
+      "line": 153,
+      "stage": "Check Artefacts from Input Params",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment from a step"
+    },
+    {
+      "jenkins": "readFile",
+      "line": 153,
+      "stage": "Check Artefacts from Input Params",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "policy step with no deterministic mapping"
+    },
+    {
+      "jenkins": "print",
+      "line": 154,
+      "stage": "Check Artefacts from Input Params",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy method / helper call - port logic to a script"
+    },
+    {
+      "jenkins": "if (file.contains(authFile + '-' + params.olcs_auth_ve)",
+      "line": 155,
+      "stage": "Check Artefacts from Input Params",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "decl cmd3 = s3cmd ls s3://${defaultS3Bucket}api/ > resu",
+      "line": 167,
+      "stage": "Check Artefacts from Input Params",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "print",
+      "line": 169,
+      "stage": "Check Artefacts from Input Params",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy method / helper call - port logic to a script"
+    },
+    {
+      "jenkins": "decl cmd4 = grep ${txcFile}-${params.olcs_transxchange_",
+      "line": 170,
+      "stage": "Check Artefacts from Input Params",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "decl file2 = readFile('result2').trim(...)",
+      "line": 172,
+      "stage": "Check Artefacts from Input Params",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment from a step"
+    },
+    {
+      "jenkins": "readFile",
+      "line": 172,
+      "stage": "Check Artefacts from Input Params",
+      "status": "manual",
+      "gha": "placeholder step",
+      "note": "policy step with no deterministic mapping"
+    },
+    {
+      "jenkins": "print",
+      "line": 173,
+      "stage": "Check Artefacts from Input Params",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy method / helper call - port logic to a script"
+    },
+    {
+      "jenkins": "if (file2.contains(txcFile + '-' + params.olcs_transxc)",
+      "line": 174,
+      "stage": "Check Artefacts from Input Params",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "print",
+      "line": 185,
+      "stage": "Check Artefacts from Input Params",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy method / helper call - port logic to a script"
+    },
+    {
+      "jenkins": "assign stageName = Check App Version against Built artefa",
+      "line": 188,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "if (params.DRYRUN)",
+      "line": 190,
+      "stage": "Check App Version against Built artefacts",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "assign stageName = Create and Push Release Manifest",
+      "line": 202,
+      "stage": "",
+      "status": "manual",
+      "gha": "-",
+      "note": "Groovy variable assignment"
+    },
+    {
+      "jenkins": "if (params.DRYRUN)",
+      "line": 204,
+      "stage": "Create and Push Release Manifest",
+      "status": "manual",
+      "gha": "placeholder",
+      "note": "condition depends on Groovy runtime state"
+    },
+    {
+      "jenkins": "checkout: SCM environment (GIT_COMMIT, GIT_BRANCH, GIT_URL)",
+      "line": null,
+      "stage": null,
+      "status": "info",
+      "gha": "env",
+      "note": "Jenkins' git plugin exports them to every step after a checkout, so called scripts may read them; defined at workflow level even when the Jenkinsfile does not"
+    }
+  ],
+  "secrets": {},
+  "jobs": {
+    "main": {
+      "name": "main, App Branch Close and Tag (not currently integrated), Get Repos, Get App Release Tags",
+      "runs-on": "ubuntu-latest",
+      "steps": 18,
+      "matrix": false
+    }
+  },
+  "notes": [],
+  "handoff": {},
+  "source_sha256": "b169b2a52c27f40349a809ad0d34259b3ff9bb074f6abca4d93d7ad2a4b60807",
+  "model_sha256": "8e8c16a5deb1b9e035a2aac966feac28e35c70b8a9596ab19df942419e43523c"
+}

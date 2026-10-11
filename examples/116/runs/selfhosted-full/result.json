@@ -1,0 +1,244 @@
+{
+  "tier": "selfhosted",
+  "mode": "full",
+  "repo": "tonyskidmore/jenkins-to-gha",
+  "branch": "j2gha/run/116-full-selfhosted-20261010105722",
+  "estimate": {
+    "typical": 0,
+    "worst_case": 0,
+    "unbounded": false
+  },
+  "variant_notes": {
+    "dropped_jobs": [],
+    "matrix_jobs": 1,
+    "jobs": 1
+  },
+  "run_url": "https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38046704435",
+  "result": "success",
+  "run_id": 38046704435,
+  "traces": [],
+  "jobs": [
+    {
+      "name": "main",
+      "status": "completed",
+      "conclusion": "success",
+      "labels": [
+        "self-hosted",
+        "j2gha-1186f79a"
+      ],
+      "started_at": "2026-10-10T10:57:36Z",
+      "completed_at": "2026-10-10T11:01:27Z",
+      "steps": [
+        {
+          "name": "Set up job",
+          "number": 1,
+          "conclusion": "success",
+          "started_at": "2026-10-10T10:57:38Z",
+          "completed_at": "2026-10-10T10:57:41Z"
+        },
+        {
+          "name": "Checkout",
+          "number": 2,
+          "conclusion": "success",
+          "started_at": "2026-10-10T10:57:41Z",
+          "completed_at": "2026-10-10T10:57:42Z"
+        },
+        {
+          "name": "podTemplate (manual migration)",
+          "number": 3,
+          "conclusion": "success",
+          "started_at": "2026-10-10T10:57:42Z",
+          "completed_at": "2026-10-10T10:57:42Z"
+        },
+        {
+          "name": "withFolderProperties (manual migration)",
+          "number": 4,
+          "conclusion": "success",
+          "started_at": "2026-10-10T10:57:42Z",
+          "completed_at": "2026-10-10T10:57:42Z"
+        },
+        {
+          "name": "checkout: checkout",
+          "number": 5,
+          "conclusion": "success",
+          "started_at": "2026-10-10T10:57:42Z",
+          "completed_at": "2026-10-10T10:57:44Z"
+        },
+        {
+          "name": "Get IPA from AWS S3: test -n \"$AWS_ACCESS_KEY_ID\" && echo https://raw.githubusercontent.com",
+          "number": 6,
+          "conclusion": "success",
+          "started_at": "2026-10-10T10:57:44Z",
+          "completed_at": "2026-10-10T10:57:44Z"
+        },
+        {
+          "name": "install ipa in browserstack: curl -sSfLo CVSMobile.ipa `cat ${LBRANCH}.txt`",
+          "number": 7,
+          "conclusion": "success",
+          "started_at": "2026-10-10T10:57:44Z",
+          "completed_at": "2026-10-10T10:57:44Z"
+        },
+        {
+          "name": "install ipa in browserstack: test -n \"$BROWSERSTACK_CREDS\" && echo '{\"app_url\":\"bs://j2gha-local\"}'",
+          "number": 8,
+          "conclusion": "success",
+          "started_at": "2026-10-10T10:57:44Z",
+          "completed_at": "2026-10-10T10:57:44Z"
+        },
+        {
+          "name": "test: browserstack (manual migration)",
+          "number": 9,
+          "conclusion": "success",
+          "started_at": "2026-10-10T10:57:44Z",
+          "completed_at": "2026-10-10T10:57:44Z"
+        },
+        {
+          "name": "test: mvn --batch-mode clean install -DskipTests -DBROWSERSTACK_APP_ID=${APP",
+          "number": 10,
+          "conclusion": "success",
+          "started_at": "2026-10-10T10:57:44Z",
+          "completed_at": "2026-10-10T11:01:21Z"
+        },
+        {
+          "name": "create report: mkdir -p target/site/serenity && echo \"<html><body><h1>DVSA CVS Mobile",
+          "number": 11,
+          "conclusion": "success",
+          "started_at": "2026-10-10T11:01:21Z",
+          "completed_at": "2026-10-10T11:01:21Z"
+        },
+        {
+          "name": "create report: publish HTML report",
+          "number": 12,
+          "conclusion": "success",
+          "started_at": "2026-10-10T11:01:21Z",
+          "completed_at": "2026-10-10T11:01:23Z"
+        },
+        {
+          "name": "Post checkout: checkout",
+          "number": 23,
+          "conclusion": "success",
+          "started_at": "2026-10-10T11:01:23Z",
+          "completed_at": "2026-10-10T11:01:23Z"
+        },
+        {
+          "name": "Post Checkout",
+          "number": 24,
+          "conclusion": "success",
+          "started_at": "2026-10-10T11:01:23Z",
+          "completed_at": "2026-10-10T11:01:24Z"
+        },
+        {
+          "name": "Complete job",
+          "number": 25,
+          "conclusion": "success",
+          "started_at": "2026-10-10T11:01:24Z",
+          "completed_at": "2026-10-10T11:01:24Z"
+        }
+      ]
+    }
+  ],
+  "failed_steps": [],
+  "billable_minutes": 0,
+  "seconds": 250.7,
+  "outputs": {
+    "archived": [],
+    "tests": null,
+    "injected": [
+      {
+        "path": ".github/workflows/j2gha-run.yml",
+        "size": 3279,
+        "sha256": "ff196eb18d4e4eaaef3c921507dbd858b694eea6563a349d9947c97ee6010f5f"
+      }
+    ]
+  },
+  "provenance": {
+    "jenkinsfile_sha256": "9f732995f23ac179907468fb1a7f2fdbd69fb03fd923505e41dec81a18f79b10",
+    "scenario": {
+      "branch": "develop",
+      "git_branch": "origin/develop"
+    },
+    "mode": "full",
+    "model_sha256": "f635797836002fff79c7ca1a633b3abf9245578a890f9f6842eef8d39ef5d148",
+    "images": {
+      "jenkins": {
+        "ref": "j2gha/jenkins:local",
+        "present": true,
+        "id": "sha256:672c4b841b2c934f224d4f1b3523d77a1b651f8f491f8f04da47ca764eb86775",
+        "repo_digests": [],
+        "created": "2026-10-09T18:21:15.545465961Z",
+        "labels": {
+          "j2gha.base-image": "jenkins/jenkins:lts-jdk21@sha256:a660310e39ade10631f774bacd5219de767dfd08947ea5c32a739b5e5bb382c1",
+          "org.opencontainers.image.version": "2.580.1",
+          "org.opencontainers.image.revision": "457b9316d71b43cdf3e2ba6ec7c27efc40f5dc60",
+          "org.opencontainers.image.source": "https://github.com/jenkinsci/docker"
+        },
+        "jenkins_version": "2.580.1"
+      },
+      "act": {
+        "ref": "j2gha/act:local",
+        "present": true,
+        "id": "sha256:0781bb0384b914fba362a2a2483d55d30c3d3cc9b59598856146778aa88662a4",
+        "repo_digests": [],
+        "created": "2026-10-03T06:26:46.552472741Z",
+        "labels": {},
+        "act_version": "0.2.89"
+      },
+      "act_runner": {
+        "ref": "j2gha/act-runner:local",
+        "present": true,
+        "id": "sha256:134418998a1ca958b148ee6befb038aa3ff598bf147b39ce9e99b60a563a15be",
+        "repo_digests": [],
+        "created": "2026-10-09T18:54:04.157825772Z",
+        "labels": {
+          "j2gha.base-image": "catthehacker/ubuntu:act-latest@sha256:c58e2b364da03b0c804c7d660f2ecbedf2f221a382b9baa0b344b0144780ff43",
+          "org.opencontainers.image.version": "20260815",
+          "org.opencontainers.image.revision": "e2f8efe464c82732f78e967ee709c00b6af53643",
+          "org.opencontainers.image.source": "https://github.com/catthehacker/catthehacker/docker_images"
+        }
+      },
+      "jit_runner": {
+        "ref": "j2gha/runner:local",
+        "present": true,
+        "id": "sha256:4847cf6e3e915577d28244aedfbe1b633eafa060a49d4ef313129d6841e2e667",
+        "repo_digests": [],
+        "created": "2026-10-09T18:52:46.515242869Z",
+        "labels": {
+          "j2gha.base-image": "ghcr.io/actions/actions-runner:latest@sha256:4ffadc0002b2581327e06101fc8c06cd189232baf79fe561fac9caeb76f5e807",
+          "org.opencontainers.image.version": "24.04",
+          "org.opencontainers.image.source": "https://github.com/actions/runner"
+        }
+      }
+    }
+  },
+  "finished_at": "2026-10-10T11:01:37+00:00",
+  "comparison": {
+    "mode": "full",
+    "verdict": "equivalent",
+    "equivalent": true,
+    "similarity_pct": 100.0,
+    "jenkins_result": "SUCCESS",
+    "gha_result": "success",
+    "jenkins_failed_stage": null,
+    "gha_failed_stage": null,
+    "gha_failed_step": null,
+    "stages": [],
+    "outputs": {
+      "tests": {
+        "status": "none"
+      },
+      "archived": {
+        "status": "none",
+        "jenkins": 0,
+        "gha": 0,
+        "missing": [],
+        "extra": [],
+        "copies": 0,
+        "content_same": 0,
+        "content_differs": [],
+        "content_unknown": 0,
+        "proven": false
+      },
+      "verdict": "same"
+    }
+  }
+}

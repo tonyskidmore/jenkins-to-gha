@@ -1,0 +1,351 @@
+# j2gha selfhosted variant (full) of examples/119
+name: 'j2gha 119: dvsa/dvsa-mobile-pipeline ops/mobile_build.groovy (j2gha)'
+on:
+  push:
+    branches:
+    - j2gha/run/119-full-selfhosted-20261010110328
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  BRANCH_NAME: master
+  TAG_NAME: ''
+  CHANGE_ID: ''
+  GIT_BRANCH: origin/master
+  WORKSPACE: ${{ github.workspace }}
+  GIT_COMMIT: 1827396f6752465cf0a91a3bcf2ea4bb021c2d3d
+  GIT_URL: ${{ github.server_url }}/${{ github.repository }}.git
+defaults:
+  run:
+    shell: bash
+jobs:
+  main:
+    name: main, Git Checkout
+    runs-on:
+    - self-hosted
+    - j2gha-9a2ae45e
+    timeout-minutes: 10
+    steps:
+    - name: Checkout
+      uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      with:
+        persist-credentials: false
+        repository: dvsa/dvsa-mobile-pipeline
+        ref: 1827396f6752465cf0a91a3bcf2ea4bb021c2d3d
+    - name: new Globals (manual migration)
+      id: s1
+      run: echo "::warning::Jenkins step 'new Globals' requires manual migration"
+    - name: new CommonFunctions (manual migration)
+      id: s2
+      run: echo "::warning::Jenkins step 'new CommonFunctions' requires manual migration"
+    - name: new MobileCoreFunctions (manual migration)
+      id: s3
+      run: echo "::warning::Jenkins step 'new MobileCoreFunctions' requires manual migration"
+    - name: new GitFunctions (manual migration)
+      id: s4
+      run: echo "::warning::Jenkins step 'new GitFunctions' requires manual migration"
+    - name: ': Groovy if (manual)'
+      id: s5
+      run: 'echo "::warning::manual migration: Groovy condition at line 18: plugin_check.toString() == ''Yes''"'
+    - name: ': Groovy if (manual)'
+      id: s6
+      run: 'echo "::warning::manual migration: Groovy condition at line 28: integration_test_check.toString() == ''Yes''"'
+    - name: deleteDir
+      id: s7
+      run: find . -mindepth 1 -delete || true
+    - name: 'Git Checkout: log (manual migration)'
+      id: s8
+      run: echo "::warning::Jenkins step 'log' requires manual migration"
+    - name: 'Git Checkout: git_check_out (manual migration)'
+      id: s9
+      run: echo "::warning::Jenkins step 'git_check_out' requires manual migration"
+    - name: 'Git Checkout: Groovy if (manual)'
+      id: s10
+      run: 'echo "::warning::manual migration: Groovy condition at line 53: plugin_check == ''Yes''"'
+    - name: 'Git Checkout: Groovy if (manual)'
+      id: s11
+      run: 'echo "::warning::manual migration: Groovy condition at line 59: plugin_check == ''Yes''"'
+    - name: 'Git Checkout: log (manual migration)'
+      id: s12
+      run: echo "::warning::Jenkins step 'log' requires manual migration"
+    - name: pwd (manual migration)
+      id: s13
+      run: echo "::warning::Jenkins step 'pwd' requires manual migration"
+    - name: dir
+      id: s14
+      run: mkdir -p -- "$J2GHA_DIR"
+      env:
+        J2GHA_DIR: ${{ env.WORKSPACE }}
+    - name: log (manual migration)
+      id: s15
+      run: echo "::warning::Jenkins step 'log' requires manual migration"
+      working-directory: ${{ env.WORKSPACE }}
+    - name: stash ${target_location}
+      id: s16
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: stash-target_location
+        path: ${{ env.WORKSPACE }}/${{ env.target_location }}/**
+        retention-days: 1
+        include-hidden-files: true
+        if-no-files-found: ignore
+    - name: log (manual migration)
+      id: s17
+      run: echo "::warning::Jenkins step 'log' requires manual migration"
+      working-directory: ${{ env.WORKSPACE }}
+  main-2:
+    name: main, NPM Install, Security Check, SonarQube, Unit Tests, NPM Build, Cordova Platform
+    needs: main
+    runs-on:
+    - self-hosted
+    - j2gha-9a2ae45e
+    timeout-minutes: 10
+    steps:
+    - name: Checkout
+      uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      with:
+        persist-credentials: false
+        repository: dvsa/dvsa-mobile-pipeline
+        ref: 1827396f6752465cf0a91a3bcf2ea4bb021c2d3d
+    - name: deleteDir
+      id: s18
+      run: find . -mindepth 1 -delete || true
+    - name: pwd (manual migration)
+      id: s19
+      run: echo "::warning::Jenkins step 'pwd' requires manual migration"
+    - name: log (manual migration)
+      id: s20
+      run: echo "::warning::Jenkins step 'log' requires manual migration"
+    - name: unstash ${target_location}
+      id: s21
+      uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+      with:
+        pattern: stash-target_location
+        merge-multiple: true
+        path: ${{ env.target_location }}
+    - name: log (manual migration)
+      id: s22
+      run: echo "::warning::Jenkins step 'log' requires manual migration"
+    - name: 'NPM Install: dir'
+      id: s23
+      run: mkdir -p -- "$J2GHA_DIR"
+      env:
+        J2GHA_DIR: ${{ env.mac_workspace }}/${{ env.target_location }}
+    - name: 'NPM Install: log (manual migration)'
+      id: s24
+      run: echo "::warning::Jenkins step 'log' requires manual migration"
+      working-directory: ${{ env.mac_workspace }}/${{ env.target_location }}
+    - name: 'NPM Install: install (manual migration)'
+      id: s25
+      run: echo "::warning::Jenkins step 'install' requires manual migration"
+      working-directory: ${{ env.mac_workspace }}/${{ env.target_location }}
+    - name: 'NPM Install: log (manual migration)'
+      id: s26
+      run: echo "::warning::Jenkins step 'log' requires manual migration"
+      working-directory: ${{ env.mac_workspace }}/${{ env.target_location }}
+    - name: 'Security Check: dir'
+      id: s27
+      run: mkdir -p -- "$J2GHA_DIR"
+      env:
+        J2GHA_DIR: ${{ env.mac_workspace }}/${{ env.target_location }}
+    - name: 'Security Check: log (manual migration)'
+      id: s28
+      run: echo "::warning::Jenkins step 'log' requires manual migration"
+      working-directory: ${{ env.mac_workspace }}/${{ env.target_location }}
+    - name: 'Security Check: security (manual migration)'
+      id: s29
+      run: echo "::warning::Jenkins step 'security' requires manual migration"
+      working-directory: ${{ env.mac_workspace }}/${{ env.target_location }}
+    - name: 'Security Check: log (manual migration)'
+      id: s30
+      run: echo "::warning::Jenkins step 'log' requires manual migration"
+      working-directory: ${{ env.mac_workspace }}/${{ env.target_location }}
+    - name: 'SonarQube: dir'
+      id: s31
+      run: mkdir -p -- "$J2GHA_DIR"
+      env:
+        J2GHA_DIR: ${{ env.mac_workspace }}/${{ env.target_location }}
+    - name: 'SonarQube: log (manual migration)'
+      id: s32
+      run: echo "::warning::Jenkins step 'log' requires manual migration"
+      working-directory: ${{ env.mac_workspace }}/${{ env.target_location }}
+    - name: 'SonarQube: sonar (manual migration)'
+      id: s33
+      run: echo "::warning::Jenkins step 'sonar' requires manual migration"
+      working-directory: ${{ env.mac_workspace }}/${{ env.target_location }}
+    - name: 'SonarQube: log (manual migration)'
+      id: s34
+      run: echo "::warning::Jenkins step 'log' requires manual migration"
+      working-directory: ${{ env.mac_workspace }}/${{ env.target_location }}
+    - name: 'Unit Tests: dir'
+      id: s35
+      run: mkdir -p -- "$J2GHA_DIR"
+      env:
+        J2GHA_DIR: ${{ env.mac_workspace }}/${{ env.target_location }}
+    - name: 'Unit Tests: log (manual migration)'
+      id: s36
+      run: echo "::warning::Jenkins step 'log' requires manual migration"
+      working-directory: ${{ env.mac_workspace }}/${{ env.target_location }}
+    - name: 'Unit Tests: testing (manual migration)'
+      id: s37
+      run: echo "::warning::Jenkins step 'testing' requires manual migration"
+      working-directory: ${{ env.mac_workspace }}/${{ env.target_location }}
+    - name: 'Unit Tests: log (manual migration)'
+      id: s38
+      run: echo "::warning::Jenkins step 'log' requires manual migration"
+      working-directory: ${{ env.mac_workspace }}/${{ env.target_location }}
+    - name: 'NPM Build: dir'
+      id: s39
+      run: mkdir -p -- "$J2GHA_DIR"
+      env:
+        J2GHA_DIR: ${{ env.mac_workspace }}/${{ env.target_location }}
+    - name: 'NPM Build: log (manual migration)'
+      id: s40
+      run: echo "::warning::Jenkins step 'log' requires manual migration"
+      working-directory: ${{ env.mac_workspace }}/${{ env.target_location }}
+    - name: 'NPM Build: npmBuild (manual migration)'
+      id: s41
+      run: echo "::warning::Jenkins step 'npmBuild' requires manual migration"
+      working-directory: ${{ env.mac_workspace }}/${{ env.target_location }}
+    - name: 'NPM Build: log (manual migration)'
+      id: s42
+      run: echo "::warning::Jenkins step 'log' requires manual migration"
+      working-directory: ${{ env.mac_workspace }}/${{ env.target_location }}
+    - name: dir
+      id: s43
+      run: mkdir -p -- "$J2GHA_DIR"
+      env:
+        J2GHA_DIR: ${{ env.mac_workspace }}/${{ env.target_location }}
+    - name: log (manual migration)
+      id: s44
+      run: echo "::warning::Jenkins step 'log' requires manual migration"
+      working-directory: ${{ env.mac_workspace }}/${{ env.target_location }}
+    - name: ': Groovy if (manual)'
+      id: s45
+      run: 'echo "::warning::manual migration: Groovy condition at line 137: plugin_check == ''Yes''"'
+      working-directory: ${{ env.mac_workspace }}/${{ env.target_location }}
+    - name: 'Cordova Platform: dir'
+      id: s46
+      run: mkdir -p -- "$J2GHA_DIR"
+      env:
+        J2GHA_DIR: ${{ env.mac_workspace }}/${{ env.target_location }}
+    - name: 'Cordova Platform: log (manual migration)'
+      id: s47
+      run: echo "::warning::Jenkins step 'log' requires manual migration"
+      working-directory: ${{ env.mac_workspace }}/${{ env.target_location }}
+    - name: 'Cordova Platform: configure (manual migration)'
+      id: s48
+      run: echo "::warning::Jenkins step 'configure' requires manual migration"
+      working-directory: ${{ env.mac_workspace }}/${{ env.target_location }}
+    - name: 'Cordova Platform: log (manual migration)'
+      id: s49
+      run: echo "::warning::Jenkins step 'log' requires manual migration"
+      working-directory: ${{ env.mac_workspace }}/${{ env.target_location }}
+    - name: 'Build: dir'
+      id: s50
+      run: mkdir -p -- "$J2GHA_DIR"
+      env:
+        J2GHA_DIR: ${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios
+    - name: 'Build: log (manual migration)'
+      id: s51
+      run: echo "::warning::Jenkins step 'log' requires manual migration"
+      working-directory: ${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios
+    - name: 'Build: build (manual migration)'
+      id: s52
+      run: echo "::warning::Jenkins step 'build' requires manual migration"
+      working-directory: ${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios
+    - name: 'Build: log (manual migration)'
+      id: s53
+      run: echo "::warning::Jenkins step 'log' requires manual migration"
+      working-directory: ${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios
+    - name: dir
+      id: s54
+      run: mkdir -p -- "$J2GHA_DIR"
+      env:
+        J2GHA_DIR: ${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios
+    - name: stash build
+      id: s55
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: stash-build
+        path: |-
+          ${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/build/**
+          !${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/**/.git
+          !${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/**/.git/**
+          !${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/**/.gitignore
+          !${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/**/.gitattributes
+          !${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/**/.gitmodules
+          !${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/**/.svn
+          !${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/**/.svn/**
+          !${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/**/.hg
+          !${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/**/.hg/**
+          !${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/**/.hgignore
+          !${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/**/.hgtags
+          !${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/**/.bzr
+          !${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/**/.bzr/**
+          !${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/**/.bzrignore
+          !${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/**/CVS
+          !${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/**/CVS/**
+          !${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/**/.cvsignore
+          !${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/**/SCCS
+          !${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/**/SCCS/**
+          !${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/**/vssver.scc
+          !${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/**/.DS_Store
+          !${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/**/*~
+          !${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/**/#*#
+          !${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/**/.#*
+          !${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/**/%*%
+          !${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios/**/._*
+        retention-days: 1
+        include-hidden-files: true
+        if-no-files-found: ignore
+    - name: log (manual migration)
+      id: s56
+      run: echo "::warning::Jenkins step 'log' requires manual migration"
+      working-directory: ${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios
+    - name: ': Groovy if (manual)'
+      id: s57
+      run: 'echo "::warning::manual migration: Groovy condition at line 171: integration_test_check == ''Yes''"'
+      working-directory: ${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios
+  main-3:
+    name: main, Upload to S3, Generate bucket URL
+    needs: main-2
+    runs-on:
+    - self-hosted
+    - j2gha-9a2ae45e
+    timeout-minutes: 10
+    steps:
+    - name: Checkout
+      uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      with:
+        persist-credentials: false
+        repository: dvsa/dvsa-mobile-pipeline
+        ref: 1827396f6752465cf0a91a3bcf2ea4bb021c2d3d
+    - name: deleteDir
+      id: s58
+      run: find . -mindepth 1 -delete || true
+    - name: unstash build
+      id: s59
+      uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+      with:
+        pattern: stash-build
+        merge-multiple: true
+        path: build
+    - name: 'Upload to S3: log (manual migration)'
+      id: s60
+      run: echo "::warning::Jenkins step 'log' requires manual migration"
+    - name: 'Upload to S3: upload (manual migration)'
+      id: s61
+      run: echo "::warning::Jenkins step 'upload' requires manual migration"
+    - name: 'Upload to S3: log (manual migration)'
+      id: s62
+      run: echo "::warning::Jenkins step 'log' requires manual migration"
+    - name: 'Generate bucket URL: log (manual migration)'
+      id: s63
+      run: echo "::warning::Jenkins step 'log' requires manual migration"
+    - name: 'Generate bucket URL: publish (manual migration)'
+      id: s64
+      run: echo "::warning::Jenkins step 'publish' requires manual migration"
+    - name: 'Generate bucket URL: log (manual migration)'
+      id: s65
+      run: echo "::warning::Jenkins step 'log' requires manual migration"

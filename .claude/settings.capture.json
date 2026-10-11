@@ -1,0 +1,53 @@
+{
+  "$comment": "Guard rails for video-capture sessions only. Not loaded automatically: start with `GH_TOKEN=<read-only fine-grained PAT> claude --settings .claude/settings.capture.json`. Deny rules are pattern matches, so the real boundary is the read-only token, the read-only browser profile and the sandbox below.",
+  "permissions": {
+    "allow": [
+      "Bash(.claude/skills/narrated-explainer/scripts/nx check:*)",
+      "Bash(.claude/skills/narrated-explainer/scripts/nx shots:*)",
+      "Bash(.claude/skills/narrated-explainer/scripts/nx capture local:*)",
+      "Bash(.claude/skills/narrated-explainer/scripts/nx timeline:*)",
+      "Bash(.claude/skills/narrated-explainer/scripts/nx render:*)",
+      "Bash(.claude/skills/narrated-explainer/scripts/nx qa:*)",
+      "Bash(gh run list:*)",
+      "Bash(gh run view:*)",
+      "Read(docs/video/**)",
+      "Edit(docs/video/**)",
+      "Write(docs/video/**)"
+    ],
+    "deny": [
+      "Bash(git push:*)",
+      "Bash(git remote:*)",
+      "Bash(gh auth:*)",
+      "Bash(gh workflow:*)",
+      "Bash(gh run rerun:*)",
+      "Bash(gh run cancel:*)",
+      "Bash(gh run delete:*)",
+      "Bash(gh api:*)",
+      "Bash(gh repo:*)",
+      "Bash(gh release:*)",
+      "Bash(gh secret:*)",
+      "Bash(gh pr:*)",
+      "Bash(uv run j2gha run:*)",
+      "Bash(uv run j2gha pipeline:*)",
+      "Bash(uv run j2gha budget:*)",
+      "Bash(*--tier hosted*)",
+      "Bash(*--tier selfhosted*)",
+      "Read(~/.config/gh/**)",
+      "Read(~/.ssh/**)",
+      "Read(**/.env)",
+      "Read(**/.env.*)",
+      "Read(~/.cache/j2gha-capture-profile/**)",
+      "Edit(~/.cache/j2gha-capture-profile/**)"
+    ]
+  },
+  "sandbox": {
+    "enabled": true,
+    "network": {
+      "allowedDomains": ["127.0.0.1", "localhost", "github.com", "api.github.com", "*.githubassets.com", "*.githubusercontent.com"]
+    },
+    "filesystem": {
+      "denyRead": ["~/.config/gh", "~/.ssh", "~/.cache/j2gha-capture-profile"],
+      "allowWrite": ["docs/video", ".cache/video"]
+    }
+  }
+}

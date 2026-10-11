@@ -1,0 +1,1455 @@
+{
+  "file": "004",
+  "ok": true,
+  "errors": [],
+  "imports": [],
+  "annotations": [],
+  "methods": [],
+  "classes": [],
+  "statements": [
+    {
+      "k": "call",
+      "name": "pipeline",
+      "args": [],
+      "named": {},
+      "line": 1,
+      "col": 1,
+      "endLine": 201,
+      "endCol": 2,
+      "body": [
+        {
+          "k": "call",
+          "name": "agent",
+          "args": [],
+          "named": {},
+          "line": 2,
+          "col": 3,
+          "endLine": 46,
+          "endCol": 4,
+          "body": [
+            {
+              "k": "call",
+              "name": "kubernetes",
+              "args": [],
+              "named": {},
+              "line": 3,
+              "col": 5,
+              "endLine": 45,
+              "endCol": 6,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "label",
+                  "args": [
+                    {
+                      "t": "str",
+                      "v": "kubedeploy-agent",
+                      "line": 4,
+                      "col": 13,
+                      "endLine": 4,
+                      "endCol": 31
+                    }
+                  ],
+                  "named": {},
+                  "line": 4,
+                  "col": 7,
+                  "endLine": 4,
+                  "endCol": 31
+                },
+                {
+                  "k": "call",
+                  "name": "yaml",
+                  "args": [
+                    {
+                      "t": "str",
+                      "v": "\n        apiVersion: v1\n        kind: Pod\n        spec:\n          containers:\n          - name: kubectl\n            image: eclipsefdn/kubectl:okd-c1\n            command:\n            - cat\n            tty: true\n            resources:\n              limits:\n                cpu: 1\n                memory: 1Gi\n            volumeMounts:\n            - mountPath: \"/home/default/.kube\"\n              name: \"dot-kube\"\n              readOnly: false\n          - name: eks\n            image: eclipsefdn/aws:alpine-latest\n            command:\n            - cat\n            tty: true\n            resources:\n              limits:\n                cpu: 1\n                memory: 1Gi\n            volumeMounts:\n            - mountPath: \"/home/default/.kube\"\n              name: \"dot-kube\"\n              readOnly: false\n          - name: jnlp\n            resources:\n              limits:\n                cpu: 1\n                memory: 1Gi\n          volumes:\n          - name: \"dot-kube\"\n            emptyDir: {}\n      ",
+                      "line": 5,
+                      "col": 12,
+                      "endLine": 44,
+                      "endCol": 10
+                    }
+                  ],
+                  "named": {},
+                  "line": 5,
+                  "col": 7,
+                  "endLine": 44,
+                  "endCol": 10
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "k": "call",
+          "name": "environment",
+          "args": [],
+          "named": {},
+          "line": 48,
+          "col": 3,
+          "endLine": 63,
+          "endCol": 4,
+          "body": [
+            {
+              "k": "assign",
+              "op": "=",
+              "target": "APP_NAME",
+              "value": {
+                "t": "str",
+                "v": "open-vsx-org",
+                "line": 49,
+                "col": 16,
+                "endLine": 49,
+                "endCol": 30
+              },
+              "line": 49,
+              "col": 5,
+              "endLine": 49,
+              "endCol": 30
+            },
+            {
+              "k": "assign",
+              "op": "=",
+              "target": "NAMESPACE",
+              "value": {
+                "t": "str",
+                "v": "foundation-internal-webdev-apps",
+                "line": 50,
+                "col": 17,
+                "endLine": 50,
+                "endCol": 50
+              },
+              "line": 50,
+              "col": 5,
+              "endLine": 50,
+              "endCol": 50
+            },
+            {
+              "k": "assign",
+              "op": "=",
+              "target": "IMAGE_NAME",
+              "value": {
+                "t": "str",
+                "v": "ghcr.io/eclipsefdn/openvsx-website",
+                "line": 51,
+                "col": 18,
+                "endLine": 51,
+                "endCol": 54
+              },
+              "line": 51,
+              "col": 5,
+              "endLine": 51,
+              "endCol": 54
+            },
+            {
+              "k": "assign",
+              "op": "=",
+              "target": "CONTAINER_NAME",
+              "value": {
+                "t": "str",
+                "v": "open-vsx-org",
+                "line": 52,
+                "col": 22,
+                "endLine": 52,
+                "endCol": 36
+              },
+              "line": 52,
+              "col": 5,
+              "endLine": 52,
+              "endCol": 36
+            },
+            {
+              "k": "assign",
+              "op": "=",
+              "target": "IMAGE_TAG",
+              "value": {
+                "t": "call",
+                "call": {
+                  "k": "call",
+                  "name": "sh",
+                  "args": [],
+                  "named": {
+                    "script": {
+                      "t": "gstr",
+                      "v": "\"\"\"\n        if [ \"${env.TAG_NAME}\" = \"\" ]; then\n          printf ${env.TAG_NAME}-${env.BUILD_NUMBER}\n        else\n          printf \\$(git rev-parse --short ${env.GIT_COMMIT})-${env.BUILD_NUMBER}\n        fi\n      \"\"\"",
+                      "vars": [
+                        "{env.TAG_NAME}",
+                        "{env.TAG_NAME}",
+                        "{env.BUILD_NUMBER}",
+                        "{env.GIT_COMMIT}",
+                        "{env.BUILD_NUMBER}"
+                      ],
+                      "calls": [],
+                      "line": 54,
+                      "col": 15,
+                      "endLine": 60,
+                      "endCol": 10
+                    },
+                    "returnStdout": {
+                      "t": "bool",
+                      "v": true,
+                      "line": 61,
+                      "col": 21,
+                      "endLine": 62,
+                      "endCol": 5
+                    }
+                  },
+                  "line": 53,
+                  "col": 17,
+                  "endLine": 62,
+                  "endCol": 6
+                },
+                "line": 53,
+                "col": 17,
+                "endLine": 62,
+                "endCol": 6
+              },
+              "line": 53,
+              "col": 5,
+              "endLine": 62,
+              "endCol": 6
+            }
+          ]
+        },
+        {
+          "k": "call",
+          "name": "options",
+          "args": [],
+          "named": {},
+          "line": 65,
+          "col": 3,
+          "endLine": 68,
+          "endCol": 4,
+          "body": [
+            {
+              "k": "call",
+              "name": "buildDiscarder",
+              "args": [
+                {
+                  "t": "call",
+                  "call": {
+                    "k": "call",
+                    "name": "logRotator",
+                    "args": [],
+                    "named": {
+                      "numToKeepStr": {
+                        "t": "str",
+                        "v": "10",
+                        "line": 66,
+                        "col": 45,
+                        "endLine": 66,
+                        "endCol": 49
+                      }
+                    },
+                    "line": 66,
+                    "col": 20,
+                    "endLine": 66,
+                    "endCol": 50
+                  },
+                  "line": 66,
+                  "col": 20,
+                  "endLine": 66,
+                  "endCol": 50
+                }
+              ],
+              "named": {},
+              "line": 66,
+              "col": 5,
+              "endLine": 66,
+              "endCol": 51
+            },
+            {
+              "k": "call",
+              "name": "timeout",
+              "args": [],
+              "named": {
+                "time": {
+                  "t": "num",
+                  "v": 30,
+                  "line": 67,
+                  "col": 19,
+                  "endLine": 67,
+                  "endCol": 21
+                },
+                "unit": {
+                  "t": "str",
+                  "v": "MINUTES",
+                  "line": 67,
+                  "col": 29,
+                  "endLine": 67,
+                  "endCol": 38
+                }
+              },
+              "line": 67,
+              "col": 5,
+              "endLine": 67,
+              "endCol": 39
+            }
+          ]
+        },
+        {
+          "k": "call",
+          "name": "stages",
+          "args": [],
+          "named": {},
+          "line": 70,
+          "col": 3,
+          "endLine": 182,
+          "endCol": 4,
+          "body": [
+            {
+              "k": "call",
+              "name": "stage",
+              "args": [
+                {
+                  "t": "str",
+                  "v": "Build docker image",
+                  "line": 71,
+                  "col": 11,
+                  "endLine": 71,
+                  "endCol": 31
+                }
+              ],
+              "named": {},
+              "line": 71,
+              "col": 5,
+              "endLine": 80,
+              "endCol": 6,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "agent",
+                  "args": [],
+                  "named": {},
+                  "line": 72,
+                  "col": 7,
+                  "endLine": 74,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "label",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "docker-build",
+                          "line": 73,
+                          "col": 15,
+                          "endLine": 73,
+                          "endCol": 29
+                        }
+                      ],
+                      "named": {},
+                      "line": 73,
+                      "col": 9,
+                      "endLine": 73,
+                      "endCol": 29
+                    }
+                  ]
+                },
+                {
+                  "k": "call",
+                  "name": "steps",
+                  "args": [],
+                  "named": {},
+                  "line": 75,
+                  "col": 7,
+                  "endLine": 79,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "sh",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "\n          docker build --pull -t ${IMAGE_NAME}:${IMAGE_TAG} .\n        ",
+                          "line": 76,
+                          "col": 12,
+                          "endLine": 78,
+                          "endCol": 12
+                        }
+                      ],
+                      "named": {},
+                      "line": 76,
+                      "col": 9,
+                      "endLine": 78,
+                      "endCol": 12
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "k": "call",
+              "name": "stage",
+              "args": [
+                {
+                  "t": "str",
+                  "v": "Push docker image",
+                  "line": 82,
+                  "col": 11,
+                  "endLine": 82,
+                  "endCol": 30
+                }
+              ],
+              "named": {},
+              "line": 82,
+              "col": 5,
+              "endLine": 93,
+              "endCol": 6,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "agent",
+                  "args": [],
+                  "named": {},
+                  "line": 83,
+                  "col": 7,
+                  "endLine": 85,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "label",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "docker-build",
+                          "line": 84,
+                          "col": 15,
+                          "endLine": 84,
+                          "endCol": 29
+                        }
+                      ],
+                      "named": {},
+                      "line": 84,
+                      "col": 9,
+                      "endLine": 84,
+                      "endCol": 29
+                    }
+                  ]
+                },
+                {
+                  "k": "call",
+                  "name": "steps",
+                  "args": [],
+                  "named": {},
+                  "line": 86,
+                  "col": 7,
+                  "endLine": 92,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "withDockerRegistry",
+                      "args": [],
+                      "named": {
+                        "credentialsId": {
+                          "t": "str",
+                          "v": "a56a2346-7fc5-4f91-a624-073197e5f5c8",
+                          "line": 87,
+                          "col": 44,
+                          "endLine": 87,
+                          "endCol": 82
+                        },
+                        "url": {
+                          "t": "str",
+                          "v": "https://ghcr.io/",
+                          "line": 87,
+                          "col": 89,
+                          "endLine": 87,
+                          "endCol": 107
+                        }
+                      },
+                      "line": 87,
+                      "col": 9,
+                      "endLine": 91,
+                      "endCol": 10,
+                      "body": [
+                        {
+                          "k": "call",
+                          "name": "sh",
+                          "args": [
+                            {
+                              "t": "str",
+                              "v": "\n            docker push ${IMAGE_NAME}:${IMAGE_TAG}\n          ",
+                              "line": 88,
+                              "col": 14,
+                              "endLine": 90,
+                              "endCol": 14
+                            }
+                          ],
+                          "named": {},
+                          "line": 88,
+                          "col": 11,
+                          "endLine": 90,
+                          "endCol": 14
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "k": "call",
+              "name": "stage",
+              "args": [
+                {
+                  "t": "str",
+                  "v": "Deploy test",
+                  "line": 95,
+                  "col": 11,
+                  "endLine": 95,
+                  "endCol": 24
+                }
+              ],
+              "named": {},
+              "line": 95,
+              "col": 5,
+              "endLine": 108,
+              "endCol": 6,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "when",
+                  "args": [],
+                  "named": {},
+                  "line": 96,
+                  "col": 7,
+                  "endLine": 98,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "branch",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "test",
+                          "line": 97,
+                          "col": 16,
+                          "endLine": 97,
+                          "endCol": 22
+                        }
+                      ],
+                      "named": {},
+                      "line": 97,
+                      "col": 9,
+                      "endLine": 97,
+                      "endCol": 22
+                    }
+                  ]
+                },
+                {
+                  "k": "call",
+                  "name": "steps",
+                  "args": [],
+                  "named": {},
+                  "line": 99,
+                  "col": 7,
+                  "endLine": 107,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "container",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "kubectl",
+                          "line": 100,
+                          "col": 19,
+                          "endLine": 100,
+                          "endCol": 28
+                        }
+                      ],
+                      "named": {},
+                      "line": 100,
+                      "col": 9,
+                      "endLine": 106,
+                      "endCol": 10,
+                      "body": [
+                        {
+                          "k": "call",
+                          "name": "withKubeConfig",
+                          "args": [],
+                          "named": {
+                            "credentialsId": {
+                              "t": "str",
+                              "v": "ci-bot-okd-c1-token",
+                              "line": 101,
+                              "col": 42,
+                              "endLine": 101,
+                              "endCol": 63
+                            },
+                            "serverUrl": {
+                              "t": "str",
+                              "v": "https://api.okd-c1.eclipse.org:6443",
+                              "line": 101,
+                              "col": 76,
+                              "endLine": 101,
+                              "endCol": 113
+                            }
+                          },
+                          "line": 101,
+                          "col": 11,
+                          "endLine": 105,
+                          "endCol": 12,
+                          "body": [
+                            {
+                              "k": "call",
+                              "name": "sh",
+                              "args": [
+                                {
+                                  "t": "str",
+                                  "v": "\n              ./kubernetes/helm-deploy.sh test \"${IMAGE_TAG}\"\n            ",
+                                  "line": 102,
+                                  "col": 16,
+                                  "endLine": 104,
+                                  "endCol": 16
+                                }
+                              ],
+                              "named": {},
+                              "line": 102,
+                              "col": 13,
+                              "endLine": 104,
+                              "endCol": 16
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "k": "call",
+              "name": "stage",
+              "args": [
+                {
+                  "t": "str",
+                  "v": "Deploy staging",
+                  "line": 110,
+                  "col": 11,
+                  "endLine": 110,
+                  "endCol": 27
+                }
+              ],
+              "named": {},
+              "line": 110,
+              "col": 5,
+              "endLine": 123,
+              "endCol": 6,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "when",
+                  "args": [],
+                  "named": {},
+                  "line": 111,
+                  "col": 7,
+                  "endLine": 113,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "branch",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "main",
+                          "line": 112,
+                          "col": 16,
+                          "endLine": 112,
+                          "endCol": 22
+                        }
+                      ],
+                      "named": {},
+                      "line": 112,
+                      "col": 9,
+                      "endLine": 112,
+                      "endCol": 22
+                    }
+                  ]
+                },
+                {
+                  "k": "call",
+                  "name": "steps",
+                  "args": [],
+                  "named": {},
+                  "line": 114,
+                  "col": 7,
+                  "endLine": 122,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "container",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "kubectl",
+                          "line": 115,
+                          "col": 19,
+                          "endLine": 115,
+                          "endCol": 28
+                        }
+                      ],
+                      "named": {},
+                      "line": 115,
+                      "col": 9,
+                      "endLine": 121,
+                      "endCol": 10,
+                      "body": [
+                        {
+                          "k": "call",
+                          "name": "withKubeConfig",
+                          "args": [],
+                          "named": {
+                            "credentialsId": {
+                              "t": "str",
+                              "v": "ci-bot-okd-c1-token",
+                              "line": 116,
+                              "col": 42,
+                              "endLine": 116,
+                              "endCol": 63
+                            },
+                            "serverUrl": {
+                              "t": "str",
+                              "v": "https://api.okd-c1.eclipse.org:6443",
+                              "line": 116,
+                              "col": 76,
+                              "endLine": 116,
+                              "endCol": 113
+                            }
+                          },
+                          "line": 116,
+                          "col": 11,
+                          "endLine": 120,
+                          "endCol": 12,
+                          "body": [
+                            {
+                              "k": "call",
+                              "name": "sh",
+                              "args": [
+                                {
+                                  "t": "str",
+                                  "v": "\n              ./kubernetes/helm-deploy.sh staging \"${IMAGE_TAG}\"\n            ",
+                                  "line": 117,
+                                  "col": 16,
+                                  "endLine": 119,
+                                  "endCol": 16
+                                }
+                              ],
+                              "named": {},
+                              "line": 117,
+                              "col": 13,
+                              "endLine": 119,
+                              "endCol": 16
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "k": "call",
+              "name": "stage",
+              "args": [
+                {
+                  "t": "str",
+                  "v": "Deploy production",
+                  "line": 125,
+                  "col": 11,
+                  "endLine": 125,
+                  "endCol": 30
+                }
+              ],
+              "named": {},
+              "line": 125,
+              "col": 5,
+              "endLine": 138,
+              "endCol": 6,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "when",
+                  "args": [],
+                  "named": {},
+                  "line": 126,
+                  "col": 7,
+                  "endLine": 128,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "branch",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "production",
+                          "line": 127,
+                          "col": 16,
+                          "endLine": 127,
+                          "endCol": 28
+                        }
+                      ],
+                      "named": {},
+                      "line": 127,
+                      "col": 9,
+                      "endLine": 127,
+                      "endCol": 28
+                    }
+                  ]
+                },
+                {
+                  "k": "call",
+                  "name": "steps",
+                  "args": [],
+                  "named": {},
+                  "line": 129,
+                  "col": 7,
+                  "endLine": 137,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "container",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "kubectl",
+                          "line": 130,
+                          "col": 19,
+                          "endLine": 130,
+                          "endCol": 28
+                        }
+                      ],
+                      "named": {},
+                      "line": 130,
+                      "col": 9,
+                      "endLine": 136,
+                      "endCol": 10,
+                      "body": [
+                        {
+                          "k": "call",
+                          "name": "withKubeConfig",
+                          "args": [],
+                          "named": {
+                            "credentialsId": {
+                              "t": "str",
+                              "v": "ci-bot-okd-c1-token",
+                              "line": 131,
+                              "col": 42,
+                              "endLine": 131,
+                              "endCol": 63
+                            },
+                            "serverUrl": {
+                              "t": "str",
+                              "v": "https://api.okd-c1.eclipse.org:6443",
+                              "line": 131,
+                              "col": 76,
+                              "endLine": 131,
+                              "endCol": 113
+                            }
+                          },
+                          "line": 131,
+                          "col": 11,
+                          "endLine": 135,
+                          "endCol": 12,
+                          "body": [
+                            {
+                              "k": "call",
+                              "name": "sh",
+                              "args": [
+                                {
+                                  "t": "str",
+                                  "v": "\n              ./kubernetes/helm-deploy.sh production \"${IMAGE_TAG}\"\n            ",
+                                  "line": 132,
+                                  "col": 16,
+                                  "endLine": 134,
+                                  "endCol": 16
+                                }
+                              ],
+                              "named": {},
+                              "line": 132,
+                              "col": 13,
+                              "endLine": 134,
+                              "endCol": 16
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "k": "call",
+              "name": "stage",
+              "args": [
+                {
+                  "t": "str",
+                  "v": "Deploy aws-staging",
+                  "line": 140,
+                  "col": 11,
+                  "endLine": 140,
+                  "endCol": 31
+                }
+              ],
+              "named": {},
+              "line": 140,
+              "col": 5,
+              "endLine": 160,
+              "endCol": 6,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "when",
+                  "args": [],
+                  "named": {},
+                  "line": 141,
+                  "col": 7,
+                  "endLine": 143,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "branch",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "aws-main",
+                          "line": 142,
+                          "col": 16,
+                          "endLine": 142,
+                          "endCol": 26
+                        }
+                      ],
+                      "named": {},
+                      "line": 142,
+                      "col": 9,
+                      "endLine": 142,
+                      "endCol": 26
+                    }
+                  ]
+                },
+                {
+                  "k": "call",
+                  "name": "steps",
+                  "args": [],
+                  "named": {},
+                  "line": 144,
+                  "col": 7,
+                  "endLine": 159,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "container",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "eks",
+                          "line": 145,
+                          "col": 19,
+                          "endLine": 145,
+                          "endCol": 24
+                        }
+                      ],
+                      "named": {},
+                      "line": 145,
+                      "col": 9,
+                      "endLine": 158,
+                      "endCol": 10,
+                      "body": [
+                        {
+                          "k": "call",
+                          "name": "withCredentials",
+                          "args": [
+                            {
+                              "t": "list",
+                              "v": [
+                                {
+                                  "t": "call",
+                                  "call": {
+                                    "k": "call",
+                                    "name": "string",
+                                    "args": [],
+                                    "named": {
+                                      "credentialsId": {
+                                        "t": "str",
+                                        "v": "jenkins-openvsx-aws-key-id",
+                                        "line": 147,
+                                        "col": 35,
+                                        "endLine": 147,
+                                        "endCol": 63
+                                      },
+                                      "variable": {
+                                        "t": "str",
+                                        "v": "AWS_ACCESS_KEY_ID",
+                                        "line": 147,
+                                        "col": 79,
+                                        "endLine": 147,
+                                        "endCol": 98
+                                      }
+                                    },
+                                    "line": 147,
+                                    "col": 13,
+                                    "endLine": 147,
+                                    "endCol": 99
+                                  },
+                                  "line": 147,
+                                  "col": 13,
+                                  "endLine": 147,
+                                  "endCol": 99
+                                },
+                                {
+                                  "t": "call",
+                                  "call": {
+                                    "k": "call",
+                                    "name": "string",
+                                    "args": [],
+                                    "named": {
+                                      "credentialsId": {
+                                        "t": "str",
+                                        "v": "jenkins-openvsx-aws-secret-key",
+                                        "line": 148,
+                                        "col": 35,
+                                        "endLine": 148,
+                                        "endCol": 67
+                                      },
+                                      "variable": {
+                                        "t": "str",
+                                        "v": "AWS_SECRET_ACCESS_KEY",
+                                        "line": 148,
+                                        "col": 79,
+                                        "endLine": 148,
+                                        "endCol": 102
+                                      }
+                                    },
+                                    "line": 148,
+                                    "col": 13,
+                                    "endLine": 148,
+                                    "endCol": 103
+                                  },
+                                  "line": 148,
+                                  "col": 13,
+                                  "endLine": 148,
+                                  "endCol": 103
+                                }
+                              ],
+                              "line": 146,
+                              "col": 27,
+                              "endLine": 149,
+                              "endCol": 12
+                            }
+                          ],
+                          "named": {},
+                          "line": 146,
+                          "col": 11,
+                          "endLine": 157,
+                          "endCol": 12,
+                          "body": [
+                            {
+                              "k": "call",
+                              "name": "sh",
+                              "args": [
+                                {
+                                  "t": "str",
+                                  "v": "\n              set -e\n              export AWS_DEFAULT_REGION=eu-central-1\n              export KUBECONFIG=\"${HOME}/.kube/config\"\n              aws eks update-kubeconfig --name eks-staging-openvsx --region eu-central-1\n              ./kubernetes/helm-deploy.sh aws-staging \"${IMAGE_TAG}\"\n            ",
+                                  "line": 150,
+                                  "col": 16,
+                                  "endLine": 156,
+                                  "endCol": 16
+                                }
+                              ],
+                              "named": {},
+                              "line": 150,
+                              "col": 13,
+                              "endLine": 156,
+                              "endCol": 16
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "k": "call",
+              "name": "stage",
+              "args": [
+                {
+                  "t": "str",
+                  "v": "Deploy aws-production",
+                  "line": 162,
+                  "col": 11,
+                  "endLine": 162,
+                  "endCol": 34
+                }
+              ],
+              "named": {},
+              "line": 162,
+              "col": 5,
+              "endLine": 181,
+              "endCol": 6,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "when",
+                  "args": [],
+                  "named": {},
+                  "line": 163,
+                  "col": 7,
+                  "endLine": 165,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "branch",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "aws-production",
+                          "line": 164,
+                          "col": 16,
+                          "endLine": 164,
+                          "endCol": 32
+                        }
+                      ],
+                      "named": {},
+                      "line": 164,
+                      "col": 9,
+                      "endLine": 164,
+                      "endCol": 32
+                    }
+                  ]
+                },
+                {
+                  "k": "call",
+                  "name": "steps",
+                  "args": [],
+                  "named": {},
+                  "line": 166,
+                  "col": 7,
+                  "endLine": 180,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "container",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "eks",
+                          "line": 167,
+                          "col": 19,
+                          "endLine": 167,
+                          "endCol": 24
+                        }
+                      ],
+                      "named": {},
+                      "line": 167,
+                      "col": 9,
+                      "endLine": 179,
+                      "endCol": 10,
+                      "body": [
+                        {
+                          "k": "call",
+                          "name": "withCredentials",
+                          "args": [
+                            {
+                              "t": "list",
+                              "v": [
+                                {
+                                  "t": "call",
+                                  "call": {
+                                    "k": "call",
+                                    "name": "string",
+                                    "args": [],
+                                    "named": {
+                                      "credentialsId": {
+                                        "t": "str",
+                                        "v": "jenkins-openvsx-aws-key-id",
+                                        "line": 169,
+                                        "col": 35,
+                                        "endLine": 169,
+                                        "endCol": 63
+                                      },
+                                      "variable": {
+                                        "t": "str",
+                                        "v": "AWS_ACCESS_KEY_ID",
+                                        "line": 169,
+                                        "col": 79,
+                                        "endLine": 169,
+                                        "endCol": 98
+                                      }
+                                    },
+                                    "line": 169,
+                                    "col": 13,
+                                    "endLine": 169,
+                                    "endCol": 99
+                                  },
+                                  "line": 169,
+                                  "col": 13,
+                                  "endLine": 169,
+                                  "endCol": 99
+                                },
+                                {
+                                  "t": "call",
+                                  "call": {
+                                    "k": "call",
+                                    "name": "string",
+                                    "args": [],
+                                    "named": {
+                                      "credentialsId": {
+                                        "t": "str",
+                                        "v": "jenkins-openvsx-aws-secret-key",
+                                        "line": 170,
+                                        "col": 35,
+                                        "endLine": 170,
+                                        "endCol": 67
+                                      },
+                                      "variable": {
+                                        "t": "str",
+                                        "v": "AWS_SECRET_ACCESS_KEY",
+                                        "line": 170,
+                                        "col": 79,
+                                        "endLine": 170,
+                                        "endCol": 102
+                                      }
+                                    },
+                                    "line": 170,
+                                    "col": 13,
+                                    "endLine": 170,
+                                    "endCol": 103
+                                  },
+                                  "line": 170,
+                                  "col": 13,
+                                  "endLine": 170,
+                                  "endCol": 103
+                                }
+                              ],
+                              "line": 168,
+                              "col": 27,
+                              "endLine": 171,
+                              "endCol": 12
+                            }
+                          ],
+                          "named": {},
+                          "line": 168,
+                          "col": 11,
+                          "endLine": 178,
+                          "endCol": 12,
+                          "body": [
+                            {
+                              "k": "call",
+                              "name": "sh",
+                              "args": [
+                                {
+                                  "t": "str",
+                                  "v": "\n              set -e\n              export AWS_DEFAULT_REGION=eu-central-1\n              aws eks update-kubeconfig --name eks-production-openvsx --region eu-central-1\n              ./kubernetes/helm-deploy.sh aws-production \"${IMAGE_TAG}\"\n            ",
+                                  "line": 172,
+                                  "col": 16,
+                                  "endLine": 177,
+                                  "endCol": 16
+                                }
+                              ],
+                              "named": {},
+                              "line": 172,
+                              "col": 13,
+                              "endLine": 177,
+                              "endCol": 16
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "k": "call",
+          "name": "post",
+          "args": [],
+          "named": {},
+          "line": 184,
+          "col": 3,
+          "endLine": 200,
+          "endCol": 4,
+          "body": [
+            {
+              "k": "call",
+              "name": "failure",
+              "args": [],
+              "named": {},
+              "line": 185,
+              "col": 5,
+              "endLine": 190,
+              "endCol": 6,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "mail",
+                  "args": [],
+                  "named": {
+                    "to": {
+                      "t": "str",
+                      "v": "ci-admin@eclipse.org",
+                      "line": 186,
+                      "col": 16,
+                      "endLine": 186,
+                      "endCol": 38
+                    },
+                    "subject": {
+                      "t": "gstr",
+                      "v": "\"[open-vsx.org] Build Failure ${currentBuild.fullDisplayName} - ${env.BRANCH_NAME}\"",
+                      "vars": [
+                        "{currentBuild.fullDisplayName}",
+                        "{env.BRANCH_NAME}"
+                      ],
+                      "calls": [],
+                      "line": 187,
+                      "col": 18,
+                      "endLine": 187,
+                      "endCol": 101
+                    },
+                    "mimeType": {
+                      "t": "str",
+                      "v": "text/html",
+                      "line": 188,
+                      "col": 19,
+                      "endLine": 188,
+                      "endCol": 30
+                    },
+                    "body": {
+                      "t": "gstr",
+                      "v": "\"Project: ${env.JOB_NAME}<br/>Build Number: ${env.BUILD_NUMBER}<br/>Build URL: ${env.BUILD_URL}<br/>Console: ${env.BUILD_URL}/console\"",
+                      "vars": [
+                        "{env.JOB_NAME}",
+                        "{env.BUILD_NUMBER}",
+                        "{env.BUILD_URL}",
+                        "{env.BUILD_URL}"
+                      ],
+                      "calls": [],
+                      "line": 189,
+                      "col": 15,
+                      "endLine": 189,
+                      "endCol": 149
+                    }
+                  },
+                  "line": 186,
+                  "col": 7,
+                  "endLine": 189,
+                  "endCol": 149
+                }
+              ]
+            },
+            {
+              "k": "call",
+              "name": "fixed",
+              "args": [],
+              "named": {},
+              "line": 191,
+              "col": 5,
+              "endLine": 196,
+              "endCol": 6,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "mail",
+                  "args": [],
+                  "named": {
+                    "to": {
+                      "t": "str",
+                      "v": "ci-admin@eclipse.org",
+                      "line": 192,
+                      "col": 16,
+                      "endLine": 192,
+                      "endCol": 38
+                    },
+                    "subject": {
+                      "t": "gstr",
+                      "v": "\"[open-vsx.org] Back to normal ${currentBuild.fullDisplayName} - ${env.BRANCH_NAME}\"",
+                      "vars": [
+                        "{currentBuild.fullDisplayName}",
+                        "{env.BRANCH_NAME}"
+                      ],
+                      "calls": [],
+                      "line": 193,
+                      "col": 18,
+                      "endLine": 193,
+                      "endCol": 102
+                    },
+                    "mimeType": {
+                      "t": "str",
+                      "v": "text/html",
+                      "line": 194,
+                      "col": 19,
+                      "endLine": 194,
+                      "endCol": 30
+                    },
+                    "body": {
+                      "t": "gstr",
+                      "v": "\"Project: ${env.JOB_NAME}<br/>Build Number: ${env.BUILD_NUMBER}<br/>Build URL: ${env.BUILD_URL}<br/>Console: ${env.BUILD_URL}/console\"",
+                      "vars": [
+                        "{env.JOB_NAME}",
+                        "{env.BUILD_NUMBER}",
+                        "{env.BUILD_URL}",
+                        "{env.BUILD_URL}"
+                      ],
+                      "calls": [],
+                      "line": 195,
+                      "col": 15,
+                      "endLine": 195,
+                      "endCol": 149
+                    }
+                  },
+                  "line": 192,
+                  "col": 7,
+                  "endLine": 195,
+                  "endCol": 149
+                }
+              ]
+            },
+            {
+              "k": "call",
+              "name": "cleanup",
+              "args": [],
+              "named": {},
+              "line": 197,
+              "col": 5,
+              "endLine": 199,
+              "endCol": 6,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "deleteDir",
+                  "args": [],
+                  "named": {},
+                  "line": 198,
+                  "col": 7,
+                  "endLine": 198,
+                  "endCol": 43
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "source_sha256": "cf78f159b0582f4df0e920a9067e024f7772bfd5543ae2648514466a07446f50"
+}

@@ -1,0 +1,138 @@
+def label = "jenkins-node-${UUID.randomUUID().toString()}"
+podTemplate(label: label, containers: [
+    containerTemplate(name: 'maven', image: '086658912680.dkr.ecr.eu-west-1.amazonaws.com/cvs/maven-builder:latest', ttyEnabled: true, command: 'cat'),])
+    {
+    node('built-in') {
+        container('maven'){
+		
+	    withFolderProperties{
+                LBRANCH="${env.BRANCH}".toLowerCase()
+            }
+            
+            APP_ID=""
+
+            stage('checkout') {
+                checkout scm
+            }
+
+	    stage('Get IPA from AWS S3') {
+                withCredentials([usernamePassword(credentialsId: 'jenkins-iam', usernameVariable: 'AWS_ACCESS_KEY_ID', passwordVariable: 'AWS_SECRET_ACCESS_KEY')]) {  // j2gha-local: was [[$class: 'AmazonWebServicesCredentialsBinding', accessKeyVariable: 'AWS_ACCESS_KEY_ID', credentialsId: 'jenkins-iam', secretKeyVariable: 'AWS_SECRET_ACCESS_KEY']]: the harness fakes only symbol-form bindings (H6), so no 'jenkins-iam' credential would exist; same id and variable names
+		   sh "test -n \"\$AWS_ACCESS_KEY_ID\" && echo https://raw.githubusercontent.com/dvsa/cvs-auto-mobile-app-retired/bf150f606a385a8ed5eacc00070a988c675dd815/README.md > ${LBRANCH}.txt"  // j2gha-local: was aws s3 cp s3://dvsa-cvs-mobile-artefacts/files/${LBRANCH}.txt ${LBRANCH}.txt (no aws CLI, no bucket); the pointer file still names a download URL and the bound key is still read
+                }
+	    }
+            
+            stage('install ipa in browserstack') {
+		sh "curl -sSfLo CVSMobile.ipa `cat ${LBRANCH}.txt`"  // j2gha-local: was wget -O CVSMobile.ipa `cat ${LBRANCH}.txt` (no wget on the Jenkins or JIT-runner image); curl fetches the URL the pointer file names
+                withCredentials([usernameColonPassword(credentialsId: 'browserstack-uploader', variable: 'BROWSERSTACK_CREDS')]) {
+                   APP_ID=sh(script: 'test -n "$BROWSERSTACK_CREDS" && echo \'{"app_url":"bs://j2gha-local"}\' | jq ".app_url"',returnStdout: true).trim()  // j2gha-local: was curl -u $BROWSERSTACK_CREDS -X POST https://api-cloud.browserstack.com/app-automate/upload -F file=@CVSMobile.ipa | jq ".app_url" (no BrowserStack account); the same JSON shape through the same jq filter, the binding still read
+                }
+            }
+            
+            stage ("test") { 
+                browserstack('browserstack') {	
+                    sh "mvn --batch-mode clean install -DskipTests -DBROWSERSTACK_APP_ID=${APP_ID} -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn"  // j2gha-local: was -PCI-Browserstack without -DskipTests: the profile's Serenity/Appium tests need a BrowserStack device and its serenity:aggregate goal (2.0.20) fails on JDK 21; the project itself builds from Maven Central in about 3.5 minutes
+		}
+            }
+            
+            stage("create report"){
+                sh 'mkdir -p target/site/serenity && echo "<html><body><h1>DVSA CVS Mobile Automation</h1><p>j2gha-local stand-in for the Serenity report</p></body></html>" > target/site/serenity/index.html'  // j2gha-local: inserted; the report came from the CI-Browserstack profile dropped above, and publishHTML keeps allowMissing: false
+                publishHTML (target: [ allowMissing: false,
+                 alwaysLinkToLastBuild: false,
+                 keepAll: true,
+                 reportDir: 'target/site/serenity',
+                 reportFiles: 'index.html',
+                 reportName: 'DVSA CVS Mobile Automation',
+                 reportTitles: 'DVSA CVS Mobile Automation'
+               ])
+            }
+    	}
+    }
+}
+
+// ---- j2gha localisation block (trace mode) - generated, not part of the original pipeline ----
+@groovy.transform.Field def scm = [$class: 'GitSCM', branches: [[name: 'main']], userRemoteConfigs: [[url: 'https://example.invalid/j2gha.git']]]
+class J2ghaAny implements Serializable { @NonCPS def propertyMissing(String n) { new J2ghaAny() }; @NonCPS def methodMissing(String n, Object a) { new J2ghaAny() }; @NonCPS String toString() { 'j2gha-stub' }; @NonCPS boolean asBoolean() { true }; @NonCPS boolean isEmpty() { false }; @NonCPS def getAt(Object k) { new J2ghaAny() }; @NonCPS Iterator iterator() { [].iterator() } }
+class J2ghaConfig extends LinkedHashMap { @NonCPS Object get(Object k) { super.containsKey(k) ? super.get(k) : new J2ghaAny() }; @NonCPS def methodMissing(String n, Object a) { new J2ghaAny() } }
+def j2ghaTrace(String kind) {
+  steps.echo('J2GHA-TRACE ' + groovy.json.JsonOutput.toJson([stage: (env.STAGE_NAME ?: ''), step: kind]))
+}
+def sh(Object... a) { j2ghaTrace('sh'); if (a && a[0] instanceof Map && a[0].returnStdout) { return '' }; if (a && a[0] instanceof Map && a[0].returnStatus) { return 0 }; return null }
+def bat(Object... a) { j2ghaTrace('bat'); if (a && a[0] instanceof Map && a[0].returnStdout) { return '' }; if (a && a[0] instanceof Map && a[0].returnStatus) { return 0 }; return null }
+def powershell(Object... a) { j2ghaTrace('powershell'); if (a && a[0] instanceof Map && (a[0].returnStdout)) { return '' }; return null }
+def pwsh(Object... a) { j2ghaTrace('pwsh'); return null }
+def echo(Object... a) { j2ghaTrace('echo'); steps.echo(String.valueOf(a ? a[0] : '')) }
+def checkout(Object... a) { j2ghaTrace('checkout'); return [GIT_COMMIT: '0000000000000000000000000000000000000000', GIT_BRANCH: (env.GIT_BRANCH ?: env.BRANCH_NAME)] }
+def git(Object... a) { j2ghaTrace('git'); return null }
+def archiveArtifacts(Object... a) { j2ghaTrace('archiveArtifacts'); return null }
+def archive(Object... a) { j2ghaTrace('archive'); return null }
+def junit(Object... a) { j2ghaTrace('junit'); return null }
+def stash(Object... a) { j2ghaTrace('stash'); return null }
+def unstash(Object... a) { j2ghaTrace('unstash'); return null }
+def input(Object... a) { j2ghaTrace('input'); return null }
+def build(Object... a) { j2ghaTrace('build'); return [result: 'SUCCESS', number: 1, currentResult: 'SUCCESS', absoluteUrl: '', getResult: { -> 'SUCCESS' }, buildVariables: [:]] }
+def error(Object... a) { j2ghaTrace('error'); steps.error(String.valueOf(a ? a[0] : 'error')) }
+def unstable(Object... a) { j2ghaTrace('unstable'); return null }
+def mail(Object... a) { j2ghaTrace('mail'); return null }
+def emailext(Object... a) { j2ghaTrace('emailext'); return null }
+def slackSend(Object... a) { j2ghaTrace('slackSend'); return null }
+def office365ConnectorSend(Object... a) { j2ghaTrace('office365ConnectorSend'); return null }
+def publishHTML(Object... a) { j2ghaTrace('publishHTML'); return null }
+def publishCoverage(Object... a) { j2ghaTrace('publishCoverage'); return null }
+def recordCoverage(Object... a) { j2ghaTrace('recordCoverage'); return null }
+def jacoco(Object... a) { j2ghaTrace('jacoco'); return null }
+def cobertura(Object... a) { j2ghaTrace('cobertura'); return null }
+def recordIssues(Object... a) { j2ghaTrace('recordIssues'); return null }
+def deleteDir(Object... a) { j2ghaTrace('deleteDir'); return null }
+def cleanWs(Object... a) { j2ghaTrace('cleanWs'); return null }
+def sleep(Object... a) { j2ghaTrace('sleep'); return null }
+def writeFile(Object... a) { j2ghaTrace('writeFile'); return null }
+def httpRequest(Object... a) { j2ghaTrace('httpRequest'); return [status: 200, content: '{}'] }
+def copyArtifacts(Object... a) { j2ghaTrace('copyArtifacts'); return null }
+def waitForQualityGate(Object... a) { j2ghaTrace('waitForQualityGate'); return null }
+def githubNotify(Object... a) { j2ghaTrace('githubNotify'); return null }
+def setGitHubPullRequestStatus(Object... a) { j2ghaTrace('setGitHubPullRequestStatus'); return null }
+def step(Object... a) { j2ghaTrace('step'); return null }
+def fingerprint(Object... a) { j2ghaTrace('fingerprint'); return null }
+def s3Upload(Object... a) { j2ghaTrace('s3Upload'); return null }
+def s3Download(Object... a) { j2ghaTrace('s3Download'); return null }
+def milestone(Object... a) { return null }
+def properties(Object... a) { return null }
+def buildDiscarder(Object... a) { return null }
+def readFile(Object... a) { return '' }
+def fileExists(Object... a) { return false }
+def findFiles(Object... a) { return [] }
+def readJSON(Object... a) { return new J2ghaConfig() }
+def readYaml(Object... a) { return new J2ghaConfig() }
+def readProperties(Object... a) { return new J2ghaConfig() }
+def readMavenPom(Object... a) { return new J2ghaAny() }
+def readCSV(Object... a) { return [] }
+def tool(Object... a) { return '/usr' }
+def load(Object... a) { return new J2ghaAny() }
+def evaluate(Object... a) { return new J2ghaAny() }
+def library(Object... a) { return new J2ghaAny() }
+def withCredentials(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def sshagent(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withDockerRegistry(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withMaven(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withSonarQubeEnv(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def container(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def wrap(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def ansiColor(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withAWS(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withKubeConfig(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withVault(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def configFileProvider(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withGradle(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def nodejs(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withPythonEnv(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def timestamps(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withDockerContainer(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def withDockerServer(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def azureCLI(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def retry(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def podTemplate(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def lock(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : null }
+def browserstack(Object... a) { j2ghaTrace('browserstack'); def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : new J2ghaAny() }
+def withFolderProperties(Object... a) { j2ghaTrace('withFolderProperties'); def body = (a && a[-1] instanceof Closure) ? a[-1] : null; return body != null ? body() : new J2ghaAny() }
+def node(Object... a) { def body = a[-1]; return steps.node('built-in') { body() } }
+// ---- end of j2gha localisation block ----

@@ -1,0 +1,136 @@
+# j2gha act variant (trace) of examples/101
+name: 'j2gha 101: apache/couchdb build-aux/Jenkinsfile (j2gha)'
+on:
+  push:
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  BRANCH_NAME: main
+  TAG_NAME: ''
+  CHANGE_ID: ''
+  CHANGE_TARGET: ''
+  WORKSPACE: ${{ github.workspace }}
+  GIT_COMMITTER_NAME: Jenkins User
+  GIT_COMMITTER_EMAIL: couchdb@apache.org
+  DOCKER_ARGS: -e npm_config_cache=/home/jenkins/.npm -e HOME=. -e MIX_HOME=/home/jenkins/.mix -e HEX_HOME=/home/jenkins/.hex
+    -e PIP_CACHE_DIR=/home/jenkins/.cache/pip -v=/etc/passwd:/etc/passwd -v /etc/group:/etc/group -v /home/jenkins/.gradle:/home/jenkins/.gradle:rw,z
+    -v /home/jenkins/.hex:/home/jenkins/.hex:rw,z -v /home/jenkins/.npm:/home/jenkins/.npm:rw,z -v /home/jenkins/.cache/pip:/home/jenkins/.cache/pip:rw,z
+    -v /home/jenkins/.mix:/home/jenkins/.mix:rw,z
+  GIT_COMMIT: ${{ github.sha }}
+  GIT_BRANCH: origin/main
+  GIT_URL: ${{ github.server_url }}/${{ github.repository }}.git
+defaults:
+  run:
+    shell: bash
+jobs:
+  setup-env:
+    name: Setup Env
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+    - name: Checkout
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Setup Env","step":"checkout"}'
+    - name: 'Setup Env: enter stage'
+      id: s1
+      run: echo "run=true" >> "$GITHUB_OUTPUT"
+    - name: 'Setup Env: ${J2GHA_TODO_wscleanup__}'
+      id: s4
+      if: (always()) && (steps.s1.outcome == 'success')
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Setup Env","step":"sh"}'
+  build-docs:
+    name: Build Docs
+    needs: setup-env
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+    - name: Checkout
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build Docs","step":"checkout"}'
+    - name: 'Build Docs: enter stage'
+      id: s5
+      if: env.ONLY_DOCS_CHANGED == '1'
+      run: echo "run=true" >> "$GITHUB_OUTPUT"
+    - name: 'Build Docs: make python-black'
+      id: s6
+      if: steps.s5.outputs.run == 'true'
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build Docs","step":"sh"}'
+    - name: 'Build Docs: (cd src/docs && ./setup.sh ; make check)'
+      id: s7
+      if: steps.s5.outputs.run == 'true'
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build Docs","step":"sh"}'
+    - name: 'Build Docs: (cd src/docs && make html)'
+      id: s8
+      if: steps.s5.outputs.run == 'true'
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build Docs","step":"sh"}'
+    - name: 'Build Docs: ${J2GHA_TODO_wscleanup__}'
+      id: s9
+      if: (always()) && (steps.s5.outcome == 'success')
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build Docs","step":"sh"}'
+  build-release-tarball:
+    name: Build Release Tarball
+    needs: build-docs
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+    - name: Checkout
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build Release Tarball","step":"checkout"}'
+    - name: 'Build Release Tarball: enter stage'
+      id: s10
+      if: env.ONLY_DOCS_CHANGED == '0' && env.ONLY_GITHUB_CHANGED == '0'
+      run: echo "run=true" >> "$GITHUB_OUTPUT"
+    - name: 'Build Release Tarball: Clean workspace of any previous release artifacts'
+      id: s11
+      if: steps.s10.outputs.run == 'true'
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build Release Tarball","step":"sh"}'
+    - name: 'Build Release Tarball: echo "skipped: ./configure --spidermonkey-version 128 --with-nouveau"'
+      id: s12
+      if: steps.s10.outputs.run == 'true'
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build Release Tarball","step":"sh"}'
+    - name: 'Build Release Tarball: echo "skipped: make erlfmt-check"'
+      id: s13
+      if: steps.s10.outputs.run == 'true'
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build Release Tarball","step":"sh"}'
+    - name: 'Build Release Tarball: echo "skipped: make elixir-source-checks"'
+      id: s14
+      if: steps.s10.outputs.run == 'true'
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build Release Tarball","step":"sh"}'
+    - name: 'Build Release Tarball: echo "skipped: make python-black"'
+      id: s15
+      if: steps.s10.outputs.run == 'true'
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build Release Tarball","step":"sh"}'
+    - name: 'Build Release Tarball: # j2gha-local: was `make -j4 --output-sync=target dist` (needs Erlang,'
+      id: s16
+      if: steps.s10.outputs.run == 'true'
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build Release Tarball","step":"sh"}'
+    - name: 'Build Release Tarball: ls -l ${WORKSPACE}'
+      id: s17
+      if: (always()) && (steps.s10.outcome == 'success') && ((steps.s11.outcome == 'failure' || steps.s12.outcome == 'failure'
+        || steps.s13.outcome == 'failure' || steps.s14.outcome == 'failure' || steps.s15.outcome == 'failure' || steps.s16.outcome
+        == 'failure'))
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build Release Tarball","step":"sh"}'
+    - name: 'Build Release Tarball: stash tarball'
+      id: s18
+      if: (!cancelled()) && (steps.s10.outcome == 'success') && (!(steps.s11.outcome == 'failure' || steps.s12.outcome ==
+        'failure' || steps.s13.outcome == 'failure' || steps.s14.outcome == 'failure' || steps.s15.outcome == 'failure' ||
+        steps.s16.outcome == 'failure' || steps.s17.outcome == 'failure'))
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build Release Tarball","step":"stash"}'
+    - name: 'Build Release Tarball: archive artifacts'
+      id: s19
+      if: (!cancelled()) && (steps.s10.outcome == 'success') && (!(steps.s11.outcome == 'failure' || steps.s12.outcome ==
+        'failure' || steps.s13.outcome == 'failure' || steps.s14.outcome == 'failure' || steps.s15.outcome == 'failure' ||
+        steps.s16.outcome == 'failure' || steps.s17.outcome == 'failure'))
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build Release Tarball","step":"archiveArtifacts"}'
+    - name: 'Build Release Tarball: ${J2GHA_TODO_wscleanup__}'
+      id: s20
+      if: (always()) && (steps.s10.outcome == 'success')
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build Release Tarball","step":"sh"}'
+  test-and-package:
+    name: Test and Package
+    needs: build-release-tarball
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+    - name: 'Test and Package: enter stage'
+      id: s21
+      if: env.ONLY_DOCS_CHANGED == '0' && env.ONLY_GITHUB_CHANGED == '0'
+      run: echo "run=true" >> "$GITHUB_OUTPUT"

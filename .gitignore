@@ -1,0 +1,23 @@
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+*.egg-info/
+dist/
+build/
+
+# j2gha local state
+.cache/
+.j2gha/
+examples/*/runs/**/workspace/
+# act's artifact server store (workspace hand-off zips, up to ~110 MB); run records keep the outputs
+examples/*/runs/*/artifacts/
+.docs/
+
+# examples/000 is the hand-written walkthrough: only its README and Jenkinsfile are tracked
+examples/000/*
+!examples/000/README.md
+!examples/000/Jenkinsfile
+
+# local snapshots of the repo (not part of the project)
+archive/

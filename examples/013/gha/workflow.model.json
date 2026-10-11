@@ -1,0 +1,317 @@
+{
+  "name": "j2gha 013: EclipseNebula/nebula Jenkinsfile (j2gha)",
+  "on": {
+    "push": {
+      "branches": [
+        "**"
+      ]
+    },
+    "pull_request": null,
+    "workflow_dispatch": {
+      "inputs": {
+        "BUILD_TYPE": {
+          "description": "\n        Choose the type of build.\n        Note that a release build will <b>not</b> promote the build, but rather will ",
+          "required": false,
+          "type": "choice",
+          "options": [
+            "nightly",
+            "milestone",
+            "release"
+          ],
+          "default": "nightly"
+        },
+        "ECLIPSE_SIGN": {
+          "description": "\n        Choose whether or not the bundles will be signed.\n        This is relevant only for nightly and milestone build",
+          "required": false,
+          "type": "boolean",
+          "default": true
+        },
+        "PROMOTE": {
+          "description": "Whether to promote the build to the download server.",
+          "required": false,
+          "type": "boolean",
+          "default": true
+        }
+      }
+    }
+  },
+  "permissions": {
+    "contents": "read"
+  },
+  "concurrency": {
+    "group": "${{ github.workflow }}-${{ github.ref }}",
+    "cancel-in-progress": true
+  },
+  "env": {
+    "BRANCH_NAME": "${{ github.head_ref || github.ref_name }}",
+    "TAG_NAME": "${{ github.ref_type == 'tag' && github.ref_name || '' }}",
+    "CHANGE_ID": "${{ github.event.pull_request.number }}",
+    "BUILD_NUMBER": "${{ github.run_number }}",
+    "JOB_NAME": "${{ github.workflow }}",
+    "BUILD_URL": "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}",
+    "GIT_COMMIT": "${{ github.sha }}",
+    "BUILD_TYPE": "${{ github.event_name != 'workflow_dispatch' && 'nightly' || format('{0}', inputs.BUILD_TYPE) }}",
+    "ECLIPSE_SIGN": "${{ github.event_name != 'workflow_dispatch' && 'true' || format('{0}', inputs.ECLIPSE_SIGN) }}",
+    "PROMOTE": "${{ github.event_name != 'workflow_dispatch' && 'true' || format('{0}', inputs.PROMOTE) }}",
+    "MAIN_BRANCH": "master",
+    "GIT_BRANCH": "${{ github.head_ref || github.ref_name }}",
+    "GIT_URL": "${{ github.server_url }}/${{ github.repository }}.git"
+  },
+  "defaults": {
+    "run": {
+      "shell": "bash"
+    }
+  },
+  "jobs": {
+    "display-parameters": {
+      "name": "Display Parameters, Build Nebula",
+      "runs-on": "ubuntu-latest",
+      "timeout-minutes": 60,
+      "steps": [
+        {
+          "name": "Checkout",
+          "uses": "actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "with": {
+            "persist-credentials": false
+          },
+          "_j2gha": {
+            "kind": "checkout",
+            "line": null,
+            "trace": false,
+            "trace_events": [
+              [
+                "Declarative: Checkout SCM",
+                "checkout"
+              ]
+            ],
+            "role": "checkout"
+          }
+        },
+        {
+          "name": "Set pipeline environment (Jenkins environment {})",
+          "run": "BUILD_TIMESTAMP=\"$(date +%Y%m%d%H%M)\"; export BUILD_TIMESTAMP; echo \"BUILD_TIMESTAMP=${BUILD_TIMESTAMP}\" >> \"$GITHUB_ENV\"",
+          "_j2gha": {
+            "kind": "environment",
+            "trace": false,
+            "role": "setup",
+            "trace_events": [
+              [
+                "",
+                "sh"
+              ]
+            ]
+          }
+        },
+        {
+          "name": "Set up JDK (temurin-jdk21-latest)",
+          "uses": "actions/setup-java@cf277c60eb25467037889841efdb72551f06f6c3",
+          "with": {
+            "distribution": "temurin",
+            "java-version": "21"
+          },
+          "_j2gha": {
+            "kind": "tools:jdk",
+            "trace": false,
+            "role": "setup"
+          }
+        },
+        {
+          "name": "Display Parameters: if (line 53)",
+          "id": "s1",
+          "if": "env.BRANCH_NAME == env.MAIN_BRANCH",
+          "run": "echo \"taken=true\" >> \"$GITHUB_OUTPUT\"",
+          "_j2gha": {
+            "kind": "if-decision",
+            "stage": "Display Parameters",
+            "line": 53,
+            "trace": false,
+            "trace_run": "echo \"taken=true\" >> \"$GITHUB_OUTPUT\""
+          }
+        },
+        {
+          "name": "Display Parameters: if (line 53)",
+          "id": "s2",
+          "if": "steps.s1.outcome == 'skipped'",
+          "run": "echo \"taken=false\" >> \"$GITHUB_OUTPUT\"",
+          "_j2gha": {
+            "kind": "if-decision",
+            "stage": "Display Parameters",
+            "line": 53,
+            "trace": false,
+            "trace_run": "echo \"taken=false\" >> \"$GITHUB_OUTPUT\""
+          }
+        },
+        {
+          "name": "Display Parameters: echo",
+          "id": "s3",
+          "run": "echo \"description\"",
+          "_j2gha": {
+            "kind": "echo",
+            "stage": "Display Parameters",
+            "line": 73,
+            "trace": true
+          }
+        },
+        {
+          "name": "Build Nebula: if (line 82)",
+          "id": "s4",
+          "if": "env.PROMOTE == 'true'",
+          "run": "echo \"taken=true\" >> \"$GITHUB_OUTPUT\"",
+          "_j2gha": {
+            "kind": "if-decision",
+            "stage": "Build Nebula",
+            "line": 82,
+            "trace": false,
+            "trace_run": "echo \"taken=true\" >> \"$GITHUB_OUTPUT\""
+          }
+        },
+        {
+          "name": "Build Nebula: if (line 82)",
+          "id": "s5",
+          "if": "steps.s4.outcome == 'skipped'",
+          "run": "echo \"taken=false\" >> \"$GITHUB_OUTPUT\"",
+          "_j2gha": {
+            "kind": "if-decision",
+            "stage": "Build Nebula",
+            "line": 82,
+            "trace": false,
+            "trace_run": "echo \"taken=false\" >> \"$GITHUB_OUTPUT\""
+          }
+        },
+        {
+          "name": "Build Nebula: if [[ $PROMOTE == true ]]; then",
+          "id": "s6",
+          "if": "steps.s4.outputs.taken == 'true'",
+          "run": "if [[ $PROMOTE == true ]]; then\n  promotion_argument='-Ppromote -Pbuild-server'\nfi\nmvn         $promotion_argument         --no-transfer-progress         -Dproject.build.sourceEncoding=UTF-8         -Dbuild.id=${BUILD_TIMESTAMP}         -Dgit.commit=$GIT_COMMIT         -Dbuild.type=$BUILD_TYPE         -Dorg.eclipse.justj.p2.manager.build.url=$JOB_URL         clean         verify",
+          "env": {
+            "SSH_KEY_PROJECTS_STORAGE_ECLIPSE_ORG_BOT_SSH": "${{ secrets.PROJECTS_STORAGE_ECLIPSE_ORG_BOT_SSH }}"
+          },
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Build Nebula",
+            "line": 129,
+            "trace": true
+          }
+        },
+        {
+          "name": "Build Nebula: if [[ $PROMOTE == true ]]; then",
+          "id": "s7",
+          "if": "steps.s5.outputs.taken == 'false'",
+          "run": "if [[ $PROMOTE == true ]]; then\n  promotion_argument='-Ppromote -Pbuild-server'\nfi\nmvn         $promotion_argument         --no-transfer-progress         -Dproject.build.sourceEncoding=UTF-8         -Dbuild.id=${BUILD_TIMESTAMP}         -Dgit.commit=$GIT_COMMIT         -Dbuild.type=$BUILD_TYPE         -Dorg.eclipse.justj.p2.manager.build.url=$JOB_URL         clean         verify",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Build Nebula",
+            "line": 129,
+            "trace": true
+          }
+        },
+        {
+          "name": "Build Nebula: archive artifacts",
+          "id": "s8",
+          "if": "steps.s5.outputs.taken == 'false'",
+          "uses": "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "with": {
+            "name": "artifacts-8",
+            "path": "releng/org.eclipse.nebula.site/target/repository/**\n!**/.git\n!**/.git/**\n!**/.gitignore\n!**/.gitattributes\n!**/.gitmodules\n!**/.svn\n!**/.svn/**\n!**/.hg\n!**/.hg/**\n!**/.hgignore\n!**/.hgtags\n!**/.bzr\n!**/.bzr/**\n!**/.bzrignore\n!**/CVS\n!**/CVS/**\n!**/.cvsignore\n!**/SCCS\n!**/SCCS/**\n!**/vssver.scc\n!**/.DS_Store\n!**/*~\n!**/#*#\n!**/.#*\n!**/%*%\n!**/._*",
+            "if-no-files-found": "error",
+            "include-hidden-files": true
+          },
+          "_j2gha": {
+            "kind": "archiveArtifacts",
+            "stage": "Build Nebula",
+            "line": 91,
+            "trace": true,
+            "root": ""
+          }
+        },
+        {
+          "name": "post: junit summary",
+          "id": "s9",
+          "if": "(always()) && (always())",
+          "run": "python3 - <<'PY'\nimport glob, os, xml.etree.ElementTree as ET\nfiles = [f for p in os.environ['J2GHA_JUNIT'].splitlines() for f in glob.glob(p, recursive=True)]\nt = f = e = s = 0\nfor x in files:\n    r = ET.parse(x).getroot()\n    for ts in ([r] if r.tag == 'testsuite' else r.iter('testsuite')):\n        t += int(ts.get('tests', 0)); f += int(ts.get('failures', 0)); e += int(ts.get('errors', 0)); s += int(ts.get('skipped', 0))\nwith open(os.environ.get('GITHUB_STEP_SUMMARY', os.devnull), 'a') as out:\n    out.write(f'### JUnit: {t} tests, {f} failures, {e} errors, {s} skipped ({len(files)} files)\\n')\nif not files and not True:\n    raise SystemExit('no test report files found')\nPY",
+          "env": {
+            "J2GHA_JUNIT": "**/target/surefire-reports/*.xml"
+          },
+          "_j2gha": {
+            "kind": "junit",
+            "stage": "Declarative: Post Actions",
+            "line": 100,
+            "trace": true
+          }
+        },
+        {
+          "name": "post: upload test reports",
+          "id": "s10",
+          "if": "(always()) && (always())",
+          "uses": "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "with": {
+            "name": "test-reports-10",
+            "path": "**/target/surefire-reports/*.xml",
+            "if-no-files-found": "ignore"
+          },
+          "_j2gha": {
+            "kind": "junit-upload",
+            "stage": "Declarative: Post Actions",
+            "line": 100,
+            "trace": false
+          }
+        },
+        {
+          "name": "post: recordIssues (report placeholder)",
+          "id": "s11",
+          "if": "always()",
+          "run": "echo \"::notice::Jenkins 'recordIssues' report - publish with an approved action\"",
+          "_j2gha": {
+            "kind": "recordIssues",
+            "stage": "Declarative: Post Actions",
+            "line": 101,
+            "trace": true
+          }
+        },
+        {
+          "name": "post: archive artifacts",
+          "id": "s12",
+          "if": "failure()",
+          "uses": "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "with": {
+            "name": "artifacts-12",
+            "path": "**\n!**/.git\n!**/.git/**\n!**/.gitignore\n!**/.gitattributes\n!**/.gitmodules\n!**/.svn\n!**/.svn/**\n!**/.hg\n!**/.hg/**\n!**/.hgignore\n!**/.hgtags\n!**/.bzr\n!**/.bzr/**\n!**/.bzrignore\n!**/CVS\n!**/CVS/**\n!**/.cvsignore\n!**/SCCS\n!**/SCCS/**\n!**/vssver.scc\n!**/.DS_Store\n!**/*~\n!**/#*#\n!**/.#*\n!**/%*%\n!**/._*",
+            "if-no-files-found": "error",
+            "include-hidden-files": true
+          },
+          "_j2gha": {
+            "kind": "archiveArtifacts",
+            "stage": "Declarative: Post Actions",
+            "line": 105,
+            "trace": true,
+            "root": ""
+          }
+        },
+        {
+          "name": "post: mail notification",
+          "id": "s13",
+          "if": "failure()",
+          "run": "echo \"::notice::mail notification (configure an approved notification action)\"",
+          "_j2gha": {
+            "kind": "mail",
+            "stage": "Declarative: Post Actions",
+            "line": 106,
+            "trace": true
+          }
+        },
+        {
+          "name": "post: deleteDir",
+          "id": "s14",
+          "if": "always()",
+          "run": "find . -mindepth 1 -delete || true",
+          "_j2gha": {
+            "kind": "deleteDir",
+            "stage": "Declarative: Post Actions",
+            "line": 120,
+            "trace": true
+          }
+        }
+      ]
+    }
+  }
+}

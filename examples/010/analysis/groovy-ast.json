@@ -1,0 +1,532 @@
+{
+  "file": "010",
+  "ok": true,
+  "errors": [],
+  "imports": [],
+  "annotations": [
+    {
+      "name": "Library",
+      "members": {
+        "value": {
+          "t": "str",
+          "v": "lib-jenkins-pipeline",
+          "line": 1,
+          "col": 10,
+          "endLine": 1,
+          "endCol": 32
+        }
+      },
+      "line": 1,
+      "col": 1,
+      "endLine": 1,
+      "endCol": 34
+    }
+  ],
+  "methods": [],
+  "classes": [],
+  "statements": [
+    {
+      "k": "decl",
+      "name": "_",
+      "value": {
+        "t": "expr",
+        "kind": "EmptyExpression",
+        "text": "<not implemented yet for class: org.codehaus.groovy.ast.expr.EmptyExpression>",
+        "calls": []
+      },
+      "annotations": [
+        {
+          "name": "Library",
+          "members": {
+            "value": {
+              "t": "str",
+              "v": "lib-jenkins-pipeline",
+              "line": 1,
+              "col": 10,
+              "endLine": 1,
+              "endCol": 32
+            }
+          },
+          "line": 1,
+          "col": 1,
+          "endLine": 1,
+          "endCol": 34
+        }
+      ],
+      "line": 1,
+      "col": 1,
+      "endLine": 1,
+      "endCol": 35
+    },
+    {
+      "k": "decl",
+      "name": "sbtOnMain",
+      "value": {
+        "t": "str",
+        "v": "no",
+        "line": 3,
+        "col": 17,
+        "endLine": 3,
+        "endCol": 21
+      },
+      "annotations": [],
+      "line": 3,
+      "col": 1,
+      "endLine": 3,
+      "endCol": 21
+    },
+    {
+      "k": "decl",
+      "name": "podLabel",
+      "value": {
+        "t": "str",
+        "v": "Jenkinsfile-apibuilder",
+        "line": 8,
+        "col": 19,
+        "endLine": 8,
+        "endCol": 43
+      },
+      "annotations": [],
+      "line": 8,
+      "col": 1,
+      "endLine": 8,
+      "endCol": 43
+    },
+    {
+      "k": "call",
+      "name": "podTemplate",
+      "args": [],
+      "named": {
+        "label": {
+          "t": "gstr",
+          "v": "\"${podLabel}\"",
+          "vars": [
+            "{podLabel}"
+          ],
+          "calls": [],
+          "line": 10,
+          "col": 10,
+          "endLine": 10,
+          "endCol": 23
+        },
+        "inheritFrom": {
+          "t": "str",
+          "v": "generic",
+          "line": 11,
+          "col": 17,
+          "endLine": 12,
+          "endCol": 1
+        }
+      },
+      "line": 9,
+      "col": 1,
+      "endLine": 70,
+      "endCol": 2,
+      "body": [
+        {
+          "k": "call",
+          "name": "node",
+          "args": [
+            {
+              "t": "var",
+              "name": "podLabel",
+              "line": 13,
+              "col": 8,
+              "endLine": 13,
+              "endCol": 16
+            }
+          ],
+          "named": {},
+          "line": 13,
+          "col": 3,
+          "endLine": 69,
+          "endCol": 4,
+          "body": [
+            {
+              "k": "try",
+              "body": [
+                {
+                  "k": "call",
+                  "name": "checkoutWithTags",
+                  "args": [
+                    {
+                      "t": "var",
+                      "name": "scm",
+                      "line": 15,
+                      "col": 24,
+                      "endLine": 15,
+                      "endCol": 27
+                    }
+                  ],
+                  "named": {},
+                  "line": 15,
+                  "col": 7,
+                  "endLine": 15,
+                  "endCol": 27
+                },
+                {
+                  "k": "call",
+                  "name": "stage",
+                  "args": [
+                    {
+                      "t": "str",
+                      "v": "Checkout",
+                      "line": 17,
+                      "col": 13,
+                      "endLine": 17,
+                      "endCol": 23
+                    }
+                  ],
+                  "named": {},
+                  "line": 17,
+                  "col": 7,
+                  "endLine": 20,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "echo",
+                      "args": [
+                        {
+                          "t": "gstr",
+                          "v": "\"Checking out branch: ${env.BRANCH_NAME}\"",
+                          "vars": [
+                            "{env.BRANCH_NAME}"
+                          ],
+                          "calls": [],
+                          "line": 18,
+                          "col": 16,
+                          "endLine": 18,
+                          "endCol": 57
+                        }
+                      ],
+                      "named": {},
+                      "line": 18,
+                      "col": 11,
+                      "endLine": 18,
+                      "endCol": 57
+                    },
+                    {
+                      "k": "call",
+                      "name": "checkout",
+                      "args": [
+                        {
+                          "t": "var",
+                          "name": "scm",
+                          "line": 19,
+                          "col": 20,
+                          "endLine": 19,
+                          "endCol": 23
+                        }
+                      ],
+                      "named": {},
+                      "line": 19,
+                      "col": 11,
+                      "endLine": 19,
+                      "endCol": 23
+                    }
+                  ]
+                },
+                {
+                  "k": "call",
+                  "name": "stage",
+                  "args": [
+                    {
+                      "t": "str",
+                      "v": "tagging",
+                      "line": 23,
+                      "col": 14,
+                      "endLine": 23,
+                      "endCol": 23
+                    }
+                  ],
+                  "named": {},
+                  "line": 23,
+                  "col": 7,
+                  "endLine": 26,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "assign",
+                      "op": "=",
+                      "target": "semversion",
+                      "value": {
+                        "t": "call",
+                        "call": {
+                          "k": "call",
+                          "name": "taggingv2",
+                          "args": [],
+                          "named": {},
+                          "line": 24,
+                          "col": 22,
+                          "endLine": 24,
+                          "endCol": 33
+                        },
+                        "line": 24,
+                        "col": 22,
+                        "endLine": 24,
+                        "endCol": 33
+                      },
+                      "line": 24,
+                      "col": 9,
+                      "endLine": 24,
+                      "endCol": 33
+                    },
+                    {
+                      "k": "call",
+                      "name": "println",
+                      "args": [
+                        {
+                          "t": "var",
+                          "name": "semversion",
+                          "line": 25,
+                          "col": 17,
+                          "endLine": 25,
+                          "endCol": 27
+                        }
+                      ],
+                      "named": {},
+                      "line": 25,
+                      "col": 9,
+                      "endLine": 25,
+                      "endCol": 28
+                    }
+                  ]
+                },
+                {
+                  "k": "call",
+                  "name": "checkoutWithTags",
+                  "args": [
+                    {
+                      "t": "var",
+                      "name": "scm",
+                      "line": 29,
+                      "col": 24,
+                      "endLine": 29,
+                      "endCol": 27
+                    }
+                  ],
+                  "named": {},
+                  "line": 29,
+                  "col": 7,
+                  "endLine": 29,
+                  "endCol": 27
+                },
+                {
+                  "k": "decl",
+                  "name": "jsondata",
+                  "value": {
+                    "t": "str",
+                    "v": "\n      [{\"serviceName\": \"apibuilder-api\",\n      \"dockerImageName\": \"apibuilder-api\",\n      \"dockerFilePath\" : \"/api/Dockerfile\",\n      \"multiplatforms\": \"no\"},\n      {\"serviceName\": \"apibuilder-app\",\n      \"dockerImageName\": \"apibuilder-app\",\n      \"dockerFilePath\" : \"/app/Dockerfile\",\n      \"multiplatforms\": \"no\"}]\n      ",
+                    "line": 31,
+                    "col": 25,
+                    "endLine": 40,
+                    "endCol": 10
+                  },
+                  "annotations": [],
+                  "line": 31,
+                  "col": 7,
+                  "endLine": 40,
+                  "endCol": 10
+                },
+                {
+                  "k": "call",
+                  "name": "withCredentials",
+                  "args": [
+                    {
+                      "t": "list",
+                      "v": [
+                        {
+                          "t": "call",
+                          "call": {
+                            "k": "call",
+                            "name": "string",
+                            "args": [],
+                            "named": {
+                              "credentialsId": {
+                                "t": "str",
+                                "v": "jenkins-argocd-token",
+                                "line": 41,
+                                "col": 46,
+                                "endLine": 41,
+                                "endCol": 68
+                              },
+                              "variable": {
+                                "t": "str",
+                                "v": "ARGOCD_AUTH_TOKEN",
+                                "line": 41,
+                                "col": 80,
+                                "endLine": 41,
+                                "endCol": 99
+                              }
+                            },
+                            "line": 41,
+                            "col": 24,
+                            "endLine": 41,
+                            "endCol": 100
+                          },
+                          "line": 41,
+                          "col": 24,
+                          "endLine": 41,
+                          "endCol": 100
+                        }
+                      ],
+                      "line": 41,
+                      "col": 23,
+                      "endLine": 41,
+                      "endCol": 101
+                    }
+                  ],
+                  "named": {},
+                  "line": 41,
+                  "col": 7,
+                  "endLine": 58,
+                  "endCol": 8,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "mainJenkinsBuildArgo",
+                      "args": [],
+                      "named": {
+                        "semversion": {
+                          "t": "gstr",
+                          "v": "\"${semversion}\"",
+                          "vars": [
+                            "{semversion}"
+                          ],
+                          "calls": [],
+                          "line": 43,
+                          "col": 23,
+                          "endLine": 43,
+                          "endCol": 38
+                        },
+                        "pgImage": {
+                          "t": "str",
+                          "v": "flowcommerce/bentest-postgresql:latest",
+                          "line": 44,
+                          "col": 20,
+                          "endLine": 44,
+                          "endCol": 60
+                        },
+                        "componentargs": {
+                          "t": "gstr",
+                          "v": "\"${jsondata}\"",
+                          "vars": [
+                            "{jsondata}"
+                          ],
+                          "calls": [],
+                          "line": 45,
+                          "col": 26,
+                          "endLine": 45,
+                          "endCol": 39
+                        },
+                        "sbtOnMain": {
+                          "t": "gstr",
+                          "v": "\"${sbtOnMain}\"",
+                          "vars": [
+                            "{sbtOnMain}"
+                          ],
+                          "calls": [],
+                          "line": 46,
+                          "col": 22,
+                          "endLine": 46,
+                          "endCol": 36
+                        },
+                        "sbtTest": {
+                          "t": "str",
+                          "v": "no",
+                          "line": 47,
+                          "col": 20,
+                          "endLine": 57,
+                          "endCol": 9
+                        }
+                      },
+                      "line": 42,
+                      "col": 9,
+                      "endLine": 57,
+                      "endCol": 10
+                    }
+                  ]
+                }
+              ],
+              "catches": [
+                {
+                  "type": "Exception",
+                  "variable": "e",
+                  "body": [
+                    {
+                      "k": "assign",
+                      "op": "=",
+                      "target": "currentBuild.result ",
+                      "value": {
+                        "t": "str",
+                        "v": "FAILURE",
+                        "line": 62,
+                        "col": 31,
+                        "endLine": 62,
+                        "endCol": 40
+                      },
+                      "line": 62,
+                      "col": 9,
+                      "endLine": 62,
+                      "endCol": 40
+                    },
+                    {
+                      "k": "throw",
+                      "text": "throw e",
+                      "calls": [],
+                      "line": 63,
+                      "col": 9,
+                      "endLine": 63,
+                      "endCol": 16
+                    }
+                  ],
+                  "line": 60,
+                  "col": 7,
+                  "endLine": 64,
+                  "endCol": 7
+                }
+              ],
+              "finally": [
+                {
+                  "k": "call",
+                  "name": "cleanWs",
+                  "args": [],
+                  "named": {},
+                  "line": 66,
+                  "col": 9,
+                  "endLine": 66,
+                  "endCol": 18
+                },
+                {
+                  "k": "call",
+                  "name": "echo",
+                  "args": [
+                    {
+                      "t": "str",
+                      "v": "Pipeline execution finished",
+                      "line": 67,
+                      "col": 14,
+                      "endLine": 67,
+                      "endCol": 43
+                    }
+                  ],
+                  "named": {},
+                  "line": 67,
+                  "col": 9,
+                  "endLine": 67,
+                  "endCol": 43
+                }
+              ],
+              "line": 14,
+              "col": 5,
+              "endLine": 68,
+              "endCol": 6
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "source_sha256": "10ea8550230ae6b14af7fb42322c6b921b14897853107750d439b2bf88aeb42c"
+}

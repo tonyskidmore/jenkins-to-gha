@@ -1,0 +1,143 @@
+{
+  "analysis_version": 1,
+  "parser": {
+    "engine": "groovy-ast (Jenkins-bundled Groovy 2.4, CONVERSION phase)",
+    "ok": true,
+    "errors": []
+  },
+  "dialect": "declarative",
+  "metrics": {
+    "classes": 0,
+    "credentials": 0,
+    "distinct_steps": 2,
+    "env_vars": 4,
+    "input_gates": 1,
+    "libraries": 0,
+    "loc": 71,
+    "max_stage_depth": 2,
+    "methods": 0,
+    "options": 0,
+    "parallel_blocks": 1,
+    "parallel_branches": 2,
+    "parameters": 1,
+    "post_conditions": 0,
+    "shell_steps": 4,
+    "stages": 6,
+    "steps": 11,
+    "tools": 0,
+    "top_level_stages": 4,
+    "triggers": 0,
+    "unknown_steps": 0,
+    "when_conditions": 2
+  },
+  "steps": {
+    "echo": {
+      "count": 7,
+      "category": "direct",
+      "lines": [
+        51,
+        56,
+        73,
+        75,
+        77,
+        81,
+        86
+      ],
+      "gha": "run: echo"
+    },
+    "sh": {
+      "count": 4,
+      "category": "direct",
+      "lines": [
+        79,
+        80,
+        87,
+        89
+      ],
+      "gha": "run: (shell: bash)"
+    }
+  },
+  "unknown_steps": [],
+  "agents": [
+    {
+      "kind": "label",
+      "label": "java",
+      "image": null,
+      "line": 3,
+      "scope": "pipeline"
+    }
+  ],
+  "credentials": [],
+  "dsl_symbols": [],
+  "libraries": [],
+  "methods": [],
+  "jenkins_model": {
+    "result": "failure",
+    "errors": [
+      "Expected one of \"steps\", \"stages\", or \"parallel\" for stage \"Init\" @ line 22, column 9."
+    ]
+  },
+  "findings": [
+    {
+      "id": "JenkinsValidationFailed",
+      "severity": "high",
+      "line": null,
+      "evidence": "Expected one of \"steps\", \"stages\", or \"parallel\" for stage \"Init\" @ line 22, column 9.",
+      "recommendation": "Jenkins rejects this Declarative pipeline - fix syntax/plugins before migrating"
+    },
+    {
+      "id": "InputGate",
+      "severity": "medium",
+      "line": 27,
+      "evidence": "input step",
+      "recommendation": "Split the workflow at the gate and use a protected GitHub Environment"
+    },
+    {
+      "id": "InputGate",
+      "severity": "medium",
+      "line": 27,
+      "evidence": "stage 'Init' input directive",
+      "recommendation": "Use a protected GitHub Environment on a separate job"
+    }
+  ],
+  "hard_gates": [],
+  "styles": [
+    "declarative",
+    "when-post",
+    "parallel",
+    "input-gate",
+    "parameters-triggers"
+  ],
+  "coverage": {
+    "by_category": {
+      "direct": 11
+    },
+    "weighted_mapped_pct": 100.0
+  },
+  "complexity": {
+    "score": 5,
+    "classification": "straightforward",
+    "dimensions": {
+      "declarative_structure": 0.0,
+      "step_mapping": 0.0,
+      "plugin_coupling": 0.0,
+      "library_opacity": 0.0,
+      "runtime_coupling": 2.0,
+      "security_identity": 3,
+      "control_flow": 0.0
+    },
+    "hard_gates": [],
+    "weights": {
+      "declarative_structure": 20,
+      "step_mapping": 25,
+      "plugin_coupling": 15,
+      "library_opacity": 15,
+      "runtime_coupling": 10,
+      "security_identity": 10,
+      "control_flow": 5
+    }
+  },
+  "convertibility": "automatic",
+  "ir_notes": [],
+  "source_sha256": "44ca16fdca89ceb9c9d2302ea00447335893a3ef1fef6838d27009b26bb77253"
+}

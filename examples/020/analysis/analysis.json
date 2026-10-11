@@ -1,0 +1,291 @@
+{
+  "analysis_version": 1,
+  "parser": {
+    "engine": "groovy-ast (Jenkins-bundled Groovy 2.4, CONVERSION phase)",
+    "ok": true,
+    "errors": []
+  },
+  "dialect": "scripted",
+  "metrics": {
+    "classes": 0,
+    "conditionals": 1,
+    "credentials": 0,
+    "distinct_steps": 20,
+    "env_vars": 0,
+    "libraries": 1,
+    "loc": 52,
+    "max_stage_depth": 1,
+    "methods": 0,
+    "options": 0,
+    "parameters": 0,
+    "post_conditions": 0,
+    "stages": 6,
+    "steps": 31,
+    "tools": 0,
+    "top_level_stages": 4,
+    "triggers": 0,
+    "unknown_steps": 0
+  },
+  "steps": {
+    "log": {
+      "count": 5,
+      "category": "groovy",
+      "lines": [
+        30,
+        34,
+        40,
+        47,
+        56
+      ],
+      "gha": null
+    },
+    "stage": {
+      "count": 4,
+      "category": "direct",
+      "lines": [
+        29,
+        33,
+        39,
+        45
+      ],
+      "gha": "job or step group"
+    },
+    "dir": {
+      "count": 3,
+      "category": "direct",
+      "lines": [
+        35,
+        41,
+        53
+      ],
+      "gha": "working-directory:"
+    },
+    "deleteDir": {
+      "count": 2,
+      "category": "direct",
+      "lines": [
+        22,
+        64
+      ],
+      "gha": "run: rm -rf (runners are ephemeral)"
+    },
+    "run": {
+      "count": 2,
+      "category": "groovy",
+      "lines": [
+        36,
+        42
+      ],
+      "gha": null
+    },
+    "new Globals": {
+      "count": 1,
+      "category": "groovy",
+      "lines": [
+        8
+      ],
+      "gha": null
+    },
+    "new CommonFunctions": {
+      "count": 1,
+      "category": "groovy",
+      "lines": [
+        9
+      ],
+      "gha": null
+    },
+    "new GitFunctions": {
+      "count": 1,
+      "category": "groovy",
+      "lines": [
+        10
+      ],
+      "gha": null
+    },
+    "new MobileFunctions": {
+      "count": 1,
+      "category": "groovy",
+      "lines": [
+        11
+      ],
+      "gha": null
+    },
+    "new NVMFunctions": {
+      "count": 1,
+      "category": "groovy",
+      "lines": [
+        12
+      ],
+      "gha": null
+    },
+    "node": {
+      "count": 1,
+      "category": "policy",
+      "lines": [
+        19
+      ],
+      "gha": "runs-on:"
+    },
+    "pwd": {
+      "count": 1,
+      "category": "policy",
+      "lines": [
+        24
+      ],
+      "gha": "$GITHUB_WORKSPACE / $PWD (value used by Groovy: port the logic)"
+    },
+    "timestamps": {
+      "count": 1,
+      "category": "noop",
+      "lines": [
+        26
+      ],
+      "gha": "(GHA logs are timestamped)"
+    },
+    "ansiColor": {
+      "count": 1,
+      "category": "noop",
+      "lines": [
+        27
+      ],
+      "gha": "(GHA logs support ANSI natively)"
+    },
+    "wrap": {
+      "count": 1,
+      "category": "policy",
+      "lines": [
+        28
+      ],
+      "gha": "depends on wrapped build wrapper"
+    },
+    "git_check_out": {
+      "count": 1,
+      "category": "groovy",
+      "lines": [
+        31
+      ],
+      "gha": null
+    },
+    "ionic_cli_install": {
+      "count": 1,
+      "category": "groovy",
+      "lines": [
+        49
+      ],
+      "gha": null
+    },
+    "git_get_commit_hash": {
+      "count": 1,
+      "category": "groovy",
+      "lines": [
+        51
+      ],
+      "gha": null
+    },
+    "ionic_pro_push": {
+      "count": 1,
+      "category": "groovy",
+      "lines": [
+        54
+      ],
+      "gha": null
+    },
+    "shout": {
+      "count": 1,
+      "category": "groovy",
+      "lines": [
+        61
+      ],
+      "gha": null
+    }
+  },
+  "unknown_steps": [],
+  "agents": [
+    {
+      "kind": "label",
+      "label": "Globals.NONPROD_BUILDER_TAG",
+      "line": 19,
+      "scope": "scripted"
+    }
+  ],
+  "credentials": [],
+  "dsl_symbols": [],
+  "libraries": [
+    "MesSharedLibrary@master"
+  ],
+  "methods": [],
+  "jenkins_model": {
+    "result": "failure",
+    "errors": [
+      "Jenkinsfile content '@Library('MesSharedLibrary@master')\nimport aws.dvsa.mes.Globals\nimport aws.dvsa.mes.CommonFunctions\nimport aws.dvsa.mes.GitFunctions\nimport aws.dvsa.mes.MobileFunctions\nimport aws.dvsa.mes.NVMFunctions\n//------------------------------------------\ndef Globals         = new Globals()\ndef CommonFunctions = new CommonFunctions()\ndef GitFunctions    = new GitFunctions()\ndef MobileFunctions = new MobileFunctions()\ndef NVMFunctions    = new NVMFunctions()\n\nString branch_name          = \"${env.BRANCH_NAME}\"\nString ionic_app_id         = Globals.MOBILE_APP_ID\nString nodejs_installation  = Globals.MOBILE_NODE_JS\nString mobile_config_branch = \"master\"\n//----------------------------------------------------\nnode (Globals.NONPROD_BUILDER_TAG) {\n  currentBuild.description = \"BRANCH: ${branch_name}\"\n  // clear workspace\n  deleteDir()\n  // declare workspace\n  env.WSPACE = pwd()\n  // wrappers\n  timestamps {\n  ansiColor(\"xterm\") {\n  wrap([$class: \"BuildUser\"]) {\n    stage(\"checkout\") {\n      CommonFunctions.log(\"info\", \"STAGE: Checkout\")\n      GitFunctions.git_check_out(Globals.MOBILE_REPO, branch_name, Globals.MOBILE_NAME, Globals.GITHUB_MOBILE_CREDS, false, false)\n    }\n    stage(\"install dependencies\") {\n      CommonFunctions.log(\"info\", \"STAGE: Install Dependencies\")\n      dir(Globals.MOBILE_NAME) {\n        NVMFunctions.run(\" -c 'npm install'\")\n      }\n    }\n    stage(\"tests\") {\n      CommonFunctions.log(\"info\", \"STAGE: Tests\")\n      dir(Globals.MOBILE_NAME) {\n        NVMFunctions.run(\" -c 'npm test'\")\n      }\n    }\n    stage(\"build\") {\n      if(branch_name == \"develop\" || branch_name == \"origin/develop\"){\n          CommonFunctions.log(\"info\", \"STAGE: Build\")\n          // install ionic\n          MobileFunctions.ionic_cli_install(nodejs_installation)\n          // get current commit hash of the ios_app branch\n          String commit_hash = GitFunctions.git_get_commit_hash(Globals.MOBILE_NAME)\n          // build\n          dir(Globals.MOBILE_NAME) {\n            MobileFunctions.ionic_pro_push(nodejs_installation, Globals.MOBILE_DEPLOYER_KEY, branch_name, commit_hash, ionic_app_id)\n          }\n          CommonFunctions.log(\"info\", \"It takes a couple of minutes to build and publish the app to the IonicPro service.\")\n        }\n\n\n        // IONIC APP info for Ionic View\n        CommonFunctions.shout(ionic_app_id, \"35m\", Globals.MOBILE_NAME.toUpperCase()+\" ID\", 26)\n  }}}} //ansiColor //BuildUser //timestamps\n  // clear workspace\n  deleteDir()\n}\n' did not contain the 'pipeline' step"
+    ]
+  },
+  "findings": [
+    {
+      "id": "ScriptedPipeline",
+      "severity": "high",
+      "line": null,
+      "evidence": "node {}/stage() scripted pipeline",
+      "recommendation": "Re-model as Declarative or design GHA jobs around intent; automated conversion is best-effort"
+    },
+    {
+      "id": "SharedLibrary",
+      "severity": "high",
+      "line": null,
+      "evidence": "MesSharedLibrary@master",
+      "recommendation": "Library steps are opaque to static analysis; map them to composite actions/reusable workflows"
+    },
+    {
+      "id": "DynamicAgentLabel",
+      "severity": "medium",
+      "line": 19,
+      "evidence": "node(Globals.NONPROD_BUILDER_TAG)",
+      "recommendation": "Choose runs-on via matrix/inputs"
+    }
+  ],
+  "hard_gates": [],
+  "styles": [
+    "scripted",
+    "shared-library"
+  ],
+  "coverage": {
+    "by_category": {
+      "groovy": 17,
+      "direct": 9,
+      "policy": 3,
+      "noop": 2
+    },
+    "weighted_mapped_pct": 76.3
+  },
+  "complexity": {
+    "score": 32,
+    "classification": "assisted",
+    "dimensions": {
+      "declarative_structure": 13.0,
+      "step_mapping": 5.9,
+      "plugin_coupling": 2.2,
+      "library_opacity": 9,
+      "runtime_coupling": 2.0,
+      "security_identity": 0,
+      "control_flow": 0.0
+    },
+    "hard_gates": [],
+    "weights": {
+      "declarative_structure": 20,
+      "step_mapping": 25,
+      "plugin_coupling": 15,
+      "library_opacity": 15,
+      "runtime_coupling": 10,
+      "security_identity": 10,
+      "control_flow": 5
+    }
+  },
+  "convertibility": "partial",
+  "ir_notes": [
+    "line 26: timestamps {} around stage(s) 'checkout', 'install dependencies', 'tests', 'build' dropped (native in GitHub Actions)",
+    "line 27: ansiColor {} around stage(s) 'checkout', 'install dependencies', 'tests', 'build' dropped (native in GitHub Actions)",
+    "line 28: wrap {} around stage(s) 'checkout', 'install dependencies', 'tests', 'build' re-applied inside each enclosed stage and segment",
+    "13 statement(s) outside any stage kept in source order in 2 unnamed segment(s) (from line(s) 8, 64)"
+  ],
+  "source_sha256": "0f8dec4856c002713fb186ec727fd7572f96f422d2ed48ec131468da19bdab38"
+}

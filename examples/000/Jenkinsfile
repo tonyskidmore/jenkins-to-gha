@@ -1,0 +1,483 @@
+// inventory-service: build, test, package, publish and deploy.
+//
+// The j2gha walkthrough pipeline (examples/000/README.md). It is self-contained: the 'Prepare sources' stage writes a
+// small Python service into the workspace (scaffoldSources() at the bottom of this file) where a real project would
+// run `checkout scm`. Everything else is what a typical release pipeline does with those sources.
+
+pipeline {
+    agent { label 'linux' }
+
+    options {
+        buildDiscarder(logRotator(numToKeepStr: '20'))
+        timeout(time: 30, unit: 'MINUTES')
+        timestamps()
+        disableConcurrentBuilds()
+        skipDefaultCheckout()
+    }
+
+    triggers {
+        cron('H 2 * * 1-5')
+    }
+
+    parameters {
+        string(name: 'RELEASE_VERSION', defaultValue: '1.4.0',
+               description: 'Version to build. A -SNAPSHOT suffix skips the Publish stage.')
+        choice(name: 'DEPLOY_ENV', choices: ['staging', 'production', 'none'],
+               description: 'Environment to deploy the release to (none skips the Deploy stage).')
+        booleanParam(name: 'RUN_INTEGRATION_TESTS', defaultValue: true,
+                     description: 'Run the integration tests against the packaged tarball.')
+    }
+
+    environment {
+        APP_NAME = 'inventory-service'
+        // Copied from params: the first build of a new job has params defaults but no parameter env vars
+        APP_VERSION = "${params.RELEASE_VERSION}"
+        DEPLOY_TARGET = "${params.DEPLOY_ENV}"
+        PYTHON_VERSION = sh(script: 'python3 -c "import platform; print(platform.python_version())"', returnStdout: true).trim()
+        BUILD_LABEL = "${APP_NAME}-${params.RELEASE_VERSION}-b${BUILD_NUMBER}"
+    }
+
+    stages {
+        stage('Prepare sources') {
+            steps {
+                deleteDir()  // start from an empty workspace: no stale build outputs
+                scaffoldSources()
+                sh 'find src tests tools -name "*.py" | sort'
+            }
+        }
+
+        stage('Build') {
+            steps {
+                sh '''
+                    sed -i "s/0[.]0[.]0/${APP_VERSION}/" src/inventory/__init__.py
+                    python3 -m compileall -q src
+                    mkdir -p dist
+                    tar --exclude=__pycache__ -czf "dist/${APP_NAME}-${APP_VERSION}.tar.gz" -C src inventory
+                    cd dist && sha256sum "${APP_NAME}-${APP_VERSION}.tar.gz" > "${APP_NAME}-${APP_VERSION}.tar.gz.sha256"
+                '''
+                writeFile file: 'dist/BUILD_INFO.txt',
+                          text: "service=${APP_NAME}\nversion=${params.RELEASE_VERSION}\nbuild=${BUILD_LABEL}\npython=${PYTHON_VERSION}\n"
+                stash name: 'dist', includes: 'dist/**'
+                stash name: 'sources', includes: 'src/**,tests/**,tools/**'
+                script {
+                    currentBuild.displayName = "#${BUILD_NUMBER} ${params.RELEASE_VERSION} to ${params.DEPLOY_ENV}"
+                    if (params.RELEASE_VERSION.endsWith('-SNAPSHOT')) {
+                        echo 'Snapshot build: the Publish stage will be skipped'
+                    } else {
+                        echo "Release candidate ${BUILD_LABEL}"
+                    }
+                }
+            }
+        }
+
+        stage('Quality') {
+            parallel {
+                stage('Unit tests') {
+                    steps {
+                        dir('build/unit') {
+                            unstash 'sources'
+                            sh 'python3 tools/ci.py test tests/unit reports'
+                        }
+                    }
+                    post {
+                        always {
+                            junit 'build/unit/reports/junit.xml'
+                            publishHTML(target: [reportName: 'Unit test report', reportDir: 'build/unit/reports/html',
+                                                 reportFiles: 'index.html', keepAll: true, alwaysLinkToLastBuild: true,
+                                                 allowMissing: false])
+                        }
+                    }
+                }
+                stage('Lint') {
+                    steps {
+                        dir('build/lint') {
+                            unstash 'sources'
+                            catchError(buildResult: 'SUCCESS', stageResult: 'UNSTABLE') {
+                                sh 'python3 tools/ci.py lint src tests tools'
+                            }
+                        }
+                    }
+                    post {
+                        always {
+                            archiveArtifacts artifacts: 'build/lint/reports/lint.txt', allowEmptyArchive: true
+                        }
+                    }
+                }
+                stage('Integration tests') {
+                    when {
+                        expression { return params.RUN_INTEGRATION_TESTS }
+                    }
+                    options {
+                        timeout(time: 10, unit: 'MINUTES')
+                    }
+                    environment {
+                        INVENTORY_BACKEND = 'sqlite'
+                        DIST_DIR = 'dist'
+                    }
+                    steps {
+                        dir('build/integration') {
+                            unstash 'sources'
+                            unstash 'dist'
+                            retry(2) {
+                                sh 'python3 tools/ci.py test tests/integration reports'
+                            }
+                        }
+                    }
+                    post {
+                        always {
+                            junit 'build/integration/reports/junit.xml'
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Compatibility') {
+            matrix {
+                axes {
+                    axis {
+                        name 'INVENTORY_BACKEND'
+                        values 'memory', 'sqlite'
+                    }
+                    axis {
+                        name 'REPORT_FORMAT'
+                        values 'text', 'json'
+                    }
+                }
+                excludes {
+                    // memory + text is the default configuration, already covered by 'Unit tests'
+                    exclude {
+                        axis {
+                            name 'INVENTORY_BACKEND'
+                            values 'memory'
+                        }
+                        axis {
+                            name 'REPORT_FORMAT'
+                            values 'text'
+                        }
+                    }
+                }
+                stages {
+                    stage('Contract tests') {
+                        steps {
+                            dir("build/compat-${INVENTORY_BACKEND}-${REPORT_FORMAT}") {
+                                unstash 'sources'
+                                sh 'python3 tools/ci.py test tests/unit reports'
+                                sh 'PYTHONPATH=src python3 -m inventory.cli widget=2 gadget=1'
+                            }
+                        }
+                        post {
+                            always {
+                                junit "build/compat-${INVENTORY_BACKEND}-${REPORT_FORMAT}/reports/junit.xml"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Publish') {
+            when {
+                not { expression { params.RELEASE_VERSION.endsWith('-SNAPSHOT') } }
+            }
+            steps {
+                unstash 'dist'
+                withCredentials([usernamePassword(credentialsId: 'artifact-repo',
+                                                  usernameVariable: 'REPO_USER', passwordVariable: 'REPO_PASSWORD')]) {
+                    // A local directory stands in for the artifact repository (Nexus, Artifactory, S3...).
+                    sh '''
+                        target="repository/${APP_NAME}/${APP_VERSION}"
+                        mkdir -p "$target"
+                        cp dist/*.tar.gz dist/*.sha256 dist/BUILD_INFO.txt "$target/"
+                        echo "Uploaded to $target as ${REPO_USER} (password: ${#REPO_PASSWORD} characters)"
+                    '''
+                }
+                archiveArtifacts artifacts: 'dist/*.tar.gz, dist/*.sha256, dist/BUILD_INFO.txt', fingerprint: true
+            }
+        }
+
+        stage('Deploy') {
+            when {
+                beforeInput true
+                expression { params.DEPLOY_ENV != 'none' }
+            }
+            input {
+                message 'Deploy this inventory-service release?'
+                ok 'Deploy'
+                submitterParameter 'APPROVER'
+                parameters {
+                    string(name: 'CHANGE_TICKET', defaultValue: 'CHG-0000',
+                           description: 'Change ticket that authorises this deployment')
+                }
+            }
+            environment {
+                DEPLOY_TOKEN = credentials('inventory-deploy-token')
+            }
+            steps {
+                unstash 'dist'
+                sh '''
+                    record="deploy/${DEPLOY_TARGET}.json"
+                    mkdir -p deploy
+                    echo "Deploying ${APP_VERSION} to ${DEPLOY_TARGET} (deploy token ${DEPLOY_TOKEN:+is set})"
+                    printf '{"service": "%s", "version": "%s", "environment": "%s", ' "$APP_NAME" "$APP_VERSION" "$DEPLOY_TARGET" > "$record"
+                    printf '"change": "%s", "approver": "%s"}' "${CHANGE_TICKET:-none}" "${APPROVER:-unknown}" >> "$record"
+                    python3 -m json.tool "$record"
+                '''
+                archiveArtifacts artifacts: 'deploy/*.json'
+            }
+        }
+    }
+
+    post {
+        always {
+            echo "${BUILD_LABEL} finished: ${currentBuild.currentResult}"
+        }
+        success {
+            echo "Released ${APP_NAME} ${params.RELEASE_VERSION} (deploy target: ${params.DEPLOY_ENV})"
+        }
+        unstable {
+            echo 'Lint reported problems: see build/lint/reports/lint.txt in the archived artifacts'
+        }
+        failure {
+            mail to: 'inventory-team@example.com',
+                 subject: "FAILED: ${env.JOB_NAME} #${env.BUILD_NUMBER}",
+                 body: "See ${env.BUILD_URL}"
+        }
+    }
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Demo application source: a tiny Python stock-keeping service, its tests and a CI helper (JUnit XML, HTML report,
+// lint). Stands in for `checkout scm` so the walkthrough needs no repository. The heredocs must start in column 0.
+def scaffoldSources() {
+    sh '''
+mkdir -p src/inventory tests/unit tests/integration tools
+cat > src/inventory/__init__.py <<'PY'
+"""inventory-service: stock levels for the warehouse."""
+__version__ = "0.0.0"
+PY
+cat > src/inventory/core.py <<'PY'
+import os
+import sqlite3
+
+
+class Inventory:
+    """Stock levels kept in memory or in SQLite (INVENTORY_BACKEND)."""
+
+    def __init__(self, backend=None):
+        self.backend = backend or os.environ.get("INVENTORY_BACKEND", "memory")
+        if self.backend == "sqlite":
+            self.db = sqlite3.connect(":memory:")
+            self.db.execute("CREATE TABLE stock (sku TEXT PRIMARY KEY, qty INTEGER)")
+        elif self.backend == "memory":
+            self.items = {}
+        else:
+            raise ValueError(f"unknown backend {self.backend}")
+
+    def count(self, sku):
+        if self.backend == "sqlite":
+            row = self.db.execute("SELECT qty FROM stock WHERE sku = ?", (sku,)).fetchone()
+            return row[0] if row else 0
+        return self.items.get(sku, 0)
+
+    def add(self, sku, qty):
+        if qty <= 0:
+            raise ValueError("quantity must be positive")
+        self._set(sku, self.count(sku) + qty)
+
+    def remove(self, sku, qty):
+        if qty > self.count(sku):
+            raise ValueError(f"insufficient stock for {sku}")
+        self._set(sku, self.count(sku) - qty)
+
+    def snapshot(self):
+        if self.backend == "sqlite":
+            return dict(self.db.execute("SELECT sku, qty FROM stock"))
+        return dict(self.items)
+
+    def _set(self, sku, qty):
+        if self.backend == "sqlite":
+            self.db.execute("INSERT OR REPLACE INTO stock VALUES (?, ?)", (sku, qty))
+        else:
+            self.items[sku] = qty
+PY
+cat > src/inventory/cli.py <<'PY'
+import json
+import os
+import sys
+
+from inventory import __version__
+from inventory.core import Inventory
+
+
+def main(args):
+    inv = Inventory()
+    for spec in args:
+        sku, qty = spec.split("=")
+        inv.add(sku, int(qty))
+    stock = inv.snapshot()
+    if os.environ.get("REPORT_FORMAT", "text") == "json":
+        print(json.dumps({"version": __version__, "backend": inv.backend, "stock": stock}, sort_keys=True))
+    else:
+        for sku in sorted(stock):
+            print(f"{sku}: {stock[sku]}")
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]))
+PY
+cat > tests/unit/test_core.py <<'PY'
+import unittest
+
+from inventory.core import Inventory
+
+
+class InventoryTest(unittest.TestCase):
+    def test_add_and_count(self):
+        inv = Inventory()
+        inv.add("widget", 3)
+        inv.add("widget", 2)
+        self.assertEqual(inv.count("widget"), 5)
+
+    def test_remove(self):
+        inv = Inventory()
+        inv.add("gadget", 4)
+        inv.remove("gadget", 3)
+        self.assertEqual(inv.count("gadget"), 1)
+
+    def test_cannot_oversell(self):
+        inv = Inventory()
+        with self.assertRaises(ValueError):
+            inv.remove("widget", 1)
+
+    def test_rejects_non_positive_quantity(self):
+        with self.assertRaises(ValueError):
+            Inventory().add("widget", 0)
+
+    def test_sqlite_backend(self):
+        inv = Inventory("sqlite")
+        inv.add("bolt", 7)
+        self.assertEqual(inv.snapshot(), {"bolt": 7})
+PY
+cat > tests/integration/test_cli.py <<'PY'
+import glob
+import json
+import os
+import subprocess
+import sys
+import tarfile
+import tempfile
+import unittest
+
+
+class PackagedCliTest(unittest.TestCase):
+    """Runs the CLI from the release tarball, not from src/."""
+
+    def test_json_report_from_tarball(self):
+        version = os.environ["APP_VERSION"]
+        tarballs = glob.glob(os.path.join(os.environ.get("DIST_DIR", "dist"), f"*-{version}.tar.gz"))
+        self.assertEqual(len(tarballs), 1, tarballs)
+        with tempfile.TemporaryDirectory() as tmp:
+            with tarfile.open(tarballs[0]) as tar:
+                tar.extractall(tmp)
+            env = dict(os.environ, PYTHONPATH=tmp, REPORT_FORMAT="json")
+            out = subprocess.run([sys.executable, "-m", "inventory.cli", "widget=2", "widget=3"],
+                                 env=env, capture_output=True, text=True, check=True).stdout
+        report = json.loads(out)
+        self.assertEqual(report["stock"], {"widget": 5})
+        self.assertEqual(report["version"], version)
+PY
+cat > tools/ci.py <<'PY'
+"""CI helper: `ci.py test <tests dir> <report dir>` (JUnit XML + HTML) and `ci.py lint <paths...>`."""
+import os
+import sys
+import time
+import unittest
+import xml.etree.ElementTree as ET
+
+NL = chr(10)
+
+
+class Recorder(unittest.TextTestResult):
+    def __init__(self, *a, **k):
+        super().__init__(*a, **k)
+        self.cases = []
+
+    def startTest(self, test):
+        self.t0 = time.time()
+        super().startTest(test)
+
+    def _record(self, test, outcome, detail=""):
+        self.cases.append((test.id(), outcome, round(time.time() - self.t0, 3), detail))
+
+    def addSuccess(self, test):
+        super().addSuccess(test)
+        self._record(test, "passed")
+
+    def addFailure(self, test, err):
+        super().addFailure(test, err)
+        self._record(test, "failure", self.failures[-1][1])
+
+    def addError(self, test, err):
+        super().addError(test, err)
+        self._record(test, "error", self.errors[-1][1])
+
+    def addSkip(self, test, reason):
+        super().addSkip(test, reason)
+        self._record(test, "skipped", reason)
+
+
+def run_tests(start, out_dir):
+    sys.path.insert(0, os.path.abspath("src"))
+    suite = unittest.defaultTestLoader.discover(start, top_level_dir=start)
+    result = unittest.TextTestRunner(resultclass=Recorder, verbosity=2).run(suite)
+    os.makedirs(os.path.join(out_dir, "html"), exist_ok=True)
+    cell = [os.environ[k] for k in ("INVENTORY_BACKEND", "REPORT_FORMAT") if os.environ.get(k)]
+    name = ".".join([start.replace("/", ".")] + cell)
+    bad = [c for c in result.cases if c[1] in ("failure", "error")]
+    suite_el = ET.Element("testsuite", name=name, tests=str(len(result.cases)),
+                          failures=str(len(result.failures)), errors=str(len(result.errors)),
+                          skipped=str(len(result.skipped)))
+    for case_id, outcome, secs, detail in result.cases:
+        cls, _, meth = case_id.rpartition(".")
+        case = ET.SubElement(suite_el, "testcase", classname=f"{name}.{cls}", name=meth, time=str(secs))
+        if outcome != "passed":
+            message = detail.strip().splitlines()[-1] if detail.strip() else ""
+            ET.SubElement(case, outcome, message=message).text = detail
+    ET.ElementTree(suite_el).write(os.path.join(out_dir, "junit.xml"), encoding="utf-8", xml_declaration=True)
+    rows = "".join(f"<tr><td>{c[0]}</td><td>{c[1]}</td><td>{c[2]}s</td></tr>" for c in result.cases)
+    html = (f"<html><head><title>{name}</title></head><body>"
+            f"<h1>{name}: {len(result.cases)} tests, {len(bad)} failed</h1><table border='1'>"
+            f"<tr><th>Test</th><th>Outcome</th><th>Time</th></tr>{rows}</table></body></html>")
+    with open(os.path.join(out_dir, "html", "index.html"), "w") as f:
+        f.write(html + NL)
+    return 0 if result.wasSuccessful() else 1
+
+
+def lint(paths, report="reports/lint.txt"):
+    problems = []
+    for top in paths:
+        for root, _, files in os.walk(top):
+            for fn in sorted(f for f in files if f.endswith(".py")):
+                path = os.path.join(root, fn)
+                with open(path) as f:
+                    for no, line in enumerate(f, 1):
+                        text = line.rstrip(NL)
+                        if len(text) > 120:
+                            problems.append(f"{path}:{no}: line longer than 120 characters")
+                        if text != text.rstrip():
+                            problems.append(f"{path}:{no}: trailing whitespace")
+    os.makedirs(os.path.dirname(report), exist_ok=True)
+    with open(report, "w") as f:
+        f.write(NL.join(problems or ["no problems found"]) + NL)
+    print(f"lint: {len(problems)} problem(s), report in {report}")
+    return 1 if problems else 0
+
+
+if __name__ == "__main__":
+    cmd, args = sys.argv[1], sys.argv[2:]
+    sys.exit(run_tests(*args) if cmd == "test" else lint(args))
+PY
+'''
+}

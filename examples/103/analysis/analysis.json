@@ -1,0 +1,434 @@
+{
+  "analysis_version": 1,
+  "parser": {
+    "engine": "groovy-ast (Jenkins-bundled Groovy 2.4, CONVERSION phase)",
+    "ok": true,
+    "errors": []
+  },
+  "dialect": "declarative",
+  "metrics": {
+    "artifact_steps": 16,
+    "classes": 0,
+    "conditionals": 1,
+    "credentials": 0,
+    "distinct_steps": 18,
+    "downstream_builds": 2,
+    "env_vars": 4,
+    "libraries": 1,
+    "loc": 297,
+    "loops": 1,
+    "matrix_axes": 2,
+    "matrix_blocks": 2,
+    "matrix_cells": 7,
+    "max_stage_depth": 4,
+    "methods": 0,
+    "options": 3,
+    "parallel_blocks": 3,
+    "parallel_branches": 9,
+    "parameters": 0,
+    "post_conditions": 1,
+    "script_blocks": 4,
+    "script_statements": 19,
+    "shell_steps": 37,
+    "stages": 28,
+    "steps": 77,
+    "tools": 0,
+    "top_level_stages": 7,
+    "triggers": 0,
+    "unknown_steps": 4,
+    "when_conditions": 2
+  },
+  "steps": {
+    "sh": {
+      "count": 37,
+      "category": "direct",
+      "lines": [
+        37,
+        53,
+        65,
+        80,
+        102,
+        123,
+        128,
+        129,
+        130,
+        137,
+        141,
+        142
+      ],
+      "gha": "run: (shell: bash)"
+    },
+    "unstash": {
+      "count": 12,
+      "category": "policy",
+      "lines": [
+        139,
+        140,
+        150,
+        151,
+        161,
+        162,
+        172,
+        173,
+        183,
+        184,
+        233,
+        237
+      ],
+      "gha": "actions/download-artifact"
+    },
+    "dir": {
+      "count": 10,
+      "category": "direct",
+      "lines": [
+        81,
+        103,
+        138,
+        149,
+        160,
+        171,
+        182,
+        232,
+        236,
+        249
+      ],
+      "gha": "working-directory:"
+    },
+    "stash": {
+      "count": 3,
+      "category": "policy",
+      "lines": [
+        82,
+        83,
+        104
+      ],
+      "gha": "actions/upload-artifact (cross-job hand-off)"
+    },
+    "build": {
+      "count": 2,
+      "category": "redesign",
+      "lines": [
+        287,
+        295
+      ],
+      "gha": "workflow_call / workflow_dispatch / repository_dispatch"
+    },
+    "trim": {
+      "count": 1,
+      "category": "groovy",
+      "lines": [
+        37
+      ],
+      "gha": null
+    },
+    "any": {
+      "count": 1,
+      "category": "groovy",
+      "lines": [
+        39
+      ],
+      "gha": null
+    },
+    "contains": {
+      "count": 1,
+      "category": "groovy",
+      "lines": [
+        39
+      ],
+      "gha": null
+    },
+    "toLowerCase": {
+      "count": 1,
+      "category": "groovy",
+      "lines": [
+        39
+      ],
+      "gha": null
+    },
+    "error": {
+      "count": 1,
+      "category": "direct",
+      "lines": [
+        41
+      ],
+      "gha": "run: echo ::error:: && exit 1"
+    },
+    "notifyBitbucket": {
+      "count": 1,
+      "category": "unknown",
+      "lines": [
+        50
+      ],
+      "gha": null
+    },
+    "join": {
+      "count": 1,
+      "category": "groovy",
+      "lines": [
+        197
+      ],
+      "gha": null
+    },
+    "collect": {
+      "count": 1,
+      "category": "groovy",
+      "lines": [
+        197
+      ],
+      "gha": null
+    },
+    "archiveArtifacts": {
+      "count": 1,
+      "category": "direct",
+      "lines": [
+        260
+      ],
+      "gha": "actions/upload-artifact"
+    },
+    "fePublishOpkg": {
+      "count": 1,
+      "category": "unknown",
+      "lines": [
+        276
+      ],
+      "gha": null
+    },
+    "fePublishBuildInfo": {
+      "count": 1,
+      "category": "unknown",
+      "lines": [
+        277
+      ],
+      "gha": null
+    },
+    "cleanWs": {
+      "count": 1,
+      "category": "direct",
+      "lines": [
+        312
+      ],
+      "gha": "ephemeral runner / run: rm -rf"
+    },
+    "feNotifySCM": {
+      "count": 1,
+      "category": "unknown",
+      "lines": [
+        315
+      ],
+      "gha": null
+    }
+  },
+  "unknown_steps": [
+    {
+      "name": "feNotifySCM",
+      "lines": [
+        315
+      ],
+      "count": 1
+    },
+    {
+      "name": "fePublishBuildInfo",
+      "lines": [
+        277
+      ],
+      "count": 1
+    },
+    {
+      "name": "fePublishOpkg",
+      "lines": [
+        276
+      ],
+      "count": 1
+    },
+    {
+      "name": "notifyBitbucket",
+      "lines": [
+        50
+      ],
+      "count": 1
+    }
+  ],
+  "agents": [
+    {
+      "kind": "label",
+      "label": "docker",
+      "image": null,
+      "line": 7,
+      "scope": "pipeline"
+    },
+    {
+      "kind": "dockerfile",
+      "label": null,
+      "image": null,
+      "line": 58,
+      "scope": "stage:Run URDF tests"
+    },
+    {
+      "kind": "docker",
+      "label": null,
+      "image": "franka/build/ubuntu-24.04:0.27.0",
+      "line": 113,
+      "scope": "stage:Archive URDFs and SRDFs"
+    }
+  ],
+  "credentials": [],
+  "dsl_symbols": [],
+  "libraries": [
+    "fe-gitlab-pipeline-steps@lts-2.2"
+  ],
+  "methods": [],
+  "jenkins_model": {
+    "result": "success",
+    "errors": [],
+    "stages": [
+      "Check Commit Message",
+      "Get Ready",
+      "Run URDF tests",
+      "Build robot URDFs and SRDFs",
+      "Build URDF and SRDF",
+      "Build End Effector URDFs",
+      "Build URDF",
+      "Archive URDFs and SRDFs",
+      "Cleanup",
+      "Create directory structure",
+      "Move robot urdfs and srdfs into correct robot arm directory",
+      "Arm3R",
+      "Arm3P",
+      "Arm3Rv2",
+      "Arm3Rv2.1",
+      "TMRv0.2",
+      "Copy meshes to dist",
+      "Extract End Effector URDFs",
+      "Create End Effector directories",
+      "Copy meshes",
+      "cobot_pump",
+      "franka_hand",
+      "Unstash URDF",
+      "Create archive",
+      "Publish to artifactory",
+      "Trigger upstream franka_ros2_ws builds",
+      "humble",
+      "jazzy"
+    ],
+    "agent": "node",
+    "discrepancies": []
+  },
+  "findings": [
+    {
+      "id": "SharedLibrary",
+      "severity": "high",
+      "line": null,
+      "evidence": "fe-gitlab-pipeline-steps@lts-2.2",
+      "recommendation": "Library steps are opaque to static analysis; map them to composite actions/reusable workflows",
+      "gate": true
+    },
+    {
+      "id": "ScriptBlocks",
+      "severity": "medium",
+      "line": null,
+      "evidence": "4 script{} block(s), 19 Groovy statements",
+      "recommendation": "Move imperative logic into versioned shell/Python scripts or composite actions"
+    },
+    {
+      "id": "UnknownStep",
+      "severity": "medium",
+      "line": 50,
+      "evidence": "notifyBitbucket x1",
+      "recommendation": "Plugin or shared-library step with no catalog mapping - inspect implementation"
+    },
+    {
+      "id": "UnknownStep",
+      "severity": "medium",
+      "line": 276,
+      "evidence": "fePublishOpkg x1",
+      "recommendation": "Plugin or shared-library step with no catalog mapping - inspect implementation"
+    },
+    {
+      "id": "UnknownStep",
+      "severity": "medium",
+      "line": 277,
+      "evidence": "fePublishBuildInfo x1",
+      "recommendation": "Plugin or shared-library step with no catalog mapping - inspect implementation"
+    },
+    {
+      "id": "DownstreamBuild",
+      "severity": "medium",
+      "line": 287,
+      "evidence": "build job: FCI/franka_ros2_ws/humble",
+      "recommendation": "Use workflow_call (reusable workflow) or workflow_dispatch/repository_dispatch"
+    },
+    {
+      "id": "DownstreamBuild",
+      "severity": "medium",
+      "line": 295,
+      "evidence": "build job: FCI/franka_ros2_ws/jazzy",
+      "recommendation": "Use workflow_call (reusable workflow) or workflow_dispatch/repository_dispatch"
+    },
+    {
+      "id": "UnknownStep",
+      "severity": "medium",
+      "line": 315,
+      "evidence": "feNotifySCM x1",
+      "recommendation": "Plugin or shared-library step with no catalog mapping - inspect implementation"
+    }
+  ],
+  "hard_gates": [
+    {
+      "id": "SharedLibrary",
+      "severity": "high",
+      "line": null,
+      "evidence": "fe-gitlab-pipeline-steps@lts-2.2",
+      "recommendation": "Library steps are opaque to static analysis; map them to composite actions/reusable workflows",
+      "gate": true
+    }
+  ],
+  "styles": [
+    "declarative",
+    "shared-library",
+    "when-post",
+    "parallel",
+    "matrix",
+    "docker-agent",
+    "artifacts-tests",
+    "downstream-build",
+    "dynamic-groovy"
+  ],
+  "coverage": {
+    "by_category": {
+      "direct": 50,
+      "policy": 15,
+      "redesign": 2,
+      "groovy": 6,
+      "unknown": 4
+    },
+    "weighted_mapped_pct": 72.8
+  },
+  "complexity": {
+    "score": 55,
+    "classification": "significant-redesign",
+    "dimensions": {
+      "declarative_structure": 10,
+      "step_mapping": 6.8,
+      "plugin_coupling": 14.2,
+      "library_opacity": 15,
+      "runtime_coupling": 5.0,
+      "security_identity": 0,
+      "control_flow": 4.0
+    },
+    "hard_gates": [
+      "SharedLibrary"
+    ],
+    "weights": {
+      "declarative_structure": 20,
+      "step_mapping": 25,
+      "plugin_coupling": 15,
+      "library_opacity": 15,
+      "runtime_coupling": 10,
+      "security_identity": 10,
+      "control_flow": 5
+    }
+  },
+  "convertibility": "partial",
+  "ir_notes": [],
+  "source_sha256": "67f757cb159aacbeea4b2e84c76b46d60583a771b81f1297e2dd98154cc36e12"
+}

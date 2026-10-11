@@ -1,0 +1,401 @@
+[2026-10-10T08:24:09.075Z] Started by user admin
+[2026-10-10T08:24:09.284Z] [Pipeline] Start of Pipeline
+[2026-10-10T08:24:09.420Z] [Pipeline] node
+[2026-10-10T08:24:09.433Z] Running on Jenkins in /var/jenkins_home/workspace/ex-003-full
+[2026-10-10T08:24:09.456Z] [Pipeline] {
+[2026-10-10T08:24:09.524Z] [Pipeline] stage
+[2026-10-10T08:24:09.530Z] [Pipeline] { (Declarative: Checkout SCM)
+[2026-10-10T08:24:09.564Z] [Pipeline] checkout
+[2026-10-10T08:24:09.570Z] The recommended git tool is: NONE
+[2026-10-10T08:24:09.570Z] No credentials specified
+[2026-10-10T08:24:09.570Z]  > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/ex-003-full/.git # timeout=10
+[2026-10-10T08:24:09.578Z] Fetching changes from the remote Git repository
+[2026-10-10T08:24:09.579Z]  > git config remote.origin.url https://github.com/frankarobotics/franka_description.git # timeout=10
+[2026-10-10T08:24:09.586Z] Fetching upstream changes from https://github.com/frankarobotics/franka_description.git
+[2026-10-10T08:24:09.586Z]  > git --version # timeout=10
+[2026-10-10T08:24:09.593Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T08:24:09.593Z]  > git fetch --no-tags --force --progress -- https://github.com/frankarobotics/franka_description.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T08:24:10.038Z]  > git rev-parse 37c4be2ce36ae6d354339509a3d324063fc99968^{commit} # timeout=10
+[2026-10-10T08:24:10.047Z] Checking out Revision 37c4be2ce36ae6d354339509a3d324063fc99968 (detached)
+[2026-10-10T08:24:10.048Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T08:24:10.057Z]  > git checkout -f 37c4be2ce36ae6d354339509a3d324063fc99968 # timeout=10
+[2026-10-10T08:24:10.348Z] Commit message: "[git-lab migration] post-migration updates (Jenkinsfiles, submodule URLs)"
+[2026-10-10T08:24:10.348Z]  > git rev-list --no-walk 37c4be2ce36ae6d354339509a3d324063fc99968 # timeout=10
+[2026-10-10T08:24:10.403Z] [Pipeline] }
+[2026-10-10T08:24:10.432Z] [Pipeline] // stage
+[2026-10-10T08:24:10.459Z] [Pipeline] withEnv
+[2026-10-10T08:24:10.465Z] [Pipeline] {
+[2026-10-10T08:24:10.500Z] [Pipeline] echo
+[2026-10-10T08:24:10.507Z] J2GHA-TRACE {"stage":"","step":"feDetermineVersionFromGit"}
+[2026-10-10T08:24:10.541Z] [Pipeline] withEnv
+[2026-10-10T08:24:10.547Z] [Pipeline] {
+[2026-10-10T08:24:10.612Z] [Pipeline] timeout
+[2026-10-10T08:24:10.612Z] Timeout set to expire in 2 hr 0 min
+[2026-10-10T08:24:10.618Z] [Pipeline] {
+[2026-10-10T08:24:10.651Z] [Pipeline] stage
+[2026-10-10T08:24:10.656Z] [Pipeline] { (Check Commit Message)
+[2026-10-10T08:24:10.693Z] [Pipeline] script
+[2026-10-10T08:24:10.701Z] [Pipeline] {
+[2026-10-10T08:24:10.730Z] [Pipeline] sh
+[2026-10-10T08:24:10.992Z] + git log -1 --pretty=format:%s
+[2026-10-10T08:24:11.032Z] [Pipeline] }
+[2026-10-10T08:24:11.099Z] [Pipeline] // script
+[2026-10-10T08:24:11.126Z] [Pipeline] }
+[2026-10-10T08:24:11.170Z] [Pipeline] // stage
+[2026-10-10T08:24:11.192Z] [Pipeline] stage
+[2026-10-10T08:24:11.197Z] [Pipeline] { (Get Ready)
+[2026-10-10T08:24:11.226Z] [Pipeline] script
+[2026-10-10T08:24:11.232Z] [Pipeline] {
+[2026-10-10T08:24:11.258Z] [Pipeline] echo
+[2026-10-10T08:24:11.264Z] J2GHA-TRACE {"stage":"Get Ready","step":"notifyBitbucket"}
+[2026-10-10T08:24:11.269Z] [Pipeline] }
+[2026-10-10T08:24:11.302Z] [Pipeline] // script
+[2026-10-10T08:24:11.323Z] [Pipeline] sh
+[2026-10-10T08:24:11.584Z] + git clean -x -d -f
+[2026-10-10T08:24:11.603Z] [Pipeline] }
+[2026-10-10T08:24:11.662Z] [Pipeline] // stage
+[2026-10-10T08:24:11.695Z] [Pipeline] stage
+[2026-10-10T08:24:11.701Z] [Pipeline] { (Run URDF tests)
+[2026-10-10T08:24:11.736Z] [Pipeline] node
+[2026-10-10T08:24:11.756Z] Running on Jenkins in /var/jenkins_home/workspace/ex-003-full@2
+[2026-10-10T08:24:11.772Z] [Pipeline] {
+[2026-10-10T08:24:11.805Z] [Pipeline] checkout
+[2026-10-10T08:24:11.812Z] The recommended git tool is: NONE
+[2026-10-10T08:24:11.812Z] No credentials specified
+[2026-10-10T08:24:11.812Z]  > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/ex-003-full@2/.git # timeout=10
+[2026-10-10T08:24:11.821Z] Fetching changes from the remote Git repository
+[2026-10-10T08:24:11.823Z]  > git config remote.origin.url https://github.com/frankarobotics/franka_description.git # timeout=10
+[2026-10-10T08:24:11.830Z] Fetching upstream changes from https://github.com/frankarobotics/franka_description.git
+[2026-10-10T08:24:11.830Z]  > git --version # timeout=10
+[2026-10-10T08:24:11.837Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T08:24:11.837Z]  > git fetch --no-tags --force --progress -- https://github.com/frankarobotics/franka_description.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T08:24:12.273Z]  > git rev-parse 37c4be2ce36ae6d354339509a3d324063fc99968^{commit} # timeout=10
+[2026-10-10T08:24:12.281Z] Checking out Revision 37c4be2ce36ae6d354339509a3d324063fc99968 (detached)
+[2026-10-10T08:24:12.281Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T08:24:12.288Z]  > git checkout -f 37c4be2ce36ae6d354339509a3d324063fc99968 # timeout=10
+[2026-10-10T08:24:14.444Z] Commit message: "[git-lab migration] post-migration updates (Jenkinsfiles, submodule URLs)"
+[2026-10-10T08:24:14.475Z] [Pipeline] withEnv
+[2026-10-10T08:24:14.482Z] [Pipeline] {
+[2026-10-10T08:24:14.521Z] [Pipeline] sh
+[2026-10-10T08:24:14.783Z] + .ci/run_urdf_tests.sh
+[2026-10-10T08:24:14.783Z] .ci/run_urdf_tests.sh: line 4: /opt/ros/jazzy/setup.sh: No such file or directory
+[2026-10-10T08:24:14.816Z] [Pipeline] }
+[2026-10-10T08:24:14.859Z] [Pipeline] // withEnv
+[2026-10-10T08:24:14.885Z] [Pipeline] }
+[2026-10-10T08:24:14.943Z] [Pipeline] // node
+[2026-10-10T08:24:14.968Z] [Pipeline] }
+[2026-10-10T08:24:15.008Z] [Pipeline] // stage
+[2026-10-10T08:24:15.043Z] [Pipeline] stage
+[2026-10-10T08:24:15.050Z] [Pipeline] { (Build robot URDFs and SRDFs)
+[2026-10-10T08:24:15.071Z] Stage "Build robot URDFs and SRDFs" skipped due to earlier failure(s)
+[2026-10-10T08:24:15.085Z] [Pipeline] getContext
+[2026-10-10T08:24:15.122Z] [Pipeline] parallel
+[2026-10-10T08:24:15.170Z] [Pipeline] { (Branch: Matrix - ROBOT = 'fp3')
+[2026-10-10T08:24:15.176Z] [Pipeline] { (Branch: Matrix - ROBOT = 'fr3')
+[2026-10-10T08:24:15.182Z] [Pipeline] { (Branch: Matrix - ROBOT = 'fr3v2')
+[2026-10-10T08:24:15.189Z] [Pipeline] { (Branch: Matrix - ROBOT = 'fr3v2_1')
+[2026-10-10T08:24:15.195Z] [Pipeline] { (Branch: Matrix - ROBOT = 'tmrv0_2')
+[2026-10-10T08:24:15.234Z] [Pipeline] stage
+[2026-10-10T08:24:15.240Z] [Pipeline] { (Matrix - ROBOT = 'fp3')
+[2026-10-10T08:24:15.256Z] [Pipeline] stage
+[2026-10-10T08:24:15.262Z] [Pipeline] { (Matrix - ROBOT = 'fr3')
+[2026-10-10T08:24:15.279Z] [Pipeline] stage
+[2026-10-10T08:24:15.286Z] [Pipeline] { (Matrix - ROBOT = 'fr3v2')
+[2026-10-10T08:24:15.304Z] [Pipeline] stage
+[2026-10-10T08:24:15.311Z] [Pipeline] { (Matrix - ROBOT = 'fr3v2_1')
+[2026-10-10T08:24:15.332Z] [Pipeline] stage
+[2026-10-10T08:24:15.339Z] [Pipeline] { (Matrix - ROBOT = 'tmrv0_2')
+[2026-10-10T08:24:15.367Z] Stage "Matrix - ROBOT = 'fp3'" skipped due to earlier failure(s)
+[2026-10-10T08:24:15.380Z] [Pipeline] getContext
+[2026-10-10T08:24:15.401Z] Stage "Matrix - ROBOT = 'fr3'" skipped due to earlier failure(s)
+[2026-10-10T08:24:15.415Z] [Pipeline] getContext
+[2026-10-10T08:24:15.432Z] Stage "Matrix - ROBOT = 'fr3v2'" skipped due to earlier failure(s)
+[2026-10-10T08:24:15.444Z] [Pipeline] getContext
+[2026-10-10T08:24:15.463Z] Stage "Matrix - ROBOT = 'fr3v2_1'" skipped due to earlier failure(s)
+[2026-10-10T08:24:15.473Z] [Pipeline] getContext
+[2026-10-10T08:24:15.488Z] Stage "Matrix - ROBOT = 'tmrv0_2'" skipped due to earlier failure(s)
+[2026-10-10T08:24:15.497Z] [Pipeline] getContext
+[2026-10-10T08:24:15.539Z] [Pipeline] stage
+[2026-10-10T08:24:15.545Z] [Pipeline] { (Build URDF and SRDF)
+[2026-10-10T08:24:15.560Z] [Pipeline] stage
+[2026-10-10T08:24:15.566Z] [Pipeline] { (Build URDF and SRDF)
+[2026-10-10T08:24:15.584Z] [Pipeline] stage
+[2026-10-10T08:24:15.589Z] [Pipeline] { (Build URDF and SRDF)
+[2026-10-10T08:24:15.606Z] [Pipeline] stage
+[2026-10-10T08:24:15.611Z] [Pipeline] { (Build URDF and SRDF)
+[2026-10-10T08:24:15.627Z] [Pipeline] stage
+[2026-10-10T08:24:15.634Z] [Pipeline] { (Build URDF and SRDF)
+[2026-10-10T08:24:15.659Z] Stage "Matrix - ROBOT = 'fp3'" skipped due to earlier failure(s)
+[2026-10-10T08:24:15.669Z] [Pipeline] getContext
+[2026-10-10T08:24:15.685Z] [Pipeline] }
+[2026-10-10T08:24:15.695Z] Stage "Matrix - ROBOT = 'fr3'" skipped due to earlier failure(s)
+[2026-10-10T08:24:15.707Z] [Pipeline] getContext
+[2026-10-10T08:24:15.723Z] [Pipeline] }
+[2026-10-10T08:24:15.729Z] Stage "Matrix - ROBOT = 'fr3v2'" skipped due to earlier failure(s)
+[2026-10-10T08:24:15.741Z] [Pipeline] getContext
+[2026-10-10T08:24:15.773Z] [Pipeline] }
+[2026-10-10T08:24:15.792Z] Stage "Matrix - ROBOT = 'fr3v2_1'" skipped due to earlier failure(s)
+[2026-10-10T08:24:15.819Z] [Pipeline] getContext
+[2026-10-10T08:24:15.838Z] [Pipeline] }
+[2026-10-10T08:24:15.843Z] Stage "Matrix - ROBOT = 'tmrv0_2'" skipped due to earlier failure(s)
+[2026-10-10T08:24:15.856Z] [Pipeline] getContext
+[2026-10-10T08:24:15.876Z] [Pipeline] }
+[2026-10-10T08:24:15.926Z] [Pipeline] // stage
+[2026-10-10T08:24:15.963Z] [Pipeline] // stage
+[2026-10-10T08:24:15.990Z] [Pipeline] // stage
+[2026-10-10T08:24:16.017Z] [Pipeline] // stage
+[2026-10-10T08:24:16.047Z] [Pipeline] // stage
+[2026-10-10T08:24:16.071Z] [Pipeline] }
+[2026-10-10T08:24:16.083Z] [Pipeline] }
+[2026-10-10T08:24:16.095Z] [Pipeline] }
+[2026-10-10T08:24:16.107Z] [Pipeline] }
+[2026-10-10T08:24:16.120Z] [Pipeline] }
+[2026-10-10T08:24:16.162Z] [Pipeline] // stage
+[2026-10-10T08:24:16.194Z] [Pipeline] // stage
+[2026-10-10T08:24:16.225Z] [Pipeline] // stage
+[2026-10-10T08:24:16.258Z] [Pipeline] // stage
+[2026-10-10T08:24:16.290Z] [Pipeline] // stage
+[2026-10-10T08:24:16.312Z] [Pipeline] }
+[2026-10-10T08:24:16.325Z] Failed in branch Matrix - ROBOT = 'fp3'
+[2026-10-10T08:24:16.330Z] [Pipeline] }
+[2026-10-10T08:24:16.342Z] Failed in branch Matrix - ROBOT = 'fr3'
+[2026-10-10T08:24:16.348Z] [Pipeline] }
+[2026-10-10T08:24:16.367Z] Failed in branch Matrix - ROBOT = 'fr3v2'
+[2026-10-10T08:24:16.374Z] [Pipeline] }
+[2026-10-10T08:24:16.387Z] Failed in branch Matrix - ROBOT = 'fr3v2_1'
+[2026-10-10T08:24:16.393Z] [Pipeline] }
+[2026-10-10T08:24:16.405Z] Failed in branch Matrix - ROBOT = 'tmrv0_2'
+[2026-10-10T08:24:16.574Z] [Pipeline] // parallel
+[2026-10-10T08:24:16.598Z] [Pipeline] }
+[2026-10-10T08:24:16.636Z] [Pipeline] // stage
+[2026-10-10T08:24:16.673Z] [Pipeline] stage
+[2026-10-10T08:24:16.680Z] [Pipeline] { (Build End Effector URDFs)
+[2026-10-10T08:24:16.700Z] Stage "Build End Effector URDFs" skipped due to earlier failure(s)
+[2026-10-10T08:24:16.712Z] [Pipeline] getContext
+[2026-10-10T08:24:16.748Z] [Pipeline] parallel
+[2026-10-10T08:24:16.766Z] [Pipeline] { (Branch: Matrix - EE = 'franka_hand')
+[2026-10-10T08:24:16.771Z] [Pipeline] { (Branch: Matrix - EE = 'cobot_pump')
+[2026-10-10T08:24:16.813Z] [Pipeline] stage
+[2026-10-10T08:24:16.819Z] [Pipeline] { (Matrix - EE = 'franka_hand')
+[2026-10-10T08:24:16.850Z] [Pipeline] stage
+[2026-10-10T08:24:16.868Z] [Pipeline] { (Matrix - EE = 'cobot_pump')
+[2026-10-10T08:24:16.892Z] Stage "Matrix - EE = 'franka_hand'" skipped due to earlier failure(s)
+[2026-10-10T08:24:16.904Z] [Pipeline] getContext
+[2026-10-10T08:24:16.919Z] Stage "Matrix - EE = 'cobot_pump'" skipped due to earlier failure(s)
+[2026-10-10T08:24:16.930Z] [Pipeline] getContext
+[2026-10-10T08:24:16.984Z] [Pipeline] stage
+[2026-10-10T08:24:16.992Z] [Pipeline] { (Build URDF)
+[2026-10-10T08:24:17.009Z] [Pipeline] stage
+[2026-10-10T08:24:17.015Z] [Pipeline] { (Build URDF)
+[2026-10-10T08:24:17.035Z] Stage "Matrix - EE = 'franka_hand'" skipped due to earlier failure(s)
+[2026-10-10T08:24:17.047Z] [Pipeline] getContext
+[2026-10-10T08:24:17.064Z] [Pipeline] }
+[2026-10-10T08:24:17.070Z] Stage "Matrix - EE = 'cobot_pump'" skipped due to earlier failure(s)
+[2026-10-10T08:24:17.082Z] [Pipeline] getContext
+[2026-10-10T08:24:17.100Z] [Pipeline] }
+[2026-10-10T08:24:17.142Z] [Pipeline] // stage
+[2026-10-10T08:24:17.175Z] [Pipeline] // stage
+[2026-10-10T08:24:17.201Z] [Pipeline] }
+[2026-10-10T08:24:17.215Z] [Pipeline] }
+[2026-10-10T08:24:17.256Z] [Pipeline] // stage
+[2026-10-10T08:24:17.289Z] [Pipeline] // stage
+[2026-10-10T08:24:17.313Z] [Pipeline] }
+[2026-10-10T08:24:17.324Z] Failed in branch Matrix - EE = 'franka_hand'
+[2026-10-10T08:24:17.330Z] [Pipeline] }
+[2026-10-10T08:24:17.341Z] Failed in branch Matrix - EE = 'cobot_pump'
+[2026-10-10T08:24:17.409Z] [Pipeline] // parallel
+[2026-10-10T08:24:17.435Z] [Pipeline] }
+[2026-10-10T08:24:17.487Z] [Pipeline] // stage
+[2026-10-10T08:24:17.536Z] [Pipeline] stage
+[2026-10-10T08:24:17.545Z] [Pipeline] { (Archive URDFs and SRDFs)
+[2026-10-10T08:24:17.571Z] Stage "Archive URDFs and SRDFs" skipped due to earlier failure(s)
+[2026-10-10T08:24:17.585Z] [Pipeline] getContext
+[2026-10-10T08:24:17.636Z] [Pipeline] stage
+[2026-10-10T08:24:17.641Z] [Pipeline] { (Cleanup)
+[2026-10-10T08:24:17.659Z] Stage "Archive URDFs and SRDFs" skipped due to earlier failure(s)
+[2026-10-10T08:24:17.667Z] [Pipeline] getContext
+[2026-10-10T08:24:17.680Z] [Pipeline] }
+[2026-10-10T08:24:17.716Z] [Pipeline] // stage
+[2026-10-10T08:24:17.750Z] [Pipeline] stage
+[2026-10-10T08:24:17.755Z] [Pipeline] { (Create directory structure)
+[2026-10-10T08:24:17.775Z] Stage "Archive URDFs and SRDFs" skipped due to earlier failure(s)
+[2026-10-10T08:24:17.786Z] [Pipeline] getContext
+[2026-10-10T08:24:17.803Z] [Pipeline] }
+[2026-10-10T08:24:17.868Z] [Pipeline] // stage
+[2026-10-10T08:24:17.900Z] [Pipeline] stage
+[2026-10-10T08:24:17.905Z] [Pipeline] { (Move robot urdfs and srdfs into correct robot arm directory)
+[2026-10-10T08:24:17.936Z] Stage "Archive URDFs and SRDFs" skipped due to earlier failure(s)
+[2026-10-10T08:24:17.951Z] [Pipeline] getContext
+[2026-10-10T08:24:17.982Z] [Pipeline] parallel
+[2026-10-10T08:24:18.033Z] [Pipeline] { (Branch: Arm3R)
+[2026-10-10T08:24:18.042Z] [Pipeline] { (Branch: Arm3P)
+[2026-10-10T08:24:18.059Z] [Pipeline] { (Branch: Arm3Rv2)
+[2026-10-10T08:24:18.081Z] [Pipeline] { (Branch: Arm3Rv2.1)
+[2026-10-10T08:24:18.087Z] [Pipeline] { (Branch: TMRv0.2)
+[2026-10-10T08:24:18.119Z] [Pipeline] stage
+[2026-10-10T08:24:18.124Z] [Pipeline] { (Arm3R)
+[2026-10-10T08:24:18.139Z] [Pipeline] stage
+[2026-10-10T08:24:18.144Z] [Pipeline] { (Arm3P)
+[2026-10-10T08:24:18.160Z] [Pipeline] stage
+[2026-10-10T08:24:18.165Z] [Pipeline] { (Arm3Rv2)
+[2026-10-10T08:24:18.181Z] [Pipeline] stage
+[2026-10-10T08:24:18.187Z] [Pipeline] { (Arm3Rv2.1)
+[2026-10-10T08:24:18.206Z] [Pipeline] stage
+[2026-10-10T08:24:18.211Z] [Pipeline] { (TMRv0.2)
+[2026-10-10T08:24:18.232Z] Stage "Arm3R" skipped due to earlier failure(s)
+[2026-10-10T08:24:18.244Z] [Pipeline] getContext
+[2026-10-10T08:24:18.268Z] [Pipeline] }
+[2026-10-10T08:24:18.273Z] Stage "Arm3P" skipped due to earlier failure(s)
+[2026-10-10T08:24:18.285Z] [Pipeline] getContext
+[2026-10-10T08:24:18.307Z] [Pipeline] }
+[2026-10-10T08:24:18.313Z] Stage "Arm3Rv2" skipped due to earlier failure(s)
+[2026-10-10T08:24:18.325Z] [Pipeline] getContext
+[2026-10-10T08:24:18.349Z] [Pipeline] }
+[2026-10-10T08:24:18.355Z] Stage "Arm3Rv2.1" skipped due to earlier failure(s)
+[2026-10-10T08:24:18.367Z] [Pipeline] getContext
+[2026-10-10T08:24:18.391Z] [Pipeline] }
+[2026-10-10T08:24:18.397Z] Stage "TMRv0.2" skipped due to earlier failure(s)
+[2026-10-10T08:24:18.408Z] [Pipeline] getContext
+[2026-10-10T08:24:18.432Z] [Pipeline] }
+[2026-10-10T08:24:18.476Z] [Pipeline] // stage
+[2026-10-10T08:24:18.510Z] [Pipeline] // stage
+[2026-10-10T08:24:18.544Z] [Pipeline] // stage
+[2026-10-10T08:24:18.577Z] [Pipeline] // stage
+[2026-10-10T08:24:18.610Z] [Pipeline] // stage
+[2026-10-10T08:24:18.655Z] [Pipeline] }
+[2026-10-10T08:24:18.666Z] Failed in branch Arm3R
+[2026-10-10T08:24:18.673Z] [Pipeline] }
+[2026-10-10T08:24:18.685Z] Failed in branch Arm3P
+[2026-10-10T08:24:18.691Z] [Pipeline] }
+[2026-10-10T08:24:18.703Z] Failed in branch Arm3Rv2
+[2026-10-10T08:24:18.709Z] [Pipeline] }
+[2026-10-10T08:24:18.720Z] Failed in branch Arm3Rv2.1
+[2026-10-10T08:24:18.725Z] [Pipeline] }
+[2026-10-10T08:24:18.737Z] Failed in branch TMRv0.2
+[2026-10-10T08:24:18.908Z] [Pipeline] // parallel
+[2026-10-10T08:24:18.932Z] [Pipeline] }
+[2026-10-10T08:24:18.974Z] [Pipeline] // stage
+[2026-10-10T08:24:19.011Z] [Pipeline] stage
+[2026-10-10T08:24:19.019Z] [Pipeline] { (Copy meshes to dist)
+[2026-10-10T08:24:19.041Z] Stage "Archive URDFs and SRDFs" skipped due to earlier failure(s)
+[2026-10-10T08:24:19.056Z] [Pipeline] getContext
+[2026-10-10T08:24:19.076Z] [Pipeline] }
+[2026-10-10T08:24:19.124Z] [Pipeline] // stage
+[2026-10-10T08:24:19.186Z] [Pipeline] stage
+[2026-10-10T08:24:19.194Z] [Pipeline] { (Extract End Effector URDFs)
+[2026-10-10T08:24:19.216Z] Stage "Archive URDFs and SRDFs" skipped due to earlier failure(s)
+[2026-10-10T08:24:19.226Z] [Pipeline] getContext
+[2026-10-10T08:24:19.260Z] [Pipeline] stage
+[2026-10-10T08:24:19.265Z] [Pipeline] { (Create End Effector directories)
+[2026-10-10T08:24:19.286Z] Stage "Archive URDFs and SRDFs" skipped due to earlier failure(s)
+[2026-10-10T08:24:19.297Z] [Pipeline] getContext
+[2026-10-10T08:24:19.313Z] [Pipeline] }
+[2026-10-10T08:24:19.359Z] [Pipeline] // stage
+[2026-10-10T08:24:19.390Z] [Pipeline] stage
+[2026-10-10T08:24:19.395Z] [Pipeline] { (Copy meshes)
+[2026-10-10T08:24:19.415Z] Stage "Archive URDFs and SRDFs" skipped due to earlier failure(s)
+[2026-10-10T08:24:19.425Z] [Pipeline] getContext
+[2026-10-10T08:24:19.455Z] [Pipeline] parallel
+[2026-10-10T08:24:19.475Z] [Pipeline] { (Branch: cobot_pump)
+[2026-10-10T08:24:19.481Z] [Pipeline] { (Branch: franka_hand)
+[2026-10-10T08:24:19.519Z] [Pipeline] stage
+[2026-10-10T08:24:19.524Z] [Pipeline] { (cobot_pump)
+[2026-10-10T08:24:19.540Z] [Pipeline] stage
+[2026-10-10T08:24:19.547Z] [Pipeline] { (franka_hand)
+[2026-10-10T08:24:19.568Z] Stage "cobot_pump" skipped due to earlier failure(s)
+[2026-10-10T08:24:19.580Z] [Pipeline] getContext
+[2026-10-10T08:24:19.603Z] [Pipeline] }
+[2026-10-10T08:24:19.610Z] Stage "franka_hand" skipped due to earlier failure(s)
+[2026-10-10T08:24:19.621Z] [Pipeline] getContext
+[2026-10-10T08:24:19.645Z] [Pipeline] }
+[2026-10-10T08:24:19.702Z] [Pipeline] // stage
+[2026-10-10T08:24:19.746Z] [Pipeline] // stage
+[2026-10-10T08:24:19.771Z] [Pipeline] }
+[2026-10-10T08:24:19.783Z] Failed in branch cobot_pump
+[2026-10-10T08:24:19.789Z] [Pipeline] }
+[2026-10-10T08:24:19.801Z] Failed in branch franka_hand
+[2026-10-10T08:24:19.865Z] [Pipeline] // parallel
+[2026-10-10T08:24:19.886Z] [Pipeline] }
+[2026-10-10T08:24:19.926Z] [Pipeline] // stage
+[2026-10-10T08:24:19.957Z] [Pipeline] stage
+[2026-10-10T08:24:19.962Z] [Pipeline] { (Unstash URDF)
+[2026-10-10T08:24:19.980Z] Stage "Archive URDFs and SRDFs" skipped due to earlier failure(s)
+[2026-10-10T08:24:19.990Z] [Pipeline] getContext
+[2026-10-10T08:24:20.005Z] [Pipeline] }
+[2026-10-10T08:24:20.043Z] [Pipeline] // stage
+[2026-10-10T08:24:20.067Z] [Pipeline] }
+[2026-10-10T08:24:20.110Z] [Pipeline] // stage
+[2026-10-10T08:24:20.145Z] [Pipeline] stage
+[2026-10-10T08:24:20.152Z] [Pipeline] { (Create archive)
+[2026-10-10T08:24:20.177Z] Stage "Archive URDFs and SRDFs" skipped due to earlier failure(s)
+[2026-10-10T08:24:20.194Z] [Pipeline] getContext
+[2026-10-10T08:24:20.213Z] [Pipeline] }
+[2026-10-10T08:24:20.262Z] [Pipeline] // stage
+[2026-10-10T08:24:20.306Z] [Pipeline] stage
+[2026-10-10T08:24:20.337Z] [Pipeline] { (Publish to artifactory)
+[2026-10-10T08:24:20.368Z] Stage "Archive URDFs and SRDFs" skipped due to earlier failure(s)
+[2026-10-10T08:24:20.380Z] [Pipeline] getContext
+[2026-10-10T08:24:20.403Z] [Pipeline] }
+[2026-10-10T08:24:20.440Z] [Pipeline] // stage
+[2026-10-10T08:24:20.459Z] [Pipeline] }
+[2026-10-10T08:24:20.493Z] [Pipeline] // stage
+[2026-10-10T08:24:20.524Z] [Pipeline] stage
+[2026-10-10T08:24:20.529Z] [Pipeline] { (Trigger upstream franka_ros2_ws builds)
+[2026-10-10T08:24:20.547Z] Stage "Trigger upstream franka_ros2_ws builds" skipped due to earlier failure(s)
+[2026-10-10T08:24:20.558Z] [Pipeline] getContext
+[2026-10-10T08:24:20.591Z] [Pipeline] parallel
+[2026-10-10T08:24:20.607Z] [Pipeline] { (Branch: humble)
+[2026-10-10T08:24:20.613Z] [Pipeline] { (Branch: jazzy)
+[2026-10-10T08:24:20.647Z] [Pipeline] stage
+[2026-10-10T08:24:20.653Z] [Pipeline] { (humble)
+[2026-10-10T08:24:20.680Z] [Pipeline] stage
+[2026-10-10T08:24:20.701Z] [Pipeline] { (jazzy)
+[2026-10-10T08:24:20.724Z] Stage "humble" skipped due to earlier failure(s)
+[2026-10-10T08:24:20.737Z] [Pipeline] getContext
+[2026-10-10T08:24:20.767Z] [Pipeline] }
+[2026-10-10T08:24:20.775Z] Stage "jazzy" skipped due to earlier failure(s)
+[2026-10-10T08:24:20.790Z] [Pipeline] getContext
+[2026-10-10T08:24:20.811Z] [Pipeline] }
+[2026-10-10T08:24:20.856Z] [Pipeline] // stage
+[2026-10-10T08:24:20.889Z] [Pipeline] // stage
+[2026-10-10T08:24:20.913Z] [Pipeline] }
+[2026-10-10T08:24:20.926Z] Failed in branch humble
+[2026-10-10T08:24:20.932Z] [Pipeline] }
+[2026-10-10T08:24:20.945Z] Failed in branch jazzy
+[2026-10-10T08:24:21.008Z] [Pipeline] // parallel
+[2026-10-10T08:24:21.028Z] [Pipeline] }
+[2026-10-10T08:24:21.068Z] [Pipeline] // stage
+[2026-10-10T08:24:21.105Z] [Pipeline] stage
+[2026-10-10T08:24:21.111Z] [Pipeline] { (Declarative: Post Actions)
+[2026-10-10T08:24:21.154Z] [Pipeline] sh
+[2026-10-10T08:24:21.417Z] + git clean -x -d -f
+[2026-10-10T08:24:21.444Z] [Pipeline] cleanWs
+[2026-10-10T08:24:21.452Z] [WS-CLEANUP] Deleting project workspace...
+[2026-10-10T08:24:21.452Z] [WS-CLEANUP] Deferred wipeout is used...
+[2026-10-10T08:24:21.460Z] [WS-CLEANUP] done
+[2026-10-10T08:24:21.488Z] [Pipeline] sh
+[2026-10-10T08:24:21.751Z] + du -h --max-depth=1 .
+[2026-10-10T08:24:21.751Z] 4.0K	.
+[2026-10-10T08:24:21.751Z] + ls -la
+[2026-10-10T08:24:21.751Z] total 8
+[2026-10-10T08:24:21.751Z] drwxr-xr-x   2 jenkins jenkins 4096 Oct 10 08:24 .
+[2026-10-10T08:24:21.751Z] drwxr-xr-x 116 jenkins jenkins 4096 Oct 10 08:24 ..
+[2026-10-10T08:24:21.777Z] [Pipeline] script
+[2026-10-10T08:24:21.786Z] [Pipeline] {
+[2026-10-10T08:24:21.820Z] [Pipeline] echo
+[2026-10-10T08:24:21.825Z] J2GHA-TRACE {"stage":"Declarative: Post Actions","step":"feNotifySCM"}
+[2026-10-10T08:24:21.832Z] [Pipeline] }
+[2026-10-10T08:24:21.884Z] [Pipeline] // script
+[2026-10-10T08:24:21.908Z] [Pipeline] }
+[2026-10-10T08:24:21.949Z] [Pipeline] // stage
+[2026-10-10T08:24:21.973Z] [Pipeline] }
+[2026-10-10T08:24:22.008Z] [Pipeline] // timeout
+[2026-10-10T08:24:22.030Z] [Pipeline] }
+[2026-10-10T08:24:22.065Z] [Pipeline] // withEnv
+[2026-10-10T08:24:22.087Z] [Pipeline] }
+[2026-10-10T08:24:22.128Z] [Pipeline] // withEnv
+[2026-10-10T08:24:22.151Z] [Pipeline] }
+[2026-10-10T08:24:22.200Z] [Pipeline] // node
+[2026-10-10T08:24:22.243Z] [Pipeline] End of Pipeline
+[2026-10-10T08:24:22.287Z] ERROR: script returned exit code 1
+[2026-10-10T08:24:22.309Z] Finished: FAILURE

@@ -1,0 +1,702 @@
+{
+  "file": "016",
+  "ok": true,
+  "errors": [],
+  "imports": [],
+  "annotations": [],
+  "methods": [],
+  "classes": [],
+  "statements": [
+    {
+      "k": "decl",
+      "name": "label",
+      "value": {
+        "t": "gstr",
+        "v": "\"jenkins-node-${UUID.randomUUID().toString()}\"",
+        "vars": [
+          "{UUID.randomUUID().toString()}"
+        ],
+        "calls": [
+          {
+            "k": "call",
+            "name": "toString",
+            "args": [],
+            "named": {},
+            "line": 1,
+            "col": 28,
+            "endLine": 1,
+            "endCol": 58,
+            "receiver": "UUID.randomUUID()",
+            "receiverCalls": [
+              {
+                "k": "call",
+                "name": "randomUUID",
+                "args": [],
+                "named": {},
+                "line": 1,
+                "col": 29,
+                "endLine": 1,
+                "endCol": 46,
+                "receiver": "UUID"
+              }
+            ]
+          }
+        ],
+        "line": 1,
+        "col": 13,
+        "endLine": 1,
+        "endCol": 59
+      },
+      "annotations": [],
+      "line": 1,
+      "col": 1,
+      "endLine": 1,
+      "endCol": 59
+    },
+    {
+      "k": "call",
+      "name": "podTemplate",
+      "args": [],
+      "named": {
+        "label": {
+          "t": "var",
+          "name": "label",
+          "line": 2,
+          "col": 20,
+          "endLine": 2,
+          "endCol": 25
+        },
+        "containers": {
+          "t": "list",
+          "v": [
+            {
+              "t": "call",
+              "call": {
+                "k": "call",
+                "name": "containerTemplate",
+                "args": [],
+                "named": {
+                  "name": {
+                    "t": "str",
+                    "v": "maven",
+                    "line": 3,
+                    "col": 29,
+                    "endLine": 3,
+                    "endCol": 36
+                  },
+                  "image": {
+                    "t": "str",
+                    "v": "086658912680.dkr.ecr.eu-west-1.amazonaws.com/cvs/maven-builder:latest",
+                    "line": 3,
+                    "col": 45,
+                    "endLine": 3,
+                    "endCol": 116
+                  },
+                  "ttyEnabled": {
+                    "t": "bool",
+                    "v": true,
+                    "line": 3,
+                    "col": 130,
+                    "endLine": 3,
+                    "endCol": 134
+                  },
+                  "command": {
+                    "t": "str",
+                    "v": "cat",
+                    "line": 3,
+                    "col": 145,
+                    "endLine": 3,
+                    "endCol": 150
+                  }
+                },
+                "line": 3,
+                "col": 5,
+                "endLine": 3,
+                "endCol": 151
+              },
+              "line": 3,
+              "col": 5,
+              "endLine": 3,
+              "endCol": 151
+            }
+          ],
+          "line": 2,
+          "col": 39,
+          "endLine": 3,
+          "endCol": 153
+        }
+      },
+      "line": 2,
+      "col": 1,
+      "endLine": 49,
+      "endCol": 2,
+      "body": [
+        {
+          "k": "call",
+          "name": "node",
+          "args": [
+            {
+              "t": "var",
+              "name": "label",
+              "line": 5,
+              "col": 10,
+              "endLine": 5,
+              "endCol": 15
+            }
+          ],
+          "named": {},
+          "line": 5,
+          "col": 5,
+          "endLine": 48,
+          "endCol": 6,
+          "body": [
+            {
+              "k": "call",
+              "name": "container",
+              "args": [
+                {
+                  "t": "str",
+                  "v": "maven",
+                  "line": 6,
+                  "col": 19,
+                  "endLine": 6,
+                  "endCol": 26
+                }
+              ],
+              "named": {},
+              "line": 6,
+              "col": 9,
+              "endLine": 47,
+              "endCol": 7,
+              "body": [
+                {
+                  "k": "call",
+                  "name": "withFolderProperties",
+                  "args": [],
+                  "named": {},
+                  "line": 8,
+                  "col": 6,
+                  "endLine": 10,
+                  "endCol": 14,
+                  "body": [
+                    {
+                      "k": "assign",
+                      "op": "=",
+                      "target": "LBRANCH",
+                      "value": {
+                        "t": "call",
+                        "call": {
+                          "k": "call",
+                          "name": "toLowerCase",
+                          "args": [],
+                          "named": {},
+                          "line": 9,
+                          "col": 25,
+                          "endLine": 9,
+                          "endCol": 54,
+                          "receiver": "\"${env.BRANCH}\""
+                        },
+                        "line": 9,
+                        "col": 25,
+                        "endLine": 9,
+                        "endCol": 54
+                      },
+                      "line": 9,
+                      "col": 17,
+                      "endLine": 9,
+                      "endCol": 54
+                    }
+                  ]
+                },
+                {
+                  "k": "assign",
+                  "op": "=",
+                  "target": "APP_ID",
+                  "value": {
+                    "t": "str",
+                    "v": "",
+                    "line": 12,
+                    "col": 20,
+                    "endLine": 12,
+                    "endCol": 22
+                  },
+                  "line": 12,
+                  "col": 13,
+                  "endLine": 12,
+                  "endCol": 22
+                },
+                {
+                  "k": "call",
+                  "name": "stage",
+                  "args": [
+                    {
+                      "t": "str",
+                      "v": "checkout",
+                      "line": 14,
+                      "col": 19,
+                      "endLine": 14,
+                      "endCol": 29
+                    }
+                  ],
+                  "named": {},
+                  "line": 14,
+                  "col": 13,
+                  "endLine": 16,
+                  "endCol": 14,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "checkout",
+                      "args": [
+                        {
+                          "t": "var",
+                          "name": "scm",
+                          "line": 15,
+                          "col": 26,
+                          "endLine": 15,
+                          "endCol": 29
+                        }
+                      ],
+                      "named": {},
+                      "line": 15,
+                      "col": 17,
+                      "endLine": 15,
+                      "endCol": 29
+                    }
+                  ]
+                },
+                {
+                  "k": "call",
+                  "name": "stage",
+                  "args": [
+                    {
+                      "t": "str",
+                      "v": "Get IPA from AWS S3",
+                      "line": 18,
+                      "col": 12,
+                      "endLine": 18,
+                      "endCol": 33
+                    }
+                  ],
+                  "named": {},
+                  "line": 18,
+                  "col": 6,
+                  "endLine": 22,
+                  "endCol": 7,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "withCredentials",
+                      "args": [
+                        {
+                          "t": "list",
+                          "v": [
+                            {
+                              "t": "map",
+                              "v": {
+                                "$class": {
+                                  "t": "str",
+                                  "v": "AmazonWebServicesCredentialsBinding",
+                                  "line": 19,
+                                  "col": 43,
+                                  "endLine": 19,
+                                  "endCol": 80
+                                },
+                                "accessKeyVariable": {
+                                  "t": "str",
+                                  "v": "AWS_ACCESS_KEY_ID",
+                                  "line": 19,
+                                  "col": 101,
+                                  "endLine": 19,
+                                  "endCol": 120
+                                },
+                                "credentialsId": {
+                                  "t": "str",
+                                  "v": "jenkins-iam",
+                                  "line": 19,
+                                  "col": 137,
+                                  "endLine": 19,
+                                  "endCol": 150
+                                },
+                                "secretKeyVariable": {
+                                  "t": "str",
+                                  "v": "AWS_SECRET_ACCESS_KEY",
+                                  "line": 19,
+                                  "col": 171,
+                                  "endLine": 19,
+                                  "endCol": 194
+                                }
+                              },
+                              "line": 19,
+                              "col": 34,
+                              "endLine": 19,
+                              "endCol": 195
+                            }
+                          ],
+                          "line": 19,
+                          "col": 33,
+                          "endLine": 19,
+                          "endCol": 196
+                        }
+                      ],
+                      "named": {},
+                      "line": 19,
+                      "col": 17,
+                      "endLine": 21,
+                      "endCol": 18,
+                      "body": [
+                        {
+                          "k": "call",
+                          "name": "sh",
+                          "args": [
+                            {
+                              "t": "gstr",
+                              "v": "\"aws s3 cp s3://dvsa-cvs-mobile-artefacts/files/${LBRANCH}.txt ${LBRANCH}.txt\"",
+                              "vars": [
+                                "{LBRANCH}",
+                                "{LBRANCH}"
+                              ],
+                              "calls": [],
+                              "line": 20,
+                              "col": 9,
+                              "endLine": 20,
+                              "endCol": 87
+                            }
+                          ],
+                          "named": {},
+                          "line": 20,
+                          "col": 6,
+                          "endLine": 20,
+                          "endCol": 87
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "k": "call",
+                  "name": "stage",
+                  "args": [
+                    {
+                      "t": "str",
+                      "v": "install ipa in browserstack",
+                      "line": 24,
+                      "col": 19,
+                      "endLine": 24,
+                      "endCol": 48
+                    }
+                  ],
+                  "named": {},
+                  "line": 24,
+                  "col": 13,
+                  "endLine": 29,
+                  "endCol": 14,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "sh",
+                      "args": [
+                        {
+                          "t": "gstr",
+                          "v": "\"wget -O CVSMobile.ipa `cat ${LBRANCH}.txt`\"",
+                          "vars": [
+                            "{LBRANCH}"
+                          ],
+                          "calls": [],
+                          "line": 25,
+                          "col": 6,
+                          "endLine": 25,
+                          "endCol": 50
+                        }
+                      ],
+                      "named": {},
+                      "line": 25,
+                      "col": 3,
+                      "endLine": 25,
+                      "endCol": 50
+                    },
+                    {
+                      "k": "call",
+                      "name": "withCredentials",
+                      "args": [
+                        {
+                          "t": "list",
+                          "v": [
+                            {
+                              "t": "call",
+                              "call": {
+                                "k": "call",
+                                "name": "usernameColonPassword",
+                                "args": [],
+                                "named": {
+                                  "credentialsId": {
+                                    "t": "str",
+                                    "v": "browserstack-uploader",
+                                    "line": 26,
+                                    "col": 71,
+                                    "endLine": 26,
+                                    "endCol": 94
+                                  },
+                                  "variable": {
+                                    "t": "str",
+                                    "v": "BROWSERSTACK_CREDS",
+                                    "line": 26,
+                                    "col": 106,
+                                    "endLine": 26,
+                                    "endCol": 126
+                                  }
+                                },
+                                "line": 26,
+                                "col": 34,
+                                "endLine": 26,
+                                "endCol": 127
+                              },
+                              "line": 26,
+                              "col": 34,
+                              "endLine": 26,
+                              "endCol": 127
+                            }
+                          ],
+                          "line": 26,
+                          "col": 33,
+                          "endLine": 26,
+                          "endCol": 128
+                        }
+                      ],
+                      "named": {},
+                      "line": 26,
+                      "col": 17,
+                      "endLine": 28,
+                      "endCol": 18,
+                      "body": [
+                        {
+                          "k": "assign",
+                          "op": "=",
+                          "target": "APP_ID",
+                          "value": {
+                            "t": "call",
+                            "call": {
+                              "k": "call",
+                              "name": "trim",
+                              "args": [],
+                              "named": {},
+                              "line": 27,
+                              "col": 27,
+                              "endLine": 27,
+                              "endCol": 200,
+                              "receiver": "sh(script: 'curl -u $BROWSERSTACK_CREDS -X POST \"https://api-cloud.browserstack.com/app-automate/upload\" -F \"file=@CVSMobile.ipa\" | jq \".app_url\"',returnStdout: true)",
+                              "receiverCalls": [
+                                {
+                                  "k": "call",
+                                  "name": "sh",
+                                  "args": [],
+                                  "named": {
+                                    "script": {
+                                      "t": "str",
+                                      "v": "curl -u $BROWSERSTACK_CREDS -X POST \"https://api-cloud.browserstack.com/app-automate/upload\" -F \"file=@CVSMobile.ipa\" | jq \".app_url\"",
+                                      "line": 27,
+                                      "col": 38,
+                                      "endLine": 27,
+                                      "endCol": 173
+                                    },
+                                    "returnStdout": {
+                                      "t": "bool",
+                                      "v": true,
+                                      "line": 27,
+                                      "col": 188,
+                                      "endLine": 27,
+                                      "endCol": 192
+                                    }
+                                  },
+                                  "line": 27,
+                                  "col": 27,
+                                  "endLine": 27,
+                                  "endCol": 193
+                                }
+                              ]
+                            },
+                            "line": 27,
+                            "col": 27,
+                            "endLine": 27,
+                            "endCol": 200
+                          },
+                          "line": 27,
+                          "col": 20,
+                          "endLine": 27,
+                          "endCol": 200
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "k": "call",
+                  "name": "stage",
+                  "args": [
+                    {
+                      "t": "str",
+                      "v": "test",
+                      "line": 31,
+                      "col": 20,
+                      "endLine": 31,
+                      "endCol": 26
+                    }
+                  ],
+                  "named": {},
+                  "line": 31,
+                  "col": 13,
+                  "endLine": 35,
+                  "endCol": 14,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "browserstack",
+                      "args": [
+                        {
+                          "t": "str",
+                          "v": "browserstack",
+                          "line": 32,
+                          "col": 30,
+                          "endLine": 32,
+                          "endCol": 44
+                        }
+                      ],
+                      "named": {},
+                      "line": 32,
+                      "col": 17,
+                      "endLine": 34,
+                      "endCol": 4,
+                      "body": [
+                        {
+                          "k": "call",
+                          "name": "sh",
+                          "args": [
+                            {
+                              "t": "gstr",
+                              "v": "\"mvn --batch-mode clean install -PCI-Browserstack -DBROWSERSTACK_APP_ID=${APP_ID} -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn\"",
+                              "vars": [
+                                "{APP_ID}"
+                              ],
+                              "calls": [],
+                              "line": 33,
+                              "col": 24,
+                              "endLine": 33,
+                              "endCol": 197
+                            }
+                          ],
+                          "named": {},
+                          "line": 33,
+                          "col": 21,
+                          "endLine": 33,
+                          "endCol": 197
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "k": "call",
+                  "name": "stage",
+                  "args": [
+                    {
+                      "t": "str",
+                      "v": "create report",
+                      "line": 37,
+                      "col": 19,
+                      "endLine": 37,
+                      "endCol": 34
+                    }
+                  ],
+                  "named": {},
+                  "line": 37,
+                  "col": 13,
+                  "endLine": 46,
+                  "endCol": 14,
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "publishHTML",
+                      "args": [],
+                      "named": {
+                        "target": {
+                          "t": "map",
+                          "v": {
+                            "allowMissing": {
+                              "t": "bool",
+                              "v": false,
+                              "line": 38,
+                              "col": 54,
+                              "endLine": 38,
+                              "endCol": 59
+                            },
+                            "alwaysLinkToLastBuild": {
+                              "t": "bool",
+                              "v": false,
+                              "line": 39,
+                              "col": 41,
+                              "endLine": 39,
+                              "endCol": 46
+                            },
+                            "keepAll": {
+                              "t": "bool",
+                              "v": true,
+                              "line": 40,
+                              "col": 27,
+                              "endLine": 40,
+                              "endCol": 31
+                            },
+                            "reportDir": {
+                              "t": "str",
+                              "v": "target/site/serenity",
+                              "line": 41,
+                              "col": 29,
+                              "endLine": 41,
+                              "endCol": 51
+                            },
+                            "reportFiles": {
+                              "t": "str",
+                              "v": "index.html",
+                              "line": 42,
+                              "col": 31,
+                              "endLine": 42,
+                              "endCol": 43
+                            },
+                            "reportName": {
+                              "t": "str",
+                              "v": "DVSA CVS Mobile Automation",
+                              "line": 43,
+                              "col": 30,
+                              "endLine": 43,
+                              "endCol": 58
+                            },
+                            "reportTitles": {
+                              "t": "str",
+                              "v": "DVSA CVS Mobile Automation",
+                              "line": 44,
+                              "col": 32,
+                              "endLine": 45,
+                              "endCol": 16
+                            }
+                          },
+                          "line": 38,
+                          "col": 38,
+                          "endLine": 45,
+                          "endCol": 17
+                        }
+                      },
+                      "line": 38,
+                      "col": 17,
+                      "endLine": 45,
+                      "endCol": 18
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "source_sha256": "668476e41272bc046daf8622e298b91d122b4fdaf5aad8c6804ae053b7025ca7"
+}

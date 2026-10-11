@@ -1,0 +1,455 @@
+{
+  "dialect": "scripted",
+  "agent": {
+    "kind": "label",
+    "label": "Globals.NONPROD_BUILDER_TAG",
+    "line": 19
+  },
+  "libraries": [
+    "MesSharedLibrary@master"
+  ],
+  "stages": [
+    {
+      "line": 8,
+      "steps": [
+        {
+          "name": "<decl>",
+          "line": 8,
+          "named": {
+            "_target": "Globals"
+          },
+          "body": [
+            {
+              "name": "new Globals",
+              "line": 8,
+              "category": "unknown"
+            }
+          ],
+          "category": "dynamic",
+          "source": "Globals = new Globals(...)",
+          "dynamic": true
+        },
+        {
+          "name": "<decl>",
+          "line": 9,
+          "named": {
+            "_target": "CommonFunctions"
+          },
+          "body": [
+            {
+              "name": "new CommonFunctions",
+              "line": 9,
+              "category": "unknown"
+            }
+          ],
+          "category": "dynamic",
+          "source": "CommonFunctions = new CommonFunctions(...)",
+          "dynamic": true
+        },
+        {
+          "name": "<decl>",
+          "line": 10,
+          "named": {
+            "_target": "GitFunctions"
+          },
+          "body": [
+            {
+              "name": "new GitFunctions",
+              "line": 10,
+              "category": "unknown"
+            }
+          ],
+          "category": "dynamic",
+          "source": "GitFunctions = new GitFunctions(...)",
+          "dynamic": true
+        },
+        {
+          "name": "<decl>",
+          "line": 11,
+          "named": {
+            "_target": "MobileFunctions"
+          },
+          "body": [
+            {
+              "name": "new MobileFunctions",
+              "line": 11,
+              "category": "unknown"
+            }
+          ],
+          "category": "dynamic",
+          "source": "MobileFunctions = new MobileFunctions(...)",
+          "dynamic": true
+        },
+        {
+          "name": "<decl>",
+          "line": 12,
+          "named": {
+            "_target": "NVMFunctions"
+          },
+          "body": [
+            {
+              "name": "new NVMFunctions",
+              "line": 12,
+              "category": "unknown"
+            }
+          ],
+          "category": "dynamic",
+          "source": "NVMFunctions = new NVMFunctions(...)",
+          "dynamic": true
+        },
+        {
+          "name": "<decl>",
+          "line": 14,
+          "named": {
+            "_target": "branch_name"
+          },
+          "category": "dynamic",
+          "source": "branch_name = ${env.BRANCH_NAME}",
+          "dynamic": true
+        },
+        {
+          "name": "<decl>",
+          "line": 15,
+          "named": {
+            "_target": "ionic_app_id"
+          },
+          "category": "dynamic",
+          "source": "ionic_app_id = Globals.MOBILE_APP_ID",
+          "dynamic": true
+        },
+        {
+          "name": "<decl>",
+          "line": 16,
+          "named": {
+            "_target": "nodejs_installation"
+          },
+          "category": "dynamic",
+          "source": "nodejs_installation = Globals.MOBILE_NODE_JS",
+          "dynamic": true
+        },
+        {
+          "name": "<decl>",
+          "line": 17,
+          "named": {
+            "_target": "mobile_config_branch",
+            "_literal": "master"
+          },
+          "category": "dynamic",
+          "source": "mobile_config_branch = master",
+          "dynamic": true
+        },
+        {
+          "name": "<assign>",
+          "line": 20,
+          "named": {
+            "_target": "currentBuild.description"
+          },
+          "category": "dynamic",
+          "source": "currentBuild.description = BRANCH: ${branch_name}",
+          "dynamic": true
+        },
+        {
+          "name": "deleteDir",
+          "line": 22,
+          "category": "direct"
+        },
+        {
+          "name": "<assign>",
+          "line": 24,
+          "named": {
+            "_target": "env.WSPACE"
+          },
+          "body": [
+            {
+              "name": "pwd",
+              "line": 24,
+              "category": "policy"
+            }
+          ],
+          "category": "dynamic",
+          "source": "env.WSPACE = pwd(...)",
+          "dynamic": true
+        }
+      ]
+    },
+    {
+      "name": "checkout",
+      "line": 29,
+      "steps": [
+        {
+          "name": "wrap",
+          "line": 28,
+          "named": {
+            "$class": "BuildUser"
+          },
+          "body": [
+            {
+              "name": "log",
+              "line": 30,
+              "args": [
+                "info",
+                "STAGE: Checkout"
+              ],
+              "category": "unknown",
+              "receiver": "CommonFunctions"
+            },
+            {
+              "name": "git_check_out",
+              "line": 31,
+              "args": [
+                "Globals.MOBILE_REPO",
+                "branch_name",
+                "Globals.MOBILE_NAME",
+                "Globals.GITHUB_MOBILE_CREDS",
+                false,
+                false
+              ],
+              "category": "unknown",
+              "receiver": "GitFunctions",
+              "dynamic": true,
+              "variable_args": [
+                1
+              ]
+            }
+          ],
+          "category": "policy"
+        }
+      ]
+    },
+    {
+      "name": "install dependencies",
+      "line": 33,
+      "steps": [
+        {
+          "name": "wrap",
+          "line": 28,
+          "named": {
+            "$class": "BuildUser"
+          },
+          "body": [
+            {
+              "name": "log",
+              "line": 34,
+              "args": [
+                "info",
+                "STAGE: Install Dependencies"
+              ],
+              "category": "unknown",
+              "receiver": "CommonFunctions"
+            },
+            {
+              "name": "dir",
+              "line": 35,
+              "args": [
+                "Globals.MOBILE_NAME"
+              ],
+              "body": [
+                {
+                  "name": "run",
+                  "line": 36,
+                  "args": [
+                    " -c 'npm install'"
+                  ],
+                  "category": "unknown",
+                  "receiver": "NVMFunctions"
+                }
+              ],
+              "category": "direct",
+              "dynamic": true
+            }
+          ],
+          "category": "policy"
+        }
+      ]
+    },
+    {
+      "name": "tests",
+      "line": 39,
+      "steps": [
+        {
+          "name": "wrap",
+          "line": 28,
+          "named": {
+            "$class": "BuildUser"
+          },
+          "body": [
+            {
+              "name": "log",
+              "line": 40,
+              "args": [
+                "info",
+                "STAGE: Tests"
+              ],
+              "category": "unknown",
+              "receiver": "CommonFunctions"
+            },
+            {
+              "name": "dir",
+              "line": 41,
+              "args": [
+                "Globals.MOBILE_NAME"
+              ],
+              "body": [
+                {
+                  "name": "run",
+                  "line": 42,
+                  "args": [
+                    " -c 'npm test'"
+                  ],
+                  "category": "unknown",
+                  "receiver": "NVMFunctions"
+                }
+              ],
+              "category": "direct",
+              "dynamic": true
+            }
+          ],
+          "category": "policy"
+        }
+      ]
+    },
+    {
+      "name": "build",
+      "line": 45,
+      "steps": [
+        {
+          "name": "wrap",
+          "line": 28,
+          "named": {
+            "$class": "BuildUser"
+          },
+          "body": [
+            {
+              "name": "<if>",
+              "line": 46,
+              "body": [
+                {
+                  "name": "log",
+                  "line": 47,
+                  "args": [
+                    "info",
+                    "STAGE: Build"
+                  ],
+                  "category": "unknown",
+                  "receiver": "CommonFunctions"
+                },
+                {
+                  "name": "ionic_cli_install",
+                  "line": 49,
+                  "args": [
+                    "nodejs_installation"
+                  ],
+                  "category": "unknown",
+                  "receiver": "MobileFunctions",
+                  "dynamic": true,
+                  "variable_args": [
+                    0
+                  ]
+                },
+                {
+                  "name": "<decl>",
+                  "line": 51,
+                  "named": {
+                    "_target": "commit_hash"
+                  },
+                  "body": [
+                    {
+                      "name": "git_get_commit_hash",
+                      "line": 51,
+                      "args": [
+                        "Globals.MOBILE_NAME"
+                      ],
+                      "category": "unknown",
+                      "receiver": "GitFunctions",
+                      "dynamic": true
+                    }
+                  ],
+                  "category": "dynamic",
+                  "source": "commit_hash = GitFunctions.git_get_commit_hash(...)",
+                  "dynamic": true
+                },
+                {
+                  "name": "dir",
+                  "line": 53,
+                  "args": [
+                    "Globals.MOBILE_NAME"
+                  ],
+                  "body": [
+                    {
+                      "name": "ionic_pro_push",
+                      "line": 54,
+                      "args": [
+                        "nodejs_installation",
+                        "Globals.MOBILE_DEPLOYER_KEY",
+                        "branch_name",
+                        "commit_hash",
+                        "ionic_app_id"
+                      ],
+                      "category": "unknown",
+                      "receiver": "MobileFunctions",
+                      "dynamic": true,
+                      "variable_args": [
+                        0,
+                        2,
+                        3,
+                        4
+                      ]
+                    }
+                  ],
+                  "category": "direct",
+                  "dynamic": true
+                },
+                {
+                  "name": "log",
+                  "line": 56,
+                  "args": [
+                    "info",
+                    "It takes a couple of minutes to build and publish the app to the IonicPro service."
+                  ],
+                  "category": "unknown",
+                  "receiver": "CommonFunctions"
+                }
+              ],
+              "category": "dynamic",
+              "source": "branch_name == \"develop\" || branch_name == \"origin/develop\"",
+              "dynamic": true
+            },
+            {
+              "name": "shout",
+              "line": 61,
+              "args": [
+                "ionic_app_id",
+                "35m",
+                "${Globals.MOBILE_NAME.toUpperCase(...)} ID",
+                26
+              ],
+              "category": "unknown",
+              "receiver": "CommonFunctions",
+              "dynamic": true,
+              "variable_args": [
+                0
+              ]
+            }
+          ],
+          "category": "policy"
+        }
+      ]
+    },
+    {
+      "line": 64,
+      "steps": [
+        {
+          "name": "deleteDir",
+          "line": 64,
+          "category": "direct"
+        }
+      ]
+    }
+  ],
+  "notes": [
+    "line 26: timestamps {} around stage(s) 'checkout', 'install dependencies', 'tests', 'build' dropped (native in GitHub Actions)",
+    "line 27: ansiColor {} around stage(s) 'checkout', 'install dependencies', 'tests', 'build' dropped (native in GitHub Actions)",
+    "line 28: wrap {} around stage(s) 'checkout', 'install dependencies', 'tests', 'build' re-applied inside each enclosed stage and segment",
+    "13 statement(s) outside any stage kept in source order in 2 unnamed segment(s) (from line(s) 8, 64)"
+  ]
+}

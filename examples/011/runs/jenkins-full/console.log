@@ -1,0 +1,70 @@
+[2026-10-10T08:34:00.228Z] Started by user admin
+[2026-10-10T08:34:00.336Z] [Pipeline] Start of Pipeline
+[2026-10-10T08:34:00.504Z] [Pipeline] node
+[2026-10-10T08:34:00.516Z] Running on Jenkins in /var/jenkins_home/workspace/ex-011-full
+[2026-10-10T08:34:00.534Z] [Pipeline] {
+[2026-10-10T08:34:00.564Z] [Pipeline] withEnv
+[2026-10-10T08:34:00.569Z] [Pipeline] {
+[2026-10-10T08:34:00.590Z] [Pipeline] timestamps
+[2026-10-10T08:34:00.590Z] The timestamps step is unnecessary when timestamps are enabled for all Pipeline builds.
+[2026-10-10T08:34:00.595Z] [Pipeline] {
+[2026-10-10T08:34:00.622Z] [Pipeline] stage
+[2026-10-10T08:34:00.627Z] [Pipeline] { (Checkout)
+[2026-10-10T08:34:00.656Z] [Pipeline] checkout
+[2026-10-10T08:34:00.662Z] The recommended git tool is: NONE
+[2026-10-10T08:34:00.662Z] No credentials specified
+[2026-10-10T08:34:00.662Z]  > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/ex-011-full/.git # timeout=10
+[2026-10-10T08:34:00.669Z] Fetching changes from the remote Git repository
+[2026-10-10T08:34:00.671Z]  > git config remote.origin.url https://github.com/oneanupam/jenkins-shared-libs.git # timeout=10
+[2026-10-10T08:34:00.678Z] Fetching upstream changes from https://github.com/oneanupam/jenkins-shared-libs.git
+[2026-10-10T08:34:00.678Z]  > git --version # timeout=10
+[2026-10-10T08:34:00.683Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T08:34:00.683Z]  > git fetch --no-tags --force --progress -- https://github.com/oneanupam/jenkins-shared-libs.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T08:34:01.164Z]  > git rev-parse c4b839ddc8934f978a3f5c336dd144bfaf5fc464^{commit} # timeout=10
+[2026-10-10T08:34:01.171Z] Checking out Revision c4b839ddc8934f978a3f5c336dd144bfaf5fc464 (detached)
+[2026-10-10T08:34:01.171Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T08:34:01.178Z]  > git checkout -f c4b839ddc8934f978a3f5c336dd144bfaf5fc464 # timeout=10
+[2026-10-10T08:34:01.188Z] Commit message: "feat: kzb-01 initial commit"
+[2026-10-10T08:34:01.188Z]  > git rev-list --no-walk c4b839ddc8934f978a3f5c336dd144bfaf5fc464 # timeout=10
+[2026-10-10T08:34:01.213Z] [Pipeline] }
+[2026-10-10T08:34:01.235Z] [Pipeline] // stage
+[2026-10-10T08:34:01.256Z] [Pipeline] stage
+[2026-10-10T08:34:01.261Z] [Pipeline] { (Install)
+[2026-10-10T08:34:01.286Z] [Pipeline] sh
+[2026-10-10T08:34:01.545Z] + j2gha-stub
+[2026-10-10T08:34:01.545Z] /var/jenkins_home/workspace/ex-011-full@tmp/durable-786f878c/script.sh.copy: 1: j2gha-stub: not found
+[2026-10-10T08:34:01.577Z] [Pipeline] }
+[2026-10-10T08:34:01.609Z] [Pipeline] // stage
+[2026-10-10T08:34:01.638Z] [Pipeline] stage
+[2026-10-10T08:34:01.642Z] [Pipeline] { (Test)
+[2026-10-10T08:34:01.655Z] Stage "Test" skipped due to earlier failure(s)
+[2026-10-10T08:34:01.663Z] [Pipeline] getContext
+[2026-10-10T08:34:01.676Z] [Pipeline] }
+[2026-10-10T08:34:01.701Z] [Pipeline] // stage
+[2026-10-10T08:34:01.723Z] [Pipeline] stage
+[2026-10-10T08:34:01.728Z] [Pipeline] { (Build)
+[2026-10-10T08:34:01.740Z] Stage "Build" skipped due to earlier failure(s)
+[2026-10-10T08:34:01.749Z] [Pipeline] getContext
+[2026-10-10T08:34:01.762Z] [Pipeline] }
+[2026-10-10T08:34:01.786Z] [Pipeline] // stage
+[2026-10-10T08:34:01.810Z] [Pipeline] stage
+[2026-10-10T08:34:01.815Z] [Pipeline] { (Declarative: Post Actions)
+[2026-10-10T08:34:01.845Z] [Pipeline] junit
+[2026-10-10T08:34:01.850Z] Recording test results
+[2026-10-10T08:34:01.851Z] No test report files were found. Configuration error?
+[2026-10-10T08:34:01.857Z] [Checks API] No suitable checks publisher found.
+[2026-10-10T08:34:01.875Z] [Pipeline] archiveArtifacts
+[2026-10-10T08:34:01.882Z] Archiving artifacts
+[2026-10-10T08:34:01.908Z] [Pipeline] echo
+[2026-10-10T08:34:01.914Z] j2gha-stub failed
+[2026-10-10T08:34:01.929Z] [Pipeline] }
+[2026-10-10T08:34:01.959Z] [Pipeline] // stage
+[2026-10-10T08:34:01.973Z] [Pipeline] }
+[2026-10-10T08:34:02.008Z] [Pipeline] // timestamps
+[2026-10-10T08:34:02.031Z] [Pipeline] }
+[2026-10-10T08:34:02.065Z] [Pipeline] // withEnv
+[2026-10-10T08:34:02.079Z] [Pipeline] }
+[2026-10-10T08:34:02.108Z] [Pipeline] // node
+[2026-10-10T08:34:02.137Z] [Pipeline] End of Pipeline
+[2026-10-10T08:34:02.153Z] ERROR: script returned exit code 127
+[2026-10-10T08:34:02.170Z] Finished: FAILURE

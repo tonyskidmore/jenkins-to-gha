@@ -1,0 +1,186 @@
+# j2gha act variant (full) of examples/102
+name: 'j2gha 102: jenkinsci/jenkins Jenkinsfile (j2gha)'
+on:
+  push:
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  BRANCH_NAME: master
+  TAG_NAME: ''
+  CHANGE_ID: ''
+  BUILD_TAG: gha-${{ github.repository_owner }}-${{ github.event.repository.name }}-${{ github.run_number }}
+  JOB_NAME: ${{ github.workflow }}
+  GIT_COMMIT: d076aeb66b68af42c61568676bf29dba9ae3cee8
+  GIT_BRANCH: origin/master
+  GIT_URL: ${{ github.server_url }}/${{ github.repository }}.git
+defaults:
+  run:
+    shell: bash
+jobs:
+  main:
+    name: main, Record build
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+    - name: Checkout
+      uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      with:
+        persist-credentials: false
+    - name: 'Record build: checkout'
+      id: s1
+      uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      with:
+        persist-credentials: false
+    - name: 'Record build: echo launchable verify && echo launchable record build --name ${launch'
+      id: s2
+      run: |-
+        j2gha_script="$(mktemp "${RUNNER_TEMP:-/tmp}/j2gha-retry.XXXXXX")"
+        cat > "$j2gha_script" <<'J2GHA_RETRY_EOF'
+        echo launchable verify && echo launchable record build --name ${launchableName} --source jenkinsci/jenkins=.
+        J2GHA_RETRY_EOF
+        for attempt in $(seq 1 2); do
+          rc=0
+          bash --noprofile --norc -eo pipefail "$j2gha_script" || rc=$?
+          if [ "$rc" = 0 ]; then break; fi
+          if [ "$attempt" = 2 ]; then exit "$rc"; fi
+          echo "retrying ($attempt/2)"
+        done
+      shell: bash
+      env:
+        LAUNCHABLE_TOKEN: j2gha-fake-secret
+    - name: 'Record build: combinations (manual migration)'
+      id: s6
+      run: |-
+        j2gha_script="$(mktemp "${RUNNER_TEMP:-/tmp}/j2gha-retry.XXXXXX")"
+        cat > "$j2gha_script" <<'J2GHA_RETRY_EOF'
+        echo "::warning::Jenkins step 'combinations' requires manual migration"
+        J2GHA_RETRY_EOF
+        for attempt in $(seq 1 2); do
+          rc=0
+          bash --noprofile --norc -eo pipefail "$j2gha_script" || rc=$?
+          if [ "$rc" = 0 ]; then break; fi
+          if [ "$attempt" = 2 ]; then exit "$rc"; fi
+          echo "retrying ($attempt/2)"
+        done
+      shell: bash
+      env:
+        LAUNCHABLE_TOKEN: j2gha-fake-secret
+    - name: 'Record build: Groovy if (manual)'
+      id: s3
+      run: |-
+        j2gha_script="$(mktemp "${RUNNER_TEMP:-/tmp}/j2gha-retry.XXXXXX")"
+        cat > "$j2gha_script" <<'J2GHA_RETRY_EOF'
+        echo "::warning::manual migration: Groovy condition at line 38: platform == 'windows' && jdk != axes.jdks.last()"
+        J2GHA_RETRY_EOF
+        for attempt in $(seq 1 2); do
+          rc=0
+          bash --noprofile --norc -eo pipefail "$j2gha_script" || rc=$?
+          if [ "$rc" = 0 ]; then break; fi
+          if [ "$attempt" = 2 ]; then exit "$rc"; fi
+          echo "retrying ($attempt/2)"
+        done
+      shell: bash
+      env:
+        LAUNCHABLE_TOKEN: j2gha-fake-secret
+    - name: 'Record build: echo launchable record session --build ${launchableName} --flavor plat'
+      id: s4
+      run: |-
+        j2gha_script="$(mktemp "${RUNNER_TEMP:-/tmp}/j2gha-retry.XXXXXX")"
+        cat > "$j2gha_script" <<'J2GHA_RETRY_EOF'
+        echo launchable record session --build ${launchableName} --flavor platform=${platform} --flavor jdk=${jdk} >${sessionFile}
+        J2GHA_RETRY_EOF
+        for attempt in $(seq 1 2); do
+          rc=0
+          bash --noprofile --norc -eo pipefail "$j2gha_script" || rc=$?
+          if [ "$rc" = 0 ]; then break; fi
+          if [ "$attempt" = 2 ]; then exit "$rc"; fi
+          echo "retrying ($attempt/2)"
+        done
+      shell: bash
+      env:
+        LAUNCHABLE_TOKEN: j2gha-fake-secret
+    - name: 'Record build: stash sessionFile'
+      id: s5
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: stash-sessionFile
+        path: |-
+          sessionFile
+          !**/.git
+          !**/.git/**
+          !**/.gitignore
+          !**/.gitattributes
+          !**/.gitmodules
+          !**/.svn
+          !**/.svn/**
+          !**/.hg
+          !**/.hg/**
+          !**/.hgignore
+          !**/.hgtags
+          !**/.bzr
+          !**/.bzr/**
+          !**/.bzrignore
+          !**/CVS
+          !**/CVS/**
+          !**/.cvsignore
+          !**/SCCS
+          !**/SCCS/**
+          !**/vssver.scc
+          !**/.DS_Store
+          !**/*~
+          !**/#*#
+          !**/.#*
+          !**/%*%
+          !**/._*
+        retention-days: 1
+        include-hidden-files: true
+        if-no-files-found: error
+      env:
+        LAUNCHABLE_TOKEN: j2gha-fake-secret
+    - name: 'Record build: echo launchable verify && echo launchable record commit'
+      id: s7
+      run: |-
+        j2gha_script="$(mktemp "${RUNNER_TEMP:-/tmp}/j2gha-retry.XXXXXX")"
+        cat > "$j2gha_script" <<'J2GHA_RETRY_EOF'
+        echo launchable verify && echo launchable record commit
+        J2GHA_RETRY_EOF
+        for attempt in $(seq 1 2); do
+          rc=0
+          bash --noprofile --norc -eo pipefail "$j2gha_script" || rc=$?
+          if [ "$rc" = 0 ]; then break; fi
+          if [ "$attempt" = 2 ]; then exit "$rc"; fi
+          echo "retrying ($attempt/2)"
+        done
+      shell: bash
+      env:
+        LAUNCHABLE_TOKEN: j2gha-fake-secret
+    - name: 'Record build: echo launchable verify && echo launchable record commit'
+      id: s8
+      run: |-
+        j2gha_script="$(mktemp "${RUNNER_TEMP:-/tmp}/j2gha-retry.XXXXXX")"
+        cat > "$j2gha_script" <<'J2GHA_RETRY_EOF'
+        echo launchable verify && echo launchable record commit
+        J2GHA_RETRY_EOF
+        for attempt in $(seq 1 2); do
+          rc=0
+          bash --noprofile --norc -eo pipefail "$j2gha_script" || rc=$?
+          if [ "$rc" = 0 ]; then break; fi
+          if [ "$attempt" = 2 ]; then exit "$rc"; fi
+          echo "retrying ($attempt/2)"
+        done
+      shell: bash
+      env:
+        LAUNCHABLE_TOKEN: j2gha-fake-secret
+    - name: combinations (manual migration)
+      id: s10
+      run: echo "::warning::Jenkins step 'combinations' requires manual migration"
+    - name: ': Groovy if (manual)'
+      id: s9
+      run: 'echo "::warning::manual migration: Groovy condition at line 64: platform == ''windows'' && jdk != axes.jdks.last()"'
+    - name: combinations (manual migration)
+      id: s11
+      run: echo "::warning::Jenkins step 'combinations' requires manual migration"
+    - name: maybePublishIncrementals (manual migration)
+      id: s12
+      run: echo "::warning::Jenkins step 'maybePublishIncrementals' requires manual migration"

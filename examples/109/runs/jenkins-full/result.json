@@ -1,0 +1,697 @@
+{
+  "tier": "jenkins",
+  "mode": "full",
+  "scenario": {
+    "branch": "master",
+    "git_branch": "origin/master"
+  },
+  "localisation": {
+    "changes": [
+      "L13: options {} removed (empty after repairs)"
+    ],
+    "stubs": [
+      "build",
+      "mail",
+      "emailext",
+      "slackSend",
+      "office365ConnectorSend",
+      "githubNotify",
+      "setGitHubPullRequestStatus",
+      "publishChecks",
+      "s3Upload",
+      "s3Download",
+      "copyArtifacts",
+      "waitForQualityGate",
+      "recordIssues",
+      "publishCoverage",
+      "recordCoverage",
+      "jacoco",
+      "cobertura",
+      "milestone",
+      "properties",
+      "buildDiscarder",
+      "checkout(GIT_BRANCH kept)",
+      "withSonarQubeEnv",
+      "withAWS",
+      "withKubeConfig",
+      "withVault",
+      "azureCLI",
+      "container",
+      "sshagent",
+      "withDockerRegistry",
+      "configFileProvider",
+      "withMaven",
+      "withGradle",
+      "withPythonEnv",
+      "podTemplate",
+      "wrap",
+      "withDockerContainer"
+    ],
+    "auto_repairs": {
+      "removed": [
+        [
+          "remove-directive",
+          "options"
+        ]
+      ],
+      "stubbed": [],
+      "ineffective": []
+    }
+  },
+  "attempts": [
+    {
+      "attempt": 0,
+      "phase": "validate",
+      "errors": "Errors encountered validating Jenkinsfile:\nWorkflowScript: 13: options can not be empty @ line 13, column 5.\n       options {\n       ^",
+      "repairs": [
+        [
+          "remove-directive",
+          "options"
+        ]
+      ],
+      "stubs": []
+    },
+    {
+      "attempt": 1,
+      "phase": "run",
+      "build": 1,
+      "result": "SUCCESS",
+      "seconds": 107.8,
+      "repairs": [],
+      "stubs": []
+    }
+  ],
+  "result": "SUCCESS",
+  "build": 1,
+  "duration_ms": 105423,
+  "stages": [
+    {
+      "name": "Declarative: Checkout SCM",
+      "status": "SUCCESS",
+      "durationMillis": 44734
+    },
+    {
+      "name": "checkout",
+      "status": "SUCCESS",
+      "durationMillis": 50025
+    },
+    {
+      "name": "build",
+      "status": "SUCCESS",
+      "durationMillis": 402
+    },
+    {
+      "name": "Matrix - configuration_name = 'gcc-12', build_type = 'Release'",
+      "status": "SUCCESS",
+      "durationMillis": 1221
+    },
+    {
+      "name": "Matrix - configuration_name = 'gcc-13', build_type = 'Release'",
+      "status": "SUCCESS",
+      "durationMillis": 1221
+    },
+    {
+      "name": "Matrix - configuration_name = 'gcc-14', build_type = 'Release'",
+      "status": "SUCCESS",
+      "durationMillis": 1219
+    },
+    {
+      "name": "Matrix - configuration_name = 'gcc-15', build_type = 'Release'",
+      "status": "SUCCESS",
+      "durationMillis": 1221
+    },
+    {
+      "name": "Matrix - configuration_name = 'clang-17-apex', build_type = 'Release'",
+      "status": "SUCCESS",
+      "durationMillis": 1226
+    },
+    {
+      "name": "Matrix - configuration_name = 'clang-16', build_type = 'Release'",
+      "status": "SUCCESS",
+      "durationMillis": 1228
+    },
+    {
+      "name": "Matrix - configuration_name = 'clang-17', build_type = 'Release'",
+      "status": "SUCCESS",
+      "durationMillis": 1228
+    },
+    {
+      "name": "Matrix - configuration_name = 'clang-18', build_type = 'Release'",
+      "status": "SUCCESS",
+      "durationMillis": 1227
+    },
+    {
+      "name": "Matrix - configuration_name = 'clang-19', build_type = 'Release'",
+      "status": "SUCCESS",
+      "durationMillis": 1228
+    },
+    {
+      "name": "Matrix - configuration_name = 'clang-20', build_type = 'Release'",
+      "status": "SUCCESS",
+      "durationMillis": 1229
+    },
+    {
+      "name": "Matrix - configuration_name = 'gcc-12-cuda-12', build_type = 'Release'",
+      "status": "SUCCESS",
+      "durationMillis": 1229
+    },
+    {
+      "name": "Matrix - configuration_name = 'gcc-12-cuda-12-dgx', build_type = 'Release'",
+      "status": "SUCCESS",
+      "durationMillis": 1230
+    },
+    {
+      "name": "Matrix - configuration_name = 'hipcc', build_type = 'Release'",
+      "status": "SUCCESS",
+      "durationMillis": 1226
+    },
+    {
+      "name": "Matrix - configuration_name = 'gcc-12', build_type = 'Debug'",
+      "status": "SUCCESS",
+      "durationMillis": 1231
+    },
+    {
+      "name": "Matrix - configuration_name = 'gcc-13', build_type = 'Debug'",
+      "status": "SUCCESS",
+      "durationMillis": 1224
+    },
+    {
+      "name": "Matrix - configuration_name = 'gcc-14', build_type = 'Debug'",
+      "status": "SUCCESS",
+      "durationMillis": 1226
+    },
+    {
+      "name": "Matrix - configuration_name = 'gcc-15', build_type = 'Debug'",
+      "status": "SUCCESS",
+      "durationMillis": 1228
+    },
+    {
+      "name": "Matrix - configuration_name = 'clang-17-apex', build_type = 'Debug'",
+      "status": "SUCCESS",
+      "durationMillis": 1232
+    },
+    {
+      "name": "Matrix - configuration_name = 'clang-16', build_type = 'Debug'",
+      "status": "SUCCESS",
+      "durationMillis": 1232
+    },
+    {
+      "name": "Matrix - configuration_name = 'clang-17', build_type = 'Debug'",
+      "status": "SUCCESS",
+      "durationMillis": 1232
+    },
+    {
+      "name": "Matrix - configuration_name = 'clang-18', build_type = 'Debug'",
+      "status": "SUCCESS",
+      "durationMillis": 1226
+    },
+    {
+      "name": "Matrix - configuration_name = 'clang-19', build_type = 'Debug'",
+      "status": "SUCCESS",
+      "durationMillis": 1225
+    },
+    {
+      "name": "Matrix - configuration_name = 'clang-20', build_type = 'Debug'",
+      "status": "SUCCESS",
+      "durationMillis": 1220
+    },
+    {
+      "name": "Matrix - configuration_name = 'gcc-12-cuda-12', build_type = 'Debug'",
+      "status": "SUCCESS",
+      "durationMillis": 1218
+    },
+    {
+      "name": "Matrix - configuration_name = 'gcc-12-cuda-12-dgx', build_type = 'Debug'",
+      "status": "SUCCESS",
+      "durationMillis": 1222
+    },
+    {
+      "name": "Matrix - configuration_name = 'hipcc', build_type = 'Debug'",
+      "status": "SUCCESS",
+      "durationMillis": 1239
+    },
+    {
+      "name": "build",
+      "status": "SUCCESS",
+      "durationMillis": 4003
+    },
+    {
+      "name": "build",
+      "status": "SUCCESS",
+      "durationMillis": 4005
+    },
+    {
+      "name": "build",
+      "status": "SUCCESS",
+      "durationMillis": 4014
+    },
+    {
+      "name": "build",
+      "status": "SUCCESS",
+      "durationMillis": 4012
+    },
+    {
+      "name": "build",
+      "status": "SUCCESS",
+      "durationMillis": 4009
+    },
+    {
+      "name": "build",
+      "status": "SUCCESS",
+      "durationMillis": 4015
+    },
+    {
+      "name": "build",
+      "status": "SUCCESS",
+      "durationMillis": 4028
+    },
+    {
+      "name": "build",
+      "status": "SUCCESS",
+      "durationMillis": 4035
+    },
+    {
+      "name": "build",
+      "status": "SUCCESS",
+      "durationMillis": 4064
+    },
+    {
+      "name": "build",
+      "status": "SUCCESS",
+      "durationMillis": 4069
+    },
+    {
+      "name": "build",
+      "status": "SUCCESS",
+      "durationMillis": 4082
+    },
+    {
+      "name": "build",
+      "status": "SUCCESS",
+      "durationMillis": 4088
+    },
+    {
+      "name": "build",
+      "status": "SUCCESS",
+      "durationMillis": 4095
+    },
+    {
+      "name": "build",
+      "status": "SUCCESS",
+      "durationMillis": 4097
+    },
+    {
+      "name": "build",
+      "status": "SUCCESS",
+      "durationMillis": 4099
+    },
+    {
+      "name": "build",
+      "status": "SUCCESS",
+      "durationMillis": 4101
+    },
+    {
+      "name": "build",
+      "status": "SUCCESS",
+      "durationMillis": 4105
+    },
+    {
+      "name": "build",
+      "status": "SUCCESS",
+      "durationMillis": 4112
+    },
+    {
+      "name": "build",
+      "status": "SUCCESS",
+      "durationMillis": 4258
+    },
+    {
+      "name": "build",
+      "status": "SUCCESS",
+      "durationMillis": 4299
+    },
+    {
+      "name": "build",
+      "status": "SUCCESS",
+      "durationMillis": 4322
+    },
+    {
+      "name": "build",
+      "status": "SUCCESS",
+      "durationMillis": 4345
+    },
+    {
+      "name": "build",
+      "status": "SUCCESS",
+      "durationMillis": 4372
+    },
+    {
+      "name": "build",
+      "status": "SUCCESS",
+      "durationMillis": 4376
+    },
+    {
+      "name": "build",
+      "status": "SUCCESS",
+      "durationMillis": 4404
+    },
+    {
+      "name": "build",
+      "status": "SUCCESS",
+      "durationMillis": 4413
+    },
+    {
+      "name": "Declarative: Post Actions",
+      "status": "SUCCESS",
+      "durationMillis": 673
+    }
+  ],
+  "traces": [],
+  "approved_inputs": [],
+  "error_tail": null,
+  "outputs": {
+    "archived": [
+      {
+        "path": "hpx_1/build/clang-16-Debug/Testing/Temporary/LastTest.log",
+        "size": 30,
+        "sha256": "a03fb050488d5829b98d638cade652b7af87e239070a0302db5acb53b70550b2"
+      },
+      {
+        "path": "hpx_1/build/clang-16-Release/Testing/Temporary/LastTest.log",
+        "size": 32,
+        "sha256": "19da972b0b07b219e27db87dbc6436f7975244556c163888b3e841550b074d23"
+      },
+      {
+        "path": "hpx_1/build/clang-17-apex-Debug/Testing/Temporary/LastTest.log",
+        "size": 35,
+        "sha256": "78c9591a167b2cc05c1f3473423294108057a3fce4381e83ac35575f73bdb5d0"
+      },
+      {
+        "path": "hpx_1/build/clang-17-apex-Release/Testing/Temporary/LastTest.log",
+        "size": 37,
+        "sha256": "19898f15b24293bf6708557a01fd4e8efb606723bd8246857de59e835f54045a"
+      },
+      {
+        "path": "hpx_1/build/clang-17-Debug/Testing/Temporary/LastTest.log",
+        "size": 30,
+        "sha256": "a15528608e23c6f00e38aa823988dc02ae88ed68748e29fe31aa2df6abd1edbe"
+      },
+      {
+        "path": "hpx_1/build/clang-17-Release/Testing/Temporary/LastTest.log",
+        "size": 32,
+        "sha256": "f9c6af98731b2315da6a0574296bda01181a48d0ff8e5466612d1d2521be0574"
+      },
+      {
+        "path": "hpx_1/build/clang-18-Debug/Testing/Temporary/LastTest.log",
+        "size": 30,
+        "sha256": "94c872e1f721e14a04c08f432ab8795b1186f184b9ee23692862e08837cda016"
+      },
+      {
+        "path": "hpx_1/build/clang-18-Release/Testing/Temporary/LastTest.log",
+        "size": 32,
+        "sha256": "e0a5ce33257b9233bc5c3a14b583a732398165f5921214650532a5097aef5296"
+      },
+      {
+        "path": "hpx_1/build/clang-19-Debug/Testing/Temporary/LastTest.log",
+        "size": 30,
+        "sha256": "9f7def8245483559774c4cfc9c5666d09a7b3a724b2ffff2a102a4d60b91a484"
+      },
+      {
+        "path": "hpx_1/build/clang-19-Release/Testing/Temporary/LastTest.log",
+        "size": 32,
+        "sha256": "af311a64baee93cbb94806638281db2c730934a11e13e5508564e97556a0cc8e"
+      },
+      {
+        "path": "hpx_1/build/clang-20-Debug/Testing/Temporary/LastTest.log",
+        "size": 30,
+        "sha256": "9e87d93f3ac72341b4e47ff7dad943fc4bd279d80e6cadc2f95c1c2099f5a423"
+      },
+      {
+        "path": "hpx_1/build/clang-20-Release/Testing/Temporary/LastTest.log",
+        "size": 32,
+        "sha256": "73ce302908d38211bb1a72130ed0b303bebd5315af503dd2beaf1e61d16eed6f"
+      },
+      {
+        "path": "hpx_1/build/gcc-12-cuda-12-Debug/Testing/Temporary/LastTest.log",
+        "size": 36,
+        "sha256": "daef520d1ef53990d9dfb5905414cfa15e275b9d3aa361b5b45ed3a3ff9fb7f3"
+      },
+      {
+        "path": "hpx_1/build/gcc-12-cuda-12-dgx-Debug/Testing/Temporary/LastTest.log",
+        "size": 40,
+        "sha256": "74e7898ac800028227a5e85545169ce231f1b6f7a499386ff656d6d40467be7b"
+      },
+      {
+        "path": "hpx_1/build/gcc-12-cuda-12-dgx-Release/Testing/Temporary/LastTest.log",
+        "size": 42,
+        "sha256": "bb51d97a296a6adb66068e4d1cc62e753c96e4d97c05988c51e3e583093b5e60"
+      },
+      {
+        "path": "hpx_1/build/gcc-12-cuda-12-Release/Testing/Temporary/LastTest.log",
+        "size": 38,
+        "sha256": "fff23b1574b31f81828b4d687f958d797f0b1ae0e2f7185283dd9795463794b4"
+      },
+      {
+        "path": "hpx_1/build/gcc-12-Debug/Testing/Temporary/LastTest.log",
+        "size": 28,
+        "sha256": "9fab8bb0692a1bbb08a36979fa4c2d5639974d2ae6997dff06aa687a2e267bbc"
+      },
+      {
+        "path": "hpx_1/build/gcc-12-Release/Testing/Temporary/LastTest.log",
+        "size": 30,
+        "sha256": "2c341ebebd1b238a4ba461805eed41348920c99cbf004f1010c078e7a05f60de"
+      },
+      {
+        "path": "hpx_1/build/gcc-13-Debug/Testing/Temporary/LastTest.log",
+        "size": 28,
+        "sha256": "24121ef2bc2430868c21d929a02470e0dadf34b2772034bc84d1c2a7f8e3a049"
+      },
+      {
+        "path": "hpx_1/build/gcc-13-Release/Testing/Temporary/LastTest.log",
+        "size": 30,
+        "sha256": "055a229a9a2cd3d890fa17c5a5b41256828846991b8be8574d0cf45896d5c7d0"
+      },
+      {
+        "path": "hpx_1/build/gcc-14-Debug/Testing/Temporary/LastTest.log",
+        "size": 28,
+        "sha256": "6ab51af065096a876e30ace6d95fd0140fe90cce29f61f6766a8f8fa4c00d1b4"
+      },
+      {
+        "path": "hpx_1/build/gcc-14-Release/Testing/Temporary/LastTest.log",
+        "size": 30,
+        "sha256": "6afad3da1ff9f03cbfe19964caf8774091505c0b6cb893470991042e038c235d"
+      },
+      {
+        "path": "hpx_1/build/gcc-15-Debug/Testing/Temporary/LastTest.log",
+        "size": 28,
+        "sha256": "57b0cbd12152d280ee5fd3e5fa4cdcdf917f3ef36813af703198c06b149cfbcf"
+      },
+      {
+        "path": "hpx_1/build/gcc-15-Release/Testing/Temporary/LastTest.log",
+        "size": 30,
+        "sha256": "0c957825772ad42c69cdb7fb064d2f0b419d08bd9892ebcbccbda3b58568368e"
+      },
+      {
+        "path": "hpx_1/build/hipcc-Debug/Testing/Temporary/LastTest.log",
+        "size": 27,
+        "sha256": "1d876b6de77fcd527bcbf530c42a52c0812774af2679c8a8f968636fb1946daa"
+      },
+      {
+        "path": "hpx_1/build/hipcc-Release/Testing/Temporary/LastTest.log",
+        "size": 29,
+        "sha256": "cc6f0b70ca6c21c171bed21b58537f03c8713596d7db5e4cb46e6aa7ee677697"
+      },
+      {
+        "path": "hpx_1/jenkins-hpx-clang-16-Debug.out",
+        "size": 56,
+        "sha256": "ab897eef0e9dddae8d80b55ce1e2daa49a518c866b53137ab49dd22bc162da56"
+      },
+      {
+        "path": "hpx_1/jenkins-hpx-clang-16-Release.out",
+        "size": 58,
+        "sha256": "884beadc00d30ae0b1c403dec25e28a39fdbc478687dc271a2744bee366d1b5a"
+      },
+      {
+        "path": "hpx_1/jenkins-hpx-clang-17-apex-Debug.out",
+        "size": 61,
+        "sha256": "101b5bb71e600b74965fa36dbe9c7267945484710c1a8145ece61910667fd83f"
+      },
+      {
+        "path": "hpx_1/jenkins-hpx-clang-17-apex-Release.out",
+        "size": 63,
+        "sha256": "07405d4af017877fa9da95637ba6210b68b3ef55c73afc571f9b4aa9376cfd7c"
+      },
+      {
+        "path": "hpx_1/jenkins-hpx-clang-17-Debug.out",
+        "size": 56,
+        "sha256": "b511fae5cde77b6f04f9ad04c32a4d3ad2ef6b4d39fa089802a3480095d913db"
+      },
+      {
+        "path": "hpx_1/jenkins-hpx-clang-17-Release.out",
+        "size": 58,
+        "sha256": "6b2e513dc45d52a6eb4665463401848b2b00f8369d8b5bd72cf878df8c008812"
+      },
+      {
+        "path": "hpx_1/jenkins-hpx-clang-18-Debug.out",
+        "size": 56,
+        "sha256": "fd072516b76345c75c9de333f6067e01b822475e3d68934951b1af240762163e"
+      },
+      {
+        "path": "hpx_1/jenkins-hpx-clang-18-Release.out",
+        "size": 58,
+        "sha256": "2656235e029ed6782d117ebe383c2c107bd8681a0577c95d5ad482fe335bb0e3"
+      },
+      {
+        "path": "hpx_1/jenkins-hpx-clang-19-Debug.out",
+        "size": 56,
+        "sha256": "c9b10923a6ae07648d837c2c71eb9342715362a3d97e494e969119c2ab229eaf"
+      },
+      {
+        "path": "hpx_1/jenkins-hpx-clang-19-Release.out",
+        "size": 58,
+        "sha256": "b4cc102803a0d44f25c8e269d8cff47cf63d893b190cd7b0d6aeb2866b8fd397"
+      },
+      {
+        "path": "hpx_1/jenkins-hpx-clang-20-Debug.out",
+        "size": 56,
+        "sha256": "3789a16cec27a2ef4f6d703ff8379814ca66d2cbe9b82bba76473638a5fd2f85"
+      },
+      {
+        "path": "hpx_1/jenkins-hpx-clang-20-Release.out",
+        "size": 58,
+        "sha256": "a98f120976910cefa2d917106eba119db911b0ef8210d5bad901a2a6a973b8cc"
+      },
+      {
+        "path": "hpx_1/jenkins-hpx-gcc-12-cuda-12-Debug.out",
+        "size": 62,
+        "sha256": "a4f0213e0e5a638ca9600dba8a3bade2f43925c81b0b424a82130df09d678d54"
+      },
+      {
+        "path": "hpx_1/jenkins-hpx-gcc-12-cuda-12-dgx-Debug.out",
+        "size": 66,
+        "sha256": "f08f1076dc2c3d0a8f64bd0071fae7e43cbf62b99b33a1eed2402cd463f4b0ce"
+      },
+      {
+        "path": "hpx_1/jenkins-hpx-gcc-12-cuda-12-dgx-Release.out",
+        "size": 68,
+        "sha256": "938b26d3aa29b179b85cd782c8daa72282a3fbda6c3632e6803f52e93ef2d7a2"
+      },
+      {
+        "path": "hpx_1/jenkins-hpx-gcc-12-cuda-12-Release.out",
+        "size": 64,
+        "sha256": "42270e1d4ea56c44583b283587837c283c48bb1de1d1493ac556c9bc76e34cdd"
+      },
+      {
+        "path": "hpx_1/jenkins-hpx-gcc-12-Debug.out",
+        "size": 54,
+        "sha256": "a989fc50af4b985fadec311578b5338cde6661559990508dbb568679bd574f86"
+      },
+      {
+        "path": "hpx_1/jenkins-hpx-gcc-12-Release.out",
+        "size": 56,
+        "sha256": "82e31506e34fd9b76e0796fd7211fafbfa7071f7ea9d3e99d18da478b2121904"
+      },
+      {
+        "path": "hpx_1/jenkins-hpx-gcc-13-Debug.out",
+        "size": 54,
+        "sha256": "42f2f61a69b44e440e25b0864d00c4a685da97044418fb3307a9005f48191ff4"
+      },
+      {
+        "path": "hpx_1/jenkins-hpx-gcc-13-Release.out",
+        "size": 56,
+        "sha256": "67fd0475e285db99e876698caf809ec5b25c617226c70add2dd676ab76616073"
+      },
+      {
+        "path": "hpx_1/jenkins-hpx-gcc-14-Debug.out",
+        "size": 54,
+        "sha256": "a72fa2c57d91faae5742511f4c07a16f2f558a964ebeb8a7d7e05db0da50b5c0"
+      },
+      {
+        "path": "hpx_1/jenkins-hpx-gcc-14-Release.out",
+        "size": 56,
+        "sha256": "169daf5d0601ffae8dae3c3061b1af00ff2be2fbcf68fd6d7ab3392803f63c7e"
+      },
+      {
+        "path": "hpx_1/jenkins-hpx-gcc-15-Debug.out",
+        "size": 54,
+        "sha256": "251b496eddbbd486c6b00da7f3c2001b69398f157f4116710323a178c4536f2b"
+      },
+      {
+        "path": "hpx_1/jenkins-hpx-gcc-15-Release.out",
+        "size": 56,
+        "sha256": "777fa5740d452089127e75ae3c8be0ef4947761ce1b9f22e14464daa228315e4"
+      },
+      {
+        "path": "hpx_1/jenkins-hpx-hipcc-Debug.out",
+        "size": 53,
+        "sha256": "c7517dcf74e09e512cfb1def54dcb9e9a100b912489b515636c799a4a5141d09"
+      },
+      {
+        "path": "hpx_1/jenkins-hpx-hipcc-Release.out",
+        "size": 55,
+        "sha256": "60d4a29ab81150e2770995bf6c9305f89334f2e586610ba9d0541c77222b7669"
+      }
+    ],
+    "tests": null
+  },
+  "provenance": {
+    "jenkinsfile_sha256": "da620abf48eee9166667d081b7b5fadb0e6f92771cc1b06d3f538eecb90bd78d",
+    "scenario": {
+      "branch": "master",
+      "git_branch": "origin/master"
+    },
+    "mode": "full",
+    "localizer_version": 5,
+    "images": {
+      "jenkins": {
+        "ref": "j2gha/jenkins:local",
+        "present": true,
+        "id": "sha256:672c4b841b2c934f224d4f1b3523d77a1b651f8f491f8f04da47ca764eb86775",
+        "repo_digests": [],
+        "created": "2026-10-09T18:21:15.545465961Z",
+        "labels": {
+          "j2gha.base-image": "jenkins/jenkins:lts-jdk21@sha256:a660310e39ade10631f774bacd5219de767dfd08947ea5c32a739b5e5bb382c1",
+          "org.opencontainers.image.version": "2.580.1",
+          "org.opencontainers.image.revision": "457b9316d71b43cdf3e2ba6ec7c27efc40f5dc60",
+          "org.opencontainers.image.source": "https://github.com/jenkinsci/docker"
+        },
+        "jenkins_version": "2.580.1"
+      },
+      "act": {
+        "ref": "j2gha/act:local",
+        "present": true,
+        "id": "sha256:0781bb0384b914fba362a2a2483d55d30c3d3cc9b59598856146778aa88662a4",
+        "repo_digests": [],
+        "created": "2026-10-03T06:26:46.552472741Z",
+        "labels": {},
+        "act_version": "0.2.89"
+      },
+      "act_runner": {
+        "ref": "j2gha/act-runner:local",
+        "present": true,
+        "id": "sha256:134418998a1ca958b148ee6befb038aa3ff598bf147b39ce9e99b60a563a15be",
+        "repo_digests": [],
+        "created": "2026-10-09T18:54:04.157825772Z",
+        "labels": {
+          "j2gha.base-image": "catthehacker/ubuntu:act-latest@sha256:c58e2b364da03b0c804c7d660f2ecbedf2f221a382b9baa0b344b0144780ff43",
+          "org.opencontainers.image.version": "20260815",
+          "org.opencontainers.image.revision": "e2f8efe464c82732f78e967ee709c00b6af53643",
+          "org.opencontainers.image.source": "https://github.com/catthehacker/catthehacker/docker_images"
+        }
+      },
+      "jit_runner": {
+        "ref": "j2gha/runner:local",
+        "present": true,
+        "id": "sha256:4847cf6e3e915577d28244aedfbe1b633eafa060a49d4ef313129d6841e2e667",
+        "repo_digests": [],
+        "created": "2026-10-09T18:52:46.515242869Z",
+        "labels": {
+          "j2gha.base-image": "ghcr.io/actions/actions-runner:latest@sha256:4ffadc0002b2581327e06101fc8c06cd189232baf79fe561fac9caeb76f5e807",
+          "org.opencontainers.image.version": "24.04",
+          "org.opencontainers.image.source": "https://github.com/actions/runner"
+        }
+      }
+    }
+  },
+  "finished_at": "2026-10-10T09:16:18+00:00"
+}

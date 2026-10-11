@@ -1,0 +1,430 @@
+{
+  "name": "j2gha 001: apache/couchdb build-aux/Jenkinsfile (j2gha)",
+  "on": {
+    "push": {
+      "branches": [
+        "**"
+      ]
+    },
+    "pull_request": null,
+    "workflow_dispatch": null
+  },
+  "permissions": {
+    "contents": "read"
+  },
+  "env": {
+    "BRANCH_NAME": "${{ github.head_ref || github.ref_name }}",
+    "TAG_NAME": "${{ github.ref_type == 'tag' && github.ref_name || '' }}",
+    "CHANGE_ID": "${{ github.event.pull_request.number }}",
+    "CHANGE_TARGET": "${{ github.base_ref }}",
+    "WORKSPACE": "${{ github.workspace }}",
+    "GIT_COMMITTER_NAME": "Jenkins User",
+    "GIT_COMMITTER_EMAIL": "couchdb@apache.org",
+    "DOCKER_ARGS": "-e npm_config_cache=/home/jenkins/.npm -e HOME=. -e MIX_HOME=/home/jenkins/.mix -e HEX_HOME=/home/jenkins/.hex -e PIP_CACHE_DIR=/home/jenkins/.cache/pip -v=/etc/passwd:/etc/passwd -v /etc/group:/etc/group -v /home/jenkins/.gradle:/home/jenkins/.gradle:rw,z -v /home/jenkins/.hex:/home/jenkins/.hex:rw,z -v /home/jenkins/.npm:/home/jenkins/.npm:rw,z -v /home/jenkins/.cache/pip:/home/jenkins/.cache/pip:rw,z -v /home/jenkins/.mix:/home/jenkins/.mix:rw,z",
+    "GIT_COMMIT": "${{ github.sha }}",
+    "GIT_BRANCH": "${{ github.head_ref || github.ref_name }}",
+    "GIT_URL": "${{ github.server_url }}/${{ github.repository }}.git"
+  },
+  "defaults": {
+    "run": {
+      "shell": "bash"
+    }
+  },
+  "jobs": {
+    "setup-env": {
+      "name": "Setup Env",
+      "runs-on": "ubuntu-latest",
+      "container": {
+        "image": "${DOCKER_IMAGE_BASE}-${MINIMUM_ERLANG_VERSION}",
+        "options": "${DOCKER_ARGS}",
+        "credentials": {
+          "username": "${{ secrets.DOCKERHUB_CREDS_USR }}",
+          "password": "${{ secrets.DOCKERHUB_CREDS_PSW }}"
+        }
+      },
+      "timeout-minutes": 240,
+      "steps": [
+        {
+          "name": "Checkout",
+          "uses": "actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "with": {
+            "persist-credentials": false
+          },
+          "_j2gha": {
+            "kind": "checkout",
+            "line": null,
+            "trace": false,
+            "trace_events": [
+              [
+                "Setup Env",
+                "checkout"
+              ]
+            ],
+            "role": "checkout"
+          }
+        },
+        {
+          "name": "Setup Env: enter stage",
+          "id": "s1",
+          "run": "echo \"run=true\" >> \"$GITHUB_OUTPUT\"",
+          "_j2gha": {
+            "kind": "stage-entry",
+            "stage": "Setup Env",
+            "line": 623,
+            "trace": false,
+            "trace_run": "echo \"run=true\" >> \"$GITHUB_OUTPUT\""
+          }
+        },
+        {
+          "name": "Setup Env: Groovy if (manual)",
+          "id": "s2",
+          "if": "steps.s1.outputs.run == 'true'",
+          "run": "echo \"::warning::manual migration: Groovy condition at line 639: sh(returnStatus: true, script: docs_changed) == 0 \"",
+          "_j2gha": {
+            "kind": "script-manual",
+            "stage": "Setup Env",
+            "line": 639,
+            "trace": false
+          }
+        },
+        {
+          "name": "Setup Env: Groovy if (manual)",
+          "id": "s3",
+          "if": "steps.s1.outputs.run == 'true'",
+          "run": "echo \"::warning::manual migration: Groovy condition at line 645: sh(returnStatus: true, script: github_changed) == 0 \"",
+          "_j2gha": {
+            "kind": "script-manual",
+            "stage": "Setup Env",
+            "line": 645,
+            "trace": false
+          }
+        },
+        {
+          "name": "Setup Env: ${J2GHA_TODO_wscleanup__}",
+          "id": "s4",
+          "if": "(always()) && (steps.s1.outcome == 'success')",
+          "run": "${J2GHA_TODO_wscleanup__}",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Setup Env",
+            "line": 655,
+            "trace": true
+          }
+        }
+      ]
+    },
+    "build-docs": {
+      "name": "Build Docs",
+      "needs": "setup-env",
+      "runs-on": "ubuntu-latest",
+      "container": {
+        "image": "${DOCKER_IMAGE_BASE}-${MINIMUM_ERLANG_VERSION}",
+        "options": "${DOCKER_ARGS}",
+        "credentials": {
+          "username": "${{ secrets.DOCKERHUB_CREDS_USR }}",
+          "password": "${{ secrets.DOCKERHUB_CREDS_PSW }}"
+        }
+      },
+      "timeout-minutes": 240,
+      "steps": [
+        {
+          "name": "Checkout",
+          "uses": "actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "with": {
+            "persist-credentials": false
+          },
+          "_j2gha": {
+            "kind": "checkout",
+            "line": null,
+            "trace": false,
+            "trace_events": [
+              [
+                "Build Docs",
+                "checkout"
+              ]
+            ],
+            "role": "checkout"
+          }
+        },
+        {
+          "name": "Build Docs: enter stage",
+          "id": "s5",
+          "if": "env.ONLY_DOCS_CHANGED == '1'",
+          "run": "echo \"run=true\" >> \"$GITHUB_OUTPUT\"",
+          "_j2gha": {
+            "kind": "stage-entry",
+            "stage": "Build Docs",
+            "line": 660,
+            "trace": false,
+            "trace_run": "echo \"run=true\" >> \"$GITHUB_OUTPUT\""
+          }
+        },
+        {
+          "name": "Build Docs: make python-black",
+          "id": "s6",
+          "if": "steps.s5.outputs.run == 'true'",
+          "run": "make python-black",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Build Docs",
+            "line": 677,
+            "trace": true
+          }
+        },
+        {
+          "name": "Build Docs: (cd src/docs && ./setup.sh ; make check)",
+          "id": "s7",
+          "if": "steps.s5.outputs.run == 'true'",
+          "run": "(cd src/docs && ./setup.sh  ; make check)",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Build Docs",
+            "line": 678,
+            "trace": true
+          }
+        },
+        {
+          "name": "Build Docs: (cd src/docs && make html)",
+          "id": "s8",
+          "if": "steps.s5.outputs.run == 'true'",
+          "run": "(cd src/docs && make html)",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Build Docs",
+            "line": 679,
+            "trace": true
+          }
+        },
+        {
+          "name": "Build Docs: ${J2GHA_TODO_wscleanup__}",
+          "id": "s9",
+          "if": "(always()) && (steps.s5.outcome == 'success')",
+          "run": "${J2GHA_TODO_wscleanup__}",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Build Docs",
+            "line": 683,
+            "trace": true
+          }
+        }
+      ]
+    },
+    "build-release-tarball": {
+      "name": "Build Release Tarball",
+      "needs": "build-docs",
+      "runs-on": "ubuntu-latest",
+      "container": {
+        "image": "${DOCKER_IMAGE_BASE}-${MINIMUM_ERLANG_VERSION}",
+        "options": "${DOCKER_ARGS}",
+        "credentials": {
+          "username": "${{ secrets.DOCKERHUB_CREDS_USR }}",
+          "password": "${{ secrets.DOCKERHUB_CREDS_PSW }}"
+        }
+      },
+      "timeout-minutes": 240,
+      "steps": [
+        {
+          "name": "Checkout",
+          "uses": "actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "with": {
+            "persist-credentials": false
+          },
+          "_j2gha": {
+            "kind": "checkout",
+            "line": null,
+            "trace": false,
+            "trace_events": [
+              [
+                "Build Release Tarball",
+                "checkout"
+              ]
+            ],
+            "role": "checkout"
+          }
+        },
+        {
+          "name": "Build Release Tarball: enter stage",
+          "id": "s10",
+          "if": "env.ONLY_DOCS_CHANGED == '0' && env.ONLY_GITHUB_CHANGED == '0'",
+          "run": "echo \"run=true\" >> \"$GITHUB_OUTPUT\"",
+          "_j2gha": {
+            "kind": "stage-entry",
+            "stage": "Build Release Tarball",
+            "line": 688,
+            "trace": false,
+            "trace_run": "echo \"run=true\" >> \"$GITHUB_OUTPUT\""
+          }
+        },
+        {
+          "name": "Build Release Tarball: Clean workspace of any previous release artifacts",
+          "id": "s11",
+          "if": "steps.s10.outputs.run == 'true'",
+          "run": "rm -rf apache-couchdb-*",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Build Release Tarball",
+            "line": 703,
+            "trace": true
+          }
+        },
+        {
+          "name": "Build Release Tarball: ./configure --spidermonkey-version 128 --with-nouveau",
+          "id": "s12",
+          "if": "steps.s10.outputs.run == 'true'",
+          "run": "./configure --spidermonkey-version 128 --with-nouveau",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Build Release Tarball",
+            "line": 704,
+            "trace": true
+          }
+        },
+        {
+          "name": "Build Release Tarball: make erlfmt-check",
+          "id": "s13",
+          "if": "steps.s10.outputs.run == 'true'",
+          "run": "make erlfmt-check",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Build Release Tarball",
+            "line": 705,
+            "trace": true
+          }
+        },
+        {
+          "name": "Build Release Tarball: make elixir-source-checks",
+          "id": "s14",
+          "if": "steps.s10.outputs.run == 'true'",
+          "run": "make elixir-source-checks",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Build Release Tarball",
+            "line": 706,
+            "trace": true
+          }
+        },
+        {
+          "name": "Build Release Tarball: make python-black",
+          "id": "s15",
+          "if": "steps.s10.outputs.run == 'true'",
+          "run": "make python-black",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Build Release Tarball",
+            "line": 707,
+            "trace": true
+          }
+        },
+        {
+          "name": "Build Release Tarball: make -j4 --output-sync=target dist",
+          "id": "s16",
+          "if": "steps.s10.outputs.run == 'true'",
+          "run": "make -j4 --output-sync=target dist",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Build Release Tarball",
+            "line": 708,
+            "trace": true
+          }
+        },
+        {
+          "name": "Build Release Tarball: ls -l ${WORKSPACE}",
+          "id": "s17",
+          "if": "(always()) && (steps.s10.outcome == 'success') && ((steps.s11.outcome == 'failure' || steps.s12.outcome == 'failure' || steps.s13.outcome == 'failure' || steps.s14.outcome == 'failure' || steps.s15.outcome == 'failure' || steps.s16.outcome == 'failure'))",
+          "run": "ls -l ${WORKSPACE}",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Build Release Tarball",
+            "line": 716,
+            "trace": true
+          }
+        },
+        {
+          "name": "Build Release Tarball: stash tarball",
+          "id": "s18",
+          "if": "(!cancelled()) && (steps.s10.outcome == 'success') && (!(steps.s11.outcome == 'failure' || steps.s12.outcome == 'failure' || steps.s13.outcome == 'failure' || steps.s14.outcome == 'failure' || steps.s15.outcome == 'failure' || steps.s16.outcome == 'failure' || steps.s17.outcome == 'failure'))",
+          "uses": "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "with": {
+            "name": "stash-tarball",
+            "path": "apache-couchdb-*.tar.gz\n!**/.git\n!**/.git/**\n!**/.gitignore\n!**/.gitattributes\n!**/.gitmodules\n!**/.svn\n!**/.svn/**\n!**/.hg\n!**/.hg/**\n!**/.hgignore\n!**/.hgtags\n!**/.bzr\n!**/.bzr/**\n!**/.bzrignore\n!**/CVS\n!**/CVS/**\n!**/.cvsignore\n!**/SCCS\n!**/SCCS/**\n!**/vssver.scc\n!**/.DS_Store\n!**/*~\n!**/#*#\n!**/.#*\n!**/%*%\n!**/._*",
+            "retention-days": 1,
+            "include-hidden-files": true,
+            "if-no-files-found": "error"
+          },
+          "_j2gha": {
+            "kind": "stash",
+            "stage": "Build Release Tarball",
+            "line": 712,
+            "trace": true
+          }
+        },
+        {
+          "name": "Build Release Tarball: archive artifacts",
+          "id": "s19",
+          "if": "(!cancelled()) && (steps.s10.outcome == 'success') && (!(steps.s11.outcome == 'failure' || steps.s12.outcome == 'failure' || steps.s13.outcome == 'failure' || steps.s14.outcome == 'failure' || steps.s15.outcome == 'failure' || steps.s16.outcome == 'failure' || steps.s17.outcome == 'failure'))",
+          "uses": "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "with": {
+            "name": "artifacts-19",
+            "path": "apache-couchdb-*.tar.gz\n!**/.git\n!**/.git/**\n!**/.gitignore\n!**/.gitattributes\n!**/.gitmodules\n!**/.svn\n!**/.svn/**\n!**/.hg\n!**/.hg/**\n!**/.hgignore\n!**/.hgtags\n!**/.bzr\n!**/.bzr/**\n!**/.bzrignore\n!**/CVS\n!**/CVS/**\n!**/.cvsignore\n!**/SCCS\n!**/SCCS/**\n!**/vssver.scc\n!**/.DS_Store\n!**/*~\n!**/#*#\n!**/.#*\n!**/%*%\n!**/._*",
+            "if-no-files-found": "error",
+            "include-hidden-files": true
+          },
+          "_j2gha": {
+            "kind": "archiveArtifacts",
+            "stage": "Build Release Tarball",
+            "line": 713,
+            "trace": true,
+            "root": ""
+          }
+        },
+        {
+          "name": "Build Release Tarball: ${J2GHA_TODO_wscleanup__}",
+          "id": "s20",
+          "if": "(always()) && (steps.s10.outcome == 'success')",
+          "run": "${J2GHA_TODO_wscleanup__}",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Build Release Tarball",
+            "line": 719,
+            "trace": true
+          }
+        }
+      ]
+    },
+    "test-and-package": {
+      "name": "Test and Package",
+      "needs": "build-release-tarball",
+      "runs-on": "ubuntu-latest",
+      "timeout-minutes": 240,
+      "steps": [
+        {
+          "name": "Checkout",
+          "uses": "actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "with": {
+            "persist-credentials": false
+          },
+          "_j2gha": {
+            "kind": "checkout",
+            "line": null,
+            "trace": false,
+            "trace_events": [],
+            "role": "checkout"
+          }
+        },
+        {
+          "name": "Test and Package: enter stage",
+          "id": "s21",
+          "if": "env.ONLY_DOCS_CHANGED == '0' && env.ONLY_GITHUB_CHANGED == '0'",
+          "run": "echo \"run=true\" >> \"$GITHUB_OUTPUT\"",
+          "_j2gha": {
+            "kind": "stage-entry",
+            "stage": "Test and Package",
+            "line": 724,
+            "trace": false,
+            "trace_run": "echo \"run=true\" >> \"$GITHUB_OUTPUT\""
+          }
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,18 @@
+node {
+  try {
+    stage('Build') { sh 'make build' }
+    stage('Test') { sh 'make test' }
+  } catch (e) {
+    sh './notify-failure.sh'
+    stage('Report') { echo 'build failed' }
+    throw e
+  } finally {
+    junit 'reports/*.xml'
+  }
+  stage('Deploy') { sh './deploy.sh' }
+  try {
+    sh 'make smoke'
+  } catch (err) {
+    echo 'smoke failed'
+  }
+}

@@ -1,0 +1,1606 @@
+[2026-10-10T08:35:11.529Z] Started by user admin
+[2026-10-10T08:35:11.980Z] [Pipeline] Start of Pipeline
+[2026-10-10T08:35:12.142Z] [Pipeline] node
+[2026-10-10T08:35:12.154Z] Running on Jenkins in /var/jenkins_home/workspace/ex-013-full
+[2026-10-10T08:35:12.177Z] [Pipeline] {
+[2026-10-10T08:35:12.207Z] [Pipeline] stage
+[2026-10-10T08:35:12.211Z] [Pipeline] { (Declarative: Checkout SCM)
+[2026-10-10T08:35:12.236Z] [Pipeline] checkout
+[2026-10-10T08:35:12.242Z] The recommended git tool is: NONE
+[2026-10-10T08:35:12.242Z] No credentials specified
+[2026-10-10T08:35:12.242Z] Cloning the remote Git repository
+[2026-10-10T08:35:12.242Z] Avoid fetching tags
+[2026-10-10T08:35:12.243Z] Cloning repository https://github.com/EclipseNebula/nebula.git
+[2026-10-10T08:35:12.243Z]  > git init /var/jenkins_home/workspace/ex-013-full # timeout=10
+[2026-10-10T08:35:12.256Z] Fetching upstream changes from https://github.com/EclipseNebula/nebula.git
+[2026-10-10T08:35:12.256Z]  > git --version # timeout=10
+[2026-10-10T08:35:12.263Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T08:35:12.263Z]  > git fetch --no-tags --force --progress -- https://github.com/EclipseNebula/nebula.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T08:35:17.346Z]  > git config remote.origin.url https://github.com/EclipseNebula/nebula.git # timeout=10
+[2026-10-10T08:35:17.354Z]  > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T08:35:17.364Z] Avoid second fetch
+[2026-10-10T08:35:17.364Z]  > git rev-parse 811efd82360cc40cef0763362c38651a848a6d12^{commit} # timeout=10
+[2026-10-10T08:35:17.370Z] Checking out Revision 811efd82360cc40cef0763362c38651a848a6d12 (detached)
+[2026-10-10T08:35:17.371Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T08:35:17.379Z]  > git checkout -f 811efd82360cc40cef0763362c38651a848a6d12 # timeout=10
+[2026-10-10T08:35:18.934Z] Commit message: "Update CI agent label from centos-latest to ubuntu-latest"
+[2026-10-10T08:35:18.934Z]  > git rev-list --no-walk 811efd82360cc40cef0763362c38651a848a6d12 # timeout=10
+[2026-10-10T08:35:18.984Z] [Pipeline] }
+[2026-10-10T08:35:19.006Z] [Pipeline] // stage
+[2026-10-10T08:35:19.028Z] [Pipeline] withEnv
+[2026-10-10T08:35:19.033Z] [Pipeline] {
+[2026-10-10T08:35:19.058Z] [Pipeline] sh
+[2026-10-10T08:35:19.319Z] + date +%Y%m%d%H%M
+[2026-10-10T08:35:19.353Z] [Pipeline] withEnv
+[2026-10-10T08:35:19.358Z] [Pipeline] {
+[2026-10-10T08:35:19.392Z] [Pipeline] timeout
+[2026-10-10T08:35:19.392Z] Timeout set to expire in 1 hr 0 min
+[2026-10-10T08:35:19.398Z] [Pipeline] {
+[2026-10-10T08:35:19.429Z] [Pipeline] stage
+[2026-10-10T08:35:19.434Z] [Pipeline] { (Declarative: Tool Install)
+[2026-10-10T08:35:19.467Z] [Pipeline] tool
+[2026-10-10T08:35:19.500Z] [Pipeline] envVarsForTool
+[2026-10-10T08:35:19.532Z] [Pipeline] tool
+[2026-10-10T08:35:19.563Z] [Pipeline] envVarsForTool
+[2026-10-10T08:35:19.589Z] [Pipeline] }
+[2026-10-10T08:35:19.616Z] [Pipeline] // stage
+[2026-10-10T08:35:19.642Z] [Pipeline] withEnv
+[2026-10-10T08:35:19.647Z] [Pipeline] {
+[2026-10-10T08:35:19.675Z] [Pipeline] stage
+[2026-10-10T08:35:19.679Z] [Pipeline] { (Display Parameters)
+[2026-10-10T08:35:19.719Z] [Pipeline] tool
+[2026-10-10T08:35:19.751Z] [Pipeline] envVarsForTool
+[2026-10-10T08:35:19.793Z] [Pipeline] tool
+[2026-10-10T08:35:19.850Z] [Pipeline] envVarsForTool
+[2026-10-10T08:35:19.923Z] [Pipeline] withEnv
+[2026-10-10T08:35:19.928Z] [Pipeline] {
+[2026-10-10T08:35:19.954Z] [Pipeline] script
+[2026-10-10T08:35:19.960Z] [Pipeline] {
+[2026-10-10T08:35:20.000Z] [Pipeline] echo
+[2026-10-10T08:35:20.004Z] BUILD_TIMESTAMP=202610100835
+[2026-10-10T08:35:20.004Z] BUILD_TYPE=nightly
+[2026-10-10T08:35:20.004Z] ECLIPSE_SIGN=true
+[2026-10-10T08:35:20.004Z] PROMOTE=false
+[2026-10-10T08:35:20.004Z] BRANCH_NAME=master
+[2026-10-10T08:35:20.014Z] [Pipeline] }
+[2026-10-10T08:35:20.039Z] [Pipeline] // script
+[2026-10-10T08:35:20.050Z] [Pipeline] }
+[2026-10-10T08:35:20.077Z] [Pipeline] // withEnv
+[2026-10-10T08:35:20.087Z] [Pipeline] }
+[2026-10-10T08:35:20.112Z] [Pipeline] // stage
+[2026-10-10T08:35:20.137Z] [Pipeline] stage
+[2026-10-10T08:35:20.143Z] [Pipeline] { (Build Nebula)
+[2026-10-10T08:35:20.170Z] [Pipeline] tool
+[2026-10-10T08:35:20.202Z] [Pipeline] envVarsForTool
+[2026-10-10T08:35:20.234Z] [Pipeline] tool
+[2026-10-10T08:35:20.260Z] [Pipeline] envVarsForTool
+[2026-10-10T08:35:20.295Z] [Pipeline] withEnv
+[2026-10-10T08:35:20.300Z] [Pipeline] {
+[2026-10-10T08:35:20.322Z] [Pipeline] script
+[2026-10-10T08:35:20.328Z] [Pipeline] {
+[2026-10-10T08:35:20.350Z] [Pipeline] sh
+[2026-10-10T08:35:20.609Z] + [[ false == true ]]
+[2026-10-10T08:35:20.609Z] /var/jenkins_home/workspace/ex-013-full@tmp/durable-572b55af/script.sh.copy: 2: [[: not found
+[2026-10-10T08:35:20.609Z] + mvn --no-transfer-progress -Dproject.build.sourceEncoding=UTF-8 -Dbuild.id=202610100835 -Dgit.commit=811efd82360cc40cef0763362c38651a848a6d12 -Dbuild.type=nightly -Dorg.eclipse.justj.p2.manager.build.url=http://localhost:8080/job/ex-013-full/ clean verify
+[2026-10-10T08:35:25.806Z] [[1;34mINFO[m] Scanning for projects...
+[2026-10-10T08:35:29.035Z] [[1;34mINFO[m] Tycho Version:  4.0.12 (ff2f4fabcea3c5f18cae5a32146bf5defab95d6e)
+[2026-10-10T08:35:29.035Z] [[1;34mINFO[m] Tycho Mode:     extension
+[2026-10-10T08:35:29.035Z] [[1;34mINFO[m] Tycho Builder:  maven
+[2026-10-10T08:35:29.035Z] [[1;34mINFO[m] Build Threads:  1
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] [1mReactor Build Order:[m
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] nebula-parent                                                      [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] badgedlabel                                                        [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] commons                                                            [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.commons                 [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.badgedlabel                  [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Commons Feature                                        [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Nebula Badged Label Feature                            [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.badgedlabel.snippets         [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] carousel                                                           [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.carousel                     [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Nebula Carousel Feature                                [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.carousel.snippets            [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] cdatetime                                                          [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] cwt                                                                [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.cwt                                  [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.cdatetime                    [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.jface.cdatetime                      [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.examples                             [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.cdatetime.example            [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.cdatetime.snippets           [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.cwt.tests                       [eclipse-test-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.cdatetime.css                [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.cdatetime.tests         [eclipse-test-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.cwt.feature                         [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.cdatetime.feature           [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.cdatetime.example.e4         [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Nebula CDateTime CSS Feature                           [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] chips                                                              [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] [bundle] Nebula Chips widget                            [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Nebula Chips Feature                                   [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] [bundle] Nebula Chips Snippets                          [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] compositetable                                                     [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.compositetable               [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.compositetable.tests    [eclipse-test-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Nebula Composite Table Feature                         [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] ctreecombo                                                         [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.ctreecombo                   [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] CTreeCombo Feature                                     [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.ctreecombo.snippets          [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.cwt.snippets                         [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] effects                                                            [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.effects.stw                          [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.effects.stw.example                  [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Nebula State Transition Feature                        [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] floatingtext                                                       [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.floatingtext                 [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.floatingtext.snippets        [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.floatingtext.feature        [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] fontawesome                                                        [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.fontawesome                  [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Nebula FontAwesome Feature                             [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.fontawesome.snippets         [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] formattedtext                                                      [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.formattedtext                [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.formattedtext.tests          [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.formattedtext.feature       [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] gallery                                                            [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.gallery                      [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.gallery.example              [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Nebula Gallery Feature                                 [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.gallery.tests           [eclipse-test-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] ganttchart                                                         [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.ganttchart                   [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.ganttchart.example           [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Nebula Ganttchart Widget                               [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] geomap                                                             [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.geomap                       [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.geomap.example               [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.geomap.feature              [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.geomap.snippets              [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] grid                                                               [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] [bundle] Nebula Grid                                    [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.grid.example                 [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Nebula Grid Feature                                    [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.grid.css                     [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Nebula Grid CSS Feature                                [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.grid.example.e4              [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] led                                                                [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.led                          [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Nebula Badged Label Feature                            [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.led.snippets                 [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] nebulaslider                                                       [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.nebulaslider                 [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Nebula Slider Feature                                  [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.nebulaslider.snippets        [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] breadcrumb                                                         [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.breadcrumb              [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Breadcrumb Feature                                     [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.breadcrumb.snippets     [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] calculator                                                         [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.calculator              [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Calculator Feature                                     [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.calculator.snippets     [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] checkboxgroup                                                      [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.checkboxgroup           [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] CheckboxgroupFeature                                   [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.checkboxgroup.snippets  [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] columnbrowser                                                      [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.columnbrowser           [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] ColumnBrowser Feature                                  [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] dialog                                                             [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.dialog                  [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.columnbrowser.snippets  [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Dialog Feature                                         [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.dialog.snippets         [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] duallist                                                           [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.duallist                [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Duallist Feature                                       [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.duallist.snippets       [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] header                                                             [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.header                  [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Header Feature                                         [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.header.snippets         [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] heapmanager                                                        [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.heapmanager             [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] HeapManagerFeature                                     [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.heapmanager.snippets    [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] horizontalspinner                                                  [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.horizontalspinner       [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] horizontalspinner Feature                              [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.horizontalspinner.snippets [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] launcher                                                           [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.launcher                [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Launcher Feature                                       [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.launcher.snippets       [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] logindialog                                                        [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.logindialog             [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] PromptSupport Feature                                  [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.logindialog.snippets    [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] multichoice                                                        [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.multichoice             [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Multichoice Feature                                    [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.multichoice.snippets    [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] notifier                                                           [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.notifier                [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Notifier Feature                                       [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.notifier.snippets       [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] panels                                                             [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.panels                  [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Panels Feature                                         [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.panels.snippets         [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] preferencewindow                                                   [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] titledseparator                                                    [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.titledseparator         [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.preferencewindow        [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] TitledSeparator Feature                                [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Preference Window Feature                              [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.preferencewindow.snippets [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] promptsupport                                                      [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.promptsupport           [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] PromptSupport Feature                                  [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.promptsupport.snippets  [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] propertytable                                                      [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.propertytable           [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Property Table Feature                                 [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.propertytable.snippets  [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] rangeslider                                                        [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.rangeslider             [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Range Slider Feature                                   [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.rangeslider.snippets    [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] roundedtoolbar                                                     [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.roundedtoolbar          [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Header Feature                                         [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.roundedtoolbar.snippets [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] starrating                                                         [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.starrating              [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Star Rating Feature                                    [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.starrating.snippets     [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] switchbutton                                                       [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.switchbutton            [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] SwitchButton Feature                                   [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.switchbutton.snippets   [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] textassist                                                         [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.textassist              [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] TextAssist Feature                                     [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.textassist.snippets     [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] tipoftheday                                                        [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.tipoftheday             [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Header Feature                                         [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.tipoftheday.snippets    [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.titledseparator.snippets [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] oscilloscope                                                       [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.oscilloscope                 [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.oscilloscope.example         [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.oscilloscope.tests      [eclipse-test-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Nebula Oscilloscope Widget                             [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.oscilloscope.css             [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.oscilloscope.example.e4      [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Nebula Oscilloscope CSS Feature                        [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] paperclips                                                         [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.paperclips.core                      [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.paperclips.widgets                   [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Nebula paperclips snippets                              [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.paperclips.tests                [eclipse-test-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Nebula Examples View Feature                           [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Nebula Paperclips Example                               [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] passwordrevealer                                                   [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.passwordrevealer             [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Password Revealer Feature                              [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.passwordrevealer.snippets    [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] pgroup                                                             [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.pgroup                       [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.pgroup.example               [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Nebula PGroup Feature                                  [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] progresscircle                                                     [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.progresscircle               [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Progress Circle Feature                                [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.progresscircle.snippets      [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] pshelf                                                             [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.pshelf                       [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.pshelf.example               [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.pshelf.css                   [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Nebula PShelf Feature                                  [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Nebula PShelf CSS Feature                              [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] radiogroup                                                         [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.radiogroup                   [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.radiogroup.example           [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.radiogroup.tests        [eclipse-test-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.radiogroup.feature          [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] richtext                                                           [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.richtext                     [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.richtext.example             [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.richtext.example.e4          [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Nebula RichText Widget                                 [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] roundedcheckbox                                                    [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.roundedcheckbox              [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] RoundedCheckbox Feature                                [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.roundedcheckbox.snippets     [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] roundedswitch                                                      [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.roundedswitch                [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Nebula Rounded Switch widget Feature                   [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.roundedswitch.snippets       [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.roundedswitch.css            [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.roundedswitch.example.e4     [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Nebula RoundedSwitch CSS Feature                       [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] segmentedbar                                                       [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.segmentedbar                 [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Nebula Segmented Bar widget Feature                    [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.segmentedbar.snippets        [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] splitbutton                                                        [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.splitbutton                  [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Nebula SplitButton Feature                             [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.splitbutton.snippets         [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] stepbar                                                            [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.stepbar                      [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Nebula Badged Label Feature                            [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.stepbar.snippets             [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] tablecombo                                                         [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.tablecombo                   [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.tablecombo.example           [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Nebula TableCombo Feature                              [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.tablecombo.snippets          [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.tablecombo.test         [eclipse-test-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.tablecombo.css               [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.tablecombo.example.e4        [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Nebula Tablecombo CSS Feature                          [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] tiles                                                              [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.tiles                        [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Nebula Tiles widget Feature                            [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.tiles.snippets               [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] treemapper                                                         [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.treemapper                   [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.treemapper.examples          [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.treemapper.tests        [eclipse-test-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.treemapper.feature          [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] visualization                                                      [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Nebula Visualization XY-Graph                           [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Nebula Visualization Widgets                            [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Nebula Visualization                                   [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Nebula Visualization XY-Graph Example                   [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.visualization.example                [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] xviewer                                                            [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.xviewer.core                 [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.xviewer                      [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.xviewer.example              [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.xviewer.tests           [eclipse-test-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Nebula XViewer Feature                                 [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] calendarcombo                                                      [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.calendarcombo                [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.calendarcombo.example        [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Nebula Calendar Combo Feature                          [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] collapsiblebuttons                                                 [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Collapsible Buttons Widget                              [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.collapsiblebuttons.example   [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Eclipse Collabsible Buttons Feature                    [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] datechooser                                                        [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.datechooser                  [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.datechooser.example          [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.datechooser.feature         [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] pagination                                                         [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.pagination                   [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.pagination.example           [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Nebula Pagination Control                              [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.pagination.snippets          [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.pagination.tests        [eclipse-test-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] picture                                                            [pom]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.picture                      [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.picture.example              [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] Nebula Picture Control                                 [eclipse-feature]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.picture.snippets             [eclipse-plugin]
+[2026-10-10T08:35:36.925Z] [[1;34mINFO[m] timeline                                                           [pom]
+[2026-10-10T08:35:36.926Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.timeline                     [eclipse-plugin]
+[2026-10-10T08:35:36.926Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.timeline.example             [eclipse-plugin]
+[2026-10-10T08:35:36.926Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.timeline.tests          [eclipse-test-plugin]
+[2026-10-10T08:35:36.926Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.timeline.feature            [eclipse-feature]
+[2026-10-10T08:35:36.926Z] [[1;34mINFO[m] Nebula Examples View Feature                           [eclipse-feature]
+[2026-10-10T08:35:36.926Z] [[1;34mINFO[m] Eclipse Nebula Feature                                 [eclipse-feature]
+[2026-10-10T08:35:36.926Z] [[1;34mINFO[m] Nebula Examples Feature                                [eclipse-feature]
+[2026-10-10T08:35:36.926Z] [[1;34mINFO[m] Eclipse Nebula Feature                                 [eclipse-feature]
+[2026-10-10T08:35:36.926Z] [[1;34mINFO[m] Nebula Examples View Feature                           [eclipse-feature]
+[2026-10-10T08:35:36.926Z] [[1;34mINFO[m] Eclipse Nebula Updates                              [eclipse-repository]
+[2026-10-10T08:35:36.926Z] [[1;34mINFO[m] nebula-root                                                        [pom]
+[2026-10-10T08:35:36.926Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:36.926Z] [[1;34mINFO[m] [1m------------------< [0;36morg.eclipse.nebula:nebula-parent[0;1m >------------------[m
+[2026-10-10T08:35:36.926Z] [[1;34mINFO[m] [1mBuilding nebula-parent 1.0.0-SNAPSHOT                            [1/312][m
+[2026-10-10T08:35:36.926Z] [[1;34mINFO[m]   from releng/org.eclipse.nebula.nebula-parent/pom.xml
+[2026-10-10T08:35:36.926Z] [[1;34mINFO[m] [1m--------------------------------[ pom ]---------------------------------[m
+[2026-10-10T08:35:36.926Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:36.926Z] [[1;34mINFO[m] [1m--- [0;32mclean:3.2.0:clean[m [1m(default-clean)[m @ [36mnebula-parent[0;1m ---[m
+[2026-10-10T08:35:36.926Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:36.926Z] [[1;34mINFO[m] [1m--- [0;32mjacoco:0.8.9:prepare-agent[m [1m(default)[m @ [36mnebula-parent[0;1m ---[m
+[2026-10-10T08:35:36.926Z] [[1;34mINFO[m] argLine set to -javaagent:/var/jenkins_home/.m2/repository/org/jacoco/org.jacoco.agent/0.8.9/org.jacoco.agent-0.8.9-runtime.jar=destfile=/var/jenkins_home/workspace/ex-013-full/releng/target/jacoco.exec,append=true,includes=*.nebula.*
+[2026-10-10T08:35:36.926Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:36.926Z] [[1;34mINFO[m] [1m--- [0;32mtycho-source:4.0.12:plugin-source[m [1m(plugin-source)[m @ [36mnebula-parent[0;1m ---[m
+[2026-10-10T08:35:36.926Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:36.926Z] [[1;34mINFO[m] [1m-------------------< [0;36morg.eclipse.nebula:badgedlabel[0;1m >-------------------[m
+[2026-10-10T08:35:36.926Z] [[1;34mINFO[m] [1mBuilding badgedlabel 1.0.0-SNAPSHOT                              [2/312][m
+[2026-10-10T08:35:36.926Z] [[1;34mINFO[m]   from widgets/badgedlabel/pom.xml
+[2026-10-10T08:35:36.926Z] [[1;34mINFO[m] [1m--------------------------------[ pom ]---------------------------------[m
+[2026-10-10T08:35:36.926Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:36.926Z] [[1;34mINFO[m] [1m--- [0;32mclean:3.2.0:clean[m [1m(default-clean)[m @ [36mbadgedlabel[0;1m ---[m
+[2026-10-10T08:35:36.926Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:36.926Z] [[1;34mINFO[m] [1m--- [0;32mjacoco:0.8.9:prepare-agent[m [1m(default)[m @ [36mbadgedlabel[0;1m ---[m
+[2026-10-10T08:35:36.926Z] [[1;34mINFO[m] argLine set to -javaagent:/var/jenkins_home/.m2/repository/org/jacoco/org.jacoco.agent/0.8.9/org.jacoco.agent-0.8.9-runtime.jar=destfile=/var/jenkins_home/workspace/ex-013-full/widgets/target/jacoco.exec,append=true,includes=*.nebula.*
+[2026-10-10T08:35:36.926Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:36.926Z] [[1;34mINFO[m] [1m--- [0;32mtycho-source:4.0.12:plugin-source[m [1m(plugin-source)[m @ [36mbadgedlabel[0;1m ---[m
+[2026-10-10T08:35:36.926Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:36.926Z] [[1;34mINFO[m] [1m---------------------< [0;36morg.eclipse.nebula:commons[0;1m >---------------------[m
+[2026-10-10T08:35:36.926Z] [[1;34mINFO[m] [1mBuilding commons 1.0.0-SNAPSHOT                                  [3/312][m
+[2026-10-10T08:35:36.926Z] [[1;34mINFO[m]   from widgets/opal/commons/pom.xml
+[2026-10-10T08:35:36.926Z] [[1;34mINFO[m] [1m--------------------------------[ pom ]---------------------------------[m
+[2026-10-10T08:35:36.926Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:36.926Z] [[1;34mINFO[m] [1m--- [0;32mclean:3.2.0:clean[m [1m(default-clean)[m @ [36mcommons[0;1m ---[m
+[2026-10-10T08:35:36.926Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:36.926Z] [[1;34mINFO[m] [1m--- [0;32mjacoco:0.8.9:prepare-agent[m [1m(default)[m @ [36mcommons[0;1m ---[m
+[2026-10-10T08:35:36.926Z] [[1;34mINFO[m] argLine set to -javaagent:/var/jenkins_home/.m2/repository/org/jacoco/org.jacoco.agent/0.8.9/org.jacoco.agent-0.8.9-runtime.jar=destfile=/var/jenkins_home/workspace/ex-013-full/widgets/opal/target/jacoco.exec,append=true,includes=*.nebula.*
+[2026-10-10T08:35:36.926Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:36.926Z] [[1;34mINFO[m] [1m--- [0;32mtycho-source:4.0.12:plugin-source[m [1m(plugin-source)[m @ [36mcommons[0;1m ---[m
+[2026-10-10T08:35:36.926Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:36.926Z] [[1;34mINFO[m] [1m-----< [0;36morg.eclipse.nebula:org.eclipse.nebula.widgets.opal.commons[0;1m >-----[m
+[2026-10-10T08:35:36.926Z] [[1;34mINFO[m] [1mBuilding org.eclipse.nebula.widgets.opal.commons 1.0.0-SNAPSHOT  [4/312][m
+[2026-10-10T08:35:36.926Z] [[1;34mINFO[m]   from widgets/opal/commons/org.eclipse.nebula.widgets.opal.commons/pom.xml
+[2026-10-10T08:35:36.926Z] [[1;34mINFO[m] [1m---------------------------[ eclipse-plugin ]---------------------------[m
+[2026-10-10T08:35:37.476Z] [[1;34mINFO[m] ### Using TychoRepositoryTransport for remote P2 access ###
+[2026-10-10T08:35:37.476Z] [[1;34mINFO[m]     Cache location:         /var/jenkins_home/.m2/repository/.cache/tycho
+[2026-10-10T08:35:37.476Z] [[1;34mINFO[m]     Transport mode:         online
+[2026-10-10T08:35:37.476Z] [[1;34mINFO[m]     Http Transport type:    Java11Client
+[2026-10-10T08:35:37.476Z] [[1;34mINFO[m]     Update mode:            cache first
+[2026-10-10T08:35:37.476Z] [[1;34mINFO[m]     Minimum cache duration: 60 minutes
+[2026-10-10T08:35:37.476Z] [[1;34mINFO[m]       (you can configure this with -Dtycho.p2.transport.min-cache-minutes=<desired minimum cache duration>)
+[2026-10-10T08:35:38.820Z] [[1;34mINFO[m] Adding repository https://download.eclipse.org/eclipse/updates/latest
+[2026-10-10T08:35:40.163Z] [[1;34mINFO[m] Adding repository https://download.eclipse.org/tools/gef/classic/releases/latest
+[2026-10-10T08:35:41.075Z] [[1;34mINFO[m] Adding repository https://download.eclipse.org/technology/swtbot/releases/latest
+[2026-10-10T08:35:42.937Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:42.937Z] [[1;34mINFO[m] [1m--- [0;32mclean:3.2.0:clean[m [1m(default-clean)[m @ [36morg.eclipse.nebula.widgets.opal.commons[0;1m ---[m
+[2026-10-10T08:35:42.937Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:42.937Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:build-qualifier[m [1m(default-build-qualifier)[m @ [36morg.eclipse.nebula.widgets.opal.commons[0;1m ---[m
+[2026-10-10T08:35:42.937Z] [[1;34mINFO[m] The project's OSGi version is 1.0.0.202610100835
+[2026-10-10T08:35:42.937Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:42.937Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:validate-id[m [1m(default-validate-id)[m @ [36morg.eclipse.nebula.widgets.opal.commons[0;1m ---[m
+[2026-10-10T08:35:42.937Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:42.937Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:validate-version[m [1m(default-validate-version)[m @ [36morg.eclipse.nebula.widgets.opal.commons[0;1m ---[m
+[2026-10-10T08:35:42.937Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:42.937Z] [[1;34mINFO[m] [1m--- [0;32mtarget-platform-configuration:4.0.12:target-platform[m [1m(default-target-platform)[m @ [36morg.eclipse.nebula.widgets.opal.commons[0;1m ---[m
+[2026-10-10T08:35:42.937Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:42.937Z] [[1;34mINFO[m] [1m--- [0;32mtycho-compiler:4.0.12:validate-classpath[m [1m(default-validate-classpath)[m @ [36morg.eclipse.nebula.widgets.opal.commons[0;1m ---[m
+[2026-10-10T08:35:42.937Z] [[1;34mINFO[m] Resolving class path of org.eclipse.nebula.widgets.opal.commons
+[2026-10-10T08:35:42.937Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:42.937Z] [[1;34mINFO[m] [1m--- [0;32mjacoco:0.8.9:prepare-agent[m [1m(default)[m @ [36morg.eclipse.nebula.widgets.opal.commons[0;1m ---[m
+[2026-10-10T08:35:42.937Z] [[1;34mINFO[m] argLine set to -javaagent:/var/jenkins_home/.m2/repository/org/jacoco/org.jacoco.agent/0.8.9/org.jacoco.agent-0.8.9-runtime.jar=destfile=/var/jenkins_home/workspace/ex-013-full/widgets/opal/commons/target/jacoco.exec,append=true,includes=*.nebula.*
+[2026-10-10T08:35:42.937Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:42.937Z] [[1;34mINFO[m] [1m--- [0;32mresources:3.3.1:resources[m [1m(default-resources)[m @ [36morg.eclipse.nebula.widgets.opal.commons[0;1m ---[m
+[2026-10-10T08:35:42.937Z] [[1;34mINFO[m] skip non existing resourceDirectory /var/jenkins_home/workspace/ex-013-full/widgets/opal/commons/org.eclipse.nebula.widgets.opal.commons/src/main/resources
+[2026-10-10T08:35:42.937Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:42.937Z] [[1;34mINFO[m] [1m--- [0;32mtycho-compiler:4.0.12:compile[m [1m(default-compile)[m @ [36morg.eclipse.nebula.widgets.opal.commons[0;1m ---[m
+[2026-10-10T08:35:42.937Z] [[1;33mWARNING[m] The effective compiler target level 21 is incompatible with the following OSGi execution environments: [JavaSE-11 (assumes 11)] @ MavenProject: org.eclipse.nebula:org.eclipse.nebula.widgets.opal.commons:1.0.0-SNAPSHOT @ /var/jenkins_home/workspace/ex-013-full/widgets/opal/commons/org.eclipse.nebula.widgets.opal.commons/pom.xml
+[2026-10-10T08:35:44.280Z] [[1;34mINFO[m] Compiling 12 source files to /var/jenkins_home/workspace/ex-013-full/widgets/opal/commons/org.eclipse.nebula.widgets.opal.commons/target/classes using Eclipse Compiler for Java(TM) 3.40.0.v20241112-0530
+[2026-10-10T08:35:46.143Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:46.143Z] [[1;34mINFO[m] [1m--- [0;32mtycho-bnd:4.0.12:process[m [1m(default-process)[m @ [36morg.eclipse.nebula.widgets.opal.commons[0;1m ---[m
+[2026-10-10T08:35:46.143Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:46.143Z] [[1;34mINFO[m] [1m--- [0;32mtycho-ds:4.0.12:declarative-services[m [1m(default-declarative-services)[m @ [36morg.eclipse.nebula.widgets.opal.commons[0;1m ---[m
+[2026-10-10T08:35:46.143Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:46.143Z] [[1;34mINFO[m] [1m--- [0;32mresources:3.3.1:testResources[m [1m(default-testResources)[m @ [36morg.eclipse.nebula.widgets.opal.commons[0;1m ---[m
+[2026-10-10T08:35:46.143Z] [[1;34mINFO[m] skip non existing resourceDirectory /var/jenkins_home/workspace/ex-013-full/widgets/opal/commons/org.eclipse.nebula.widgets.opal.commons/src/test/resources
+[2026-10-10T08:35:46.143Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:46.143Z] [[1;34mINFO[m] [1m--- [0;32mtycho-compiler:4.0.12:testCompile[m [1m(default-testCompile)[m @ [36morg.eclipse.nebula.widgets.opal.commons[0;1m ---[m
+[2026-10-10T08:35:46.143Z] [[1;33mWARNING[m] The effective compiler target level 21 is incompatible with the following OSGi execution environments: [JavaSE-11 (assumes 11)] @ MavenProject: org.eclipse.nebula:org.eclipse.nebula.widgets.opal.commons:1.0.0-SNAPSHOT @ /var/jenkins_home/workspace/ex-013-full/widgets/opal/commons/org.eclipse.nebula.widgets.opal.commons/pom.xml
+[2026-10-10T08:35:46.143Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:46.143Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:update-consumer-pom[m [1m(default-update-consumer-pom)[m @ [36morg.eclipse.nebula.widgets.opal.commons[0;1m ---[m
+[2026-10-10T08:35:46.143Z] [[1;34mINFO[m] 11 system scoped dependencies were not mapped to maven artifacts
+[2026-10-10T08:35:46.143Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:46.143Z] [[1;34mINFO[m] [1m--- [0;32mtycho-source:4.0.12:plugin-source[m [1m(plugin-source)[m @ [36morg.eclipse.nebula.widgets.opal.commons[0;1m ---[m
+[2026-10-10T08:35:46.143Z] [[1;34mINFO[m] Building jar: /var/jenkins_home/workspace/ex-013-full/widgets/opal/commons/org.eclipse.nebula.widgets.opal.commons/target/org.eclipse.nebula.widgets.opal.commons-1.0.0-SNAPSHOT-sources.jar
+[2026-10-10T08:35:46.143Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:46.143Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:package-plugin[m [1m(default-package-plugin)[m @ [36morg.eclipse.nebula.widgets.opal.commons[0;1m ---[m
+[2026-10-10T08:35:46.694Z] [[1;34mINFO[m] Building jar: /var/jenkins_home/workspace/ex-013-full/widgets/opal/commons/org.eclipse.nebula.widgets.opal.commons/target/org.eclipse.nebula.widgets.opal.commons-1.0.0-SNAPSHOT.jar
+[2026-10-10T08:35:46.944Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:46.944Z] [[1;34mINFO[m] [1m--- [0;32mtycho-p2-plugin:4.0.12:p2-metadata-default[m [1m(default-p2-metadata-default)[m @ [36morg.eclipse.nebula.widgets.opal.commons[0;1m ---[m
+[2026-10-10T08:35:46.944Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:46.944Z] [[1;34mINFO[m] [1m-----< [0;36morg.eclipse.nebula:org.eclipse.nebula.widgets.badgedlabel[0;1m >------[m
+[2026-10-10T08:35:46.944Z] [[1;34mINFO[m] [1mBuilding org.eclipse.nebula.widgets.badgedlabel 1.0.0-SNAPSHOT   [5/312][m
+[2026-10-10T08:35:46.944Z] [[1;34mINFO[m]   from widgets/badgedlabel/org.eclipse.nebula.widgets.badgedlabel/pom.xml
+[2026-10-10T08:35:46.944Z] [[1;34mINFO[m] [1m---------------------------[ eclipse-plugin ]---------------------------[m
+[2026-10-10T08:35:47.195Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.195Z] [[1;34mINFO[m] [1m--- [0;32mclean:3.2.0:clean[m [1m(default-clean)[m @ [36morg.eclipse.nebula.widgets.badgedlabel[0;1m ---[m
+[2026-10-10T08:35:47.195Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.195Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:build-qualifier[m [1m(default-build-qualifier)[m @ [36morg.eclipse.nebula.widgets.badgedlabel[0;1m ---[m
+[2026-10-10T08:35:47.195Z] [[1;34mINFO[m] The project's OSGi version is 1.0.0.202610100835
+[2026-10-10T08:35:47.195Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.195Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:validate-id[m [1m(default-validate-id)[m @ [36morg.eclipse.nebula.widgets.badgedlabel[0;1m ---[m
+[2026-10-10T08:35:47.195Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.195Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:validate-version[m [1m(default-validate-version)[m @ [36morg.eclipse.nebula.widgets.badgedlabel[0;1m ---[m
+[2026-10-10T08:35:47.195Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.195Z] [[1;34mINFO[m] [1m--- [0;32mtarget-platform-configuration:4.0.12:target-platform[m [1m(default-target-platform)[m @ [36morg.eclipse.nebula.widgets.badgedlabel[0;1m ---[m
+[2026-10-10T08:35:47.195Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.195Z] [[1;34mINFO[m] [1m--- [0;32mtycho-compiler:4.0.12:validate-classpath[m [1m(default-validate-classpath)[m @ [36morg.eclipse.nebula.widgets.badgedlabel[0;1m ---[m
+[2026-10-10T08:35:47.195Z] [[1;34mINFO[m] Resolving class path of org.eclipse.nebula.widgets.badgedlabel
+[2026-10-10T08:35:47.195Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.195Z] [[1;34mINFO[m] [1m--- [0;32mjacoco:0.8.9:prepare-agent[m [1m(default)[m @ [36morg.eclipse.nebula.widgets.badgedlabel[0;1m ---[m
+[2026-10-10T08:35:47.195Z] [[1;34mINFO[m] argLine set to -javaagent:/var/jenkins_home/.m2/repository/org/jacoco/org.jacoco.agent/0.8.9/org.jacoco.agent-0.8.9-runtime.jar=destfile=/var/jenkins_home/workspace/ex-013-full/widgets/badgedlabel/target/jacoco.exec,append=true,includes=*.nebula.*
+[2026-10-10T08:35:47.195Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.195Z] [[1;34mINFO[m] [1m--- [0;32mresources:3.3.1:resources[m [1m(default-resources)[m @ [36morg.eclipse.nebula.widgets.badgedlabel[0;1m ---[m
+[2026-10-10T08:35:47.195Z] [[1;34mINFO[m] skip non existing resourceDirectory /var/jenkins_home/workspace/ex-013-full/widgets/badgedlabel/org.eclipse.nebula.widgets.badgedlabel/src/main/resources
+[2026-10-10T08:35:47.195Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.195Z] [[1;34mINFO[m] [1m--- [0;32mtycho-compiler:4.0.12:compile[m [1m(default-compile)[m @ [36morg.eclipse.nebula.widgets.badgedlabel[0;1m ---[m
+[2026-10-10T08:35:47.195Z] [[1;33mWARNING[m] The effective compiler target level 21 is incompatible with the following OSGi execution environments: [JavaSE-11 (assumes 11)] @ MavenProject: org.eclipse.nebula:org.eclipse.nebula.widgets.badgedlabel:1.0.0-SNAPSHOT @ /var/jenkins_home/workspace/ex-013-full/widgets/badgedlabel/org.eclipse.nebula.widgets.badgedlabel/pom.xml
+[2026-10-10T08:35:47.195Z] [[1;34mINFO[m] Compiling 1 source file to /var/jenkins_home/workspace/ex-013-full/widgets/badgedlabel/org.eclipse.nebula.widgets.badgedlabel/target/classes using Eclipse Compiler for Java(TM) 3.40.0.v20241112-0530
+[2026-10-10T08:35:47.445Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.445Z] [[1;34mINFO[m] [1m--- [0;32mtycho-bnd:4.0.12:process[m [1m(default-process)[m @ [36morg.eclipse.nebula.widgets.badgedlabel[0;1m ---[m
+[2026-10-10T08:35:47.445Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.445Z] [[1;34mINFO[m] [1m--- [0;32mtycho-ds:4.0.12:declarative-services[m [1m(default-declarative-services)[m @ [36morg.eclipse.nebula.widgets.badgedlabel[0;1m ---[m
+[2026-10-10T08:35:47.445Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.445Z] [[1;34mINFO[m] [1m--- [0;32mresources:3.3.1:testResources[m [1m(default-testResources)[m @ [36morg.eclipse.nebula.widgets.badgedlabel[0;1m ---[m
+[2026-10-10T08:35:47.445Z] [[1;34mINFO[m] skip non existing resourceDirectory /var/jenkins_home/workspace/ex-013-full/widgets/badgedlabel/org.eclipse.nebula.widgets.badgedlabel/src/test/resources
+[2026-10-10T08:35:47.445Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.445Z] [[1;34mINFO[m] [1m--- [0;32mtycho-compiler:4.0.12:testCompile[m [1m(default-testCompile)[m @ [36morg.eclipse.nebula.widgets.badgedlabel[0;1m ---[m
+[2026-10-10T08:35:47.445Z] [[1;33mWARNING[m] The effective compiler target level 21 is incompatible with the following OSGi execution environments: [JavaSE-11 (assumes 11)] @ MavenProject: org.eclipse.nebula:org.eclipse.nebula.widgets.badgedlabel:1.0.0-SNAPSHOT @ /var/jenkins_home/workspace/ex-013-full/widgets/badgedlabel/org.eclipse.nebula.widgets.badgedlabel/pom.xml
+[2026-10-10T08:35:47.445Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.445Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:update-consumer-pom[m [1m(default-update-consumer-pom)[m @ [36morg.eclipse.nebula.widgets.badgedlabel[0;1m ---[m
+[2026-10-10T08:35:47.445Z] [[1;34mINFO[m] 11 system scoped dependencies were not mapped to maven artifacts
+[2026-10-10T08:35:47.445Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.445Z] [[1;34mINFO[m] [1m--- [0;32mtycho-source:4.0.12:plugin-source[m [1m(plugin-source)[m @ [36morg.eclipse.nebula.widgets.badgedlabel[0;1m ---[m
+[2026-10-10T08:35:47.445Z] [[1;34mINFO[m] Building jar: /var/jenkins_home/workspace/ex-013-full/widgets/badgedlabel/org.eclipse.nebula.widgets.badgedlabel/target/org.eclipse.nebula.widgets.badgedlabel-1.0.0-SNAPSHOT-sources.jar
+[2026-10-10T08:35:47.445Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.445Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:package-plugin[m [1m(default-package-plugin)[m @ [36morg.eclipse.nebula.widgets.badgedlabel[0;1m ---[m
+[2026-10-10T08:35:47.445Z] [[1;34mINFO[m] Building jar: /var/jenkins_home/workspace/ex-013-full/widgets/badgedlabel/org.eclipse.nebula.widgets.badgedlabel/target/org.eclipse.nebula.widgets.badgedlabel-1.0.0-SNAPSHOT.jar
+[2026-10-10T08:35:47.445Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.445Z] [[1;34mINFO[m] [1m--- [0;32mtycho-p2-plugin:4.0.12:p2-metadata-default[m [1m(default-p2-metadata-default)[m @ [36morg.eclipse.nebula.widgets.badgedlabel[0;1m ---[m
+[2026-10-10T08:35:47.445Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.445Z] [[1;34mINFO[m] [1m--< [0;36morg.eclipse.nebula:org.eclipse.nebula.widgets.opal.commons.feature[0;1m >--[m
+[2026-10-10T08:35:47.445Z] [[1;34mINFO[m] [1mBuilding Commons Feature 1.0.0-SNAPSHOT                          [6/312][m
+[2026-10-10T08:35:47.445Z] [[1;34mINFO[m]   from widgets/opal/commons/org.eclipse.nebula.widgets.opal.commons.feature/pom.xml
+[2026-10-10T08:35:47.445Z] [[1;34mINFO[m] [1m--------------------------[ eclipse-feature ]---------------------------[m
+[2026-10-10T08:35:47.445Z] [[1;34mINFO[m] Resolving dependencies of MavenProject: org.eclipse.nebula:org.eclipse.nebula.widgets.opal.commons.feature:1.0.0-SNAPSHOT @ /var/jenkins_home/workspace/ex-013-full/widgets/opal/commons/org.eclipse.nebula.widgets.opal.commons.feature/pom.xml
+[2026-10-10T08:35:47.696Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.696Z] [[1;34mINFO[m] [1m--- [0;32mclean:3.2.0:clean[m [1m(default-clean)[m @ [36morg.eclipse.nebula.widgets.opal.commons.feature[0;1m ---[m
+[2026-10-10T08:35:47.696Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.696Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:build-qualifier-aggregator[m [1m(default-build-qualifier-aggregator)[m @ [36morg.eclipse.nebula.widgets.opal.commons.feature[0;1m ---[m
+[2026-10-10T08:35:47.696Z] [[1;34mINFO[m] The project's OSGi version is 1.0.0.202610100835
+[2026-10-10T08:35:47.696Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.696Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:validate-id[m [1m(default-validate-id)[m @ [36morg.eclipse.nebula.widgets.opal.commons.feature[0;1m ---[m
+[2026-10-10T08:35:47.696Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.696Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:validate-version[m [1m(default-validate-version)[m @ [36morg.eclipse.nebula.widgets.opal.commons.feature[0;1m ---[m
+[2026-10-10T08:35:47.696Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.696Z] [[1;34mINFO[m] [1m--- [0;32mtarget-platform-configuration:4.0.12:target-platform[m [1m(default-target-platform)[m @ [36morg.eclipse.nebula.widgets.opal.commons.feature[0;1m ---[m
+[2026-10-10T08:35:47.696Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.696Z] [[1;34mINFO[m] [1m--- [0;32mjacoco:0.8.9:prepare-agent[m [1m(default)[m @ [36morg.eclipse.nebula.widgets.opal.commons.feature[0;1m ---[m
+[2026-10-10T08:35:47.696Z] [[1;34mINFO[m] argLine set to -javaagent:/var/jenkins_home/.m2/repository/org/jacoco/org.jacoco.agent/0.8.9/org.jacoco.agent-0.8.9-runtime.jar=destfile=/var/jenkins_home/workspace/ex-013-full/widgets/opal/commons/target/jacoco.exec,append=true,includes=*.nebula.*
+[2026-10-10T08:35:47.696Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.696Z] [[1;34mINFO[m] [1m--- [0;32mresources:3.3.1:resources[m [1m(default-resources)[m @ [36morg.eclipse.nebula.widgets.opal.commons.feature[0;1m ---[m
+[2026-10-10T08:35:47.696Z] [[1;34mINFO[m] skip non existing resourceDirectory /var/jenkins_home/workspace/ex-013-full/widgets/opal/commons/org.eclipse.nebula.widgets.opal.commons.feature/src/main/resources
+[2026-10-10T08:35:47.696Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.696Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:update-consumer-pom[m [1m(default-update-consumer-pom)[m @ [36morg.eclipse.nebula.widgets.opal.commons.feature[0;1m ---[m
+[2026-10-10T08:35:47.696Z] [[1;34mINFO[m] 11 system scoped dependencies were not mapped to maven artifacts
+[2026-10-10T08:35:47.696Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.696Z] [[1;34mINFO[m] [1m--- [0;32mtycho-source:4.0.12:plugin-source[m [1m(plugin-source)[m @ [36morg.eclipse.nebula.widgets.opal.commons.feature[0;1m ---[m
+[2026-10-10T08:35:47.696Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.696Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:package-feature[m [1m(default-package-feature)[m @ [36morg.eclipse.nebula.widgets.opal.commons.feature[0;1m ---[m
+[2026-10-10T08:35:47.696Z] [[1;34mINFO[m] Building jar: /var/jenkins_home/workspace/ex-013-full/widgets/opal/commons/org.eclipse.nebula.widgets.opal.commons.feature/target/org.eclipse.nebula.widgets.opal.commons.feature-1.0.0-SNAPSHOT.jar
+[2026-10-10T08:35:47.696Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.696Z] [[1;34mINFO[m] [1m--- [0;32mtycho-p2-plugin:4.0.12:p2-metadata-default[m [1m(default-p2-metadata-default)[m @ [36morg.eclipse.nebula.widgets.opal.commons.feature[0;1m ---[m
+[2026-10-10T08:35:47.696Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.696Z] [[1;34mINFO[m] [1m--- [0;32mtycho-p2-plugin:4.0.12:feature-p2-metadata[m [1m(default-feature-p2-metadata)[m @ [36morg.eclipse.nebula.widgets.opal.commons.feature[0;1m ---[m
+[2026-10-10T08:35:47.696Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.696Z] [[1;34mINFO[m] [1m--< [0;36morg.eclipse.nebula:org.eclipse.nebula.widgets.badgedlabel.feature[0;1m >--[m
+[2026-10-10T08:35:47.696Z] [[1;34mINFO[m] [1mBuilding Nebula Badged Label Feature 1.0.0-SNAPSHOT              [7/312][m
+[2026-10-10T08:35:47.696Z] [[1;34mINFO[m]   from widgets/badgedlabel/org.eclipse.nebula.widgets.badgedlabel.feature/pom.xml
+[2026-10-10T08:35:47.696Z] [[1;34mINFO[m] [1m--------------------------[ eclipse-feature ]---------------------------[m
+[2026-10-10T08:35:47.696Z] [[1;34mINFO[m] Resolving dependencies of MavenProject: org.eclipse.nebula:org.eclipse.nebula.widgets.badgedlabel.feature:1.0.0-SNAPSHOT @ /var/jenkins_home/workspace/ex-013-full/widgets/badgedlabel/org.eclipse.nebula.widgets.badgedlabel.feature/pom.xml
+[2026-10-10T08:35:47.696Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.696Z] [[1;34mINFO[m] [1m--- [0;32mclean:3.2.0:clean[m [1m(default-clean)[m @ [36morg.eclipse.nebula.widgets.badgedlabel.feature[0;1m ---[m
+[2026-10-10T08:35:47.696Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.696Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:build-qualifier-aggregator[m [1m(default-build-qualifier-aggregator)[m @ [36morg.eclipse.nebula.widgets.badgedlabel.feature[0;1m ---[m
+[2026-10-10T08:35:47.696Z] [[1;34mINFO[m] The project's OSGi version is 1.0.0.202610100835
+[2026-10-10T08:35:47.696Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.696Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:validate-id[m [1m(default-validate-id)[m @ [36morg.eclipse.nebula.widgets.badgedlabel.feature[0;1m ---[m
+[2026-10-10T08:35:47.696Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.696Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:validate-version[m [1m(default-validate-version)[m @ [36morg.eclipse.nebula.widgets.badgedlabel.feature[0;1m ---[m
+[2026-10-10T08:35:47.696Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.696Z] [[1;34mINFO[m] [1m--- [0;32mtarget-platform-configuration:4.0.12:target-platform[m [1m(default-target-platform)[m @ [36morg.eclipse.nebula.widgets.badgedlabel.feature[0;1m ---[m
+[2026-10-10T08:35:47.696Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.696Z] [[1;34mINFO[m] [1m--- [0;32mjacoco:0.8.9:prepare-agent[m [1m(default)[m @ [36morg.eclipse.nebula.widgets.badgedlabel.feature[0;1m ---[m
+[2026-10-10T08:35:47.696Z] [[1;34mINFO[m] argLine set to -javaagent:/var/jenkins_home/.m2/repository/org/jacoco/org.jacoco.agent/0.8.9/org.jacoco.agent-0.8.9-runtime.jar=destfile=/var/jenkins_home/workspace/ex-013-full/widgets/badgedlabel/target/jacoco.exec,append=true,includes=*.nebula.*
+[2026-10-10T08:35:47.696Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.696Z] [[1;34mINFO[m] [1m--- [0;32mresources:3.3.1:resources[m [1m(default-resources)[m @ [36morg.eclipse.nebula.widgets.badgedlabel.feature[0;1m ---[m
+[2026-10-10T08:35:47.947Z] [[1;34mINFO[m] skip non existing resourceDirectory /var/jenkins_home/workspace/ex-013-full/widgets/badgedlabel/org.eclipse.nebula.widgets.badgedlabel.feature/src/main/resources
+[2026-10-10T08:35:47.947Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.947Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:update-consumer-pom[m [1m(default-update-consumer-pom)[m @ [36morg.eclipse.nebula.widgets.badgedlabel.feature[0;1m ---[m
+[2026-10-10T08:35:47.947Z] [[1;34mINFO[m] 11 system scoped dependencies were not mapped to maven artifacts
+[2026-10-10T08:35:47.947Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.947Z] [[1;34mINFO[m] [1m--- [0;32mtycho-source:4.0.12:plugin-source[m [1m(plugin-source)[m @ [36morg.eclipse.nebula.widgets.badgedlabel.feature[0;1m ---[m
+[2026-10-10T08:35:47.947Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.947Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:package-feature[m [1m(default-package-feature)[m @ [36morg.eclipse.nebula.widgets.badgedlabel.feature[0;1m ---[m
+[2026-10-10T08:35:47.947Z] [[1;34mINFO[m] Building jar: /var/jenkins_home/workspace/ex-013-full/widgets/badgedlabel/org.eclipse.nebula.widgets.badgedlabel.feature/target/org.eclipse.nebula.widgets.badgedlabel.feature-1.0.0-SNAPSHOT.jar
+[2026-10-10T08:35:47.947Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.947Z] [[1;34mINFO[m] [1m--- [0;32mtycho-p2-plugin:4.0.12:p2-metadata-default[m [1m(default-p2-metadata-default)[m @ [36morg.eclipse.nebula.widgets.badgedlabel.feature[0;1m ---[m
+[2026-10-10T08:35:47.947Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.947Z] [[1;34mINFO[m] [1m--- [0;32mtycho-p2-plugin:4.0.12:feature-p2-metadata[m [1m(default-feature-p2-metadata)[m @ [36morg.eclipse.nebula.widgets.badgedlabel.feature[0;1m ---[m
+[2026-10-10T08:35:47.947Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.947Z] [[1;34mINFO[m] [1m--< [0;36morg.eclipse.nebula:org.eclipse.nebula.widgets.badgedlabel.snippets[0;1m >--[m
+[2026-10-10T08:35:47.947Z] [[1;34mINFO[m] [1mBuilding org.eclipse.nebula.widgets.badgedlabel.snippets 1.0.0-SNAPSHOT [8/312][m
+[2026-10-10T08:35:47.947Z] [[1;34mINFO[m]   from widgets/badgedlabel/org.eclipse.nebula.widgets.badgedlabel.snippets/pom.xml
+[2026-10-10T08:35:47.947Z] [[1;34mINFO[m] [1m---------------------------[ eclipse-plugin ]---------------------------[m
+[2026-10-10T08:35:47.947Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.947Z] [[1;34mINFO[m] [1m--- [0;32mclean:3.2.0:clean[m [1m(default-clean)[m @ [36morg.eclipse.nebula.widgets.badgedlabel.snippets[0;1m ---[m
+[2026-10-10T08:35:47.947Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.947Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:build-qualifier[m [1m(default-build-qualifier)[m @ [36morg.eclipse.nebula.widgets.badgedlabel.snippets[0;1m ---[m
+[2026-10-10T08:35:47.947Z] [[1;34mINFO[m] The project's OSGi version is 1.0.0.202610100835
+[2026-10-10T08:35:47.947Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.947Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:validate-id[m [1m(default-validate-id)[m @ [36morg.eclipse.nebula.widgets.badgedlabel.snippets[0;1m ---[m
+[2026-10-10T08:35:47.947Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.947Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:validate-version[m [1m(default-validate-version)[m @ [36morg.eclipse.nebula.widgets.badgedlabel.snippets[0;1m ---[m
+[2026-10-10T08:35:47.947Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.947Z] [[1;34mINFO[m] [1m--- [0;32mtarget-platform-configuration:4.0.12:target-platform[m [1m(default-target-platform)[m @ [36morg.eclipse.nebula.widgets.badgedlabel.snippets[0;1m ---[m
+[2026-10-10T08:35:47.947Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.947Z] [[1;34mINFO[m] [1m--- [0;32mtycho-compiler:4.0.12:validate-classpath[m [1m(default-validate-classpath)[m @ [36morg.eclipse.nebula.widgets.badgedlabel.snippets[0;1m ---[m
+[2026-10-10T08:35:47.947Z] [[1;34mINFO[m] Resolving class path of org.eclipse.nebula.widgets.badgedlabel.snippets
+[2026-10-10T08:35:47.947Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.947Z] [[1;34mINFO[m] [1m--- [0;32mjacoco:0.8.9:prepare-agent[m [1m(default)[m @ [36morg.eclipse.nebula.widgets.badgedlabel.snippets[0;1m ---[m
+[2026-10-10T08:35:47.947Z] [[1;34mINFO[m] argLine set to -javaagent:/var/jenkins_home/.m2/repository/org/jacoco/org.jacoco.agent/0.8.9/org.jacoco.agent-0.8.9-runtime.jar=destfile=/var/jenkins_home/workspace/ex-013-full/widgets/badgedlabel/target/jacoco.exec,append=true,includes=*.nebula.*
+[2026-10-10T08:35:47.947Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.947Z] [[1;34mINFO[m] [1m--- [0;32mresources:3.3.1:resources[m [1m(default-resources)[m @ [36morg.eclipse.nebula.widgets.badgedlabel.snippets[0;1m ---[m
+[2026-10-10T08:35:47.947Z] [[1;34mINFO[m] skip non existing resourceDirectory /var/jenkins_home/workspace/ex-013-full/widgets/badgedlabel/org.eclipse.nebula.widgets.badgedlabel.snippets/src/main/resources
+[2026-10-10T08:35:47.947Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:47.947Z] [[1;34mINFO[m] [1m--- [0;32mtycho-compiler:4.0.12:compile[m [1m(default-compile)[m @ [36morg.eclipse.nebula.widgets.badgedlabel.snippets[0;1m ---[m
+[2026-10-10T08:35:47.947Z] [[1;33mWARNING[m] The effective compiler target level 21 is incompatible with the following OSGi execution environments: [JavaSE-11 (assumes 11)] @ MavenProject: org.eclipse.nebula:org.eclipse.nebula.widgets.badgedlabel.snippets:1.0.0-SNAPSHOT @ /var/jenkins_home/workspace/ex-013-full/widgets/badgedlabel/org.eclipse.nebula.widgets.badgedlabel.snippets/pom.xml
+[2026-10-10T08:35:47.947Z] [[1;34mINFO[m] Compiling 1 source file to /var/jenkins_home/workspace/ex-013-full/widgets/badgedlabel/org.eclipse.nebula.widgets.badgedlabel.snippets/target/classes using Eclipse Compiler for Java(TM) 3.40.0.v20241112-0530
+[2026-10-10T08:35:48.197Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:48.197Z] [[1;34mINFO[m] [1m--- [0;32mtycho-bnd:4.0.12:process[m [1m(default-process)[m @ [36morg.eclipse.nebula.widgets.badgedlabel.snippets[0;1m ---[m
+[2026-10-10T08:35:48.197Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:48.197Z] [[1;34mINFO[m] [1m--- [0;32mtycho-ds:4.0.12:declarative-services[m [1m(default-declarative-services)[m @ [36morg.eclipse.nebula.widgets.badgedlabel.snippets[0;1m ---[m
+[2026-10-10T08:35:48.197Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:48.197Z] [[1;34mINFO[m] [1m--- [0;32mresources:3.3.1:testResources[m [1m(default-testResources)[m @ [36morg.eclipse.nebula.widgets.badgedlabel.snippets[0;1m ---[m
+[2026-10-10T08:35:48.197Z] [[1;34mINFO[m] skip non existing resourceDirectory /var/jenkins_home/workspace/ex-013-full/widgets/badgedlabel/org.eclipse.nebula.widgets.badgedlabel.snippets/src/test/resources
+[2026-10-10T08:35:48.197Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:48.197Z] [[1;34mINFO[m] [1m--- [0;32mtycho-compiler:4.0.12:testCompile[m [1m(default-testCompile)[m @ [36morg.eclipse.nebula.widgets.badgedlabel.snippets[0;1m ---[m
+[2026-10-10T08:35:48.197Z] [[1;33mWARNING[m] The effective compiler target level 21 is incompatible with the following OSGi execution environments: [JavaSE-11 (assumes 11)] @ MavenProject: org.eclipse.nebula:org.eclipse.nebula.widgets.badgedlabel.snippets:1.0.0-SNAPSHOT @ /var/jenkins_home/workspace/ex-013-full/widgets/badgedlabel/org.eclipse.nebula.widgets.badgedlabel.snippets/pom.xml
+[2026-10-10T08:35:48.198Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:48.198Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:update-consumer-pom[m [1m(default-update-consumer-pom)[m @ [36morg.eclipse.nebula.widgets.badgedlabel.snippets[0;1m ---[m
+[2026-10-10T08:35:48.198Z] [[1;34mINFO[m] 11 system scoped dependencies were not mapped to maven artifacts
+[2026-10-10T08:35:48.198Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:48.198Z] [[1;34mINFO[m] [1m--- [0;32mtycho-source:4.0.12:plugin-source[m [1m(plugin-source)[m @ [36morg.eclipse.nebula.widgets.badgedlabel.snippets[0;1m ---[m
+[2026-10-10T08:35:48.198Z] [[1;34mINFO[m] Building jar: /var/jenkins_home/workspace/ex-013-full/widgets/badgedlabel/org.eclipse.nebula.widgets.badgedlabel.snippets/target/org.eclipse.nebula.widgets.badgedlabel.snippets-1.0.0-SNAPSHOT-sources.jar
+[2026-10-10T08:35:48.198Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:48.198Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:package-plugin[m [1m(default-package-plugin)[m @ [36morg.eclipse.nebula.widgets.badgedlabel.snippets[0;1m ---[m
+[2026-10-10T08:35:48.198Z] [[1;34mINFO[m] Building jar: /var/jenkins_home/workspace/ex-013-full/widgets/badgedlabel/org.eclipse.nebula.widgets.badgedlabel.snippets/target/org.eclipse.nebula.widgets.badgedlabel.snippets-1.0.0-SNAPSHOT.jar
+[2026-10-10T08:35:48.198Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:48.198Z] [[1;34mINFO[m] [1m--- [0;32mtycho-p2-plugin:4.0.12:p2-metadata-default[m [1m(default-p2-metadata-default)[m @ [36morg.eclipse.nebula.widgets.badgedlabel.snippets[0;1m ---[m
+[2026-10-10T08:35:48.198Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:48.198Z] [[1;34mINFO[m] [1m--------------------< [0;36morg.eclipse.nebula:carousel[0;1m >---------------------[m
+[2026-10-10T08:35:48.198Z] [[1;34mINFO[m] [1mBuilding carousel 1.0.0-SNAPSHOT                                 [9/312][m
+[2026-10-10T08:35:48.198Z] [[1;34mINFO[m]   from widgets/carousel/pom.xml
+[2026-10-10T08:35:48.198Z] [[1;34mINFO[m] [1m--------------------------------[ pom ]---------------------------------[m
+[2026-10-10T08:35:48.198Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:48.198Z] [[1;34mINFO[m] [1m--- [0;32mclean:3.2.0:clean[m [1m(default-clean)[m @ [36mcarousel[0;1m ---[m
+[2026-10-10T08:35:48.198Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:48.198Z] [[1;34mINFO[m] [1m--- [0;32mjacoco:0.8.9:prepare-agent[m [1m(default)[m @ [36mcarousel[0;1m ---[m
+[2026-10-10T08:35:48.198Z] [[1;34mINFO[m] argLine set to -javaagent:/var/jenkins_home/.m2/repository/org/jacoco/org.jacoco.agent/0.8.9/org.jacoco.agent-0.8.9-runtime.jar=destfile=/var/jenkins_home/workspace/ex-013-full/widgets/target/jacoco.exec,append=true,includes=*.nebula.*
+[2026-10-10T08:35:48.198Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:48.198Z] [[1;34mINFO[m] [1m--- [0;32mtycho-source:4.0.12:plugin-source[m [1m(plugin-source)[m @ [36mcarousel[0;1m ---[m
+[2026-10-10T08:35:48.198Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:48.198Z] [[1;34mINFO[m] [1m-------< [0;36morg.eclipse.nebula:org.eclipse.nebula.widgets.carousel[0;1m >-------[m
+[2026-10-10T08:35:48.198Z] [[1;34mINFO[m] [1mBuilding org.eclipse.nebula.widgets.carousel 1.0.0-SNAPSHOT     [10/312][m
+[2026-10-10T08:35:48.198Z] [[1;34mINFO[m]   from widgets/carousel/org.eclipse.nebula.widgets.carousel/pom.xml
+[2026-10-10T08:35:48.198Z] [[1;34mINFO[m] [1m---------------------------[ eclipse-plugin ]---------------------------[m
+[2026-10-10T08:35:48.448Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:48.448Z] [[1;34mINFO[m] [1m--- [0;32mclean:3.2.0:clean[m [1m(default-clean)[m @ [36morg.eclipse.nebula.widgets.carousel[0;1m ---[m
+[2026-10-10T08:35:48.448Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:48.448Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:build-qualifier[m [1m(default-build-qualifier)[m @ [36morg.eclipse.nebula.widgets.carousel[0;1m ---[m
+[2026-10-10T08:35:48.448Z] [[1;34mINFO[m] The project's OSGi version is 1.0.0.202610100835
+[2026-10-10T08:35:48.448Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:48.448Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:validate-id[m [1m(default-validate-id)[m @ [36morg.eclipse.nebula.widgets.carousel[0;1m ---[m
+[2026-10-10T08:35:48.448Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:48.448Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:validate-version[m [1m(default-validate-version)[m @ [36morg.eclipse.nebula.widgets.carousel[0;1m ---[m
+[2026-10-10T08:35:48.448Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:48.448Z] [[1;34mINFO[m] [1m--- [0;32mtarget-platform-configuration:4.0.12:target-platform[m [1m(default-target-platform)[m @ [36morg.eclipse.nebula.widgets.carousel[0;1m ---[m
+[2026-10-10T08:35:48.448Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:48.448Z] [[1;34mINFO[m] [1m--- [0;32mtycho-compiler:4.0.12:validate-classpath[m [1m(default-validate-classpath)[m @ [36morg.eclipse.nebula.widgets.carousel[0;1m ---[m
+[2026-10-10T08:35:48.448Z] [[1;34mINFO[m] Resolving class path of org.eclipse.nebula.widgets.carousel
+[2026-10-10T08:35:48.448Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:48.448Z] [[1;34mINFO[m] [1m--- [0;32mjacoco:0.8.9:prepare-agent[m [1m(default)[m @ [36morg.eclipse.nebula.widgets.carousel[0;1m ---[m
+[2026-10-10T08:35:48.448Z] [[1;34mINFO[m] argLine set to -javaagent:/var/jenkins_home/.m2/repository/org/jacoco/org.jacoco.agent/0.8.9/org.jacoco.agent-0.8.9-runtime.jar=destfile=/var/jenkins_home/workspace/ex-013-full/widgets/carousel/target/jacoco.exec,append=true,includes=*.nebula.*
+[2026-10-10T08:35:48.448Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:48.448Z] [[1;34mINFO[m] [1m--- [0;32mresources:3.3.1:resources[m [1m(default-resources)[m @ [36morg.eclipse.nebula.widgets.carousel[0;1m ---[m
+[2026-10-10T08:35:48.448Z] [[1;34mINFO[m] skip non existing resourceDirectory /var/jenkins_home/workspace/ex-013-full/widgets/carousel/org.eclipse.nebula.widgets.carousel/src/main/resources
+[2026-10-10T08:35:48.448Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:48.448Z] [[1;34mINFO[m] [1m--- [0;32mtycho-compiler:4.0.12:compile[m [1m(default-compile)[m @ [36morg.eclipse.nebula.widgets.carousel[0;1m ---[m
+[2026-10-10T08:35:48.448Z] [[1;33mWARNING[m] The effective compiler target level 21 is incompatible with the following OSGi execution environments: [JavaSE-11 (assumes 11)] @ MavenProject: org.eclipse.nebula:org.eclipse.nebula.widgets.carousel:1.0.0-SNAPSHOT @ /var/jenkins_home/workspace/ex-013-full/widgets/carousel/org.eclipse.nebula.widgets.carousel/pom.xml
+[2026-10-10T08:35:48.448Z] [[1;34mINFO[m] Compiling 3 source files to /var/jenkins_home/workspace/ex-013-full/widgets/carousel/org.eclipse.nebula.widgets.carousel/target/classes using Eclipse Compiler for Java(TM) 3.40.0.v20241112-0530
+[2026-10-10T08:35:48.699Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:48.699Z] [[1;34mINFO[m] [1m--- [0;32mtycho-bnd:4.0.12:process[m [1m(default-process)[m @ [36morg.eclipse.nebula.widgets.carousel[0;1m ---[m
+[2026-10-10T08:35:48.699Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:48.699Z] [[1;34mINFO[m] [1m--- [0;32mtycho-ds:4.0.12:declarative-services[m [1m(default-declarative-services)[m @ [36morg.eclipse.nebula.widgets.carousel[0;1m ---[m
+[2026-10-10T08:35:48.699Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:48.699Z] [[1;34mINFO[m] [1m--- [0;32mresources:3.3.1:testResources[m [1m(default-testResources)[m @ [36morg.eclipse.nebula.widgets.carousel[0;1m ---[m
+[2026-10-10T08:35:48.699Z] [[1;34mINFO[m] skip non existing resourceDirectory /var/jenkins_home/workspace/ex-013-full/widgets/carousel/org.eclipse.nebula.widgets.carousel/src/test/resources
+[2026-10-10T08:35:48.699Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:48.699Z] [[1;34mINFO[m] [1m--- [0;32mtycho-compiler:4.0.12:testCompile[m [1m(default-testCompile)[m @ [36morg.eclipse.nebula.widgets.carousel[0;1m ---[m
+[2026-10-10T08:35:48.699Z] [[1;33mWARNING[m] The effective compiler target level 21 is incompatible with the following OSGi execution environments: [JavaSE-11 (assumes 11)] @ MavenProject: org.eclipse.nebula:org.eclipse.nebula.widgets.carousel:1.0.0-SNAPSHOT @ /var/jenkins_home/workspace/ex-013-full/widgets/carousel/org.eclipse.nebula.widgets.carousel/pom.xml
+[2026-10-10T08:35:48.699Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:48.699Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:update-consumer-pom[m [1m(default-update-consumer-pom)[m @ [36morg.eclipse.nebula.widgets.carousel[0;1m ---[m
+[2026-10-10T08:35:48.699Z] [[1;34mINFO[m] 11 system scoped dependencies were not mapped to maven artifacts
+[2026-10-10T08:35:48.699Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:48.699Z] [[1;34mINFO[m] [1m--- [0;32mtycho-source:4.0.12:plugin-source[m [1m(plugin-source)[m @ [36morg.eclipse.nebula.widgets.carousel[0;1m ---[m
+[2026-10-10T08:35:48.699Z] [[1;34mINFO[m] Building jar: /var/jenkins_home/workspace/ex-013-full/widgets/carousel/org.eclipse.nebula.widgets.carousel/target/org.eclipse.nebula.widgets.carousel-1.0.0-SNAPSHOT-sources.jar
+[2026-10-10T08:35:48.699Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:48.699Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:package-plugin[m [1m(default-package-plugin)[m @ [36morg.eclipse.nebula.widgets.carousel[0;1m ---[m
+[2026-10-10T08:35:48.699Z] [[1;34mINFO[m] Building jar: /var/jenkins_home/workspace/ex-013-full/widgets/carousel/org.eclipse.nebula.widgets.carousel/target/org.eclipse.nebula.widgets.carousel-1.0.0-SNAPSHOT.jar
+[2026-10-10T08:35:48.950Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:48.950Z] [[1;34mINFO[m] [1m--- [0;32mtycho-p2-plugin:4.0.12:p2-metadata-default[m [1m(default-p2-metadata-default)[m @ [36morg.eclipse.nebula.widgets.carousel[0;1m ---[m
+[2026-10-10T08:35:48.950Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:48.950Z] [[1;34mINFO[m] [1m---< [0;36morg.eclipse.nebula:org.eclipse.nebula.widgets.carousel.feature[0;1m >---[m
+[2026-10-10T08:35:48.950Z] [[1;34mINFO[m] [1mBuilding Nebula Carousel Feature 1.0.0-SNAPSHOT                 [11/312][m
+[2026-10-10T08:35:48.950Z] [[1;34mINFO[m]   from widgets/carousel/org.eclipse.nebula.widgets.carousel.feature/pom.xml
+[2026-10-10T08:35:48.950Z] [[1;34mINFO[m] [1m--------------------------[ eclipse-feature ]---------------------------[m
+[2026-10-10T08:35:48.950Z] [[1;34mINFO[m] Resolving dependencies of MavenProject: org.eclipse.nebula:org.eclipse.nebula.widgets.carousel.feature:1.0.0-SNAPSHOT @ /var/jenkins_home/workspace/ex-013-full/widgets/carousel/org.eclipse.nebula.widgets.carousel.feature/pom.xml
+[2026-10-10T08:35:48.950Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:48.950Z] [[1;34mINFO[m] [1m--- [0;32mclean:3.2.0:clean[m [1m(default-clean)[m @ [36morg.eclipse.nebula.widgets.carousel.feature[0;1m ---[m
+[2026-10-10T08:35:48.950Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:48.950Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:build-qualifier-aggregator[m [1m(default-build-qualifier-aggregator)[m @ [36morg.eclipse.nebula.widgets.carousel.feature[0;1m ---[m
+[2026-10-10T08:35:48.950Z] [[1;34mINFO[m] The project's OSGi version is 1.0.0.202610100835
+[2026-10-10T08:35:48.950Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:48.950Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:validate-id[m [1m(default-validate-id)[m @ [36morg.eclipse.nebula.widgets.carousel.feature[0;1m ---[m
+[2026-10-10T08:35:48.950Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:48.950Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:validate-version[m [1m(default-validate-version)[m @ [36morg.eclipse.nebula.widgets.carousel.feature[0;1m ---[m
+[2026-10-10T08:35:48.950Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:48.950Z] [[1;34mINFO[m] [1m--- [0;32mtarget-platform-configuration:4.0.12:target-platform[m [1m(default-target-platform)[m @ [36morg.eclipse.nebula.widgets.carousel.feature[0;1m ---[m
+[2026-10-10T08:35:48.950Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:48.950Z] [[1;34mINFO[m] [1m--- [0;32mjacoco:0.8.9:prepare-agent[m [1m(default)[m @ [36morg.eclipse.nebula.widgets.carousel.feature[0;1m ---[m
+[2026-10-10T08:35:48.950Z] [[1;34mINFO[m] argLine set to -javaagent:/var/jenkins_home/.m2/repository/org/jacoco/org.jacoco.agent/0.8.9/org.jacoco.agent-0.8.9-runtime.jar=destfile=/var/jenkins_home/workspace/ex-013-full/widgets/carousel/target/jacoco.exec,append=true,includes=*.nebula.*
+[2026-10-10T08:35:48.950Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:48.950Z] [[1;34mINFO[m] [1m--- [0;32mresources:3.3.1:resources[m [1m(default-resources)[m @ [36morg.eclipse.nebula.widgets.carousel.feature[0;1m ---[m
+[2026-10-10T08:35:48.950Z] [[1;34mINFO[m] skip non existing resourceDirectory /var/jenkins_home/workspace/ex-013-full/widgets/carousel/org.eclipse.nebula.widgets.carousel.feature/src/main/resources
+[2026-10-10T08:35:48.950Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:48.950Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:update-consumer-pom[m [1m(default-update-consumer-pom)[m @ [36morg.eclipse.nebula.widgets.carousel.feature[0;1m ---[m
+[2026-10-10T08:35:48.950Z] [[1;34mINFO[m] 11 system scoped dependencies were not mapped to maven artifacts
+[2026-10-10T08:35:48.950Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:48.950Z] [[1;34mINFO[m] [1m--- [0;32mtycho-source:4.0.12:plugin-source[m [1m(plugin-source)[m @ [36morg.eclipse.nebula.widgets.carousel.feature[0;1m ---[m
+[2026-10-10T08:35:48.950Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:48.950Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:package-feature[m [1m(default-package-feature)[m @ [36morg.eclipse.nebula.widgets.carousel.feature[0;1m ---[m
+[2026-10-10T08:35:48.950Z] [[1;34mINFO[m] Building jar: /var/jenkins_home/workspace/ex-013-full/widgets/carousel/org.eclipse.nebula.widgets.carousel.feature/target/org.eclipse.nebula.widgets.carousel.feature-1.0.0-SNAPSHOT.jar
+[2026-10-10T08:35:48.950Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:48.950Z] [[1;34mINFO[m] [1m--- [0;32mtycho-p2-plugin:4.0.12:p2-metadata-default[m [1m(default-p2-metadata-default)[m @ [36morg.eclipse.nebula.widgets.carousel.feature[0;1m ---[m
+[2026-10-10T08:35:49.200Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:49.200Z] [[1;34mINFO[m] [1m--- [0;32mtycho-p2-plugin:4.0.12:feature-p2-metadata[m [1m(default-feature-p2-metadata)[m @ [36morg.eclipse.nebula.widgets.carousel.feature[0;1m ---[m
+[2026-10-10T08:35:49.200Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:49.200Z] [[1;34mINFO[m] [1m--< [0;36morg.eclipse.nebula:org.eclipse.nebula.widgets.carousel.snippets[0;1m >---[m
+[2026-10-10T08:35:49.200Z] [[1;34mINFO[m] [1mBuilding org.eclipse.nebula.widgets.carousel.snippets 1.0.0-SNAPSHOT [12/312][m
+[2026-10-10T08:35:49.200Z] [[1;34mINFO[m]   from widgets/carousel/org.eclipse.nebula.widgets.carousel.snippets/pom.xml
+[2026-10-10T08:35:49.200Z] [[1;34mINFO[m] [1m---------------------------[ eclipse-plugin ]---------------------------[m
+[2026-10-10T08:35:49.200Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:49.200Z] [[1;34mINFO[m] [1m--- [0;32mclean:3.2.0:clean[m [1m(default-clean)[m @ [36morg.eclipse.nebula.widgets.carousel.snippets[0;1m ---[m
+[2026-10-10T08:35:49.200Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:49.200Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:build-qualifier[m [1m(default-build-qualifier)[m @ [36morg.eclipse.nebula.widgets.carousel.snippets[0;1m ---[m
+[2026-10-10T08:35:49.200Z] [[1;34mINFO[m] The project's OSGi version is 1.0.0.202610100835
+[2026-10-10T08:35:49.200Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:49.200Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:validate-id[m [1m(default-validate-id)[m @ [36morg.eclipse.nebula.widgets.carousel.snippets[0;1m ---[m
+[2026-10-10T08:35:49.200Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:49.200Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:validate-version[m [1m(default-validate-version)[m @ [36morg.eclipse.nebula.widgets.carousel.snippets[0;1m ---[m
+[2026-10-10T08:35:49.200Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:49.200Z] [[1;34mINFO[m] [1m--- [0;32mtarget-platform-configuration:4.0.12:target-platform[m [1m(default-target-platform)[m @ [36morg.eclipse.nebula.widgets.carousel.snippets[0;1m ---[m
+[2026-10-10T08:35:49.200Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:49.200Z] [[1;34mINFO[m] [1m--- [0;32mtycho-compiler:4.0.12:validate-classpath[m [1m(default-validate-classpath)[m @ [36morg.eclipse.nebula.widgets.carousel.snippets[0;1m ---[m
+[2026-10-10T08:35:49.200Z] [[1;34mINFO[m] Resolving class path of org.eclipse.nebula.widgets.carousel.snippets
+[2026-10-10T08:35:49.200Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:49.200Z] [[1;34mINFO[m] [1m--- [0;32mjacoco:0.8.9:prepare-agent[m [1m(default)[m @ [36morg.eclipse.nebula.widgets.carousel.snippets[0;1m ---[m
+[2026-10-10T08:35:49.200Z] [[1;34mINFO[m] argLine set to -javaagent:/var/jenkins_home/.m2/repository/org/jacoco/org.jacoco.agent/0.8.9/org.jacoco.agent-0.8.9-runtime.jar=destfile=/var/jenkins_home/workspace/ex-013-full/widgets/carousel/target/jacoco.exec,append=true,includes=*.nebula.*
+[2026-10-10T08:35:49.200Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:49.200Z] [[1;34mINFO[m] [1m--- [0;32mresources:3.3.1:resources[m [1m(default-resources)[m @ [36morg.eclipse.nebula.widgets.carousel.snippets[0;1m ---[m
+[2026-10-10T08:35:49.200Z] [[1;34mINFO[m] skip non existing resourceDirectory /var/jenkins_home/workspace/ex-013-full/widgets/carousel/org.eclipse.nebula.widgets.carousel.snippets/src/main/resources
+[2026-10-10T08:35:49.200Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:49.200Z] [[1;34mINFO[m] [1m--- [0;32mtycho-compiler:4.0.12:compile[m [1m(default-compile)[m @ [36morg.eclipse.nebula.widgets.carousel.snippets[0;1m ---[m
+[2026-10-10T08:35:49.200Z] [[1;33mWARNING[m] The effective compiler target level 21 is incompatible with the following OSGi execution environments: [JavaSE-11 (assumes 11)] @ MavenProject: org.eclipse.nebula:org.eclipse.nebula.widgets.carousel.snippets:1.0.0-SNAPSHOT @ /var/jenkins_home/workspace/ex-013-full/widgets/carousel/org.eclipse.nebula.widgets.carousel.snippets/pom.xml
+[2026-10-10T08:35:49.200Z] [[1;34mINFO[m] Compiling 1 source file to /var/jenkins_home/workspace/ex-013-full/widgets/carousel/org.eclipse.nebula.widgets.carousel.snippets/target/classes using Eclipse Compiler for Java(TM) 3.40.0.v20241112-0530
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] [1m--- [0;32mtycho-bnd:4.0.12:process[m [1m(default-process)[m @ [36morg.eclipse.nebula.widgets.carousel.snippets[0;1m ---[m
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] [1m--- [0;32mtycho-ds:4.0.12:declarative-services[m [1m(default-declarative-services)[m @ [36morg.eclipse.nebula.widgets.carousel.snippets[0;1m ---[m
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] [1m--- [0;32mresources:3.3.1:testResources[m [1m(default-testResources)[m @ [36morg.eclipse.nebula.widgets.carousel.snippets[0;1m ---[m
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] skip non existing resourceDirectory /var/jenkins_home/workspace/ex-013-full/widgets/carousel/org.eclipse.nebula.widgets.carousel.snippets/src/test/resources
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] [1m--- [0;32mtycho-compiler:4.0.12:testCompile[m [1m(default-testCompile)[m @ [36morg.eclipse.nebula.widgets.carousel.snippets[0;1m ---[m
+[2026-10-10T08:35:49.451Z] [[1;33mWARNING[m] The effective compiler target level 21 is incompatible with the following OSGi execution environments: [JavaSE-11 (assumes 11)] @ MavenProject: org.eclipse.nebula:org.eclipse.nebula.widgets.carousel.snippets:1.0.0-SNAPSHOT @ /var/jenkins_home/workspace/ex-013-full/widgets/carousel/org.eclipse.nebula.widgets.carousel.snippets/pom.xml
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:update-consumer-pom[m [1m(default-update-consumer-pom)[m @ [36morg.eclipse.nebula.widgets.carousel.snippets[0;1m ---[m
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] 11 system scoped dependencies were not mapped to maven artifacts
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] [1m--- [0;32mtycho-source:4.0.12:plugin-source[m [1m(plugin-source)[m @ [36morg.eclipse.nebula.widgets.carousel.snippets[0;1m ---[m
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] Building jar: /var/jenkins_home/workspace/ex-013-full/widgets/carousel/org.eclipse.nebula.widgets.carousel.snippets/target/org.eclipse.nebula.widgets.carousel.snippets-1.0.0-SNAPSHOT-sources.jar
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:package-plugin[m [1m(default-package-plugin)[m @ [36morg.eclipse.nebula.widgets.carousel.snippets[0;1m ---[m
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] Building jar: /var/jenkins_home/workspace/ex-013-full/widgets/carousel/org.eclipse.nebula.widgets.carousel.snippets/target/org.eclipse.nebula.widgets.carousel.snippets-1.0.0-SNAPSHOT.jar
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] [1m--- [0;32mtycho-p2-plugin:4.0.12:p2-metadata-default[m [1m(default-p2-metadata-default)[m @ [36morg.eclipse.nebula.widgets.carousel.snippets[0;1m ---[m
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] [1m--------------------< [0;36morg.eclipse.nebula:cdatetime[0;1m >--------------------[m
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] [1mBuilding cdatetime 1.5.1-SNAPSHOT                               [13/312][m
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m]   from widgets/cdatetime/pom.xml
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] [1m--------------------------------[ pom ]---------------------------------[m
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] [1m--- [0;32mclean:3.2.0:clean[m [1m(default-clean)[m @ [36mcdatetime[0;1m ---[m
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] [1m--- [0;32mjacoco:0.8.9:prepare-agent[m [1m(default)[m @ [36mcdatetime[0;1m ---[m
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] argLine set to -javaagent:/var/jenkins_home/.m2/repository/org/jacoco/org.jacoco.agent/0.8.9/org.jacoco.agent-0.8.9-runtime.jar=destfile=/var/jenkins_home/workspace/ex-013-full/widgets/target/jacoco.exec,append=true,includes=*.nebula.*
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] [1m--- [0;32mtycho-source:4.0.12:plugin-source[m [1m(plugin-source)[m @ [36mcdatetime[0;1m ---[m
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] [1m-----------------------< [0;36morg.eclipse.nebula:cwt[0;1m >-----------------------[m
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] [1mBuilding cwt 1.1.0-SNAPSHOT                                     [14/312][m
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m]   from widgets/cwt/pom.xml
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] [1m--------------------------------[ pom ]---------------------------------[m
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] [1m--- [0;32mclean:3.2.0:clean[m [1m(default-clean)[m @ [36mcwt[0;1m ---[m
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] [1m--- [0;32mjacoco:0.8.9:prepare-agent[m [1m(default)[m @ [36mcwt[0;1m ---[m
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] argLine set to -javaagent:/var/jenkins_home/.m2/repository/org/jacoco/org.jacoco.agent/0.8.9/org.jacoco.agent-0.8.9-runtime.jar=destfile=/var/jenkins_home/workspace/ex-013-full/widgets/target/jacoco.exec,append=true,includes=*.nebula.*
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] [1m--- [0;32mtycho-source:4.0.12:plugin-source[m [1m(plugin-source)[m @ [36mcwt[0;1m ---[m
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] [1m-------------< [0;36morg.eclipse.nebula:org.eclipse.nebula.cwt[0;1m >--------------[m
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] [1mBuilding org.eclipse.nebula.cwt 1.1.0-SNAPSHOT                  [15/312][m
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m]   from widgets/cwt/org.eclipse.nebula.cwt/pom.xml
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] [1m---------------------------[ eclipse-plugin ]---------------------------[m
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] [1m--- [0;32mclean:3.2.0:clean[m [1m(default-clean)[m @ [36morg.eclipse.nebula.cwt[0;1m ---[m
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:build-qualifier[m [1m(default-build-qualifier)[m @ [36morg.eclipse.nebula.cwt[0;1m ---[m
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] The project's OSGi version is 1.1.0.202610100835
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:validate-id[m [1m(default-validate-id)[m @ [36morg.eclipse.nebula.cwt[0;1m ---[m
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:validate-version[m [1m(default-validate-version)[m @ [36morg.eclipse.nebula.cwt[0;1m ---[m
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] [1m--- [0;32mtarget-platform-configuration:4.0.12:target-platform[m [1m(default-target-platform)[m @ [36morg.eclipse.nebula.cwt[0;1m ---[m
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] [1m--- [0;32mtycho-compiler:4.0.12:validate-classpath[m [1m(default-validate-classpath)[m @ [36morg.eclipse.nebula.cwt[0;1m ---[m
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] Resolving class path of org.eclipse.nebula.cwt
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] [1m--- [0;32mjacoco:0.8.9:prepare-agent[m [1m(default)[m @ [36morg.eclipse.nebula.cwt[0;1m ---[m
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] argLine set to -javaagent:/var/jenkins_home/.m2/repository/org/jacoco/org.jacoco.agent/0.8.9/org.jacoco.agent-0.8.9-runtime.jar=destfile=/var/jenkins_home/workspace/ex-013-full/widgets/cwt/target/jacoco.exec,append=true,includes=*.nebula.*
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] [1m--- [0;32mresources:3.3.1:resources[m [1m(default-resources)[m @ [36morg.eclipse.nebula.cwt[0;1m ---[m
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] skip non existing resourceDirectory /var/jenkins_home/workspace/ex-013-full/widgets/cwt/org.eclipse.nebula.cwt/src/main/resources
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] [1m--- [0;32mtycho-compiler:4.0.12:compile[m [1m(default-compile)[m @ [36morg.eclipse.nebula.cwt[0;1m ---[m
+[2026-10-10T08:35:49.451Z] [[1;33mWARNING[m] The effective compiler target level 21 is incompatible with the following OSGi execution environments: [JavaSE-11 (assumes 11)] @ MavenProject: org.eclipse.nebula:org.eclipse.nebula.cwt:1.1.0-SNAPSHOT @ /var/jenkins_home/workspace/ex-013-full/widgets/cwt/org.eclipse.nebula.cwt/pom.xml
+[2026-10-10T08:35:49.451Z] [[1;34mINFO[m] Compiling 54 source files to /var/jenkins_home/workspace/ex-013-full/widgets/cwt/org.eclipse.nebula.cwt/target/classes using Eclipse Compiler for Java(TM) 3.40.0.v20241112-0530
+[2026-10-10T08:35:50.368Z] [[1;33mWARNING[m] /var/jenkins_home/workspace/ex-013-full/widgets/cwt/org.eclipse.nebula.cwt/src/org/eclipse/nebula/cwt/v/VTracker.java:[204] 
+[2026-10-10T08:35:50.368Z] 	synchronized (lock) {
+[2026-10-10T08:35:50.368Z] 	              ^^^^
+[2026-10-10T08:35:50.368Z] Boolean is a value-based type which is a discouraged argument for the synchronized statement
+[2026-10-10T08:35:50.368Z] 1 problem (1 warning)
+[2026-10-10T08:35:50.368Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:50.368Z] [[1;34mINFO[m] [1m--- [0;32mtycho-bnd:4.0.12:process[m [1m(default-process)[m @ [36morg.eclipse.nebula.cwt[0;1m ---[m
+[2026-10-10T08:35:50.368Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:50.368Z] [[1;34mINFO[m] [1m--- [0;32mtycho-ds:4.0.12:declarative-services[m [1m(default-declarative-services)[m @ [36morg.eclipse.nebula.cwt[0;1m ---[m
+[2026-10-10T08:35:50.368Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:50.368Z] [[1;34mINFO[m] [1m--- [0;32mresources:3.3.1:testResources[m [1m(default-testResources)[m @ [36morg.eclipse.nebula.cwt[0;1m ---[m
+[2026-10-10T08:35:50.368Z] [[1;34mINFO[m] skip non existing resourceDirectory /var/jenkins_home/workspace/ex-013-full/widgets/cwt/org.eclipse.nebula.cwt/src/test/resources
+[2026-10-10T08:35:50.368Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:50.368Z] [[1;34mINFO[m] [1m--- [0;32mtycho-compiler:4.0.12:testCompile[m [1m(default-testCompile)[m @ [36morg.eclipse.nebula.cwt[0;1m ---[m
+[2026-10-10T08:35:50.368Z] [[1;33mWARNING[m] The effective compiler target level 21 is incompatible with the following OSGi execution environments: [JavaSE-11 (assumes 11)] @ MavenProject: org.eclipse.nebula:org.eclipse.nebula.cwt:1.1.0-SNAPSHOT @ /var/jenkins_home/workspace/ex-013-full/widgets/cwt/org.eclipse.nebula.cwt/pom.xml
+[2026-10-10T08:35:50.368Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:50.368Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:update-consumer-pom[m [1m(default-update-consumer-pom)[m @ [36morg.eclipse.nebula.cwt[0;1m ---[m
+[2026-10-10T08:35:50.368Z] [[1;34mINFO[m] 7 system scoped dependencies were not mapped to maven artifacts
+[2026-10-10T08:35:50.368Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:50.368Z] [[1;34mINFO[m] [1m--- [0;32mtycho-source:4.0.12:plugin-source[m [1m(plugin-source)[m @ [36morg.eclipse.nebula.cwt[0;1m ---[m
+[2026-10-10T08:35:50.368Z] [[1;34mINFO[m] Building jar: /var/jenkins_home/workspace/ex-013-full/widgets/cwt/org.eclipse.nebula.cwt/target/org.eclipse.nebula.cwt-1.1.0-SNAPSHOT-sources.jar
+[2026-10-10T08:35:50.368Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:50.368Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:package-plugin[m [1m(default-package-plugin)[m @ [36morg.eclipse.nebula.cwt[0;1m ---[m
+[2026-10-10T08:35:50.368Z] [[1;34mINFO[m] Building jar: /var/jenkins_home/workspace/ex-013-full/widgets/cwt/org.eclipse.nebula.cwt/target/org.eclipse.nebula.cwt-1.1.0-SNAPSHOT.jar
+[2026-10-10T08:35:50.618Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:50.618Z] [[1;34mINFO[m] [1m--- [0;32mtycho-p2-plugin:4.0.12:p2-metadata-default[m [1m(default-p2-metadata-default)[m @ [36morg.eclipse.nebula.cwt[0;1m ---[m
+[2026-10-10T08:35:50.618Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:50.618Z] [[1;34mINFO[m] [1m------< [0;36morg.eclipse.nebula:org.eclipse.nebula.widgets.cdatetime[0;1m >-------[m
+[2026-10-10T08:35:50.618Z] [[1;34mINFO[m] [1mBuilding org.eclipse.nebula.widgets.cdatetime 1.5.1-SNAPSHOT    [16/312][m
+[2026-10-10T08:35:50.618Z] [[1;34mINFO[m]   from widgets/cdatetime/org.eclipse.nebula.widgets.cdatetime/pom.xml
+[2026-10-10T08:35:50.618Z] [[1;34mINFO[m] [1m---------------------------[ eclipse-plugin ]---------------------------[m
+[2026-10-10T08:35:50.618Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:50.618Z] [[1;34mINFO[m] [1m--- [0;32mclean:3.2.0:clean[m [1m(default-clean)[m @ [36morg.eclipse.nebula.widgets.cdatetime[0;1m ---[m
+[2026-10-10T08:35:50.618Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:50.618Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:build-qualifier[m [1m(default-build-qualifier)[m @ [36morg.eclipse.nebula.widgets.cdatetime[0;1m ---[m
+[2026-10-10T08:35:50.618Z] [[1;34mINFO[m] The project's OSGi version is 1.5.1.202610100835
+[2026-10-10T08:35:50.618Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:50.618Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:validate-id[m [1m(default-validate-id)[m @ [36morg.eclipse.nebula.widgets.cdatetime[0;1m ---[m
+[2026-10-10T08:35:50.618Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:50.618Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:validate-version[m [1m(default-validate-version)[m @ [36morg.eclipse.nebula.widgets.cdatetime[0;1m ---[m
+[2026-10-10T08:35:50.618Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:50.618Z] [[1;34mINFO[m] [1m--- [0;32mtarget-platform-configuration:4.0.12:target-platform[m [1m(default-target-platform)[m @ [36morg.eclipse.nebula.widgets.cdatetime[0;1m ---[m
+[2026-10-10T08:35:50.618Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:50.618Z] [[1;34mINFO[m] [1m--- [0;32mtycho-compiler:4.0.12:validate-classpath[m [1m(default-validate-classpath)[m @ [36morg.eclipse.nebula.widgets.cdatetime[0;1m ---[m
+[2026-10-10T08:35:50.618Z] [[1;34mINFO[m] Resolving class path of org.eclipse.nebula.widgets.cdatetime
+[2026-10-10T08:35:50.618Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:50.618Z] [[1;34mINFO[m] [1m--- [0;32mjacoco:0.8.9:prepare-agent[m [1m(default)[m @ [36morg.eclipse.nebula.widgets.cdatetime[0;1m ---[m
+[2026-10-10T08:35:50.618Z] [[1;34mINFO[m] argLine set to -javaagent:/var/jenkins_home/.m2/repository/org/jacoco/org.jacoco.agent/0.8.9/org.jacoco.agent-0.8.9-runtime.jar=destfile=/var/jenkins_home/workspace/ex-013-full/widgets/cdatetime/target/jacoco.exec,append=true,includes=*.nebula.*
+[2026-10-10T08:35:50.618Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:50.618Z] [[1;34mINFO[m] [1m--- [0;32mresources:3.3.1:resources[m [1m(default-resources)[m @ [36morg.eclipse.nebula.widgets.cdatetime[0;1m ---[m
+[2026-10-10T08:35:50.618Z] [[1;34mINFO[m] skip non existing resourceDirectory /var/jenkins_home/workspace/ex-013-full/widgets/cdatetime/org.eclipse.nebula.widgets.cdatetime/src/main/resources
+[2026-10-10T08:35:50.618Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:50.618Z] [[1;34mINFO[m] [1m--- [0;32mtycho-compiler:4.0.12:compile[m [1m(default-compile)[m @ [36morg.eclipse.nebula.widgets.cdatetime[0;1m ---[m
+[2026-10-10T08:35:50.618Z] [[1;33mWARNING[m] The effective compiler target level 21 is incompatible with the following OSGi execution environments: [JavaSE-11 (assumes 11)] @ MavenProject: org.eclipse.nebula:org.eclipse.nebula.widgets.cdatetime:1.5.1-SNAPSHOT @ /var/jenkins_home/workspace/ex-013-full/widgets/cdatetime/org.eclipse.nebula.widgets.cdatetime/pom.xml
+[2026-10-10T08:35:50.869Z] [[1;34mINFO[m] Compiling 13 source files to /var/jenkins_home/workspace/ex-013-full/widgets/cdatetime/org.eclipse.nebula.widgets.cdatetime/target/classes using Eclipse Compiler for Java(TM) 3.40.0.v20241112-0530
+[2026-10-10T08:35:51.119Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:51.119Z] [[1;34mINFO[m] [1m--- [0;32mtycho-bnd:4.0.12:process[m [1m(default-process)[m @ [36morg.eclipse.nebula.widgets.cdatetime[0;1m ---[m
+[2026-10-10T08:35:51.119Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:51.119Z] [[1;34mINFO[m] [1m--- [0;32mtycho-ds:4.0.12:declarative-services[m [1m(default-declarative-services)[m @ [36morg.eclipse.nebula.widgets.cdatetime[0;1m ---[m
+[2026-10-10T08:35:51.119Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:51.119Z] [[1;34mINFO[m] [1m--- [0;32mresources:3.3.1:testResources[m [1m(default-testResources)[m @ [36morg.eclipse.nebula.widgets.cdatetime[0;1m ---[m
+[2026-10-10T08:35:51.119Z] [[1;34mINFO[m] skip non existing resourceDirectory /var/jenkins_home/workspace/ex-013-full/widgets/cdatetime/org.eclipse.nebula.widgets.cdatetime/src/test/resources
+[2026-10-10T08:35:51.119Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:51.119Z] [[1;34mINFO[m] [1m--- [0;32mtycho-compiler:4.0.12:testCompile[m [1m(default-testCompile)[m @ [36morg.eclipse.nebula.widgets.cdatetime[0;1m ---[m
+[2026-10-10T08:35:51.119Z] [[1;33mWARNING[m] The effective compiler target level 21 is incompatible with the following OSGi execution environments: [JavaSE-11 (assumes 11)] @ MavenProject: org.eclipse.nebula:org.eclipse.nebula.widgets.cdatetime:1.5.1-SNAPSHOT @ /var/jenkins_home/workspace/ex-013-full/widgets/cdatetime/org.eclipse.nebula.widgets.cdatetime/pom.xml
+[2026-10-10T08:35:51.119Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:51.119Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:update-consumer-pom[m [1m(default-update-consumer-pom)[m @ [36morg.eclipse.nebula.widgets.cdatetime[0;1m ---[m
+[2026-10-10T08:35:51.119Z] [[1;34mINFO[m] 23 system scoped dependencies were not mapped to maven artifacts
+[2026-10-10T08:35:51.119Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:51.119Z] [[1;34mINFO[m] [1m--- [0;32mtycho-source:4.0.12:plugin-source[m [1m(plugin-source)[m @ [36morg.eclipse.nebula.widgets.cdatetime[0;1m ---[m
+[2026-10-10T08:35:51.119Z] [[1;34mINFO[m] Building jar: /var/jenkins_home/workspace/ex-013-full/widgets/cdatetime/org.eclipse.nebula.widgets.cdatetime/target/org.eclipse.nebula.widgets.cdatetime-1.5.1-SNAPSHOT-sources.jar
+[2026-10-10T08:35:51.119Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:51.119Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:package-plugin[m [1m(default-package-plugin)[m @ [36morg.eclipse.nebula.widgets.cdatetime[0;1m ---[m
+[2026-10-10T08:35:51.370Z] [[1;34mINFO[m] Building jar: /var/jenkins_home/workspace/ex-013-full/widgets/cdatetime/org.eclipse.nebula.widgets.cdatetime/target/org.eclipse.nebula.widgets.cdatetime-1.5.1-SNAPSHOT.jar
+[2026-10-10T08:35:51.370Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:51.370Z] [[1;34mINFO[m] [1m--- [0;32mtycho-p2-plugin:4.0.12:p2-metadata-default[m [1m(default-p2-metadata-default)[m @ [36morg.eclipse.nebula.widgets.cdatetime[0;1m ---[m
+[2026-10-10T08:35:51.370Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:51.370Z] [[1;34mINFO[m] [1m-------< [0;36morg.eclipse.nebula:org.eclipse.nebula.jface.cdatetime[0;1m >--------[m
+[2026-10-10T08:35:51.370Z] [[1;34mINFO[m] [1mBuilding org.eclipse.nebula.jface.cdatetime 1.3.0-SNAPSHOT      [17/312][m
+[2026-10-10T08:35:51.370Z] [[1;34mINFO[m]   from widgets/cdatetime/org.eclipse.nebula.jface.cdatetime/pom.xml
+[2026-10-10T08:35:51.370Z] [[1;34mINFO[m] [1m---------------------------[ eclipse-plugin ]---------------------------[m
+[2026-10-10T08:35:51.621Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:51.621Z] [[1;34mINFO[m] [1m--- [0;32mclean:3.2.0:clean[m [1m(default-clean)[m @ [36morg.eclipse.nebula.jface.cdatetime[0;1m ---[m
+[2026-10-10T08:35:51.621Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:51.621Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:build-qualifier[m [1m(default-build-qualifier)[m @ [36morg.eclipse.nebula.jface.cdatetime[0;1m ---[m
+[2026-10-10T08:35:51.621Z] [[1;34mINFO[m] The project's OSGi version is 1.3.0.202610100835
+[2026-10-10T08:35:51.621Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:51.621Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:validate-id[m [1m(default-validate-id)[m @ [36morg.eclipse.nebula.jface.cdatetime[0;1m ---[m
+[2026-10-10T08:35:51.621Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:51.621Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:validate-version[m [1m(default-validate-version)[m @ [36morg.eclipse.nebula.jface.cdatetime[0;1m ---[m
+[2026-10-10T08:35:51.621Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:51.621Z] [[1;34mINFO[m] [1m--- [0;32mtarget-platform-configuration:4.0.12:target-platform[m [1m(default-target-platform)[m @ [36morg.eclipse.nebula.jface.cdatetime[0;1m ---[m
+[2026-10-10T08:35:51.621Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:51.621Z] [[1;34mINFO[m] [1m--- [0;32mtycho-compiler:4.0.12:validate-classpath[m [1m(default-validate-classpath)[m @ [36morg.eclipse.nebula.jface.cdatetime[0;1m ---[m
+[2026-10-10T08:35:51.621Z] [[1;34mINFO[m] Resolving class path of org.eclipse.nebula.jface.cdatetime
+[2026-10-10T08:35:51.621Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:51.621Z] [[1;34mINFO[m] [1m--- [0;32mjacoco:0.8.9:prepare-agent[m [1m(default)[m @ [36morg.eclipse.nebula.jface.cdatetime[0;1m ---[m
+[2026-10-10T08:35:51.621Z] [[1;34mINFO[m] argLine set to -javaagent:/var/jenkins_home/.m2/repository/org/jacoco/org.jacoco.agent/0.8.9/org.jacoco.agent-0.8.9-runtime.jar=destfile=/var/jenkins_home/workspace/ex-013-full/widgets/cdatetime/target/jacoco.exec,append=true,includes=*.nebula.*
+[2026-10-10T08:35:51.621Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:51.621Z] [[1;34mINFO[m] [1m--- [0;32mresources:3.3.1:resources[m [1m(default-resources)[m @ [36morg.eclipse.nebula.jface.cdatetime[0;1m ---[m
+[2026-10-10T08:35:51.621Z] [[1;34mINFO[m] skip non existing resourceDirectory /var/jenkins_home/workspace/ex-013-full/widgets/cdatetime/org.eclipse.nebula.jface.cdatetime/src/main/resources
+[2026-10-10T08:35:51.621Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:51.621Z] [[1;34mINFO[m] [1m--- [0;32mtycho-compiler:4.0.12:compile[m [1m(default-compile)[m @ [36morg.eclipse.nebula.jface.cdatetime[0;1m ---[m
+[2026-10-10T08:35:51.621Z] [[1;33mWARNING[m] The effective compiler target level 21 is incompatible with the following OSGi execution environments: [JavaSE-11 (assumes 11)] @ MavenProject: org.eclipse.nebula:org.eclipse.nebula.jface.cdatetime:1.3.0-SNAPSHOT @ /var/jenkins_home/workspace/ex-013-full/widgets/cdatetime/org.eclipse.nebula.jface.cdatetime/pom.xml
+[2026-10-10T08:35:51.621Z] [[1;34mINFO[m] Compiling 4 source files to /var/jenkins_home/workspace/ex-013-full/widgets/cdatetime/org.eclipse.nebula.jface.cdatetime/target/classes using Eclipse Compiler for Java(TM) 3.40.0.v20241112-0530
+[2026-10-10T08:35:51.871Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:51.871Z] [[1;34mINFO[m] [1m--- [0;32mtycho-bnd:4.0.12:process[m [1m(default-process)[m @ [36morg.eclipse.nebula.jface.cdatetime[0;1m ---[m
+[2026-10-10T08:35:51.871Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:51.871Z] [[1;34mINFO[m] [1m--- [0;32mtycho-ds:4.0.12:declarative-services[m [1m(default-declarative-services)[m @ [36morg.eclipse.nebula.jface.cdatetime[0;1m ---[m
+[2026-10-10T08:35:51.871Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:51.871Z] [[1;34mINFO[m] [1m--- [0;32mresources:3.3.1:testResources[m [1m(default-testResources)[m @ [36morg.eclipse.nebula.jface.cdatetime[0;1m ---[m
+[2026-10-10T08:35:51.871Z] [[1;34mINFO[m] skip non existing resourceDirectory /var/jenkins_home/workspace/ex-013-full/widgets/cdatetime/org.eclipse.nebula.jface.cdatetime/src/test/resources
+[2026-10-10T08:35:51.871Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:51.871Z] [[1;34mINFO[m] [1m--- [0;32mtycho-compiler:4.0.12:testCompile[m [1m(default-testCompile)[m @ [36morg.eclipse.nebula.jface.cdatetime[0;1m ---[m
+[2026-10-10T08:35:51.871Z] [[1;33mWARNING[m] The effective compiler target level 21 is incompatible with the following OSGi execution environments: [JavaSE-11 (assumes 11)] @ MavenProject: org.eclipse.nebula:org.eclipse.nebula.jface.cdatetime:1.3.0-SNAPSHOT @ /var/jenkins_home/workspace/ex-013-full/widgets/cdatetime/org.eclipse.nebula.jface.cdatetime/pom.xml
+[2026-10-10T08:35:51.871Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:51.871Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:update-consumer-pom[m [1m(default-update-consumer-pom)[m @ [36morg.eclipse.nebula.jface.cdatetime[0;1m ---[m
+[2026-10-10T08:35:51.871Z] [[1;34mINFO[m] 37 system scoped dependencies were not mapped to maven artifacts
+[2026-10-10T08:35:51.871Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:51.871Z] [[1;34mINFO[m] [1m--- [0;32mtycho-source:4.0.12:plugin-source[m [1m(plugin-source)[m @ [36morg.eclipse.nebula.jface.cdatetime[0;1m ---[m
+[2026-10-10T08:35:51.871Z] [[1;34mINFO[m] Building jar: /var/jenkins_home/workspace/ex-013-full/widgets/cdatetime/org.eclipse.nebula.jface.cdatetime/target/org.eclipse.nebula.jface.cdatetime-1.3.0-SNAPSHOT-sources.jar
+[2026-10-10T08:35:51.871Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:51.871Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:package-plugin[m [1m(default-package-plugin)[m @ [36morg.eclipse.nebula.jface.cdatetime[0;1m ---[m
+[2026-10-10T08:35:51.871Z] [[1;34mINFO[m] Building jar: /var/jenkins_home/workspace/ex-013-full/widgets/cdatetime/org.eclipse.nebula.jface.cdatetime/target/org.eclipse.nebula.jface.cdatetime-1.3.0-SNAPSHOT.jar
+[2026-10-10T08:35:51.871Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:51.871Z] [[1;34mINFO[m] [1m--- [0;32mtycho-p2-plugin:4.0.12:p2-metadata-default[m [1m(default-p2-metadata-default)[m @ [36morg.eclipse.nebula.jface.cdatetime[0;1m ---[m
+[2026-10-10T08:35:51.871Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:51.871Z] [[1;34mINFO[m] [1m-----------< [0;36morg.eclipse.nebula:org.eclipse.nebula.examples[0;1m >-----------[m
+[2026-10-10T08:35:51.871Z] [[1;34mINFO[m] [1mBuilding org.eclipse.nebula.examples 1.0.4-SNAPSHOT             [18/312][m
+[2026-10-10T08:35:51.871Z] [[1;34mINFO[m]   from examples/org.eclipse.nebula.examples/pom.xml
+[2026-10-10T08:35:51.871Z] [[1;34mINFO[m] [1m---------------------------[ eclipse-plugin ]---------------------------[m
+[2026-10-10T08:35:52.422Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:52.422Z] [[1;34mINFO[m] [1m--- [0;32mclean:3.2.0:clean[m [1m(default-clean)[m @ [36morg.eclipse.nebula.examples[0;1m ---[m
+[2026-10-10T08:35:52.422Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:52.422Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:build-qualifier[m [1m(default-build-qualifier)[m @ [36morg.eclipse.nebula.examples[0;1m ---[m
+[2026-10-10T08:35:52.422Z] [[1;34mINFO[m] The project's OSGi version is 1.0.4.202610100835
+[2026-10-10T08:35:52.422Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:52.423Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:validate-id[m [1m(default-validate-id)[m @ [36morg.eclipse.nebula.examples[0;1m ---[m
+[2026-10-10T08:35:52.423Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:52.423Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:validate-version[m [1m(default-validate-version)[m @ [36morg.eclipse.nebula.examples[0;1m ---[m
+[2026-10-10T08:35:52.423Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:52.423Z] [[1;34mINFO[m] [1m--- [0;32mtarget-platform-configuration:4.0.12:target-platform[m [1m(default-target-platform)[m @ [36morg.eclipse.nebula.examples[0;1m ---[m
+[2026-10-10T08:35:52.423Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:52.423Z] [[1;34mINFO[m] [1m--- [0;32mtycho-compiler:4.0.12:validate-classpath[m [1m(default-validate-classpath)[m @ [36morg.eclipse.nebula.examples[0;1m ---[m
+[2026-10-10T08:35:52.423Z] [[1;34mINFO[m] Resolving class path of org.eclipse.nebula.examples
+[2026-10-10T08:35:52.423Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:52.423Z] [[1;34mINFO[m] [1m--- [0;32mjacoco:0.8.9:prepare-agent[m [1m(default)[m @ [36morg.eclipse.nebula.examples[0;1m ---[m
+[2026-10-10T08:35:52.423Z] [[1;34mINFO[m] argLine set to -javaagent:/var/jenkins_home/.m2/repository/org/jacoco/org.jacoco.agent/0.8.9/org.jacoco.agent-0.8.9-runtime.jar=destfile=/var/jenkins_home/workspace/ex-013-full/examples/target/jacoco.exec,append=true,includes=*.nebula.*
+[2026-10-10T08:35:52.423Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:52.423Z] [[1;34mINFO[m] [1m--- [0;32mresources:3.3.1:resources[m [1m(default-resources)[m @ [36morg.eclipse.nebula.examples[0;1m ---[m
+[2026-10-10T08:35:52.423Z] [[1;34mINFO[m] skip non existing resourceDirectory /var/jenkins_home/workspace/ex-013-full/examples/org.eclipse.nebula.examples/src/main/resources
+[2026-10-10T08:35:52.423Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:52.423Z] [[1;34mINFO[m] [1m--- [0;32mtycho-compiler:4.0.12:compile[m [1m(default-compile)[m @ [36morg.eclipse.nebula.examples[0;1m ---[m
+[2026-10-10T08:35:52.423Z] [[1;33mWARNING[m] The effective compiler target level 21 is incompatible with the following OSGi execution environments: [JavaSE-11 (assumes 11)] @ MavenProject: org.eclipse.nebula:org.eclipse.nebula.examples:1.0.4-SNAPSHOT @ /var/jenkins_home/workspace/ex-013-full/examples/org.eclipse.nebula.examples/pom.xml
+[2026-10-10T08:35:52.423Z] [[1;34mINFO[m] Compiling 9 source files to /var/jenkins_home/workspace/ex-013-full/examples/org.eclipse.nebula.examples/target/classes using Eclipse Compiler for Java(TM) 3.40.0.v20241112-0530
+[2026-10-10T08:35:52.673Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:52.673Z] [[1;34mINFO[m] [1m--- [0;32mtycho-bnd:4.0.12:process[m [1m(default-process)[m @ [36morg.eclipse.nebula.examples[0;1m ---[m
+[2026-10-10T08:35:52.673Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:52.673Z] [[1;34mINFO[m] [1m--- [0;32mtycho-ds:4.0.12:declarative-services[m [1m(default-declarative-services)[m @ [36morg.eclipse.nebula.examples[0;1m ---[m
+[2026-10-10T08:35:52.673Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:52.673Z] [[1;34mINFO[m] [1m--- [0;32mresources:3.3.1:testResources[m [1m(default-testResources)[m @ [36morg.eclipse.nebula.examples[0;1m ---[m
+[2026-10-10T08:35:52.673Z] [[1;34mINFO[m] skip non existing resourceDirectory /var/jenkins_home/workspace/ex-013-full/examples/org.eclipse.nebula.examples/src/test/resources
+[2026-10-10T08:35:52.673Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:52.673Z] [[1;34mINFO[m] [1m--- [0;32mtycho-compiler:4.0.12:testCompile[m [1m(default-testCompile)[m @ [36morg.eclipse.nebula.examples[0;1m ---[m
+[2026-10-10T08:35:52.673Z] [[1;33mWARNING[m] The effective compiler target level 21 is incompatible with the following OSGi execution environments: [JavaSE-11 (assumes 11)] @ MavenProject: org.eclipse.nebula:org.eclipse.nebula.examples:1.0.4-SNAPSHOT @ /var/jenkins_home/workspace/ex-013-full/examples/org.eclipse.nebula.examples/pom.xml
+[2026-10-10T08:35:52.673Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:52.673Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:update-consumer-pom[m [1m(default-update-consumer-pom)[m @ [36morg.eclipse.nebula.examples[0;1m ---[m
+[2026-10-10T08:35:52.673Z] [[1;34mINFO[m] 103 system scoped dependencies were not mapped to maven artifacts
+[2026-10-10T08:35:52.673Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:52.673Z] [[1;34mINFO[m] [1m--- [0;32mtycho-source:4.0.12:plugin-source[m [1m(plugin-source)[m @ [36morg.eclipse.nebula.examples[0;1m ---[m
+[2026-10-10T08:35:52.673Z] [[1;34mINFO[m] Building jar: /var/jenkins_home/workspace/ex-013-full/examples/org.eclipse.nebula.examples/target/org.eclipse.nebula.examples-1.0.4-SNAPSHOT-sources.jar
+[2026-10-10T08:35:52.673Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:52.673Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:package-plugin[m [1m(default-package-plugin)[m @ [36morg.eclipse.nebula.examples[0;1m ---[m
+[2026-10-10T08:35:52.924Z] [[1;34mINFO[m] Building jar: /var/jenkins_home/workspace/ex-013-full/examples/org.eclipse.nebula.examples/target/org.eclipse.nebula.examples-1.0.4-SNAPSHOT.jar
+[2026-10-10T08:35:52.924Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:52.924Z] [[1;34mINFO[m] [1m--- [0;32mtycho-p2-plugin:4.0.12:p2-metadata-default[m [1m(default-p2-metadata-default)[m @ [36morg.eclipse.nebula.examples[0;1m ---[m
+[2026-10-10T08:35:52.924Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:52.924Z] [[1;34mINFO[m] [1m--< [0;36morg.eclipse.nebula:org.eclipse.nebula.widgets.cdatetime.example[0;1m >---[m
+[2026-10-10T08:35:52.924Z] [[1;34mINFO[m] [1mBuilding org.eclipse.nebula.widgets.cdatetime.example 1.0.0-SNAPSHOT [19/312][m
+[2026-10-10T08:35:52.924Z] [[1;34mINFO[m]   from widgets/cdatetime/org.eclipse.nebula.widgets.cdatetime.example/pom.xml
+[2026-10-10T08:35:52.924Z] [[1;34mINFO[m] [1m---------------------------[ eclipse-plugin ]---------------------------[m
+[2026-10-10T08:35:53.175Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:53.175Z] [[1;34mINFO[m] [1m--- [0;32mclean:3.2.0:clean[m [1m(default-clean)[m @ [36morg.eclipse.nebula.widgets.cdatetime.example[0;1m ---[m
+[2026-10-10T08:35:53.175Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:53.175Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:build-qualifier[m [1m(default-build-qualifier)[m @ [36morg.eclipse.nebula.widgets.cdatetime.example[0;1m ---[m
+[2026-10-10T08:35:53.175Z] [[1;34mINFO[m] The project's OSGi version is 1.0.0.202610100835
+[2026-10-10T08:35:53.175Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:53.175Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:validate-id[m [1m(default-validate-id)[m @ [36morg.eclipse.nebula.widgets.cdatetime.example[0;1m ---[m
+[2026-10-10T08:35:53.175Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:53.175Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:validate-version[m [1m(default-validate-version)[m @ [36morg.eclipse.nebula.widgets.cdatetime.example[0;1m ---[m
+[2026-10-10T08:35:53.175Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:53.175Z] [[1;34mINFO[m] [1m--- [0;32mtarget-platform-configuration:4.0.12:target-platform[m [1m(default-target-platform)[m @ [36morg.eclipse.nebula.widgets.cdatetime.example[0;1m ---[m
+[2026-10-10T08:35:53.175Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:53.175Z] [[1;34mINFO[m] [1m--- [0;32mtycho-compiler:4.0.12:validate-classpath[m [1m(default-validate-classpath)[m @ [36morg.eclipse.nebula.widgets.cdatetime.example[0;1m ---[m
+[2026-10-10T08:35:53.175Z] [[1;34mINFO[m] Resolving class path of org.eclipse.nebula.widgets.cdatetime.example
+[2026-10-10T08:35:53.175Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:53.175Z] [[1;34mINFO[m] [1m--- [0;32mjacoco:0.8.9:prepare-agent[m [1m(default)[m @ [36morg.eclipse.nebula.widgets.cdatetime.example[0;1m ---[m
+[2026-10-10T08:35:53.175Z] [[1;34mINFO[m] argLine set to -javaagent:/var/jenkins_home/.m2/repository/org/jacoco/org.jacoco.agent/0.8.9/org.jacoco.agent-0.8.9-runtime.jar=destfile=/var/jenkins_home/workspace/ex-013-full/widgets/cdatetime/target/jacoco.exec,append=true,includes=*.nebula.*
+[2026-10-10T08:35:53.175Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:53.175Z] [[1;34mINFO[m] [1m--- [0;32mresources:3.3.1:resources[m [1m(default-resources)[m @ [36morg.eclipse.nebula.widgets.cdatetime.example[0;1m ---[m
+[2026-10-10T08:35:53.175Z] [[1;34mINFO[m] skip non existing resourceDirectory /var/jenkins_home/workspace/ex-013-full/widgets/cdatetime/org.eclipse.nebula.widgets.cdatetime.example/src/main/resources
+[2026-10-10T08:35:53.175Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:53.175Z] [[1;34mINFO[m] [1m--- [0;32mtycho-compiler:4.0.12:compile[m [1m(default-compile)[m @ [36morg.eclipse.nebula.widgets.cdatetime.example[0;1m ---[m
+[2026-10-10T08:35:53.175Z] [[1;33mWARNING[m] The effective compiler target level 21 is incompatible with the following OSGi execution environments: [JavaSE-11 (assumes 11)] @ MavenProject: org.eclipse.nebula:org.eclipse.nebula.widgets.cdatetime.example:1.0.0-SNAPSHOT @ /var/jenkins_home/workspace/ex-013-full/widgets/cdatetime/org.eclipse.nebula.widgets.cdatetime.example/pom.xml
+[2026-10-10T08:35:53.175Z] [[1;34mINFO[m] Compiling 1 source file to /var/jenkins_home/workspace/ex-013-full/widgets/cdatetime/org.eclipse.nebula.widgets.cdatetime.example/target/classes using Eclipse Compiler for Java(TM) 3.40.0.v20241112-0530
+[2026-10-10T08:35:53.426Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:53.426Z] [[1;34mINFO[m] [1m--- [0;32mtycho-bnd:4.0.12:process[m [1m(default-process)[m @ [36morg.eclipse.nebula.widgets.cdatetime.example[0;1m ---[m
+[2026-10-10T08:35:53.426Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:53.426Z] [[1;34mINFO[m] [1m--- [0;32mtycho-ds:4.0.12:declarative-services[m [1m(default-declarative-services)[m @ [36morg.eclipse.nebula.widgets.cdatetime.example[0;1m ---[m
+[2026-10-10T08:35:53.426Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:53.426Z] [[1;34mINFO[m] [1m--- [0;32mresources:3.3.1:testResources[m [1m(default-testResources)[m @ [36morg.eclipse.nebula.widgets.cdatetime.example[0;1m ---[m
+[2026-10-10T08:35:53.426Z] [[1;34mINFO[m] skip non existing resourceDirectory /var/jenkins_home/workspace/ex-013-full/widgets/cdatetime/org.eclipse.nebula.widgets.cdatetime.example/src/test/resources
+[2026-10-10T08:35:53.426Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:53.426Z] [[1;34mINFO[m] [1m--- [0;32mtycho-compiler:4.0.12:testCompile[m [1m(default-testCompile)[m @ [36morg.eclipse.nebula.widgets.cdatetime.example[0;1m ---[m
+[2026-10-10T08:35:53.426Z] [[1;33mWARNING[m] The effective compiler target level 21 is incompatible with the following OSGi execution environments: [JavaSE-11 (assumes 11)] @ MavenProject: org.eclipse.nebula:org.eclipse.nebula.widgets.cdatetime.example:1.0.0-SNAPSHOT @ /var/jenkins_home/workspace/ex-013-full/widgets/cdatetime/org.eclipse.nebula.widgets.cdatetime.example/pom.xml
+[2026-10-10T08:35:53.426Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:53.426Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:update-consumer-pom[m [1m(default-update-consumer-pom)[m @ [36morg.eclipse.nebula.widgets.cdatetime.example[0;1m ---[m
+[2026-10-10T08:35:53.426Z] [[1;34mINFO[m] 103 system scoped dependencies were not mapped to maven artifacts
+[2026-10-10T08:35:53.426Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:53.426Z] [[1;34mINFO[m] [1m--- [0;32mtycho-source:4.0.12:plugin-source[m [1m(plugin-source)[m @ [36morg.eclipse.nebula.widgets.cdatetime.example[0;1m ---[m
+[2026-10-10T08:35:53.426Z] [[1;34mINFO[m] Building jar: /var/jenkins_home/workspace/ex-013-full/widgets/cdatetime/org.eclipse.nebula.widgets.cdatetime.example/target/org.eclipse.nebula.widgets.cdatetime.example-1.0.0-SNAPSHOT-sources.jar
+[2026-10-10T08:35:53.426Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:53.426Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:package-plugin[m [1m(default-package-plugin)[m @ [36morg.eclipse.nebula.widgets.cdatetime.example[0;1m ---[m
+[2026-10-10T08:35:53.426Z] [[1;34mINFO[m] Building jar: /var/jenkins_home/workspace/ex-013-full/widgets/cdatetime/org.eclipse.nebula.widgets.cdatetime.example/target/org.eclipse.nebula.widgets.cdatetime.example-1.0.0-SNAPSHOT.jar
+[2026-10-10T08:35:53.426Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:53.426Z] [[1;34mINFO[m] [1m--- [0;32mtycho-p2-plugin:4.0.12:p2-metadata-default[m [1m(default-p2-metadata-default)[m @ [36morg.eclipse.nebula.widgets.cdatetime.example[0;1m ---[m
+[2026-10-10T08:35:53.426Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:53.426Z] [[1;34mINFO[m] [1m--< [0;36morg.eclipse.nebula:org.eclipse.nebula.widgets.cdatetime.snippets[0;1m >--[m
+[2026-10-10T08:35:53.426Z] [[1;34mINFO[m] [1mBuilding org.eclipse.nebula.widgets.cdatetime.snippets 1.0.0-SNAPSHOT [20/312][m
+[2026-10-10T08:35:53.426Z] [[1;34mINFO[m]   from widgets/cdatetime/org.eclipse.nebula.widgets.cdatetime.snippets/pom.xml
+[2026-10-10T08:35:53.426Z] [[1;34mINFO[m] [1m---------------------------[ eclipse-plugin ]---------------------------[m
+[2026-10-10T08:35:53.677Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:53.677Z] [[1;34mINFO[m] [1m--- [0;32mclean:3.2.0:clean[m [1m(default-clean)[m @ [36morg.eclipse.nebula.widgets.cdatetime.snippets[0;1m ---[m
+[2026-10-10T08:35:53.677Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:53.677Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:build-qualifier[m [1m(default-build-qualifier)[m @ [36morg.eclipse.nebula.widgets.cdatetime.snippets[0;1m ---[m
+[2026-10-10T08:35:53.677Z] [[1;34mINFO[m] The project's OSGi version is 1.0.0.202610100835
+[2026-10-10T08:35:53.677Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:53.677Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:validate-id[m [1m(default-validate-id)[m @ [36morg.eclipse.nebula.widgets.cdatetime.snippets[0;1m ---[m
+[2026-10-10T08:35:53.677Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:53.677Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:validate-version[m [1m(default-validate-version)[m @ [36morg.eclipse.nebula.widgets.cdatetime.snippets[0;1m ---[m
+[2026-10-10T08:35:53.677Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:53.677Z] [[1;34mINFO[m] [1m--- [0;32mtarget-platform-configuration:4.0.12:target-platform[m [1m(default-target-platform)[m @ [36morg.eclipse.nebula.widgets.cdatetime.snippets[0;1m ---[m
+[2026-10-10T08:35:53.677Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:53.677Z] [[1;34mINFO[m] [1m--- [0;32mtycho-compiler:4.0.12:validate-classpath[m [1m(default-validate-classpath)[m @ [36morg.eclipse.nebula.widgets.cdatetime.snippets[0;1m ---[m
+[2026-10-10T08:35:53.677Z] [[1;34mINFO[m] Resolving class path of org.eclipse.nebula.widgets.cdatetime.snippets
+[2026-10-10T08:35:53.677Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:53.677Z] [[1;34mINFO[m] [1m--- [0;32mjacoco:0.8.9:prepare-agent[m [1m(default)[m @ [36morg.eclipse.nebula.widgets.cdatetime.snippets[0;1m ---[m
+[2026-10-10T08:35:53.677Z] [[1;34mINFO[m] argLine set to -javaagent:/var/jenkins_home/.m2/repository/org/jacoco/org.jacoco.agent/0.8.9/org.jacoco.agent-0.8.9-runtime.jar=destfile=/var/jenkins_home/workspace/ex-013-full/widgets/cdatetime/target/jacoco.exec,append=true,includes=*.nebula.*
+[2026-10-10T08:35:53.677Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:53.677Z] [[1;34mINFO[m] [1m--- [0;32mresources:3.3.1:resources[m [1m(default-resources)[m @ [36morg.eclipse.nebula.widgets.cdatetime.snippets[0;1m ---[m
+[2026-10-10T08:35:53.677Z] [[1;34mINFO[m] skip non existing resourceDirectory /var/jenkins_home/workspace/ex-013-full/widgets/cdatetime/org.eclipse.nebula.widgets.cdatetime.snippets/src/main/resources
+[2026-10-10T08:35:53.677Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:53.677Z] [[1;34mINFO[m] [1m--- [0;32mtycho-compiler:4.0.12:compile[m [1m(default-compile)[m @ [36morg.eclipse.nebula.widgets.cdatetime.snippets[0;1m ---[m
+[2026-10-10T08:35:53.677Z] [[1;33mWARNING[m] The effective compiler target level 21 is incompatible with the following OSGi execution environments: [JavaSE-11 (assumes 11)] @ MavenProject: org.eclipse.nebula:org.eclipse.nebula.widgets.cdatetime.snippets:1.0.0-SNAPSHOT @ /var/jenkins_home/workspace/ex-013-full/widgets/cdatetime/org.eclipse.nebula.widgets.cdatetime.snippets/pom.xml
+[2026-10-10T08:35:53.927Z] [[1;34mINFO[m] Compiling 18 source files to /var/jenkins_home/workspace/ex-013-full/widgets/cdatetime/org.eclipse.nebula.widgets.cdatetime.snippets/target/classes using Eclipse Compiler for Java(TM) 3.40.0.v20241112-0530
+[2026-10-10T08:35:53.927Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:53.927Z] [[1;34mINFO[m] [1m--- [0;32mtycho-bnd:4.0.12:process[m [1m(default-process)[m @ [36morg.eclipse.nebula.widgets.cdatetime.snippets[0;1m ---[m
+[2026-10-10T08:35:53.927Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:53.927Z] [[1;34mINFO[m] [1m--- [0;32mtycho-ds:4.0.12:declarative-services[m [1m(default-declarative-services)[m @ [36morg.eclipse.nebula.widgets.cdatetime.snippets[0;1m ---[m
+[2026-10-10T08:35:53.927Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:53.927Z] [[1;34mINFO[m] [1m--- [0;32mresources:3.3.1:testResources[m [1m(default-testResources)[m @ [36morg.eclipse.nebula.widgets.cdatetime.snippets[0;1m ---[m
+[2026-10-10T08:35:53.927Z] [[1;34mINFO[m] skip non existing resourceDirectory /var/jenkins_home/workspace/ex-013-full/widgets/cdatetime/org.eclipse.nebula.widgets.cdatetime.snippets/src/test/resources
+[2026-10-10T08:35:53.927Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:53.927Z] [[1;34mINFO[m] [1m--- [0;32mtycho-compiler:4.0.12:testCompile[m [1m(default-testCompile)[m @ [36morg.eclipse.nebula.widgets.cdatetime.snippets[0;1m ---[m
+[2026-10-10T08:35:53.927Z] [[1;33mWARNING[m] The effective compiler target level 21 is incompatible with the following OSGi execution environments: [JavaSE-11 (assumes 11)] @ MavenProject: org.eclipse.nebula:org.eclipse.nebula.widgets.cdatetime.snippets:1.0.0-SNAPSHOT @ /var/jenkins_home/workspace/ex-013-full/widgets/cdatetime/org.eclipse.nebula.widgets.cdatetime.snippets/pom.xml
+[2026-10-10T08:35:53.927Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:53.927Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:update-consumer-pom[m [1m(default-update-consumer-pom)[m @ [36morg.eclipse.nebula.widgets.cdatetime.snippets[0;1m ---[m
+[2026-10-10T08:35:53.927Z] [[1;34mINFO[m] 43 system scoped dependencies were not mapped to maven artifacts
+[2026-10-10T08:35:53.927Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:53.927Z] [[1;34mINFO[m] [1m--- [0;32mtycho-source:4.0.12:plugin-source[m [1m(plugin-source)[m @ [36morg.eclipse.nebula.widgets.cdatetime.snippets[0;1m ---[m
+[2026-10-10T08:35:53.927Z] [[1;34mINFO[m] Building jar: /var/jenkins_home/workspace/ex-013-full/widgets/cdatetime/org.eclipse.nebula.widgets.cdatetime.snippets/target/org.eclipse.nebula.widgets.cdatetime.snippets-1.0.0-SNAPSHOT-sources.jar
+[2026-10-10T08:35:53.927Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:53.927Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:package-plugin[m [1m(default-package-plugin)[m @ [36morg.eclipse.nebula.widgets.cdatetime.snippets[0;1m ---[m
+[2026-10-10T08:35:54.178Z] [[1;34mINFO[m] Building jar: /var/jenkins_home/workspace/ex-013-full/widgets/cdatetime/org.eclipse.nebula.widgets.cdatetime.snippets/target/org.eclipse.nebula.widgets.cdatetime.snippets-1.0.0-SNAPSHOT.jar
+[2026-10-10T08:35:54.178Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:54.178Z] [[1;34mINFO[m] [1m--- [0;32mtycho-p2-plugin:4.0.12:p2-metadata-default[m [1m(default-p2-metadata-default)[m @ [36morg.eclipse.nebula.widgets.cdatetime.snippets[0;1m ---[m
+[2026-10-10T08:35:54.178Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:54.178Z] [[1;34mINFO[m] [1m----------< [0;36morg.eclipse.nebula:org.eclipse.nebula.cwt.tests[0;1m >-----------[m
+[2026-10-10T08:35:54.178Z] [[1;34mINFO[m] [1mBuilding org.eclipse.nebula.cwt.tests 1.0.0-SNAPSHOT            [21/312][m
+[2026-10-10T08:35:54.178Z] [[1;34mINFO[m]   from widgets/cwt/org.eclipse.nebula.cwt.tests/pom.xml
+[2026-10-10T08:35:54.178Z] [[1;34mINFO[m] [1m------------------------[ eclipse-test-plugin ]-------------------------[m
+[2026-10-10T08:35:54.428Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:54.428Z] [[1;34mINFO[m] [1m--- [0;32mclean:3.2.0:clean[m [1m(default-clean)[m @ [36morg.eclipse.nebula.cwt.tests[0;1m ---[m
+[2026-10-10T08:35:54.428Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:54.428Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:build-qualifier[m [1m(default-build-qualifier)[m @ [36morg.eclipse.nebula.cwt.tests[0;1m ---[m
+[2026-10-10T08:35:54.428Z] [[1;34mINFO[m] The project's OSGi version is 1.0.0.202610100835
+[2026-10-10T08:35:54.428Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:54.428Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:validate-id[m [1m(default-validate-id)[m @ [36morg.eclipse.nebula.cwt.tests[0;1m ---[m
+[2026-10-10T08:35:54.428Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:54.428Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:validate-version[m [1m(default-validate-version)[m @ [36morg.eclipse.nebula.cwt.tests[0;1m ---[m
+[2026-10-10T08:35:54.428Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:54.428Z] [[1;34mINFO[m] [1m--- [0;32mtarget-platform-configuration:4.0.12:target-platform[m [1m(default-target-platform)[m @ [36morg.eclipse.nebula.cwt.tests[0;1m ---[m
+[2026-10-10T08:35:54.428Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:54.428Z] [[1;34mINFO[m] [1m--- [0;32mtycho-compiler:4.0.12:validate-classpath[m [1m(default-validate-classpath)[m @ [36morg.eclipse.nebula.cwt.tests[0;1m ---[m
+[2026-10-10T08:35:54.428Z] [[1;34mINFO[m] Resolving class path of org.eclipse.nebula.cwt.tests
+[2026-10-10T08:35:54.679Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:54.679Z] [[1;34mINFO[m] [1m--- [0;32mjacoco:0.8.9:prepare-agent[m [1m(default)[m @ [36morg.eclipse.nebula.cwt.tests[0;1m ---[m
+[2026-10-10T08:35:54.679Z] [[1;34mINFO[m] tycho.testArgLine set to -javaagent:/var/jenkins_home/.m2/repository/org/jacoco/org.jacoco.agent/0.8.9/org.jacoco.agent-0.8.9-runtime.jar=destfile=/var/jenkins_home/workspace/ex-013-full/widgets/cwt/target/jacoco.exec,append=true,includes=*.nebula.*
+[2026-10-10T08:35:54.679Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:54.679Z] [[1;34mINFO[m] [1m--- [0;32mresources:3.3.1:resources[m [1m(default-resources)[m @ [36morg.eclipse.nebula.cwt.tests[0;1m ---[m
+[2026-10-10T08:35:54.679Z] [[1;34mINFO[m] skip non existing resourceDirectory /var/jenkins_home/workspace/ex-013-full/widgets/cwt/org.eclipse.nebula.cwt.tests/src/main/resources
+[2026-10-10T08:35:54.679Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:54.679Z] [[1;34mINFO[m] [1m--- [0;32mtycho-compiler:4.0.12:compile[m [1m(default-compile)[m @ [36morg.eclipse.nebula.cwt.tests[0;1m ---[m
+[2026-10-10T08:35:54.679Z] [[1;33mWARNING[m] The effective compiler target level 21 is incompatible with the following OSGi execution environments: [JavaSE-11 (assumes 11)] @ MavenProject: org.eclipse.nebula:org.eclipse.nebula.cwt.tests:1.0.0-SNAPSHOT @ /var/jenkins_home/workspace/ex-013-full/widgets/cwt/org.eclipse.nebula.cwt.tests/pom.xml
+[2026-10-10T08:35:54.930Z] [[1;34mINFO[m] Compiling 10 source files to /var/jenkins_home/workspace/ex-013-full/widgets/cwt/org.eclipse.nebula.cwt.tests/target/classes using Eclipse Compiler for Java(TM) 3.40.0.v20241112-0530
+[2026-10-10T08:35:54.930Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:54.930Z] [[1;34mINFO[m] [1m--- [0;32mtycho-ds:4.0.12:declarative-services[m [1m(default-declarative-services)[m @ [36morg.eclipse.nebula.cwt.tests[0;1m ---[m
+[2026-10-10T08:35:54.930Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:54.930Z] [[1;34mINFO[m] [1m--- [0;32mresources:3.3.1:testResources[m [1m(default-testResources)[m @ [36morg.eclipse.nebula.cwt.tests[0;1m ---[m
+[2026-10-10T08:35:54.930Z] [[1;34mINFO[m] skip non existing resourceDirectory /var/jenkins_home/workspace/ex-013-full/widgets/cwt/org.eclipse.nebula.cwt.tests/src/test/resources
+[2026-10-10T08:35:54.930Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:54.930Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:update-consumer-pom[m [1m(default-update-consumer-pom)[m @ [36morg.eclipse.nebula.cwt.tests[0;1m ---[m
+[2026-10-10T08:35:54.930Z] [[1;34mINFO[m] 168 system scoped dependencies were not mapped to maven artifacts
+[2026-10-10T08:35:54.930Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:54.930Z] [[1;34mINFO[m] [1m--- [0;32mtycho-source:4.0.12:plugin-source[m [1m(plugin-source)[m @ [36morg.eclipse.nebula.cwt.tests[0;1m ---[m
+[2026-10-10T08:35:54.930Z] [[1;34mINFO[m] Building jar: /var/jenkins_home/workspace/ex-013-full/widgets/cwt/org.eclipse.nebula.cwt.tests/target/org.eclipse.nebula.cwt.tests-1.0.0-SNAPSHOT-sources.jar
+[2026-10-10T08:35:55.182Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:55.182Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:package-plugin[m [1m(default-package-plugin)[m @ [36morg.eclipse.nebula.cwt.tests[0;1m ---[m
+[2026-10-10T08:35:55.182Z] [[1;34mINFO[m] Building jar: /var/jenkins_home/workspace/ex-013-full/widgets/cwt/org.eclipse.nebula.cwt.tests/target/org.eclipse.nebula.cwt.tests-1.0.0-SNAPSHOT.jar
+[2026-10-10T08:35:55.182Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:55.182Z] [[1;34mINFO[m] [1m--- [0;32mtycho-p2-plugin:4.0.12:p2-metadata-default[m [1m(default-p2-metadata-default)[m @ [36morg.eclipse.nebula.cwt.tests[0;1m ---[m
+[2026-10-10T08:35:55.182Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:55.182Z] [[1;34mINFO[m] [1m--- [0;32mtycho-surefire:4.0.12:test[m [1m(default-test)[m @ [36morg.eclipse.nebula.cwt.tests[0;1m ---[m
+[2026-10-10T08:35:55.182Z] [[1;34mINFO[m] Skipping tests
+[2026-10-10T08:35:55.182Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:55.182Z] [[1;34mINFO[m] [1m----< [0;36morg.eclipse.nebula:org.eclipse.nebula.widgets.cdatetime.css[0;1m >-----[m
+[2026-10-10T08:35:55.182Z] [[1;34mINFO[m] [1mBuilding org.eclipse.nebula.widgets.cdatetime.css 1.0.0-SNAPSHOT [22/312][m
+[2026-10-10T08:35:55.182Z] [[1;34mINFO[m]   from widgets/cdatetime/org.eclipse.nebula.widgets.cdatetime.css/pom.xml
+[2026-10-10T08:35:55.182Z] [[1;34mINFO[m] [1m---------------------------[ eclipse-plugin ]---------------------------[m
+[2026-10-10T08:35:55.433Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:55.433Z] [[1;34mINFO[m] [1m--- [0;32mclean:3.2.0:clean[m [1m(default-clean)[m @ [36morg.eclipse.nebula.widgets.cdatetime.css[0;1m ---[m
+[2026-10-10T08:35:55.433Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:55.433Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:build-qualifier[m [1m(default-build-qualifier)[m @ [36morg.eclipse.nebula.widgets.cdatetime.css[0;1m ---[m
+[2026-10-10T08:35:55.433Z] [[1;34mINFO[m] The project's OSGi version is 1.0.0.202610100835
+[2026-10-10T08:35:55.433Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:55.433Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:validate-id[m [1m(default-validate-id)[m @ [36morg.eclipse.nebula.widgets.cdatetime.css[0;1m ---[m
+[2026-10-10T08:35:55.433Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:55.433Z] [[1;34mINFO[m] [1m--- [0;32mtycho-packaging:4.0.12:validate-version[m [1m(default-validate-version)[m @ [36morg.eclipse.nebula.widgets.cdatetime.css[0;1m ---[m
+[2026-10-10T08:35:55.433Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:55.433Z] [[1;34mINFO[m] [1m--- [0;32mtarget-platform-configuration:4.0.12:target-platform[m [1m(default-target-platform)[m @ [36morg.eclipse.nebula.widgets.cdatetime.css[0;1m ---[m
+[2026-10-10T08:35:55.433Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:55.433Z] [[1;34mINFO[m] [1m--- [0;32mtycho-compiler:4.0.12:validate-classpath[m [1m(default-validate-classpath)[m @ [36morg.eclipse.nebula.widgets.cdatetime.css[0;1m ---[m
+[2026-10-10T08:35:55.433Z] [[1;34mINFO[m] Resolving class path of org.eclipse.nebula.widgets.cdatetime.css
+[2026-10-10T08:35:55.433Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:55.433Z] [[1;34mINFO[m] [1m--- [0;32mjacoco:0.8.9:prepare-agent[m [1m(default)[m @ [36morg.eclipse.nebula.widgets.cdatetime.css[0;1m ---[m
+[2026-10-10T08:35:55.433Z] [[1;34mINFO[m] argLine set to -javaagent:/var/jenkins_home/.m2/repository/org/jacoco/org.jacoco.agent/0.8.9/org.jacoco.agent-0.8.9-runtime.jar=destfile=/var/jenkins_home/workspace/ex-013-full/widgets/cdatetime/target/jacoco.exec,append=true,includes=*.nebula.*
+[2026-10-10T08:35:55.433Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:55.433Z] [[1;34mINFO[m] [1m--- [0;32mresources:3.3.1:resources[m [1m(default-resources)[m @ [36morg.eclipse.nebula.widgets.cdatetime.css[0;1m ---[m
+[2026-10-10T08:35:55.433Z] [[1;34mINFO[m] skip non existing resourceDirectory /var/jenkins_home/workspace/ex-013-full/widgets/cdatetime/org.eclipse.nebula.widgets.cdatetime.css/src/main/resources
+[2026-10-10T08:35:55.433Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:55.433Z] [[1;34mINFO[m] [1m--- [0;32mtycho-compiler:4.0.12:compile[m [1m(default-compile)[m @ [36morg.eclipse.nebula.widgets.cdatetime.css[0;1m ---[m
+[2026-10-10T08:35:55.433Z] [[1;33mWARNING[m] The effective compiler target level 21 is incompatible with the following OSGi execution environments: [JavaSE-11 (assumes 11)] @ MavenProject: org.eclipse.nebula:org.eclipse.nebula.widgets.cdatetime.css:1.0.0-SNAPSHOT @ /var/jenkins_home/workspace/ex-013-full/widgets/cdatetime/org.eclipse.nebula.widgets.cdatetime.css/pom.xml
+[2026-10-10T08:35:55.433Z] [[1;34mINFO[m] Compiling 4 source files to /var/jenkins_home/workspace/ex-013-full/widgets/cdatetime/org.eclipse.nebula.widgets.cdatetime.css/target/classes using Eclipse Compiler for Java(TM) 3.40.0.v20241112-0530
+[2026-10-10T08:35:55.683Z] [[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[2026-10-10T08:35:55.683Z] [[1;34mINFO[m] [1mReactor Summary:[m
+[2026-10-10T08:35:55.683Z] [[1;34mINFO[m] 
+[2026-10-10T08:35:55.683Z] [[1;34mINFO[m] nebula-parent 1.0.0-SNAPSHOT ....................... [1;32mSUCCESS[m [  0.303 s]
+[2026-10-10T08:35:55.683Z] [[1;34mINFO[m] badgedlabel 1.0.0-SNAPSHOT ......................... [1;32mSUCCESS[m [  0.006 s]
+[2026-10-10T08:35:55.683Z] [[1;34mINFO[m] commons 1.0.0-SNAPSHOT ............................. [1;32mSUCCESS[m [  0.005 s]
+[2026-10-10T08:35:55.683Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.commons 1.0.0-SNAPSHOT [1;32mSUCCESS[m [ 10.138 s]
+[2026-10-10T08:35:55.683Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.badgedlabel 1.0.0-SNAPSHOT [1;32mSUCCESS[m [  0.534 s]
+[2026-10-10T08:35:55.683Z] [[1;34mINFO[m] Commons Feature 1.0.0-SNAPSHOT ..................... [1;32mSUCCESS[m [  0.197 s]
+[2026-10-10T08:35:55.683Z] [[1;34mINFO[m] Nebula Badged Label Feature 1.0.0-SNAPSHOT ......... [1;32mSUCCESS[m [  0.169 s]
+[2026-10-10T08:35:55.683Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.badgedlabel.snippets 1.0.0-SNAPSHOT [1;32mSUCCESS[m [  0.445 s]
+[2026-10-10T08:35:55.683Z] [[1;34mINFO[m] carousel 1.0.0-SNAPSHOT ............................ [1;32mSUCCESS[m [  0.008 s]
+[2026-10-10T08:35:55.683Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.carousel 1.0.0-SNAPSHOT . [1;32mSUCCESS[m [  0.518 s]
+[2026-10-10T08:35:55.683Z] [[1;34mINFO[m] Nebula Carousel Feature 1.0.0-SNAPSHOT ............. [1;32mSUCCESS[m [  0.244 s]
+[2026-10-10T08:35:55.683Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.carousel.snippets 1.0.0-SNAPSHOT [1;32mSUCCESS[m [  0.324 s]
+[2026-10-10T08:35:55.683Z] [[1;34mINFO[m] cdatetime 1.5.1-SNAPSHOT ........................... [1;32mSUCCESS[m [  0.005 s]
+[2026-10-10T08:35:55.683Z] [[1;34mINFO[m] cwt 1.1.0-SNAPSHOT ................................. [1;32mSUCCESS[m [  0.005 s]
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.cwt 1.1.0-SNAPSHOT .............. [1;32mSUCCESS[m [  1.115 s]
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.cdatetime 1.5.1-SNAPSHOT  [1;32mSUCCESS[m [  0.762 s]
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.jface.cdatetime 1.3.0-SNAPSHOT .. [1;32mSUCCESS[m [  0.566 s]
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.examples 1.0.4-SNAPSHOT ......... [1;32mSUCCESS[m [  1.012 s]
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.cdatetime.example 1.0.0-SNAPSHOT [1;32mSUCCESS[m [  0.650 s]
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.cdatetime.snippets 1.0.0-SNAPSHOT [1;32mSUCCESS[m [  0.575 s]
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.cwt.tests 1.0.0-SNAPSHOT ........ [1;32mSUCCESS[m [  1.140 s]
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.cdatetime.css 1.0.0-SNAPSHOT [1;31mFAILURE[m [  0.356 s]
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.cdatetime.tests 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.cwt.feature 1.1.0-SNAPSHOT ...... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.cdatetime.feature 1.5.1-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.cdatetime.example.e4 1.4.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Nebula CDateTime CSS Feature 1.4.0-SNAPSHOT ........ [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] chips 1.0.0-SNAPSHOT ............................... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] [bundle] Nebula Chips widget 2.0.0-SNAPSHOT ........ [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Nebula Chips Feature 1.0.0-SNAPSHOT ................ [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] [bundle] Nebula Chips Snippets 1.0.0-SNAPSHOT ...... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] compositetable 1.0.0-SNAPSHOT ...................... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.compositetable 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.compositetable.tests 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Nebula Composite Table Feature 1.0.0-SNAPSHOT ...... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] ctreecombo 1.0.0-SNAPSHOT .......................... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.ctreecombo 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] CTreeCombo Feature 1.0.0-SNAPSHOT .................. [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.ctreecombo.snippets 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.cwt.snippets 1.1.0-SNAPSHOT ..... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] effects 1.0.0-SNAPSHOT ............................. [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.effects.stw 1.0.0-SNAPSHOT ...... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.effects.stw.example 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Nebula State Transition Feature 1.0.0-SNAPSHOT ..... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] floatingtext 1.0.1-SNAPSHOT ........................ [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.floatingtext 1.0.1-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.floatingtext.snippets 1.0.1-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.floatingtext.feature 1.0.1-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] fontawesome 1.0.0-SNAPSHOT ......................... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.fontawesome 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Nebula FontAwesome Feature 1.0.0-SNAPSHOT .......... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.fontawesome.snippets 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] formattedtext 1.0.0-SNAPSHOT ....................... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.formattedtext 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.formattedtext.tests 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.formattedtext.feature 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] gallery 1.0.0-SNAPSHOT ............................. [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.gallery 1.0.0-SNAPSHOT .. [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.gallery.example 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Nebula Gallery Feature 1.0.0-SNAPSHOT .............. [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.gallery.tests 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] ganttchart 1.0.0-SNAPSHOT .......................... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.ganttchart 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.ganttchart.example 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Nebula Ganttchart Widget 1.0.0-SNAPSHOT ............ [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] geomap 1.0.0-SNAPSHOT .............................. [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.geomap 1.0.0-SNAPSHOT ... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.geomap.example 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.geomap.feature 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.geomap.snippets 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] grid 1.1.0-SNAPSHOT ................................ [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] [bundle] Nebula Grid 1.2.1-SNAPSHOT ................ [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.grid.example 1.1.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Nebula Grid Feature 1.1.0-SNAPSHOT ................. [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.grid.css 1.1.0-SNAPSHOT . [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Nebula Grid CSS Feature 1.1.0-SNAPSHOT ............. [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.grid.example.e4 1.1.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] led 1.0.0-SNAPSHOT ................................. [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.led 1.0.0-SNAPSHOT ...... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Nebula Badged Label Feature 1.0.0-SNAPSHOT ......... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.led.snippets 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] nebulaslider 1.1.0-SNAPSHOT ........................ [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.nebulaslider 1.1.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Nebula Slider Feature 1.1.0-SNAPSHOT ............... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.nebulaslider.snippets 1.1.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] breadcrumb 1.0.0-SNAPSHOT .......................... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.breadcrumb 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Breadcrumb Feature 1.0.0-SNAPSHOT .................. [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.breadcrumb.snippets 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] calculator 1.0.0-SNAPSHOT .......................... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.calculator 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Calculator Feature 1.0.0-SNAPSHOT .................. [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.calculator.snippets 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] checkboxgroup 1.0.0-SNAPSHOT ....................... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.checkboxgroup 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] CheckboxgroupFeature 1.0.0-SNAPSHOT ................ [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.checkboxgroup.snippets 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] columnbrowser 1.0.0-SNAPSHOT ....................... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.columnbrowser 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] ColumnBrowser Feature 1.0.0-SNAPSHOT ............... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] dialog 1.0.0-SNAPSHOT .............................. [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.dialog 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.columnbrowser.snippets 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Dialog Feature 1.0.0-SNAPSHOT ...................... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.dialog.snippets 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] duallist 1.0.0-SNAPSHOT ............................ [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.duallist 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Duallist Feature 1.0.0-SNAPSHOT .................... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.duallist.snippets 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] header 1.0.0-SNAPSHOT .............................. [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.header 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Header Feature 1.0.0-SNAPSHOT ...................... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.header.snippets 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] heapmanager 1.0.0-SNAPSHOT ......................... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.heapmanager 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] HeapManagerFeature 1.0.0-SNAPSHOT .................. [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.heapmanager.snippets 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] horizontalspinner 1.0.0-SNAPSHOT ................... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.horizontalspinner 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] horizontalspinner Feature 1.0.0-SNAPSHOT ........... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.horizontalspinner.snippets 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] launcher 1.0.0-SNAPSHOT ............................ [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.launcher 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Launcher Feature 1.0.0-SNAPSHOT .................... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.launcher.snippets 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] logindialog 1.0.0-SNAPSHOT ......................... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.logindialog 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] PromptSupport Feature 1.0.0-SNAPSHOT ............... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.logindialog.snippets 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] multichoice 1.1.0-SNAPSHOT ......................... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.multichoice 1.1.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Multichoice Feature 1.1.0-SNAPSHOT ................. [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.multichoice.snippets 1.1.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] notifier 1.0.0-SNAPSHOT ............................ [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.notifier 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Notifier Feature 1.0.0-SNAPSHOT .................... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.notifier.snippets 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] panels 1.0.0-SNAPSHOT .............................. [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.panels 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Panels Feature 1.0.0-SNAPSHOT ...................... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.panels.snippets 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] preferencewindow 1.0.0-SNAPSHOT .................... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] titledseparator 1.0.0-SNAPSHOT ..................... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.titledseparator 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.preferencewindow 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] TitledSeparator Feature 1.0.0-SNAPSHOT ............. [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Preference Window Feature 1.0.0-SNAPSHOT ........... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.preferencewindow.snippets 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] promptsupport 1.0.0-SNAPSHOT ....................... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.promptsupport 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] PromptSupport Feature 1.0.0-SNAPSHOT ............... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.promptsupport.snippets 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] propertytable 1.0.2-SNAPSHOT ....................... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.propertytable 1.0.2-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Property Table Feature 1.0.2-SNAPSHOT .............. [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.propertytable.snippets 1.0.2-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] rangeslider 1.0.0-SNAPSHOT ......................... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.rangeslider 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Range Slider Feature 1.0.0-SNAPSHOT ................ [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.rangeslider.snippets 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] roundedtoolbar 1.0.0-SNAPSHOT ...................... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.roundedtoolbar 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Header Feature 1.0.0-SNAPSHOT ...................... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.roundedtoolbar.snippets 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] starrating 1.0.0-SNAPSHOT .......................... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.starrating 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Star Rating Feature 1.0.0-SNAPSHOT ................. [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.starrating.snippets 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] switchbutton 1.0.0-SNAPSHOT ........................ [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.switchbutton 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] SwitchButton Feature 1.0.0-SNAPSHOT ................ [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.switchbutton.snippets 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] textassist 1.0.0-SNAPSHOT .......................... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.textassist 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] TextAssist Feature 1.0.0-SNAPSHOT .................. [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.textassist.snippets 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] tipoftheday 1.0.0-SNAPSHOT ......................... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.tipoftheday 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Header Feature 1.0.0-SNAPSHOT ...................... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.tipoftheday.snippets 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.opal.titledseparator.snippets 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] oscilloscope 1.4.0-SNAPSHOT ........................ [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.oscilloscope 1.4.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.oscilloscope.example 1.0.1-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.oscilloscope.tests 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Nebula Oscilloscope Widget 1.4.0-SNAPSHOT .......... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.oscilloscope.css 1.4.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.oscilloscope.example.e4 1.4.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Nebula Oscilloscope CSS Feature 1.4.0-SNAPSHOT ..... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] paperclips 2.1.0-SNAPSHOT .......................... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.paperclips.core 2.1.0-SNAPSHOT .. [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.paperclips.widgets 2.1.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Nebula paperclips snippets 2.1.0-SNAPSHOT .......... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.paperclips.tests 2.1.0-SNAPSHOT . [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Nebula Examples View Feature 2.1.0-SNAPSHOT ........ [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Nebula Paperclips Example 2.1.0-SNAPSHOT ........... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] passwordrevealer 1.0.0-SNAPSHOT .................... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.passwordrevealer 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Password Revealer Feature 1.0.0-SNAPSHOT ........... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.passwordrevealer.snippets 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] pgroup 1.0.0-SNAPSHOT .............................. [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.pgroup 1.0.0-SNAPSHOT ... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.pgroup.example 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Nebula PGroup Feature 1.0.0-SNAPSHOT ............... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] progresscircle 1.0.0-SNAPSHOT ...................... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.progresscircle 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Progress Circle Feature 1.0.0-SNAPSHOT ............. [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.progresscircle.snippets 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] pshelf 1.0.0-SNAPSHOT .............................. [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.pshelf 1.1.0-SNAPSHOT ... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.pshelf.example 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.pshelf.css 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Nebula PShelf Feature 1.0.0-SNAPSHOT ............... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Nebula PShelf CSS Feature 1.0.0-SNAPSHOT ........... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] radiogroup 1.0.0-SNAPSHOT .......................... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.radiogroup 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.radiogroup.example 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.radiogroup.tests 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.radiogroup.feature 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] richtext 1.0.0-SNAPSHOT ............................ [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.richtext 1.7.0-SNAPSHOT . [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.richtext.example 1.7.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.richtext.example.e4 1.7.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Nebula RichText Widget 1.7.0-SNAPSHOT .............. [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] roundedcheckbox 1.0.0-SNAPSHOT ..................... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.roundedcheckbox 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] RoundedCheckbox Feature 1.0.0-SNAPSHOT ............. [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.roundedcheckbox.snippets 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] roundedswitch 1.0.0-SNAPSHOT ....................... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.roundedswitch 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Nebula Rounded Switch widget Feature 1.0.0-SNAPSHOT  [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.roundedswitch.snippets 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.roundedswitch.css 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.roundedswitch.example.e4 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Nebula RoundedSwitch CSS Feature 1.0.0-SNAPSHOT .... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] segmentedbar 1.0.0-SNAPSHOT ........................ [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.segmentedbar 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Nebula Segmented Bar widget Feature 1.0.0-SNAPSHOT . [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.segmentedbar.snippets 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] splitbutton 1.0.0-SNAPSHOT ......................... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.splitbutton 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Nebula SplitButton Feature 1.0.0-SNAPSHOT .......... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.splitbutton.snippets 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] stepbar 1.0.0-SNAPSHOT ............................. [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.stepbar 1.0.0-SNAPSHOT .. [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Nebula Badged Label Feature 1.0.0-SNAPSHOT ......... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.stepbar.snippets 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] tablecombo 1.3.0-SNAPSHOT .......................... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.tablecombo 1.3.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.tablecombo.example 1.3.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Nebula TableCombo Feature 1.3.0-SNAPSHOT ........... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.tablecombo.snippets 1.3.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.tablecombo.test 1.3.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.tablecombo.css 1.3.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.tablecombo.example.e4 1.3.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Nebula Tablecombo CSS Feature 1.3.0-SNAPSHOT ....... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] tiles 1.0.0-SNAPSHOT ............................... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.tiles 1.0.0-SNAPSHOT .... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Nebula Tiles widget Feature 1.0.0-SNAPSHOT ......... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.tiles.snippets 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] treemapper 1.0.0-SNAPSHOT .......................... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.treemapper 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.treemapper.examples 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.treemapper.tests 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.treemapper.feature 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] visualization 2.1.0-SNAPSHOT ....................... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Nebula Visualization XY-Graph 3.1.1-SNAPSHOT ....... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Nebula Visualization Widgets 1.1.0-SNAPSHOT ........ [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Nebula Visualization 2.1.0-SNAPSHOT ................ [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Nebula Visualization XY-Graph Example 1.1.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.visualization.example 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] xviewer 1.1.0-SNAPSHOT ............................. [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.xviewer.core 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.xviewer 1.1.0-SNAPSHOT .. [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.xviewer.example 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.xviewer.tests 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Nebula XViewer Feature 1.1.0-SNAPSHOT .............. [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] calendarcombo 1.0.0-SNAPSHOT ....................... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.calendarcombo 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.calendarcombo.example 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Nebula Calendar Combo Feature 1.0.0-SNAPSHOT ....... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] collapsiblebuttons 1.0.0-SNAPSHOT .................. [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Collapsible Buttons Widget 1.0.0-SNAPSHOT .......... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.collapsiblebuttons.example 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Eclipse Collabsible Buttons Feature 1.0.0-SNAPSHOT . [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] datechooser 1.0.0-SNAPSHOT ......................... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.datechooser 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.datechooser.example 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.datechooser.feature 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] pagination 1.0.0-SNAPSHOT .......................... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.pagination 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.pagination.example 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Nebula Pagination Control 1.0.0-SNAPSHOT ........... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.pagination.snippets 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.pagination.tests 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] picture 1.0.0-SNAPSHOT ............................. [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.picture 1.0.0-SNAPSHOT .. [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.picture.example 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Nebula Picture Control 1.0.0-SNAPSHOT .............. [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.picture.snippets 1.0.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] timeline 0.1.0-SNAPSHOT ............................ [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.timeline 0.1.0-SNAPSHOT . [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.timeline.example 0.1.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.timeline.tests 0.1.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] org.eclipse.nebula.widgets.timeline.feature 0.1.0-SNAPSHOT [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Nebula Examples View Feature 1.0.4-SNAPSHOT ........ [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Eclipse Nebula Feature 3.4.0-SNAPSHOT .............. [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Nebula Examples Feature 1.1.0-SNAPSHOT ............. [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Eclipse Nebula Feature 1.0.0-SNAPSHOT .............. [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Nebula Examples View Feature 1.0.0-SNAPSHOT ........ [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Eclipse Nebula Updates 1.0.0-SNAPSHOT .............. [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] nebula-root 1.0.0-SNAPSHOT ......................... [1;33mSKIPPED[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] [1;31mBUILD FAILURE[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Total time:  30.469 s
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] Finished at: 2026-10-10T08:35:55Z
+[2026-10-10T08:35:55.684Z] [[1;34mINFO[m] [1m------------------------------------------------------------------------[m
+[2026-10-10T08:35:55.684Z] [[1;31mERROR[m] Failed to execute goal [32morg.eclipse.tycho:tycho-compiler-plugin:4.0.12:compile[m [1m(default-compile)[m on project [36morg.eclipse.nebula.widgets.cdatetime.css[m: [1;31mCompilation failure[m: Compilation failure: 
+[2026-10-10T08:35:55.684Z] [[1;31mERROR[m] /var/jenkins_home/workspace/ex-013-full/widgets/cdatetime/org.eclipse.nebula.widgets.cdatetime.css/src/org/eclipse/nebula/widgets/cdatetime/css/CDateTimePropertyHandler.java:[17] 
+[2026-10-10T08:35:55.684Z] [[1;31mERROR[m] 	import org.eclipse.e4.ui.css.core.impl.dom.Measure;
+[2026-10-10T08:35:55.684Z] [[1;31mERROR[m] 	       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+[2026-10-10T08:35:55.684Z] [[1;31mERROR[m] The import org.eclipse.e4.ui.css.core.impl.dom.Measure cannot be resolved
+[2026-10-10T08:35:55.684Z] [[1;31mERROR[m] /var/jenkins_home/workspace/ex-013-full/widgets/cdatetime/org.eclipse.nebula.widgets.cdatetime.css/src/org/eclipse/nebula/widgets/cdatetime/css/CDateTimePropertyHandler.java:[166] 
+[2026-10-10T08:35:55.684Z] [[1;31mERROR[m] 	final String cssProp = CSS2FontHelper.getCSSFontPropertyName((CSSPrimitiveValue) value2);
+[2026-10-10T08:35:55.684Z] [[1;31mERROR[m] 	                                      ^^^^^^^^^^^^^^^^^^^^^^
+[2026-10-10T08:35:55.684Z] [[1;31mERROR[m] The method getCSSFontPropertyName(CssValues.CssPrimitive) in the type CSS2FontHelper is not applicable for the arguments (CSSPrimitiveValue)
+[2026-10-10T08:35:55.684Z] [[1;31mERROR[m] /var/jenkins_home/workspace/ex-013-full/widgets/cdatetime/org.eclipse.nebula.widgets.cdatetime.css/src/org/eclipse/nebula/widgets/cdatetime/css/CDateTimePropertyHandler.java:[236] 
+[2026-10-10T08:35:55.684Z] [[1;31mERROR[m] 	final Measure m = (Measure) value;
+[2026-10-10T08:35:55.684Z] [[1;31mERROR[m] 	      ^^^^^^^
+[2026-10-10T08:35:55.684Z] [[1;31mERROR[m] Measure cannot be resolved to a type
+[2026-10-10T08:35:55.684Z] [[1;31mERROR[m] /var/jenkins_home/workspace/ex-013-full/widgets/cdatetime/org.eclipse.nebula.widgets.cdatetime.css/src/org/eclipse/nebula/widgets/cdatetime/css/CDateTimePropertyHandler.java:[236] 
+[2026-10-10T08:35:55.684Z] [[1;31mERROR[m] 	final Measure m = (Measure) value;
+[2026-10-10T08:35:55.684Z] [[1;31mERROR[m] 	                   ^^^^^^^
+[2026-10-10T08:35:55.684Z] [[1;31mERROR[m] Measure cannot be resolved to a type
+[2026-10-10T08:35:55.684Z] [[1;31mERROR[m] 4 problems (4 errors)
+[2026-10-10T08:35:55.684Z] [[1;31mERROR[m] -> [1m[Help 1][m
+[2026-10-10T08:35:55.684Z] [[1;31mERROR[m] 
+[2026-10-10T08:35:55.684Z] [[1;31mERROR[m] To see the full stack trace of the errors, re-run Maven with the [1m-e[m switch.
+[2026-10-10T08:35:55.684Z] [[1;31mERROR[m] Re-run Maven using the [1m-X[m switch to enable full debug logging.
+[2026-10-10T08:35:55.684Z] [[1;31mERROR[m] 
+[2026-10-10T08:35:55.684Z] [[1;31mERROR[m] For more information about the errors and possible solutions, please read the following articles:
+[2026-10-10T08:35:55.684Z] [[1;31mERROR[m] [1m[Help 1][m http://cwiki.apache.org/confluence/display/MAVEN/MojoFailureException
+[2026-10-10T08:35:55.684Z] [[1;31mERROR[m] 
+[2026-10-10T08:35:55.684Z] [[1;31mERROR[m] After correcting the problems, you can resume the build with the command
+[2026-10-10T08:35:55.684Z] [[1;31mERROR[m]   [1mmvn <args> -rf :org.eclipse.nebula.widgets.cdatetime.css[m
+[2026-10-10T08:35:56.254Z] [Pipeline] }
+[2026-10-10T08:35:56.293Z] [Pipeline] // script
+[2026-10-10T08:35:56.322Z] [Pipeline] }
+[2026-10-10T08:35:56.354Z] [Pipeline] // withEnv
+[2026-10-10T08:35:56.373Z] [Pipeline] }
+[2026-10-10T08:35:56.406Z] [Pipeline] // stage
+[2026-10-10T08:35:56.439Z] [Pipeline] stage
+[2026-10-10T08:35:56.446Z] [Pipeline] { (Declarative: Post Actions)
+[2026-10-10T08:35:56.488Z] [Pipeline] junit
+[2026-10-10T08:35:56.495Z] Recording test results
+[2026-10-10T08:35:56.742Z] No test report files were found. Configuration error?
+[2026-10-10T08:35:56.751Z] [Checks API] No suitable checks publisher found.
+[2026-10-10T08:35:56.766Z] [Pipeline] echo
+[2026-10-10T08:35:56.772Z] J2GHA-TRACE {"stage":"Declarative: Post Actions","step":"recordIssues"}
+[2026-10-10T08:35:56.796Z] [Pipeline] archiveArtifacts
+[2026-10-10T08:35:56.803Z] Archiving artifacts
+[2026-10-10T08:36:00.285Z] [Pipeline] echo
+[2026-10-10T08:36:00.289Z] J2GHA-TRACE {"stage":"Declarative: Post Actions","step":"mail"}
+[2026-10-10T08:36:00.302Z] [Pipeline] deleteDir
+[2026-10-10T08:36:00.698Z] [Pipeline] }
+[2026-10-10T08:36:00.722Z] [Pipeline] // stage
+[2026-10-10T08:36:00.735Z] [Pipeline] }
+[2026-10-10T08:36:00.760Z] [Pipeline] // withEnv
+[2026-10-10T08:36:00.776Z] [Pipeline] }
+[2026-10-10T08:36:00.819Z] [Pipeline] // timeout
+[2026-10-10T08:36:00.845Z] [Pipeline] }
+[2026-10-10T08:36:00.880Z] [Pipeline] // withEnv
+[2026-10-10T08:36:00.899Z] [Pipeline] }
+[2026-10-10T08:36:00.937Z] [Pipeline] // withEnv
+[2026-10-10T08:36:00.954Z] [Pipeline] }
+[2026-10-10T08:36:00.985Z] [Pipeline] // node
+[2026-10-10T08:36:01.012Z] [Pipeline] End of Pipeline
+[2026-10-10T08:36:01.029Z] ERROR: script returned exit code 1
+[2026-10-10T08:36:01.044Z] Finished: FAILURE

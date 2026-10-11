@@ -1,0 +1,35 @@
+import org.acme.Defaults
+
+def call(Map config = [:]) {
+    Map settings = Defaults.resolve(config)
+    pipeline {
+        agent any
+        parameters {
+            string(name: 'BRANCH', defaultValue: settings.branch)
+            booleanParam(name: 'DEPLOY', defaultValue: false)
+            choice(name: 'REGION', choices: ['eu', 'us'])
+        }
+        options {
+            timestamps()
+            lock(label: params.POOL)
+        }
+        stages {
+            stage('Build') {
+                steps {
+                    sh "make ${settings.target}"
+                    script {
+                        deployApp(settings)
+                    }
+                    lock('db') {
+                        sh 'migrate'
+                    }
+                }
+            }
+        }
+        post {
+            always {
+                junit 'reports/*.xml'
+            }
+        }
+    }
+}

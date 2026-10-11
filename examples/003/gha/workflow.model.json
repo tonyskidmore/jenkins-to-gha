@@ -1,0 +1,1779 @@
+{
+  "name": "j2gha 003: frankarobotics/franka_description Jenkinsfile (j2gha)",
+  "on": {
+    "push": {
+      "branches": [
+        "**"
+      ]
+    },
+    "pull_request": null,
+    "workflow_dispatch": null
+  },
+  "permissions": {
+    "contents": "read"
+  },
+  "env": {
+    "BRANCH_NAME": "${{ github.head_ref || github.ref_name }}",
+    "TAG_NAME": "${{ github.ref_type == 'tag' && github.ref_name || '' }}",
+    "CHANGE_ID": "${{ github.event.pull_request.number }}",
+    "DEPENDENCIES_DIR": "dependencies/",
+    "VERSION": "TODO-j2gha: feDetermineVersionFromGit()",
+    "ARTIFACT_FILENAME": "robot-descriptions",
+    "DIST_DIR": "dist/usr/share/robot-descriptions",
+    "GIT_COMMIT": "${{ github.sha }}",
+    "GIT_BRANCH": "${{ github.head_ref || github.ref_name }}",
+    "GIT_URL": "${{ github.server_url }}/${{ github.repository }}.git"
+  },
+  "defaults": {
+    "run": {
+      "shell": "bash"
+    }
+  },
+  "jobs": {
+    "check-commit-message": {
+      "name": "Check Commit Message, Get Ready",
+      "runs-on": "ubuntu-latest",
+      "timeout-minutes": 120,
+      "steps": [
+        {
+          "name": "Checkout",
+          "uses": "actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "with": {
+            "persist-credentials": false
+          },
+          "_j2gha": {
+            "kind": "checkout",
+            "line": null,
+            "trace": false,
+            "trace_events": [
+              [
+                "Declarative: Checkout SCM",
+                "checkout"
+              ]
+            ],
+            "role": "checkout"
+          }
+        },
+        {
+          "name": "Set pipeline environment (Jenkins environment {})",
+          "run": "true",
+          "_j2gha": {
+            "kind": "environment",
+            "trace": false,
+            "role": "setup",
+            "trace_events": [
+              [
+                "",
+                "feDetermineVersionFromGit"
+              ]
+            ]
+          }
+        },
+        {
+          "name": "Check Commit Message: git log -1 --pretty=format:%s",
+          "id": "s1",
+          "run": "git log -1 --pretty=format:%s",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Check Commit Message",
+            "line": 37,
+            "trace": true
+          }
+        },
+        {
+          "name": "Check Commit Message: Groovy if (manual)",
+          "id": "s2",
+          "run": "echo \"::warning::manual migration: Groovy condition at line 39: skipKeywords.any { commitMsg.toLowerCase().contains(it) }\"",
+          "_j2gha": {
+            "kind": "script-manual",
+            "stage": "Check Commit Message",
+            "line": 39,
+            "trace": false
+          }
+        },
+        {
+          "name": "Get Ready: notifyBitbucket (manual migration)",
+          "id": "s3",
+          "run": "echo \"::warning::Jenkins step 'notifyBitbucket' requires manual migration\"",
+          "_j2gha": {
+            "kind": "notifyBitbucket",
+            "stage": "Get Ready",
+            "line": 50,
+            "trace": true
+          }
+        },
+        {
+          "name": "Get Ready: git clean -x -d -f",
+          "id": "s4",
+          "run": "git clean -x -d -f",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Get Ready",
+            "line": 53,
+            "trace": true
+          }
+        },
+        {
+          "name": "Hand on the pipeline workspace (archive)",
+          "if": "always()",
+          "shell": "bash",
+          "run": "tar --exclude=./.j2gha-ws --exclude=./.j2gha-ws.tgz --exclude=./.j2gha-ws.changes \\\n  -czf \"$RUNNER_TEMP/j2gha-ws.tgz\" -C \"$GITHUB_WORKSPACE\" .\nmv \"$RUNNER_TEMP/j2gha-ws.tgz\" \"$GITHUB_WORKSPACE/.j2gha-ws.tgz\"\n",
+          "_j2gha": {
+            "kind": "workspace-handoff",
+            "trace": false,
+            "role": "handoff"
+          }
+        },
+        {
+          "name": "Hand on the pipeline workspace (upload)",
+          "if": "always()",
+          "uses": "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "with": {
+            "name": "j2gha-ws-check-commit-message",
+            "path": ".j2gha-ws.tgz",
+            "retention-days": 1,
+            "compression-level": 0,
+            "if-no-files-found": "error",
+            "include-hidden-files": true
+          },
+          "_j2gha": {
+            "kind": "workspace-handoff",
+            "trace": false,
+            "role": "handoff"
+          }
+        }
+      ]
+    },
+    "run-urdf-tests": {
+      "name": "Run URDF tests",
+      "needs": "check-commit-message",
+      "runs-on": "ubuntu-latest",
+      "timeout-minutes": 120,
+      "steps": [
+        {
+          "name": "Restore pipeline workspace (check-commit-message)",
+          "id": "j2gha-ws-check-commit-message",
+          "uses": "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093",
+          "continue-on-error": true,
+          "with": {
+            "name": "j2gha-ws-check-commit-message",
+            "path": ".j2gha-ws/check-commit-message"
+          },
+          "_j2gha": {
+            "kind": "workspace-handoff",
+            "trace": false,
+            "role": "handoff"
+          }
+        },
+        {
+          "name": "Restore pipeline workspace (merge)",
+          "id": "j2gha-ws-restore",
+          "if": "always()",
+          "shell": "bash",
+          "env": {
+            "J2GHA_WS_ORDER": "check-commit-message",
+            "J2GHA_WS_LINEAGE": "check-commit-message:",
+            "J2GHA_WS_HEADS": "check-commit-message",
+            "J2GHA_WS_RESULTS": "check-commit-message=${{ needs.check-commit-message.result }}",
+            "J2GHA_WS_FALLBACKS": "check-commit-message:"
+          },
+          "run": "ws=\"$GITHUB_WORKSPACE\"\nd=\"$ws/.j2gha-ws\"\n# the downloaded producers a producer descends from\nancestors() {\n  local line\n  while IFS= read -r line; do\n    if [ \"${line%%:*}\" = \"$1\" ]; then printf '%s\\n' \"${line#*:}\"; fi\n  done <<< \"$J2GHA_WS_LINEAGE\"\n}\npresent() { [ -f \"$d/$1/.j2gha-ws.tgz\" ]; }\n# read-only directories (a Go module cache) need write permission to be removed\nremove() { rm -rf -- \"$@\" 2>/dev/null || { chmod -R u+w -- \"$@\"; rm -rf -- \"$@\"; }; }\nisdir() { [ -d \"$1\" ] && [ ! -L \"$1\" ]; }\n# replay a branch's own changes (its change list) onto the workspace\nreplay() {\n  local src=\"$d/$1\" t=\"$d/.replay\" rec p a\n  local -a recs=() gone=()\n  local -A want=() locked=() removed=()\n  if [ ! -f \"$src/.j2gha-ws.changes\" ]; then\n    echo \"::error::the workspace of job '$1' has no change list (the workspace it started from was not recorded): it cannot be merged\"\n    exit 1\n  fi\n  mapfile -t recs < \"$src/.j2gha-ws.changes\"\n  for rec in \"${recs[@]}\"; do\n    printf -v p '%b' \"${rec:1}\"\n    if [ \"${rec:0:1}\" = D ]; then\n      removed[$p]=1\n      continue\n    fi\n    want[$p]=1\n    # a parent directory an earlier branch removed or replaced is taken from this branch too\n    a=$p\n    while a=${a%/*}; [ \"$a\" != . ]; do\n      if isdir \"$ws/$a\"; then break; fi\n      want[$a]=1\n    done\n  done\n  # a removed directory takes its contents with it: only the top-most removed entries are removed\n  for p in \"${!removed[@]}\"; do\n    a=$p\n    while a=${a%/*}; [ \"$a\" != . ] && [ -z \"${removed[$a]-}\" ]; do :; done\n    if [ \"$a\" = . ]; then gone+=(\"$p\"); fi\n  done\n  # only the entries to copy come out of the branch's workspace (parents first)\n  mkdir -p \"$t\"\n  printf '%s\\0' \"${!want[@]}\" | LC_ALL=C sort -z > \"$d/.want\"\n  if [ \"${#want[@]}\" -gt 0 ]; then tar -xzpf \"$src/.j2gha-ws.tgz\" -C \"$t\" --null --no-unquote --no-recursion -T \"$d/.want\"; fi\n  # read-only directories (a Go module cache) are opened for the changes; their modes are put back afterwards\n  for p in \"${gone[@]}\" \"${!want[@]}\"; do\n    a=${p%/*}\n    if [ \"$a\" != . ] && isdir \"$ws/$a\" && [ ! -w \"$ws/$a\" ] && [ -z \"${locked[$a]-}\" ]; then\n      locked[$a]=$(stat -c %a \"$ws/$a\")\n      chmod u+w \"$ws/$a\"\n    fi\n  done\n  for p in \"${gone[@]}\"; do remove \"$ws/$p\"; done\n  # clear what is in the way of an entry's type: a file or link where the branch has a directory, or the reverse\n  for p in \"${!want[@]}\"; do\n    if isdir \"$t/$p\"; then\n      if [ -L \"$ws/$p\" ] || { [ -e \"$ws/$p\" ] && [ ! -d \"$ws/$p\" ]; }; then rm -f -- \"$ws/$p\"; fi\n      if isdir \"$ws/$p\" && [ ! -w \"$ws/$p\" ]; then chmod u+w \"$ws/$p\"; fi  # tar sets the branch's mode\n    elif isdir \"$ws/$p\"; then\n      remove \"$ws/$p\"\n    fi\n  done\n  if [ \"${#want[@]}\" -gt 0 ]; then\n    # tar sets directory modes after their contents\n    tar -C \"$t\" --null --no-unquote --no-recursion -T \"$d/.want\" -cf - | tar -xpf - -C \"$ws\"\n  fi\n  for a in \"${!locked[@]}\"; do\n    if [ -z \"${want[$a]-}\" ] && isdir \"$ws/$a\"; then chmod \"${locked[$a]}\" \"$ws/$a\"; fi\n  done\n  remove \"$t\"\n}\n# every producer the restore relies on is accounted for: its workspace arrived, or its job was skipped and the\n# producers it would have started from are accounted for in turn (the fallback chain actually used)\ndeclare -A result=() fallback=() seen=()\nfor r in $J2GHA_WS_RESULTS; do result[${r%%=*}]=${r#*=}; done\nwhile IFS= read -r line; do\n  if [ -n \"$line\" ]; then fallback[${line%%:*}]=${line#*:}; fi\ndone <<< \"$J2GHA_WS_FALLBACKS\"\naccount() {\n  local p=$1 f\n  if [ -n \"${seen[$p]-}\" ] || present \"$p\"; then return 0; fi\n  seen[$p]=1\n  case \"${result[$p]-}\" in\n    success|failure)\n      echo \"::error::job '$p' ran (${result[$p]}) but its workspace did not arrive: restoring an older one would lose its changes\"\n      exit 1 ;;\n    skipped|cancelled) ;;\n    *) echo \"::warning::the workspace of job '$p' did not arrive and its result is not known here (not a job this one needs): taken as skipped - if it ran, its changes are missing\" ;;\n  esac\n  for f in ${fallback[$p]-}; do account \"$f\"; done\n}\nfor p in $J2GHA_WS_HEADS; do account \"$p\"; done\n# the workspaces to merge: those downloaded that no other downloaded one descends from\nfrontier=()\nfor p in $J2GHA_WS_ORDER; do\n  present \"$p\" || continue\n  covered=false\n  for q in $J2GHA_WS_ORDER; do\n    if [ \"$q\" != \"$p\" ] && present \"$q\"; then\n      case \" $(ancestors \"$q\") \" in *\" $p \"*) covered=true ;; esac\n    fi\n  done\n  if [ \"$covered\" = false ]; then frontier+=(\"$p\"); fi\ndone\nrestored=false\nif [ \"${#frontier[@]}\" -gt 0 ]; then\n  # the restored workspace replaces what the job started with (act copies the repository into every job)\n  shopt -s dotglob nullglob\n  for e in \"$ws\"/*; do\n    if [ \"$e\" != \"$d\" ]; then remove \"$e\"; fi\n  done\n  shopt -u dotglob nullglob\n  tar -xzpf \"$d/${frontier[0]}/.j2gha-ws.tgz\" -C \"$ws\"\n  for f in \"${frontier[@]:1}\"; do replay \"$f\"; done\n  restored=true\nfi\nremove \"$d\"\necho \"restored=$restored\" >> \"$GITHUB_OUTPUT\"\n",
+          "_j2gha": {
+            "kind": "workspace-handoff",
+            "trace": false,
+            "role": "handoff"
+          }
+        },
+        {
+          "name": "Checkout",
+          "uses": "actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "with": {
+            "persist-credentials": false
+          },
+          "_j2gha": {
+            "kind": "checkout",
+            "line": null,
+            "trace": false,
+            "trace_events": [
+              [
+                "Run URDF tests",
+                "checkout"
+              ]
+            ],
+            "role": "checkout"
+          }
+        },
+        {
+          "name": "Build agent image (agent dockerfile)",
+          "run": "docker build -t j2gha-agent:local -f .docker/Dockerfile .docker",
+          "_j2gha": {
+            "kind": "dockerfile-agent",
+            "trace": false,
+            "role": "setup"
+          }
+        },
+        {
+          "name": "Run URDF tests: .ci/run_urdf_tests.sh",
+          "id": "s5",
+          "run": "docker run --rm -v \"$PWD\":\"$PWD\" -w \"$PWD\" --env-file <(env | grep -v '^PATH=') j2gha-agent:local sh -c .ci/run_urdf_tests.sh",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Run URDF tests",
+            "line": 65,
+            "trace": true
+          }
+        },
+        {
+          "name": "Hand on the pipeline workspace (archive)",
+          "if": "always()",
+          "shell": "bash",
+          "run": "tar --exclude=./.j2gha-ws --exclude=./.j2gha-ws.tgz --exclude=./.j2gha-ws.changes \\\n  -czf \"$RUNNER_TEMP/j2gha-ws.tgz\" -C \"$GITHUB_WORKSPACE\" .\nmv \"$RUNNER_TEMP/j2gha-ws.tgz\" \"$GITHUB_WORKSPACE/.j2gha-ws.tgz\"\n",
+          "_j2gha": {
+            "kind": "workspace-handoff",
+            "trace": false,
+            "role": "handoff"
+          }
+        },
+        {
+          "name": "Hand on the pipeline workspace (upload)",
+          "if": "always()",
+          "uses": "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "with": {
+            "name": "j2gha-ws-run-urdf-tests",
+            "path": ".j2gha-ws.tgz",
+            "retention-days": 1,
+            "compression-level": 0,
+            "if-no-files-found": "error",
+            "include-hidden-files": true
+          },
+          "_j2gha": {
+            "kind": "workspace-handoff",
+            "trace": false,
+            "role": "handoff"
+          }
+        }
+      ]
+    },
+    "build-robot-urdfs-and-srdfs": {
+      "name": "Build robot URDFs and SRDFs",
+      "needs": "run-urdf-tests",
+      "runs-on": "ubuntu-latest",
+      "timeout-minutes": 120,
+      "strategy": {
+        "fail-fast": false,
+        "matrix": {
+          "ROBOT": [
+            "fp3",
+            "fr3",
+            "fr3v2",
+            "fr3v2_1",
+            "tmrv0_2"
+          ]
+        }
+      },
+      "env": {
+        "ROBOT": "${{ matrix.ROBOT }}"
+      },
+      "steps": [
+        {
+          "name": "Restore pipeline workspace (run-urdf-tests)",
+          "id": "j2gha-ws-run-urdf-tests",
+          "uses": "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093",
+          "continue-on-error": true,
+          "with": {
+            "name": "j2gha-ws-run-urdf-tests",
+            "path": ".j2gha-ws/run-urdf-tests"
+          },
+          "_j2gha": {
+            "kind": "workspace-handoff",
+            "trace": false,
+            "role": "handoff"
+          }
+        },
+        {
+          "name": "Restore pipeline workspace (check-commit-message)",
+          "id": "j2gha-ws-check-commit-message",
+          "if": "(steps.j2gha-ws-run-urdf-tests.outcome != 'success')",
+          "uses": "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093",
+          "continue-on-error": true,
+          "with": {
+            "name": "j2gha-ws-check-commit-message",
+            "path": ".j2gha-ws/check-commit-message"
+          },
+          "_j2gha": {
+            "kind": "workspace-handoff",
+            "trace": false,
+            "role": "handoff"
+          }
+        },
+        {
+          "name": "Restore pipeline workspace (merge)",
+          "id": "j2gha-ws-restore",
+          "if": "always()",
+          "shell": "bash",
+          "env": {
+            "J2GHA_WS_ORDER": "check-commit-message run-urdf-tests",
+            "J2GHA_WS_LINEAGE": "check-commit-message:\nrun-urdf-tests: check-commit-message",
+            "J2GHA_WS_HEADS": "run-urdf-tests",
+            "J2GHA_WS_RESULTS": "run-urdf-tests=${{ needs.run-urdf-tests.result }}",
+            "J2GHA_WS_FALLBACKS": "check-commit-message:\nrun-urdf-tests: check-commit-message"
+          },
+          "run": "ws=\"$GITHUB_WORKSPACE\"\nd=\"$ws/.j2gha-ws\"\n# the downloaded producers a producer descends from\nancestors() {\n  local line\n  while IFS= read -r line; do\n    if [ \"${line%%:*}\" = \"$1\" ]; then printf '%s\\n' \"${line#*:}\"; fi\n  done <<< \"$J2GHA_WS_LINEAGE\"\n}\npresent() { [ -f \"$d/$1/.j2gha-ws.tgz\" ]; }\n# read-only directories (a Go module cache) need write permission to be removed\nremove() { rm -rf -- \"$@\" 2>/dev/null || { chmod -R u+w -- \"$@\"; rm -rf -- \"$@\"; }; }\nisdir() { [ -d \"$1\" ] && [ ! -L \"$1\" ]; }\n# replay a branch's own changes (its change list) onto the workspace\nreplay() {\n  local src=\"$d/$1\" t=\"$d/.replay\" rec p a\n  local -a recs=() gone=()\n  local -A want=() locked=() removed=()\n  if [ ! -f \"$src/.j2gha-ws.changes\" ]; then\n    echo \"::error::the workspace of job '$1' has no change list (the workspace it started from was not recorded): it cannot be merged\"\n    exit 1\n  fi\n  mapfile -t recs < \"$src/.j2gha-ws.changes\"\n  for rec in \"${recs[@]}\"; do\n    printf -v p '%b' \"${rec:1}\"\n    if [ \"${rec:0:1}\" = D ]; then\n      removed[$p]=1\n      continue\n    fi\n    want[$p]=1\n    # a parent directory an earlier branch removed or replaced is taken from this branch too\n    a=$p\n    while a=${a%/*}; [ \"$a\" != . ]; do\n      if isdir \"$ws/$a\"; then break; fi\n      want[$a]=1\n    done\n  done\n  # a removed directory takes its contents with it: only the top-most removed entries are removed\n  for p in \"${!removed[@]}\"; do\n    a=$p\n    while a=${a%/*}; [ \"$a\" != . ] && [ -z \"${removed[$a]-}\" ]; do :; done\n    if [ \"$a\" = . ]; then gone+=(\"$p\"); fi\n  done\n  # only the entries to copy come out of the branch's workspace (parents first)\n  mkdir -p \"$t\"\n  printf '%s\\0' \"${!want[@]}\" | LC_ALL=C sort -z > \"$d/.want\"\n  if [ \"${#want[@]}\" -gt 0 ]; then tar -xzpf \"$src/.j2gha-ws.tgz\" -C \"$t\" --null --no-unquote --no-recursion -T \"$d/.want\"; fi\n  # read-only directories (a Go module cache) are opened for the changes; their modes are put back afterwards\n  for p in \"${gone[@]}\" \"${!want[@]}\"; do\n    a=${p%/*}\n    if [ \"$a\" != . ] && isdir \"$ws/$a\" && [ ! -w \"$ws/$a\" ] && [ -z \"${locked[$a]-}\" ]; then\n      locked[$a]=$(stat -c %a \"$ws/$a\")\n      chmod u+w \"$ws/$a\"\n    fi\n  done\n  for p in \"${gone[@]}\"; do remove \"$ws/$p\"; done\n  # clear what is in the way of an entry's type: a file or link where the branch has a directory, or the reverse\n  for p in \"${!want[@]}\"; do\n    if isdir \"$t/$p\"; then\n      if [ -L \"$ws/$p\" ] || { [ -e \"$ws/$p\" ] && [ ! -d \"$ws/$p\" ]; }; then rm -f -- \"$ws/$p\"; fi\n      if isdir \"$ws/$p\" && [ ! -w \"$ws/$p\" ]; then chmod u+w \"$ws/$p\"; fi  # tar sets the branch's mode\n    elif isdir \"$ws/$p\"; then\n      remove \"$ws/$p\"\n    fi\n  done\n  if [ \"${#want[@]}\" -gt 0 ]; then\n    # tar sets directory modes after their contents\n    tar -C \"$t\" --null --no-unquote --no-recursion -T \"$d/.want\" -cf - | tar -xpf - -C \"$ws\"\n  fi\n  for a in \"${!locked[@]}\"; do\n    if [ -z \"${want[$a]-}\" ] && isdir \"$ws/$a\"; then chmod \"${locked[$a]}\" \"$ws/$a\"; fi\n  done\n  remove \"$t\"\n}\n# every producer the restore relies on is accounted for: its workspace arrived, or its job was skipped and the\n# producers it would have started from are accounted for in turn (the fallback chain actually used)\ndeclare -A result=() fallback=() seen=()\nfor r in $J2GHA_WS_RESULTS; do result[${r%%=*}]=${r#*=}; done\nwhile IFS= read -r line; do\n  if [ -n \"$line\" ]; then fallback[${line%%:*}]=${line#*:}; fi\ndone <<< \"$J2GHA_WS_FALLBACKS\"\naccount() {\n  local p=$1 f\n  if [ -n \"${seen[$p]-}\" ] || present \"$p\"; then return 0; fi\n  seen[$p]=1\n  case \"${result[$p]-}\" in\n    success|failure)\n      echo \"::error::job '$p' ran (${result[$p]}) but its workspace did not arrive: restoring an older one would lose its changes\"\n      exit 1 ;;\n    skipped|cancelled) ;;\n    *) echo \"::warning::the workspace of job '$p' did not arrive and its result is not known here (not a job this one needs): taken as skipped - if it ran, its changes are missing\" ;;\n  esac\n  for f in ${fallback[$p]-}; do account \"$f\"; done\n}\nfor p in $J2GHA_WS_HEADS; do account \"$p\"; done\n# the workspaces to merge: those downloaded that no other downloaded one descends from\nfrontier=()\nfor p in $J2GHA_WS_ORDER; do\n  present \"$p\" || continue\n  covered=false\n  for q in $J2GHA_WS_ORDER; do\n    if [ \"$q\" != \"$p\" ] && present \"$q\"; then\n      case \" $(ancestors \"$q\") \" in *\" $p \"*) covered=true ;; esac\n    fi\n  done\n  if [ \"$covered\" = false ]; then frontier+=(\"$p\"); fi\ndone\nrestored=false\nif [ \"${#frontier[@]}\" -gt 0 ]; then\n  # the restored workspace replaces what the job started with (act copies the repository into every job)\n  shopt -s dotglob nullglob\n  for e in \"$ws\"/*; do\n    if [ \"$e\" != \"$d\" ]; then remove \"$e\"; fi\n  done\n  shopt -u dotglob nullglob\n  tar -xzpf \"$d/${frontier[0]}/.j2gha-ws.tgz\" -C \"$ws\"\n  for f in \"${frontier[@]:1}\"; do replay \"$f\"; done\n  restored=true\nfi\nremove \"$d\"\necho \"restored=$restored\" >> \"$GITHUB_OUTPUT\"\n",
+          "_j2gha": {
+            "kind": "workspace-handoff",
+            "trace": false,
+            "role": "handoff"
+          }
+        },
+        {
+          "name": "Checkout",
+          "uses": "actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "with": {
+            "persist-credentials": false
+          },
+          "_j2gha": {
+            "kind": "checkout",
+            "line": null,
+            "trace": false,
+            "trace_events": [],
+            "role": "checkout"
+          },
+          "if": "steps.j2gha-ws-restore.outputs.restored != 'true'"
+        },
+        {
+          "name": "Build URDF and SRDF: ./scripts/create_urdf.sh --no-ee --no-prefix ${ROBOT}",
+          "id": "s6",
+          "run": "./scripts/create_urdf.sh --no-ee --no-prefix ${ROBOT}",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Build URDF and SRDF",
+            "line": 80,
+            "trace": true
+          }
+        },
+        {
+          "name": "Build URDF and SRDF: dir urdfs",
+          "id": "s7",
+          "run": "mkdir -p -- \"$J2GHA_DIR\"",
+          "env": {
+            "J2GHA_DIR": "urdfs"
+          },
+          "_j2gha": {
+            "kind": "dir",
+            "stage": "Build URDF and SRDF",
+            "line": null,
+            "trace": false
+          }
+        },
+        {
+          "name": "Build URDF and SRDF: stash ROBOT_${ROBOT}_urdf",
+          "id": "s8",
+          "uses": "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "with": {
+            "name": "stash-ROBOT_-ROBOT-_urdf",
+            "path": "urdfs/${{ env.ROBOT }}.urdf\n!urdfs/**/.git\n!urdfs/**/.git/**\n!urdfs/**/.gitignore\n!urdfs/**/.gitattributes\n!urdfs/**/.gitmodules\n!urdfs/**/.svn\n!urdfs/**/.svn/**\n!urdfs/**/.hg\n!urdfs/**/.hg/**\n!urdfs/**/.hgignore\n!urdfs/**/.hgtags\n!urdfs/**/.bzr\n!urdfs/**/.bzr/**\n!urdfs/**/.bzrignore\n!urdfs/**/CVS\n!urdfs/**/CVS/**\n!urdfs/**/.cvsignore\n!urdfs/**/SCCS\n!urdfs/**/SCCS/**\n!urdfs/**/vssver.scc\n!urdfs/**/.DS_Store\n!urdfs/**/*~\n!urdfs/**/#*#\n!urdfs/**/.#*\n!urdfs/**/%*%\n!urdfs/**/._*",
+            "retention-days": 1,
+            "include-hidden-files": true,
+            "if-no-files-found": "error",
+            "overwrite": true
+          },
+          "_j2gha": {
+            "kind": "stash",
+            "stage": "Build URDF and SRDF",
+            "line": 82,
+            "trace": true
+          }
+        },
+        {
+          "name": "Build URDF and SRDF: stash ROBOT_${ROBOT}_srdf",
+          "id": "s9",
+          "uses": "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "with": {
+            "name": "stash-ROBOT_-ROBOT-_srdf",
+            "path": "urdfs/${{ env.ROBOT }}.srdf\n!urdfs/**/.git\n!urdfs/**/.git/**\n!urdfs/**/.gitignore\n!urdfs/**/.gitattributes\n!urdfs/**/.gitmodules\n!urdfs/**/.svn\n!urdfs/**/.svn/**\n!urdfs/**/.hg\n!urdfs/**/.hg/**\n!urdfs/**/.hgignore\n!urdfs/**/.hgtags\n!urdfs/**/.bzr\n!urdfs/**/.bzr/**\n!urdfs/**/.bzrignore\n!urdfs/**/CVS\n!urdfs/**/CVS/**\n!urdfs/**/.cvsignore\n!urdfs/**/SCCS\n!urdfs/**/SCCS/**\n!urdfs/**/vssver.scc\n!urdfs/**/.DS_Store\n!urdfs/**/*~\n!urdfs/**/#*#\n!urdfs/**/.#*\n!urdfs/**/%*%\n!urdfs/**/._*",
+            "retention-days": 1,
+            "include-hidden-files": true,
+            "if-no-files-found": "error",
+            "overwrite": true
+          },
+          "_j2gha": {
+            "kind": "stash",
+            "stage": "Build URDF and SRDF",
+            "line": 83,
+            "trace": true
+          }
+        }
+      ]
+    },
+    "build-end-effector-urdfs": {
+      "name": "Build End Effector URDFs",
+      "needs": "build-robot-urdfs-and-srdfs",
+      "runs-on": "ubuntu-latest",
+      "timeout-minutes": 120,
+      "strategy": {
+        "fail-fast": false,
+        "matrix": {
+          "EE": [
+            "franka_hand",
+            "cobot_pump"
+          ]
+        }
+      },
+      "env": {
+        "EE": "${{ matrix.EE }}"
+      },
+      "steps": [
+        {
+          "name": "Restore pipeline workspace (run-urdf-tests)",
+          "id": "j2gha-ws-run-urdf-tests",
+          "uses": "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093",
+          "continue-on-error": true,
+          "with": {
+            "name": "j2gha-ws-run-urdf-tests",
+            "path": ".j2gha-ws/run-urdf-tests"
+          },
+          "_j2gha": {
+            "kind": "workspace-handoff",
+            "trace": false,
+            "role": "handoff"
+          }
+        },
+        {
+          "name": "Restore pipeline workspace (check-commit-message)",
+          "id": "j2gha-ws-check-commit-message",
+          "if": "(steps.j2gha-ws-run-urdf-tests.outcome != 'success')",
+          "uses": "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093",
+          "continue-on-error": true,
+          "with": {
+            "name": "j2gha-ws-check-commit-message",
+            "path": ".j2gha-ws/check-commit-message"
+          },
+          "_j2gha": {
+            "kind": "workspace-handoff",
+            "trace": false,
+            "role": "handoff"
+          }
+        },
+        {
+          "name": "Restore pipeline workspace (merge)",
+          "id": "j2gha-ws-restore",
+          "if": "always()",
+          "shell": "bash",
+          "env": {
+            "J2GHA_WS_ORDER": "check-commit-message run-urdf-tests",
+            "J2GHA_WS_LINEAGE": "check-commit-message:\nrun-urdf-tests: check-commit-message",
+            "J2GHA_WS_HEADS": "run-urdf-tests",
+            "J2GHA_WS_RESULTS": "",
+            "J2GHA_WS_FALLBACKS": "check-commit-message:\nrun-urdf-tests: check-commit-message"
+          },
+          "run": "ws=\"$GITHUB_WORKSPACE\"\nd=\"$ws/.j2gha-ws\"\n# the downloaded producers a producer descends from\nancestors() {\n  local line\n  while IFS= read -r line; do\n    if [ \"${line%%:*}\" = \"$1\" ]; then printf '%s\\n' \"${line#*:}\"; fi\n  done <<< \"$J2GHA_WS_LINEAGE\"\n}\npresent() { [ -f \"$d/$1/.j2gha-ws.tgz\" ]; }\n# read-only directories (a Go module cache) need write permission to be removed\nremove() { rm -rf -- \"$@\" 2>/dev/null || { chmod -R u+w -- \"$@\"; rm -rf -- \"$@\"; }; }\nisdir() { [ -d \"$1\" ] && [ ! -L \"$1\" ]; }\n# replay a branch's own changes (its change list) onto the workspace\nreplay() {\n  local src=\"$d/$1\" t=\"$d/.replay\" rec p a\n  local -a recs=() gone=()\n  local -A want=() locked=() removed=()\n  if [ ! -f \"$src/.j2gha-ws.changes\" ]; then\n    echo \"::error::the workspace of job '$1' has no change list (the workspace it started from was not recorded): it cannot be merged\"\n    exit 1\n  fi\n  mapfile -t recs < \"$src/.j2gha-ws.changes\"\n  for rec in \"${recs[@]}\"; do\n    printf -v p '%b' \"${rec:1}\"\n    if [ \"${rec:0:1}\" = D ]; then\n      removed[$p]=1\n      continue\n    fi\n    want[$p]=1\n    # a parent directory an earlier branch removed or replaced is taken from this branch too\n    a=$p\n    while a=${a%/*}; [ \"$a\" != . ]; do\n      if isdir \"$ws/$a\"; then break; fi\n      want[$a]=1\n    done\n  done\n  # a removed directory takes its contents with it: only the top-most removed entries are removed\n  for p in \"${!removed[@]}\"; do\n    a=$p\n    while a=${a%/*}; [ \"$a\" != . ] && [ -z \"${removed[$a]-}\" ]; do :; done\n    if [ \"$a\" = . ]; then gone+=(\"$p\"); fi\n  done\n  # only the entries to copy come out of the branch's workspace (parents first)\n  mkdir -p \"$t\"\n  printf '%s\\0' \"${!want[@]}\" | LC_ALL=C sort -z > \"$d/.want\"\n  if [ \"${#want[@]}\" -gt 0 ]; then tar -xzpf \"$src/.j2gha-ws.tgz\" -C \"$t\" --null --no-unquote --no-recursion -T \"$d/.want\"; fi\n  # read-only directories (a Go module cache) are opened for the changes; their modes are put back afterwards\n  for p in \"${gone[@]}\" \"${!want[@]}\"; do\n    a=${p%/*}\n    if [ \"$a\" != . ] && isdir \"$ws/$a\" && [ ! -w \"$ws/$a\" ] && [ -z \"${locked[$a]-}\" ]; then\n      locked[$a]=$(stat -c %a \"$ws/$a\")\n      chmod u+w \"$ws/$a\"\n    fi\n  done\n  for p in \"${gone[@]}\"; do remove \"$ws/$p\"; done\n  # clear what is in the way of an entry's type: a file or link where the branch has a directory, or the reverse\n  for p in \"${!want[@]}\"; do\n    if isdir \"$t/$p\"; then\n      if [ -L \"$ws/$p\" ] || { [ -e \"$ws/$p\" ] && [ ! -d \"$ws/$p\" ]; }; then rm -f -- \"$ws/$p\"; fi\n      if isdir \"$ws/$p\" && [ ! -w \"$ws/$p\" ]; then chmod u+w \"$ws/$p\"; fi  # tar sets the branch's mode\n    elif isdir \"$ws/$p\"; then\n      remove \"$ws/$p\"\n    fi\n  done\n  if [ \"${#want[@]}\" -gt 0 ]; then\n    # tar sets directory modes after their contents\n    tar -C \"$t\" --null --no-unquote --no-recursion -T \"$d/.want\" -cf - | tar -xpf - -C \"$ws\"\n  fi\n  for a in \"${!locked[@]}\"; do\n    if [ -z \"${want[$a]-}\" ] && isdir \"$ws/$a\"; then chmod \"${locked[$a]}\" \"$ws/$a\"; fi\n  done\n  remove \"$t\"\n}\n# every producer the restore relies on is accounted for: its workspace arrived, or its job was skipped and the\n# producers it would have started from are accounted for in turn (the fallback chain actually used)\ndeclare -A result=() fallback=() seen=()\nfor r in $J2GHA_WS_RESULTS; do result[${r%%=*}]=${r#*=}; done\nwhile IFS= read -r line; do\n  if [ -n \"$line\" ]; then fallback[${line%%:*}]=${line#*:}; fi\ndone <<< \"$J2GHA_WS_FALLBACKS\"\naccount() {\n  local p=$1 f\n  if [ -n \"${seen[$p]-}\" ] || present \"$p\"; then return 0; fi\n  seen[$p]=1\n  case \"${result[$p]-}\" in\n    success|failure)\n      echo \"::error::job '$p' ran (${result[$p]}) but its workspace did not arrive: restoring an older one would lose its changes\"\n      exit 1 ;;\n    skipped|cancelled) ;;\n    *) echo \"::warning::the workspace of job '$p' did not arrive and its result is not known here (not a job this one needs): taken as skipped - if it ran, its changes are missing\" ;;\n  esac\n  for f in ${fallback[$p]-}; do account \"$f\"; done\n}\nfor p in $J2GHA_WS_HEADS; do account \"$p\"; done\n# the workspaces to merge: those downloaded that no other downloaded one descends from\nfrontier=()\nfor p in $J2GHA_WS_ORDER; do\n  present \"$p\" || continue\n  covered=false\n  for q in $J2GHA_WS_ORDER; do\n    if [ \"$q\" != \"$p\" ] && present \"$q\"; then\n      case \" $(ancestors \"$q\") \" in *\" $p \"*) covered=true ;; esac\n    fi\n  done\n  if [ \"$covered\" = false ]; then frontier+=(\"$p\"); fi\ndone\nrestored=false\nif [ \"${#frontier[@]}\" -gt 0 ]; then\n  # the restored workspace replaces what the job started with (act copies the repository into every job)\n  shopt -s dotglob nullglob\n  for e in \"$ws\"/*; do\n    if [ \"$e\" != \"$d\" ]; then remove \"$e\"; fi\n  done\n  shopt -u dotglob nullglob\n  tar -xzpf \"$d/${frontier[0]}/.j2gha-ws.tgz\" -C \"$ws\"\n  for f in \"${frontier[@]:1}\"; do replay \"$f\"; done\n  restored=true\nfi\nremove \"$d\"\necho \"restored=$restored\" >> \"$GITHUB_OUTPUT\"\n",
+          "_j2gha": {
+            "kind": "workspace-handoff",
+            "trace": false,
+            "role": "handoff"
+          }
+        },
+        {
+          "name": "Checkout",
+          "uses": "actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "with": {
+            "persist-credentials": false
+          },
+          "_j2gha": {
+            "kind": "checkout",
+            "line": null,
+            "trace": false,
+            "trace_events": [],
+            "role": "checkout"
+          },
+          "if": "steps.j2gha-ws-restore.outputs.restored != 'true'"
+        },
+        {
+          "name": "Build URDF: ./scripts/create_urdf.sh --only-ee --robot-ee ${EE}",
+          "id": "s10",
+          "run": "./scripts/create_urdf.sh --only-ee --robot-ee ${EE}",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Build URDF",
+            "line": 102,
+            "trace": true
+          }
+        },
+        {
+          "name": "Build URDF: dir urdfs",
+          "id": "s11",
+          "run": "mkdir -p -- \"$J2GHA_DIR\"",
+          "env": {
+            "J2GHA_DIR": "urdfs"
+          },
+          "_j2gha": {
+            "kind": "dir",
+            "stage": "Build URDF",
+            "line": null,
+            "trace": false
+          }
+        },
+        {
+          "name": "Build URDF: stash EE_${EE}_urdf",
+          "id": "s12",
+          "uses": "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "with": {
+            "name": "stash-EE_-EE-_urdf",
+            "path": "urdfs/${{ env.EE }}.urdf\n!urdfs/**/.git\n!urdfs/**/.git/**\n!urdfs/**/.gitignore\n!urdfs/**/.gitattributes\n!urdfs/**/.gitmodules\n!urdfs/**/.svn\n!urdfs/**/.svn/**\n!urdfs/**/.hg\n!urdfs/**/.hg/**\n!urdfs/**/.hgignore\n!urdfs/**/.hgtags\n!urdfs/**/.bzr\n!urdfs/**/.bzr/**\n!urdfs/**/.bzrignore\n!urdfs/**/CVS\n!urdfs/**/CVS/**\n!urdfs/**/.cvsignore\n!urdfs/**/SCCS\n!urdfs/**/SCCS/**\n!urdfs/**/vssver.scc\n!urdfs/**/.DS_Store\n!urdfs/**/*~\n!urdfs/**/#*#\n!urdfs/**/.#*\n!urdfs/**/%*%\n!urdfs/**/._*",
+            "retention-days": 1,
+            "include-hidden-files": true,
+            "if-no-files-found": "error",
+            "overwrite": true
+          },
+          "_j2gha": {
+            "kind": "stash",
+            "stage": "Build URDF",
+            "line": 104,
+            "trace": true
+          }
+        }
+      ]
+    },
+    "archive-urdfs-and-srdfs": {
+      "name": "Archive URDFs and SRDFs",
+      "needs": "build-end-effector-urdfs",
+      "runs-on": "ubuntu-latest",
+      "container": {
+        "image": "franka/build/ubuntu-24.04:0.27.0"
+      },
+      "timeout-minutes": 120,
+      "steps": [
+        {
+          "name": "Restore pipeline workspace (run-urdf-tests)",
+          "id": "j2gha-ws-run-urdf-tests",
+          "uses": "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093",
+          "continue-on-error": true,
+          "with": {
+            "name": "j2gha-ws-run-urdf-tests",
+            "path": ".j2gha-ws/run-urdf-tests"
+          },
+          "_j2gha": {
+            "kind": "workspace-handoff",
+            "trace": false,
+            "role": "handoff"
+          }
+        },
+        {
+          "name": "Restore pipeline workspace (check-commit-message)",
+          "id": "j2gha-ws-check-commit-message",
+          "if": "(steps.j2gha-ws-run-urdf-tests.outcome != 'success')",
+          "uses": "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093",
+          "continue-on-error": true,
+          "with": {
+            "name": "j2gha-ws-check-commit-message",
+            "path": ".j2gha-ws/check-commit-message"
+          },
+          "_j2gha": {
+            "kind": "workspace-handoff",
+            "trace": false,
+            "role": "handoff"
+          }
+        },
+        {
+          "name": "Restore pipeline workspace (merge)",
+          "id": "j2gha-ws-restore",
+          "if": "always()",
+          "shell": "bash",
+          "env": {
+            "J2GHA_WS_ORDER": "check-commit-message run-urdf-tests",
+            "J2GHA_WS_LINEAGE": "check-commit-message:\nrun-urdf-tests: check-commit-message",
+            "J2GHA_WS_HEADS": "run-urdf-tests",
+            "J2GHA_WS_RESULTS": "",
+            "J2GHA_WS_FALLBACKS": "check-commit-message:\nrun-urdf-tests: check-commit-message"
+          },
+          "run": "ws=\"$GITHUB_WORKSPACE\"\nd=\"$ws/.j2gha-ws\"\n# the downloaded producers a producer descends from\nancestors() {\n  local line\n  while IFS= read -r line; do\n    if [ \"${line%%:*}\" = \"$1\" ]; then printf '%s\\n' \"${line#*:}\"; fi\n  done <<< \"$J2GHA_WS_LINEAGE\"\n}\npresent() { [ -f \"$d/$1/.j2gha-ws.tgz\" ]; }\n# read-only directories (a Go module cache) need write permission to be removed\nremove() { rm -rf -- \"$@\" 2>/dev/null || { chmod -R u+w -- \"$@\"; rm -rf -- \"$@\"; }; }\nisdir() { [ -d \"$1\" ] && [ ! -L \"$1\" ]; }\n# replay a branch's own changes (its change list) onto the workspace\nreplay() {\n  local src=\"$d/$1\" t=\"$d/.replay\" rec p a\n  local -a recs=() gone=()\n  local -A want=() locked=() removed=()\n  if [ ! -f \"$src/.j2gha-ws.changes\" ]; then\n    echo \"::error::the workspace of job '$1' has no change list (the workspace it started from was not recorded): it cannot be merged\"\n    exit 1\n  fi\n  mapfile -t recs < \"$src/.j2gha-ws.changes\"\n  for rec in \"${recs[@]}\"; do\n    printf -v p '%b' \"${rec:1}\"\n    if [ \"${rec:0:1}\" = D ]; then\n      removed[$p]=1\n      continue\n    fi\n    want[$p]=1\n    # a parent directory an earlier branch removed or replaced is taken from this branch too\n    a=$p\n    while a=${a%/*}; [ \"$a\" != . ]; do\n      if isdir \"$ws/$a\"; then break; fi\n      want[$a]=1\n    done\n  done\n  # a removed directory takes its contents with it: only the top-most removed entries are removed\n  for p in \"${!removed[@]}\"; do\n    a=$p\n    while a=${a%/*}; [ \"$a\" != . ] && [ -z \"${removed[$a]-}\" ]; do :; done\n    if [ \"$a\" = . ]; then gone+=(\"$p\"); fi\n  done\n  # only the entries to copy come out of the branch's workspace (parents first)\n  mkdir -p \"$t\"\n  printf '%s\\0' \"${!want[@]}\" | LC_ALL=C sort -z > \"$d/.want\"\n  if [ \"${#want[@]}\" -gt 0 ]; then tar -xzpf \"$src/.j2gha-ws.tgz\" -C \"$t\" --null --no-unquote --no-recursion -T \"$d/.want\"; fi\n  # read-only directories (a Go module cache) are opened for the changes; their modes are put back afterwards\n  for p in \"${gone[@]}\" \"${!want[@]}\"; do\n    a=${p%/*}\n    if [ \"$a\" != . ] && isdir \"$ws/$a\" && [ ! -w \"$ws/$a\" ] && [ -z \"${locked[$a]-}\" ]; then\n      locked[$a]=$(stat -c %a \"$ws/$a\")\n      chmod u+w \"$ws/$a\"\n    fi\n  done\n  for p in \"${gone[@]}\"; do remove \"$ws/$p\"; done\n  # clear what is in the way of an entry's type: a file or link where the branch has a directory, or the reverse\n  for p in \"${!want[@]}\"; do\n    if isdir \"$t/$p\"; then\n      if [ -L \"$ws/$p\" ] || { [ -e \"$ws/$p\" ] && [ ! -d \"$ws/$p\" ]; }; then rm -f -- \"$ws/$p\"; fi\n      if isdir \"$ws/$p\" && [ ! -w \"$ws/$p\" ]; then chmod u+w \"$ws/$p\"; fi  # tar sets the branch's mode\n    elif isdir \"$ws/$p\"; then\n      remove \"$ws/$p\"\n    fi\n  done\n  if [ \"${#want[@]}\" -gt 0 ]; then\n    # tar sets directory modes after their contents\n    tar -C \"$t\" --null --no-unquote --no-recursion -T \"$d/.want\" -cf - | tar -xpf - -C \"$ws\"\n  fi\n  for a in \"${!locked[@]}\"; do\n    if [ -z \"${want[$a]-}\" ] && isdir \"$ws/$a\"; then chmod \"${locked[$a]}\" \"$ws/$a\"; fi\n  done\n  remove \"$t\"\n}\n# every producer the restore relies on is accounted for: its workspace arrived, or its job was skipped and the\n# producers it would have started from are accounted for in turn (the fallback chain actually used)\ndeclare -A result=() fallback=() seen=()\nfor r in $J2GHA_WS_RESULTS; do result[${r%%=*}]=${r#*=}; done\nwhile IFS= read -r line; do\n  if [ -n \"$line\" ]; then fallback[${line%%:*}]=${line#*:}; fi\ndone <<< \"$J2GHA_WS_FALLBACKS\"\naccount() {\n  local p=$1 f\n  if [ -n \"${seen[$p]-}\" ] || present \"$p\"; then return 0; fi\n  seen[$p]=1\n  case \"${result[$p]-}\" in\n    success|failure)\n      echo \"::error::job '$p' ran (${result[$p]}) but its workspace did not arrive: restoring an older one would lose its changes\"\n      exit 1 ;;\n    skipped|cancelled) ;;\n    *) echo \"::warning::the workspace of job '$p' did not arrive and its result is not known here (not a job this one needs): taken as skipped - if it ran, its changes are missing\" ;;\n  esac\n  for f in ${fallback[$p]-}; do account \"$f\"; done\n}\nfor p in $J2GHA_WS_HEADS; do account \"$p\"; done\n# the workspaces to merge: those downloaded that no other downloaded one descends from\nfrontier=()\nfor p in $J2GHA_WS_ORDER; do\n  present \"$p\" || continue\n  covered=false\n  for q in $J2GHA_WS_ORDER; do\n    if [ \"$q\" != \"$p\" ] && present \"$q\"; then\n      case \" $(ancestors \"$q\") \" in *\" $p \"*) covered=true ;; esac\n    fi\n  done\n  if [ \"$covered\" = false ]; then frontier+=(\"$p\"); fi\ndone\nrestored=false\nif [ \"${#frontier[@]}\" -gt 0 ]; then\n  # the restored workspace replaces what the job started with (act copies the repository into every job)\n  shopt -s dotglob nullglob\n  for e in \"$ws\"/*; do\n    if [ \"$e\" != \"$d\" ]; then remove \"$e\"; fi\n  done\n  shopt -u dotglob nullglob\n  tar -xzpf \"$d/${frontier[0]}/.j2gha-ws.tgz\" -C \"$ws\"\n  for f in \"${frontier[@]:1}\"; do replay \"$f\"; done\n  restored=true\nfi\nremove \"$d\"\necho \"restored=$restored\" >> \"$GITHUB_OUTPUT\"\n",
+          "_j2gha": {
+            "kind": "workspace-handoff",
+            "trace": false,
+            "role": "handoff"
+          }
+        },
+        {
+          "name": "Checkout",
+          "uses": "actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "with": {
+            "persist-credentials": false
+          },
+          "_j2gha": {
+            "kind": "checkout",
+            "line": null,
+            "trace": false,
+            "trace_events": [
+              [
+                "Archive URDFs and SRDFs",
+                "checkout"
+              ]
+            ],
+            "role": "checkout"
+          }
+        },
+        {
+          "name": "Cleanup: rm -rf usr",
+          "id": "s13",
+          "run": "rm -rf usr",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Cleanup",
+            "line": 123,
+            "trace": true
+          }
+        },
+        {
+          "name": "Create directory structure: mkdir -p ${DIST_DIR}/meshes",
+          "id": "s14",
+          "run": "mkdir -p ${DIST_DIR}/meshes",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Create directory structure",
+            "line": 128,
+            "trace": true
+          }
+        },
+        {
+          "name": "Create directory structure: mkdir -p ${DIST_DIR}/robots",
+          "id": "s15",
+          "run": "mkdir -p ${DIST_DIR}/robots",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Create directory structure",
+            "line": 129,
+            "trace": true
+          }
+        },
+        {
+          "name": "Create directory structure: mkdir -p ${DIST_DIR}/end_effectors",
+          "id": "s16",
+          "run": "mkdir -p ${DIST_DIR}/end_effectors",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Create directory structure",
+            "line": 130,
+            "trace": true
+          }
+        },
+        {
+          "name": "Arm3R: mkdir -p ${DIST_DIR}/robots/Arm3R",
+          "id": "s17",
+          "run": "mkdir -p ${DIST_DIR}/robots/Arm3R",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Arm3R",
+            "line": 137,
+            "trace": true
+          }
+        },
+        {
+          "name": "Arm3R: dir",
+          "id": "s18",
+          "run": "mkdir -p -- \"$J2GHA_DIR\"",
+          "env": {
+            "J2GHA_DIR": "${{ env.DIST_DIR }}/robots/Arm3R"
+          },
+          "_j2gha": {
+            "kind": "dir",
+            "stage": "Arm3R",
+            "line": null,
+            "trace": false
+          }
+        },
+        {
+          "name": "Arm3R: unstash ROBOT_fr3_urdf",
+          "id": "s19",
+          "uses": "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093",
+          "with": {
+            "name": "stash-ROBOT_fr3_urdf",
+            "path": "${{ env.DIST_DIR }}/robots/Arm3R"
+          },
+          "_j2gha": {
+            "kind": "unstash",
+            "stage": "Arm3R",
+            "line": 139,
+            "trace": true
+          }
+        },
+        {
+          "name": "Arm3R: unstash ROBOT_fr3_srdf",
+          "id": "s20",
+          "uses": "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093",
+          "with": {
+            "name": "stash-ROBOT_fr3_srdf",
+            "path": "${{ env.DIST_DIR }}/robots/Arm3R"
+          },
+          "_j2gha": {
+            "kind": "unstash",
+            "stage": "Arm3R",
+            "line": 140,
+            "trace": true
+          }
+        },
+        {
+          "name": "Arm3R: mv fr3.urdf robot.urdf",
+          "id": "s21",
+          "run": "mv fr3.urdf robot.urdf",
+          "working-directory": "${{ env.DIST_DIR }}/robots/Arm3R",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Arm3R",
+            "line": 141,
+            "trace": true
+          }
+        },
+        {
+          "name": "Arm3R: mv fr3.srdf robot.srdf",
+          "id": "s22",
+          "run": "mv fr3.srdf robot.srdf",
+          "working-directory": "${{ env.DIST_DIR }}/robots/Arm3R",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Arm3R",
+            "line": 142,
+            "trace": true
+          }
+        },
+        {
+          "name": "Arm3P: mkdir -p ${DIST_DIR}/robots/Arm3P",
+          "id": "s23",
+          "run": "mkdir -p ${DIST_DIR}/robots/Arm3P",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Arm3P",
+            "line": 148,
+            "trace": true
+          }
+        },
+        {
+          "name": "Arm3P: dir",
+          "id": "s24",
+          "run": "mkdir -p -- \"$J2GHA_DIR\"",
+          "env": {
+            "J2GHA_DIR": "${{ env.DIST_DIR }}/robots/Arm3P"
+          },
+          "_j2gha": {
+            "kind": "dir",
+            "stage": "Arm3P",
+            "line": null,
+            "trace": false
+          }
+        },
+        {
+          "name": "Arm3P: unstash ROBOT_fp3_urdf",
+          "id": "s25",
+          "uses": "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093",
+          "with": {
+            "name": "stash-ROBOT_fp3_urdf",
+            "path": "${{ env.DIST_DIR }}/robots/Arm3P"
+          },
+          "_j2gha": {
+            "kind": "unstash",
+            "stage": "Arm3P",
+            "line": 150,
+            "trace": true
+          }
+        },
+        {
+          "name": "Arm3P: unstash ROBOT_fp3_srdf",
+          "id": "s26",
+          "uses": "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093",
+          "with": {
+            "name": "stash-ROBOT_fp3_srdf",
+            "path": "${{ env.DIST_DIR }}/robots/Arm3P"
+          },
+          "_j2gha": {
+            "kind": "unstash",
+            "stage": "Arm3P",
+            "line": 151,
+            "trace": true
+          }
+        },
+        {
+          "name": "Arm3P: mv fp3.urdf robot.urdf",
+          "id": "s27",
+          "run": "mv fp3.urdf robot.urdf",
+          "working-directory": "${{ env.DIST_DIR }}/robots/Arm3P",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Arm3P",
+            "line": 152,
+            "trace": true
+          }
+        },
+        {
+          "name": "Arm3P: mv fp3.srdf robot.srdf",
+          "id": "s28",
+          "run": "mv fp3.srdf robot.srdf",
+          "working-directory": "${{ env.DIST_DIR }}/robots/Arm3P",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Arm3P",
+            "line": 153,
+            "trace": true
+          }
+        },
+        {
+          "name": "Arm3Rv2: mkdir -p ${DIST_DIR}/robots/Arm3Rv2",
+          "id": "s29",
+          "run": "mkdir -p ${DIST_DIR}/robots/Arm3Rv2",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Arm3Rv2",
+            "line": 159,
+            "trace": true
+          }
+        },
+        {
+          "name": "Arm3Rv2: dir",
+          "id": "s30",
+          "run": "mkdir -p -- \"$J2GHA_DIR\"",
+          "env": {
+            "J2GHA_DIR": "${{ env.DIST_DIR }}/robots/Arm3Rv2"
+          },
+          "_j2gha": {
+            "kind": "dir",
+            "stage": "Arm3Rv2",
+            "line": null,
+            "trace": false
+          }
+        },
+        {
+          "name": "Arm3Rv2: unstash ROBOT_fr3v2_urdf",
+          "id": "s31",
+          "uses": "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093",
+          "with": {
+            "name": "stash-ROBOT_fr3v2_urdf",
+            "path": "${{ env.DIST_DIR }}/robots/Arm3Rv2"
+          },
+          "_j2gha": {
+            "kind": "unstash",
+            "stage": "Arm3Rv2",
+            "line": 161,
+            "trace": true
+          }
+        },
+        {
+          "name": "Arm3Rv2: unstash ROBOT_fr3v2_srdf",
+          "id": "s32",
+          "uses": "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093",
+          "with": {
+            "name": "stash-ROBOT_fr3v2_srdf",
+            "path": "${{ env.DIST_DIR }}/robots/Arm3Rv2"
+          },
+          "_j2gha": {
+            "kind": "unstash",
+            "stage": "Arm3Rv2",
+            "line": 162,
+            "trace": true
+          }
+        },
+        {
+          "name": "Arm3Rv2: mv fr3v2.urdf robot.urdf",
+          "id": "s33",
+          "run": "mv fr3v2.urdf robot.urdf",
+          "working-directory": "${{ env.DIST_DIR }}/robots/Arm3Rv2",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Arm3Rv2",
+            "line": 163,
+            "trace": true
+          }
+        },
+        {
+          "name": "Arm3Rv2: mv fr3v2.srdf robot.srdf",
+          "id": "s34",
+          "run": "mv fr3v2.srdf robot.srdf",
+          "working-directory": "${{ env.DIST_DIR }}/robots/Arm3Rv2",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Arm3Rv2",
+            "line": 164,
+            "trace": true
+          }
+        },
+        {
+          "name": "Arm3Rv2.1: mkdir -p ${DIST_DIR}/robots/Arm3Rv2.1",
+          "id": "s35",
+          "run": "mkdir -p ${DIST_DIR}/robots/Arm3Rv2.1",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Arm3Rv2.1",
+            "line": 170,
+            "trace": true
+          }
+        },
+        {
+          "name": "Arm3Rv2.1: dir",
+          "id": "s36",
+          "run": "mkdir -p -- \"$J2GHA_DIR\"",
+          "env": {
+            "J2GHA_DIR": "${{ env.DIST_DIR }}/robots/Arm3Rv2.1"
+          },
+          "_j2gha": {
+            "kind": "dir",
+            "stage": "Arm3Rv2.1",
+            "line": null,
+            "trace": false
+          }
+        },
+        {
+          "name": "Arm3Rv2.1: unstash ROBOT_fr3v2_1_urdf",
+          "id": "s37",
+          "uses": "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093",
+          "with": {
+            "name": "stash-ROBOT_fr3v2_1_urdf",
+            "path": "${{ env.DIST_DIR }}/robots/Arm3Rv2.1"
+          },
+          "_j2gha": {
+            "kind": "unstash",
+            "stage": "Arm3Rv2.1",
+            "line": 172,
+            "trace": true
+          }
+        },
+        {
+          "name": "Arm3Rv2.1: unstash ROBOT_fr3v2_1_srdf",
+          "id": "s38",
+          "uses": "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093",
+          "with": {
+            "name": "stash-ROBOT_fr3v2_1_srdf",
+            "path": "${{ env.DIST_DIR }}/robots/Arm3Rv2.1"
+          },
+          "_j2gha": {
+            "kind": "unstash",
+            "stage": "Arm3Rv2.1",
+            "line": 173,
+            "trace": true
+          }
+        },
+        {
+          "name": "Arm3Rv2.1: mv fr3v2_1.urdf robot.urdf",
+          "id": "s39",
+          "run": "mv fr3v2_1.urdf robot.urdf",
+          "working-directory": "${{ env.DIST_DIR }}/robots/Arm3Rv2.1",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Arm3Rv2.1",
+            "line": 174,
+            "trace": true
+          }
+        },
+        {
+          "name": "Arm3Rv2.1: mv fr3v2_1.srdf robot.srdf",
+          "id": "s40",
+          "run": "mv fr3v2_1.srdf robot.srdf",
+          "working-directory": "${{ env.DIST_DIR }}/robots/Arm3Rv2.1",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Arm3Rv2.1",
+            "line": 175,
+            "trace": true
+          }
+        },
+        {
+          "name": "TMRv0.2: mkdir -p ${DIST_DIR}/robots/TMRv0.2",
+          "id": "s41",
+          "run": "mkdir -p ${DIST_DIR}/robots/TMRv0.2",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "TMRv0.2",
+            "line": 181,
+            "trace": true
+          }
+        },
+        {
+          "name": "TMRv0.2: dir",
+          "id": "s42",
+          "run": "mkdir -p -- \"$J2GHA_DIR\"",
+          "env": {
+            "J2GHA_DIR": "${{ env.DIST_DIR }}/robots/TMRv0.2"
+          },
+          "_j2gha": {
+            "kind": "dir",
+            "stage": "TMRv0.2",
+            "line": null,
+            "trace": false
+          }
+        },
+        {
+          "name": "TMRv0.2: unstash ROBOT_tmrv0_2_urdf",
+          "id": "s43",
+          "uses": "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093",
+          "with": {
+            "name": "stash-ROBOT_tmrv0_2_urdf",
+            "path": "${{ env.DIST_DIR }}/robots/TMRv0.2"
+          },
+          "_j2gha": {
+            "kind": "unstash",
+            "stage": "TMRv0.2",
+            "line": 183,
+            "trace": true
+          }
+        },
+        {
+          "name": "TMRv0.2: unstash ROBOT_tmrv0_2_srdf",
+          "id": "s44",
+          "uses": "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093",
+          "with": {
+            "name": "stash-ROBOT_tmrv0_2_srdf",
+            "path": "${{ env.DIST_DIR }}/robots/TMRv0.2"
+          },
+          "_j2gha": {
+            "kind": "unstash",
+            "stage": "TMRv0.2",
+            "line": 184,
+            "trace": true
+          }
+        },
+        {
+          "name": "TMRv0.2: mv tmrv0_2.urdf robot.urdf",
+          "id": "s45",
+          "run": "mv tmrv0_2.urdf robot.urdf",
+          "working-directory": "${{ env.DIST_DIR }}/robots/TMRv0.2",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "TMRv0.2",
+            "line": 185,
+            "trace": true
+          }
+        },
+        {
+          "name": "TMRv0.2: mv tmrv0_2.srdf robot.srdf",
+          "id": "s46",
+          "run": "mv tmrv0_2.srdf robot.srdf",
+          "working-directory": "${{ env.DIST_DIR }}/robots/TMRv0.2",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "TMRv0.2",
+            "line": 186,
+            "trace": true
+          }
+        },
+        {
+          "name": "Copy meshes to dist: mkdir -p ${DIST_DIR}/meshes/robots",
+          "id": "s47",
+          "run": "mkdir -p ${DIST_DIR}/meshes/robots",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Copy meshes to dist",
+            "line": 195,
+            "trace": true
+          }
+        },
+        {
+          "name": "Copy meshes to dist: copyCmd",
+          "id": "s48",
+          "run": "copyCmd",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Copy meshes to dist",
+            "line": 198,
+            "trace": true
+          }
+        },
+        {
+          "name": "Create End Effector directories: mkdir -p ${DIST_DIR}/end_effectors/cobot_pump",
+          "id": "s49",
+          "run": "mkdir -p ${DIST_DIR}/end_effectors/cobot_pump",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Create End Effector directories",
+            "line": 206,
+            "trace": true
+          }
+        },
+        {
+          "name": "Create End Effector directories: mkdir -p ${DIST_DIR}/end_effectors/franka_hand",
+          "id": "s50",
+          "run": "mkdir -p ${DIST_DIR}/end_effectors/franka_hand",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Create End Effector directories",
+            "line": 207,
+            "trace": true
+          }
+        },
+        {
+          "name": "cobot_pump: mkdir -p \"${DIST_DIR}/meshes/robot_ee/cobot_pump\"",
+          "id": "s51",
+          "run": "mkdir -p \"${DIST_DIR}/meshes/robot_ee/cobot_pump\"\ncp -r meshes/robot_ee/cobot_pump/* \"${DIST_DIR}/meshes/robot_ee/cobot_pump\"",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "cobot_pump",
+            "line": 214,
+            "trace": true
+          }
+        },
+        {
+          "name": "franka_hand: mkdir -p \"${DIST_DIR}/meshes/robot_ee/franka_hand_white\"",
+          "id": "s52",
+          "run": "mkdir -p \"${DIST_DIR}/meshes/robot_ee/franka_hand_white\"\ncp -r meshes/robot_ee/franka_hand_white/* \"${DIST_DIR}/meshes/robot_ee/franka_hand_white\"",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "franka_hand",
+            "line": 222,
+            "trace": true
+          }
+        },
+        {
+          "name": "Unstash URDF: dir",
+          "id": "s53",
+          "run": "mkdir -p -- \"$J2GHA_DIR\"",
+          "env": {
+            "J2GHA_DIR": "${{ env.DIST_DIR }}/end_effectors/cobot_pump"
+          },
+          "_j2gha": {
+            "kind": "dir",
+            "stage": "Unstash URDF",
+            "line": null,
+            "trace": false
+          }
+        },
+        {
+          "name": "Unstash URDF: unstash EE_cobot_pump_urdf",
+          "id": "s54",
+          "uses": "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093",
+          "with": {
+            "name": "stash-EE_cobot_pump_urdf",
+            "path": "${{ env.DIST_DIR }}/end_effectors/cobot_pump"
+          },
+          "_j2gha": {
+            "kind": "unstash",
+            "stage": "Unstash URDF",
+            "line": 233,
+            "trace": true
+          }
+        },
+        {
+          "name": "Unstash URDF: mv cobot_pump.urdf endeffector.urdf",
+          "id": "s55",
+          "run": "mv cobot_pump.urdf endeffector.urdf",
+          "working-directory": "${{ env.DIST_DIR }}/end_effectors/cobot_pump",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Unstash URDF",
+            "line": 234,
+            "trace": true
+          }
+        },
+        {
+          "name": "Unstash URDF: dir",
+          "id": "s56",
+          "run": "mkdir -p -- \"$J2GHA_DIR\"",
+          "env": {
+            "J2GHA_DIR": "${{ env.DIST_DIR }}/end_effectors/franka_hand"
+          },
+          "_j2gha": {
+            "kind": "dir",
+            "stage": "Unstash URDF",
+            "line": null,
+            "trace": false
+          }
+        },
+        {
+          "name": "Unstash URDF: unstash EE_franka_hand_urdf",
+          "id": "s57",
+          "uses": "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093",
+          "with": {
+            "name": "stash-EE_franka_hand_urdf",
+            "path": "${{ env.DIST_DIR }}/end_effectors/franka_hand"
+          },
+          "_j2gha": {
+            "kind": "unstash",
+            "stage": "Unstash URDF",
+            "line": 237,
+            "trace": true
+          }
+        },
+        {
+          "name": "Unstash URDF: mv franka_hand.urdf endeffector.urdf",
+          "id": "s58",
+          "run": "mv franka_hand.urdf endeffector.urdf",
+          "working-directory": "${{ env.DIST_DIR }}/end_effectors/franka_hand",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Unstash URDF",
+            "line": 238,
+            "trace": true
+          }
+        },
+        {
+          "name": "Create archive: rm -rf ${DIST_DIR}/robots/*@tmp",
+          "id": "s59",
+          "run": "rm -rf ${DIST_DIR}/robots/*@tmp",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Create archive",
+            "line": 246,
+            "trace": true
+          }
+        },
+        {
+          "name": "Create archive: rm -rf ${DIST_DIR}/end_effectors/*@tmp",
+          "id": "s60",
+          "run": "rm -rf ${DIST_DIR}/end_effectors/*@tmp",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Create archive",
+            "line": 247,
+            "trace": true
+          }
+        },
+        {
+          "name": "Create archive: dir dist",
+          "id": "s61",
+          "run": "mkdir -p -- \"$J2GHA_DIR\"",
+          "env": {
+            "J2GHA_DIR": "dist"
+          },
+          "_j2gha": {
+            "kind": "dir",
+            "stage": "Create archive",
+            "line": null,
+            "trace": false
+          }
+        },
+        {
+          "name": "Create archive: tar czvf \"${ARTIFACT_FILENAME}_${VERSION}.tar.gz\" usr/share",
+          "id": "s62",
+          "run": "tar czvf \"${ARTIFACT_FILENAME}_${VERSION}.tar.gz\" usr/share\n                fpm -s tar                     -t deb                     -n \"robot-descriptions\"                     -v ${VERSION}                     -a all                     --vendor \"Franka Robotics GmbH\"                     --maintainer \"Franka Robotics GmbH <support@franka.de>\"                     \"${ARTIFACT_FILENAME}_${VERSION}.tar.gz\"\n                # Rename .deb to .ipk for opkg-compatible publishing via fePublishOpkg\n                mv \"${ARTIFACT_FILENAME}_${VERSION}_all.deb\" \"${ARTIFACT_FILENAME}_${VERSION}_all.ipk\"\n                printf \"%s archive created.\nversion: %s\nsha1sum: %s\n\" \"${ARTIFACT_FILENAME}\" \"${VERSION}\" \"$(sha1sum \"${ARTIFACT_FILENAME}_${VERSION}_all.ipk\")\"",
+          "working-directory": "dist",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Create archive",
+            "line": 250,
+            "trace": true
+          }
+        },
+        {
+          "name": "Create archive: archive artifacts",
+          "id": "s63",
+          "uses": "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "with": {
+            "name": "artifacts-63",
+            "path": "dist/*.tar.gz\n!dist/**/.git\n!dist/**/.git/**\n!dist/**/.gitignore\n!dist/**/.gitattributes\n!dist/**/.gitmodules\n!dist/**/.svn\n!dist/**/.svn/**\n!dist/**/.hg\n!dist/**/.hg/**\n!dist/**/.hgignore\n!dist/**/.hgtags\n!dist/**/.bzr\n!dist/**/.bzr/**\n!dist/**/.bzrignore\n!dist/**/CVS\n!dist/**/CVS/**\n!dist/**/.cvsignore\n!dist/**/SCCS\n!dist/**/SCCS/**\n!dist/**/vssver.scc\n!dist/**/.DS_Store\n!dist/**/*~\n!dist/**/#*#\n!dist/**/.#*\n!dist/**/%*%\n!dist/**/._*",
+            "if-no-files-found": "error",
+            "include-hidden-files": true
+          },
+          "_j2gha": {
+            "kind": "archiveArtifacts",
+            "stage": "Create archive",
+            "line": 264,
+            "trace": true,
+            "root": "dist"
+          }
+        },
+        {
+          "name": "Publish to artifactory: enter stage",
+          "id": "s64",
+          "if": "(!((job.status) == ('UNSTABLE'))) && ((env.TAG_NAME != '' || env.BRANCH_NAME == env.BRANCH_NAME))",
+          "run": "echo \"run=true\" >> \"$GITHUB_OUTPUT\"",
+          "_j2gha": {
+            "kind": "stage-entry",
+            "stage": "Publish to artifactory",
+            "line": 268,
+            "trace": false,
+            "trace_run": "echo \"run=true\" >> \"$GITHUB_OUTPUT\""
+          }
+        },
+        {
+          "name": "Publish to artifactory: fePublishOpkg (manual migration)",
+          "id": "s65",
+          "if": "steps.s64.outputs.run == 'true'",
+          "run": "echo \"::warning::Jenkins step 'fePublishOpkg' requires manual migration\"",
+          "_j2gha": {
+            "kind": "fePublishOpkg",
+            "stage": "Publish to artifactory",
+            "line": 280,
+            "trace": true
+          }
+        },
+        {
+          "name": "Publish to artifactory: fePublishBuildInfo (manual migration)",
+          "id": "s66",
+          "if": "steps.s64.outputs.run == 'true'",
+          "run": "echo \"::warning::Jenkins step 'fePublishBuildInfo' requires manual migration\"",
+          "_j2gha": {
+            "kind": "fePublishBuildInfo",
+            "stage": "Publish to artifactory",
+            "line": 281,
+            "trace": true
+          }
+        },
+        {
+          "name": "Hand on the pipeline workspace (archive)",
+          "if": "always()",
+          "shell": "bash",
+          "run": "tar --exclude=./.j2gha-ws --exclude=./.j2gha-ws.tgz --exclude=./.j2gha-ws.changes \\\n  -czf \"$RUNNER_TEMP/j2gha-ws.tgz\" -C \"$GITHUB_WORKSPACE\" .\nmv \"$RUNNER_TEMP/j2gha-ws.tgz\" \"$GITHUB_WORKSPACE/.j2gha-ws.tgz\"\n",
+          "_j2gha": {
+            "kind": "workspace-handoff",
+            "trace": false,
+            "role": "handoff"
+          }
+        },
+        {
+          "name": "Hand on the pipeline workspace (upload)",
+          "if": "always()",
+          "uses": "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "with": {
+            "name": "j2gha-ws-archive-urdfs-and-srdfs",
+            "path": ".j2gha-ws.tgz",
+            "retention-days": 1,
+            "compression-level": 0,
+            "if-no-files-found": "error",
+            "include-hidden-files": true
+          },
+          "_j2gha": {
+            "kind": "workspace-handoff",
+            "trace": false,
+            "role": "handoff"
+          }
+        }
+      ]
+    },
+    "trigger-upstream-franka_ros2_ws-builds-h": {
+      "name": "Trigger upstream franka_ros2_ws builds / humble",
+      "needs": "archive-urdfs-and-srdfs",
+      "runs-on": "ubuntu-latest",
+      "timeout-minutes": 120,
+      "steps": [
+        {
+          "name": "Restore pipeline workspace (archive-urdfs-and-srdfs)",
+          "id": "j2gha-ws-archive-urdfs-and-srdfs",
+          "uses": "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093",
+          "continue-on-error": true,
+          "with": {
+            "name": "j2gha-ws-archive-urdfs-and-srdfs",
+            "path": ".j2gha-ws/archive-urdfs-and-srdfs"
+          },
+          "_j2gha": {
+            "kind": "workspace-handoff",
+            "trace": false,
+            "role": "handoff"
+          }
+        },
+        {
+          "name": "Restore pipeline workspace (run-urdf-tests)",
+          "id": "j2gha-ws-run-urdf-tests",
+          "if": "(steps.j2gha-ws-archive-urdfs-and-srdfs.outcome != 'success')",
+          "uses": "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093",
+          "continue-on-error": true,
+          "with": {
+            "name": "j2gha-ws-run-urdf-tests",
+            "path": ".j2gha-ws/run-urdf-tests"
+          },
+          "_j2gha": {
+            "kind": "workspace-handoff",
+            "trace": false,
+            "role": "handoff"
+          }
+        },
+        {
+          "name": "Restore pipeline workspace (check-commit-message)",
+          "id": "j2gha-ws-check-commit-message",
+          "if": "(steps.j2gha-ws-archive-urdfs-and-srdfs.outcome != 'success' && steps.j2gha-ws-run-urdf-tests.outcome != 'success')",
+          "uses": "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093",
+          "continue-on-error": true,
+          "with": {
+            "name": "j2gha-ws-check-commit-message",
+            "path": ".j2gha-ws/check-commit-message"
+          },
+          "_j2gha": {
+            "kind": "workspace-handoff",
+            "trace": false,
+            "role": "handoff"
+          }
+        },
+        {
+          "name": "Restore pipeline workspace (merge)",
+          "id": "j2gha-ws-restore",
+          "if": "always()",
+          "shell": "bash",
+          "env": {
+            "J2GHA_WS_ORDER": "check-commit-message run-urdf-tests archive-urdfs-and-srdfs",
+            "J2GHA_WS_LINEAGE": "check-commit-message:\nrun-urdf-tests: check-commit-message\narchive-urdfs-and-srdfs: check-commit-message run-urdf-tests",
+            "J2GHA_WS_HEADS": "archive-urdfs-and-srdfs",
+            "J2GHA_WS_RESULTS": "archive-urdfs-and-srdfs=${{ needs.archive-urdfs-and-srdfs.result }}",
+            "J2GHA_WS_FALLBACKS": "check-commit-message:\nrun-urdf-tests: check-commit-message\narchive-urdfs-and-srdfs: run-urdf-tests"
+          },
+          "run": "ws=\"$GITHUB_WORKSPACE\"\nd=\"$ws/.j2gha-ws\"\n# the downloaded producers a producer descends from\nancestors() {\n  local line\n  while IFS= read -r line; do\n    if [ \"${line%%:*}\" = \"$1\" ]; then printf '%s\\n' \"${line#*:}\"; fi\n  done <<< \"$J2GHA_WS_LINEAGE\"\n}\npresent() { [ -f \"$d/$1/.j2gha-ws.tgz\" ]; }\n# read-only directories (a Go module cache) need write permission to be removed\nremove() { rm -rf -- \"$@\" 2>/dev/null || { chmod -R u+w -- \"$@\"; rm -rf -- \"$@\"; }; }\nisdir() { [ -d \"$1\" ] && [ ! -L \"$1\" ]; }\n# replay a branch's own changes (its change list) onto the workspace\nreplay() {\n  local src=\"$d/$1\" t=\"$d/.replay\" rec p a\n  local -a recs=() gone=()\n  local -A want=() locked=() removed=()\n  if [ ! -f \"$src/.j2gha-ws.changes\" ]; then\n    echo \"::error::the workspace of job '$1' has no change list (the workspace it started from was not recorded): it cannot be merged\"\n    exit 1\n  fi\n  mapfile -t recs < \"$src/.j2gha-ws.changes\"\n  for rec in \"${recs[@]}\"; do\n    printf -v p '%b' \"${rec:1}\"\n    if [ \"${rec:0:1}\" = D ]; then\n      removed[$p]=1\n      continue\n    fi\n    want[$p]=1\n    # a parent directory an earlier branch removed or replaced is taken from this branch too\n    a=$p\n    while a=${a%/*}; [ \"$a\" != . ]; do\n      if isdir \"$ws/$a\"; then break; fi\n      want[$a]=1\n    done\n  done\n  # a removed directory takes its contents with it: only the top-most removed entries are removed\n  for p in \"${!removed[@]}\"; do\n    a=$p\n    while a=${a%/*}; [ \"$a\" != . ] && [ -z \"${removed[$a]-}\" ]; do :; done\n    if [ \"$a\" = . ]; then gone+=(\"$p\"); fi\n  done\n  # only the entries to copy come out of the branch's workspace (parents first)\n  mkdir -p \"$t\"\n  printf '%s\\0' \"${!want[@]}\" | LC_ALL=C sort -z > \"$d/.want\"\n  if [ \"${#want[@]}\" -gt 0 ]; then tar -xzpf \"$src/.j2gha-ws.tgz\" -C \"$t\" --null --no-unquote --no-recursion -T \"$d/.want\"; fi\n  # read-only directories (a Go module cache) are opened for the changes; their modes are put back afterwards\n  for p in \"${gone[@]}\" \"${!want[@]}\"; do\n    a=${p%/*}\n    if [ \"$a\" != . ] && isdir \"$ws/$a\" && [ ! -w \"$ws/$a\" ] && [ -z \"${locked[$a]-}\" ]; then\n      locked[$a]=$(stat -c %a \"$ws/$a\")\n      chmod u+w \"$ws/$a\"\n    fi\n  done\n  for p in \"${gone[@]}\"; do remove \"$ws/$p\"; done\n  # clear what is in the way of an entry's type: a file or link where the branch has a directory, or the reverse\n  for p in \"${!want[@]}\"; do\n    if isdir \"$t/$p\"; then\n      if [ -L \"$ws/$p\" ] || { [ -e \"$ws/$p\" ] && [ ! -d \"$ws/$p\" ]; }; then rm -f -- \"$ws/$p\"; fi\n      if isdir \"$ws/$p\" && [ ! -w \"$ws/$p\" ]; then chmod u+w \"$ws/$p\"; fi  # tar sets the branch's mode\n    elif isdir \"$ws/$p\"; then\n      remove \"$ws/$p\"\n    fi\n  done\n  if [ \"${#want[@]}\" -gt 0 ]; then\n    # tar sets directory modes after their contents\n    tar -C \"$t\" --null --no-unquote --no-recursion -T \"$d/.want\" -cf - | tar -xpf - -C \"$ws\"\n  fi\n  for a in \"${!locked[@]}\"; do\n    if [ -z \"${want[$a]-}\" ] && isdir \"$ws/$a\"; then chmod \"${locked[$a]}\" \"$ws/$a\"; fi\n  done\n  remove \"$t\"\n}\n# every producer the restore relies on is accounted for: its workspace arrived, or its job was skipped and the\n# producers it would have started from are accounted for in turn (the fallback chain actually used)\ndeclare -A result=() fallback=() seen=()\nfor r in $J2GHA_WS_RESULTS; do result[${r%%=*}]=${r#*=}; done\nwhile IFS= read -r line; do\n  if [ -n \"$line\" ]; then fallback[${line%%:*}]=${line#*:}; fi\ndone <<< \"$J2GHA_WS_FALLBACKS\"\naccount() {\n  local p=$1 f\n  if [ -n \"${seen[$p]-}\" ] || present \"$p\"; then return 0; fi\n  seen[$p]=1\n  case \"${result[$p]-}\" in\n    success|failure)\n      echo \"::error::job '$p' ran (${result[$p]}) but its workspace did not arrive: restoring an older one would lose its changes\"\n      exit 1 ;;\n    skipped|cancelled) ;;\n    *) echo \"::warning::the workspace of job '$p' did not arrive and its result is not known here (not a job this one needs): taken as skipped - if it ran, its changes are missing\" ;;\n  esac\n  for f in ${fallback[$p]-}; do account \"$f\"; done\n}\nfor p in $J2GHA_WS_HEADS; do account \"$p\"; done\n# the workspaces to merge: those downloaded that no other downloaded one descends from\nfrontier=()\nfor p in $J2GHA_WS_ORDER; do\n  present \"$p\" || continue\n  covered=false\n  for q in $J2GHA_WS_ORDER; do\n    if [ \"$q\" != \"$p\" ] && present \"$q\"; then\n      case \" $(ancestors \"$q\") \" in *\" $p \"*) covered=true ;; esac\n    fi\n  done\n  if [ \"$covered\" = false ]; then frontier+=(\"$p\"); fi\ndone\nrestored=false\nif [ \"${#frontier[@]}\" -gt 0 ]; then\n  # the restored workspace replaces what the job started with (act copies the repository into every job)\n  shopt -s dotglob nullglob\n  for e in \"$ws\"/*; do\n    if [ \"$e\" != \"$d\" ]; then remove \"$e\"; fi\n  done\n  shopt -u dotglob nullglob\n  tar -xzpf \"$d/${frontier[0]}/.j2gha-ws.tgz\" -C \"$ws\"\n  for f in \"${frontier[@]:1}\"; do replay \"$f\"; done\n  restored=true\nfi\nremove \"$d\"\necho \"restored=$restored\" >> \"$GITHUB_OUTPUT\"\n",
+          "_j2gha": {
+            "kind": "workspace-handoff",
+            "trace": false,
+            "role": "handoff"
+          }
+        },
+        {
+          "name": "Checkout",
+          "uses": "actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "with": {
+            "persist-credentials": false
+          },
+          "_j2gha": {
+            "kind": "checkout",
+            "line": null,
+            "trace": false,
+            "trace_events": [],
+            "role": "checkout"
+          },
+          "if": "steps.j2gha-ws-restore.outputs.restored != 'true'"
+        },
+        {
+          "name": "Record the starting workspace",
+          "if": "always()",
+          "shell": "bash",
+          "run": "# one line per path or value: backslashes and newlines escaped (`printf %b` reverses it)\nesc() { sed -z 's/\\\\/\\\\\\\\/g; s/\\n/\\\\n/g' | tr '\\0' '\\n'; }\n# the workspace's entries, the hand-off's own files left out: lines alternating path and \"type mode digest\"\n# (digest: hard-link count and content sha256 of a file - a new or removed link changes every name of the file, so a\n# branch's change list carries the whole group - or the target of a symbolic link)\nmanifest() {\n  local tmp=\"$RUNNER_TEMP/j2gha-ws-manifest\" i\n  local -a recs=() out=()\n  local -A sum=()\n  (cd \"$GITHUB_WORKSPACE\" && find . -mindepth 1 \\( -path ./.j2gha-ws -o -path ./.j2gha-ws.tgz \\\n    -o -path ./.j2gha-ws.changes \\) -prune -o -type f -print0) > \"$tmp.files\"\n  (cd \"$GITHUB_WORKSPACE\" && xargs -0 -r sha256sum -z -- < \"$tmp.files\") | esc > \"$tmp.sums\"\n  mapfile -t recs < \"$tmp.sums\"\n  for i in \"${recs[@]}\"; do sum[\"${i#*  }\"]=${i%%  *}; done\n  (cd \"$GITHUB_WORKSPACE\" && find . -mindepth 1 \\( -path ./.j2gha-ws -o -path ./.j2gha-ws.tgz \\\n    -o -path ./.j2gha-ws.changes \\) -prune -o -type f -printf '%p\\0f %m %n \\0' -o -printf '%p\\0%y %m %l\\0') |\n    esc > \"$tmp.entries\"\n  mapfile -t recs < \"$tmp.entries\"\n  for ((i = 0; i < ${#recs[@]}; i += 2)); do out+=(\"${recs[i]}\" \"${recs[i + 1]}${sum[${recs[i]}]-}\"); done\n  if [ \"${#out[@]}\" -gt 0 ]; then printf '%s\\n' \"${out[@]}\"; fi\n  rm -f \"$tmp.files\" \"$tmp.sums\" \"$tmp.entries\"\n}\nmanifest > \"$RUNNER_TEMP/j2gha-ws-start\"\n",
+          "_j2gha": {
+            "kind": "workspace-handoff",
+            "trace": false,
+            "role": "handoff"
+          }
+        },
+        {
+          "name": "humble: trigger downstream 'FCI/franka_ros2_ws/humble'",
+          "id": "s67",
+          "run": "echo \"::warning::Downstream Jenkins job 'FCI/franka_ros2_ws/humble' - migrate to a reusable workflow or call: gh workflow run <workflow> --ref <ref>\"",
+          "_j2gha": {
+            "kind": "build",
+            "stage": "humble",
+            "line": 291,
+            "trace": true
+          }
+        },
+        {
+          "name": "Hand on the pipeline workspace (archive)",
+          "if": "always()",
+          "shell": "bash",
+          "run": "# one line per path or value: backslashes and newlines escaped (`printf %b` reverses it)\nesc() { sed -z 's/\\\\/\\\\\\\\/g; s/\\n/\\\\n/g' | tr '\\0' '\\n'; }\n# the workspace's entries, the hand-off's own files left out: lines alternating path and \"type mode digest\"\n# (digest: hard-link count and content sha256 of a file - a new or removed link changes every name of the file, so a\n# branch's change list carries the whole group - or the target of a symbolic link)\nmanifest() {\n  local tmp=\"$RUNNER_TEMP/j2gha-ws-manifest\" i\n  local -a recs=() out=()\n  local -A sum=()\n  (cd \"$GITHUB_WORKSPACE\" && find . -mindepth 1 \\( -path ./.j2gha-ws -o -path ./.j2gha-ws.tgz \\\n    -o -path ./.j2gha-ws.changes \\) -prune -o -type f -print0) > \"$tmp.files\"\n  (cd \"$GITHUB_WORKSPACE\" && xargs -0 -r sha256sum -z -- < \"$tmp.files\") | esc > \"$tmp.sums\"\n  mapfile -t recs < \"$tmp.sums\"\n  for i in \"${recs[@]}\"; do sum[\"${i#*  }\"]=${i%%  *}; done\n  (cd \"$GITHUB_WORKSPACE\" && find . -mindepth 1 \\( -path ./.j2gha-ws -o -path ./.j2gha-ws.tgz \\\n    -o -path ./.j2gha-ws.changes \\) -prune -o -type f -printf '%p\\0f %m %n \\0' -o -printf '%p\\0%y %m %l\\0') |\n    esc > \"$tmp.entries\"\n  mapfile -t recs < \"$tmp.entries\"\n  for ((i = 0; i < ${#recs[@]}; i += 2)); do out+=(\"${recs[i]}\" \"${recs[i + 1]}${sum[${recs[i]}]-}\"); done\n  if [ \"${#out[@]}\" -gt 0 ]; then printf '%s\\n' \"${out[@]}\"; fi\n  rm -f \"$tmp.files\" \"$tmp.sums\" \"$tmp.entries\"\n}\nif [ -f \"$RUNNER_TEMP/j2gha-ws-start\" ]; then\n  declare -A was=() now=()\n  changes=()\n  mapfile -t recs < \"$RUNNER_TEMP/j2gha-ws-start\"\n  for ((i = 0; i < ${#recs[@]}; i += 2)); do was[${recs[i]}]=${recs[i + 1]}; done\n  manifest > \"$RUNNER_TEMP/j2gha-ws-end\"\n  mapfile -t recs < \"$RUNNER_TEMP/j2gha-ws-end\"\n  for ((i = 0; i < ${#recs[@]}; i += 2)); do now[${recs[i]}]=${recs[i + 1]}; done\n  declare -A changed=() inode=() group=()\n  for p in \"${!now[@]}\"; do\n    if [ \"${was[$p]-}\" != \"${now[$p]}\" ]; then changed[$p]=1; fi\n  done\n  # a changed file with other names takes all of them along (a rename keeps the link count): the merge relinks them\n  (cd \"$GITHUB_WORKSPACE\" && find . -mindepth 1 \\( -path ./.j2gha-ws -o -path ./.j2gha-ws.tgz \\\n    -o -path ./.j2gha-ws.changes \\) -prune -o -type f -links +1 -printf '%D:%i\\0%p\\0') | esc > \"$RUNNER_TEMP/j2gha-ws-links\"\n  mapfile -t recs < \"$RUNNER_TEMP/j2gha-ws-links\"\n  for ((i = 0; i < ${#recs[@]}; i += 2)); do\n    inode[${recs[i + 1]}]=${recs[i]}\n    group[${recs[i]}]+=\"${recs[i + 1]}\"$'\\n'\n  done\n  for p in \"${!changed[@]}\"; do\n    if [ -n \"${inode[$p]-}\" ]; then\n      while IFS= read -r q; do\n        if [ -n \"$q\" ]; then changed[$q]=1; fi\n      done <<< \"${group[${inode[$p]}]}\"\n    fi\n  done\n  for p in \"${!changed[@]}\"; do changes+=(\"C$p\"); done\n  for p in \"${!was[@]}\"; do\n    if [ -z \"${now[$p]-}\" ]; then changes+=(\"D$p\"); fi\n  done\n  : > \"$GITHUB_WORKSPACE/.j2gha-ws.changes\"\n  if [ \"${#changes[@]}\" -gt 0 ]; then printf '%s\\n' \"${changes[@]}\" > \"$GITHUB_WORKSPACE/.j2gha-ws.changes\"; fi\nelse\n  echo \"::warning::the workspace this job started from was not recorded: its workspace cannot be merged\"\nfi\ntar --exclude=./.j2gha-ws --exclude=./.j2gha-ws.tgz --exclude=./.j2gha-ws.changes \\\n  -czf \"$RUNNER_TEMP/j2gha-ws.tgz\" -C \"$GITHUB_WORKSPACE\" .\nmv \"$RUNNER_TEMP/j2gha-ws.tgz\" \"$GITHUB_WORKSPACE/.j2gha-ws.tgz\"\n",
+          "_j2gha": {
+            "kind": "workspace-handoff",
+            "trace": false,
+            "role": "handoff"
+          }
+        },
+        {
+          "name": "Hand on the pipeline workspace (upload)",
+          "if": "always()",
+          "uses": "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "with": {
+            "name": "j2gha-ws-trigger-upstream-franka_ros2_ws-builds-h",
+            "path": ".j2gha-ws.tgz\n.j2gha-ws.changes",
+            "retention-days": 1,
+            "compression-level": 0,
+            "if-no-files-found": "error",
+            "include-hidden-files": true
+          },
+          "_j2gha": {
+            "kind": "workspace-handoff",
+            "trace": false,
+            "role": "handoff"
+          }
+        }
+      ]
+    },
+    "trigger-upstream-franka_ros2_ws-builds-j": {
+      "name": "Trigger upstream franka_ros2_ws builds / jazzy",
+      "needs": "archive-urdfs-and-srdfs",
+      "runs-on": "ubuntu-latest",
+      "timeout-minutes": 120,
+      "steps": [
+        {
+          "name": "Restore pipeline workspace (archive-urdfs-and-srdfs)",
+          "id": "j2gha-ws-archive-urdfs-and-srdfs",
+          "uses": "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093",
+          "continue-on-error": true,
+          "with": {
+            "name": "j2gha-ws-archive-urdfs-and-srdfs",
+            "path": ".j2gha-ws/archive-urdfs-and-srdfs"
+          },
+          "_j2gha": {
+            "kind": "workspace-handoff",
+            "trace": false,
+            "role": "handoff"
+          }
+        },
+        {
+          "name": "Restore pipeline workspace (run-urdf-tests)",
+          "id": "j2gha-ws-run-urdf-tests",
+          "if": "(steps.j2gha-ws-archive-urdfs-and-srdfs.outcome != 'success')",
+          "uses": "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093",
+          "continue-on-error": true,
+          "with": {
+            "name": "j2gha-ws-run-urdf-tests",
+            "path": ".j2gha-ws/run-urdf-tests"
+          },
+          "_j2gha": {
+            "kind": "workspace-handoff",
+            "trace": false,
+            "role": "handoff"
+          }
+        },
+        {
+          "name": "Restore pipeline workspace (check-commit-message)",
+          "id": "j2gha-ws-check-commit-message",
+          "if": "(steps.j2gha-ws-archive-urdfs-and-srdfs.outcome != 'success' && steps.j2gha-ws-run-urdf-tests.outcome != 'success')",
+          "uses": "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093",
+          "continue-on-error": true,
+          "with": {
+            "name": "j2gha-ws-check-commit-message",
+            "path": ".j2gha-ws/check-commit-message"
+          },
+          "_j2gha": {
+            "kind": "workspace-handoff",
+            "trace": false,
+            "role": "handoff"
+          }
+        },
+        {
+          "name": "Restore pipeline workspace (merge)",
+          "id": "j2gha-ws-restore",
+          "if": "always()",
+          "shell": "bash",
+          "env": {
+            "J2GHA_WS_ORDER": "check-commit-message run-urdf-tests archive-urdfs-and-srdfs",
+            "J2GHA_WS_LINEAGE": "check-commit-message:\nrun-urdf-tests: check-commit-message\narchive-urdfs-and-srdfs: check-commit-message run-urdf-tests",
+            "J2GHA_WS_HEADS": "archive-urdfs-and-srdfs",
+            "J2GHA_WS_RESULTS": "archive-urdfs-and-srdfs=${{ needs.archive-urdfs-and-srdfs.result }}",
+            "J2GHA_WS_FALLBACKS": "check-commit-message:\nrun-urdf-tests: check-commit-message\narchive-urdfs-and-srdfs: run-urdf-tests"
+          },
+          "run": "ws=\"$GITHUB_WORKSPACE\"\nd=\"$ws/.j2gha-ws\"\n# the downloaded producers a producer descends from\nancestors() {\n  local line\n  while IFS= read -r line; do\n    if [ \"${line%%:*}\" = \"$1\" ]; then printf '%s\\n' \"${line#*:}\"; fi\n  done <<< \"$J2GHA_WS_LINEAGE\"\n}\npresent() { [ -f \"$d/$1/.j2gha-ws.tgz\" ]; }\n# read-only directories (a Go module cache) need write permission to be removed\nremove() { rm -rf -- \"$@\" 2>/dev/null || { chmod -R u+w -- \"$@\"; rm -rf -- \"$@\"; }; }\nisdir() { [ -d \"$1\" ] && [ ! -L \"$1\" ]; }\n# replay a branch's own changes (its change list) onto the workspace\nreplay() {\n  local src=\"$d/$1\" t=\"$d/.replay\" rec p a\n  local -a recs=() gone=()\n  local -A want=() locked=() removed=()\n  if [ ! -f \"$src/.j2gha-ws.changes\" ]; then\n    echo \"::error::the workspace of job '$1' has no change list (the workspace it started from was not recorded): it cannot be merged\"\n    exit 1\n  fi\n  mapfile -t recs < \"$src/.j2gha-ws.changes\"\n  for rec in \"${recs[@]}\"; do\n    printf -v p '%b' \"${rec:1}\"\n    if [ \"${rec:0:1}\" = D ]; then\n      removed[$p]=1\n      continue\n    fi\n    want[$p]=1\n    # a parent directory an earlier branch removed or replaced is taken from this branch too\n    a=$p\n    while a=${a%/*}; [ \"$a\" != . ]; do\n      if isdir \"$ws/$a\"; then break; fi\n      want[$a]=1\n    done\n  done\n  # a removed directory takes its contents with it: only the top-most removed entries are removed\n  for p in \"${!removed[@]}\"; do\n    a=$p\n    while a=${a%/*}; [ \"$a\" != . ] && [ -z \"${removed[$a]-}\" ]; do :; done\n    if [ \"$a\" = . ]; then gone+=(\"$p\"); fi\n  done\n  # only the entries to copy come out of the branch's workspace (parents first)\n  mkdir -p \"$t\"\n  printf '%s\\0' \"${!want[@]}\" | LC_ALL=C sort -z > \"$d/.want\"\n  if [ \"${#want[@]}\" -gt 0 ]; then tar -xzpf \"$src/.j2gha-ws.tgz\" -C \"$t\" --null --no-unquote --no-recursion -T \"$d/.want\"; fi\n  # read-only directories (a Go module cache) are opened for the changes; their modes are put back afterwards\n  for p in \"${gone[@]}\" \"${!want[@]}\"; do\n    a=${p%/*}\n    if [ \"$a\" != . ] && isdir \"$ws/$a\" && [ ! -w \"$ws/$a\" ] && [ -z \"${locked[$a]-}\" ]; then\n      locked[$a]=$(stat -c %a \"$ws/$a\")\n      chmod u+w \"$ws/$a\"\n    fi\n  done\n  for p in \"${gone[@]}\"; do remove \"$ws/$p\"; done\n  # clear what is in the way of an entry's type: a file or link where the branch has a directory, or the reverse\n  for p in \"${!want[@]}\"; do\n    if isdir \"$t/$p\"; then\n      if [ -L \"$ws/$p\" ] || { [ -e \"$ws/$p\" ] && [ ! -d \"$ws/$p\" ]; }; then rm -f -- \"$ws/$p\"; fi\n      if isdir \"$ws/$p\" && [ ! -w \"$ws/$p\" ]; then chmod u+w \"$ws/$p\"; fi  # tar sets the branch's mode\n    elif isdir \"$ws/$p\"; then\n      remove \"$ws/$p\"\n    fi\n  done\n  if [ \"${#want[@]}\" -gt 0 ]; then\n    # tar sets directory modes after their contents\n    tar -C \"$t\" --null --no-unquote --no-recursion -T \"$d/.want\" -cf - | tar -xpf - -C \"$ws\"\n  fi\n  for a in \"${!locked[@]}\"; do\n    if [ -z \"${want[$a]-}\" ] && isdir \"$ws/$a\"; then chmod \"${locked[$a]}\" \"$ws/$a\"; fi\n  done\n  remove \"$t\"\n}\n# every producer the restore relies on is accounted for: its workspace arrived, or its job was skipped and the\n# producers it would have started from are accounted for in turn (the fallback chain actually used)\ndeclare -A result=() fallback=() seen=()\nfor r in $J2GHA_WS_RESULTS; do result[${r%%=*}]=${r#*=}; done\nwhile IFS= read -r line; do\n  if [ -n \"$line\" ]; then fallback[${line%%:*}]=${line#*:}; fi\ndone <<< \"$J2GHA_WS_FALLBACKS\"\naccount() {\n  local p=$1 f\n  if [ -n \"${seen[$p]-}\" ] || present \"$p\"; then return 0; fi\n  seen[$p]=1\n  case \"${result[$p]-}\" in\n    success|failure)\n      echo \"::error::job '$p' ran (${result[$p]}) but its workspace did not arrive: restoring an older one would lose its changes\"\n      exit 1 ;;\n    skipped|cancelled) ;;\n    *) echo \"::warning::the workspace of job '$p' did not arrive and its result is not known here (not a job this one needs): taken as skipped - if it ran, its changes are missing\" ;;\n  esac\n  for f in ${fallback[$p]-}; do account \"$f\"; done\n}\nfor p in $J2GHA_WS_HEADS; do account \"$p\"; done\n# the workspaces to merge: those downloaded that no other downloaded one descends from\nfrontier=()\nfor p in $J2GHA_WS_ORDER; do\n  present \"$p\" || continue\n  covered=false\n  for q in $J2GHA_WS_ORDER; do\n    if [ \"$q\" != \"$p\" ] && present \"$q\"; then\n      case \" $(ancestors \"$q\") \" in *\" $p \"*) covered=true ;; esac\n    fi\n  done\n  if [ \"$covered\" = false ]; then frontier+=(\"$p\"); fi\ndone\nrestored=false\nif [ \"${#frontier[@]}\" -gt 0 ]; then\n  # the restored workspace replaces what the job started with (act copies the repository into every job)\n  shopt -s dotglob nullglob\n  for e in \"$ws\"/*; do\n    if [ \"$e\" != \"$d\" ]; then remove \"$e\"; fi\n  done\n  shopt -u dotglob nullglob\n  tar -xzpf \"$d/${frontier[0]}/.j2gha-ws.tgz\" -C \"$ws\"\n  for f in \"${frontier[@]:1}\"; do replay \"$f\"; done\n  restored=true\nfi\nremove \"$d\"\necho \"restored=$restored\" >> \"$GITHUB_OUTPUT\"\n",
+          "_j2gha": {
+            "kind": "workspace-handoff",
+            "trace": false,
+            "role": "handoff"
+          }
+        },
+        {
+          "name": "Checkout",
+          "uses": "actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
+          "with": {
+            "persist-credentials": false
+          },
+          "_j2gha": {
+            "kind": "checkout",
+            "line": null,
+            "trace": false,
+            "trace_events": [],
+            "role": "checkout"
+          },
+          "if": "steps.j2gha-ws-restore.outputs.restored != 'true'"
+        },
+        {
+          "name": "Record the starting workspace",
+          "if": "always()",
+          "shell": "bash",
+          "run": "# one line per path or value: backslashes and newlines escaped (`printf %b` reverses it)\nesc() { sed -z 's/\\\\/\\\\\\\\/g; s/\\n/\\\\n/g' | tr '\\0' '\\n'; }\n# the workspace's entries, the hand-off's own files left out: lines alternating path and \"type mode digest\"\n# (digest: hard-link count and content sha256 of a file - a new or removed link changes every name of the file, so a\n# branch's change list carries the whole group - or the target of a symbolic link)\nmanifest() {\n  local tmp=\"$RUNNER_TEMP/j2gha-ws-manifest\" i\n  local -a recs=() out=()\n  local -A sum=()\n  (cd \"$GITHUB_WORKSPACE\" && find . -mindepth 1 \\( -path ./.j2gha-ws -o -path ./.j2gha-ws.tgz \\\n    -o -path ./.j2gha-ws.changes \\) -prune -o -type f -print0) > \"$tmp.files\"\n  (cd \"$GITHUB_WORKSPACE\" && xargs -0 -r sha256sum -z -- < \"$tmp.files\") | esc > \"$tmp.sums\"\n  mapfile -t recs < \"$tmp.sums\"\n  for i in \"${recs[@]}\"; do sum[\"${i#*  }\"]=${i%%  *}; done\n  (cd \"$GITHUB_WORKSPACE\" && find . -mindepth 1 \\( -path ./.j2gha-ws -o -path ./.j2gha-ws.tgz \\\n    -o -path ./.j2gha-ws.changes \\) -prune -o -type f -printf '%p\\0f %m %n \\0' -o -printf '%p\\0%y %m %l\\0') |\n    esc > \"$tmp.entries\"\n  mapfile -t recs < \"$tmp.entries\"\n  for ((i = 0; i < ${#recs[@]}; i += 2)); do out+=(\"${recs[i]}\" \"${recs[i + 1]}${sum[${recs[i]}]-}\"); done\n  if [ \"${#out[@]}\" -gt 0 ]; then printf '%s\\n' \"${out[@]}\"; fi\n  rm -f \"$tmp.files\" \"$tmp.sums\" \"$tmp.entries\"\n}\nmanifest > \"$RUNNER_TEMP/j2gha-ws-start\"\n",
+          "_j2gha": {
+            "kind": "workspace-handoff",
+            "trace": false,
+            "role": "handoff"
+          }
+        },
+        {
+          "name": "jazzy: trigger downstream 'FCI/franka_ros2_ws/jazzy'",
+          "id": "s68",
+          "run": "echo \"::warning::Downstream Jenkins job 'FCI/franka_ros2_ws/jazzy' - migrate to a reusable workflow or call: gh workflow run <workflow> --ref <ref>\"",
+          "_j2gha": {
+            "kind": "build",
+            "stage": "jazzy",
+            "line": 299,
+            "trace": true
+          }
+        },
+        {
+          "name": "Hand on the pipeline workspace (archive)",
+          "if": "always()",
+          "shell": "bash",
+          "run": "# one line per path or value: backslashes and newlines escaped (`printf %b` reverses it)\nesc() { sed -z 's/\\\\/\\\\\\\\/g; s/\\n/\\\\n/g' | tr '\\0' '\\n'; }\n# the workspace's entries, the hand-off's own files left out: lines alternating path and \"type mode digest\"\n# (digest: hard-link count and content sha256 of a file - a new or removed link changes every name of the file, so a\n# branch's change list carries the whole group - or the target of a symbolic link)\nmanifest() {\n  local tmp=\"$RUNNER_TEMP/j2gha-ws-manifest\" i\n  local -a recs=() out=()\n  local -A sum=()\n  (cd \"$GITHUB_WORKSPACE\" && find . -mindepth 1 \\( -path ./.j2gha-ws -o -path ./.j2gha-ws.tgz \\\n    -o -path ./.j2gha-ws.changes \\) -prune -o -type f -print0) > \"$tmp.files\"\n  (cd \"$GITHUB_WORKSPACE\" && xargs -0 -r sha256sum -z -- < \"$tmp.files\") | esc > \"$tmp.sums\"\n  mapfile -t recs < \"$tmp.sums\"\n  for i in \"${recs[@]}\"; do sum[\"${i#*  }\"]=${i%%  *}; done\n  (cd \"$GITHUB_WORKSPACE\" && find . -mindepth 1 \\( -path ./.j2gha-ws -o -path ./.j2gha-ws.tgz \\\n    -o -path ./.j2gha-ws.changes \\) -prune -o -type f -printf '%p\\0f %m %n \\0' -o -printf '%p\\0%y %m %l\\0') |\n    esc > \"$tmp.entries\"\n  mapfile -t recs < \"$tmp.entries\"\n  for ((i = 0; i < ${#recs[@]}; i += 2)); do out+=(\"${recs[i]}\" \"${recs[i + 1]}${sum[${recs[i]}]-}\"); done\n  if [ \"${#out[@]}\" -gt 0 ]; then printf '%s\\n' \"${out[@]}\"; fi\n  rm -f \"$tmp.files\" \"$tmp.sums\" \"$tmp.entries\"\n}\nif [ -f \"$RUNNER_TEMP/j2gha-ws-start\" ]; then\n  declare -A was=() now=()\n  changes=()\n  mapfile -t recs < \"$RUNNER_TEMP/j2gha-ws-start\"\n  for ((i = 0; i < ${#recs[@]}; i += 2)); do was[${recs[i]}]=${recs[i + 1]}; done\n  manifest > \"$RUNNER_TEMP/j2gha-ws-end\"\n  mapfile -t recs < \"$RUNNER_TEMP/j2gha-ws-end\"\n  for ((i = 0; i < ${#recs[@]}; i += 2)); do now[${recs[i]}]=${recs[i + 1]}; done\n  declare -A changed=() inode=() group=()\n  for p in \"${!now[@]}\"; do\n    if [ \"${was[$p]-}\" != \"${now[$p]}\" ]; then changed[$p]=1; fi\n  done\n  # a changed file with other names takes all of them along (a rename keeps the link count): the merge relinks them\n  (cd \"$GITHUB_WORKSPACE\" && find . -mindepth 1 \\( -path ./.j2gha-ws -o -path ./.j2gha-ws.tgz \\\n    -o -path ./.j2gha-ws.changes \\) -prune -o -type f -links +1 -printf '%D:%i\\0%p\\0') | esc > \"$RUNNER_TEMP/j2gha-ws-links\"\n  mapfile -t recs < \"$RUNNER_TEMP/j2gha-ws-links\"\n  for ((i = 0; i < ${#recs[@]}; i += 2)); do\n    inode[${recs[i + 1]}]=${recs[i]}\n    group[${recs[i]}]+=\"${recs[i + 1]}\"$'\\n'\n  done\n  for p in \"${!changed[@]}\"; do\n    if [ -n \"${inode[$p]-}\" ]; then\n      while IFS= read -r q; do\n        if [ -n \"$q\" ]; then changed[$q]=1; fi\n      done <<< \"${group[${inode[$p]}]}\"\n    fi\n  done\n  for p in \"${!changed[@]}\"; do changes+=(\"C$p\"); done\n  for p in \"${!was[@]}\"; do\n    if [ -z \"${now[$p]-}\" ]; then changes+=(\"D$p\"); fi\n  done\n  : > \"$GITHUB_WORKSPACE/.j2gha-ws.changes\"\n  if [ \"${#changes[@]}\" -gt 0 ]; then printf '%s\\n' \"${changes[@]}\" > \"$GITHUB_WORKSPACE/.j2gha-ws.changes\"; fi\nelse\n  echo \"::warning::the workspace this job started from was not recorded: its workspace cannot be merged\"\nfi\ntar --exclude=./.j2gha-ws --exclude=./.j2gha-ws.tgz --exclude=./.j2gha-ws.changes \\\n  -czf \"$RUNNER_TEMP/j2gha-ws.tgz\" -C \"$GITHUB_WORKSPACE\" .\nmv \"$RUNNER_TEMP/j2gha-ws.tgz\" \"$GITHUB_WORKSPACE/.j2gha-ws.tgz\"\n",
+          "_j2gha": {
+            "kind": "workspace-handoff",
+            "trace": false,
+            "role": "handoff"
+          }
+        },
+        {
+          "name": "Hand on the pipeline workspace (upload)",
+          "if": "always()",
+          "uses": "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
+          "with": {
+            "name": "j2gha-ws-trigger-upstream-franka_ros2_ws-builds-j",
+            "path": ".j2gha-ws.tgz\n.j2gha-ws.changes",
+            "retention-days": 1,
+            "compression-level": 0,
+            "if-no-files-found": "error",
+            "include-hidden-files": true
+          },
+          "_j2gha": {
+            "kind": "workspace-handoff",
+            "trace": false,
+            "role": "handoff"
+          }
+        }
+      ]
+    },
+    "post": {
+      "name": "post",
+      "needs": [
+        "check-commit-message",
+        "run-urdf-tests",
+        "build-robot-urdfs-and-srdfs",
+        "build-end-effector-urdfs",
+        "archive-urdfs-and-srdfs",
+        "trigger-upstream-franka_ros2_ws-builds-h",
+        "trigger-upstream-franka_ros2_ws-builds-j"
+      ],
+      "if": "always()",
+      "runs-on": "ubuntu-latest",
+      "steps": [
+        {
+          "name": "Restore pipeline workspace (trigger-upstream-franka_ros2_ws-builds-h)",
+          "id": "j2gha-ws-trigger-upstream-franka_ros2_ws-builds-h",
+          "uses": "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093",
+          "continue-on-error": true,
+          "with": {
+            "name": "j2gha-ws-trigger-upstream-franka_ros2_ws-builds-h",
+            "path": ".j2gha-ws/trigger-upstream-franka_ros2_ws-builds-h"
+          },
+          "_j2gha": {
+            "kind": "workspace-handoff",
+            "trace": false,
+            "role": "handoff"
+          }
+        },
+        {
+          "name": "Restore pipeline workspace (trigger-upstream-franka_ros2_ws-builds-j)",
+          "id": "j2gha-ws-trigger-upstream-franka_ros2_ws-builds-j",
+          "uses": "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093",
+          "continue-on-error": true,
+          "with": {
+            "name": "j2gha-ws-trigger-upstream-franka_ros2_ws-builds-j",
+            "path": ".j2gha-ws/trigger-upstream-franka_ros2_ws-builds-j"
+          },
+          "_j2gha": {
+            "kind": "workspace-handoff",
+            "trace": false,
+            "role": "handoff"
+          }
+        },
+        {
+          "name": "Restore pipeline workspace (archive-urdfs-and-srdfs)",
+          "id": "j2gha-ws-archive-urdfs-and-srdfs",
+          "if": "(steps.j2gha-ws-trigger-upstream-franka_ros2_ws-builds-h.outcome != 'success') || (steps.j2gha-ws-trigger-upstream-franka_ros2_ws-builds-j.outcome != 'success')",
+          "uses": "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093",
+          "continue-on-error": true,
+          "with": {
+            "name": "j2gha-ws-archive-urdfs-and-srdfs",
+            "path": ".j2gha-ws/archive-urdfs-and-srdfs"
+          },
+          "_j2gha": {
+            "kind": "workspace-handoff",
+            "trace": false,
+            "role": "handoff"
+          }
+        },
+        {
+          "name": "Restore pipeline workspace (run-urdf-tests)",
+          "id": "j2gha-ws-run-urdf-tests",
+          "if": "(steps.j2gha-ws-trigger-upstream-franka_ros2_ws-builds-h.outcome != 'success' && steps.j2gha-ws-archive-urdfs-and-srdfs.outcome != 'success') || (steps.j2gha-ws-trigger-upstream-franka_ros2_ws-builds-j.outcome != 'success' && steps.j2gha-ws-archive-urdfs-and-srdfs.outcome != 'success')",
+          "uses": "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093",
+          "continue-on-error": true,
+          "with": {
+            "name": "j2gha-ws-run-urdf-tests",
+            "path": ".j2gha-ws/run-urdf-tests"
+          },
+          "_j2gha": {
+            "kind": "workspace-handoff",
+            "trace": false,
+            "role": "handoff"
+          }
+        },
+        {
+          "name": "Restore pipeline workspace (check-commit-message)",
+          "id": "j2gha-ws-check-commit-message",
+          "if": "(steps.j2gha-ws-trigger-upstream-franka_ros2_ws-builds-h.outcome != 'success' && steps.j2gha-ws-archive-urdfs-and-srdfs.outcome != 'success' && steps.j2gha-ws-run-urdf-tests.outcome != 'success') || (steps.j2gha-ws-trigger-upstream-franka_ros2_ws-builds-j.outcome != 'success' && steps.j2gha-ws-archive-urdfs-and-srdfs.outcome != 'success' && steps.j2gha-ws-run-urdf-tests.outcome != 'success')",
+          "uses": "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093",
+          "continue-on-error": true,
+          "with": {
+            "name": "j2gha-ws-check-commit-message",
+            "path": ".j2gha-ws/check-commit-message"
+          },
+          "_j2gha": {
+            "kind": "workspace-handoff",
+            "trace": false,
+            "role": "handoff"
+          }
+        },
+        {
+          "name": "Restore pipeline workspace (merge)",
+          "id": "j2gha-ws-restore",
+          "if": "always()",
+          "shell": "bash",
+          "env": {
+            "J2GHA_WS_ORDER": "check-commit-message run-urdf-tests archive-urdfs-and-srdfs trigger-upstream-franka_ros2_ws-builds-h trigger-upstream-franka_ros2_ws-builds-j",
+            "J2GHA_WS_LINEAGE": "check-commit-message:\nrun-urdf-tests: check-commit-message\narchive-urdfs-and-srdfs: check-commit-message run-urdf-tests\ntrigger-upstream-franka_ros2_ws-builds-h: check-commit-message run-urdf-tests archive-urdfs-and-srdfs\ntrigger-upstream-franka_ros2_ws-builds-j: check-commit-message run-urdf-tests archive-urdfs-and-srdfs",
+            "J2GHA_WS_HEADS": "trigger-upstream-franka_ros2_ws-builds-h trigger-upstream-franka_ros2_ws-builds-j",
+            "J2GHA_WS_RESULTS": "check-commit-message=${{ needs.check-commit-message.result }} run-urdf-tests=${{ needs.run-urdf-tests.result }} archive-urdfs-and-srdfs=${{ needs.archive-urdfs-and-srdfs.result }} trigger-upstream-franka_ros2_ws-builds-h=${{ needs.trigger-upstream-franka_ros2_ws-builds-h.result }} trigger-upstream-franka_ros2_ws-builds-j=${{ needs.trigger-upstream-franka_ros2_ws-builds-j.result }}",
+            "J2GHA_WS_FALLBACKS": "check-commit-message:\nrun-urdf-tests: check-commit-message\narchive-urdfs-and-srdfs: run-urdf-tests\ntrigger-upstream-franka_ros2_ws-builds-h: archive-urdfs-and-srdfs\ntrigger-upstream-franka_ros2_ws-builds-j: archive-urdfs-and-srdfs"
+          },
+          "run": "ws=\"$GITHUB_WORKSPACE\"\nd=\"$ws/.j2gha-ws\"\n# the downloaded producers a producer descends from\nancestors() {\n  local line\n  while IFS= read -r line; do\n    if [ \"${line%%:*}\" = \"$1\" ]; then printf '%s\\n' \"${line#*:}\"; fi\n  done <<< \"$J2GHA_WS_LINEAGE\"\n}\npresent() { [ -f \"$d/$1/.j2gha-ws.tgz\" ]; }\n# read-only directories (a Go module cache) need write permission to be removed\nremove() { rm -rf -- \"$@\" 2>/dev/null || { chmod -R u+w -- \"$@\"; rm -rf -- \"$@\"; }; }\nisdir() { [ -d \"$1\" ] && [ ! -L \"$1\" ]; }\n# replay a branch's own changes (its change list) onto the workspace\nreplay() {\n  local src=\"$d/$1\" t=\"$d/.replay\" rec p a\n  local -a recs=() gone=()\n  local -A want=() locked=() removed=()\n  if [ ! -f \"$src/.j2gha-ws.changes\" ]; then\n    echo \"::error::the workspace of job '$1' has no change list (the workspace it started from was not recorded): it cannot be merged\"\n    exit 1\n  fi\n  mapfile -t recs < \"$src/.j2gha-ws.changes\"\n  for rec in \"${recs[@]}\"; do\n    printf -v p '%b' \"${rec:1}\"\n    if [ \"${rec:0:1}\" = D ]; then\n      removed[$p]=1\n      continue\n    fi\n    want[$p]=1\n    # a parent directory an earlier branch removed or replaced is taken from this branch too\n    a=$p\n    while a=${a%/*}; [ \"$a\" != . ]; do\n      if isdir \"$ws/$a\"; then break; fi\n      want[$a]=1\n    done\n  done\n  # a removed directory takes its contents with it: only the top-most removed entries are removed\n  for p in \"${!removed[@]}\"; do\n    a=$p\n    while a=${a%/*}; [ \"$a\" != . ] && [ -z \"${removed[$a]-}\" ]; do :; done\n    if [ \"$a\" = . ]; then gone+=(\"$p\"); fi\n  done\n  # only the entries to copy come out of the branch's workspace (parents first)\n  mkdir -p \"$t\"\n  printf '%s\\0' \"${!want[@]}\" | LC_ALL=C sort -z > \"$d/.want\"\n  if [ \"${#want[@]}\" -gt 0 ]; then tar -xzpf \"$src/.j2gha-ws.tgz\" -C \"$t\" --null --no-unquote --no-recursion -T \"$d/.want\"; fi\n  # read-only directories (a Go module cache) are opened for the changes; their modes are put back afterwards\n  for p in \"${gone[@]}\" \"${!want[@]}\"; do\n    a=${p%/*}\n    if [ \"$a\" != . ] && isdir \"$ws/$a\" && [ ! -w \"$ws/$a\" ] && [ -z \"${locked[$a]-}\" ]; then\n      locked[$a]=$(stat -c %a \"$ws/$a\")\n      chmod u+w \"$ws/$a\"\n    fi\n  done\n  for p in \"${gone[@]}\"; do remove \"$ws/$p\"; done\n  # clear what is in the way of an entry's type: a file or link where the branch has a directory, or the reverse\n  for p in \"${!want[@]}\"; do\n    if isdir \"$t/$p\"; then\n      if [ -L \"$ws/$p\" ] || { [ -e \"$ws/$p\" ] && [ ! -d \"$ws/$p\" ]; }; then rm -f -- \"$ws/$p\"; fi\n      if isdir \"$ws/$p\" && [ ! -w \"$ws/$p\" ]; then chmod u+w \"$ws/$p\"; fi  # tar sets the branch's mode\n    elif isdir \"$ws/$p\"; then\n      remove \"$ws/$p\"\n    fi\n  done\n  if [ \"${#want[@]}\" -gt 0 ]; then\n    # tar sets directory modes after their contents\n    tar -C \"$t\" --null --no-unquote --no-recursion -T \"$d/.want\" -cf - | tar -xpf - -C \"$ws\"\n  fi\n  for a in \"${!locked[@]}\"; do\n    if [ -z \"${want[$a]-}\" ] && isdir \"$ws/$a\"; then chmod \"${locked[$a]}\" \"$ws/$a\"; fi\n  done\n  remove \"$t\"\n}\n# every producer the restore relies on is accounted for: its workspace arrived, or its job was skipped and the\n# producers it would have started from are accounted for in turn (the fallback chain actually used)\ndeclare -A result=() fallback=() seen=()\nfor r in $J2GHA_WS_RESULTS; do result[${r%%=*}]=${r#*=}; done\nwhile IFS= read -r line; do\n  if [ -n \"$line\" ]; then fallback[${line%%:*}]=${line#*:}; fi\ndone <<< \"$J2GHA_WS_FALLBACKS\"\naccount() {\n  local p=$1 f\n  if [ -n \"${seen[$p]-}\" ] || present \"$p\"; then return 0; fi\n  seen[$p]=1\n  case \"${result[$p]-}\" in\n    success|failure)\n      echo \"::error::job '$p' ran (${result[$p]}) but its workspace did not arrive: restoring an older one would lose its changes\"\n      exit 1 ;;\n    skipped|cancelled) ;;\n    *) echo \"::warning::the workspace of job '$p' did not arrive and its result is not known here (not a job this one needs): taken as skipped - if it ran, its changes are missing\" ;;\n  esac\n  for f in ${fallback[$p]-}; do account \"$f\"; done\n}\nfor p in $J2GHA_WS_HEADS; do account \"$p\"; done\n# the workspaces to merge: those downloaded that no other downloaded one descends from\nfrontier=()\nfor p in $J2GHA_WS_ORDER; do\n  present \"$p\" || continue\n  covered=false\n  for q in $J2GHA_WS_ORDER; do\n    if [ \"$q\" != \"$p\" ] && present \"$q\"; then\n      case \" $(ancestors \"$q\") \" in *\" $p \"*) covered=true ;; esac\n    fi\n  done\n  if [ \"$covered\" = false ]; then frontier+=(\"$p\"); fi\ndone\nrestored=false\nif [ \"${#frontier[@]}\" -gt 0 ]; then\n  # the restored workspace replaces what the job started with (act copies the repository into every job)\n  shopt -s dotglob nullglob\n  for e in \"$ws\"/*; do\n    if [ \"$e\" != \"$d\" ]; then remove \"$e\"; fi\n  done\n  shopt -u dotglob nullglob\n  tar -xzpf \"$d/${frontier[0]}/.j2gha-ws.tgz\" -C \"$ws\"\n  for f in \"${frontier[@]:1}\"; do replay \"$f\"; done\n  restored=true\nfi\nremove \"$d\"\necho \"restored=$restored\" >> \"$GITHUB_OUTPUT\"\n",
+          "_j2gha": {
+            "kind": "workspace-handoff",
+            "trace": false,
+            "role": "handoff"
+          }
+        },
+        {
+          "name": "post: git clean -x -d -f",
+          "id": "s69",
+          "if": "always()",
+          "run": "git clean -x -d -f",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Declarative: Post Actions",
+            "line": 315,
+            "trace": true
+          }
+        },
+        {
+          "name": "post: cleanWs",
+          "id": "s70",
+          "if": "always()",
+          "run": "find . -mindepth 1 -delete || true",
+          "_j2gha": {
+            "kind": "cleanWs",
+            "stage": "Declarative: Post Actions",
+            "line": 316,
+            "trace": true
+          }
+        },
+        {
+          "name": "post: du -h --max-depth=1 . && ls -la",
+          "id": "s71",
+          "if": "always()",
+          "run": "du -h --max-depth=1 . && ls -la",
+          "_j2gha": {
+            "kind": "sh",
+            "stage": "Declarative: Post Actions",
+            "line": 317,
+            "trace": true
+          }
+        },
+        {
+          "name": "post: feNotifySCM (manual migration)",
+          "id": "s72",
+          "if": "always()",
+          "run": "echo \"::warning::Jenkins step 'feNotifySCM' requires manual migration\"",
+          "_j2gha": {
+            "kind": "feNotifySCM",
+            "stage": "Declarative: Post Actions",
+            "line": 319,
+            "trace": true
+          }
+        }
+      ],
+      "timeout-minutes": 120
+    }
+  }
+}

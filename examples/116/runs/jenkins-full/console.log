@@ -1,0 +1,322 @@
+[2026-10-10T09:26:55.669Z] Started by user admin
+[2026-10-10T09:26:55.768Z] [Pipeline] Start of Pipeline
+[2026-10-10T09:26:55.795Z] [Pipeline] node
+[2026-10-10T09:26:55.809Z] Running on Jenkins in /var/jenkins_home/workspace/ex-116-full
+[2026-10-10T09:26:55.817Z] [Pipeline] {
+[2026-10-10T09:26:55.852Z] [Pipeline] echo
+[2026-10-10T09:26:55.856Z] J2GHA-TRACE {"stage":"","step":"withFolderProperties"}
+[2026-10-10T09:26:55.861Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named LBRANCH (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:26:55.861Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named APP_ID (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:26:55.872Z] [Pipeline] stage
+[2026-10-10T09:26:55.877Z] [Pipeline] { (checkout)
+[2026-10-10T09:26:55.898Z] [Pipeline] checkout
+[2026-10-10T09:26:55.903Z] The recommended git tool is: NONE
+[2026-10-10T09:26:55.904Z] No credentials specified
+[2026-10-10T09:26:55.904Z]  > git rev-parse --resolve-git-dir /var/jenkins_home/workspace/ex-116-full/.git # timeout=10
+[2026-10-10T09:26:55.911Z] Fetching changes from the remote Git repository
+[2026-10-10T09:26:55.913Z]  > git config remote.origin.url https://github.com/dvsa/cvs-auto-mobile-app-retired.git # timeout=10
+[2026-10-10T09:26:55.919Z] Fetching upstream changes from https://github.com/dvsa/cvs-auto-mobile-app-retired.git
+[2026-10-10T09:26:55.919Z]  > git --version # timeout=10
+[2026-10-10T09:26:55.925Z]  > git --version # 'git version 2.47.3'
+[2026-10-10T09:26:55.925Z]  > git fetch --no-tags --force --progress -- https://github.com/dvsa/cvs-auto-mobile-app-retired.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+[2026-10-10T09:26:57.003Z]  > git rev-parse bf150f606a385a8ed5eacc00070a988c675dd815^{commit} # timeout=10
+[2026-10-10T09:26:57.010Z] Checking out Revision bf150f606a385a8ed5eacc00070a988c675dd815 (detached)
+[2026-10-10T09:26:57.010Z]  > git config core.sparsecheckout # timeout=10
+[2026-10-10T09:26:57.017Z]  > git checkout -f bf150f606a385a8ed5eacc00070a988c675dd815 # timeout=10
+[2026-10-10T09:26:57.114Z] Commit message: "Update Jenkinsfile"
+[2026-10-10T09:26:57.114Z]  > git rev-list --no-walk bf150f606a385a8ed5eacc00070a988c675dd815 # timeout=10
+[2026-10-10T09:26:57.139Z] [Pipeline] }
+[2026-10-10T09:26:57.162Z] [Pipeline] // stage
+[2026-10-10T09:26:57.183Z] [Pipeline] stage
+[2026-10-10T09:26:57.190Z] [Pipeline] { (Get IPA from AWS S3)
+[2026-10-10T09:26:57.223Z] [Pipeline] withCredentials
+[2026-10-10T09:26:57.238Z] Masking supported pattern matches of $AWS_SECRET_ACCESS_KEY
+[2026-10-10T09:26:57.250Z] [Pipeline] {
+[2026-10-10T09:26:57.269Z] [Pipeline] sh
+[2026-10-10T09:26:57.530Z] + test -n j2gha-user
+[2026-10-10T09:26:57.530Z] + echo https://raw.githubusercontent.com/dvsa/cvs-auto-mobile-app-retired/bf150f606a385a8ed5eacc00070a988c675dd815/README.md
+[2026-10-10T09:26:57.547Z] [Pipeline] }
+[2026-10-10T09:26:57.571Z] [Pipeline] // withCredentials
+[2026-10-10T09:26:57.584Z] [Pipeline] }
+[2026-10-10T09:26:57.607Z] [Pipeline] // stage
+[2026-10-10T09:26:57.631Z] [Pipeline] stage
+[2026-10-10T09:26:57.637Z] [Pipeline] { (install ipa in browserstack)
+[2026-10-10T09:26:57.665Z] [Pipeline] sh
+[2026-10-10T09:26:57.927Z] + cat null.txt
+[2026-10-10T09:26:57.927Z] + curl -sSfLo CVSMobile.ipa https://raw.githubusercontent.com/dvsa/cvs-auto-mobile-app-retired/bf150f606a385a8ed5eacc00070a988c675dd815/README.md
+[2026-10-10T09:26:58.201Z] [Pipeline] withCredentials
+[2026-10-10T09:26:58.211Z] Masking supported pattern matches of $BROWSERSTACK_CREDS
+[2026-10-10T09:26:58.221Z] [Pipeline] {
+[2026-10-10T09:26:58.240Z] [Pipeline] sh
+[2026-10-10T09:26:58.501Z] + test -n ****
+[2026-10-10T09:26:58.501Z] + echo {"app_url":"bs://j2gha-local"}
+[2026-10-10T09:26:58.501Z] + jq .app_url
+[2026-10-10T09:26:58.524Z] Did you forget the `def` keyword? WorkflowScript seems to be setting a field named APP_ID (to a value of type String) which could lead to memory leaks or other issues.
+[2026-10-10T09:26:58.537Z] [Pipeline] }
+[2026-10-10T09:26:58.579Z] [Pipeline] // withCredentials
+[2026-10-10T09:26:58.595Z] [Pipeline] }
+[2026-10-10T09:26:58.618Z] [Pipeline] // stage
+[2026-10-10T09:26:58.643Z] [Pipeline] stage
+[2026-10-10T09:26:58.649Z] [Pipeline] { (test)
+[2026-10-10T09:26:58.675Z] [Pipeline] echo
+[2026-10-10T09:26:58.681Z] J2GHA-TRACE {"stage":"test","step":"browserstack"}
+[2026-10-10T09:26:58.698Z] [Pipeline] sh
+[2026-10-10T09:26:58.958Z] + mvn --batch-mode clean install -DskipTests -DBROWSERSTACK_APP_ID=bs://j2gha-local -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
+[2026-10-10T09:27:01.442Z] [INFO] Scanning for projects...
+[2026-10-10T09:27:01.442Z] [INFO] 
+[2026-10-10T09:27:01.442Z] [INFO] --------------< cvs-auto-mobile-app:cvs-auto-mobile-app >---------------
+[2026-10-10T09:27:01.442Z] [INFO] Building cvs-auto-mobile-app 1.0-SNAPSHOT
+[2026-10-10T09:27:01.442Z] [INFO]   from pom.xml
+[2026-10-10T09:27:01.442Z] [INFO] --------------------------------[ jar ]---------------------------------
+[2026-10-10T09:27:01.693Z] [WARNING] The POM for com.sun.xml.bind:jaxb-core:jar:2.2.11 is invalid, transitive dependencies (if any) will not be available: 1 problem was encountered while building the effective model for com.sun.xml.bind:jaxb-core:2.2.11
+[2026-10-10T09:27:01.693Z] [ERROR] 'dependencyManagement.dependencies.dependency.systemPath' for com.sun:tools:jar must specify an absolute path but is ${tools.jar} @ 
+[2026-10-10T09:27:01.693Z] 
+[2026-10-10T09:27:01.693Z] [WARNING] The POM for com.sun.xml.bind:jaxb-impl:jar:2.2.11 is invalid, transitive dependencies (if any) will not be available: 1 problem was encountered while building the effective model for com.sun.xml.bind:jaxb-impl:2.2.11
+[2026-10-10T09:27:01.693Z] [ERROR] 'dependencyManagement.dependencies.dependency.systemPath' for com.sun:tools:jar must specify an absolute path but is ${tools.jar} @ 
+[2026-10-10T09:27:01.693Z] 
+[2026-10-10T09:27:06.888Z] [WARNING] The POM for org.seleniumhq.selenium:selenium-devtools-v119:jar:4.16.0 is missing, no dependency information available
+[2026-10-10T09:27:08.750Z] [INFO] 
+[2026-10-10T09:27:08.750Z] [INFO] --- clean:3.2.0:clean (default-clean) @ cvs-auto-mobile-app ---
+[2026-10-10T09:27:08.750Z] [INFO] Deleting /var/jenkins_home/workspace/ex-116-full/target
+[2026-10-10T09:27:09.001Z] [INFO] 
+[2026-10-10T09:27:09.001Z] [INFO] --- resources:3.3.1:resources (default-resources) @ cvs-auto-mobile-app ---
+[2026-10-10T09:27:09.001Z] [WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[2026-10-10T09:27:09.001Z] [INFO] Copying 1 resource from src/main/resources to target/classes
+[2026-10-10T09:27:09.001Z] [INFO] 
+[2026-10-10T09:27:09.001Z] [INFO] --- compiler:3.8.0:compile (default-compile) @ cvs-auto-mobile-app ---
+[2026-10-10T09:27:09.251Z] [INFO] Changes detected - recompiling the module!
+[2026-10-10T09:27:09.251Z] [WARNING] File encoding has not been set, using platform encoding UTF-8, i.e. build is platform dependent!
+[2026-10-10T09:27:09.251Z] [INFO] Compiling 112 source files to /var/jenkins_home/workspace/ex-116-full/target/classes
+[2026-10-10T09:27:13.375Z] [INFO] /var/jenkins_home/workspace/ex-116-full/src/main/java/util/LoaderlLocalRealDeviceImpl.java: Some input files use or override a deprecated API.
+[2026-10-10T09:27:13.375Z] [INFO] /var/jenkins_home/workspace/ex-116-full/src/main/java/util/LoaderlLocalRealDeviceImpl.java: Recompile with -Xlint:deprecation for details.
+[2026-10-10T09:27:13.375Z] [INFO] /var/jenkins_home/workspace/ex-116-full/src/main/java/pages/BasePage.java: Some input files use unchecked or unsafe operations.
+[2026-10-10T09:27:13.375Z] [INFO] /var/jenkins_home/workspace/ex-116-full/src/main/java/pages/BasePage.java: Recompile with -Xlint:unchecked for details.
+[2026-10-10T09:27:13.375Z] [INFO] 
+[2026-10-10T09:27:13.375Z] [INFO] --- resources:3.3.1:testResources (default-testResources) @ cvs-auto-mobile-app ---
+[2026-10-10T09:27:13.375Z] [WARNING] Using platform encoding (UTF-8 actually) to copy filtered resources, i.e. build is platform dependent!
+[2026-10-10T09:27:13.375Z] [INFO] skip non existing resourceDirectory /var/jenkins_home/workspace/ex-116-full/src/test/resources
+[2026-10-10T09:27:13.375Z] [INFO] 
+[2026-10-10T09:27:13.375Z] [INFO] --- compiler:3.8.0:testCompile (default-testCompile) @ cvs-auto-mobile-app ---
+[2026-10-10T09:27:13.375Z] [INFO] Changes detected - recompiling the module!
+[2026-10-10T09:27:13.375Z] [WARNING] File encoding has not been set, using platform encoding UTF-8, i.e. build is platform dependent!
+[2026-10-10T09:27:13.375Z] [INFO] Compiling 179 source files to /var/jenkins_home/workspace/ex-116-full/target/test-classes
+[2026-10-10T09:27:13.625Z] [INFO] 
+[2026-10-10T09:27:13.625Z] [INFO] --- surefire:2.22.1:test (default-test) @ cvs-auto-mobile-app ---
+[2026-10-10T09:27:13.876Z] [INFO] Tests are skipped.
+[2026-10-10T09:27:13.876Z] [INFO] 
+[2026-10-10T09:27:13.876Z] [INFO] --- jar:2.6:jar (default-jar) @ cvs-auto-mobile-app ---
+[2026-10-10T09:27:14.126Z] [INFO] Building jar: /var/jenkins_home/workspace/ex-116-full/target/cvs-auto-mobile-app-1.0-SNAPSHOT.jar
+[2026-10-10T09:27:14.126Z] [INFO] 
+[2026-10-10T09:27:14.126Z] [INFO] --- jar:2.6:test-jar (default) @ cvs-auto-mobile-app ---
+[2026-10-10T09:27:14.377Z] [INFO] Building jar: /var/jenkins_home/workspace/ex-116-full/target/cvs-auto-mobile-app-1.0-SNAPSHOT-tests.jar
+[2026-10-10T09:27:14.377Z] [INFO] 
+[2026-10-10T09:27:14.377Z] [INFO] --- dependency:2.10:copy-dependencies (copy-dependencies) @ cvs-auto-mobile-app ---
+[2026-10-10T09:27:14.929Z] [INFO] Copying cucumber-html-0.2.6.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/cucumber-html-0.2.6.jar
+[2026-10-10T09:27:14.929Z] [INFO] Copying flexmark-ext-attributes-0.34.30.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/flexmark-ext-attributes-0.34.30.jar
+[2026-10-10T09:27:14.929Z] [INFO] Copying flexmark-util-0.34.30.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/flexmark-util-0.34.30.jar
+[2026-10-10T09:27:14.929Z] [INFO] Copying jcip-annotations-1.0.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/jcip-annotations-1.0.jar
+[2026-10-10T09:27:14.929Z] [INFO] Copying jaxb-core-2.2.11.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/jaxb-core-2.2.11.jar
+[2026-10-10T09:27:14.929Z] [INFO] Copying gson-2.8.4.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/gson-2.8.4.jar
+[2026-10-10T09:27:14.929Z] [INFO] Copying groovy-2.4.12.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/groovy-2.4.12.jar
+[2026-10-10T09:27:14.929Z] [INFO] Copying aopalliance-1.0.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/aopalliance-1.0.jar
+[2026-10-10T09:27:14.929Z] [INFO] Copying pdfbox-2.0.8.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/pdfbox-2.0.8.jar
+[2026-10-10T09:27:14.929Z] [INFO] Copying commons-validator-1.6.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/commons-validator-1.6.jar
+[2026-10-10T09:27:14.929Z] [INFO] Copying selenium-safari-driver-3.141.5.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/selenium-safari-driver-3.141.5.jar
+[2026-10-10T09:27:14.929Z] [INFO] Copying jetty-io-9.4.8.v20171121.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/jetty-io-9.4.8.v20171121.jar
+[2026-10-10T09:27:14.929Z] [INFO] Copying httpclient-4.5.5.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/httpclient-4.5.5.jar
+[2026-10-10T09:27:14.929Z] [INFO] Copying asciidoctorj-1.5.6.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/asciidoctorj-1.5.6.jar
+[2026-10-10T09:27:14.929Z] [INFO] Copying serenity-stats-2.0.20.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/serenity-stats-2.0.20.jar
+[2026-10-10T09:27:14.929Z] [INFO] Copying flexmark-jira-converter-0.34.30.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/flexmark-jira-converter-0.34.30.jar
+[2026-10-10T09:27:14.929Z] [INFO] Copying mockito-core-1.10.19.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/mockito-core-1.10.19.jar
+[2026-10-10T09:27:14.929Z] [INFO] Copying jimfs-1.1.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/jimfs-1.1.jar
+[2026-10-10T09:27:14.929Z] [INFO] Copying jetty-http-9.4.12.v20180830.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/jetty-http-9.4.12.v20180830.jar
+[2026-10-10T09:27:14.929Z] [INFO] Copying objenesis-2.6.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/objenesis-2.6.jar
+[2026-10-10T09:27:14.929Z] [INFO] Copying xml-apis-1.4.01.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/xml-apis-1.4.01.jar
+[2026-10-10T09:27:14.929Z] [INFO] Copying commons-text-1.6.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/commons-text-1.6.jar
+[2026-10-10T09:27:14.929Z] [INFO] Copying serenity-model-2.0.20.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/serenity-model-2.0.20.jar
+[2026-10-10T09:27:14.929Z] [INFO] Copying ant-1.9.6.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/ant-1.9.6.jar
+[2026-10-10T09:27:14.929Z] [INFO] Copying jetty-util-9.4.8.v20171121.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/jetty-util-9.4.8.v20171121.jar
+[2026-10-10T09:27:14.929Z] [INFO] Copying htmlunit-driver-2.33.1.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/htmlunit-driver-2.33.1.jar
+[2026-10-10T09:27:14.929Z] [INFO] Copying fluentlenium-core-0.10.2.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/fluentlenium-core-0.10.2.jar
+[2026-10-10T09:27:14.929Z] [INFO] Copying commons-beanutils-1.9.2.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/commons-beanutils-1.9.2.jar
+[2026-10-10T09:27:14.929Z] [INFO] Copying serializer-2.7.2.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/serializer-2.7.2.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying openhtmltopdf-pdfbox-0.0.1-RC13.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/openhtmltopdf-pdfbox-0.0.1-RC13.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying spring-context-5.0.5.RELEASE.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/spring-context-5.0.5.RELEASE.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying autolink-0.6.0.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/autolink-0.6.0.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying commons-logging-1.2.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/commons-logging-1.2.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying xalan-2.7.2.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/xalan-2.7.2.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying xercesImpl-2.12.0.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/xercesImpl-2.12.0.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying htmlunit-2.33.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/htmlunit-2.33.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying cucumber-core-2.4.0.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/cucumber-core-2.4.0.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying jxl-2.6.12.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/jxl-2.6.12.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying httpmime-4.5.5.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/httpmime-4.5.5.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying okhttp-3.11.0.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/okhttp-3.11.0.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying neko-htmlunit-2.33.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/neko-htmlunit-2.33.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying opencsv-2.0.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/opencsv-2.0.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying serenity-junit-2.0.20.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/serenity-junit-2.0.20.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying commons-net-3.6.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/commons-net-3.6.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying spring-aop-5.0.5.RELEASE.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/spring-aop-5.0.5.RELEASE.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying tyrus-core-1.13.1.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/tyrus-core-1.13.1.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying flexmark-profile-pegdown-0.34.30.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/flexmark-profile-pegdown-0.34.30.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying asm-5.0.3.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/asm-5.0.3.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying flexmark-ext-superscript-0.34.30.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/flexmark-ext-superscript-0.34.30.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying jsr305-1.3.9.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/jsr305-1.3.9.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying fontbox-2.0.8.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/fontbox-2.0.8.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying serenity-report-resources-2.0.20.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/serenity-report-resources-2.0.20.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying javax.websocket-api-1.1.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/javax.websocket-api-1.1.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying flexmark-html-parser-0.34.30.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/flexmark-html-parser-0.34.30.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying spring-expression-5.0.5.RELEASE.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/spring-expression-5.0.5.RELEASE.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying flexmark-ext-media-tags-0.34.30.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/flexmark-ext-media-tags-0.34.30.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying selenium-api-3.141.5.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/selenium-api-3.141.5.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying htmlunit-core-js-2.33.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/htmlunit-core-js-2.33.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying flexmark-ext-youtube-embedded-0.34.30.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/flexmark-ext-youtube-embedded-0.34.30.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying flexmark-ext-jekyll-front-matter-0.34.30.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/flexmark-ext-jekyll-front-matter-0.34.30.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying serenity-reports-2.0.20.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/serenity-reports-2.0.20.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying slf4j-simple-1.7.7.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/slf4j-simple-1.7.7.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying snakeyaml-1.19.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/snakeyaml-1.19.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying selenium-server-3.141.5.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/selenium-server-3.141.5.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying flexmark-ext-gfm-users-0.34.30.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/flexmark-ext-gfm-users-0.34.30.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying commons-exec-1.3.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/commons-exec-1.3.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying activation-1.1.1.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/activation-1.1.1.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying xmpbox-2.0.8.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/xmpbox-2.0.8.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying graphics2d-0.12.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/graphics2d-0.12.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying commons-codec-1.10.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/commons-codec-1.10.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying flexmark-ext-gfm-tasklist-0.34.30.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/flexmark-ext-gfm-tasklist-0.34.30.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying java-client-6.1.0.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/java-client-6.1.0.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying config-1.3.1.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/config-1.3.1.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying flexmark-ext-typographic-0.34.30.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/flexmark-ext-typographic-0.34.30.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying flexmark-0.34.30.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/flexmark-0.34.30.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying xstream-1.4.9.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/xstream-1.4.9.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying javax.inject-1.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/javax.inject-1.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying commons-lang3-3.8.1.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/commons-lang3-3.8.1.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying jaxb-impl-2.2.11.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/jaxb-impl-2.2.11.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying javax.servlet-api-3.1.0.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/javax.servlet-api-3.1.0.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying flexmark-ext-emoji-0.34.30.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/flexmark-ext-emoji-0.34.30.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying kotlin-stdlib-1.2.51.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/kotlin-stdlib-1.2.51.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying spring-core-5.0.5.RELEASE.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/spring-core-5.0.5.RELEASE.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying spring-beans-5.0.5.RELEASE.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/spring-beans-5.0.5.RELEASE.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying flexmark-ext-abbreviation-0.34.30.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/flexmark-ext-abbreviation-0.34.30.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying vavr-0.9.0.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/vavr-0.9.0.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying flexmark-ext-wikilink-0.34.30.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/flexmark-ext-wikilink-0.34.30.jar
+[2026-10-10T09:27:15.179Z] [INFO] Copying websocket-common-9.4.12.v20180830.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/websocket-common-9.4.12.v20180830.jar
+[2026-10-10T09:27:15.180Z] [INFO] Copying filters-2.0.235.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/filters-2.0.235.jar
+[2026-10-10T09:27:15.180Z] [INFO] Copying flexmark-ext-jekyll-tag-0.34.30.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/flexmark-ext-jekyll-tag-0.34.30.jar
+[2026-10-10T09:27:15.180Z] [INFO] Copying aspectjweaver-1.9.1.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/aspectjweaver-1.9.1.jar
+[2026-10-10T09:27:15.180Z] [INFO] Copying openhtmltopdf-core-0.0.1-RC13.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/openhtmltopdf-core-0.0.1-RC13.jar
+[2026-10-10T09:27:15.180Z] [INFO] Copying icu4j-59.1.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/icu4j-59.1.jar
+[2026-10-10T09:27:15.180Z] [INFO] Copying annotations-13.0.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/annotations-13.0.jar
+[2026-10-10T09:27:15.180Z] [INFO] Copying flexmark-ext-anchorlink-0.34.30.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/flexmark-ext-anchorlink-0.34.30.jar
+[2026-10-10T09:27:15.180Z] [INFO] Copying jetty-repacked-9.4.12.v20180830.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/jetty-repacked-9.4.12.v20180830.jar
+[2026-10-10T09:27:15.180Z] [INFO] Copying kotlin-stdlib-common-1.2.51.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/kotlin-stdlib-common-1.2.51.jar
+[2026-10-10T09:27:15.180Z] [INFO] Copying jsoup-1.10.3.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/jsoup-1.10.3.jar
+[2026-10-10T09:27:15.180Z] [INFO] Copying gherkin-5.0.0.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/gherkin-5.0.0.jar
+[2026-10-10T09:27:15.180Z] [INFO] Copying javax.el-2.2.4.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/javax.el-2.2.4.jar
+[2026-10-10T09:27:15.180Z] [INFO] Copying hamcrest-library-1.3.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/hamcrest-library-1.3.jar
+[2026-10-10T09:27:15.180Z] [INFO] Copying animal-sniffer-annotations-1.14.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/animal-sniffer-annotations-1.14.jar
+[2026-10-10T09:27:15.180Z] [INFO] Copying flexmark-formatter-0.34.30.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/flexmark-formatter-0.34.30.jar
+[2026-10-10T09:27:15.180Z] [INFO] Copying jcommander-1.72.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/jcommander-1.72.jar
+[2026-10-10T09:27:15.180Z] [INFO] Copying selenium-firefox-driver-3.141.5.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/selenium-firefox-driver-3.141.5.jar
+[2026-10-10T09:27:15.180Z] [INFO] Copying flexmark-ext-ins-0.34.30.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/flexmark-ext-ins-0.34.30.jar
+[2026-10-10T09:27:15.180Z] [INFO] Copying jruby-complete-1.7.26.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/jruby-complete-1.7.26.jar
+[2026-10-10T09:27:15.180Z] [INFO] Copying commons-io-2.6.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/commons-io-2.6.jar
+[2026-10-10T09:27:15.180Z] [INFO] Copying joda-time-2.7.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/joda-time-2.7.jar
+[2026-10-10T09:27:15.180Z] [INFO] Copying openhtmltopdf-rtl-support-0.0.1-RC13.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/openhtmltopdf-rtl-support-0.0.1-RC13.jar
+[2026-10-10T09:27:15.180Z] [INFO] Copying flexmark-test-util-0.34.30.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/flexmark-test-util-0.34.30.jar
+[2026-10-10T09:27:15.180Z] [INFO] Copying selenium-remote-driver-3.141.5.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/selenium-remote-driver-3.141.5.jar
+[2026-10-10T09:27:15.180Z] [INFO] Copying xmlpull-1.1.3.1.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/xmlpull-1.1.3.1.jar
+[2026-10-10T09:27:15.180Z] [INFO] Copying okio-1.14.0.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/okio-1.14.0.jar
+[2026-10-10T09:27:15.180Z] [INFO] Copying hamcrest-core-1.3.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/hamcrest-core-1.3.jar
+[2026-10-10T09:27:15.180Z] [INFO] Copying jaxb-api-2.2.11.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/jaxb-api-2.2.11.jar
+[2026-10-10T09:27:15.180Z] [INFO] Copying htmlunit-cssparser-1.2.0.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/htmlunit-cssparser-1.2.0.jar
+[2026-10-10T09:27:15.180Z] [INFO] Copying serenity-core-2.0.20.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/serenity-core-2.0.20.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying ant-launcher-1.9.6.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/ant-launcher-1.9.6.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying txtmark-0.16.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/txtmark-0.16.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying guice-4.2.0.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/guice-4.2.0.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying selenium-java-3.141.5.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/selenium-java-3.141.5.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying jetty-client-9.4.12.v20180830.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/jetty-client-9.4.12.v20180830.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying flexmark-ext-toc-0.34.30.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/flexmark-ext-toc-0.34.30.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying flexmark-pdf-converter-0.34.30.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/flexmark-pdf-converter-0.34.30.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying flexmark-ext-xwiki-macros-0.34.30.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/flexmark-ext-xwiki-macros-0.34.30.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying httpcore-4.4.9.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/httpcore-4.4.9.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying flexmark-ext-yaml-front-matter-0.34.30.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/flexmark-ext-yaml-front-matter-0.34.30.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying spring-jcl-5.0.5.RELEASE.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/spring-jcl-5.0.5.RELEASE.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying selenium-support-3.141.5.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/selenium-support-3.141.5.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying assertj-core-3.11.1.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/assertj-core-3.11.1.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying phantomjsdriver-1.4.4.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/phantomjsdriver-1.4.4.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying checker-compat-qual-2.0.0.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/checker-compat-qual-2.0.0.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying flexmark-all-0.34.30.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/flexmark-all-0.34.30.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying selenium-ie-driver-3.141.5.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/selenium-ie-driver-3.141.5.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying selenium-edge-driver-3.141.5.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/selenium-edge-driver-3.141.5.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying flexmark-ext-enumerated-reference-0.34.30.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/flexmark-ext-enumerated-reference-0.34.30.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying j2objc-annotations-1.1.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/j2objc-annotations-1.1.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying flexmark-ext-admonition-0.34.30.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/flexmark-ext-admonition-0.34.30.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying openhtmltopdf-jsoup-dom-converter-0.0.1-RC13.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/openhtmltopdf-jsoup-dom-converter-0.0.1-RC13.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying websocket-client-9.4.12.v20180830.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/websocket-client-9.4.12.v20180830.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying flexmark-ext-tables-0.34.30.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/flexmark-ext-tables-0.34.30.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying ngwebdriver-1.1.4.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/ngwebdriver-1.1.4.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying xpp3_min-1.1.4c.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/xpp3_min-1.1.4c.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying websocket-api-9.4.12.v20180830.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/websocket-api-9.4.12.v20180830.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying flexmark-ext-escaped-character-0.34.30.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/flexmark-ext-escaped-character-0.34.30.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying commons-beanutils-core-1.8.3.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/commons-beanutils-core-1.8.3.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying imgscalr-lib-4.2.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/imgscalr-lib-4.2.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying flexmark-ext-gitlab-0.34.30.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/flexmark-ext-gitlab-0.34.30.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying tyrus-spi-1.13.1.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/tyrus-spi-1.13.1.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying flexmark-ext-definition-0.34.30.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/flexmark-ext-definition-0.34.30.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying error_prone_annotations-2.1.3.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/error_prone_annotations-2.1.3.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying tag-expressions-1.1.1.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/tag-expressions-1.1.1.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying guava-25.0-jre.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/guava-25.0-jre.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying flexmark-ext-gfm-tables-0.34.30.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/flexmark-ext-gfm-tables-0.34.30.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying flexmark-ext-footnotes-0.34.30.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/flexmark-ext-footnotes-0.34.30.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying flexmark-youtrack-converter-0.34.30.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/flexmark-youtrack-converter-0.34.30.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying flexmark-ext-aside-0.34.30.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/flexmark-ext-aside-0.34.30.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying flexmark-ext-gfm-strikethrough-0.34.30.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/flexmark-ext-gfm-strikethrough-0.34.30.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying jetty-xml-9.4.12.v20180830.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/jetty-xml-9.4.12.v20180830.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying flexmark-ext-autolink-0.34.30.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/flexmark-ext-autolink-0.34.30.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying selenium-opera-driver-3.141.5.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/selenium-opera-driver-3.141.5.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying commons-digester-1.8.1.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/commons-digester-1.8.1.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying commons-collections-3.2.2.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/commons-collections-3.2.2.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying junit-4.12.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/junit-4.12.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying freemarker-2.3.28.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/freemarker-2.3.28.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying vavr-match-0.9.0.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/vavr-match-0.9.0.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying slf4j-api-1.7.25.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/slf4j-api-1.7.25.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying selenium-chrome-driver-3.141.5.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/selenium-chrome-driver-3.141.5.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying cucumber-jvm-deps-1.0.6.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/cucumber-jvm-deps-1.0.6.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying byte-buddy-1.8.12.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/byte-buddy-1.8.12.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying flexmark-ext-gfm-issues-0.34.30.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/flexmark-ext-gfm-issues-0.34.30.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying javax.el-api-2.2.4.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/javax.el-api-2.2.4.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying awaitility-3.1.0.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/awaitility-3.1.0.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying cglib-3.2.5.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/cglib-3.2.5.jar
+[2026-10-10T09:27:15.430Z] [INFO] Copying opencv-3.2.0-1.jar to /var/jenkins_home/workspace/ex-116-full/target/dependency-jars/opencv-3.2.0-1.jar
+[2026-10-10T09:27:15.681Z] [INFO] 
+[2026-10-10T09:27:15.681Z] [INFO] --- assembly:2.5.4:single (default) @ cvs-auto-mobile-app ---
+[2026-10-10T09:27:15.931Z] [INFO] Reading assembly descriptor: src/main/assembly/zip.xml
+[2026-10-10T09:27:15.931Z] [INFO] Building zip: /var/jenkins_home/workspace/ex-116-full/target/mobile-automation.zip
+[2026-10-10T09:27:19.024Z] [INFO] 
+[2026-10-10T09:27:19.024Z] [INFO] --- install:3.1.2:install (default-install) @ cvs-auto-mobile-app ---
+[2026-10-10T09:27:19.024Z] [INFO] Installing /var/jenkins_home/workspace/ex-116-full/pom.xml to /var/jenkins_home/.m2/repository/cvs-auto-mobile-app/cvs-auto-mobile-app/1.0-SNAPSHOT/cvs-auto-mobile-app-1.0-SNAPSHOT.pom
+[2026-10-10T09:27:19.024Z] [INFO] Installing /var/jenkins_home/workspace/ex-116-full/target/cvs-auto-mobile-app-1.0-SNAPSHOT.jar to /var/jenkins_home/.m2/repository/cvs-auto-mobile-app/cvs-auto-mobile-app/1.0-SNAPSHOT/cvs-auto-mobile-app-1.0-SNAPSHOT.jar
+[2026-10-10T09:27:19.024Z] [INFO] Installing /var/jenkins_home/workspace/ex-116-full/target/cvs-auto-mobile-app-1.0-SNAPSHOT-tests.jar to /var/jenkins_home/.m2/repository/cvs-auto-mobile-app/cvs-auto-mobile-app/1.0-SNAPSHOT/cvs-auto-mobile-app-1.0-SNAPSHOT-tests.jar
+[2026-10-10T09:27:19.024Z] [INFO] Installing /var/jenkins_home/workspace/ex-116-full/target/mobile-automation.zip to /var/jenkins_home/.m2/repository/cvs-auto-mobile-app/cvs-auto-mobile-app/1.0-SNAPSHOT/cvs-auto-mobile-app-1.0-SNAPSHOT.zip
+[2026-10-10T09:27:19.575Z] [INFO] ------------------------------------------------------------------------
+[2026-10-10T09:27:19.575Z] [INFO] BUILD SUCCESS
+[2026-10-10T09:27:19.575Z] [INFO] ------------------------------------------------------------------------
+[2026-10-10T09:27:19.575Z] [INFO] Total time:  18.459 s
+[2026-10-10T09:27:19.575Z] [INFO] Finished at: 2026-10-10T09:27:19Z
+[2026-10-10T09:27:19.575Z] [INFO] ------------------------------------------------------------------------
+[2026-10-10T09:27:19.603Z] [Pipeline] }
+[2026-10-10T09:27:19.640Z] [Pipeline] // stage
+[2026-10-10T09:27:19.674Z] [Pipeline] stage
+[2026-10-10T09:27:19.683Z] [Pipeline] { (create report)
+[2026-10-10T09:27:19.721Z] [Pipeline] sh
+[2026-10-10T09:27:19.989Z] + mkdir -p target/site/serenity
+[2026-10-10T09:27:19.989Z] + echo <html><body><h1>DVSA CVS Mobile Automation</h1><p>j2gha-local stand-in for the Serenity report</p></body></html>
+[2026-10-10T09:27:20.035Z] [Pipeline] publishHTML
+[2026-10-10T09:27:20.048Z] [htmlpublisher] Archiving HTML reports...
+[2026-10-10T09:27:20.051Z] [htmlpublisher] Archiving at BUILD level /var/jenkins_home/workspace/ex-116-full/target/site/serenity to DVSA_20CVS_20Mobile_20Automation
+[2026-10-10T09:27:20.051Z] [htmlpublisher] Copying recursive using current thread
+[2026-10-10T09:27:20.076Z] [Pipeline] }
+[2026-10-10T09:27:20.101Z] [Pipeline] // stage
+[2026-10-10T09:27:20.112Z] [Pipeline] }
+[2026-10-10T09:27:20.137Z] [Pipeline] // node
+[2026-10-10T09:27:20.148Z] [Pipeline] End of Pipeline
+[2026-10-10T09:27:20.182Z] Finished: SUCCESS

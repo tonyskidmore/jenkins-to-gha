@@ -1,0 +1,20 @@
+@Library('platform-lib@v2') _
+import com.example.Config
+
+node('linux') {
+  stage('Checkout') {
+    checkout scm
+  }
+  def services = readYaml(file: 'services.yml').services
+  def branches = [:]
+  for (s in services) {
+    branches[s.name] = { sh "build ${s.name}" }
+  }
+  stage('Build') {
+    parallel branches
+  }
+  stage('Publish') {
+    platformPublish(service: 'orders')
+    load 'ci/extra.groovy'
+  }
+}
