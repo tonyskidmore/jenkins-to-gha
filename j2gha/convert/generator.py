@@ -1133,14 +1133,18 @@ def _mk(name: str, ctx: Ctx, inh: Inherit, kind: str, line: int | None, *, run: 
             with_ = {**(with_ or {}), "path": inh.working_dir}  # `dir('x') { checkout scm }` checks out into x
         if with_:
             step["with"] = with_
+    bare = None  # the command without the `docker run` wrapper (execution variants: no Docker on the reference)
     if run is not None:
         if inh.exports and kind in ("sh", "echo", "writeFile"):
             run = "\n".join(_export(k, v) for k, v in inh.exports) + "\n" + run
         if inh.wrap_image and kind in ("sh",):
+            bare = run
             run = (f"docker run --rm -v \"$PWD\":\"$PWD\" -w \"$PWD\" --env-file <(env | grep -v '^PATH=') "
                    f"{inh.wrap_image} sh -c {shlex.quote(run)}")
         shell = shell or inh.shell
         if inh.retry and inh.retry > 1:
+            if bare is not None:
+                bare = _retry_loop(bare, shell, inh.retry, ctx, inh.stage, line)[0]
             run, shell = _retry_loop(run, shell, inh.retry, ctx, inh.stage, line)
         step["run"] = run
         if shell:
@@ -1155,6 +1159,8 @@ def _mk(name: str, ctx: Ctx, inh: Inherit, kind: str, line: int | None, *, run: 
     if inh.timeout:
         step["timeout-minutes"] = inh.timeout
     step["_j2gha"] = {"kind": kind, "stage": inh.stage, "line": line, "trace": trace}
+    if bare is not None:
+        step["_j2gha"]["run_without_docker"] = bare
     if inh.concurrent:
         step["_j2gha"]["concurrent"] = True
     return step
@@ -1404,7 +1410,7 @@ def _step(s: Step, ctx: Ctx, inh: Inherit) -> list[dict[str, Any]]:
         paths = _artifact_paths(inh, includes, _groovy_text_to_expr(str(s.named.get("excludes") or "")),
                                 default_excludes=_flag(s, "useDefaultExcludes"))
         return [_mk(f"{label}stash {name}", ctx, inh, "stash", s.line, uses=ACTIONS["upload-artifact"],
-                    with_={"name": f"stash-{_slug(name)}", "path": "\n".join(paths), "retention-days": 1,
+                    with_={"name": _stash_artifact(name), "path": "\n".join(paths), "retention-days": 1,
                            "include-hidden-files": True, "if-no-files-found": "ignore" if allow_empty else "error"})]
     if n == "unstash":
         name = str(_arg(s, "name") or "stash")
@@ -1416,8 +1422,8 @@ def _step(s: Step, ctx: Ctx, inh: Inherit) -> list[dict[str, Any]]:
         dest = "/".join(x for x in (inh.working_dir, ctx.stashes.get(name, "")) if x)
         # an empty stash is a successful restore of nothing, not a tolerated failure: `continue-on-error` would leave
         # the step's outcome 'failure', which stage post conditions read (review R8-6)
-        what = {"pattern": f"stash-{_slug(name)}", "merge-multiple": True} if allow_empty else \
-            {"name": f"stash-{_slug(name)}"}
+        what = {"pattern": _stash_artifact(name), "merge-multiple": True} if allow_empty else \
+            {"name": _stash_artifact(name)}
         return [_mk(f"{label}unstash {name}", ctx, inh, "unstash", s.line, uses=ACTIONS["download-artifact"],
                     with_={**what, **({"path": dest} if dest else {})})]
     if n in ("publishHTML",):
@@ -1703,6 +1709,14 @@ def _heredoc_escape(s: str) -> str:
 
 def _slug(s: str) -> str:
     return re.sub(r"[^A-Za-z0-9_.-]+", "-", s).strip("-") or "x"
+
+
+def _stash_artifact(name: str) -> str:
+    """A stash's artifact name: `stash name: "ROBOT_${ROBOT}_urdf"` in a matrix cell is that cell's value, so the
+    interpolation becomes an expression and only the literal text is slugged (`unstash 'ROBOT_fr3_urdf'` finds it)."""
+    parts = re.split(r"(\$\{\{.*?\}\})", _groovy_text_to_expr(name))
+    out = "".join(x if x.startswith("${{") else re.sub(r"[^A-Za-z0-9_.-]+", "-", x) for x in parts).strip("-")
+    return f"stash-{out or 'x'}"
 
 
 def _in_dir(inh: Inherit, path: str) -> str:

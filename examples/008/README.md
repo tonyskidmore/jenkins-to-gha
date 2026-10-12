@@ -187,7 +187,7 @@ Trace mode compares the per-stage sequence of executed steps (`J2GHA-TRACE` mark
 |---|---|---|---:|---:|---|---|
 | jenkins | trace | SUCCESS | 140 | - | reference | 9 localisation changes, 80 stubs; auto-repair: [['stub-property', 'buildSummary'], ['stub-property', 'AWS_ACCESS_KEY_ID'], ['stub-property', 'AWS_SECRET_ACCESS_KEY']] |
 | act | trace | success | 14 | 9.3% | ❌ differs |  |
-| hosted | trace | success | 14 | 9.3% | ❌ differs | billable ≈ 1 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38250200318) |
+| hosted | trace | success | 14 | 9.3% | ❌ differs | billable ≈ 1 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38261176715) |
 | jenkins | full | FAILURE | 1 | - | reference | 9 localisation changes, 40 stubs; auto-repair: [['stub-property', 'buildSummary']] |
 | act | full | failure | 0 | - | ⚠️ inconclusive |  |
 

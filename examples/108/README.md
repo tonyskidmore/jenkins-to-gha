@@ -194,10 +194,10 @@ Trace mode compares the per-stage sequence of executed steps (`J2GHA-TRACE` mark
 |---|---|---|---:|---:|---|---|
 | jenkins | trace | SUCCESS | 140 | - | reference | 7 localisation changes, 79 stubs; auto-repair: [['stub-property', 'buildSummary'], ['stub-property', 'AWS_ACCESS_KEY_ID'], ['stub-property', 'AWS_SECRET_ACCESS_KEY']] |
 | act | trace | success | 14 | 9.3% | ❌ differs |  |
-| hosted | trace | success | 14 | 9.3% | ❌ differs | billable ≈ 1 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38250521974) |
+| hosted | trace | success | 14 | 9.3% | ❌ differs | billable ≈ 1 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38265853958) |
 | jenkins | full | SUCCESS | 1 | - | reference | 7 localisation changes, 40 stubs; auto-repair: [['stub-property', 'buildSummary']] |
-| act | full | failure | 0 | - | ❌ different outcome |  |
-| selfhosted | full | failure | 0 | - | ❌ different outcome | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38250783548) |
+| act | full | success | 0 | - | ✅ same outcome |  |
+| selfhosted | full | success | 0 | - | ✅ same outcome | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38266142884) |
 
 Estimated hosted cost of a trace run: ~1 billable minute(s) (worst case 5).
 
@@ -235,6 +235,6 @@ Estimated hosted cost of a trace run: ~1 billable minute(s) (worst case 5).
 - `Checkout and Init`: differs - jenkins ['cleanWs', 'checkout', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'stash'] vs hosted ['cleanWs', 'checkout', 'pipelineContextFactory', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'stash']
 
 </details>
-- full mode (act): Jenkins **SUCCESS** (first failed stage: -); act **failure** (first failed step: `Checkout and Init: echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-8/x64-linux/j`); no test results on either side; nothing archived on either side
-- full mode (selfhosted): Jenkins **SUCCESS** (first failed stage: -); selfhosted **failure** (first failed step: `Checkout and Init: echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-8/x64-linux/j`); no test results on either side; nothing archived on either side
+- full mode (act): Jenkins **SUCCESS** (first failed stage: -); act **success** (first failed step: `-`); no test results on either side; nothing archived on either side
+- full mode (selfhosted): Jenkins **SUCCESS** (first failed stage: -); selfhosted **success** (first failed step: `-`); no test results on either side; nothing archived on either side
 <!-- j2gha:execution:end -->

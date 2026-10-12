@@ -3,7 +3,7 @@
   "mode": "full",
   "result": "failure",
   "exit_code": 1,
-  "seconds": 84.5,
+  "seconds": 80.9,
   "jobs": {
     "check-commit-message": {
       "result": "success"
@@ -17,14 +17,14 @@
   },
   "traces": [],
   "failed_steps": [
-    "Build agent image (agent dockerfile)",
+    "Run URDF tests: .ci/run_urdf_tests.sh",
     "Restore pipeline workspace (trigger-upstream-franka_ros2_ws-builds-h)",
     "Restore pipeline workspace (trigger-upstream-franka_ros2_ws-builds-j)",
     "Restore pipeline workspace (archive-urdfs-and-srdfs)"
   ],
   "error_tail": [
-    "{\"level\":\"info\",\"msg\":\"Using docker host 'unix:///var/run/docker.sock', and daemon socket '-'\",\"time\":\"2026-10-12T12:21:59Z\"}",
-    "{\"level\":\"info\",\"msg\":\"Start server on http://172.17.0.4:34567\",\"time\":\"2026-10-12T12:21:59Z\"}",
+    "{\"level\":\"info\",\"msg\":\"Using docker host 'unix:///var/run/docker.sock', and daemon socket '-'\",\"time\":\"2026-10-12T15:03:05Z\"}",
+    "{\"level\":\"info\",\"msg\":\"Start server on http://172.17.0.3:34567\",\"time\":\"2026-10-12T15:03:05Z\"}",
     "Error: Job 'Run URDF tests' failed"
   ],
   "outputs": {
@@ -33,14 +33,23 @@
     "injected": [
       {
         "path": ".github/workflows/j2gha.yml",
-        "size": 88200,
-        "sha256": "8cd14d42648853507667331521fa0aa0481ec5bce562fa5112eb4ba6522cbc8a"
+        "size": 87938,
+        "sha256": "027867327b15f4c2bac3a2c0b1a48d073a473f78178951061bd2279652329c23"
       }
     ]
   },
   "variant_notes": {
     "dropped_jobs": [],
     "matrix_jobs": 13,
+    "without_docker": {
+      "run-urdf-tests": [
+        "agent image build",
+        "docker run wrapper (Run URDF tests: .ci/run_urdf_tests.sh)"
+      ],
+      "archive-urdfs-and-srdfs": [
+        "job container"
+      ]
+    },
     "jobs": 13
   },
   "provenance": {
@@ -50,7 +59,7 @@
       "git_branch": "origin/main"
     },
     "mode": "full",
-    "model_sha256": "b173a2f2d83930c08092a7488f07b6b589ff5d7cd158266e137994b3bdc10874",
+    "model_sha256": "21e19fe39b47751f19d8df8d4b4324774b299543151c88406792801259271922",
     "images": {
       "jenkins": {
         "ref": "j2gha/jenkins:local",
@@ -102,17 +111,17 @@
       }
     }
   },
-  "finished_at": "2026-10-12T12:23:22+00:00",
+  "finished_at": "2026-10-12T15:04:25+00:00",
   "comparison": {
     "mode": "full",
-    "verdict": "inconclusive",
-    "equivalent": false,
-    "similarity_pct": null,
+    "verdict": "equivalent",
+    "equivalent": true,
+    "similarity_pct": 100.0,
     "jenkins_result": "FAILURE",
     "gha_result": "failure",
     "jenkins_failed_stage": "Run URDF tests",
-    "gha_failed_stage": null,
-    "gha_failed_step": "Build agent image (agent dockerfile)",
+    "gha_failed_stage": "Run URDF tests",
+    "gha_failed_step": "Run URDF tests: .ci/run_urdf_tests.sh",
     "stages": [],
     "outputs": {
       "tests": {
@@ -131,10 +140,6 @@
         "proven": false
       },
       "verdict": "same"
-    },
-    "inconclusive": {
-      "reason": "the failing stage is unknown on the converted side",
-      "stage": null
     }
   }
 }

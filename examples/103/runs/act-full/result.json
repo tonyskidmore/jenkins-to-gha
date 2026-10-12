@@ -3,12 +3,36 @@
   "mode": "full",
   "result": "failure",
   "exit_code": 1,
-  "seconds": 77.7,
+  "seconds": 175.1,
   "jobs": {
     "check-commit-message": {
       "result": "success"
     },
     "run-urdf-tests": {
+      "result": "success"
+    },
+    "build-robot-urdfs-and-srdfs {\"ROBOT\": \"fr3v2_1\"}": {
+      "result": "success"
+    },
+    "build-robot-urdfs-and-srdfs {\"ROBOT\": \"fr3v2\"}": {
+      "result": "success"
+    },
+    "build-robot-urdfs-and-srdfs {\"ROBOT\": \"fr3\"}": {
+      "result": "success"
+    },
+    "build-robot-urdfs-and-srdfs {\"ROBOT\": \"fp3\"}": {
+      "result": "success"
+    },
+    "build-robot-urdfs-and-srdfs {\"ROBOT\": \"tmrv0_2\"}": {
+      "result": "success"
+    },
+    "build-end-effector-urdfs {\"EE\": \"franka_hand\"}": {
+      "result": "success"
+    },
+    "build-end-effector-urdfs {\"EE\": \"cobot_pump\"}": {
+      "result": "success"
+    },
+    "archive-urdfs-and-srdfs": {
       "result": "failure"
     },
     "post": {
@@ -17,15 +41,14 @@
   },
   "traces": [],
   "failed_steps": [
-    "Build agent image (agent dockerfile)",
+    "Copy meshes to dist: copyCmd",
     "Restore pipeline workspace (trigger-upstream-franka_ros2_ws-builds-h)",
-    "Restore pipeline workspace (trigger-upstream-franka_ros2_ws-builds-j)",
-    "Restore pipeline workspace (archive-urdfs-and-srdfs)"
+    "Restore pipeline workspace (trigger-upstream-franka_ros2_ws-builds-j)"
   ],
   "error_tail": [
-    "{\"level\":\"info\",\"msg\":\"Using docker host 'unix:///var/run/docker.sock', and daemon socket '-'\",\"time\":\"2026-10-12T12:24:01Z\"}",
-    "{\"level\":\"info\",\"msg\":\"Start server on http://172.17.0.5:34567\",\"time\":\"2026-10-12T12:24:01Z\"}",
-    "Error: Job 'Run URDF tests' failed"
+    "{\"level\":\"info\",\"msg\":\"Using docker host 'unix:///var/run/docker.sock', and daemon socket '-'\",\"time\":\"2026-10-12T15:20:20Z\"}",
+    "{\"level\":\"info\",\"msg\":\"Start server on http://172.17.0.3:34567\",\"time\":\"2026-10-12T15:20:20Z\"}",
+    "Error: Job 'Archive URDFs and SRDFs' failed"
   ],
   "outputs": {
     "archived": [],
@@ -33,14 +56,23 @@
     "injected": [
       {
         "path": ".github/workflows/j2gha.yml",
-        "size": 88607,
-        "sha256": "a1ddc78e1ca977ea6245b7b5273171294d4c3739148c4e4340b694c45b532491"
+        "size": 88331,
+        "sha256": "ac28bf93481f85b98fc3ba3eae5cbebd571d8186c7ac3cee22af404aad27dd4e"
       }
     ]
   },
   "variant_notes": {
     "dropped_jobs": [],
     "matrix_jobs": 13,
+    "without_docker": {
+      "run-urdf-tests": [
+        "agent image build",
+        "docker run wrapper (Run URDF tests: echo \"skipped: .ci/run_urdf_tests.sh (colcon build and test need ROS 2)"
+      ],
+      "archive-urdfs-and-srdfs": [
+        "job container"
+      ]
+    },
     "jobs": 13
   },
   "provenance": {
@@ -50,7 +82,7 @@
       "git_branch": "origin/main"
     },
     "mode": "full",
-    "model_sha256": "13123a4c4f5536dd6d450ca33ac8aece3f73eec50d4d33dcc1ce1e97fcd1d0ec",
+    "model_sha256": "950dc29737b51eb79bda76bf8673ae58b4d8f76955923024fdf3a4053fad1536",
     "images": {
       "jenkins": {
         "ref": "j2gha/jenkins:local",
@@ -102,7 +134,7 @@
       }
     }
   },
-  "finished_at": "2026-10-12T12:25:17+00:00",
+  "finished_at": "2026-10-12T15:23:14+00:00",
   "comparison": {
     "mode": "full",
     "verdict": "differs",
@@ -111,8 +143,8 @@
     "jenkins_result": "SUCCESS",
     "gha_result": "failure",
     "jenkins_failed_stage": null,
-    "gha_failed_stage": null,
-    "gha_failed_step": "Build agent image (agent dockerfile)",
+    "gha_failed_stage": "Copy meshes to dist",
+    "gha_failed_step": "Copy meshes to dist: copyCmd",
     "stages": [],
     "outputs": {
       "tests": {

@@ -48,16 +48,47 @@ def stubbed_properties(reference: dict[str, Any] | None) -> list[str]:
     return list(dict.fromkeys(n for n in names if re.fullmatch(r"[A-Z_][A-Z0-9_]*", n)))
 
 
+def reference_had_docker(reference: dict[str, Any] | None) -> bool:
+    """Did the Jenkins reference run with Docker (`run --docker`)? Without it the localiser turns docker agents into
+    `agent any` and stubs `withDockerContainer` and the `docker` global, so their steps ran on the controller.
+    Unknown (no reference): True, the workflow as converted."""
+    stubs = ((reference or {}).get("localisation") or {}).get("stubs")
+    return stubs is None or "withDockerContainer" not in stubs
+
+
+def _without_docker(job: dict[str, Any], job_id: str, notes: dict[str, Any]) -> None:
+    """The steps as the Jenkins reference ran them without Docker: no job container, no agent image build, and every
+    `docker run` wrapped command bare (`_j2gha.run_without_docker`)."""
+    dropped = []
+    if job.pop("container", None) is not None:
+        dropped.append("job container")
+    steps = []
+    for st in job.get("steps", []):
+        meta = st.get("_j2gha") or {}
+        if meta.get("kind") == "dockerfile-agent":
+            dropped.append("agent image build")
+            continue
+        if "run_without_docker" in meta:
+            st["run"] = meta["run_without_docker"]
+            dropped.append(f"docker run wrapper ({st.get('name', '?')})")
+        steps.append(st)
+    job["steps"] = steps
+    if dropped:
+        notes.setdefault("without_docker", {})[job_id] = dropped
+
+
 def make_variant(model: dict[str, Any], mode: str, target: str, scenario: dict[str, Any],
                  source: dict[str, Any] | None = None, runner_label: str | None = None,
                  branch: str | None = None, max_minutes: int = 10,
                  environments: dict[str, str] | None = None,
                  stubbed: list[str] | None = None,
-                 job_name: str | None = None) -> tuple[dict[str, Any], dict[str, Any]]:
+                 job_name: str | None = None,
+                 docker: bool = True) -> tuple[dict[str, Any], dict[str, Any]]:
     """``environments`` (remote tiers, `run --environments`): harness environment name -> sha256 of its canary
     secret; the variant then keeps every job's environment under that name (gha.environments). Otherwise every
     `environment` is removed. ``stubbed``: stubbed_properties() of the Jenkins reference; ``job_name``: the Jenkins
-    job the reference ran in (`jenkins.run.harness_job`)."""
+    job the reference ran in (`jenkins.run.harness_job`); ``docker``: whether the reference ran with Docker
+    (reference_had_docker): without it, full mode runs the steps as the localised Jenkinsfile did, outside any container."""
     keep_env = bool(environments) and target != "act"
     wf = copy.deepcopy(model)
     # only declared parameters (the dispatch inputs) can be set by a scenario; pipeline and harness env cannot
@@ -116,6 +147,8 @@ def make_variant(model: dict[str, Any], mode: str, target: str, scenario: dict[s
             job["steps"] = _trace_steps(job.get("steps", []))
         else:
             job["timeout-minutes"] = min(int(job.get("timeout-minutes") or max_minutes), max_minutes)
+            if not docker:
+                _without_docker(job, job_id, notes)
             _confine_container(job, job_id, notes)
             for st in job.get("steps", []):
                 uses = str(st.get("uses", ""))

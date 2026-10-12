@@ -3,7 +3,7 @@
   "mode": "full",
   "result": "success",
   "exit_code": 0,
-  "seconds": 93.5,
+  "seconds": 36.5,
   "jobs": {
     "setup-env": {
       "result": "success"
@@ -25,8 +25,8 @@
     "archived": [
       {
         "path": "apache-couchdb-3.5.2.tar.gz",
-        "size": 18233,
-        "sha256": "3abbd40e7f4ecc9c09b03c7b202f62943612a79a9f46a9582e29823c4d244d07",
+        "size": 18228,
+        "sha256": "3ebe1c039621390e8f0e894f25072b2a07b18f9afa7c011bbf81188563983713",
         "artifact": "artifacts-19"
       }
     ],
@@ -34,18 +34,24 @@
     "injected": [
       {
         "path": ".github/workflows/j2gha.yml",
-        "size": 10365,
-        "sha256": "acb521b97245516f2f9d84c551f91aed40f872102101a677260dba43659124b2"
+        "size": 9609,
+        "sha256": "21c9f4442d65c2c2d2372852c9f1551df450a6708da492e1a8c0dea51249468f"
       }
     ]
   },
   "variant_notes": {
     "dropped_jobs": [],
     "matrix_jobs": 4,
-    "dropped_container_options": {
-      "setup-env": "-v=/etc/passwd:/etc/passwd -v /etc/group:/etc/group -v /home/jenkins/.gradle:/home/jenkins/.gradle:rw,z -v /home/jenkins/.hex:/home/jenkins/.hex:rw,z -v /home/jenkins/.npm:/home/jenkins/.npm:rw,z -v /home/jenkins/.cache/pip:/home/jenkins/.cache/pip:rw,z -v /home/jenkins/.mix:/home/jenkins/.mix:rw,z",
-      "build-docs": "-v=/etc/passwd:/etc/passwd -v /etc/group:/etc/group -v /home/jenkins/.gradle:/home/jenkins/.gradle:rw,z -v /home/jenkins/.hex:/home/jenkins/.hex:rw,z -v /home/jenkins/.npm:/home/jenkins/.npm:rw,z -v /home/jenkins/.cache/pip:/home/jenkins/.cache/pip:rw,z -v /home/jenkins/.mix:/home/jenkins/.mix:rw,z",
-      "build-release-tarball": "-v=/etc/passwd:/etc/passwd -v /etc/group:/etc/group -v /home/jenkins/.gradle:/home/jenkins/.gradle:rw,z -v /home/jenkins/.hex:/home/jenkins/.hex:rw,z -v /home/jenkins/.npm:/home/jenkins/.npm:rw,z -v /home/jenkins/.cache/pip:/home/jenkins/.cache/pip:rw,z -v /home/jenkins/.mix:/home/jenkins/.mix:rw,z"
+    "without_docker": {
+      "setup-env": [
+        "job container"
+      ],
+      "build-docs": [
+        "job container"
+      ],
+      "build-release-tarball": [
+        "job container"
+      ]
     },
     "jobs": 4
   },
@@ -108,7 +114,7 @@
       }
     }
   },
-  "finished_at": "2026-10-12T12:16:48+00:00",
+  "finished_at": "2026-10-12T14:15:29+00:00",
   "comparison": {
     "mode": "full",
     "verdict": "differs",

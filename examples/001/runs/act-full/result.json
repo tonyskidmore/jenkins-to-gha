@@ -3,7 +3,7 @@
   "mode": "full",
   "result": "failure",
   "exit_code": 1,
-  "seconds": 185.2,
+  "seconds": 26.1,
   "jobs": {
     "setup-env": {
       "result": "success"
@@ -20,8 +20,8 @@
     "Build Release Tarball: ./configure --spidermonkey-version 128 --with-nouveau"
   ],
   "error_tail": [
-    "{\"level\":\"info\",\"msg\":\"Using docker host 'unix:///var/run/docker.sock', and daemon socket '-'\",\"time\":\"2026-10-12T12:13:35Z\"}",
-    "{\"level\":\"info\",\"msg\":\"Start server on http://172.17.0.3:34567\",\"time\":\"2026-10-12T12:13:35Z\"}",
+    "{\"level\":\"info\",\"msg\":\"Using docker host 'unix:///var/run/docker.sock', and daemon socket '-'\",\"time\":\"2026-10-12T13:57:29Z\"}",
+    "{\"level\":\"info\",\"msg\":\"Start server on http://172.17.0.3:34567\",\"time\":\"2026-10-12T13:57:30Z\"}",
     "Error: Job 'Build Release Tarball' failed"
   ],
   "outputs": {
@@ -30,18 +30,24 @@
     "injected": [
       {
         "path": ".github/workflows/j2gha.yml",
-        "size": 8625,
-        "sha256": "46e02b38ffb69cd0cafdfc1564fa67e8e0efa8e9bd2c7a6ef3b35e96a0c7acc4"
+        "size": 7869,
+        "sha256": "5152c4d466078ce62f543ecf34395980d2c5eec132ccda0fc9d5062bb8434d4c"
       }
     ]
   },
   "variant_notes": {
     "dropped_jobs": [],
     "matrix_jobs": 4,
-    "dropped_container_options": {
-      "setup-env": "-v=/etc/passwd:/etc/passwd -v /etc/group:/etc/group -v /home/jenkins/.gradle:/home/jenkins/.gradle:rw,z -v /home/jenkins/.hex:/home/jenkins/.hex:rw,z -v /home/jenkins/.npm:/home/jenkins/.npm:rw,z -v /home/jenkins/.cache/pip:/home/jenkins/.cache/pip:rw,z -v /home/jenkins/.mix:/home/jenkins/.mix:rw,z",
-      "build-docs": "-v=/etc/passwd:/etc/passwd -v /etc/group:/etc/group -v /home/jenkins/.gradle:/home/jenkins/.gradle:rw,z -v /home/jenkins/.hex:/home/jenkins/.hex:rw,z -v /home/jenkins/.npm:/home/jenkins/.npm:rw,z -v /home/jenkins/.cache/pip:/home/jenkins/.cache/pip:rw,z -v /home/jenkins/.mix:/home/jenkins/.mix:rw,z",
-      "build-release-tarball": "-v=/etc/passwd:/etc/passwd -v /etc/group:/etc/group -v /home/jenkins/.gradle:/home/jenkins/.gradle:rw,z -v /home/jenkins/.hex:/home/jenkins/.hex:rw,z -v /home/jenkins/.npm:/home/jenkins/.npm:rw,z -v /home/jenkins/.cache/pip:/home/jenkins/.cache/pip:rw,z -v /home/jenkins/.mix:/home/jenkins/.mix:rw,z"
+    "without_docker": {
+      "setup-env": [
+        "job container"
+      ],
+      "build-docs": [
+        "job container"
+      ],
+      "build-release-tarball": [
+        "job container"
+      ]
     },
     "jobs": 4
   },
@@ -104,7 +110,7 @@
       }
     }
   },
-  "finished_at": "2026-10-12T12:16:39+00:00",
+  "finished_at": "2026-10-12T13:57:55+00:00",
   "comparison": {
     "mode": "full",
     "verdict": "equivalent",
