@@ -3,7 +3,7 @@ name: j2gha harness run
 on:
   push:
     branches:
-    - j2gha/run/011-full-selfhosted-20261012091159
+    - j2gha/run/011-full-selfhosted-20261012131008
   workflow_dispatch:
 permissions:
   contents: read
@@ -11,7 +11,7 @@ env:
   BRANCH_NAME: main
   TAG_NAME: ''
   CHANGE_ID: ''
-  JOB_NAME: ${{ github.workflow }}
+  JOB_NAME: ex-011-full
   APPLICATION_NAME: 'TODO-j2gha: application'
   GIT_COMMIT: c4b839ddc8934f978a3f5c336dd144bfaf5fc464
   GIT_BRANCH: origin/main
@@ -24,7 +24,7 @@ jobs:
     name: Checkout, Install, Test, Build
     runs-on:
     - self-hosted
-    - j2gha-81cdc2f8
+    - j2gha-8866a85c
     timeout-minutes: 10
     steps:
     - name: Checkout

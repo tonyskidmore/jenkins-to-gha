@@ -2,7 +2,7 @@
 
 - **Classification:** significant-redesign (difficulty 67/100)
 - **Convertibility:** partial
-- **Automated mapping (effort estimate, not correctness):** 32.4% (5 mapped, 3 approximated, 13 manual, 0 dropped)
+- **Automated mapping (effort estimate, not correctness):** 46.7% (8 mapped, 3 approximated, 10 manual, 0 dropped)
 - **Weighted step coverage (analysis):** 32.9%
 
 ## Secrets required
@@ -19,8 +19,12 @@
 
 | | Jenkins | Line | Stage | GitHub Actions | Note |
 |---|---|---:|---|---|---|
+| ✅ mapped | `decl sbtOnMain = no` | 3 |  | run: $GITHUB_ENV | later steps of the job read the variable |
+| ✅ mapped | `decl podLabel = Jenkinsfile-apibuilder` | 8 |  | run: $GITHUB_ENV | later steps of the job read the variable |
 | ✅ mapped | `echo` | 18 | Checkout | run: echo |  |
 | ✅ mapped | `checkout scm` | 19 | Checkout | actions/checkout@v4 |  |
+| ✅ mapped | `decl jsondata = 
+      [{"serviceName": "apibuilder-api` | 31 |  | run: $GITHUB_ENV | later steps of the job read the variable |
 | ✅ mapped | `withCredentials string 'jenkins-argocd-token'` | 41 |  | secrets -> step env |  |
 | ✅ mapped | `cleanWs` | 66 |  | run: workspace cleanup | runners are ephemeral; kept for parity |
 | ✅ mapped | `echo` | 67 |  | run: echo |  |
@@ -28,16 +32,12 @@
 | 🟡 approximated | `node (in steps)` | 13 |  | inlined | nested agent allocation flattened |
 | 🟡 approximated | `try/catch/finally (line 14)` | 14 |  | steps; catch -> if: a try step failed; finally -> if: always() once entered | exception types are not distinguished |
 | 🔴 manual | `decl _ = <not implemented yet for class: org.codehaus.g` | 1 |  | - | Groovy variable assignment |
-| 🔴 manual | `decl sbtOnMain = no` | 3 |  | - | Groovy variable assignment |
-| 🔴 manual | `decl podLabel = Jenkinsfile-apibuilder` | 8 |  | - | Groovy variable assignment |
 | 🔴 manual | `podTemplate` | 9 |  | placeholder step | redesign step with no deterministic mapping |
 | 🔴 manual | `checkoutWithTags` | 15 |  | placeholder step | unknown step with no deterministic mapping (plugin/shared-library step) |
 | 🔴 manual | `assign semversion = taggingv2(...)` | 24 | tagging | - | Groovy variable assignment from a step |
 | 🔴 manual | `taggingv2` | 24 | tagging | placeholder step | unknown step with no deterministic mapping (plugin/shared-library step) |
 | 🔴 manual | `println` | 25 | tagging | - | Groovy method / helper call - port logic to a script |
 | 🔴 manual | `checkoutWithTags` | 29 |  | placeholder step | unknown step with no deterministic mapping (plugin/shared-library step) |
-| 🔴 manual | `decl jsondata = 
-      [{"serviceName": "apibuilder-api` | 31 |  | - | Groovy variable assignment |
 | 🔴 manual | `mainJenkinsBuildArgo` | 42 |  | placeholder step | unknown step with no deterministic mapping (plugin/shared-library step) |
 | 🔴 manual | `assign currentBuild.result = FAILURE` | 62 |  | - | Groovy variable assignment |
 | 🔴 manual | `throw (throw e)` | 63 |  | placeholder | Groovy control flow requires manual migration |
@@ -71,7 +71,7 @@ pipeline [scripted]
 
 Where to read about each construct above, most work first: jenkins.io and docs.github.com (GitHub.com) pages from the crosswalk in `j2gha/rules/docs-xref.yaml`. With the local docs bundles fetched, `uv run j2gha docs xref <construct>` resolves the same pages offline, or for another GitHub version.
 
-- **`scripted`** (🔴 6 manual, 🟡 1 approximated): Groovy control flow -> expressions/if, matrix, or a script step; anything dynamic needs redesign.
+- **`scripted`** (🔴 3 manual, 🟡 1 approximated, ✅ 3 mapped): Groovy control flow -> expressions/if, matrix, or a script step; anything dynamic needs redesign.
   - Jenkins: [syntax #scripted-pipeline](https://www.jenkins.io/doc/book/pipeline/syntax/#scripted-pipeline) · [cps-method-mismatches](https://www.jenkins.io/doc/book/pipeline/cps-method-mismatches/)
   - GitHub Actions: [migrate-from-jenkins](https://docs.github.com/en/actions/tutorials/migrate-to-github-actions/manual-migrations/migrate-from-jenkins)
 - **`podTemplate`** (🔴 1 manual): Kubernetes pod agents -> ARC runner scale sets, or job container + services.

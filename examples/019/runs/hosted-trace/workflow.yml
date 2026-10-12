@@ -3,7 +3,7 @@ name: j2gha harness run
 on:
   push:
     branches:
-    - j2gha/run/019-trace-hosted-20261012082138
+    - j2gha/run/019-trace-hosted-20261012130235
   workflow_dispatch:
 permissions:
   contents: read
@@ -15,6 +15,12 @@ env:
   WORKSPACE: ${{ github.workspace }}
   GIT_COMMIT: ${{ github.sha }}
   GIT_URL: ${{ github.server_url }}/${{ github.repository }}.git
+  TARGET_LOCATION: j2gha-stub
+  GIT_REPO_URL: j2gha-stub
+  PLUGIN: j2gha-stub
+  BUCKET: j2gha-stub
+  IPA_FILE_NAME: j2gha-stub
+  INTEGRATION_TEST_CHECK: j2gha-stub
 defaults:
   run:
     shell: bash
@@ -25,11 +31,13 @@ jobs:
     timeout-minutes: 5
     steps:
     - name: deleteDir
-      id: s7
+      id: s14
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"","step":"deleteDir"}'
     - name: stash ${target_location}
-      id: s16
+      id: s23
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"","step":"stash"}'
+    outputs:
+      target_location: ${{ steps.s6.outputs.target_location }}
   main-2:
     name: main, NPM Install, Security Check, SonarQube, Unit Tests, NPM Build, Cordova Platform
     needs: main
@@ -37,14 +45,16 @@ jobs:
     timeout-minutes: 5
     steps:
     - name: deleteDir
-      id: s18
+      id: s25
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"","step":"deleteDir"}'
     - name: unstash ${target_location}
-      id: s21
+      id: s28
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"","step":"unstash"}'
     - name: stash build
-      id: s55
+      id: s62
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"","step":"stash"}'
+    env:
+      target_location: ${{ needs.main.outputs.target_location }}
   main-3:
     name: main, Upload to S3, Generate bucket URL
     needs: main-2
@@ -52,8 +62,8 @@ jobs:
     timeout-minutes: 5
     steps:
     - name: deleteDir
-      id: s58
+      id: s65
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"","step":"deleteDir"}'
     - name: unstash build
-      id: s59
+      id: s66
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"","step":"unstash"}'

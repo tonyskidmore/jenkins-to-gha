@@ -355,8 +355,34 @@
           }
         },
         {
-          "name": "Echo environment: Groovy if (manual)",
+          "name": "Echo environment: set knd",
           "id": "s5",
+          "if": "steps.s1.outputs.run == 'true'",
+          "run": "knd=\"${KIND_VERSION}\"\n{ echo 'knd<<J2GHA_EOF'; printf '%s\\n' \"$knd\"; echo J2GHA_EOF; } >> \"$GITHUB_ENV\"\n{ echo 'knd<<J2GHA_EOF'; printf '%s\\n' \"$knd\"; echo J2GHA_EOF; } >> \"$GITHUB_OUTPUT\"",
+          "shell": "bash",
+          "_j2gha": {
+            "kind": "script-assign",
+            "stage": "Echo environment",
+            "line": 245,
+            "trace": false
+          }
+        },
+        {
+          "name": "Echo environment: set k8s",
+          "id": "s6",
+          "if": "steps.s1.outputs.run == 'true'",
+          "run": "k8s=\"${KUBE_VERSION}\"\n{ echo 'k8s<<J2GHA_EOF'; printf '%s\\n' \"$k8s\"; echo J2GHA_EOF; } >> \"$GITHUB_ENV\"\n{ echo 'k8s<<J2GHA_EOF'; printf '%s\\n' \"$k8s\"; echo J2GHA_EOF; } >> \"$GITHUB_OUTPUT\"",
+          "shell": "bash",
+          "_j2gha": {
+            "kind": "script-assign",
+            "stage": "Echo environment",
+            "line": 246,
+            "trace": false
+          }
+        },
+        {
+          "name": "Echo environment: Groovy if (manual)",
+          "id": "s7",
           "if": "steps.s1.outputs.run == 'true'",
           "run": "echo \"::warning::manual migration: Groovy condition at line 247: knd != null && k8s != null\"",
           "_j2gha": {
@@ -368,7 +394,7 @@
         },
         {
           "name": "Echo environment: echo",
-          "id": "s6",
+          "id": "s8",
           "if": "steps.s1.outputs.run == 'true'",
           "run": "export runtime_path=\"${WORKSPACE}/bin:${PATH}\"\necho \"Kind Image = ${_kind_image}\"",
           "_j2gha": {
@@ -380,7 +406,7 @@
         },
         {
           "name": "Echo environment: if (line 262)",
-          "id": "s7",
+          "id": "s9",
           "if": "(steps.s1.outputs.run == 'true') && (env.JOB_NAME == 'wko-kind-k8sversion')",
           "run": "echo \"taken=true\" >> \"$GITHUB_OUTPUT\"",
           "_j2gha": {
@@ -393,8 +419,8 @@
         },
         {
           "name": "Echo environment: if (line 262)",
-          "id": "s8",
-          "if": "(steps.s1.outputs.run == 'true') && (steps.s7.outcome == 'skipped')",
+          "id": "s10",
+          "if": "(steps.s1.outputs.run == 'true') && (steps.s9.outcome == 'skipped')",
           "run": "echo \"taken=false\" >> \"$GITHUB_OUTPUT\"",
           "_j2gha": {
             "kind": "if-decision",
@@ -406,7 +432,7 @@
         },
         {
           "name": "Build WebLogic Kubernetes Operator: mkdir -p operator/target && echo built > operator/target/weblogic-kube",
-          "id": "s9",
+          "id": "s11",
           "if": "steps.s1.outputs.run == 'true'",
           "run": "mkdir -p operator/target && echo built > operator/target/weblogic-kubernetes-operator.jar",
           "_j2gha": {
@@ -418,7 +444,7 @@
         },
         {
           "name": "Make Workspace bin directory: mkdir -m777 -p ${WORKSPACE}/bin",
-          "id": "s10",
+          "id": "s12",
           "if": "steps.s1.outputs.run == 'true'",
           "run": "mkdir -m777 -p ${WORKSPACE}/bin",
           "_j2gha": {
@@ -430,7 +456,7 @@
         },
         {
           "name": "Make Workspace bin directory: printf '%s\\n' '#!/bin/sh' '[ -p /dev/stdin ] && cat >/dev/null' 'echo",
-          "id": "s11",
+          "id": "s13",
           "if": "steps.s1.outputs.run == 'true'",
           "run": "printf '%s\\n' '#!/bin/sh' '[ -p /dev/stdin ] && cat >/dev/null' 'echo \"podman $* (j2gha-local stub)\"' > ${WORKSPACE}/bin/podman && chmod +x ${WORKSPACE}/bin/podman",
           "_j2gha": {
@@ -442,7 +468,7 @@
         },
         {
           "name": "Install Helm: export PATH=${runtime_path}",
-          "id": "s12",
+          "id": "s14",
           "if": "steps.s1.outputs.run == 'true'",
           "run": "export runtime_path=\"${WORKSPACE}/bin:${PATH}\"\nexport PATH=${runtime_path}\nmkdir -p linux-amd64 && printf '%s\\n' '#!/bin/sh' '[ -p /dev/stdin ] && cat >/dev/null' 'echo \"helm $* (j2gha-local stub v${HELM_VERSION})\"' > linux-amd64/helm && chmod +x linux-amd64/helm && tar zcf helm.tar.gz linux-amd64 && rm -rf linux-amd64  # j2gha-local: was oci os object get of helm-v${HELM_VERSION}.tar.gz (OCI instance principal); packs a stub helm the same way\ntar zxf helm.tar.gz\nmv linux-amd64/helm ${WORKSPACE}/bin/helm\nrm -rf linux-amd64\nhelm version",
           "_j2gha": {
@@ -454,7 +480,7 @@
         },
         {
           "name": "Run Helm installation tests: export PATH=\"${WORKSPACE}/bin:${PATH}\"",
-          "id": "s13",
+          "id": "s15",
           "if": "steps.s1.outputs.run == 'true'",
           "run": "export PATH=\"${WORKSPACE}/bin:${PATH}\"\necho mvn -pl kubernetes -P helm-installation-test verify  # j2gha-local: the chart tests need a Kubernetes cluster",
           "_j2gha": {
@@ -466,7 +492,7 @@
         },
         {
           "name": "Install kubectl: export PATH=${runtime_path}",
-          "id": "s14",
+          "id": "s16",
           "if": "steps.s1.outputs.run == 'true'",
           "run": "export runtime_path=\"${WORKSPACE}/bin:${PATH}\"\nexport KUBE_VERSION=\"${KUBE_VERSION}\"\nexport PATH=${runtime_path}\nprintf '%s\\n' '#!/bin/sh' '[ -p /dev/stdin ] && cat >/dev/null' 'echo \"kubectl $* (j2gha-local stub v${KUBE_VERSION})\"' > ${WORKSPACE}/bin/kubectl  # j2gha-local: was oci os object get of kubectl-v${KUBE_VERSION} (OCI instance principal); writes a stub kubectl\nchmod +x ${WORKSPACE}/bin/kubectl\nkubectl version --client=true",
           "_j2gha": {
@@ -478,7 +504,7 @@
         },
         {
           "name": "Install kind: export PATH=${runtime_path}",
-          "id": "s15",
+          "id": "s17",
           "if": "steps.s1.outputs.run == 'true'",
           "run": "export runtime_path=\"${WORKSPACE}/bin:${PATH}\"\nexport PATH=${runtime_path}\nprintf '%s\\n' '#!/bin/sh' '[ -p /dev/stdin ] && cat >/dev/null' 'echo \"kind $* (j2gha-local stub v${KIND_VERSION})\"' > ${WORKSPACE}/bin/kind  # j2gha-local: was oci os object get of kind-v${KIND_VERSION} (OCI instance principal); writes a stub kind\nchmod +x \"${WORKSPACE}/bin/kind\"\nkind version",
           "_j2gha": {
@@ -490,7 +516,7 @@
         },
         {
           "name": "Preparing Integration Test Environment: mkdir -m777 -p ${result_root}",
-          "id": "s16",
+          "id": "s18",
           "if": "steps.s1.outputs.run == 'true'",
           "run": "mkdir -m777 -p ${result_root}",
           "_j2gha": {
@@ -502,7 +528,7 @@
         },
         {
           "name": "Preparing Integration Test Environment: echo",
-          "id": "s17",
+          "id": "s19",
           "if": "steps.s1.outputs.run == 'true'",
           "run": "echo \"Results will be in ${result_root}\"",
           "_j2gha": {
@@ -514,7 +540,7 @@
         },
         {
           "name": "Preparing Integration Test Environment: mkdir -m777 -p ${pv_root}",
-          "id": "s18",
+          "id": "s20",
           "if": "steps.s1.outputs.run == 'true'",
           "run": "mkdir -m777 -p ${pv_root}",
           "_j2gha": {
@@ -526,7 +552,7 @@
         },
         {
           "name": "Preparing Integration Test Environment: echo",
-          "id": "s19",
+          "id": "s21",
           "if": "steps.s1.outputs.run == 'true'",
           "run": "echo \"Persistent volume files, if any, will be in ${pv_root}\"",
           "_j2gha": {
@@ -538,7 +564,7 @@
         },
         {
           "name": "Start registry container: export PATH=${runtime_path}",
-          "id": "s20",
+          "id": "s22",
           "if": "steps.s1.outputs.run == 'true'",
           "run": "export runtime_path=\"${WORKSPACE}/bin:${PATH}\"\nexport PATH=${runtime_path}\n\nrunning=\"$(podman container inspect -f '{{.State.Running}}' \"${registry_name}\" 2>/dev/null || true)\"\nif [ \"${running}\" = 'true' ]; then\n  echo \"Stopping the registry container ${registry_name}\"\n  podman stop \"${registry_name}\"\n  podman rm --force \"${registry_name}\"\nfi\n\npodman run -d --restart=always -p \"127.0.0.1:${registry_port}:5000\" --name \"${registry_name}\"                                 ${ocir_host}/${wko_tenancy}/test-images/docker/registry:2.8.2\necho \"Registry Host: ${registry_host}\"",
           "_j2gha": {
@@ -550,7 +576,7 @@
         },
         {
           "name": "Create kind cluster: stage environment",
-          "id": "s21",
+          "id": "s23",
           "if": "steps.s1.outputs.run == 'true'",
           "run": "true",
           "_j2gha": {
@@ -568,7 +594,7 @@
         },
         {
           "name": "Create kind cluster: export PATH=${runtime_path}",
-          "id": "s22",
+          "id": "s24",
           "if": "steps.s1.outputs.run == 'true'",
           "run": "export runtime_path=\"${WORKSPACE}/bin:${PATH}\"\nkind_image=\"$(echo -n ${_kind_image})\"; export kind_image\nexport PATH=${runtime_path}\n                            export KIND_EXPERIMENTAL_PROVIDER=podman\n\n                            podman version\n                            cat /etc/systemd/system/user@.service.d/delegate.conf || true  # j2gha-local: informational; the file does not exist in the harness\n                            cat /etc/modules-load.d/iptables.conf || true  # j2gha-local: informational; the file does not exist in the harness\n                            lsmod|grep -E \"^ip_tables|^iptable_filter|^iptable_nat|^ip6\" || true  # j2gha-local: informational; no kmod/no matching modules in a container\n\n                            if kind delete cluster --name ${kind_name} --kubeconfig \"${kubeconfig_file}\"; then\n                                echo \"Deleted orphaned kind cluster ${kind_name}\"\n                            fi\n                            # settings needed by elastic logging tests\n                            echo \"running sudo sysctl -w vm.max_map_count=262144\"\n                            echo sudo sysctl -w vm.max_map_count=262144  # j2gha-local: no sudo in the harness\n                            cat <<EOF | kind create cluster --name \"${kind_name}\" --kubeconfig \"${kubeconfig_file}\" --config=-\nkind: Cluster\napiVersion: kind.x-k8s.io/v1alpha4\ncontainerdConfigPatches:\n- |-\n  [plugins.\"io.containerd.grpc.v1.cri\".registry]\n    config_path = \"/etc/containerd/certs.d\"\nnodes:\n  - role: control-plane\n    image: ${kind_image}\n  - role: worker\n    image: ${kind_image}\n    extraPortMappings:\n      - containerPort: 30511\n        hostPort: 1511\n      - containerPort: 32480\n        hostPort: 2480\n      - containerPort: 32490\n        hostPort: 2490\n      - containerPort: 30080\n        hostPort: 2080\n      - containerPort: 30443\n        hostPort: 2043\n      - containerPort: 30180\n        hostPort: 2090\n      - containerPort: 30143\n        hostPort: 2053\n      - containerPort: 31000\n        hostPort: 2100\n      - containerPort: 31004\n        hostPort: 2104\n      - containerPort: 31008\n        hostPort: 2108\n      - containerPort: 31012\n        hostPort: 2112\n      - containerPort: 31016\n        hostPort: 2116\n      - containerPort: 31020\n        hostPort: 2120\n      - containerPort: 31024\n        hostPort: 2124\n      - containerPort: 31028\n        hostPort: 2128\n      - containerPort: 31032\n        hostPort: 2132\n      - containerPort: 31036\n        hostPort: 2136\n      - containerPort: 31040\n        hostPort: 2140\n      - containerPort: 31044\n        hostPort: 2144\n      - containerPort: 31048\n        hostPort: 2148\n      - containerPort: 31052\n        hostPort: 2152\n      - containerPort: 31056\n        hostPort: 2156\n      - containerPort: 31060\n        hostPort: 2160\n      - containerPort: 31064\n        hostPort: 2164\n      - containerPort: 31068\n        hostPort: 2168\n      - containerPort: 31072\n        hostPort: 2172\n      - containerPort: 31076\n        hostPort: 2176\n      - containerPort: 31080\n        hostPort: 2180\n      - containerPort: 31084\n        hostPort: 2184\n      - containerPort: 31088\n        hostPort: 2188\n      - containerPort: 31092\n        hostPort: 2192\n      - containerPort: 31096\n        hostPort: 2196\n      - containerPort: 31100\n        hostPort: 2200\n      - containerPort: 31104\n        hostPort: 2204\n      - containerPort: 31108\n        hostPort: 2208\n      - containerPort: 31112\n        hostPort: 2212\n      - containerPort: 31116\n        hostPort: 2216\n      - containerPort: 31120\n        hostPort: 2220\n      - containerPort: 31124\n        hostPort: 2224\n      - containerPort: 31128\n        hostPort: 2228\n      - containerPort: 31132\n        hostPort: 8001\n      - containerPort: 31136\n        hostPort: 2232\n    extraMounts:\n      - hostPath: ${pv_root}\n        containerPath: ${pv_root}\nkubeadmConfigPatches:\n- |\n  kind: KubeletConfiguration\n  localStorageCapacityIsolation: true\nEOF\n\n                            export KUBECONFIG=${kubeconfig_file}\n                            kubectl cluster-info --context \"kind-${kind_name}\"\n\n                            # Configure local registry access on each node using hosts.toml\n                            for node in $(kind get nodes --name \"${kind_name}\"); do\n                                REGISTRY_DIR=\"/etc/containerd/certs.d/localhost:${registry_port}\"\n                                podman exec \"${node}\" mkdir -p \"${REGISTRY_DIR}\"\n                                cat <<EOF | podman exec -i \"${node}\" cp /dev/stdin \"${REGISTRY_DIR}/hosts.toml\"\n[host.\"http://${registry_host}:${registry_port}\"]\nEOF\n                            done\n\n                            podman info\n                            kubectl describe node\n\n                            for node in $(kind get nodes --name \"${kind_name}\"); do\n                                kubectl annotate node ${node} tilt.dev/registry=localhost:${registry_port};\n                            done\n                            podman exec -it kind-worker bash -c \"sysctl vm.max_map_count\"\n\n                            # Document the local registry\n                            # https://github.com/kubernetes/enhancements/tree/master/keps/sig-cluster-lifecycle/generic/1755-communicating-a-local-registry\n                            cat <<EOF | kubectl apply -f -\napiVersion: v1\nkind: ConfigMap\nmetadata:\n  name: local-registry-hosting\n  namespace: kube-public\ndata:\n  localRegistryHosting.v1: |\n    host: \"localhost:${registry_port}\"\n    help: \"https://kind.sigs.k8s.io/docs/user/local-registry/\"\nEOF",
           "_j2gha": {
@@ -580,7 +606,7 @@
         },
         {
           "name": "Run integration tests: enter stage",
-          "id": "s23",
+          "id": "s25",
           "if": "steps.s1.outputs.run == 'true'",
           "run": "echo \"run=true\" >> \"$GITHUB_OUTPUT\"",
           "_j2gha": {
@@ -592,9 +618,22 @@
           }
         },
         {
+          "name": "Run integration tests: set res",
+          "id": "s26",
+          "if": "steps.s25.outputs.run == 'true'",
+          "run": "res=\"0\"\n{ echo 'res<<J2GHA_EOF'; printf '%s\\n' \"$res\"; echo J2GHA_EOF; } >> \"$GITHUB_ENV\"\n{ echo 'res<<J2GHA_EOF'; printf '%s\\n' \"$res\"; echo J2GHA_EOF; } >> \"$GITHUB_OUTPUT\"",
+          "shell": "bash",
+          "_j2gha": {
+            "kind": "script-assign",
+            "stage": "Run integration tests",
+            "line": 545,
+            "trace": false
+          }
+        },
+        {
           "name": "Run integration tests: if [ -z \"${IT_TEST}\" ] && [ \"${MAVEN_PROFILE_NAME}\" = \"integration-tes",
-          "id": "s24",
-          "if": "steps.s23.outputs.run == 'true'",
+          "id": "s27",
+          "if": "steps.s25.outputs.run == 'true'",
           "run": "export runtime_path=\"${WORKSPACE}/bin:${PATH}\"\nif [ -z \"${IT_TEST}\" ] && [ \"${MAVEN_PROFILE_NAME}\" = \"integration-tests\" ]; then\n   echo 'ERROR: All tests cannot be run with integration-tests profile'\n   exit 1\nfi",
           "_j2gha": {
             "kind": "sh",
@@ -605,8 +644,8 @@
         },
         {
           "name": "Run integration tests: Groovy if (manual)",
-          "id": "s25",
-          "if": "steps.s23.outputs.run == 'true'",
+          "id": "s28",
+          "if": "steps.s25.outputs.run == 'true'",
           "run": "echo \"::warning::manual migration: Groovy condition at line 552: res != 0 \"",
           "_j2gha": {
             "kind": "script-manual",
@@ -617,8 +656,8 @@
         },
         {
           "name": "Run integration tests: export PATH=${runtime_path}",
-          "id": "s26",
-          "if": "steps.s23.outputs.run == 'true'",
+          "id": "s29",
+          "if": "steps.s25.outputs.run == 'true'",
           "run": "export runtime_path=\"${WORKSPACE}/bin:${PATH}\"\nexport PATH=${runtime_path}\n                            export KUBECONFIG=${kubeconfig_file}\n                            mkdir -m777 -p \"${WORKSPACE}/.mvn\"\n                            : > \"${WORKSPACE}/.mvn/maven.config\"\n                            K8S_NODEPORT_HOST=$(kubectl get node kind-worker -o jsonpath='{.status.addresses[?(@.type == \"InternalIP\")].address}')\n                            if [ \"${MAVEN_PROFILE_NAME}\" == \"kind-sequential\" ]; then\n                                PARALLEL_RUN='false'\n                            elif [ \"${MAVEN_PROFILE_NAME}\" == \"kind-upgrade\" ]; then\n                                PARALLEL_RUN='false'\n                            fi\n                            if [ -n \"${IT_TEST}\" ]; then\n                                echo 'Overriding MAVEN_PROFILE_NAME to integration-test when running individual test(s)'\n                                MAVEN_PROFILE_NAME=\"integration-tests\"\n                                echo \"-Dit.test=\"${IT_TEST}\"\" >> ${WORKSPACE}/.mvn/maven.config\n                            fi\n                            echo \"-Dwko.it.wle.download.url=\"${wle_download_url}\"\"                                     >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-Dwko.it.result.root=\"${result_root}\"\"                                               >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-Dwko.it.pv.root=\"${pv_root}\"\"                                                       >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-Dwko.it.k8s.nodeport.host=\"${K8S_NODEPORT_HOST}\"\"                                   >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-Dwko.it.kind.repo=\"localhost:${registry_port}\"\"                                     >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-Dwko.it.istio.version=\"${ISTIO_VERSION}\"\"                                           >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-DPARALLEL_CLASSES=\"${PARALLEL_RUN}\"\"                                                >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-DNUMBER_OF_THREADS=\"${NUMBER_OF_THREADS}\"\"                                          >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-Dwko.it.wdt.download.url=\"${WDT_DOWNLOAD_URL}\"\"                                     >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-Dwko.it.wit.download.url=\"${WIT_DOWNLOAD_URL}\"\"                                     >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-Dwko.it.base.images.repo=\"${BASE_IMAGES_REPO}\"\"                                     >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-Dwko.it.base.images.tenancy=\"${wko_tenancy}\"\"                                       >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-Dwko.it.test.images.repo=\"${TEST_IMAGES_REPO}\"\"                                     >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-Dwko.it.test.images.tenancy=\"${wko_tenancy}\"\"                                       >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-Dwko.it.weblogic.image.name=\"${WEBLOGIC_IMAGE_NAME}\"\"                               >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-Dwko.it.weblogic.image.tag=\"${WEBLOGIC_IMAGE_TAG}\"\"                                 >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-Dwko.it.fmwinfra.image.name=\"${FMWINFRA_IMAGE_NAME}\"\"                               >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-Dwko.it.fmwinfra.image.tag=\"${FMWINFRA_IMAGE_TAG}\"\"                                 >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-Dwko.it.db.image.name=\"${DB_IMAGE_NAME}\"\"                                           >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-Dwko.it.db.image.tag=\"${DB_IMAGE_TAG}\"\"                                             >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-Dwko.it.monitoring.exporter.branch=\"${MONITORING_EXPORTER_BRANCH}\"\"                 >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-Dwko.it.monitoring.exporter.webapp.version=\"${MONITORING_EXPORTER_WEBAPP_VERSION}\"\" >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-Dwko.it.prometheus.chart.version=\"${PROMETHEUS_CHART_VERSION}\"\"                     >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-Dwko.it.grafana.chart.version=\"${GRAFANA_CHART_VERSION}\"\"                           >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-Dwko.it.collect.logs.on.success=\"${COLLECT_LOGS_ON_SUCCESS}\"\"                       >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-DWLSIMG_BUILDER=\"podman\"\"                                                           >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-Dwko.it.remoteconsole.version=\"${REMOTECONSOLE_VERSION}\"\"                           >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-Djdk.httpclient.allowRestrictedHeaders=\"host\"\"                                      >> ${WORKSPACE}/.mvn/maven.config\n                            echo \"-DOPERATOR_LOG_LEVEL=\"${OPERATOR_LOG_LEVEL}\"\"                                        >> ${WORKSPACE}/.mvn/maven.config\n\t\t\t    echo \"-Dwko.it.install.weblogic=\"true\"\"                                                    >> ${WORKSPACE}/.mvn/maven.config\n\n                            echo \"${WORKSPACE}/.mvn/maven.config contents:\"\n                            cat \"${WORKSPACE}/.mvn/maven.config\"\n                            cp \"${WORKSPACE}/.mvn/maven.config\" \"${result_root}\"",
           "_j2gha": {
             "kind": "sh",
@@ -629,8 +668,8 @@
         },
         {
           "name": "Run integration tests: export PATH=\"${WORKSPACE}/bin:${PATH}\"",
-          "id": "s27",
-          "if": "steps.s23.outputs.run == 'true'",
+          "id": "s30",
+          "if": "steps.s25.outputs.run == 'true'",
           "run": "export runtime_path=\"${WORKSPACE}/bin:${PATH}\"\nexport PATH=\"${WORKSPACE}/bin:${PATH}\"\nexport KUBECONFIG=${kubeconfig_file}\nexport BASE_IMAGES_REPO_USERNAME=\"${OCIR_USER}\"\nexport BASE_IMAGES_REPO_PASSWORD=\"${OCIR_PASS}\"\nexport BASE_IMAGES_REPO_EMAIL=\"noreply@oracle.com\"\nexport TEST_IMAGES_REPO_USERNAME=\"${OCIR_USER}\"\nexport TEST_IMAGES_REPO_PASSWORD=\"${OCIR_PASS}\"\nexport TEST_IMAGES_REPO_EMAIL=\"noreply@oracle.com\"\nmkdir -p integration-tests/target/failsafe-reports \"${result_root}/diagnostics/ItLocalTwin\" \"${result_root}/workdir/liftandshiftworkdir\"  # j2gha-local: the directories the stage post archives from\nprintf '%s\\n' '<?xml version=\"1.0\" encoding=\"UTF-8\"?>' '<testsuite name=\"ItLocalTwin\" tests=\"2\" failures=\"0\" errors=\"0\" skipped=\"0\" time=\"0.2\">' '  <testcase name=\"testOperatorBuilds\" classname=\"ItLocalTwin\" time=\"0.1\"/>' '  <testcase name=\"testHelmChart\" classname=\"ItLocalTwin\" time=\"0.1\"/>' '</testsuite>' > integration-tests/target/failsafe-reports/TEST-ItLocalTwin.xml  # j2gha-local: a failsafe report in place of the integration tests (junit + archive read it)\necho \"operator diagnostics for profile ${MAVEN_PROFILE_NAME}\" > \"${result_root}/diagnostics/ItLocalTwin/operator.log\"  # j2gha-local: a diagnostics file for the stage post archive\necho \"lift-and-shift work directory\" > \"${result_root}/workdir/liftandshiftworkdir/README.txt\"  # j2gha-local: a liftandshift file for the stage post archive\nif ! echo mvn -pl integration-tests -P ${MAVEN_PROFILE_NAME} verify 2>&1 | tee \"${result_root}/kindtest.log\"; then  # j2gha-local: was `time mvn ... verify` (the Kubernetes integration tests, hours); dash has no `time`\n    echo \"integration-tests failed\"\n    exit 1\nfi",
           "env": {
             "OCIR_USER": "${{ secrets.WKT_OCIR_CREDS_USR }}",
@@ -645,8 +684,8 @@
         },
         {
           "name": "Run integration tests: export PATH=\"${WORKSPACE}/bin:${PATH}\"",
-          "id": "s28",
-          "if": "(always()) && (steps.s23.outcome == 'success')",
+          "id": "s31",
+          "if": "(always()) && (steps.s25.outcome == 'success')",
           "run": "export runtime_path=\"${WORKSPACE}/bin:${PATH}\"\nexport PATH=\"${WORKSPACE}/bin:${PATH}\"\nexport KUBECONFIG=${kubeconfig_file}\nmkdir -m777 -p ${result_root}/kubelogs\nif ! kind export logs \"${result_root}/kubelogs\" --name \"${kind_name}\" --verbosity 99; then\n    echo \"Failed to export kind logs for kind cluster ${kind_name}\"\nfi\nif ! podman exec kind-worker journalctl --utc --dmesg --system > \"${result_root}/journalctl-kind-worker.out\"; then\n    echo \"Failed to run journalctl for kind worker\"\nfi\nif ! podman exec kind-control-plane journalctl --utc --dmesg --system > \"${result_root}/journalctl-kind-control-plane.out\"; then\n    echo \"Failed to run journalctl for kind control plane\"\nfi\nif ! journalctl --utc --dmesg --system --since \"$start_time\" > \"${result_root}/journalctl-compute.out\"; then\n    echo \"Failed to run journalctl for compute node\"\nfi\n\nmkdir -m777 -p \"${WORKSPACE}/logdir/${BUILD_TAG}/wl_k8s_test_results\"\nmv -f ${result_root}/* \"${WORKSPACE}/logdir/${BUILD_TAG}/wl_k8s_test_results\"  # j2gha-local: no sudo in the harness (the files are the build user's own)",
           "_j2gha": {
             "kind": "sh",
@@ -657,11 +696,11 @@
         },
         {
           "name": "Run integration tests: archive artifacts",
-          "id": "s29",
-          "if": "(always()) && (steps.s23.outcome == 'success')",
+          "id": "s32",
+          "if": "(always()) && (steps.s25.outcome == 'success')",
           "uses": "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
           "with": {
-            "name": "artifacts-29",
+            "name": "artifacts-32",
             "path": "logdir/${{ env.BUILD_TAG }}/wl_k8s_test_results/diagnostics/**/*\nlogdir/${{ env.BUILD_TAG }}/wl_k8s_test_results/workdir/liftandshiftworkdir/**/*\nintegration-tests/target/failsafe-reports/*.xml\n!**/.git\n!**/.git/**\n!**/.gitignore\n!**/.gitattributes\n!**/.gitmodules\n!**/.svn\n!**/.svn/**\n!**/.hg\n!**/.hg/**\n!**/.hgignore\n!**/.hgtags\n!**/.bzr\n!**/.bzr/**\n!**/.bzrignore\n!**/CVS\n!**/CVS/**\n!**/.cvsignore\n!**/SCCS\n!**/SCCS/**\n!**/vssver.scc\n!**/.DS_Store\n!**/*~\n!**/#*#\n!**/.#*\n!**/%*%\n!**/._*",
             "if-no-files-found": "error",
             "include-hidden-files": true
@@ -676,8 +715,8 @@
         },
         {
           "name": "Run integration tests: junit summary",
-          "id": "s30",
-          "if": "((always()) && (steps.s23.outcome == 'success')) && (always())",
+          "id": "s33",
+          "if": "((always()) && (steps.s25.outcome == 'success')) && (always())",
           "run": "python3 - <<'PY'\nimport glob, os, xml.etree.ElementTree as ET\nfiles = [f for p in os.environ['J2GHA_JUNIT'].splitlines() for f in glob.glob(p, recursive=True)]\nt = f = e = s = 0\nfor x in files:\n    r = ET.parse(x).getroot()\n    for ts in ([r] if r.tag == 'testsuite' else r.iter('testsuite')):\n        t += int(ts.get('tests', 0)); f += int(ts.get('failures', 0)); e += int(ts.get('errors', 0)); s += int(ts.get('skipped', 0))\nwith open(os.environ.get('GITHUB_STEP_SUMMARY', os.devnull), 'a') as out:\n    out.write(f'### JUnit: {t} tests, {f} failures, {e} errors, {s} skipped ({len(files)} files)\\n')\nif not files and not True:\n    raise SystemExit('no test report files found')\nPY",
           "env": {
             "J2GHA_JUNIT": "integration-tests/target/failsafe-reports/*.xml"
@@ -691,11 +730,11 @@
         },
         {
           "name": "Run integration tests: upload test reports",
-          "id": "s31",
-          "if": "((always()) && (steps.s23.outcome == 'success')) && (always())",
+          "id": "s34",
+          "if": "((always()) && (steps.s25.outcome == 'success')) && (always())",
           "uses": "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
           "with": {
-            "name": "test-reports-31",
+            "name": "test-reports-34",
             "path": "integration-tests/target/failsafe-reports/*.xml",
             "if-no-files-found": "ignore"
           },
@@ -708,7 +747,7 @@
         },
         {
           "name": "Filter unwanted branches: export PATH=\"${WORKSPACE}/bin:${PATH}\"",
-          "id": "s32",
+          "id": "s35",
           "if": "(always()) && (steps.s1.outcome == 'success')",
           "run": "export PATH=\"${WORKSPACE}/bin:${PATH}\"\nrunning=\"$(podman container inspect -f '{{.State.Running}}' \"${registry_name}\" 2>/dev/null || true)\"\nif [ \"${running}\" = 'true' ]; then\n    echo \"Stopping the registry container ${registry_name}\"\n    podman stop \"${registry_name}\"\n    podman rm --force \"${registry_name}\"\nfi\necho 'Remove old Kind cluster (if any)...'\nif ! kind delete cluster --name ${kind_name} --kubeconfig \"${kubeconfig_file}\"; then\n    echo \"Failed to delete kind cluster ${kind_name}\"\nfi\nchown $(whoami) ${WORKSPACE}  # j2gha-local: no sudo in the harness (the workspace is the build user's own)",
           "_j2gha": {
@@ -720,7 +759,7 @@
         },
         {
           "name": "Sync: enter stage",
-          "id": "s33",
+          "id": "s36",
           "if": "((env.BRANCH_NAME == 'main' || env.BRANCH_NAME == 'release/4.0' || env.BRANCH_NAME == 'release/3.4')) && ((!(github.event_name == 'schedule') || (startsWith(env.TAG_NAME, 'v') && !contains(env.TAG_NAME, '/'))))",
           "run": "echo \"run=true\" >> \"$GITHUB_OUTPUT\"",
           "_j2gha": {
@@ -733,8 +772,8 @@
         },
         {
           "name": "Sync: trigger downstream 'wkt-sync'",
-          "id": "s34",
-          "if": "steps.s33.outputs.run == 'true'",
+          "id": "s37",
+          "if": "steps.s36.outputs.run == 'true'",
           "run": "echo \"::warning::Downstream Jenkins job 'wkt-sync' - migrate to a reusable workflow or call: gh workflow run <workflow> --ref <ref>\"",
           "_j2gha": {
             "kind": "build",

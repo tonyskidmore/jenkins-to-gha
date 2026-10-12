@@ -243,11 +243,26 @@ def _harness_file(f: dict[str, Any], injected: list[dict[str, Any]] | None, jenk
     return any(i["path"] == f["path"] and i.get("sha256") and i.get("sha256") == f.get("sha256") for i in injected)
 
 
+# A run's BUILD_TAG, which pipelines put in archive paths (`logdir/${BUILD_TAG}/...`): Jenkins `jenkins-<job>-<build>`
+# with the harness job `ex-<id>-<mode>`, the converted run `gha-<owner>-<repo>-<run_number>` (generator.JENKINS_ENV; act
+# gives `gha-nektos--1`). Each value is unique to its run, so a path segment that is one is compared as a placeholder.
+RUN_TAG = {"jenkins": re.compile(r"jenkins-ex-\d+-(?:trace|full)-\d+"), "gha": re.compile(r"gha-[^/]*-\d+")}
+RUN_TAG_PLACEHOLDER = "<BUILD_TAG>"
+
+
+def _identity(files: list[dict[str, Any]], side: str) -> list[dict[str, Any]]:
+    def norm(path: str) -> str:
+        return "/".join(RUN_TAG_PLACEHOLDER if RUN_TAG[side].fullmatch(s) else s for s in path.split("/"))
+    return [{**f, "path": norm(f["path"])} for f in files]
+
+
 def _compare_archived(j: list[dict[str, Any]], g: list[dict[str, Any]], complete: dict[str, bool],
                       injected: list[dict[str, Any]] | None = None) -> dict[str, Any]:
-    """Files are identified by their Jenkins archive path on both sides (see the module docstring). Converted files
-    with the same path are copies of one logical file - matrix cells upload the same path, Jenkins keeps one - and are
-    grouped before anything is compared, so a copy never stands in for another Jenkins file."""
+    """Files are identified by their Jenkins archive path on both sides (see the module docstring), with each side's
+    run tag (RUN_TAG) as a placeholder. Converted files with the same path are copies of one logical file - matrix
+    cells upload the same path, Jenkins keeps one - and are grouped before anything is compared, so a copy never stands
+    in for another Jenkins file."""
+    j, g = _identity(j, "jenkins"), _identity(g, "gha")
     jenkins: dict[str, dict[str, Any]] = {f["path"]: f for f in j}  # Jenkins keeps one file per path
     converted: dict[str, list[dict[str, Any]]] = {}
     g = [f for f in g if not _harness_file(f, injected, jenkins)]

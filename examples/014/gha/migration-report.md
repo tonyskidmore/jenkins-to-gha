@@ -2,7 +2,7 @@
 
 - **Classification:** straightforward (difficulty 20/100)
 - **Convertibility:** automatic
-- **Automated mapping (effort estimate, not correctness):** 80.0% (16 mapped, 16 approximated, 0 manual, 0 dropped)
+- **Automated mapping (effort estimate, not correctness):** 82.5% (18 mapped, 14 approximated, 0 manual, 0 dropped)
 - **Weighted step coverage (analysis):** 78.5%
 
 ## Mapping detail
@@ -15,6 +15,7 @@
 | ✅ mapped | `checkout scm` | 17 | Update OpenROAD to HEAD of master branch | actions/checkout@v4 |  |
 | ✅ mapped | `sh` | 30 | Build Docker OpenLane image with openroad_app master | run |  |
 | ✅ mapped | `sh` | 31 | Build Docker OpenLane image with openroad_app master | run |  |
+| ✅ mapped | `assign NEW_SHA = sh (returnStdout: true, script: "python3` | 32 | Build Docker OpenLane image with openroad_app master | run step; its output goes to $GITHUB_ENV | later steps of the job read the variable |
 | ✅ mapped | `sh` | 33 | Build Docker OpenLane image with openroad_app master | run |  |
 | ✅ mapped | `sh` | 34 | Build Docker OpenLane image with openroad_app master | run |  |
 | ✅ mapped | `sleep` | 38 | Build Docker OpenLane image with openroad_app master | run: sleep |  |
@@ -24,19 +25,18 @@
 | ✅ mapped | `sh` | 82 | ${DESIGN} - Install PDK | run |  |
 | ✅ mapped | `sh` | 83 | ${DESIGN} - Install PDK | run |  |
 | ✅ mapped | `sh` | 87 | ${DESIGN} - Import Docker image | run |  |
+| ✅ mapped | `assign OLD_SHA = sh (returnStdout: true, script: "python3` | 90 | ${DESIGN} - Update OpenROAD commit | run step; its output goes to $GITHUB_ENV | later steps of the job read the variable |
 | ✅ mapped | `archiveArtifacts` | 100 | Test | actions/upload-artifact@v4 |  |
 | 🟡 approximated | `options: timeout` |  |  | timeout-minutes: 480 (per job) | Jenkins timeout covers the whole pipeline |
 | 🟡 approximated | `script {}` | 27 | Build Docker OpenLane image with openroad_app master | inner steps translated individually | imperative Groovy is not executed; review control flow |
 | 🟡 approximated | `retry` | 28 | Build Docker OpenLane image with openroad_app master | shell retry loop | only run steps are retried |
 | 🟡 approximated | `try/catch/finally (line 29)` | 29 | Build Docker OpenLane image with openroad_app master | steps; catch -> if: a try step failed; finally -> if: always() once entered | exception types are not distinguished |
 | 🟡 approximated | `script {}` | 32 | Build Docker OpenLane image with openroad_app master | inner steps translated individually | imperative Groovy is not executed; review control flow |
-| 🟡 approximated | `assign NEW_SHA = sh (returnStdout: true, script: "python3` | 32 | Build Docker OpenLane image with openroad_app master | run step (captured output not propagated) | write values to $GITHUB_OUTPUT/$GITHUB_ENV |
 | 🟡 approximated | `sh` | 32 | Build Docker OpenLane image with openroad_app master | run | Groovy interpolation of non-env values needs review |
 | 🟡 approximated | `stash 'data'` | 35 | Build Docker OpenLane image with openroad_app master | actions/upload-artifact@v4 | artifact hand-off between jobs; file permissions are not preserved; no matching files fails the step, as the stash does in Jenkins (if-no-files-found: error) |
 | 🟡 approximated | `script {}` | 79 | Test | inner steps translated individually | imperative Groovy is not executed; review control flow |
 | 🟡 approximated | `unstash 'data'` | 86 | ${DESIGN} - Import Docker image | actions/download-artifact@v4 |  |
 | 🟡 approximated | `script {}` | 90 | ${DESIGN} - Update OpenROAD commit | inner steps translated individually | imperative Groovy is not executed; review control flow |
-| 🟡 approximated | `assign OLD_SHA = sh (returnStdout: true, script: "python3` | 90 | ${DESIGN} - Update OpenROAD commit | run step (captured output not propagated) | write values to $GITHUB_OUTPUT/$GITHUB_ENV |
 | 🟡 approximated | `sh` | 90 | ${DESIGN} - Update OpenROAD commit | run | Groovy interpolation of non-env values needs review |
 | 🟡 approximated | `sh` | 91 | ${DESIGN} - Update OpenROAD commit | run |  |
 | 🟡 approximated | `sh` | 94 | ${DESIGN} - Run test | run |  |
@@ -82,12 +82,12 @@ Where to read about each construct above, most work first: jenkins.io and docs.g
 - **`sh`** (🟡 4 approximated, ✅ 9 mapped): returnStdout -> write to $GITHUB_OUTPUT and read steps.<id>.outputs.
   - Jenkins: [step `sh`](https://www.jenkins.io/doc/pipeline/steps/)
   - GitHub Actions: [workflow-syntax #jobsjob_idstepsrun](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#jobsjob_idstepsrun) · [workflow-syntax #jobsjob_idstepsshell](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#jobsjob_idstepsshell)
+- **`scripted`** (🟡 5 approximated, ✅ 2 mapped): Groovy control flow -> expressions/if, matrix, or a script step; anything dynamic needs redesign.
+  - Jenkins: [syntax #scripted-pipeline](https://www.jenkins.io/doc/book/pipeline/syntax/#scripted-pipeline) · [cps-method-mismatches](https://www.jenkins.io/doc/book/pipeline/cps-method-mismatches/)
+  - GitHub Actions: [migrate-from-jenkins](https://docs.github.com/en/actions/tutorials/migrate-to-github-actions/manual-migrations/migrate-from-jenkins)
 - **`timeout`** (🟡 1 approximated)
   - Jenkins: [step `timeout`](https://www.jenkins.io/doc/pipeline/steps/)
   - GitHub Actions: [workflow-syntax #jobsjob_idtimeout-minutes](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#jobsjob_idtimeout-minutes) · [workflow-syntax #jobsjob_idstepstimeout-minutes](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#jobsjob_idstepstimeout-minutes)
-- **`scripted`** (🟡 7 approximated): Groovy control flow -> expressions/if, matrix, or a script step; anything dynamic needs redesign.
-  - Jenkins: [syntax #scripted-pipeline](https://www.jenkins.io/doc/book/pipeline/syntax/#scripted-pipeline) · [cps-method-mismatches](https://www.jenkins.io/doc/book/pipeline/cps-method-mismatches/)
-  - GitHub Actions: [migrate-from-jenkins](https://docs.github.com/en/actions/tutorials/migrate-to-github-actions/manual-migrations/migrate-from-jenkins)
 - **`retry`** (🟡 1 approximated): no native step retry; use a shell loop or a retry action.
   - Jenkins: [step `retry`](https://www.jenkins.io/doc/pipeline/steps/)
   - GitHub Actions: [workflow-syntax #jobsjob_idstepscontinue-on-error](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#jobsjob_idstepscontinue-on-error)

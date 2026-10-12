@@ -158,8 +158,20 @@
           }
         },
         {
-          "name": "Init: TF deployment bucket: Groovy return (manual)",
+          "name": "Init: TF deployment bucket: set buildUser",
           "id": "s9",
+          "run": "buildUser=\"${BUILD_USER}\"\n{ echo 'buildUser<<J2GHA_EOF'; printf '%s\\n' \"$buildUser\"; echo J2GHA_EOF; } >> \"$GITHUB_ENV\"\n{ echo 'buildUser<<J2GHA_EOF'; printf '%s\\n' \"$buildUser\"; echo J2GHA_EOF; } >> \"$GITHUB_OUTPUT\"",
+          "shell": "bash",
+          "_j2gha": {
+            "kind": "script-assign",
+            "stage": "Init: TF deployment bucket",
+            "line": 192,
+            "trace": false
+          }
+        },
+        {
+          "name": "Init: TF deployment bucket: Groovy return (manual)",
+          "id": "s10",
           "run": "echo \"::warning::manual migration: Groovy return at line 66\"",
           "_j2gha": {
             "kind": "script-manual",
@@ -170,7 +182,7 @@
         },
         {
           "name": "Init: TF deployment bucket: Groovy if (manual)",
-          "id": "s10",
+          "id": "s11",
           "run": "echo \"::warning::manual migration: Groovy condition at line 196: output.status\"",
           "_j2gha": {
             "kind": "script-manual",
@@ -181,8 +193,8 @@
         },
         {
           "name": "Init: TF deployment bucket: date +%Y%m%d%H%M%S",
-          "id": "s11",
-          "run": "date +%Y%m%d%H%M%S",
+          "id": "s12",
+          "run": "releaseTimestamp=\"$(\ndate +%Y%m%d%H%M%S\n)\"\nreleaseTimestamp=\"${releaseTimestamp#\"${releaseTimestamp%%[![:space:]]*}\"}\"\nreleaseTimestamp=\"${releaseTimestamp%\"${releaseTimestamp##*[![:space:]]}\"}\"\n{ echo 'releaseTimestamp<<J2GHA_EOF'; printf '%s\\n' \"$releaseTimestamp\"; echo J2GHA_EOF; } >> \"$GITHUB_ENV\"\n{ echo 'releaseTimestamp<<J2GHA_EOF'; printf '%s\\n' \"$releaseTimestamp\"; echo J2GHA_EOF; } >> \"$GITHUB_OUTPUT\"",
           "_j2gha": {
             "kind": "sh",
             "stage": "Init: TF deployment bucket",
@@ -191,8 +203,20 @@
           }
         },
         {
+          "name": "Init: TF deployment bucket: set manifestVersion",
+          "id": "s13",
+          "run": "manifestVersion=\"${releaseTimestamp}_${BUILD_NUMBER}\"\n{ echo 'manifestVersion<<J2GHA_EOF'; printf '%s\\n' \"$manifestVersion\"; echo J2GHA_EOF; } >> \"$GITHUB_ENV\"\n{ echo 'manifestVersion<<J2GHA_EOF'; printf '%s\\n' \"$manifestVersion\"; echo J2GHA_EOF; } >> \"$GITHUB_OUTPUT\"",
+          "shell": "bash",
+          "_j2gha": {
+            "kind": "script-assign",
+            "stage": "Init: TF deployment bucket",
+            "line": 203,
+            "trace": false
+          }
+        },
+        {
           "name": "Init: TF deployment bucket: Groovy if (manual)",
-          "id": "s12",
+          "id": "s14",
           "run": "echo \"::warning::manual migration: Groovy condition at line 205: !repoFunctionsFactory.checkoutGitRepo(\n                  gitlab.cvr_terraform.url,\n                 \"",
           "_j2gha": {
             "kind": "script-manual",
@@ -203,7 +227,7 @@
         },
         {
           "name": "Init: TF deployment bucket: dir gitlab.cvr_terraform.name",
-          "id": "s13",
+          "id": "s15",
           "run": "mkdir -p -- \"$J2GHA_DIR\"",
           "env": {
             "J2GHA_DIR": "gitlab.cvr_terraform.name"
@@ -217,7 +241,7 @@
         },
         {
           "name": "Init: TF deployment bucket: Groovy if (manual)",
-          "id": "s14",
+          "id": "s16",
           "run": "echo \"::warning::manual migration: Groovy condition at line 215: getAwsFunctions().terraformScaffold(\n                    project,\n                    params.environ\"",
           "working-directory": "gitlab.cvr_terraform.name",
           "_j2gha": {
@@ -229,7 +253,7 @@
         },
         {
           "name": "Init: Verify environment: enter stage",
-          "id": "s15",
+          "id": "s17",
           "if": "env.action != 'destroy'",
           "run": "echo \"run=true\" >> \"$GITHUB_OUTPUT\"",
           "_j2gha": {
@@ -242,8 +266,8 @@
         },
         {
           "name": "Init: Verify environment: Groovy if (manual)",
-          "id": "s16",
-          "if": "steps.s15.outputs.run == 'true'",
+          "id": "s18",
+          "if": "steps.s17.outputs.run == 'true'",
           "run": "echo \"::warning::manual migration: Groovy condition at line 243: !repoFunctionsFactory.checkoutGitRepo(\n                  github.cvr_app.url,\n                  param\"",
           "_j2gha": {
             "kind": "script-manual",
@@ -254,8 +278,8 @@
         },
         {
           "name": "Init: Verify environment: dir github.cvr_app.name",
-          "id": "s17",
-          "if": "steps.s15.outputs.run == 'true'",
+          "id": "s19",
+          "if": "steps.s17.outputs.run == 'true'",
           "run": "mkdir -p -- \"$J2GHA_DIR\"",
           "env": {
             "J2GHA_DIR": "github.cvr_app.name"
@@ -269,34 +293,8 @@
         },
         {
           "name": "Init: Verify environment: Groovy if (manual)",
-          "id": "s18",
-          "if": "steps.s15.outputs.run == 'true'",
-          "run": "echo \"::warning::manual migration: Groovy condition at line 90: output.status\"",
-          "working-directory": "github.cvr_app.name",
-          "_j2gha": {
-            "kind": "script-manual",
-            "stage": "Init: Verify environment",
-            "line": 90,
-            "trace": false
-          }
-        },
-        {
-          "name": "Init: Verify environment: Groovy return (manual)",
-          "id": "s19",
-          "if": "steps.s15.outputs.run == 'true'",
-          "run": "echo \"::warning::manual migration: Groovy return at line 95\"",
-          "working-directory": "github.cvr_app.name",
-          "_j2gha": {
-            "kind": "script-manual",
-            "stage": "Init: Verify environment",
-            "line": 95,
-            "trace": false
-          }
-        },
-        {
-          "name": "Init: Verify environment: Groovy if (manual)",
           "id": "s20",
-          "if": "steps.s15.outputs.run == 'true'",
+          "if": "steps.s17.outputs.run == 'true'",
           "run": "echo \"::warning::manual migration: Groovy condition at line 90: output.status\"",
           "working-directory": "github.cvr_app.name",
           "_j2gha": {
@@ -309,7 +307,7 @@
         {
           "name": "Init: Verify environment: Groovy return (manual)",
           "id": "s21",
-          "if": "steps.s15.outputs.run == 'true'",
+          "if": "steps.s17.outputs.run == 'true'",
           "run": "echo \"::warning::manual migration: Groovy return at line 95\"",
           "working-directory": "github.cvr_app.name",
           "_j2gha": {
@@ -322,7 +320,7 @@
         {
           "name": "Init: Verify environment: Groovy if (manual)",
           "id": "s22",
-          "if": "steps.s15.outputs.run == 'true'",
+          "if": "steps.s17.outputs.run == 'true'",
           "run": "echo \"::warning::manual migration: Groovy condition at line 90: output.status\"",
           "working-directory": "github.cvr_app.name",
           "_j2gha": {
@@ -335,7 +333,7 @@
         {
           "name": "Init: Verify environment: Groovy return (manual)",
           "id": "s23",
-          "if": "steps.s15.outputs.run == 'true'",
+          "if": "steps.s17.outputs.run == 'true'",
           "run": "echo \"::warning::manual migration: Groovy return at line 95\"",
           "working-directory": "github.cvr_app.name",
           "_j2gha": {
@@ -348,7 +346,7 @@
         {
           "name": "Init: Verify environment: Groovy if (manual)",
           "id": "s24",
-          "if": "steps.s15.outputs.run == 'true'",
+          "if": "steps.s17.outputs.run == 'true'",
           "run": "echo \"::warning::manual migration: Groovy condition at line 90: output.status\"",
           "working-directory": "github.cvr_app.name",
           "_j2gha": {
@@ -361,7 +359,33 @@
         {
           "name": "Init: Verify environment: Groovy return (manual)",
           "id": "s25",
-          "if": "steps.s15.outputs.run == 'true'",
+          "if": "steps.s17.outputs.run == 'true'",
+          "run": "echo \"::warning::manual migration: Groovy return at line 95\"",
+          "working-directory": "github.cvr_app.name",
+          "_j2gha": {
+            "kind": "script-manual",
+            "stage": "Init: Verify environment",
+            "line": 95,
+            "trace": false
+          }
+        },
+        {
+          "name": "Init: Verify environment: Groovy if (manual)",
+          "id": "s26",
+          "if": "steps.s17.outputs.run == 'true'",
+          "run": "echo \"::warning::manual migration: Groovy condition at line 90: output.status\"",
+          "working-directory": "github.cvr_app.name",
+          "_j2gha": {
+            "kind": "script-manual",
+            "stage": "Init: Verify environment",
+            "line": 90,
+            "trace": false
+          }
+        },
+        {
+          "name": "Init: Verify environment: Groovy return (manual)",
+          "id": "s27",
+          "if": "steps.s17.outputs.run == 'true'",
           "run": "echo \"::warning::manual migration: Groovy return at line 95\"",
           "working-directory": "github.cvr_app.name",
           "_j2gha": {
@@ -373,8 +397,8 @@
         },
         {
           "name": "Init: Verify environment: Groovy return (manual)",
-          "id": "s26",
-          "if": "steps.s15.outputs.run == 'true'",
+          "id": "s28",
+          "if": "steps.s17.outputs.run == 'true'",
           "run": "echo \"::warning::manual migration: Groovy return at line 66\"",
           "working-directory": "github.cvr_app.name",
           "_j2gha": {
@@ -386,8 +410,8 @@
         },
         {
           "name": "Init: Verify environment: Groovy if (manual)",
-          "id": "s27",
-          "if": "steps.s15.outputs.run == 'true'",
+          "id": "s29",
+          "if": "steps.s17.outputs.run == 'true'",
           "run": "echo \"::warning::manual migration: Groovy condition at line 268: !manifestsListing.status && manifestsListing.stdout\"",
           "working-directory": "github.cvr_app.name",
           "_j2gha": {
@@ -399,8 +423,8 @@
         },
         {
           "name": "Init: Verify environment: Groovy if (manual)",
-          "id": "s28",
-          "if": "steps.s15.outputs.run == 'true'",
+          "id": "s30",
+          "if": "steps.s17.outputs.run == 'true'",
           "run": "echo \"::warning::manual migration: Groovy condition at line 294: isNewVersion[frontendAppName]\"",
           "working-directory": "github.cvr_app.name",
           "_j2gha": {
@@ -412,8 +436,8 @@
         },
         {
           "name": "Init: Verify environment: Groovy if (manual)",
-          "id": "s29",
-          "if": "steps.s15.outputs.run == 'true'",
+          "id": "s31",
+          "if": "steps.s17.outputs.run == 'true'",
           "run": "echo \"::warning::manual migration: Groovy condition at line 297: isNewVersion[backendAppName]\"",
           "working-directory": "github.cvr_app.name",
           "_j2gha": {
@@ -425,8 +449,8 @@
         },
         {
           "name": "Init: Verify environment: Groovy if (manual)",
-          "id": "s30",
-          "if": "steps.s15.outputs.run == 'true'",
+          "id": "s32",
+          "if": "steps.s17.outputs.run == 'true'",
           "run": "echo \"::warning::manual migration: Groovy condition at line 300: isNewVersion[dataUpdateModuleName]\"",
           "working-directory": "github.cvr_app.name",
           "_j2gha": {
@@ -438,8 +462,8 @@
         },
         {
           "name": "Init: Verify environment: Groovy if (manual)",
-          "id": "s31",
-          "if": "steps.s15.outputs.run == 'true'",
+          "id": "s33",
+          "if": "steps.s17.outputs.run == 'true'",
           "run": "echo \"::warning::manual migration: Groovy condition at line 303: isNewCommonsRevision\"",
           "working-directory": "github.cvr_app.name",
           "_j2gha": {
@@ -459,7 +483,7 @@
       "steps": [
         {
           "name": "Build: enter stage",
-          "id": "s32",
+          "id": "s34",
           "if": "env.action == 'apply'",
           "run": "echo \"run=true\" >> \"$GITHUB_OUTPUT\"",
           "_j2gha": {
@@ -488,12 +512,12 @@
             ],
             "role": "checkout"
           },
-          "if": "steps.s32.outputs.run == 'true'"
+          "if": "steps.s34.outputs.run == 'true'"
         },
         {
           "name": "Build: CVR frontend: enter stage",
-          "id": "s33",
-          "if": "(steps.s32.outputs.run == 'true') && (vars.J2GHA_WHEN_L318 == 'true')",
+          "id": "s35",
+          "if": "(steps.s34.outputs.run == 'true') && (vars.J2GHA_WHEN_L318 == 'true')",
           "run": "echo \"run=true\" >> \"$GITHUB_OUTPUT\"",
           "_j2gha": {
             "kind": "stage-entry",
@@ -505,8 +529,8 @@
         },
         {
           "name": "Build: CVR frontend: dir github.cvr_app.name",
-          "id": "s34",
-          "if": "steps.s33.outputs.run == 'true'",
+          "id": "s36",
+          "if": "steps.s35.outputs.run == 'true'",
           "run": "mkdir -p -- \"$J2GHA_DIR\"",
           "env": {
             "J2GHA_DIR": "github.cvr_app.name"
@@ -520,8 +544,8 @@
         },
         {
           "name": "Build: CVR frontend: deleteDir",
-          "id": "s35",
-          "if": "steps.s33.outputs.run == 'true'",
+          "id": "s37",
+          "if": "steps.s35.outputs.run == 'true'",
           "run": "find . -mindepth 1 -delete || true",
           "working-directory": "github.cvr_app.name",
           "_j2gha": {
@@ -533,8 +557,8 @@
         },
         {
           "name": "Build: CVR frontend: Groovy if (manual)",
-          "id": "s36",
-          "if": "steps.s33.outputs.run == 'true'",
+          "id": "s38",
+          "if": "steps.s35.outputs.run == 'true'",
           "run": "echo \"::warning::manual migration: Groovy condition at line 326: !repoFunctionsFactory.checkoutGitRepo(\n                  github.cvr_app.url,\n                  param\"",
           "_j2gha": {
             "kind": "script-manual",
@@ -545,8 +569,8 @@
         },
         {
           "name": "Build: CVR frontend: dir github.cvr_app.name",
-          "id": "s37",
-          "if": "steps.s33.outputs.run == 'true'",
+          "id": "s39",
+          "if": "steps.s35.outputs.run == 'true'",
           "run": "mkdir -p -- \"$J2GHA_DIR\"",
           "env": {
             "J2GHA_DIR": "github.cvr_app.name"
@@ -560,8 +584,8 @@
         },
         {
           "name": "Build: CVR frontend: info (manual migration)",
-          "id": "s38",
-          "if": "steps.s33.outputs.run == 'true'",
+          "id": "s40",
+          "if": "steps.s35.outputs.run == 'true'",
           "run": "echo \"::warning::Jenkins step 'info' requires manual migration\"",
           "working-directory": "github.cvr_app.name",
           "_j2gha": {
@@ -573,8 +597,8 @@
         },
         {
           "name": "Build: CVR frontend: Groovy return (manual)",
-          "id": "s39",
-          "if": "steps.s33.outputs.run == 'true'",
+          "id": "s41",
+          "if": "steps.s35.outputs.run == 'true'",
           "run": "echo \"::warning::manual migration: Groovy return at line 86\"",
           "working-directory": "github.cvr_app.name",
           "_j2gha": {
@@ -586,8 +610,8 @@
         },
         {
           "name": "Build: CVR frontend: info (manual migration)",
-          "id": "s40",
-          "if": "steps.s33.outputs.run == 'true'",
+          "id": "s42",
+          "if": "steps.s35.outputs.run == 'true'",
           "run": "echo \"::warning::Jenkins step 'info' requires manual migration\"",
           "working-directory": "github.cvr_app.name",
           "_j2gha": {
@@ -599,8 +623,8 @@
         },
         {
           "name": "Build: CVR frontend: Groovy if (manual)",
-          "id": "s41",
-          "if": "steps.s33.outputs.run == 'true'",
+          "id": "s43",
+          "if": "steps.s35.outputs.run == 'true'",
           "run": "echo \"::warning::manual migration: Groovy condition at line 340: buildPackage(frontendAppName, feVersion)\"",
           "working-directory": "github.cvr_app.name",
           "_j2gha": {
@@ -620,7 +644,7 @@
       "steps": [
         {
           "name": "Build: enter stage",
-          "id": "s42",
+          "id": "s44",
           "if": "env.action == 'apply'",
           "run": "echo \"run=true\" >> \"$GITHUB_OUTPUT\"",
           "_j2gha": {
@@ -649,12 +673,12 @@
             ],
             "role": "checkout"
           },
-          "if": "steps.s42.outputs.run == 'true'"
+          "if": "steps.s44.outputs.run == 'true'"
         },
         {
           "name": "Build: CVR backend: enter stage",
-          "id": "s43",
-          "if": "(steps.s42.outputs.run == 'true') && (vars.J2GHA_WHEN_L351 == 'true')",
+          "id": "s45",
+          "if": "(steps.s44.outputs.run == 'true') && (vars.J2GHA_WHEN_L351 == 'true')",
           "run": "echo \"run=true\" >> \"$GITHUB_OUTPUT\"",
           "_j2gha": {
             "kind": "stage-entry",
@@ -666,8 +690,8 @@
         },
         {
           "name": "Build: CVR backend: dir github.cvr_app.name",
-          "id": "s44",
-          "if": "steps.s43.outputs.run == 'true'",
+          "id": "s46",
+          "if": "steps.s45.outputs.run == 'true'",
           "run": "mkdir -p -- \"$J2GHA_DIR\"",
           "env": {
             "J2GHA_DIR": "github.cvr_app.name"
@@ -681,8 +705,8 @@
         },
         {
           "name": "Build: CVR backend: deleteDir",
-          "id": "s45",
-          "if": "steps.s43.outputs.run == 'true'",
+          "id": "s47",
+          "if": "steps.s45.outputs.run == 'true'",
           "run": "find . -mindepth 1 -delete || true",
           "working-directory": "github.cvr_app.name",
           "_j2gha": {
@@ -694,8 +718,8 @@
         },
         {
           "name": "Build: CVR backend: Groovy if (manual)",
-          "id": "s46",
-          "if": "steps.s43.outputs.run == 'true'",
+          "id": "s48",
+          "if": "steps.s45.outputs.run == 'true'",
           "run": "echo \"::warning::manual migration: Groovy condition at line 359: !repoFunctionsFactory.checkoutGitRepo(\n                  github.cvr_app.url,\n                  param\"",
           "_j2gha": {
             "kind": "script-manual",
@@ -706,8 +730,8 @@
         },
         {
           "name": "Build: CVR backend: dir github.cvr_app.name",
-          "id": "s47",
-          "if": "steps.s43.outputs.run == 'true'",
+          "id": "s49",
+          "if": "steps.s45.outputs.run == 'true'",
           "run": "mkdir -p -- \"$J2GHA_DIR\"",
           "env": {
             "J2GHA_DIR": "github.cvr_app.name"
@@ -721,8 +745,8 @@
         },
         {
           "name": "Build: CVR backend: info (manual migration)",
-          "id": "s48",
-          "if": "steps.s43.outputs.run == 'true'",
+          "id": "s50",
+          "if": "steps.s45.outputs.run == 'true'",
           "run": "echo \"::warning::Jenkins step 'info' requires manual migration\"",
           "working-directory": "github.cvr_app.name",
           "_j2gha": {
@@ -734,8 +758,8 @@
         },
         {
           "name": "Build: CVR backend: Groovy return (manual)",
-          "id": "s49",
-          "if": "steps.s43.outputs.run == 'true'",
+          "id": "s51",
+          "if": "steps.s45.outputs.run == 'true'",
           "run": "echo \"::warning::manual migration: Groovy return at line 86\"",
           "working-directory": "github.cvr_app.name",
           "_j2gha": {
@@ -747,8 +771,8 @@
         },
         {
           "name": "Build: CVR backend: info (manual migration)",
-          "id": "s50",
-          "if": "steps.s43.outputs.run == 'true'",
+          "id": "s52",
+          "if": "steps.s45.outputs.run == 'true'",
           "run": "echo \"::warning::Jenkins step 'info' requires manual migration\"",
           "working-directory": "github.cvr_app.name",
           "_j2gha": {
@@ -760,8 +784,8 @@
         },
         {
           "name": "Build: CVR backend: Groovy if (manual)",
-          "id": "s51",
-          "if": "steps.s43.outputs.run == 'true'",
+          "id": "s53",
+          "if": "steps.s45.outputs.run == 'true'",
           "run": "echo \"::warning::manual migration: Groovy condition at line 373: buildPackage(backendAppName, backendVersion)\"",
           "working-directory": "github.cvr_app.name",
           "_j2gha": {
@@ -781,7 +805,7 @@
       "steps": [
         {
           "name": "Build: enter stage",
-          "id": "s52",
+          "id": "s54",
           "if": "env.action == 'apply'",
           "run": "echo \"run=true\" >> \"$GITHUB_OUTPUT\"",
           "_j2gha": {
@@ -810,12 +834,12 @@
             ],
             "role": "checkout"
           },
-          "if": "steps.s52.outputs.run == 'true'"
+          "if": "steps.s54.outputs.run == 'true'"
         },
         {
           "name": "Build: frontend assets: dir github.front_end.name",
-          "id": "s53",
-          "if": "steps.s52.outputs.run == 'true'",
+          "id": "s55",
+          "if": "steps.s54.outputs.run == 'true'",
           "run": "mkdir -p -- \"$J2GHA_DIR\"",
           "env": {
             "J2GHA_DIR": "github.front_end.name"
@@ -829,8 +853,8 @@
         },
         {
           "name": "Build: frontend assets: deleteDir",
-          "id": "s54",
-          "if": "steps.s52.outputs.run == 'true'",
+          "id": "s56",
+          "if": "steps.s54.outputs.run == 'true'",
           "run": "find . -mindepth 1 -delete || true",
           "working-directory": "github.front_end.name",
           "_j2gha": {
@@ -842,8 +866,8 @@
         },
         {
           "name": "Build: frontend assets: Groovy if (manual)",
-          "id": "s55",
-          "if": "steps.s52.outputs.run == 'true'",
+          "id": "s57",
+          "if": "steps.s54.outputs.run == 'true'",
           "run": "echo \"::warning::manual migration: Groovy condition at line 391: !repoFunctionsFactory.checkoutGitRepo(\n                  github.cvr_app.url,\n                  param\"",
           "_j2gha": {
             "kind": "script-manual",
@@ -854,8 +878,8 @@
         },
         {
           "name": "Build: frontend assets: dir github.cvr_app.name",
-          "id": "s56",
-          "if": "steps.s52.outputs.run == 'true'",
+          "id": "s58",
+          "if": "steps.s54.outputs.run == 'true'",
           "run": "mkdir -p -- \"$J2GHA_DIR\"",
           "env": {
             "J2GHA_DIR": "github.cvr_app.name"
@@ -869,8 +893,8 @@
         },
         {
           "name": "Build: frontend assets: dir frontendAppName",
-          "id": "s57",
-          "if": "steps.s52.outputs.run == 'true'",
+          "id": "s59",
+          "if": "steps.s54.outputs.run == 'true'",
           "run": "mkdir -p -- \"$J2GHA_DIR\"",
           "working-directory": "github.cvr_app.name",
           "env": {
@@ -885,8 +909,8 @@
         },
         {
           "name": "Build: frontend assets: readFile (manual migration)",
-          "id": "s58",
-          "if": "steps.s52.outputs.run == 'true'",
+          "id": "s60",
+          "if": "steps.s54.outputs.run == 'true'",
           "run": "echo \"::warning::Jenkins step 'readFile' requires manual migration\"",
           "working-directory": "github.cvr_app.name/frontendAppName",
           "_j2gha": {
@@ -898,8 +922,8 @@
         },
         {
           "name": "Build: frontend assets: Groovy if (manual)",
-          "id": "s59",
-          "if": "steps.s52.outputs.run == 'true'",
+          "id": "s61",
+          "if": "steps.s54.outputs.run == 'true'",
           "run": "echo \"::warning::manual migration: Groovy condition at line 404: !assetsVersion\"",
           "working-directory": "github.cvr_app.name/frontendAppName",
           "_j2gha": {
@@ -911,8 +935,8 @@
         },
         {
           "name": "Build: frontend assets: info (manual migration)",
-          "id": "s60",
-          "if": "steps.s52.outputs.run == 'true'",
+          "id": "s62",
+          "if": "steps.s54.outputs.run == 'true'",
           "run": "echo \"::warning::Jenkins step 'info' requires manual migration\"",
           "_j2gha": {
             "kind": "info",
@@ -923,8 +947,8 @@
         },
         {
           "name": "Build: frontend assets: Groovy if (manual)",
-          "id": "s61",
-          "if": "steps.s52.outputs.run == 'true'",
+          "id": "s63",
+          "if": "steps.s54.outputs.run == 'true'",
           "run": "echo \"::warning::manual migration: Groovy condition at line 411: !repoFunctionsFactory.checkoutGitRepo(\n                  github.front_end.url,\n                  ass\"",
           "_j2gha": {
             "kind": "script-manual",
@@ -943,7 +967,7 @@
       "steps": [
         {
           "name": "Build: enter stage",
-          "id": "s62",
+          "id": "s64",
           "if": "env.action == 'apply'",
           "run": "echo \"run=true\" >> \"$GITHUB_OUTPUT\"",
           "_j2gha": {
@@ -972,12 +996,12 @@
             ],
             "role": "checkout"
           },
-          "if": "steps.s62.outputs.run == 'true'"
+          "if": "steps.s64.outputs.run == 'true'"
         },
         {
           "name": "Build: CVR data update module: enter stage",
-          "id": "s63",
-          "if": "(steps.s62.outputs.run == 'true') && (vars.J2GHA_WHEN_L450 == 'true')",
+          "id": "s65",
+          "if": "(steps.s64.outputs.run == 'true') && (vars.J2GHA_WHEN_L450 == 'true')",
           "run": "echo \"run=true\" >> \"$GITHUB_OUTPUT\"",
           "_j2gha": {
             "kind": "stage-entry",
@@ -989,8 +1013,8 @@
         },
         {
           "name": "Build: CVR data update module: dir github.cvr_app.name",
-          "id": "s64",
-          "if": "steps.s63.outputs.run == 'true'",
+          "id": "s66",
+          "if": "steps.s65.outputs.run == 'true'",
           "run": "mkdir -p -- \"$J2GHA_DIR\"",
           "env": {
             "J2GHA_DIR": "github.cvr_app.name"
@@ -1004,8 +1028,8 @@
         },
         {
           "name": "Build: CVR data update module: deleteDir",
-          "id": "s65",
-          "if": "steps.s63.outputs.run == 'true'",
+          "id": "s67",
+          "if": "steps.s65.outputs.run == 'true'",
           "run": "find . -mindepth 1 -delete || true",
           "working-directory": "github.cvr_app.name",
           "_j2gha": {
@@ -1017,8 +1041,8 @@
         },
         {
           "name": "Build: CVR data update module: Groovy if (manual)",
-          "id": "s66",
-          "if": "steps.s63.outputs.run == 'true'",
+          "id": "s68",
+          "if": "steps.s65.outputs.run == 'true'",
           "run": "echo \"::warning::manual migration: Groovy condition at line 458: !repoFunctionsFactory.checkoutGitRepo(\n                  github.cvr_app.url,\n                  param\"",
           "_j2gha": {
             "kind": "script-manual",
@@ -1029,8 +1053,8 @@
         },
         {
           "name": "Build: CVR data update module: dir github.cvr_app.name",
-          "id": "s67",
-          "if": "steps.s63.outputs.run == 'true'",
+          "id": "s69",
+          "if": "steps.s65.outputs.run == 'true'",
           "run": "mkdir -p -- \"$J2GHA_DIR\"",
           "env": {
             "J2GHA_DIR": "github.cvr_app.name"
@@ -1044,8 +1068,8 @@
         },
         {
           "name": "Build: CVR data update module: info (manual migration)",
-          "id": "s68",
-          "if": "steps.s63.outputs.run == 'true'",
+          "id": "s70",
+          "if": "steps.s65.outputs.run == 'true'",
           "run": "echo \"::warning::Jenkins step 'info' requires manual migration\"",
           "working-directory": "github.cvr_app.name",
           "_j2gha": {
@@ -1057,8 +1081,8 @@
         },
         {
           "name": "Build: CVR data update module: Groovy return (manual)",
-          "id": "s69",
-          "if": "steps.s63.outputs.run == 'true'",
+          "id": "s71",
+          "if": "steps.s65.outputs.run == 'true'",
           "run": "echo \"::warning::manual migration: Groovy return at line 86\"",
           "working-directory": "github.cvr_app.name",
           "_j2gha": {
@@ -1070,8 +1094,8 @@
         },
         {
           "name": "Build: CVR data update module: info (manual migration)",
-          "id": "s70",
-          "if": "steps.s63.outputs.run == 'true'",
+          "id": "s72",
+          "if": "steps.s65.outputs.run == 'true'",
           "run": "echo \"::warning::Jenkins step 'info' requires manual migration\"",
           "working-directory": "github.cvr_app.name",
           "_j2gha": {
@@ -1083,8 +1107,8 @@
         },
         {
           "name": "Build: CVR data update module: Groovy if (manual)",
-          "id": "s71",
-          "if": "steps.s63.outputs.run == 'true'",
+          "id": "s73",
+          "if": "steps.s65.outputs.run == 'true'",
           "run": "echo \"::warning::manual migration: Groovy condition at line 472: buildPackage(dataUpdateModuleName, dataUpdateVersion)\"",
           "working-directory": "github.cvr_app.name",
           "_j2gha": {
@@ -1123,7 +1147,7 @@
         },
         {
           "name": "Deploy: Upload CVR frontend package: enter stage",
-          "id": "s72",
+          "id": "s74",
           "if": "vars.J2GHA_WHEN_L488 == 'true'",
           "run": "echo \"run=true\" >> \"$GITHUB_OUTPUT\"",
           "_j2gha": {
@@ -1136,8 +1160,8 @@
         },
         {
           "name": "Deploy: Upload CVR frontend package: dir github.cvr_app.name",
-          "id": "s73",
-          "if": "steps.s72.outputs.run == 'true'",
+          "id": "s75",
+          "if": "steps.s74.outputs.run == 'true'",
           "run": "mkdir -p -- \"$J2GHA_DIR\"",
           "env": {
             "J2GHA_DIR": "github.cvr_app.name"
@@ -1151,8 +1175,8 @@
         },
         {
           "name": "Deploy: Upload CVR frontend package: Groovy if (manual)",
-          "id": "s74",
-          "if": "steps.s72.outputs.run == 'true'",
+          "id": "s76",
+          "if": "steps.s74.outputs.run == 'true'",
           "run": "echo \"::warning::manual migration: Groovy condition at line 493: !fileExists(frontendArtifact)\"",
           "working-directory": "github.cvr_app.name",
           "_j2gha": {
@@ -1164,8 +1188,8 @@
         },
         {
           "name": "Deploy: Upload CVR frontend package: info (manual migration)",
-          "id": "s75",
-          "if": "steps.s72.outputs.run == 'true'",
+          "id": "s77",
+          "if": "steps.s74.outputs.run == 'true'",
           "run": "echo \"::warning::Jenkins step 'info' requires manual migration\"",
           "working-directory": "github.cvr_app.name",
           "_j2gha": {
@@ -1177,8 +1201,8 @@
         },
         {
           "name": "Deploy: Upload CVR frontend package: Groovy if (manual)",
-          "id": "s76",
-          "if": "steps.s72.outputs.run == 'true'",
+          "id": "s78",
+          "if": "steps.s74.outputs.run == 'true'",
           "run": "echo \"::warning::manual migration: Groovy condition at line 498: getAwsFunctions().copyFilesToS3(s3DeploymentBucket, '', frontendArtifact)\"",
           "working-directory": "github.cvr_app.name",
           "_j2gha": {
@@ -1190,7 +1214,7 @@
         },
         {
           "name": "Deploy: Upload CVR backend package: enter stage",
-          "id": "s77",
+          "id": "s79",
           "if": "vars.J2GHA_WHEN_L507 == 'true'",
           "run": "echo \"run=true\" >> \"$GITHUB_OUTPUT\"",
           "_j2gha": {
@@ -1203,8 +1227,8 @@
         },
         {
           "name": "Deploy: Upload CVR backend package: dir github.cvr_app.name",
-          "id": "s78",
-          "if": "steps.s77.outputs.run == 'true'",
+          "id": "s80",
+          "if": "steps.s79.outputs.run == 'true'",
           "run": "mkdir -p -- \"$J2GHA_DIR\"",
           "env": {
             "J2GHA_DIR": "github.cvr_app.name"
@@ -1218,8 +1242,8 @@
         },
         {
           "name": "Deploy: Upload CVR backend package: Groovy if (manual)",
-          "id": "s79",
-          "if": "steps.s77.outputs.run == 'true'",
+          "id": "s81",
+          "if": "steps.s79.outputs.run == 'true'",
           "run": "echo \"::warning::manual migration: Groovy condition at line 512: !fileExists(backendArtifact)\"",
           "working-directory": "github.cvr_app.name",
           "_j2gha": {
@@ -1231,8 +1255,8 @@
         },
         {
           "name": "Deploy: Upload CVR backend package: info (manual migration)",
-          "id": "s80",
-          "if": "steps.s77.outputs.run == 'true'",
+          "id": "s82",
+          "if": "steps.s79.outputs.run == 'true'",
           "run": "echo \"::warning::Jenkins step 'info' requires manual migration\"",
           "working-directory": "github.cvr_app.name",
           "_j2gha": {
@@ -1244,8 +1268,8 @@
         },
         {
           "name": "Deploy: Upload CVR backend package: Groovy if (manual)",
-          "id": "s81",
-          "if": "steps.s77.outputs.run == 'true'",
+          "id": "s83",
+          "if": "steps.s79.outputs.run == 'true'",
           "run": "echo \"::warning::manual migration: Groovy condition at line 517: getAwsFunctions().copyFilesToS3(s3DeploymentBucket, '', backendArtifact)\"",
           "working-directory": "github.cvr_app.name",
           "_j2gha": {
@@ -1257,7 +1281,7 @@
         },
         {
           "name": "Deploy: Upload CVR data update package: enter stage",
-          "id": "s82",
+          "id": "s84",
           "if": "vars.J2GHA_WHEN_L526 == 'true'",
           "run": "echo \"run=true\" >> \"$GITHUB_OUTPUT\"",
           "_j2gha": {
@@ -1270,8 +1294,8 @@
         },
         {
           "name": "Deploy: Upload CVR data update package: dir github.cvr_app.n",
-          "id": "s83",
-          "if": "steps.s82.outputs.run == 'true'",
+          "id": "s85",
+          "if": "steps.s84.outputs.run == 'true'",
           "run": "mkdir -p -- \"$J2GHA_DIR\"",
           "env": {
             "J2GHA_DIR": "github.cvr_app.name"
@@ -1285,8 +1309,8 @@
         },
         {
           "name": "Deploy: Upload CVR data update package: Groovy if (manual)",
-          "id": "s84",
-          "if": "steps.s82.outputs.run == 'true'",
+          "id": "s86",
+          "if": "steps.s84.outputs.run == 'true'",
           "run": "echo \"::warning::manual migration: Groovy condition at line 531: !fileExists(dataUpdateArtifact)\"",
           "working-directory": "github.cvr_app.name",
           "_j2gha": {
@@ -1298,8 +1322,8 @@
         },
         {
           "name": "Deploy: Upload CVR data update package: info (manual migration)",
-          "id": "s85",
-          "if": "steps.s82.outputs.run == 'true'",
+          "id": "s87",
+          "if": "steps.s84.outputs.run == 'true'",
           "run": "echo \"::warning::Jenkins step 'info' requires manual migration\"",
           "working-directory": "github.cvr_app.name",
           "_j2gha": {
@@ -1311,8 +1335,8 @@
         },
         {
           "name": "Deploy: Upload CVR data update package: Groovy if (manual)",
-          "id": "s86",
-          "if": "steps.s82.outputs.run == 'true'",
+          "id": "s88",
+          "if": "steps.s84.outputs.run == 'true'",
           "run": "echo \"::warning::manual migration: Groovy condition at line 536: getAwsFunctions().copyFilesToS3(s3DeploymentBucket, '', dataUpdateArtifact)\"",
           "working-directory": "github.cvr_app.name",
           "_j2gha": {
@@ -1324,7 +1348,7 @@
         },
         {
           "name": "Deploy: Terraform CVR: checkoutGitRepo (manual migration)",
-          "id": "s87",
+          "id": "s89",
           "run": "echo \"::warning::Jenkins step 'checkoutGitRepo' requires manual migration\"",
           "_j2gha": {
             "kind": "checkoutGitRepo",
@@ -1335,7 +1359,7 @@
         },
         {
           "name": "Deploy: Terraform CVR: dir gitlab.cvr_terraform.name",
-          "id": "s88",
+          "id": "s90",
           "run": "mkdir -p -- \"$J2GHA_DIR\"",
           "env": {
             "J2GHA_DIR": "gitlab.cvr_terraform.name"
@@ -1349,7 +1373,7 @@
         },
         {
           "name": "Deploy: Terraform CVR: Groovy if (manual)",
-          "id": "s89",
+          "id": "s91",
           "run": "echo \"::warning::manual migration: Groovy condition at line 554: getAwsFunctions().terraformScaffold(\n                    project,\n                    params.environ\"",
           "working-directory": "gitlab.cvr_terraform.name",
           "_j2gha": {
@@ -1361,7 +1385,7 @@
         },
         {
           "name": "Deploy: Upload CVR frontend assets: enter stage",
-          "id": "s90",
+          "id": "s92",
           "if": "env.action == 'apply'",
           "run": "echo \"run=true\" >> \"$GITHUB_OUTPUT\"",
           "_j2gha": {
@@ -1374,8 +1398,8 @@
         },
         {
           "name": "Deploy: Upload CVR frontend assets: Groovy if (manual)",
-          "id": "s91",
-          "if": "steps.s90.outputs.run == 'true'",
+          "id": "s93",
+          "if": "steps.s92.outputs.run == 'true'",
           "run": "echo \"::warning::manual migration: Groovy condition at line 607: isNewVersion['assets']\"",
           "_j2gha": {
             "kind": "script-manual",
@@ -1386,8 +1410,8 @@
         },
         {
           "name": "Deploy: Upload CVR frontend assets: Groovy if (manual)",
-          "id": "s92",
-          "if": "steps.s90.outputs.run == 'true'",
+          "id": "s94",
+          "if": "steps.s92.outputs.run == 'true'",
           "run": "echo \"::warning::manual migration: Groovy condition at line 634: !repoFunctionsFactory.checkoutGitRepo(\n                  github.cvr_app.url,\n                  param\"",
           "_j2gha": {
             "kind": "script-manual",
@@ -1398,8 +1422,8 @@
         },
         {
           "name": "Deploy: Upload CVR frontend assets: dir J2GHA_TODO_github_cv",
-          "id": "s93",
-          "if": "steps.s90.outputs.run == 'true'",
+          "id": "s95",
+          "if": "steps.s92.outputs.run == 'true'",
           "run": "mkdir -p -- \"$J2GHA_DIR\"",
           "env": {
             "J2GHA_DIR": "J2GHA_TODO_github_cvr_app_name/documents"
@@ -1413,8 +1437,8 @@
         },
         {
           "name": "Deploy: Upload CVR frontend assets: Groovy if (manual)",
-          "id": "s94",
-          "if": "steps.s90.outputs.run == 'true'",
+          "id": "s96",
+          "if": "steps.s92.outputs.run == 'true'",
           "run": "echo \"::warning::manual migration: Groovy condition at line 643: getAwsFunctions().copyFilesToS3(s3AssetsBucket, 'documents', \\\".\\\", \\\"--recursive\\\")\"",
           "working-directory": "J2GHA_TODO_github_cvr_app_name/documents",
           "_j2gha": {
@@ -1426,8 +1450,8 @@
         },
         {
           "name": "Deploy: Upload CVR frontend assets: dir J2GHA_TODO_github_cv",
-          "id": "s95",
-          "if": "steps.s90.outputs.run == 'true'",
+          "id": "s97",
+          "if": "steps.s92.outputs.run == 'true'",
           "run": "mkdir -p -- \"$J2GHA_DIR\"",
           "env": {
             "J2GHA_DIR": "J2GHA_TODO_github_cvr_app_name/errorpages"
@@ -1441,8 +1465,8 @@
         },
         {
           "name": "Deploy: Upload CVR frontend assets: Groovy if (manual)",
-          "id": "s96",
-          "if": "steps.s90.outputs.run == 'true'",
+          "id": "s98",
+          "if": "steps.s92.outputs.run == 'true'",
           "run": "echo \"::warning::manual migration: Groovy condition at line 648: getAwsFunctions().copyFilesToS3(s3AssetsBucket, 'errorpages', \\\".\\\", \\\"--recursive\\\")\"",
           "working-directory": "J2GHA_TODO_github_cvr_app_name/errorpages",
           "_j2gha": {
@@ -1454,7 +1478,7 @@
         },
         {
           "name": "Deploy: Manifest: enter stage",
-          "id": "s97",
+          "id": "s99",
           "if": "env.action == 'apply'",
           "run": "echo \"run=true\" >> \"$GITHUB_OUTPUT\"",
           "_j2gha": {
@@ -1467,8 +1491,8 @@
         },
         {
           "name": "Deploy: Manifest: writeJSON (manual migration)",
-          "id": "s98",
-          "if": "steps.s97.outputs.run == 'true'",
+          "id": "s100",
+          "if": "steps.s99.outputs.run == 'true'",
           "run": "echo \"::warning::Jenkins step 'writeJSON' requires manual migration\"",
           "_j2gha": {
             "kind": "writeJSON",
@@ -1479,8 +1503,8 @@
         },
         {
           "name": "Deploy: Manifest: Groovy if (manual)",
-          "id": "s99",
-          "if": "steps.s97.outputs.run == 'true'",
+          "id": "s101",
+          "if": "steps.s99.outputs.run == 'true'",
           "run": "echo \"::warning::manual migration: Groovy condition at line 665: !fileExists(\\\"\\${env.WORKSPACE}/manifests/manifest_\\${manifestVersion}.json\\\")\"",
           "_j2gha": {
             "kind": "script-manual",
@@ -1491,8 +1515,8 @@
         },
         {
           "name": "Deploy: Manifest: Groovy if (manual)",
-          "id": "s100",
-          "if": "steps.s97.outputs.run == 'true'",
+          "id": "s102",
+          "if": "steps.s99.outputs.run == 'true'",
           "run": "echo \"::warning::manual migration: Groovy condition at line 669: getAwsFunctions().copyFilesToS3(\\\"\\${s3DeploymentBucket}\\\", \\\"manifests/\\\", \\\"\\${env.WORKSPACE}/manifests/m\"",
           "_j2gha": {
             "kind": "script-manual",
@@ -1530,7 +1554,7 @@
         },
         {
           "name": "Load test data to DB: enter stage",
-          "id": "s101",
+          "id": "s103",
           "if": "vars.J2GHA_WHEN_L679 == 'true'",
           "run": "echo \"run=true\" >> \"$GITHUB_OUTPUT\"",
           "_j2gha": {
@@ -1543,8 +1567,8 @@
         },
         {
           "name": "Load test data to DB: Groovy if (manual)",
-          "id": "s102",
-          "if": "steps.s101.outputs.run == 'true'",
+          "id": "s104",
+          "if": "steps.s103.outputs.run == 'true'",
           "run": "echo \"::warning::manual migration: Groovy condition at line 683: !repoFunctionsFactory.checkoutGitRepo(\n              github.cvr_app.url,\n              params.branch\"",
           "_j2gha": {
             "kind": "script-manual",
@@ -1555,8 +1579,8 @@
         },
         {
           "name": "Load test data to DB: dir J2GHA_TODO_github_cvr_app_name",
-          "id": "s103",
-          "if": "steps.s101.outputs.run == 'true'",
+          "id": "s105",
+          "if": "steps.s103.outputs.run == 'true'",
           "run": "mkdir -p -- \"$J2GHA_DIR\"",
           "env": {
             "J2GHA_DIR": "J2GHA_TODO_github_cvr_app_name"
@@ -1570,8 +1594,8 @@
         },
         {
           "name": "Load test data to DB: Groovy if (manual)",
-          "id": "s104",
-          "if": "steps.s101.outputs.run == 'true'",
+          "id": "s106",
+          "if": "steps.s103.outputs.run == 'true'",
           "run": "echo \"::warning::manual migration: Groovy condition at line 693: sh (\n                script: \\\"npm run build:\\${databaseTestLoaderModuleName}\\\",\n                return\"",
           "working-directory": "J2GHA_TODO_github_cvr_app_name",
           "_j2gha": {
@@ -1583,8 +1607,8 @@
         },
         {
           "name": "Load test data to DB: dir",
-          "id": "s105",
-          "if": "steps.s101.outputs.run == 'true'",
+          "id": "s107",
+          "if": "steps.s103.outputs.run == 'true'",
           "run": "mkdir -p -- \"$J2GHA_DIR\"",
           "working-directory": "J2GHA_TODO_github_cvr_app_name",
           "env": {
@@ -1599,8 +1623,8 @@
         },
         {
           "name": "Load test data to DB: Groovy if (manual)",
-          "id": "s106",
-          "if": "steps.s101.outputs.run == 'true'",
+          "id": "s108",
+          "if": "steps.s103.outputs.run == 'true'",
           "run": "echo \"::warning::manual migration: Groovy condition at line 701: sh(\n                  script: \\\"AWS_REGION=\\${globalValuesFactory.AWS_REGION} ENVIRONMENT=\\${params.env\"",
           "working-directory": "J2GHA_TODO_github_cvr_app_name/${{ env.databaseTestLoaderModuleName }}",
           "_j2gha": {
@@ -1639,7 +1663,7 @@
         },
         {
           "name": "Tests: enter stage",
-          "id": "s107",
+          "id": "s109",
           "if": "env.action == 'apply' && env.skip_tests != 'true'",
           "run": "echo \"run=true\" >> \"$GITHUB_OUTPUT\"",
           "_j2gha": {
@@ -1652,8 +1676,8 @@
         },
         {
           "name": "Tests: info (manual migration)",
-          "id": "s108",
-          "if": "steps.s107.outputs.run == 'true'",
+          "id": "s110",
+          "if": "steps.s109.outputs.run == 'true'",
           "run": "echo \"::warning::Jenkins step 'info' requires manual migration\"",
           "_j2gha": {
             "kind": "info",
@@ -1664,8 +1688,8 @@
         },
         {
           "name": "Tests: curl ${recallsApiGwUrl}${warmupPath} --output /dev/null",
-          "id": "s109",
-          "if": "steps.s107.outputs.run == 'true'",
+          "id": "s111",
+          "if": "steps.s109.outputs.run == 'true'",
           "run": "curl ${recallsApiGwUrl}${warmupPath} --output /dev/null",
           "_j2gha": {
             "kind": "sh",
@@ -1676,8 +1700,8 @@
         },
         {
           "name": "Tests: Groovy if (manual)",
-          "id": "s110",
-          "if": "steps.s107.outputs.run == 'true'",
+          "id": "s112",
+          "if": "steps.s109.outputs.run == 'true'",
           "run": "echo \"::warning::manual migration: Groovy condition at line 720: !repoFunctionsFactory.checkoutGitRepo(\n              github.cvr_app.url,\n              params.branch\"",
           "_j2gha": {
             "kind": "script-manual",
@@ -1705,7 +1729,7 @@
       "steps": [
         {
           "name": "Declarative: Post Actions: if (line 775)",
-          "id": "s111",
+          "id": "s113",
           "if": "(always()) && (env.clean_workspace == 'true')",
           "run": "echo \"taken=true\" >> \"$GITHUB_OUTPUT\"",
           "_j2gha": {
@@ -1718,8 +1742,8 @@
         },
         {
           "name": "Declarative: Post Actions: if (line 775)",
-          "id": "s112",
-          "if": "(always()) && (steps.s111.outcome == 'skipped')",
+          "id": "s114",
+          "if": "(always()) && (steps.s113.outcome == 'skipped')",
           "run": "echo \"taken=false\" >> \"$GITHUB_OUTPUT\"",
           "_j2gha": {
             "kind": "if-decision",
@@ -1731,8 +1755,8 @@
         },
         {
           "name": "Declarative: Post Actions: Groovy if (manual)",
-          "id": "s113",
-          "if": "(always()) && (steps.s111.outputs.taken == 'true')",
+          "id": "s115",
+          "if": "(always()) && (steps.s113.outputs.taken == 'true')",
           "run": "echo \"::warning::manual migration: Groovy condition at line 776: fileExists(github.front_end.name)\"",
           "_j2gha": {
             "kind": "script-manual",
@@ -1743,8 +1767,8 @@
         },
         {
           "name": "Declarative: Post Actions: Groovy if (manual)",
-          "id": "s114",
-          "if": "(always()) && (steps.s111.outputs.taken == 'true')",
+          "id": "s116",
+          "if": "(always()) && (steps.s113.outputs.taken == 'true')",
           "run": "echo \"::warning::manual migration: Groovy condition at line 781: fileExists(github.cvr_app.name)\"",
           "_j2gha": {
             "kind": "script-manual",
@@ -1755,7 +1779,7 @@
         },
         {
           "name": "Declarative: Post Actions: Groovy if (manual)",
-          "id": "s115",
+          "id": "s117",
           "if": "(always()) && (env.clean_workspace == 'true')",
           "run": "echo \"::warning::manual migration: Groovy condition at line 792: fileExists(gitlab.cvr_terraform.name)\"",
           "_j2gha": {
@@ -1767,7 +1791,7 @@
         },
         {
           "name": "Declarative: Post Actions: Groovy if (manual)",
-          "id": "s116",
+          "id": "s118",
           "if": "always() && (contains(needs.*.result, 'failure') || failure())",
           "run": "echo \"::warning::manual migration: Groovy condition at line 803: monitoredEnvironments.contains(params.environment)\"",
           "_j2gha": {
@@ -1779,7 +1803,7 @@
         },
         {
           "name": "post: fatal (manual migration)",
-          "id": "s117",
+          "id": "s119",
           "if": "always() && (contains(needs.*.result, 'failure') || failure())",
           "run": "echo \"::warning::Jenkins step 'fatal' requires manual migration\"",
           "_j2gha": {

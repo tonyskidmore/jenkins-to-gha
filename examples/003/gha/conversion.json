@@ -1,12 +1,12 @@
 {
   "counts": {
-    "mapped": 40,
+    "mapped": 41,
     "manual": 13,
-    "approximated": 44,
+    "approximated": 43,
     "info": 1,
     "dropped": 1
   },
-  "automation_pct": 68.6,
+  "automation_pct": 69.0,
   "items": [
     {
       "jenkins": "post always",
@@ -47,6 +47,14 @@
       "status": "mapped",
       "gha": "env",
       "note": ""
+    },
+    {
+      "jenkins": "decl commitMsg = sh(returnStdout: true, script: 'git lo",
+      "line": 37,
+      "stage": "Check Commit Message",
+      "status": "mapped",
+      "gha": "run step; its output goes to $GITHUB_ENV",
+      "note": "later steps of the job read the variable"
     },
     {
       "jenkins": "sh",
@@ -359,14 +367,6 @@
       "status": "approximated",
       "gha": "inner steps translated individually",
       "note": "imperative Groovy is not executed; review control flow"
-    },
-    {
-      "jenkins": "decl commitMsg = sh(returnStdout: true, script: 'git lo",
-      "line": 37,
-      "stage": "Check Commit Message",
-      "status": "approximated",
-      "gha": "run step (captured output not propagated)",
-      "note": "write values to $GITHUB_OUTPUT/$GITHUB_ENV"
     },
     {
       "jenkins": "sh",
@@ -876,5 +876,5 @@
     ]
   },
   "source_sha256": "17668ca3bbda47464b862bd666338201af7a49b6a78e54f8ccf22dbe4c29528f",
-  "model_sha256": "957c6fe4601cf5f26ddc02c2d3e604d608bd66f71c25bdbb217c50931c4f2cd4"
+  "model_sha256": "b173a2f2d83930c08092a7488f07b6b589ff5d7cd158266e137994b3bdc10874"
 }

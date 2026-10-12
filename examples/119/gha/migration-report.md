@@ -2,16 +2,24 @@
 
 - **Classification:** assisted (difficulty 36/100)
 - **Convertibility:** partial
-- **Automated mapping (effort estimate, not correctness):** 15.0% (6 mapped, 9 approximated, 61 manual, 0 dropped)
+- **Automated mapping (effort estimate, not correctness):** 25.9% (14 mapped, 9 approximated, 52 manual, 0 dropped)
 - **Weighted step coverage (analysis):** 69.1%
 
 ## Mapping detail
 
 | | Jenkins | Line | Stage | GitHub Actions | Note |
 |---|---|---:|---|---|---|
+| ✅ mapped | `assign branch = ${GIT_BRANCH}` | 13 |  | run: $GITHUB_ENV | later steps of the job read the variable |
+| ✅ mapped | `assign target_location = ${TARGET_LOCATION}` | 14 |  | run: $GITHUB_ENV | later steps of the job read the variable |
+| ✅ mapped | `assign git_repo_url = ${GIT_REPO_URL}` | 15 |  | run: $GITHUB_ENV | later steps of the job read the variable |
+| ✅ mapped | `assign plugin_check = ${PLUGIN}` | 16 |  | run: $GITHUB_ENV | later steps of the job read the variable |
+| ✅ mapped | `assign bucket = ${BUCKET}` | 24 |  | run: $GITHUB_ENV | later steps of the job read the variable |
+| ✅ mapped | `assign file = ${IPA_FILE_NAME}` | 25 |  | run: $GITHUB_ENV | later steps of the job read the variable |
+| ✅ mapped | `assign integration_test_check = ${INTEGRATION_TEST_CHECK}` | 26 |  | run: $GITHUB_ENV | later steps of the job read the variable |
 | ✅ mapped | `deleteDir` | 41 |  | run: workspace cleanup | runners are ephemeral; kept for parity |
 | ✅ mapped | `dir` | 71 |  | working-directory |  |
 | ✅ mapped | `deleteDir` | 82 |  | run: workspace cleanup | runners are ephemeral; kept for parity |
+| ✅ mapped | `decl mac_workspace = pwd(...)` | 84 |  | run: $GITHUB_ENV | later steps of the job read the variable |
 | ✅ mapped | `dir` | 90 | NPM Install | working-directory |  |
 | ✅ mapped | `dir` | 158 | Build | working-directory |  |
 | ✅ mapped | `deleteDir` | 185 |  | run: workspace cleanup | runners are ephemeral; kept for parity |
@@ -32,14 +40,7 @@
 | 🔴 manual | `new MobileCoreFunctions` | 10 |  | placeholder step | unknown step with no deterministic mapping (plugin/shared-library step) |
 | 🔴 manual | `decl GitFunctions = new GitFunctions(...)` | 11 |  | - | Groovy variable assignment from a step |
 | 🔴 manual | `new GitFunctions` | 11 |  | placeholder step | unknown step with no deterministic mapping (plugin/shared-library step) |
-| 🔴 manual | `assign branch = ${GIT_BRANCH}` | 13 |  | - | Groovy variable assignment |
-| 🔴 manual | `assign target_location = ${TARGET_LOCATION}` | 14 |  | - | Groovy variable assignment |
-| 🔴 manual | `assign git_repo_url = ${GIT_REPO_URL}` | 15 |  | - | Groovy variable assignment |
-| 🔴 manual | `assign plugin_check = ${PLUGIN}` | 16 |  | - | Groovy variable assignment |
 | 🔴 manual | `if (plugin_check.toString() == 'Yes')` | 18 |  | placeholder | condition depends on Groovy runtime state |
-| 🔴 manual | `assign bucket = ${BUCKET}` | 24 |  | - | Groovy variable assignment |
-| 🔴 manual | `assign file = ${IPA_FILE_NAME}` | 25 |  | - | Groovy variable assignment |
-| 🔴 manual | `assign integration_test_check = ${INTEGRATION_TEST_CHECK}` | 26 |  | - | Groovy variable assignment |
 | 🔴 manual | `if (integration_test_check.toString() == 'Yes')` | 28 |  | placeholder | condition depends on Groovy runtime state |
 | 🔴 manual | `log` | 47 | Git Checkout | placeholder step | unknown step with no deterministic mapping (plugin/shared-library step) |
 | 🔴 manual | `git_check_out` | 50 | Git Checkout | placeholder step | unknown step with no deterministic mapping (plugin/shared-library step) |
@@ -50,8 +51,6 @@
 | 🔴 manual | `pwd` | 69 |  | placeholder step | policy step with no deterministic mapping |
 | 🔴 manual | `log` | 72 |  | placeholder step | unknown step with no deterministic mapping (plugin/shared-library step) |
 | 🔴 manual | `log` | 74 |  | placeholder step | unknown step with no deterministic mapping (plugin/shared-library step) |
-| 🔴 manual | `decl mac_workspace = pwd(...)` | 84 |  | - | Groovy variable assignment from a step |
-| 🔴 manual | `pwd` | 84 |  | placeholder step | policy step with no deterministic mapping |
 | 🔴 manual | `log` | 86 |  | placeholder step | unknown step with no deterministic mapping (plugin/shared-library step) |
 | 🔴 manual | `log` | 88 |  | placeholder step | unknown step with no deterministic mapping (plugin/shared-library step) |
 | 🔴 manual | `log` | 95 | NPM Install | placeholder step | unknown step with no deterministic mapping (plugin/shared-library step) |
@@ -149,7 +148,7 @@ pipeline [scripted] agent: label master
 
 Where to read about each construct above, most work first: jenkins.io and docs.github.com (GitHub.com) pages from the crosswalk in `j2gha/rules/docs-xref.yaml`. With the local docs bundles fetched, `uv run j2gha docs xref <construct>` resolves the same pages offline, or for another GitHub version.
 
-- **`scripted`** (🔴 23 manual): Groovy control flow -> expressions/if, matrix, or a script step; anything dynamic needs redesign.
+- **`scripted`** (🔴 15 manual, ✅ 8 mapped): Groovy control flow -> expressions/if, matrix, or a script step; anything dynamic needs redesign.
   - Jenkins: [syntax #scripted-pipeline](https://www.jenkins.io/doc/book/pipeline/syntax/#scripted-pipeline) · [cps-method-mismatches](https://www.jenkins.io/doc/book/pipeline/cps-method-mismatches/)
   - GitHub Actions: [migrate-from-jenkins](https://docs.github.com/en/actions/tutorials/migrate-to-github-actions/manual-migrations/migrate-from-jenkins)
 - **`build`** (🔴 1 manual): downstream job -> reusable workflow call (wait) or workflow_dispatch via API (fire-and-forget).

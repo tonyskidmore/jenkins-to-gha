@@ -357,7 +357,11 @@
                       "name": "<assign>",
                       "line": 224,
                       "named": {
-                        "_target": "env.MONITORING_EXPORTER_WEBAPP_VERSION"
+                        "_target": "env.MONITORING_EXPORTER_WEBAPP_VERSION",
+                        "_value": {
+                          "t": "var",
+                          "name": "default_monitoring_exporter_webapp_version"
+                        }
                       },
                       "category": "dynamic",
                       "source": "env.MONITORING_EXPORTER_WEBAPP_VERSION = default_monitoring_exporter_webapp_version",
@@ -400,7 +404,11 @@
                   "name": "<decl>",
                   "line": 245,
                   "named": {
-                    "_target": "knd"
+                    "_target": "knd",
+                    "_value": {
+                      "t": "prop",
+                      "text": "params.KIND_VERSION"
+                    }
                   },
                   "category": "dynamic",
                   "source": "knd = params.KIND_VERSION",
@@ -410,7 +418,11 @@
                   "name": "<decl>",
                   "line": 246,
                   "named": {
-                    "_target": "k8s"
+                    "_target": "k8s",
+                    "_value": {
+                      "t": "prop",
+                      "text": "params.KUBE_VERSION"
+                    }
                   },
                   "category": "dynamic",
                   "source": "k8s = params.KUBE_VERSION",
@@ -426,7 +438,11 @@
                         "line": 258,
                         "named": {
                           "_target": "currentBuild.result",
-                          "_literal": "ABORTED"
+                          "_literal": "ABORTED",
+                          "_value": {
+                            "t": "str",
+                            "v": "ABORTED"
+                          }
                         },
                         "category": "dynamic",
                         "source": "currentBuild.result = ABORTED",
@@ -447,7 +463,21 @@
                       "name": "<decl>",
                       "line": 248,
                       "named": {
-                        "_target": "k8s_map"
+                        "_target": "k8s_map",
+                        "_value": {
+                          "t": "call",
+                          "call": {
+                            "k": "call",
+                            "name": "get",
+                            "args": [
+                              {
+                                "t": "var",
+                                "name": "knd"
+                              }
+                            ],
+                            "receiver": "kind_k8s_map"
+                          }
+                        }
                       },
                       "body": [
                         {
@@ -476,7 +506,21 @@
                           "name": "<assign>",
                           "line": 250,
                           "named": {
-                            "_target": "_kind_image"
+                            "_target": "_kind_image",
+                            "_value": {
+                              "t": "call",
+                              "call": {
+                                "k": "call",
+                                "name": "get",
+                                "args": [
+                                  {
+                                    "t": "var",
+                                    "name": "k8s"
+                                  }
+                                ],
+                                "receiver": "k8s_map"
+                              }
+                            }
                           },
                           "body": [
                             {
@@ -511,7 +555,11 @@
                           "line": 253,
                           "named": {
                             "_target": "currentBuild.result",
-                            "_literal": "ABORTED"
+                            "_literal": "ABORTED",
+                            "_value": {
+                              "t": "str",
+                              "v": "ABORTED"
+                            }
                           },
                           "category": "dynamic",
                           "source": "currentBuild.result = ABORTED",
@@ -554,7 +602,15 @@
                         "name": "<assign>",
                         "line": 265,
                         "named": {
-                          "_target": "currentBuild.description"
+                          "_target": "currentBuild.description",
+                          "_value": {
+                            "t": "gstr",
+                            "v": "\"${GIT_BRANCH} ${MAVEN_PROFILE_NAME}\"",
+                            "vars": [
+                              "{GIT_BRANCH}",
+                              "{MAVEN_PROFILE_NAME}"
+                            ]
+                          }
                         },
                         "category": "dynamic",
                         "source": "currentBuild.description = ${GIT_BRANCH} ${MAVEN_PROFILE_NAME}",
@@ -567,7 +623,15 @@
                       "name": "<assign>",
                       "line": 263,
                       "named": {
-                        "_target": "currentBuild.description"
+                        "_target": "currentBuild.description",
+                        "_value": {
+                          "t": "gstr",
+                          "v": "\"${GIT_BRANCH} ${KUBE_VERSION}\"",
+                          "vars": [
+                            "{GIT_BRANCH}",
+                            "{KUBE_VERSION}"
+                          ]
+                        }
                       },
                       "category": "dynamic",
                       "source": "currentBuild.description = ${GIT_BRANCH} ${KUBE_VERSION}",
@@ -830,7 +894,10 @@
                   "name": "<decl>",
                   "line": 545,
                   "named": {
-                    "_target": "res"
+                    "_target": "res",
+                    "_value": {
+                      "t": "num"
+                    }
                   },
                   "category": "dynamic",
                   "source": "res = 0",
@@ -840,7 +907,24 @@
                   "name": "<assign>",
                   "line": 546,
                   "named": {
-                    "_target": "res"
+                    "_target": "res",
+                    "_value": {
+                      "t": "call",
+                      "call": {
+                        "k": "call",
+                        "name": "sh",
+                        "named": {
+                          "script": {
+                            "t": "str",
+                            "v": "\n                                    if [ -z \"${IT_TEST}\" ] && [ \"${MAVEN_PROFILE_NAME}\" = \"integration-tests\" ]; then\n                                       echo 'ERROR: All tests cannot be run with integration-tests profile'\n                                       exit 1\n                                    fi\n                                "
+                          },
+                          "returnStatus": {
+                            "t": "bool",
+                            "v": true
+                          }
+                        }
+                      }
+                    }
                   },
                   "body": [
                     {
@@ -866,7 +950,11 @@
                       "line": 553,
                       "named": {
                         "_target": "currentBuild.result",
-                        "_literal": "ABORTED"
+                        "_literal": "ABORTED",
+                        "_value": {
+                          "t": "str",
+                          "v": "ABORTED"
+                        }
                       },
                       "category": "dynamic",
                       "source": "currentBuild.result = ABORTED",

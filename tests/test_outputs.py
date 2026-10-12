@@ -336,3 +336,17 @@ def test_remote_artifact_listing_reads_every_page():
     gh = Paged({})
     out = remote.run_outputs(gh, "me/harness", 1, MODEL)
     assert pages == [1, 2] and gh.downloads == ["u/junit"] and len(out["tests"]) == 4
+
+
+def test_build_tag_in_an_archive_path_is_each_runs_own_identity():
+    # `logdir/${BUILD_TAG}/...` (example 107): each side's tag is unique to its run, so it is compared as a placeholder
+    j = jenkins({"logdir/jenkins-ex-107-full-6/op.log": b"x"}, CASES)
+    for tag in ("gha-tonyskidmore-jenkins-to-gha-67", "gha-nektos--1"):  # remote run, act
+        c = outputs.compare_outputs(j, gha(test_reports_17={"junit.xml": JUNIT},
+                                           artifacts_4={f"logdir/{tag}/op.log": b"x"}))
+        assert c["verdict"] == "same", c["archived"]
+    # an ordinary directory, or a bare number, is not a run tag
+    j = jenkins({"logdir/6/op.log": b"x", "gha-docs/a.txt": b"y"}, CASES)
+    c = outputs.compare_outputs(j, gha(test_reports_17={"junit.xml": JUNIT},
+                                       artifacts_4={"logdir/67/op.log": b"x", "gha-docs/a.txt": b"y"}))
+    assert c["verdict"] == "differs" and c["archived"]["missing"] == ["logdir/6/op.log"]

@@ -2,7 +2,7 @@
 
 - **Classification:** significant-redesign (difficulty 46/100)
 - **Convertibility:** partial
-- **Automated mapping (effort estimate, not correctness):** 33.2% (27 mapped, 54 approximated, 102 manual, 3 dropped)
+- **Automated mapping (effort estimate, not correctness):** 34.5% (30 mapped, 53 approximated, 100 manual, 3 dropped)
 - **Weighted step coverage (analysis):** 84.3%
 
 ## Blocking items (hard gates)
@@ -16,6 +16,9 @@
 | ✅ mapped | `options: disableConcurrentBuilds` |  |  | concurrency | GHA keeps only the latest pending run per group |
 | ✅ mapped | `post always` |  |  | final job if: always() |  |
 | ✅ mapped | `post failure` |  |  | final job if: always() && (contains(needs.*.result, 'failure') || failure()) |  |
+| ✅ mapped | `assign buildUser = env.BUILD_USER ` | 202 | Init: TF deployment bucket | run: $GITHUB_ENV | later steps of the job read the variable |
+| ✅ mapped | `decl releaseTimestamp = sh(script: 'date +%Y%m%d%H%M%S'` | 213 | Init: TF deployment bucket | run step; its output goes to $GITHUB_ENV | later steps of the job read the variable |
+| ✅ mapped | `assign manifestVersion = ${releaseTimestamp}_${env.BUILD_` | 214 | Init: TF deployment bucket | run: $GITHUB_ENV | later steps of the job read the variable |
 | ✅ mapped | `dir` | 225 | Init: TF deployment bucket | working-directory |  |
 | ✅ mapped | `dir` | 252 | Init: Verify environment | working-directory |  |
 | ✅ mapped | `dir` | 322 | Build: CVR frontend | working-directory |  |
@@ -53,7 +56,6 @@
 | 🟡 approximated | `script {}` | 201 | Init: TF deployment bucket | inner steps translated individually | imperative Groovy is not executed; review control flow |
 | 🟡 approximated | `wrap` | 202 | Init: TF deployment bucket | body inlined | wrapper semantics not reproduced |
 | 🟡 approximated | `getAwsFunctions() (local helper method)` | 203 | Init: TF deployment bucket | inlined | body of the Jenkinsfile helper method inlined |
-| 🟡 approximated | `decl releaseTimestamp = sh(script: 'date +%Y%m%d%H%M%S'` | 213 | Init: TF deployment bucket | run step (captured output not propagated) | write values to $GITHUB_OUTPUT/$GITHUB_ENV |
 | 🟡 approximated | `sh` | 213 | Init: TF deployment bucket | run | Groovy interpolation of non-env values needs review |
 | 🟡 approximated | `stage 'Init: Verify environment' when` | 239 | Init: Verify environment | if: env.action != 'destroy' | evaluated once at stage entry against env |
 | 🟡 approximated | `script {}` | 242 | Init: Verify environment | inner steps translated individually | imperative Groovy is not executed; review control flow |
@@ -111,14 +113,12 @@
 | 🔴 manual | `assign shouldLoadDbData = False` | 189 | Init: Check DB data completion | - | Groovy variable assignment |
 | 🔴 manual | `info` | 191 | Init: Check DB data completion | placeholder step | unknown step with no deterministic mapping (plugin/shared-library step) |
 | 🔴 manual | `assign shouldLoadDbData = isAnyDbTableMissing(...)` | 194 | Init: Check DB data completion | - | Groovy variable assignment from a step |
-| 🔴 manual | `assign buildUser = env.BUILD_USER ` | 202 | Init: TF deployment bucket | - | Groovy variable assignment |
 | 🔴 manual | `decl output = getAwsFunctions().awsCli(...)` | 203 | Init: TF deployment bucket | - | Groovy variable assignment from a step |
 | 🔴 manual | `assign output = [status: 0, stdout: 123456789012]` | 206 | Init: TF deployment bucket | - | Groovy variable assignment |
 | 🔴 manual | `if (output.status)` | 207 | Init: TF deployment bucket | placeholder | condition depends on Groovy runtime state |
 | 🔴 manual | `assign accountId = output.stdout.trim(...)` | 211 | Init: TF deployment bucket | - | Groovy variable assignment from a step |
 | 🔴 manual | `trim` | 211 | Init: TF deployment bucket | - | Groovy method / helper call - port logic to a script |
 | 🔴 manual | `assign projectBucketPrefix = ${project}-${accountId}-${gl` | 212 | Init: TF deployment bucket | - | Groovy variable assignment |
-| 🔴 manual | `assign manifestVersion = ${releaseTimestamp}_${env.BUILD_` | 214 | Init: TF deployment bucket | - | Groovy variable assignment |
 | 🔴 manual | `assign currentBuild.description = CVR ${params.action} <b` | 215 | Init: TF deployment bucket | - | Groovy variable assignment |
 | 🔴 manual | `if (!repoFunctionsFactory.checkoutGitRepo(
            )` | 216 | Init: TF deployment bucket | placeholder | condition depends on Groovy runtime state |
@@ -265,12 +265,12 @@ post: always, failure
 
 Where to read about each construct above, most work first: jenkins.io and docs.github.com (GitHub.com) pages from the crosswalk in `j2gha/rules/docs-xref.yaml`. With the local docs bundles fetched, `uv run j2gha docs xref <construct>` resolves the same pages offline, or for another GitHub version.
 
+- **`scripted`** (🔴 73 manual, 🟡 32 approximated, ✅ 3 mapped): Groovy control flow -> expressions/if, matrix, or a script step; anything dynamic needs redesign.
+  - Jenkins: [syntax #scripted-pipeline](https://www.jenkins.io/doc/book/pipeline/syntax/#scripted-pipeline) · [cps-method-mismatches](https://www.jenkins.io/doc/book/pipeline/cps-method-mismatches/)
+  - GitHub Actions: [migrate-from-jenkins](https://docs.github.com/en/actions/tutorials/migrate-to-github-actions/manual-migrations/migrate-from-jenkins)
 - **`when`** (🔴 7 manual, 🟡 6 approximated): GHA == is case-insensitive; changeset -> paths filters (workflow level) or a paths-filter action (step level).
   - Jenkins: [syntax #when](https://www.jenkins.io/doc/book/pipeline/syntax/#when)
   - GitHub Actions: [control-jobs-with-conditions](https://docs.github.com/en/actions/how-tos/write-workflows/choose-when-workflows-run/control-jobs-with-conditions) · [expressions](https://docs.github.com/en/actions/reference/workflows-and-actions/expressions) · [workflow-syntax #onpushpull_requestpull_request_targetpathspaths-ignore](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#onpushpull_requestpull_request_targetpathspaths-ignore)
-- **`scripted`** (🔴 75 manual, 🟡 33 approximated): Groovy control flow -> expressions/if, matrix, or a script step; anything dynamic needs redesign.
-  - Jenkins: [syntax #scripted-pipeline](https://www.jenkins.io/doc/book/pipeline/syntax/#scripted-pipeline) · [cps-method-mismatches](https://www.jenkins.io/doc/book/pipeline/cps-method-mismatches/)
-  - GitHub Actions: [migrate-from-jenkins](https://docs.github.com/en/actions/tutorials/migrate-to-github-actions/manual-migrations/migrate-from-jenkins)
 - **`sh`** (🟡 2 approximated, ✅ 1 mapped): returnStdout -> write to $GITHUB_OUTPUT and read steps.<id>.outputs.
   - Jenkins: [step `sh`](https://www.jenkins.io/doc/pipeline/steps/)
   - GitHub Actions: [workflow-syntax #jobsjob_idstepsrun](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#jobsjob_idstepsrun) · [workflow-syntax #jobsjob_idstepsshell](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#jobsjob_idstepsshell)

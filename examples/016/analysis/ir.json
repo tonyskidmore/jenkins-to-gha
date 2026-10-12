@@ -8,7 +8,28 @@
           "name": "<decl>",
           "line": 1,
           "named": {
-            "_target": "label"
+            "_target": "label",
+            "_value": {
+              "t": "gstr",
+              "v": "\"jenkins-node-${UUID.randomUUID().toString()}\"",
+              "vars": [
+                "{UUID.randomUUID().toString()}"
+              ],
+              "calls": [
+                {
+                  "k": "call",
+                  "name": "toString",
+                  "receiver": "UUID.randomUUID()",
+                  "receiverCalls": [
+                    {
+                      "k": "call",
+                      "name": "randomUUID",
+                      "receiver": "UUID"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           "category": "dynamic",
           "source": "label = jenkins-node-${UUID.randomUUID().toString()}",
@@ -46,7 +67,15 @@
                           "name": "<assign>",
                           "line": 9,
                           "named": {
-                            "_target": "LBRANCH"
+                            "_target": "LBRANCH",
+                            "_value": {
+                              "t": "call",
+                              "call": {
+                                "k": "call",
+                                "name": "toLowerCase",
+                                "receiver": "\"${env.BRANCH}\""
+                              }
+                            }
                           },
                           "body": [
                             {
@@ -67,7 +96,10 @@
                       "name": "<assign>",
                       "line": 12,
                       "named": {
-                        "_target": "APP_ID"
+                        "_target": "APP_ID",
+                        "_value": {
+                          "t": "str"
+                        }
                       },
                       "category": "dynamic",
                       "source": "APP_ID = ",
@@ -181,7 +213,31 @@
                               "name": "<assign>",
                               "line": 27,
                               "named": {
-                                "_target": "APP_ID"
+                                "_target": "APP_ID",
+                                "_value": {
+                                  "t": "call",
+                                  "call": {
+                                    "k": "call",
+                                    "name": "trim",
+                                    "receiver": "sh(script: 'curl -u $BROWSERSTACK_CREDS -X POST \"https://api-cloud.browserstack.com/app-automate/upload\" -F \"file=@CVSMobile.ipa\" | jq \".app_url\"',returnStdout: true)",
+                                    "receiverCalls": [
+                                      {
+                                        "k": "call",
+                                        "name": "sh",
+                                        "named": {
+                                          "script": {
+                                            "t": "str",
+                                            "v": "curl -u $BROWSERSTACK_CREDS -X POST \"https://api-cloud.browserstack.com/app-automate/upload\" -F \"file=@CVSMobile.ipa\" | jq \".app_url\""
+                                          },
+                                          "returnStdout": {
+                                            "t": "bool",
+                                            "v": true
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  }
+                                }
                               },
                               "body": [
                                 {

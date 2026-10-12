@@ -2,7 +2,7 @@
 
 - **Classification:** significant-redesign (difficulty 46/100)
 - **Convertibility:** partial
-- **Automated mapping (effort estimate, not correctness):** 74.7% (51 mapped, 37 approximated, 10 manual, 0 dropped)
+- **Automated mapping (effort estimate, not correctness):** 77.8% (54 mapped, 37 approximated, 7 manual, 0 dropped)
 - **Weighted step coverage (analysis):** 75.4%
 
 ## Secrets required
@@ -21,7 +21,7 @@
 
 | | Jenkins | Line | Stage | GitHub Actions | Note |
 |---|---|---:|---|---|---|
-| ✅ mapped | `stage 'Run integration tests' post always` |  | Run integration tests | if: (always()) && (steps.s22.outcome == 'success') |  |
+| ✅ mapped | `stage 'Run integration tests' post always` |  | Run integration tests | if: (always()) && (steps.s24.outcome == 'success') |  |
 | ✅ mapped | `stage 'Filter unwanted branches' post always` |  | Filter unwanted branches | if: (always()) && (steps.s1.outcome == 'success') |  |
 | ✅ mapped | `environment ocir_creds` | 49 |  | env |  |
 | ✅ mapped | `environment kind_name` | 56 |  | env |  |
@@ -57,6 +57,8 @@
 | ✅ mapped | `stage 'Filter unwanted branches' when` | 208 | Filter unwanted branches | if: (env.CHANGE_ID != '' || env.BRANCH_NAME == 'main' || env.BRANCH_NAME == 'release/4.0' || env.BRANCH_NAME == 'release/3.4') | evaluated once at stage entry against env |
 | ✅ mapped | `echo` | 218 | Workaround JENKINS-41929 Parameters bug | run: echo |  |
 | ✅ mapped | `sh` | 234 | Echo environment | run |  |
+| ✅ mapped | `decl knd = params.KIND_VERSION` | 245 | Echo environment | run: $GITHUB_ENV | later steps of the job read the variable |
+| ✅ mapped | `decl k8s = params.KUBE_VERSION` | 246 | Echo environment | run: $GITHUB_ENV | later steps of the job read the variable |
 | ✅ mapped | `sh` | 275 | Build WebLogic Kubernetes Operator | run |  |
 | ✅ mapped | `sh` | 291 | Install Helm | run |  |
 | ✅ mapped | `sh` | 307 | Run Helm installation tests | run |  |
@@ -66,6 +68,7 @@
 | ✅ mapped | `sh` | 352 | Preparing Integration Test Environment | run |  |
 | ✅ mapped | `sh` | 362 | Start registry container | run |  |
 | ✅ mapped | `sh` | 385 | Create kind cluster | run |  |
+| ✅ mapped | `decl res = 0` | 550 | Run integration tests | run: $GITHUB_ENV | later steps of the job read the variable |
 | ✅ mapped | `sh` | 563 | Run integration tests | run |  |
 | ✅ mapped | `withCredentials usernamePassword 'wkt-ocir-creds'` | 615 | Run integration tests | secrets -> step env |  |
 | ✅ mapped | `sh` | 618 | Run integration tests | run |  |
@@ -111,12 +114,9 @@
 | 🟡 approximated | `stage 'Sync' when` | 685 | Sync | if: ((env.BRANCH_NAME == 'main' || env.BRANCH_NAME == 'release/4.0' || env.BRANCH_NAME == 'release/3.4')) && ((!(github.event_name == 'schedule') || (startsWith(env.TAG_NAME, 'v') && !contains(env.TAG_NAME, '/')))) | evaluated once at stage entry against env |
 | 🔴 manual | `evaluate` | 219 | Workaround JENKINS-41929 Parameters bug | placeholder step | dynamic step with no deterministic mapping |
 | 🔴 manual | `assign env.MONITORING_EXPORTER_WEBAPP_VERSION = default_m` | 224 | Workaround JENKINS-41929 Parameters bug | - | Groovy variable assignment |
-| 🔴 manual | `decl knd = params.KIND_VERSION` | 245 | Echo environment | - | Groovy variable assignment |
-| 🔴 manual | `decl k8s = params.KUBE_VERSION` | 246 | Echo environment | - | Groovy variable assignment |
 | 🔴 manual | `if (knd != null && k8s != null)` | 247 | Echo environment | placeholder | condition depends on Groovy runtime state |
 | 🔴 manual | `assign currentBuild.description = ${GIT_BRANCH} ${KUBE_VE` | 263 | Echo environment | - | Groovy variable assignment |
 | 🔴 manual | `assign currentBuild.description = ${GIT_BRANCH} ${MAVEN_P` | 265 | Echo environment | - | Groovy variable assignment |
-| 🔴 manual | `decl res = 0` | 550 | Run integration tests | - | Groovy variable assignment |
 | 🔴 manual | `if (res != 0 )` | 557 | Run integration tests | placeholder | condition depends on Groovy runtime state |
 | 🔴 manual | `build job: wkt-sync` | 696 | Sync | workflow_call / workflow_dispatch | downstream Jenkins job must be migrated; trigger with `gh workflow run` or a reusable workflow |
 | ℹ️ info | `checkout: SCM environment (GIT_COMMIT, GIT_BRANCH, GIT_URL)` |  |  | env | Jenkins' git plugin exports them to every step after a checkout, so called scripts may read them; defined at workflow level even when the Jenkinsfile does not |
@@ -166,7 +166,7 @@ pipeline [declarative] agent: label large-ol9u4
 
 Where to read about each construct above, most work first: jenkins.io and docs.github.com (GitHub.com) pages from the crosswalk in `j2gha/rules/docs-xref.yaml`. With the local docs bundles fetched, `uv run j2gha docs xref <construct>` resolves the same pages offline, or for another GitHub version.
 
-- **`scripted`** (🔴 8 manual, 🟡 6 approximated): Groovy control flow -> expressions/if, matrix, or a script step; anything dynamic needs redesign.
+- **`scripted`** (🔴 5 manual, 🟡 6 approximated, ✅ 3 mapped): Groovy control flow -> expressions/if, matrix, or a script step; anything dynamic needs redesign.
   - Jenkins: [syntax #scripted-pipeline](https://www.jenkins.io/doc/book/pipeline/syntax/#scripted-pipeline) · [cps-method-mismatches](https://www.jenkins.io/doc/book/pipeline/cps-method-mismatches/)
   - GitHub Actions: [migrate-from-jenkins](https://docs.github.com/en/actions/tutorials/migrate-to-github-actions/manual-migrations/migrate-from-jenkins)
 - **`build`** (🔴 1 manual): downstream job -> reusable workflow call (wait) or workflow_dispatch via API (fire-and-forget).

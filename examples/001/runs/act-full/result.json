@@ -3,18 +3,26 @@
   "mode": "full",
   "result": "failure",
   "exit_code": 1,
-  "seconds": 2.1,
+  "seconds": 185.2,
   "jobs": {
     "setup-env": {
+      "result": "success"
+    },
+    "build-docs": {
+      "result": "success"
+    },
+    "build-release-tarball": {
       "result": "failure"
     }
   },
   "traces": [],
-  "failed_steps": [],
+  "failed_steps": [
+    "Build Release Tarball: ./configure --spidermonkey-version 128 --with-nouveau"
+  ],
   "error_tail": [
-    "{\"level\":\"info\",\"msg\":\"Using docker host 'unix:///var/run/docker.sock', and daemon socket '-'\",\"time\":\"2026-10-10T08:23:25Z\"}",
-    "{\"level\":\"info\",\"msg\":\"Start server on http://172.17.0.3:34567\",\"time\":\"2026-10-10T08:23:25Z\"}",
-    "Error: unable to determine if image already exists for image '${DOCKER_IMAGE_BASE}-${MINIMUM_ERLANG_VERSION}' (linux/amd64): Error response from daemon: invalid reference format: repository name (library/${DOCKER_IMAGE_BASE}-${MINIMUM_ERLANG_VERSION}) must be lowercase"
+    "{\"level\":\"info\",\"msg\":\"Using docker host 'unix:///var/run/docker.sock', and daemon socket '-'\",\"time\":\"2026-10-12T12:13:35Z\"}",
+    "{\"level\":\"info\",\"msg\":\"Start server on http://172.17.0.3:34567\",\"time\":\"2026-10-12T12:13:35Z\"}",
+    "Error: Job 'Build Release Tarball' failed"
   ],
   "outputs": {
     "archived": [],
@@ -22,8 +30,8 @@
     "injected": [
       {
         "path": ".github/workflows/j2gha.yml",
-        "size": 8094,
-        "sha256": "eb0ab69aee18308c9379401828651f89816c10cc3893f2b7d172458813df704d"
+        "size": 8625,
+        "sha256": "46e02b38ffb69cd0cafdfc1564fa67e8e0efa8e9bd2c7a6ef3b35e96a0c7acc4"
       }
     ]
   },
@@ -31,9 +39,9 @@
     "dropped_jobs": [],
     "matrix_jobs": 4,
     "dropped_container_options": {
-      "setup-env": "${DOCKER_ARGS}",
-      "build-docs": "${DOCKER_ARGS}",
-      "build-release-tarball": "${DOCKER_ARGS}"
+      "setup-env": "-v=/etc/passwd:/etc/passwd -v /etc/group:/etc/group -v /home/jenkins/.gradle:/home/jenkins/.gradle:rw,z -v /home/jenkins/.hex:/home/jenkins/.hex:rw,z -v /home/jenkins/.npm:/home/jenkins/.npm:rw,z -v /home/jenkins/.cache/pip:/home/jenkins/.cache/pip:rw,z -v /home/jenkins/.mix:/home/jenkins/.mix:rw,z",
+      "build-docs": "-v=/etc/passwd:/etc/passwd -v /etc/group:/etc/group -v /home/jenkins/.gradle:/home/jenkins/.gradle:rw,z -v /home/jenkins/.hex:/home/jenkins/.hex:rw,z -v /home/jenkins/.npm:/home/jenkins/.npm:rw,z -v /home/jenkins/.cache/pip:/home/jenkins/.cache/pip:rw,z -v /home/jenkins/.mix:/home/jenkins/.mix:rw,z",
+      "build-release-tarball": "-v=/etc/passwd:/etc/passwd -v /etc/group:/etc/group -v /home/jenkins/.gradle:/home/jenkins/.gradle:rw,z -v /home/jenkins/.hex:/home/jenkins/.hex:rw,z -v /home/jenkins/.npm:/home/jenkins/.npm:rw,z -v /home/jenkins/.cache/pip:/home/jenkins/.cache/pip:rw,z -v /home/jenkins/.mix:/home/jenkins/.mix:rw,z"
     },
     "jobs": 4
   },
@@ -44,7 +52,7 @@
       "git_branch": "origin/main"
     },
     "mode": "full",
-    "model_sha256": "a7f1e6dbb01f5b66606d69cfa7d7a4b0aa937e488a11c90c516385c0cea76b03",
+    "model_sha256": "e16d50bb0025bcc6ff12b8d7e36ea7bc0dfb036980c440e49c3299fc25340d27",
     "images": {
       "jenkins": {
         "ref": "j2gha/jenkins:local",
@@ -96,17 +104,17 @@
       }
     }
   },
-  "finished_at": "2026-10-10T08:23:26+00:00",
+  "finished_at": "2026-10-12T12:16:39+00:00",
   "comparison": {
     "mode": "full",
-    "verdict": "inconclusive",
-    "equivalent": false,
-    "similarity_pct": null,
+    "verdict": "equivalent",
+    "equivalent": true,
+    "similarity_pct": 100.0,
     "jenkins_result": "FAILURE",
     "gha_result": "failure",
     "jenkins_failed_stage": "Build Release Tarball",
-    "gha_failed_stage": null,
-    "gha_failed_step": null,
+    "gha_failed_stage": "Build Release Tarball",
+    "gha_failed_step": "Build Release Tarball: ./configure --spidermonkey-version 128 --with-nouveau",
     "stages": [],
     "outputs": {
       "tests": {
@@ -125,10 +133,6 @@
         "proven": false
       },
       "verdict": "same"
-    },
-    "inconclusive": {
-      "reason": "the failing stage is unknown on the converted side",
-      "stage": null
     }
   }
 }

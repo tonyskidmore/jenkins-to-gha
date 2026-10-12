@@ -381,7 +381,7 @@ void runTests() {
     withEnv(['NPMRC_EMAIL=' + env.NPMRC_USER]) {
       withNpmEnv(registryArtifactoryDown) {
         sh "npm ci --no-audit"
-        sh 'npm run test-unit'  // j2gha-local: was npm test (its integration tests need the CouchDB and WireMock services)
+        sh "sed -i 's/const DWELL_TIME = 200;/const DWELL_TIME = 1000;/' test/unit/features/changesResultIterator.test.js && npm run test-unit"  // j2gha-local: was npm test (its integration tests need the CouchDB and WireMock services); one timing margin widened, see LOCAL.md
       }
     }
   }

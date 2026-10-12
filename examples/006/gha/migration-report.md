@@ -2,7 +2,7 @@
 
 - **Classification:** assisted (difficulty 42/100)
 - **Convertibility:** automatic
-- **Automated mapping (effort estimate, not correctness):** 56.0% (11 mapped, 27 approximated, 11 manual, 1 dropped)
+- **Automated mapping (effort estimate, not correctness):** 70.2% (18 mapped, 26 approximated, 4 manual, 1 dropped)
 - **Weighted step coverage (analysis):** 52.6%
 
 ## Secrets required
@@ -21,6 +21,13 @@
 | ✅ mapped | `post aborted` |  |  | final job if: always() && contains(needs.*.result, 'cancelled') |  |
 | ✅ mapped | `post failure` |  |  | final job if: always() && (contains(needs.*.result, 'failure') || failure()) |  |
 | ✅ mapped | `post success` |  |  | final job if: !failure() && !cancelled() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled') |  |
+| ✅ mapped | `assign oversion = sh(script: "jq -r '.variable.iac_versio` | 21 | Setup | run step; its output goes to $GITHUB_ENV | later steps of the job read the variable |
+| ✅ mapped | `assign version = ${oversion.take(...)}-${env.BUILD_NUMBER` | 24 | Setup | run: $GITHUB_ENV | later steps of the job read the variable |
+| ✅ mapped | `assign oversion = oversion.take(...)` | 25 | Setup | run: $GITHUB_ENV | later steps of the job read the variable |
+| ✅ mapped | `assign iacname = env.JOB_NAME` | 26 | Setup | run: $GITHUB_ENV | later steps of the job read the variable |
+| ✅ mapped | `assign prjname = oss-opensource` | 29 | Setup | run: $GITHUB_ENV | later steps of the job read the variable |
+| ✅ mapped | `assign packname = ${iacname}-v${version}.tar.gz` | 32 | Setup | run: $GITHUB_ENV | later steps of the job read the variable |
+| ✅ mapped | `assign publish_url = ${env.NEXUS_URL }/repository/raw-ter` | 35 | Setup | run: $GITHUB_ENV | later steps of the job read the variable |
 | ✅ mapped | `sh` | 43 | Build | run |  |
 | ✅ mapped | `sh` | 47 | Build | run |  |
 | ✅ mapped | `withCredentials usernamePassword 'nexus-credential'` | 62 | Publish | secrets -> step env |  |
@@ -33,7 +40,6 @@
 | 🟡 approximated | `(no pipeline timeout)` |  |  | timeout-minutes: 60 | explicit job timeout added (GitHub's default is 360 minutes); set J2GHA_DEFAULT_TIMEOUT to change |
 | 🟡 approximated | `script {}` | 8 | Setup | inner steps translated individually | imperative Groovy is not executed; review control flow |
 | 🟡 approximated | `if (env.GIT_BRANCH == 'origin/develop' || env.GIT_BRAN) assigning target` | 10 | Setup | run: bash if/elif -> $GITHUB_ENV + job outputs | Java regexes run as POSIX ERE; later `when`/`if` read env.target |
-| 🟡 approximated | `assign oversion = sh(script: "jq -r '.variable.iac_versio` | 21 | Setup | run step (captured output not propagated) | write values to $GITHUB_OUTPUT/$GITHUB_ENV |
 | 🟡 approximated | `sh` | 21 | Setup | run | Groovy interpolation of non-env values needs review |
 | 🟡 approximated | `sh` | 44 | Build | run | Groovy interpolation of non-env values needs review |
 | 🟡 approximated | `sh` | 45 | Build | run |  |
@@ -57,13 +63,6 @@
 | 🟡 approximated | `stage 'PRO Deploy' when` | 134 | PRO Deploy | if: env.target == 'pro' | evaluated once at stage entry against env |
 | 🟡 approximated | `configFileProvider` | 138 | PRO Deploy | body inlined | wrapper semantics not reproduced |
 | 🟡 approximated | `sh` | 139 | PRO Deploy | run | Groovy interpolation of non-env values needs review |
-| 🔴 manual | `assign version = ${oversion.take(...)}-${env.BUILD_NUMBER` | 24 | Setup | - | Groovy variable assignment |
-| 🔴 manual | `assign oversion = oversion.take(...)` | 25 | Setup | - | Groovy variable assignment from a step |
-| 🔴 manual | `take` | 25 | Setup | - | Groovy method / helper call - port logic to a script |
-| 🔴 manual | `assign iacname = env.JOB_NAME` | 26 | Setup | - | Groovy variable assignment |
-| 🔴 manual | `assign prjname = oss-opensource` | 29 | Setup | - | Groovy variable assignment |
-| 🔴 manual | `assign packname = ${iacname}-v${version}.tar.gz` | 32 | Setup | - | Groovy variable assignment |
-| 🔴 manual | `assign publish_url = ${env.NEXUS_URL }/repository/raw-ter` | 35 | Setup | - | Groovy variable assignment |
 | 🔴 manual | `cucumber` | 116 | Acceptance Test | placeholder step | unknown step with no deterministic mapping (plugin/shared-library step) |
 | 🔴 manual | `rocketSend` | 150 | Declarative: Post Actions | placeholder step | unknown step with no deterministic mapping (plugin/shared-library step) |
 | 🔴 manual | `rocketSend` | 173 | Declarative: Post Actions | placeholder step | unknown step with no deterministic mapping (plugin/shared-library step) |
@@ -115,7 +114,7 @@ post: success, failure, unstable, aborted
 
 Where to read about each construct above, most work first: jenkins.io and docs.github.com (GitHub.com) pages from the crosswalk in `j2gha/rules/docs-xref.yaml`. With the local docs bundles fetched, `uv run j2gha docs xref <construct>` resolves the same pages offline, or for another GitHub version.
 
-- **`scripted`** (🔴 6 manual, 🟡 3 approximated): Groovy control flow -> expressions/if, matrix, or a script step; anything dynamic needs redesign.
+- **`scripted`** (🟡 2 approximated, ✅ 7 mapped): Groovy control flow -> expressions/if, matrix, or a script step; anything dynamic needs redesign.
   - Jenkins: [syntax #scripted-pipeline](https://www.jenkins.io/doc/book/pipeline/syntax/#scripted-pipeline) · [cps-method-mismatches](https://www.jenkins.io/doc/book/pipeline/cps-method-mismatches/)
   - GitHub Actions: [migrate-from-jenkins](https://docs.github.com/en/actions/tutorials/migrate-to-github-actions/manual-migrations/migrate-from-jenkins)
 - **`sh`** (🟡 13 approximated, ✅ 4 mapped): returnStdout -> write to $GITHUB_OUTPUT and read steps.<id>.outputs.

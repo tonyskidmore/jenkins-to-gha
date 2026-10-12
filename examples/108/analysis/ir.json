@@ -39,7 +39,12 @@
           "name": "<decl>",
           "line": 1,
           "named": {
-            "_target": "_"
+            "_target": "_",
+            "_value": {
+              "t": "expr",
+              "kind": "EmptyExpression",
+              "text": "<not implemented yet for class: org.codehaus.groovy.ast.expr.EmptyExpression>"
+            }
           },
           "category": "dynamic",
           "source": "_ = <not implemented yet for class: org.codehaus.groovy.ast.expr.EmptyExpression>",
@@ -50,7 +55,11 @@
           "line": 4,
           "named": {
             "_target": "DEFAULT_LABEL",
-            "_literal": "h2o3_linux"
+            "_literal": "h2o3_linux",
+            "_value": {
+              "t": "str",
+              "v": "h2o3_linux"
+            }
           },
           "category": "dynamic",
           "source": "DEFAULT_LABEL = h2o3_linux",
@@ -61,7 +70,11 @@
           "line": 6,
           "named": {
             "_target": "H2O_ECR",
-            "_literal": "353750902984.dkr.ecr.us-east-1.amazonaws.com"
+            "_literal": "353750902984.dkr.ecr.us-east-1.amazonaws.com",
+            "_value": {
+              "t": "str",
+              "v": "353750902984.dkr.ecr.us-east-1.amazonaws.com"
+            }
           },
           "category": "dynamic",
           "source": "H2O_ECR = 353750902984.dkr.ecr.us-east-1.amazonaws.com",
@@ -94,7 +107,24 @@
           "name": "<assign>",
           "line": 24,
           "named": {
-            "_target": "JDK_VERSIONS"
+            "_target": "JDK_VERSIONS",
+            "_value": {
+              "t": "list",
+              "v": [
+                {
+                  "t": "str",
+                  "v": "8"
+                },
+                {
+                  "t": "str",
+                  "v": "11"
+                },
+                {
+                  "t": "str",
+                  "v": "17"
+                }
+              ]
+            }
           },
           "category": "dynamic",
           "source": "JDK_VERSIONS = [8, 11, 17]",
@@ -104,7 +134,24 @@
           "name": "<assign>",
           "line": 25,
           "named": {
-            "_target": "JDK_VERSIONS_PY_R"
+            "_target": "JDK_VERSIONS_PY_R",
+            "_value": {
+              "t": "list",
+              "v": [
+                {
+                  "t": "str",
+                  "v": "8"
+                },
+                {
+                  "t": "str",
+                  "v": "11"
+                },
+                {
+                  "t": "str",
+                  "v": "17"
+                }
+              ]
+            }
           },
           "category": "dynamic",
           "source": "JDK_VERSIONS_PY_R = [8, 11, 17]",
@@ -114,7 +161,12 @@
           "name": "<decl>",
           "line": 86,
           "named": {
-            "_target": "pipelineContext"
+            "_target": "pipelineContext",
+            "_value": {
+              "t": "expr",
+              "kind": "EmptyExpression",
+              "text": "<not implemented yet for class: org.codehaus.groovy.ast.expr.EmptyExpression>"
+            }
           },
           "category": "dynamic",
           "source": "pipelineContext = <not implemented yet for class: org.codehaus.groovy.ast.expr.EmptyExpression>",
@@ -125,7 +177,11 @@
           "line": 90,
           "named": {
             "_target": "checkoutStageName",
-            "_literal": "Checkout and Init"
+            "_literal": "Checkout and Init",
+            "_value": {
+              "t": "str",
+              "v": "Checkout and Init"
+            }
           },
           "category": "dynamic",
           "source": "checkoutStageName = Checkout and Init",
@@ -166,7 +222,20 @@
               "name": "<decl>",
               "line": 95,
               "named": {
-                "_target": "scmEnv"
+                "_target": "scmEnv",
+                "_value": {
+                  "t": "call",
+                  "call": {
+                    "k": "call",
+                    "name": "checkout",
+                    "args": [
+                      {
+                        "t": "var",
+                        "name": "scm"
+                      }
+                    ]
+                  }
+                }
               },
               "body": [
                 {
@@ -190,7 +259,20 @@
               "name": "<decl>",
               "line": 97,
               "named": {
-                "_target": "pipelineContextFactory"
+                "_target": "pipelineContextFactory",
+                "_value": {
+                  "t": "call",
+                  "call": {
+                    "k": "call",
+                    "name": "load",
+                    "args": [
+                      {
+                        "t": "str",
+                        "v": "scripts/jenkins/groovy/pipelineContext.groovy"
+                      }
+                    ]
+                  }
+                }
               },
               "body": [
                 {
@@ -210,7 +292,32 @@
               "name": "<assign>",
               "line": 98,
               "named": {
-                "_target": "pipelineContext"
+                "_target": "pipelineContext",
+                "_value": {
+                  "t": "call",
+                  "call": {
+                    "k": "call",
+                    "name": "pipelineContextFactory",
+                    "args": [
+                      {
+                        "t": "str",
+                        "v": "."
+                      },
+                      {
+                        "t": "str",
+                        "v": "MODE_BUILD_DOCKER"
+                      },
+                      {
+                        "t": "var",
+                        "name": "scmEnv"
+                      },
+                      {
+                        "t": "bool",
+                        "v": true
+                      }
+                    ]
+                  }
+                }
               },
               "body": [
                 {
@@ -237,7 +344,22 @@
               "name": "<decl>",
               "line": 99,
               "named": {
-                "_target": "currentVersion"
+                "_target": "currentVersion",
+                "_value": {
+                  "t": "call",
+                  "call": {
+                    "k": "call",
+                    "name": "getDefaultImageVersion",
+                    "receiver": "pipelineContext.getBuildConfig()",
+                    "receiverCalls": [
+                      {
+                        "k": "call",
+                        "name": "getBuildConfig",
+                        "receiver": "pipelineContext"
+                      }
+                    ]
+                  }
+                }
               },
               "body": [
                 {
@@ -255,7 +377,15 @@
               "name": "<assign>",
               "line": 100,
               "named": {
-                "_target": "currentBuild.displayName"
+                "_target": "currentBuild.displayName",
+                "_value": {
+                  "t": "gstr",
+                  "v": "\"v${currentVersion} #${currentBuild.number}\"",
+                  "vars": [
+                    "{currentVersion}",
+                    "{currentBuild.number}"
+                  ]
+                }
               },
               "category": "dynamic",
               "source": "currentBuild.displayName = v${currentVersion} #${currentBuild.number}",
@@ -406,7 +536,18 @@
           "name": "<assign>",
           "line": 130,
           "named": {
-            "_target": "PYTHON_VERSIONS"
+            "_target": "PYTHON_VERSIONS",
+            "_value": {
+              "t": "prop",
+              "text": "pipelineContext.getBuildConfig().PYTHON_VERSIONS",
+              "calls": [
+                {
+                  "k": "call",
+                  "name": "getBuildConfig",
+                  "receiver": "pipelineContext"
+                }
+              ]
+            }
           },
           "category": "dynamic",
           "source": "PYTHON_VERSIONS = pipelineContext.getBuildConfig().PYTHON_VERSIONS",
@@ -416,7 +557,18 @@
           "name": "<assign>",
           "line": 131,
           "named": {
-            "_target": "R_VERSIONS"
+            "_target": "R_VERSIONS",
+            "_value": {
+              "t": "prop",
+              "text": "pipelineContext.getBuildConfig().R_VERSIONS",
+              "calls": [
+                {
+                  "k": "call",
+                  "name": "getBuildConfig",
+                  "receiver": "pipelineContext"
+                }
+              ]
+            }
           },
           "category": "dynamic",
           "source": "R_VERSIONS = pipelineContext.getBuildConfig().R_VERSIONS",
@@ -472,7 +624,10 @@
           "name": "<decl>",
           "line": 137,
           "named": {
-            "_target": "pythonImages"
+            "_target": "pythonImages",
+            "_value": {
+              "t": "list"
+            }
           },
           "category": "dynamic",
           "source": "pythonImages = []",
@@ -486,7 +641,14 @@
               "name": "<assign>",
               "line": 139,
               "named": {
-                "_target": "pythonImages"
+                "_target": "pythonImages",
+                "_value": {
+                  "t": "gstr",
+                  "v": "\"dev-python-${version}\"",
+                  "vars": [
+                    "{version}"
+                  ]
+                }
               },
               "category": "dynamic",
               "source": "pythonImages = dev-python-${version}",
@@ -529,7 +691,10 @@
           "name": "<decl>",
           "line": 144,
           "named": {
-            "_target": "componentImages"
+            "_target": "componentImages",
+            "_value": {
+              "t": "list"
+            }
           },
           "category": "dynamic",
           "source": "componentImages = []",
@@ -543,7 +708,14 @@
               "name": "<assign>",
               "line": 146,
               "named": {
-                "_target": "componentImages"
+                "_target": "componentImages",
+                "_value": {
+                  "t": "gstr",
+                  "v": "\"dev-r-${version}\"",
+                  "vars": [
+                    "{version}"
+                  ]
+                }
               },
               "category": "dynamic",
               "source": "componentImages = dev-r-${version}",
@@ -561,7 +733,14 @@
               "name": "<assign>",
               "line": 149,
               "named": {
-                "_target": "componentImages"
+                "_target": "componentImages",
+                "_value": {
+                  "t": "gstr",
+                  "v": "\"dev-jdk-${version}\"",
+                  "vars": [
+                    "{version}"
+                  ]
+                }
               },
               "category": "dynamic",
               "source": "componentImages = dev-jdk-${version}",
@@ -576,7 +755,11 @@
           "line": 151,
           "named": {
             "_target": "componentImages",
-            "_literal": "dev-mojocompat"
+            "_literal": "dev-mojocompat",
+            "_value": {
+              "t": "str",
+              "v": "dev-mojocompat"
+            }
           },
           "category": "dynamic",
           "source": "componentImages = dev-mojocompat",
@@ -645,7 +828,10 @@
           "name": "<decl>",
           "line": 158,
           "named": {
-            "_target": "componentJdkImages"
+            "_target": "componentJdkImages",
+            "_value": {
+              "t": "list"
+            }
           },
           "category": "dynamic",
           "source": "componentJdkImages = []",
@@ -663,7 +849,15 @@
                   "name": "<assign>",
                   "line": 161,
                   "named": {
-                    "_target": "componentJdkImages"
+                    "_target": "componentJdkImages",
+                    "_value": {
+                      "t": "gstr",
+                      "v": "\"dev-python-${version}-jdk-${jdkVersion}\"",
+                      "vars": [
+                        "{version}",
+                        "{jdkVersion}"
+                      ]
+                    }
                   },
                   "category": "dynamic",
                   "source": "componentJdkImages = dev-python-${version}-jdk-${jdkVersion}",
@@ -689,7 +883,15 @@
                   "name": "<assign>",
                   "line": 166,
                   "named": {
-                    "_target": "componentJdkImages"
+                    "_target": "componentJdkImages",
+                    "_value": {
+                      "t": "gstr",
+                      "v": "\"dev-r-${version}-jdk-${jdkVersion}\"",
+                      "vars": [
+                        "{version}",
+                        "{jdkVersion}"
+                      ]
+                    }
                   },
                   "category": "dynamic",
                   "source": "componentJdkImages = dev-r-${version}-jdk-${jdkVersion}",
@@ -813,7 +1015,48 @@
               "name": "<assign>",
               "line": 41,
               "named": {
-                "_target": "toPersist"
+                "_target": "toPersist",
+                "_value": {
+                  "t": "list",
+                  "v": [
+                    {
+                      "t": "str",
+                      "v": "dev-base"
+                    },
+                    {
+                      "t": "str",
+                      "v": "dev-jdk-8-base"
+                    },
+                    {
+                      "t": "str",
+                      "v": "dev-jdk-others-base"
+                    },
+                    {
+                      "t": "str",
+                      "v": "dev-python-3.7"
+                    },
+                    {
+                      "t": "str",
+                      "v": "dev-r-4.5.2"
+                    },
+                    {
+                      "t": "str",
+                      "v": "dev-build-base"
+                    },
+                    {
+                      "t": "str",
+                      "v": "dev-build-hadoop"
+                    },
+                    {
+                      "t": "str",
+                      "v": "dev-python-base"
+                    },
+                    {
+                      "t": "str",
+                      "v": "dev-r-base"
+                    }
+                  ]
+                }
               },
               "category": "dynamic",
               "source": "toPersist = [dev-base, dev-jdk-8-base, dev-jdk-others-base, dev-python-3.7, dev-r-4.5.2, dev-build-base, dev-build-hadoop, dev-python-base, dev-r-base]",
@@ -1078,7 +1321,31 @@
               "name": "<assign>",
               "line": 216,
               "named": {
-                "_target": "H2O_ECR_PWD"
+                "_target": "H2O_ECR_PWD",
+                "_value": {
+                  "t": "call",
+                  "call": {
+                    "k": "call",
+                    "name": "trim",
+                    "receiver": "sh(script: 'echo aws ecr get-login-password --region us-east-1', returnStdout: true)",
+                    "receiverCalls": [
+                      {
+                        "k": "call",
+                        "name": "sh",
+                        "named": {
+                          "script": {
+                            "t": "str",
+                            "v": "echo aws ecr get-login-password --region us-east-1"
+                          },
+                          "returnStdout": {
+                            "t": "bool",
+                            "v": true
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
               },
               "body": [
                 {
@@ -1135,7 +1402,11 @@
               "line": 225,
               "named": {
                 "_target": "result",
-                "_literal": "-1"
+                "_literal": "-1",
+                "_value": {
+                  "t": "str",
+                  "v": "-1"
+                }
               },
               "category": "dynamic",
               "source": "result = -1",
@@ -1165,7 +1436,35 @@
                   "name": "<assign>",
                   "line": 228,
                   "named": {
-                    "_target": "result"
+                    "_target": "result",
+                    "_value": {
+                      "t": "call",
+                      "call": {
+                        "k": "call",
+                        "name": "trim",
+                        "receiver": "sh(\n\t\t\t\tscript: \"echo aws ecr batch-get-image --registry-id=353750902984 --repository-name='${repository}' --image-ids=imageTag='${tag}' --query 'images[].imageId.imageTag' --output text\",\n\t\t\t\treturnStdout: true\n\t\t\t)",
+                        "receiverCalls": [
+                          {
+                            "k": "call",
+                            "name": "sh",
+                            "named": {
+                              "script": {
+                                "t": "gstr",
+                                "v": "\"echo aws ecr batch-get-image --registry-id=353750902984 --repository-name='${repository}' --image-ids=imageTag='${tag}' --query 'images[].imageId.imageTag' --output text\"",
+                                "vars": [
+                                  "{repository}",
+                                  "{tag}"
+                                ]
+                              },
+                              "returnStdout": {
+                                "t": "bool",
+                                "v": true
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
                   },
                   "body": [
                     {
@@ -1204,5 +1503,9 @@
     "line 88: ansiColor {} around stage(s) 'checkoutStageName' dropped (native in GitHub Actions)",
     "line 89: timestamps {} around stage(s) 'checkoutStageName' dropped (native in GitHub Actions)",
     "30 statement(s) outside any stage kept in source order in 2 unnamed segment(s) (from line(s) 1, 130)"
-  ]
+  ],
+  "constants": {
+    "DEFAULT_LABEL": "h2o3_linux",
+    "H2O_ECR": "353750902984.dkr.ecr.us-east-1.amazonaws.com"
+  }
 }

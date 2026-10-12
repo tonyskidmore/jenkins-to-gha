@@ -26,41 +26,54 @@ jobs:
       with:
         persist-credentials: false
     - name: podTemplate (manual migration)
-      id: s9
+      id: s10
       run: echo "::warning::Jenkins step 'podTemplate' requires manual migration"
     - name: withFolderProperties (manual migration)
       id: s1
       run: echo "::warning::Jenkins step 'withFolderProperties' requires manual migration"
-    - name: 'checkout: checkout'
+    - name: ': set APP_ID'
       id: s2
+      run: |-
+        APP_ID=""
+        { echo 'APP_ID<<J2GHA_EOF'; printf '%s\n' "$APP_ID"; echo J2GHA_EOF; } >> "$GITHUB_ENV"
+        { echo 'APP_ID<<J2GHA_EOF'; printf '%s\n' "$APP_ID"; echo J2GHA_EOF; } >> "$GITHUB_OUTPUT"
+      shell: bash
+    - name: 'checkout: checkout'
+      id: s3
       uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
       with:
         persist-credentials: false
     - name: 'Get IPA from AWS S3: aws s3 cp s3://dvsa-cvs-mobile-artefacts/files/${LBRANCH}.txt ${LBRANC'
-      id: s3
+      id: s4
       run: aws s3 cp s3://dvsa-cvs-mobile-artefacts/files/${LBRANCH}.txt ${LBRANCH}.txt
       env:
         AWS_ACCESS_KEY_ID: j2gha-user
         AWS_SECRET_ACCESS_KEY: j2gha-fake-password
     - name: 'install ipa in browserstack: wget -O CVSMobile.ipa `cat ${LBRANCH}.txt`'
-      id: s4
+      id: s5
       run: wget -O CVSMobile.ipa `cat ${LBRANCH}.txt`
     - name: 'install ipa in browserstack: curl -u $BROWSERSTACK_CREDS -X POST "https://api-cloud.browserstack.co'
-      id: s5
-      run: curl -u $BROWSERSTACK_CREDS -X POST "https://api-cloud.browserstack.com/app-automate/upload" -F "file=@CVSMobile.ipa"
-        | jq ".app_url"
+      id: s6
+      run: |-
+        APP_ID="$(
+        curl -u $BROWSERSTACK_CREDS -X POST "https://api-cloud.browserstack.com/app-automate/upload" -F "file=@CVSMobile.ipa" | jq ".app_url"
+        )"
+        APP_ID="${APP_ID#"${APP_ID%%[![:space:]]*}"}"
+        APP_ID="${APP_ID%"${APP_ID##*[![:space:]]}"}"
+        { echo 'APP_ID<<J2GHA_EOF'; printf '%s\n' "$APP_ID"; echo J2GHA_EOF; } >> "$GITHUB_ENV"
+        { echo 'APP_ID<<J2GHA_EOF'; printf '%s\n' "$APP_ID"; echo J2GHA_EOF; } >> "$GITHUB_OUTPUT"
       env:
         BROWSERSTACK_CREDS: j2gha-fake-secret
     - name: 'test: browserstack (manual migration)'
-      id: s7
+      id: s8
       run: echo "::warning::Jenkins step 'browserstack' requires manual migration"
     - name: 'test: mvn --batch-mode clean install -PCI-Browserstack -DBROWSERSTACK_APP_ID'
-      id: s6
+      id: s7
       run: mvn --batch-mode clean install -PCI-Browserstack -DBROWSERSTACK_APP_ID=${APP_ID} -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
     - name: 'create report: publish HTML report'
-      id: s8
+      id: s9
       if: always()
       uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       with:
-        name: html-report-8
+        name: html-report-9
         path: target/site/serenity

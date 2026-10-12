@@ -22,33 +22,33 @@ jobs:
     timeout-minutes: 5
     steps:
     - name: try (line 14)
-      id: s1
+      id: s3
       run: echo "run=true" >> "$GITHUB_OUTPUT"
     - name: checkoutWithTags (manual migration)
-      id: s2
+      id: s4
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"","step":"checkoutWithTags"}'
     - name: 'Checkout: echo'
-      id: s3
+      id: s5
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Checkout","step":"echo"}'
     - name: 'Checkout: checkout'
-      id: s4
+      id: s6
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Checkout","step":"checkout"}'
     - name: 'tagging: taggingv2 (manual migration)'
-      id: s5
+      id: s7
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"tagging","step":"taggingv2"}'
     - name: checkoutWithTags (manual migration)
-      id: s6
+      id: s8
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"","step":"checkoutWithTags"}'
     - name: mainJenkinsBuildArgo (manual migration)
-      id: s7
+      id: s10
       env:
         ARGOCD_AUTH_TOKEN: j2gha-fake-secret
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"","step":"mainJenkinsBuildArgo"}'
     - name: cleanWs
-      id: s9
-      if: (always()) && (steps.s1.outcome == 'success')
+      id: s12
+      if: (always()) && (steps.s3.outcome == 'success')
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"","step":"cleanWs"}'
     - name: echo
-      id: s10
-      if: (always()) && (steps.s1.outcome == 'success')
+      id: s13
+      if: (always()) && (steps.s3.outcome == 'success')
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"","step":"echo"}'

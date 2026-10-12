@@ -83,7 +83,20 @@
               "name": "<decl>",
               "line": 66,
               "named": {
-                "_target": "checkoutBranch"
+                "_target": "checkoutBranch",
+                "_value": {
+                  "t": "expr",
+                  "kind": "TernaryExpression",
+                  "text": "?",
+                  "calls": [
+                    {
+                      "k": "call",
+                      "name": "trim",
+                      "receiver": "params.VERSION",
+                      "safe": true
+                    }
+                  ]
+                }
               },
               "category": "dynamic",
               "source": "checkoutBranch = ?",
@@ -93,7 +106,11 @@
               "name": "<assign>",
               "line": 67,
               "named": {
-                "_target": "env.CHECKOUT_BRANCH"
+                "_target": "env.CHECKOUT_BRANCH",
+                "_value": {
+                  "t": "var",
+                  "name": "checkoutBranch"
+                }
               },
               "category": "dynamic",
               "source": "env.CHECKOUT_BRANCH = checkoutBranch",
@@ -445,7 +462,62 @@
                             "name": "<decl>",
                             "line": 167,
                             "named": {
-                              "_target": "baseCommand"
+                              "_target": "baseCommand",
+                              "_value": {
+                                "t": "concat",
+                                "parts": [
+                                  {
+                                    "t": "concat",
+                                    "parts": [
+                                      {
+                                        "t": "concat",
+                                        "parts": [
+                                          {
+                                            "t": "concat",
+                                            "parts": [
+                                              {
+                                                "t": "gstr",
+                                                "v": "\"./awsE2ESolutionSetup.sh --source-context-file './$source_context_file_name' \" ",
+                                                "vars": [
+                                                  "source_context_file_name"
+                                                ]
+                                              },
+                                              {
+                                                "t": "gstr",
+                                                "v": "\"--migration-context-file './$migration_context_file_name' \" ",
+                                                "vars": [
+                                                  "migration_context_file_name"
+                                                ]
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "t": "gstr",
+                                            "v": "\"--source-context-id $source_context_id \" ",
+                                            "vars": [
+                                              "source_context_id"
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "t": "gstr",
+                                        "v": "\"--migration-context-id $migration_context_id \" ",
+                                        "vars": [
+                                          "migration_context_id"
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "t": "gstr",
+                                    "v": "\"--stage ${stage}\"",
+                                    "vars": [
+                                      "{stage}"
+                                    ]
+                                  }
+                                ]
+                              }
                             },
                             "category": "dynamic",
                             "source": "baseCommand = ./awsE2ESolutionSetup.sh --source-context-file './$source_context_file_name' --migration-context-file './$migration_context_file_name' --source-context-id $source_context_id --migration-context-id $migration_context_id --stage ${stage}",
@@ -667,7 +739,15 @@
                             "name": "<decl>",
                             "line": 213,
                             "named": {
-                              "_target": "test_result_file"
+                              "_target": "test_result_file",
+                              "_value": {
+                                "t": "gstr",
+                                "v": "\"${testDir}/reports/${testUniqueId}/report.xml\"",
+                                "vars": [
+                                  "{testDir}",
+                                  "{testUniqueId}"
+                                ]
+                              }
                             },
                             "category": "dynamic",
                             "source": "test_result_file = ${testDir}/reports/${testUniqueId}/report.xml",
@@ -677,7 +757,25 @@
                             "name": "<decl>",
                             "line": 214,
                             "named": {
-                              "_target": "populatedIntegTestCommand"
+                              "_target": "populatedIntegTestCommand",
+                              "_value": {
+                                "t": "call",
+                                "call": {
+                                  "k": "call",
+                                  "name": "replaceAll",
+                                  "args": [
+                                    {
+                                      "t": "str",
+                                      "v": "<STAGE>"
+                                    },
+                                    {
+                                      "t": "var",
+                                      "name": "stage"
+                                    }
+                                  ],
+                                  "receiver": "integTestCommand"
+                                }
+                              }
                             },
                             "body": [
                               {
@@ -703,7 +801,61 @@
                             "name": "<decl>",
                             "line": 215,
                             "named": {
-                              "_target": "command"
+                              "_target": "command",
+                              "_value": {
+                                "t": "concat",
+                                "parts": [
+                                  {
+                                    "t": "concat",
+                                    "parts": [
+                                      {
+                                        "t": "concat",
+                                        "parts": [
+                                          {
+                                            "t": "concat",
+                                            "parts": [
+                                              {
+                                                "t": "gstr",
+                                                "v": "\"pipenv run pytest --log-file=${testDir}/reports/${testUniqueId}/pytest.log \" ",
+                                                "vars": [
+                                                  "{testDir}",
+                                                  "{testUniqueId}"
+                                                ]
+                                              },
+                                              {
+                                                "t": "gstr",
+                                                "v": "\"--junitxml=${test_result_file} ${populatedIntegTestCommand} \" ",
+                                                "vars": [
+                                                  "{test_result_file}",
+                                                  "{populatedIntegTestCommand}"
+                                                ]
+                                              }
+                                            ]
+                                          },
+                                          {
+                                            "t": "gstr",
+                                            "v": "\"--unique_id ${testUniqueId} \" ",
+                                            "vars": [
+                                              "{testUniqueId}"
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      {
+                                        "t": "gstr",
+                                        "v": "\"--stage ${stage} \" ",
+                                        "vars": [
+                                          "{stage}"
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "t": "str",
+                                    "v": "-s"
+                                  }
+                                ]
+                              }
                             },
                             "category": "dynamic",
                             "source": "command = pipenv run pytest --log-file=${testDir}/reports/${testUniqueId}/pytest.log --junitxml=${test_result_file} ${populatedIntegTestCommand} --unique_id ${testUniqueId} --stage ${stage} -s",

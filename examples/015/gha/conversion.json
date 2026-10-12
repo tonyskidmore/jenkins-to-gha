@@ -1,18 +1,18 @@
 {
   "counts": {
     "approximated": 29,
-    "mapped": 19,
-    "manual": 37,
+    "mapped": 22,
+    "manual": 34,
     "info": 1
   },
-  "automation_pct": 42.8,
+  "automation_pct": 46.4,
   "items": [
     {
       "jenkins": "stage 'QA' post always",
       "line": null,
       "stage": "QA",
       "status": "mapped",
-      "gha": "if: (always()) && (steps.s2.outcome == 'success')",
+      "gha": "if: (always()) && (steps.s3.outcome == 'success')",
       "note": ""
     },
     {
@@ -20,7 +20,7 @@
       "line": null,
       "stage": "Publish[staging]",
       "status": "mapped",
-      "gha": "if: (always()) && (steps.s12.outcome == 'success')",
+      "gha": "if: (always()) && (steps.s13.outcome == 'success')",
       "note": ""
     },
     {
@@ -88,12 +88,36 @@
       "note": "evaluated once at stage entry against env"
     },
     {
+      "jenkins": "assign gaugeBranchName = env.BRANCH_NAME",
+      "line": 133,
+      "stage": "Run Gauge tests",
+      "status": "mapped",
+      "gha": "run: $GITHUB_ENV",
+      "note": "later steps of the job read the variable"
+    },
+    {
+      "jenkins": "assign gaugeBranchName = env.TARGET_GAUGE_RELEASE_BRANCH_",
+      "line": 139,
+      "stage": "Run Gauge tests",
+      "status": "mapped",
+      "gha": "run: $GITHUB_ENV",
+      "note": "later steps of the job read the variable"
+    },
+    {
       "jenkins": "sh",
       "line": 189,
       "stage": "Update version and tag",
       "status": "mapped",
       "gha": "run",
       "note": ""
+    },
+    {
+      "jenkins": "assign libName = node",
+      "line": 318,
+      "stage": "Init",
+      "status": "mapped",
+      "gha": "run: $GITHUB_ENV",
+      "note": "later steps of the job read the variable"
     },
     {
       "jenkins": "withCredentials usernamePassword 'artifactory'",
@@ -488,24 +512,8 @@
       "note": "Groovy variable assignment"
     },
     {
-      "jenkins": "assign gaugeBranchName = env.BRANCH_NAME",
-      "line": 133,
-      "stage": "Run Gauge tests",
-      "status": "manual",
-      "gha": "-",
-      "note": "Groovy variable assignment"
-    },
-    {
       "jenkins": "assign fallbackBranchName = ?:",
       "line": 134,
-      "stage": "Run Gauge tests",
-      "status": "manual",
-      "gha": "-",
-      "note": "Groovy variable assignment"
-    },
-    {
-      "jenkins": "assign gaugeBranchName = env.TARGET_GAUGE_RELEASE_BRANCH_",
-      "line": 139,
       "stage": "Run Gauge tests",
       "status": "manual",
       "gha": "-",
@@ -656,14 +664,6 @@
       "note": "Groovy variable assignment"
     },
     {
-      "jenkins": "assign libName = node",
-      "line": 318,
-      "stage": "Init",
-      "status": "manual",
-      "gha": "-",
-      "note": "Groovy variable assignment"
-    },
-    {
       "jenkins": "assign bumpVersion = ",
       "line": 319,
       "stage": "Init",
@@ -710,12 +710,12 @@
     "detect-secrets": {
       "name": "Detect Secrets, Init, QA, SonarQube analysis, Publish[staging], Run Gauge tests, Mend scan",
       "runs-on": "ubuntu-latest",
-      "steps": 36,
+      "steps": 39,
       "matrix": false
     }
   },
   "notes": [],
   "handoff": {},
   "source_sha256": "b290837721dd3b2e00704c2c16e238d51796a276fdc06f134701254872f8e13a",
-  "model_sha256": "e65927606ec36007ff40cfcb806df31c06f22a9ab8351922ece2d1ff7a4493bc"
+  "model_sha256": "75e9d91b419e165960a6b80da4c3a93c81ec2f5b2d1b58883e45cdaba836fc8f"
 }

@@ -73,7 +73,11 @@
               "name": "<assign>",
               "line": 52,
               "named": {
-                "_target": "env.BUILD_TYPE"
+                "_target": "env.BUILD_TYPE",
+                "_value": {
+                  "t": "prop",
+                  "text": "params.BUILD_TYPE"
+                }
               },
               "category": "dynamic",
               "source": "env.BUILD_TYPE = params.BUILD_TYPE",
@@ -88,7 +92,10 @@
                     "name": "<assign>",
                     "line": 59,
                     "named": {
-                      "_target": "env.ECLIPSE_SIGN"
+                      "_target": "env.ECLIPSE_SIGN",
+                      "_value": {
+                        "t": "bool"
+                      }
                     },
                     "category": "dynamic",
                     "source": "env.ECLIPSE_SIGN = False",
@@ -101,7 +108,11 @@
                   "name": "<assign>",
                   "line": 56,
                   "named": {
-                    "_target": "env.ECLIPSE_SIGN"
+                    "_target": "env.ECLIPSE_SIGN",
+                    "_value": {
+                      "t": "prop",
+                      "text": "params.ECLIPSE_SIGN"
+                    }
                   },
                   "category": "dynamic",
                   "source": "env.ECLIPSE_SIGN = params.ECLIPSE_SIGN",
@@ -116,7 +127,12 @@
               "name": "<assign>",
               "line": 64,
               "named": {
-                "_target": "env.PROMOTE"
+                "_target": "env.PROMOTE",
+                "_value": {
+                  "t": "expr",
+                  "kind": "BinaryExpression",
+                  "text": "params.PROMOTE && (env.ECLIPSE_SIGN == 'true')"
+                }
               },
               "category": "dynamic",
               "source": "env.PROMOTE = params.PROMOTE && (env.ECLIPSE_SIGN == 'true')",
@@ -126,7 +142,15 @@
               "name": "<decl>",
               "line": 66,
               "named": {
-                "_target": "description"
+                "_target": "description",
+                "_value": {
+                  "t": "call",
+                  "call": {
+                    "k": "call",
+                    "name": "trim",
+                    "receiver": "\"\"\"\nBUILD_TIMESTAMP=${env.BUILD_TIMESTAMP}\nBUILD_TYPE=${env.BUILD_TYPE}\nECLIPSE_SIGN=${env.ECLIPSE_SIGN}\nPROMOTE=${env.PROMOTE}\nBRANCH_NAME=${env.BRANCH_NAME}\n\"\"\""
+                  }
+                }
               },
               "body": [
                 {
@@ -156,7 +180,25 @@
               "name": "<assign>",
               "line": 74,
               "named": {
-                "_target": "currentBuild.description"
+                "_target": "currentBuild.description",
+                "_value": {
+                  "t": "call",
+                  "call": {
+                    "k": "call",
+                    "name": "replace",
+                    "args": [
+                      {
+                        "t": "str",
+                        "v": "\n"
+                      },
+                      {
+                        "t": "str",
+                        "v": "<br/>"
+                      }
+                    ],
+                    "receiver": "description"
+                  }
+                }
               },
               "body": [
                 {

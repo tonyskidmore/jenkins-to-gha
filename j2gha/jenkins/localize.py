@@ -426,7 +426,7 @@ def localize(text: str, ast: dict, analysis: dict, mode: str, source: dict | Non
         if prop in defined or prop in top_decls:
             continue
         pre.append(f"@groovy.transform.Field def {prop} = new J2ghaAny()")
-        loc.changes.append(f"undefined property '{prop}' (plugin/library global) replaced by a permissive stub")
+        loc.changes.append(STUBBED_PROPERTY_CHANGE.format(prop))
     if stub_bodies:
         pre.append("def j2ghaBody(Object... a) { def body = (a && a[-1] instanceof Closure) ? a[-1] : null; "
                    "return body != null ? body() : new J2ghaAny() }")
@@ -611,6 +611,12 @@ def _sibling_params(ast: dict, missing: list[str], analysis: dict) -> list[str]:
             out += [n for n in names if n and n not in missing and n not in defined
                     and re.fullmatch(r"[A-Z][A-Z0-9_]*", n) and not JENKINS_ENV_RE.fullmatch(n)]
     return list(dict.fromkeys(out))
+
+
+# The change recorded for each undefined property replaced by a J2ghaAny (whose toString() is STUB_VALUE); execution
+# variants give the converted run the same value for the environment-like ones (runners.variants.stubbed_properties).
+STUBBED_PROPERTY_CHANGE = "undefined property '{}' (plugin/library global) replaced by a permissive stub"
+STUB_VALUE = "j2gha-stub"
 
 
 def _env_global_refs(ast: dict, remove: list) -> list[str]:

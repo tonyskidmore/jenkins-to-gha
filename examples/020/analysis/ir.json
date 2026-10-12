@@ -16,7 +16,14 @@
           "name": "<decl>",
           "line": 8,
           "named": {
-            "_target": "Globals"
+            "_target": "Globals",
+            "_value": {
+              "t": "call",
+              "call": {
+                "k": "call",
+                "name": "new Globals"
+              }
+            }
           },
           "body": [
             {
@@ -33,7 +40,14 @@
           "name": "<decl>",
           "line": 9,
           "named": {
-            "_target": "CommonFunctions"
+            "_target": "CommonFunctions",
+            "_value": {
+              "t": "call",
+              "call": {
+                "k": "call",
+                "name": "new CommonFunctions"
+              }
+            }
           },
           "body": [
             {
@@ -50,7 +64,14 @@
           "name": "<decl>",
           "line": 10,
           "named": {
-            "_target": "GitFunctions"
+            "_target": "GitFunctions",
+            "_value": {
+              "t": "call",
+              "call": {
+                "k": "call",
+                "name": "new GitFunctions"
+              }
+            }
           },
           "body": [
             {
@@ -67,7 +88,14 @@
           "name": "<decl>",
           "line": 11,
           "named": {
-            "_target": "MobileFunctions"
+            "_target": "MobileFunctions",
+            "_value": {
+              "t": "call",
+              "call": {
+                "k": "call",
+                "name": "new MobileFunctions"
+              }
+            }
           },
           "body": [
             {
@@ -84,7 +112,14 @@
           "name": "<decl>",
           "line": 12,
           "named": {
-            "_target": "NVMFunctions"
+            "_target": "NVMFunctions",
+            "_value": {
+              "t": "call",
+              "call": {
+                "k": "call",
+                "name": "new NVMFunctions"
+              }
+            }
           },
           "body": [
             {
@@ -101,7 +136,14 @@
           "name": "<decl>",
           "line": 14,
           "named": {
-            "_target": "branch_name"
+            "_target": "branch_name",
+            "_value": {
+              "t": "gstr",
+              "v": "\"${env.BRANCH_NAME}\"",
+              "vars": [
+                "{env.BRANCH_NAME}"
+              ]
+            }
           },
           "category": "dynamic",
           "source": "branch_name = ${env.BRANCH_NAME}",
@@ -111,7 +153,11 @@
           "name": "<decl>",
           "line": 15,
           "named": {
-            "_target": "ionic_app_id"
+            "_target": "ionic_app_id",
+            "_value": {
+              "t": "prop",
+              "text": "Globals.MOBILE_APP_ID"
+            }
           },
           "category": "dynamic",
           "source": "ionic_app_id = Globals.MOBILE_APP_ID",
@@ -121,7 +167,11 @@
           "name": "<decl>",
           "line": 16,
           "named": {
-            "_target": "nodejs_installation"
+            "_target": "nodejs_installation",
+            "_value": {
+              "t": "prop",
+              "text": "Globals.MOBILE_NODE_JS"
+            }
           },
           "category": "dynamic",
           "source": "nodejs_installation = Globals.MOBILE_NODE_JS",
@@ -132,7 +182,11 @@
           "line": 17,
           "named": {
             "_target": "mobile_config_branch",
-            "_literal": "master"
+            "_literal": "master",
+            "_value": {
+              "t": "str",
+              "v": "master"
+            }
           },
           "category": "dynamic",
           "source": "mobile_config_branch = master",
@@ -142,7 +196,14 @@
           "name": "<assign>",
           "line": 20,
           "named": {
-            "_target": "currentBuild.description"
+            "_target": "currentBuild.description",
+            "_value": {
+              "t": "gstr",
+              "v": "\"BRANCH: ${branch_name}\"",
+              "vars": [
+                "{branch_name}"
+              ]
+            }
           },
           "category": "dynamic",
           "source": "currentBuild.description = BRANCH: ${branch_name}",
@@ -157,7 +218,14 @@
           "name": "<assign>",
           "line": 24,
           "named": {
-            "_target": "env.WSPACE"
+            "_target": "env.WSPACE",
+            "_value": {
+              "t": "call",
+              "call": {
+                "k": "call",
+                "name": "pwd"
+              }
+            }
           },
           "body": [
             {
@@ -350,7 +418,21 @@
                   "name": "<decl>",
                   "line": 51,
                   "named": {
-                    "_target": "commit_hash"
+                    "_target": "commit_hash",
+                    "_value": {
+                      "t": "call",
+                      "call": {
+                        "k": "call",
+                        "name": "git_get_commit_hash",
+                        "args": [
+                          {
+                            "t": "prop",
+                            "text": "Globals.MOBILE_NAME"
+                          }
+                        ],
+                        "receiver": "GitFunctions"
+                      }
+                    }
                   },
                   "body": [
                     {

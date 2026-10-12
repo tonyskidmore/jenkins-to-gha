@@ -10,7 +10,7 @@ env:
   TAG_NAME: ''
   CHANGE_ID: ''
   BUILD_TAG: gha-${{ github.repository_owner }}-${{ github.event.repository.name }}-${{ github.run_number }}
-  JOB_NAME: ${{ github.workflow }}
+  JOB_NAME: ex-102-full
   GIT_COMMIT: d076aeb66b68af42c61568676bf29dba9ae3cee8
   GIT_BRANCH: origin/master
   GIT_URL: ${{ github.server_url }}/${{ github.repository }}.git
@@ -44,7 +44,7 @@ jobs:
           bash --noprofile --norc -eo pipefail "$j2gha_script" || rc=$?
           if [ "$rc" = 0 ]; then break; fi
           if [ "$attempt" = 2 ]; then exit "$rc"; fi
-          echo "retrying ($attempt/2)"
+          echo "retrying ($attempt/2)" >&2
         done
       shell: bash
       env:
@@ -61,7 +61,7 @@ jobs:
           bash --noprofile --norc -eo pipefail "$j2gha_script" || rc=$?
           if [ "$rc" = 0 ]; then break; fi
           if [ "$attempt" = 2 ]; then exit "$rc"; fi
-          echo "retrying ($attempt/2)"
+          echo "retrying ($attempt/2)" >&2
         done
       shell: bash
       env:
@@ -78,7 +78,7 @@ jobs:
           bash --noprofile --norc -eo pipefail "$j2gha_script" || rc=$?
           if [ "$rc" = 0 ]; then break; fi
           if [ "$attempt" = 2 ]; then exit "$rc"; fi
-          echo "retrying ($attempt/2)"
+          echo "retrying ($attempt/2)" >&2
         done
       shell: bash
       env:
@@ -95,7 +95,7 @@ jobs:
           bash --noprofile --norc -eo pipefail "$j2gha_script" || rc=$?
           if [ "$rc" = 0 ]; then break; fi
           if [ "$attempt" = 2 ]; then exit "$rc"; fi
-          echo "retrying ($attempt/2)"
+          echo "retrying ($attempt/2)" >&2
         done
       shell: bash
       env:
@@ -150,7 +150,7 @@ jobs:
           bash --noprofile --norc -eo pipefail "$j2gha_script" || rc=$?
           if [ "$rc" = 0 ]; then break; fi
           if [ "$attempt" = 2 ]; then exit "$rc"; fi
-          echo "retrying ($attempt/2)"
+          echo "retrying ($attempt/2)" >&2
         done
       shell: bash
       env:
@@ -167,7 +167,7 @@ jobs:
           bash --noprofile --norc -eo pipefail "$j2gha_script" || rc=$?
           if [ "$rc" = 0 ]; then break; fi
           if [ "$attempt" = 2 ]; then exit "$rc"; fi
-          echo "retrying ($attempt/2)"
+          echo "retrying ($attempt/2)" >&2
         done
       shell: bash
       env:

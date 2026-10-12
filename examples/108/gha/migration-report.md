@@ -2,7 +2,7 @@
 
 - **Classification:** significant-redesign (difficulty 60/100)
 - **Convertibility:** partial
-- **Automated mapping (effort estimate, not correctness):** 42.6% (17 mapped, 15 approximated, 29 manual, 0 dropped)
+- **Automated mapping (effort estimate, not correctness):** 49.2% (21 mapped, 15 approximated, 25 manual, 0 dropped)
 - **Weighted step coverage (analysis):** 74.1%
 
 ## Secrets required
@@ -22,10 +22,13 @@
 
 | | Jenkins | Line | Stage | GitHub Actions | Note |
 |---|---|---:|---|---|---|
+| ✅ mapped | `assign DEFAULT_LABEL = h2o3_linux` | 4 |  | run: $GITHUB_ENV | later steps of the job read the variable |
+| ✅ mapped | `assign H2O_ECR = 353750902984.dkr.ecr.us-east-1.amazonaws` | 6 |  | run: $GITHUB_ENV | later steps of the job read the variable |
 | ✅ mapped | `parameters: booleanParam forceBuild` | 15 |  | on.workflow_dispatch.inputs |  |
 | ✅ mapped | `parameters: booleanParam publish` | 16 |  | on.workflow_dispatch.inputs |  |
 | ✅ mapped | `parameters: string h2oBranch` | 17 |  | on.workflow_dispatch.inputs |  |
 | ✅ mapped | `parameters: booleanParam noCache` | 18 |  | on.workflow_dispatch.inputs |  |
+| ✅ mapped | `decl checkoutStageName = Checkout and Init` | 90 |  | run: $GITHUB_ENV | later steps of the job read the variable |
 | ✅ mapped | `cleanWs` | 94 | Checkout and Init | run: workspace cleanup | runners are ephemeral; kept for parity |
 | ✅ mapped | `checkout scm` | 95 | Checkout and Init | actions/checkout@v4 |  |
 | ✅ mapped | `dir` | 111 | Checkout and Init | working-directory |  |
@@ -39,6 +42,7 @@
 | ✅ mapped | `sh` | 120 | Checkout and Init | run |  |
 | ✅ mapped | `sh` | 121 | Checkout and Init | run |  |
 | ✅ mapped | `sh` | 122 | Checkout and Init | run |  |
+| ✅ mapped | `assign componentImages = dev-mojocompat` | 151 |  | run: $GITHUB_ENV | later steps of the job read the variable |
 | 🟡 approximated | `(no pipeline timeout)` |  |  | timeout-minutes: 60 | explicit job timeout added (GitHub's default is 360 minutes); set J2GHA_DEFAULT_TIMEOUT to change |
 | 🟡 approximated | `node (in steps)` | 92 | Checkout and Init | inlined | nested agent allocation flattened |
 | 🟡 approximated | `docker.image().inside` | 113 | Checkout and Init | docker run wrapper | consider a job container instead |
@@ -55,14 +59,11 @@
 | 🟡 approximated | `buildInParallel() (local helper method)` | 169 |  | inlined | body of the Jenkinsfile helper method inlined with pipelineContext, targets substituted |
 | 🟡 approximated | `parallel (step)` | 174 |  | sequential steps | scripted parallel branches serialised; split into jobs/matrix for real parallelism |
 | 🔴 manual | `decl _ = <not implemented yet for class: org.codehaus.g` | 1 |  | - | Groovy variable assignment |
-| 🔴 manual | `assign DEFAULT_LABEL = h2o3_linux` | 4 |  | - | Groovy variable assignment |
-| 🔴 manual | `assign H2O_ECR = 353750902984.dkr.ecr.us-east-1.amazonaws` | 6 |  | - | Groovy variable assignment |
 | 🔴 manual | `buildSummary` | 9 |  | placeholder step | unknown step with no deterministic mapping (plugin/shared-library step) |
 | 🔴 manual | `addStagesSummary` | 11 |  | placeholder step | unknown step with no deterministic mapping (plugin/shared-library step) |
 | 🔴 manual | `assign JDK_VERSIONS = [8, 11, 17]` | 24 |  | - | Groovy variable assignment |
 | 🔴 manual | `assign JDK_VERSIONS_PY_R = [8, 11, 17]` | 25 |  | - | Groovy variable assignment |
 | 🔴 manual | `decl pipelineContext = <not implemented yet for class: ` | 86 |  | - | Groovy variable assignment |
-| 🔴 manual | `decl checkoutStageName = Checkout and Init` | 90 |  | - | Groovy variable assignment |
 | 🔴 manual | `refreshStage` | 93 | Checkout and Init | placeholder step | unknown step with no deterministic mapping (plugin/shared-library step) |
 | 🔴 manual | `decl scmEnv = checkout(...)` | 95 | Checkout and Init | - | Groovy variable assignment from a step |
 | 🔴 manual | `decl pipelineContextFactory = load(...)` | 97 | Checkout and Init | - | Groovy variable assignment from a step |
@@ -79,7 +80,6 @@
 | 🔴 manual | `decl componentImages = []` | 144 |  | - | Groovy variable assignment |
 | 🔴 manual | `each` | 145 |  | - | Groovy method / helper call - port logic to a script |
 | 🔴 manual | `each` | 148 |  | - | Groovy method / helper call - port logic to a script |
-| 🔴 manual | `assign componentImages = dev-mojocompat` | 151 |  | - | Groovy variable assignment |
 | 🔴 manual | `decl componentJdkImages = []` | 158 |  | - | Groovy variable assignment |
 | 🔴 manual | `each` | 159 |  | - | Groovy method / helper call - port logic to a script |
 | 🔴 manual | `each` | 164 |  | - | Groovy method / helper call - port logic to a script |
@@ -117,7 +117,7 @@ pipeline [scripted]
 
 Where to read about each construct above, most work first: jenkins.io and docs.github.com (GitHub.com) pages from the crosswalk in `j2gha/rules/docs-xref.yaml`. With the local docs bundles fetched, `uv run j2gha docs xref <construct>` resolves the same pages offline, or for another GitHub version.
 
-- **`scripted`** (🔴 23 manual, 🟡 10 approximated): Groovy control flow -> expressions/if, matrix, or a script step; anything dynamic needs redesign.
+- **`scripted`** (🔴 19 manual, 🟡 10 approximated, ✅ 4 mapped): Groovy control flow -> expressions/if, matrix, or a script step; anything dynamic needs redesign.
   - Jenkins: [syntax #scripted-pipeline](https://www.jenkins.io/doc/book/pipeline/syntax/#scripted-pipeline) · [cps-method-mismatches](https://www.jenkins.io/doc/book/pipeline/cps-method-mismatches/)
   - GitHub Actions: [migrate-from-jenkins](https://docs.github.com/en/actions/tutorials/migrate-to-github-actions/manual-migrations/migrate-from-jenkins)
 - **`timeout`** (🟡 1 approximated)

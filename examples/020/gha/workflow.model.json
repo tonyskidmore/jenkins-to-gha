@@ -101,8 +101,32 @@
           }
         },
         {
-          "name": "deleteDir",
+          "name": ": set branch_name",
           "id": "s6",
+          "run": "branch_name=\"${BRANCH_NAME}\"\n{ echo 'branch_name<<J2GHA_EOF'; printf '%s\\n' \"$branch_name\"; echo J2GHA_EOF; } >> \"$GITHUB_ENV\"\n{ echo 'branch_name<<J2GHA_EOF'; printf '%s\\n' \"$branch_name\"; echo J2GHA_EOF; } >> \"$GITHUB_OUTPUT\"",
+          "shell": "bash",
+          "_j2gha": {
+            "kind": "script-assign",
+            "stage": "",
+            "line": 14,
+            "trace": false
+          }
+        },
+        {
+          "name": ": set mobile_config_branch",
+          "id": "s7",
+          "run": "mobile_config_branch=\"master\"\n{ echo 'mobile_config_branch<<J2GHA_EOF'; printf '%s\\n' \"$mobile_config_branch\"; echo J2GHA_EOF; } >> \"$GITHUB_ENV\"\n{ echo 'mobile_config_branch<<J2GHA_EOF'; printf '%s\\n' \"$mobile_config_branch\"; echo J2GHA_EOF; } >> \"$GITHUB_OUTPUT\"",
+          "shell": "bash",
+          "_j2gha": {
+            "kind": "script-assign",
+            "stage": "",
+            "line": 17,
+            "trace": false
+          }
+        },
+        {
+          "name": "deleteDir",
+          "id": "s8",
           "run": "find . -mindepth 1 -delete || true",
           "_j2gha": {
             "kind": "deleteDir",
@@ -113,7 +137,7 @@
         },
         {
           "name": "pwd (manual migration)",
-          "id": "s7",
+          "id": "s9",
           "run": "echo \"::warning::Jenkins step 'pwd' requires manual migration\"",
           "_j2gha": {
             "kind": "pwd",
@@ -124,7 +148,7 @@
         },
         {
           "name": "checkout: log (manual migration)",
-          "id": "s8",
+          "id": "s10",
           "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
           "_j2gha": {
             "kind": "log",
@@ -135,7 +159,7 @@
         },
         {
           "name": "checkout: git_check_out (manual migration)",
-          "id": "s9",
+          "id": "s11",
           "run": "echo \"::warning::Jenkins step 'git_check_out' requires manual migration\"",
           "_j2gha": {
             "kind": "git_check_out",
@@ -146,7 +170,7 @@
         },
         {
           "name": "install dependencies: log (manual migration)",
-          "id": "s10",
+          "id": "s12",
           "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
           "_j2gha": {
             "kind": "log",
@@ -157,7 +181,7 @@
         },
         {
           "name": "install dependencies: dir Globals.MOBILE_NAME",
-          "id": "s11",
+          "id": "s13",
           "run": "mkdir -p -- \"$J2GHA_DIR\"",
           "env": {
             "J2GHA_DIR": "Globals.MOBILE_NAME"
@@ -171,7 +195,7 @@
         },
         {
           "name": "install dependencies: run (manual migration)",
-          "id": "s12",
+          "id": "s14",
           "run": "echo \"::warning::Jenkins step 'run' requires manual migration\"",
           "working-directory": "Globals.MOBILE_NAME",
           "_j2gha": {
@@ -183,7 +207,7 @@
         },
         {
           "name": "tests: log (manual migration)",
-          "id": "s13",
+          "id": "s15",
           "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
           "_j2gha": {
             "kind": "log",
@@ -194,7 +218,7 @@
         },
         {
           "name": "tests: dir Globals.MOBILE_NAME",
-          "id": "s14",
+          "id": "s16",
           "run": "mkdir -p -- \"$J2GHA_DIR\"",
           "env": {
             "J2GHA_DIR": "Globals.MOBILE_NAME"
@@ -208,7 +232,7 @@
         },
         {
           "name": "tests: run (manual migration)",
-          "id": "s15",
+          "id": "s17",
           "run": "echo \"::warning::Jenkins step 'run' requires manual migration\"",
           "working-directory": "Globals.MOBILE_NAME",
           "_j2gha": {
@@ -220,7 +244,7 @@
         },
         {
           "name": "build: Groovy if (manual)",
-          "id": "s16",
+          "id": "s18",
           "run": "echo \"::warning::manual migration: Groovy condition at line 46: branch_name == \\\"develop\\\" || branch_name == \\\"origin/develop\\\"\"",
           "_j2gha": {
             "kind": "script-manual",
@@ -231,7 +255,7 @@
         },
         {
           "name": "build: shout (manual migration)",
-          "id": "s17",
+          "id": "s19",
           "run": "echo \"::warning::Jenkins step 'shout' requires manual migration\"",
           "_j2gha": {
             "kind": "shout",
@@ -242,7 +266,7 @@
         },
         {
           "name": "deleteDir",
-          "id": "s18",
+          "id": "s20",
           "run": "find . -mindepth 1 -delete || true",
           "_j2gha": {
             "kind": "deleteDir",

@@ -1,10 +1,10 @@
 {
   "counts": {
-    "mapped": 16,
-    "approximated": 16,
+    "mapped": 18,
+    "approximated": 14,
     "info": 1
   },
-  "automation_pct": 80.0,
+  "automation_pct": 82.5,
   "items": [
     {
       "jenkins": "stage 'Test' post failure",
@@ -53,6 +53,14 @@
       "status": "mapped",
       "gha": "run",
       "note": ""
+    },
+    {
+      "jenkins": "assign NEW_SHA = sh (returnStdout: true, script: \"python3",
+      "line": 32,
+      "stage": "Build Docker OpenLane image with openroad_app master",
+      "status": "mapped",
+      "gha": "run step; its output goes to $GITHUB_ENV",
+      "note": "later steps of the job read the variable"
     },
     {
       "jenkins": "sh",
@@ -127,6 +135,14 @@
       "note": ""
     },
     {
+      "jenkins": "assign OLD_SHA = sh (returnStdout: true, script: \"python3",
+      "line": 90,
+      "stage": "${DESIGN} - Update OpenROAD commit",
+      "status": "mapped",
+      "gha": "run step; its output goes to $GITHUB_ENV",
+      "note": "later steps of the job read the variable"
+    },
+    {
       "jenkins": "archiveArtifacts",
       "line": 100,
       "stage": "Test",
@@ -175,14 +191,6 @@
       "note": "imperative Groovy is not executed; review control flow"
     },
     {
-      "jenkins": "assign NEW_SHA = sh (returnStdout: true, script: \"python3",
-      "line": 32,
-      "stage": "Build Docker OpenLane image with openroad_app master",
-      "status": "approximated",
-      "gha": "run step (captured output not propagated)",
-      "note": "write values to $GITHUB_OUTPUT/$GITHUB_ENV"
-    },
-    {
       "jenkins": "sh",
       "line": 32,
       "stage": "Build Docker OpenLane image with openroad_app master",
@@ -221,14 +229,6 @@
       "status": "approximated",
       "gha": "inner steps translated individually",
       "note": "imperative Groovy is not executed; review control flow"
-    },
-    {
-      "jenkins": "assign OLD_SHA = sh (returnStdout: true, script: \"python3",
-      "line": 90,
-      "stage": "${DESIGN} - Update OpenROAD commit",
-      "status": "approximated",
-      "gha": "run step (captured output not propagated)",
-      "note": "write values to $GITHUB_OUTPUT/$GITHUB_ENV"
     },
     {
       "jenkins": "sh",
@@ -304,5 +304,5 @@
     ]
   },
   "source_sha256": "46ed2d74fab334a33320a050409d43cf404eb1c83588ff57fcffa66b695d7622",
-  "model_sha256": "fb48d6352dd8b6b0235f0268492db66d38571a882f6479c414c4b47f587d3cc4"
+  "model_sha256": "d2018d632f6ad74f9b160997a5cb51d0ba1e1b9f914d87574398a0d250f2f779"
 }

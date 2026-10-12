@@ -56,7 +56,31 @@
               "name": "<decl>",
               "line": 37,
               "named": {
-                "_target": "commitMsg"
+                "_target": "commitMsg",
+                "_value": {
+                  "t": "call",
+                  "call": {
+                    "k": "call",
+                    "name": "trim",
+                    "receiver": "sh(returnStdout: true, script: 'git log -1 --pretty=format:%s')",
+                    "receiverCalls": [
+                      {
+                        "k": "call",
+                        "name": "sh",
+                        "named": {
+                          "returnStdout": {
+                            "t": "bool",
+                            "v": true
+                          },
+                          "script": {
+                            "t": "str",
+                            "v": "git log -1 --pretty=format:%s"
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
               },
               "body": [
                 {
@@ -78,7 +102,32 @@
               "name": "<decl>",
               "line": 38,
               "named": {
-                "_target": "skipKeywords"
+                "_target": "skipKeywords",
+                "_value": {
+                  "t": "list",
+                  "v": [
+                    {
+                      "t": "str",
+                      "v": "wip"
+                    },
+                    {
+                      "t": "str",
+                      "v": "[skip ci]"
+                    },
+                    {
+                      "t": "str",
+                      "v": "[skip-ci]"
+                    },
+                    {
+                      "t": "str",
+                      "v": "[ci skip]"
+                    },
+                    {
+                      "t": "str",
+                      "v": "[ci-skip]"
+                    }
+                  ]
+                }
               },
               "category": "dynamic",
               "source": "skipKeywords = [wip, [skip ci], [skip-ci], [ci skip], [ci-skip]]",
@@ -93,7 +142,11 @@
                   "line": 40,
                   "named": {
                     "_target": "currentBuild.result",
-                    "_literal": "ABORTED"
+                    "_literal": "ABORTED",
+                    "_value": {
+                      "t": "str",
+                      "v": "ABORTED"
+                    }
                   },
                   "category": "dynamic",
                   "source": "currentBuild.result = ABORTED",
@@ -659,7 +712,32 @@
                   "name": "<decl>",
                   "line": 196,
                   "named": {
-                    "_target": "robs"
+                    "_target": "robs",
+                    "_value": {
+                      "t": "list",
+                      "v": [
+                        {
+                          "t": "str",
+                          "v": "fp3"
+                        },
+                        {
+                          "t": "str",
+                          "v": "fr3"
+                        },
+                        {
+                          "t": "str",
+                          "v": "fr3v2"
+                        },
+                        {
+                          "t": "str",
+                          "v": "fr3v2_1"
+                        },
+                        {
+                          "t": "str",
+                          "v": "tmrv0_2"
+                        }
+                      ]
+                    }
                   },
                   "category": "dynamic",
                   "source": "robs = [fp3, fr3, fr3v2, fr3v2_1, tmrv0_2]",
@@ -669,7 +747,35 @@
                   "name": "<decl>",
                   "line": 197,
                   "named": {
-                    "_target": "copyCmd"
+                    "_target": "copyCmd",
+                    "_value": {
+                      "t": "call",
+                      "call": {
+                        "k": "call",
+                        "name": "join",
+                        "args": [
+                          {
+                            "t": "str",
+                            "v": " && "
+                          }
+                        ],
+                        "receiver": "robs.collect { \"cp -r meshes/robots/${it} ${DIST_DIR}/meshes/robots\" }",
+                        "receiverCalls": [
+                          {
+                            "k": "call",
+                            "name": "collect",
+                            "receiver": "robs",
+                            "body": [
+                              {
+                                "k": "expr",
+                                "kind": "GStringExpression",
+                                "text": "\"cp -r meshes/robots/${it} ${DIST_DIR}/meshes/robots\" "
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    }
                   },
                   "body": [
                     {

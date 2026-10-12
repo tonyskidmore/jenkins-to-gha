@@ -1,12 +1,12 @@
 {
   "counts": {
-    "approximated": 27,
-    "manual": 11,
-    "mapped": 11,
+    "approximated": 26,
+    "mapped": 18,
+    "manual": 4,
     "dropped": 1,
     "info": 1
   },
-  "automation_pct": 56.0,
+  "automation_pct": 70.2,
   "items": [
     {
       "jenkins": "post aborted",
@@ -31,6 +31,62 @@
       "status": "mapped",
       "gha": "final job if: !failure() && !cancelled() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')",
       "note": ""
+    },
+    {
+      "jenkins": "assign oversion = sh(script: \"jq -r '.variable.iac_versio",
+      "line": 21,
+      "stage": "Setup",
+      "status": "mapped",
+      "gha": "run step; its output goes to $GITHUB_ENV",
+      "note": "later steps of the job read the variable"
+    },
+    {
+      "jenkins": "assign version = ${oversion.take(...)}-${env.BUILD_NUMBER",
+      "line": 24,
+      "stage": "Setup",
+      "status": "mapped",
+      "gha": "run: $GITHUB_ENV",
+      "note": "later steps of the job read the variable"
+    },
+    {
+      "jenkins": "assign oversion = oversion.take(...)",
+      "line": 25,
+      "stage": "Setup",
+      "status": "mapped",
+      "gha": "run: $GITHUB_ENV",
+      "note": "later steps of the job read the variable"
+    },
+    {
+      "jenkins": "assign iacname = env.JOB_NAME",
+      "line": 26,
+      "stage": "Setup",
+      "status": "mapped",
+      "gha": "run: $GITHUB_ENV",
+      "note": "later steps of the job read the variable"
+    },
+    {
+      "jenkins": "assign prjname = oss-opensource",
+      "line": 29,
+      "stage": "Setup",
+      "status": "mapped",
+      "gha": "run: $GITHUB_ENV",
+      "note": "later steps of the job read the variable"
+    },
+    {
+      "jenkins": "assign packname = ${iacname}-v${version}.tar.gz",
+      "line": 32,
+      "stage": "Setup",
+      "status": "mapped",
+      "gha": "run: $GITHUB_ENV",
+      "note": "later steps of the job read the variable"
+    },
+    {
+      "jenkins": "assign publish_url = ${env.NEXUS_URL }/repository/raw-ter",
+      "line": 35,
+      "stage": "Setup",
+      "status": "mapped",
+      "gha": "run: $GITHUB_ENV",
+      "note": "later steps of the job read the variable"
     },
     {
       "jenkins": "sh",
@@ -127,14 +183,6 @@
       "status": "approximated",
       "gha": "run: bash if/elif -> $GITHUB_ENV + job outputs",
       "note": "Java regexes run as POSIX ERE; later `when`/`if` read env.target"
-    },
-    {
-      "jenkins": "assign oversion = sh(script: \"jq -r '.variable.iac_versio",
-      "line": 21,
-      "stage": "Setup",
-      "status": "approximated",
-      "gha": "run step (captured output not propagated)",
-      "note": "write values to $GITHUB_OUTPUT/$GITHUB_ENV"
     },
     {
       "jenkins": "sh",
@@ -321,62 +369,6 @@
       "note": "Groovy interpolation of non-env values needs review"
     },
     {
-      "jenkins": "assign version = ${oversion.take(...)}-${env.BUILD_NUMBER",
-      "line": 24,
-      "stage": "Setup",
-      "status": "manual",
-      "gha": "-",
-      "note": "Groovy variable assignment"
-    },
-    {
-      "jenkins": "assign oversion = oversion.take(...)",
-      "line": 25,
-      "stage": "Setup",
-      "status": "manual",
-      "gha": "-",
-      "note": "Groovy variable assignment from a step"
-    },
-    {
-      "jenkins": "take",
-      "line": 25,
-      "stage": "Setup",
-      "status": "manual",
-      "gha": "-",
-      "note": "Groovy method / helper call - port logic to a script"
-    },
-    {
-      "jenkins": "assign iacname = env.JOB_NAME",
-      "line": 26,
-      "stage": "Setup",
-      "status": "manual",
-      "gha": "-",
-      "note": "Groovy variable assignment"
-    },
-    {
-      "jenkins": "assign prjname = oss-opensource",
-      "line": 29,
-      "stage": "Setup",
-      "status": "manual",
-      "gha": "-",
-      "note": "Groovy variable assignment"
-    },
-    {
-      "jenkins": "assign packname = ${iacname}-v${version}.tar.gz",
-      "line": 32,
-      "stage": "Setup",
-      "status": "manual",
-      "gha": "-",
-      "note": "Groovy variable assignment"
-    },
-    {
-      "jenkins": "assign publish_url = ${env.NEXUS_URL }/repository/raw-ter",
-      "line": 35,
-      "stage": "Setup",
-      "status": "manual",
-      "gha": "-",
-      "note": "Groovy variable assignment"
-    },
-    {
       "jenkins": "cucumber",
       "line": 116,
       "stage": "Acceptance Test",
@@ -427,7 +419,7 @@
     "setup": {
       "name": "Setup, Build, Publish, DEV Deploy, PRE Deploy",
       "runs-on": "ubuntu-latest",
-      "steps": 19,
+      "steps": 25,
       "matrix": false
     },
     "acceptance-test": {
@@ -462,5 +454,5 @@
     ]
   },
   "source_sha256": "7a7829dec3ba733500b2818ce80d22c96d279bcacf84b57b342109552ae76aae",
-  "model_sha256": "92e54fb432c435c0b839d9b8123bca0c9a35fd30df7f1e596e99379603522e17"
+  "model_sha256": "8fed40b83b5a13123e40ed546b9731d098e57f2f77cdc0fd5e212f72ab5e7378"
 }

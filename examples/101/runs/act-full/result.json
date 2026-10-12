@@ -1,29 +1,41 @@
 {
   "tier": "act",
   "mode": "full",
-  "result": "failure",
-  "exit_code": 1,
-  "seconds": 1.9,
+  "result": "success",
+  "exit_code": 0,
+  "seconds": 93.5,
   "jobs": {
     "setup-env": {
-      "result": "failure"
+      "result": "success"
+    },
+    "build-docs": {
+      "result": "success"
+    },
+    "build-release-tarball": {
+      "result": "success"
+    },
+    "test-and-package": {
+      "result": "success"
     }
   },
   "traces": [],
   "failed_steps": [],
-  "error_tail": [
-    "{\"level\":\"info\",\"msg\":\"Using docker host 'unix:///var/run/docker.sock', and daemon socket '-'\",\"time\":\"2026-10-10T09:03:45Z\"}",
-    "{\"level\":\"info\",\"msg\":\"Start server on http://172.17.0.3:34567\",\"time\":\"2026-10-10T09:03:45Z\"}",
-    "Error: unable to determine if image already exists for image '${DOCKER_IMAGE_BASE}-${MINIMUM_ERLANG_VERSION}' (linux/amd64): Error response from daemon: invalid reference format: repository name (library/${DOCKER_IMAGE_BASE}-${MINIMUM_ERLANG_VERSION}) must be lowercase"
-  ],
+  "error_tail": null,
   "outputs": {
-    "archived": [],
+    "archived": [
+      {
+        "path": "apache-couchdb-3.5.2.tar.gz",
+        "size": 18233,
+        "sha256": "3abbd40e7f4ecc9c09b03c7b202f62943612a79a9f46a9582e29823c4d244d07",
+        "artifact": "artifacts-19"
+      }
+    ],
     "tests": null,
     "injected": [
       {
         "path": ".github/workflows/j2gha.yml",
-        "size": 9834,
-        "sha256": "956975b915255381859de49b6703811b6165edc697fc46e9daada7212325612e"
+        "size": 10365,
+        "sha256": "acb521b97245516f2f9d84c551f91aed40f872102101a677260dba43659124b2"
       }
     ]
   },
@@ -31,9 +43,9 @@
     "dropped_jobs": [],
     "matrix_jobs": 4,
     "dropped_container_options": {
-      "setup-env": "${DOCKER_ARGS}",
-      "build-docs": "${DOCKER_ARGS}",
-      "build-release-tarball": "${DOCKER_ARGS}"
+      "setup-env": "-v=/etc/passwd:/etc/passwd -v /etc/group:/etc/group -v /home/jenkins/.gradle:/home/jenkins/.gradle:rw,z -v /home/jenkins/.hex:/home/jenkins/.hex:rw,z -v /home/jenkins/.npm:/home/jenkins/.npm:rw,z -v /home/jenkins/.cache/pip:/home/jenkins/.cache/pip:rw,z -v /home/jenkins/.mix:/home/jenkins/.mix:rw,z",
+      "build-docs": "-v=/etc/passwd:/etc/passwd -v /etc/group:/etc/group -v /home/jenkins/.gradle:/home/jenkins/.gradle:rw,z -v /home/jenkins/.hex:/home/jenkins/.hex:rw,z -v /home/jenkins/.npm:/home/jenkins/.npm:rw,z -v /home/jenkins/.cache/pip:/home/jenkins/.cache/pip:rw,z -v /home/jenkins/.mix:/home/jenkins/.mix:rw,z",
+      "build-release-tarball": "-v=/etc/passwd:/etc/passwd -v /etc/group:/etc/group -v /home/jenkins/.gradle:/home/jenkins/.gradle:rw,z -v /home/jenkins/.hex:/home/jenkins/.hex:rw,z -v /home/jenkins/.npm:/home/jenkins/.npm:rw,z -v /home/jenkins/.cache/pip:/home/jenkins/.cache/pip:rw,z -v /home/jenkins/.mix:/home/jenkins/.mix:rw,z"
     },
     "jobs": 4
   },
@@ -44,7 +56,7 @@
       "git_branch": "origin/main"
     },
     "mode": "full",
-    "model_sha256": "b87a6fc2373b869895bd3d74aa21ace00bef8292d4022e82a9cbf5478be01d44",
+    "model_sha256": "bc5022bcdd8a641e74f887c991cdf746eb819642f44cbfca684e619f1c5e4713",
     "images": {
       "jenkins": {
         "ref": "j2gha/jenkins:local",
@@ -96,14 +108,14 @@
       }
     }
   },
-  "finished_at": "2026-10-10T09:03:47+00:00",
+  "finished_at": "2026-10-12T12:16:48+00:00",
   "comparison": {
     "mode": "full",
     "verdict": "differs",
     "equivalent": false,
     "similarity_pct": 0.0,
     "jenkins_result": "SUCCESS",
-    "gha_result": "failure",
+    "gha_result": "success",
     "jenkins_failed_stage": null,
     "gha_failed_stage": null,
     "gha_failed_step": null,
@@ -124,15 +136,16 @@
       "archived": {
         "status": "differs",
         "jenkins": 2,
-        "gha": 0,
+        "gha": 1,
         "missing": [
-          "apache-couchdb-3.5.2.tar.gz",
           "pkgs/base/couchdb_3.5.2_amd64.deb"
         ],
         "extra": [],
         "copies": 0,
         "content_same": 0,
-        "content_differs": [],
+        "content_differs": [
+          "apache-couchdb-3.5.2.tar.gz"
+        ],
         "content_unknown": 0,
         "proven": true
       },

@@ -102,6 +102,7 @@ class Ctx:
     job_ids: set[str] = field(default_factory=set)
     job: str = ""  # job being generated
     var_producers: dict[str, list[tuple[str, str]]] = field(default_factory=dict)  # script var -> [(job, step id)]
+    assigned: set[str] = field(default_factory=set)  # script variables carried on through $GITHUB_ENV so far
     handoff: dict[str, Any] = field(default_factory=dict)  # the workspace hand-off, for the migration report
 
     def sid(self, prefix: str = "s") -> str:
@@ -886,6 +887,28 @@ def _has_checkout(jobs: dict[str, Any]) -> bool:
                for job in jobs.values() for st in job.get("steps", []))
 
 
+_REF = re.compile(r"\$\{(?:env\.)?([A-Za-z_]\w*)\}|\$(?:env\.)?([A-Za-z_]\w*)")
+
+
+def _fixed_value(text: str, ir: Pipeline) -> tuple[str, list[str]]:
+    """Substitute GString references whose value is fixed before the run (top-level script constants, literal pipeline
+    environment values) -> (text, names left unresolved). For keys GitHub evaluates before any step runs, such as
+    jobs.<id>.container, which neither expands shell references nor offers the env context."""
+    unresolved: list[str] = []
+
+    def sub(m: re.Match[str]) -> str:
+        name = m.group(1) or m.group(2)
+        if name in ir.constants:
+            return ir.constants[name]
+        ev = ir.environment.get(name)
+        if ev is not None and ev.kind == "literal" and isinstance(ev.value, str) and "$" not in ev.value:
+            return ev.value
+        unresolved.append(name)
+        return m.group(0)
+
+    return _REF.sub(sub, text), unresolved
+
+
 def _agent(agent: Agent | None, ctx: Ctx, where: str) -> tuple[Any, Any, str | None, list[dict[str, Any]]]:
     """-> runs-on, container, wrap_image, extra setup steps"""
     if agent is None or agent.kind in ("any", "none", "inherit"):
@@ -904,17 +927,25 @@ def _agent(agent: Agent | None, ctx: Ctx, where: str) -> tuple[Any, Any, str | N
                 f"runs-on: {ro}", "use a self-hosted runner label if the agent provides special tooling/network")
         return ro, None, None, []
     if agent.kind == "docker":
-        container: dict[str, Any] = {"image": agent.image or "TODO-image"}
+        image, unresolved = _fixed_value(agent.image or "TODO-image", ctx.ir)
+        container: dict[str, Any] = {"image": image}
         if agent.args:
-            opts = re.sub(r"(^|\s)--network[= ]\S+", " ", str(agent.args)).strip()
+            args, more = _fixed_value(str(agent.args), ctx.ir)
+            unresolved += more
+            opts = re.sub(r"(^|\s)--network[= ]\S+", " ", args).strip()
             if opts:
                 container["options"] = opts
         if agent.raw.get("registryCredentialsId"):
             sec = ctx.secret(str(agent.raw["registryCredentialsId"]))
             container["credentials"] = {"username": f"${{{{ secrets.{sec}_USR }}}}",
                                         "password": f"${{{{ secrets.{sec}_PSW }}}}"}
-        ctx.add(f"agent docker '{agent.image}'", agent.line, where, "mapped", "job container",
-                "job containers run as root; reuseNode has no equivalent")
+        if unresolved:
+            ctx.add(f"agent docker '{agent.image}'", agent.line, where, "manual", "job container",
+                    f"the image/args use run-time values ({', '.join(sorted(set(unresolved)))}) that GitHub does not "
+                    "expand in jobs.<id>.container: set them literally")
+        else:
+            ctx.add(f"agent docker '{agent.image}'", agent.line, where, "mapped", "job container",
+                    "job containers run as root; reuseNode has no equivalent")
         return "ubuntu-latest", container, None, []
     if agent.kind == "dockerfile":
         fname = agent.filename or "Dockerfile"
@@ -1144,7 +1175,7 @@ def _retry_loop(run: str, shell: str | None, count: int, ctx: Ctx, stage: str, l
             f"  rc=0\n  {inner} || rc=$?\n"
             f"  if [ \"$rc\" = 0 ]; then break; fi\n"
             f"  if [ \"$attempt\" = {count} ]; then exit \"$rc\"; fi\n"
-            f"  echo \"retrying ($attempt/{count})\"\n"
+            f"  echo \"retrying ($attempt/{count})\" >&2\n"
             f"done")
     return loop, "bash"
 
@@ -1887,6 +1918,9 @@ def _script_stmt(s: Step, ctx: Ctx, inh: Inherit) -> list[dict[str, Any]]:
             out += _steps(s.named["_finally"], ctx, inh.child(cond=_and("always()", entered)))
         return out
     if kind in ("decl", "assign"):
+        carried = _carry_assignment(s, ctx, inh, kind)
+        if carried is not None:
+            return carried
         inner = s.body[0] if s.body else None
         if inner and inner.name in ("sh", "bat", "powershell") and (inner.named.get("returnStdout") or inner.named.get("returnStatus")):
             ctx.add(f"{kind} {(s.source or '')[:50]}", s.line, inh.stage, "approximated",
@@ -1902,6 +1936,135 @@ def _script_stmt(s: Step, ctx: Ctx, inh: Inherit) -> list[dict[str, Any]]:
             "Groovy control flow requires manual migration")
     return [_mk(f"{inh.stage}: Groovy {kind} (manual)", ctx, inh, "script-manual", s.line,
                 run=f"echo \"::warning::manual migration: Groovy {kind} at line {s.line}\"", trace=False)]
+
+
+# ------------------------------------------------------------------------------------- assignments -> env
+# names a pipeline variable must not overwrite through $GITHUB_ENV: the runner's own and the shell's
+_RESERVED_ENV = re.compile(r"(?:GITHUB|RUNNER|ACTIONS|BASH|LD)_\w*|CI|HOME|PATH|PWD|OLDPWD|SHELL|USER|IFS|NODE_OPTIONS")
+_TRIM = ('{v}="${{{v}#"${{{v}%%[![:space:]]*}}"}}"\n'
+         '{v}="${{{v}%"${{{v}##*[![:space:]]}}"}}"\n')
+
+
+def _publish_var(name: str) -> str:
+    """Write a shell variable to $GITHUB_ENV (later steps) and $GITHUB_OUTPUT (later jobs, `_wire_script_vars`)."""
+    return "\n".join(f"{{ echo '{name}<<J2GHA_EOF'; printf '%s\\n' \"${name}\"; echo J2GHA_EOF; }} >> \"${f}\""
+                     for f in ("GITHUB_ENV", "GITHUB_OUTPUT"))
+
+
+def _carry_assignment(s: Step, ctx: Ctx, inh: Inherit, kind: str) -> list[dict[str, Any]] | None:
+    """`x = sh(script: ..., returnStdout: true)[.trim()]`, `x = pwd()` and string expressions (literals, env/params,
+    earlier variables, `+`, `.take(n)`): the value goes to $GITHUB_ENV, so later steps of the job see `$x`/env.x as
+    Jenkins' later steps see the variable. None: not a value this can carry (the caller reports it as before)."""
+    target = s.named.get("_target") or ""
+    value = s.named.get("_value") or {}
+    if not re.fullmatch(r"[A-Za-z_]\w*", target) or _RESERVED_ENV.fullmatch(target) or inh.shell not in (None, "bash"):
+        return None
+    # a Groovy variable is not in the environment of Jenkins' `sh` steps: one named like an environment variable must
+    # not change what `$NAME` reads there
+    if target in JENKINS_ENV or target in ctx.ir.environment or any(p.name == target for p in ctx.ir.parameters):
+        return None
+    src = (s.source or "")[:50]
+    inner = s.body[0] if s.body else None
+    if inner is not None and inner.name == "sh" and inner.named.get("returnStdout") and not inner.named.get("returnStatus"):
+        n_items = len(ctx.items)
+        steps = _step(inner, ctx, inh)
+        if len(steps) != 1 or not isinstance(steps[0].get("run"), str):
+            del ctx.items[n_items:]
+            return None
+        trim = value.get("t") == "call" and (value.get("call") or {}).get("name") == "trim"
+        st = steps[0]
+        st["run"] = f'{target}="$(\n{st["run"]}\n)"\n' + (_TRIM.format(v=target) if trim else "") + _publish_var(target)
+        ctx.add(f"{kind} {src}", s.line, inh.stage, "mapped" if trim else "approximated",
+                "run step; its output goes to $GITHUB_ENV",
+                "later steps of the job read the variable" + ("" if trim else "; trailing newlines are dropped"))
+        ctx.var_producers.setdefault(target, []).append((ctx.job, st["id"]))
+        ctx.assigned.add(target)
+        return steps
+    rendered = _bash_value(value, ctx)
+    if rendered is None:
+        return None
+    if rendered == f'"${{{target}}}"':  # `def VERSION = params.VERSION`: already the environment variable's value
+        ctx.add(f"{kind} {src}", s.line, inh.stage, "mapped", "-", "the environment variable already has this value")
+        return []
+    step = _mk(f"{inh.stage}: set {target}", ctx, inh, "script-assign", s.line,
+               run=f"{target}={rendered}\n{_publish_var(target)}", trace=False, shell="bash")
+    ctx.add(f"{kind} {src}", s.line, inh.stage, "mapped", "run: $GITHUB_ENV", "later steps of the job read the variable")
+    ctx.var_producers.setdefault(target, []).append((ctx.job, step["id"]))
+    ctx.assigned.add(target)
+    return [step]
+
+
+def _dq(text: str) -> str:
+    """Literal text inside a bash double-quoted string."""
+    return re.sub(r'([\\$`"])', r"\\\1", text)
+
+
+def _bash_ref(name: str, ctx: Ctx) -> str | None:
+    """A Groovy name in an expression -> its bash expansion (None: a local whose value is unknown here)."""
+    if name in ctx.ir.constants and name not in ctx.assigned:
+        return _dq(ctx.ir.constants[name])
+    known = (name in ctx.assigned or name in SCRIPT_VARS.get() or name in ctx.ir.environment or name in JENKINS_ENV
+             or any(p.name == name for p in ctx.ir.parameters))
+    if known or name[0].isupper():  # an undeclared upper-case name is an environment variable in Jenkins
+        return f"${{{name}}}"
+    return None
+
+
+def _bash_value(v: dict[str, Any], ctx: Ctx) -> str | None:
+    """A Groovy value (AST) -> a bash double-quoted string, or None when it is not a plain string expression."""
+    def part(n: dict[str, Any]) -> str | None:
+        t = n.get("t")
+        if t == "str":
+            return _dq(str(n.get("v")))
+        if t == "num" and isinstance(n.get("v"), int):
+            return str(n["v"])
+        if t == "concat":
+            parts = [part(p) for p in n.get("parts") or []]
+            return None if any(p is None for p in parts) else "".join(parts)  # type: ignore[arg-type]
+        if t == "var":
+            return _bash_ref(str(n.get("name")), ctx)
+        if t == "prop":
+            m = re.fullmatch(r"(?:env|params)\.([A-Za-z_]\w*)", str(n.get("text", "")).strip())
+            return f"${{{m.group(1)}}}" if m and not n.get("calls") else None
+        if t == "gstr":
+            return _gstring(str(n.get("v", "")), ctx)
+        if t == "call":
+            c = n.get("call") or {}
+            name, recv, args = c.get("name"), (c.get("receiver") or "").strip(), c.get("args") or []
+            if name == "pwd" and not recv and not args and not c.get("named"):
+                return "${PWD}"
+            if name == "take" and len(args) == 1 and args[0].get("t") == "num" and isinstance(args[0].get("v"), int):
+                m = re.fullmatch(r"(?:(?:env|params)\.)?([A-Za-z_]\w*)", recv)
+                ref = _bash_ref(m.group(1), ctx) if m else None
+                if ref and ref.startswith("${"):
+                    return f"${{{ref[2:-1]}:0:{args[0]['v']}}}"
+        return None
+
+    body = part(v)
+    return None if body is None else f'"{body}"'
+
+
+def _gstring(src: str, ctx: Ctx) -> str | None:
+    """A GString's source (with its quotes) whose interpolations are plain names -> bash double-quoted body."""
+    m = re.fullmatch(r'"(.*)"', src, re.S)
+    if not m:
+        return None
+    out, pos, text = [], 0, m.group(1)
+    for ref in re.finditer(r"\$\{\s*(?:(?:env|params)\.)?([A-Za-z_]\w*)\s*\}|\$(?:(?:env|params)\.)?([A-Za-z_]\w*)", text):
+        lit = text[pos:ref.start()]
+        if "$" in lit or "\\" in lit:
+            return None  # an interpolation this does not understand, or an escape
+        out.append(_dq(lit))
+        r = _bash_ref(ref.group(1) or ref.group(2), ctx)
+        if r is None:
+            return None
+        out.append(r)
+        pos = ref.end()
+    lit = text[pos:]
+    if "$" in lit or "\\" in lit:
+        return None
+    out.append(_dq(lit))
+    return "".join(out)
 
 
 # ------------------------------------------------------------------------------------- if/else chains -> env

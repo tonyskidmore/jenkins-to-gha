@@ -3,33 +3,39 @@
   "mode": "trace",
   "result": "success",
   "exit_code": 0,
-  "seconds": 88.3,
+  "seconds": 101.8,
   "jobs": {
     "update-openroad-to-head-of-master-branch": {
-      "result": "success"
-    },
-    "run-tests {\"DESIGN\": \"ci/aes_core\"}": {
       "result": "success"
     },
     "run-tests {\"DESIGN\": \"ci/aes\"}": {
       "result": "success"
     },
+    "run-tests {\"DESIGN\": \"ci/blabla\"}": {
+      "result": "success"
+    },
     "run-tests {\"DESIGN\": \"ci/APU\"}": {
       "result": "success"
     },
-    "run-tests {\"DESIGN\": \"ci/blabla\"}": {
+    "run-tests {\"DESIGN\": \"ci/aes_core\"}": {
       "result": "success"
     },
     "run-tests {\"DESIGN\": \"'ci/BM64 -override_env QUIT_ON_LINTER_ERRORS=0'\"}": {
       "result": "success"
     },
-    "run-tests {\"DESIGN\": \"ci/gcd\"}": {
-      "result": "success"
-    },
     "run-tests {\"DESIGN\": \"ci/inverter\"}": {
       "result": "success"
     },
+    "run-tests {\"DESIGN\": \"ci/gcd\"}": {
+      "result": "success"
+    },
     "run-tests {\"DESIGN\": \"ci/manual_macro_placement_test\"}": {
+      "result": "success"
+    },
+    "run-tests {\"DESIGN\": \"ci/salsa20\"}": {
+      "result": "success"
+    },
+    "run-tests {\"DESIGN\": \"ci/s44\"}": {
       "result": "success"
     },
     "run-tests {\"DESIGN\": \"ci/picorv32a\"}": {
@@ -38,10 +44,7 @@
     "run-tests {\"DESIGN\": \"ci/PPU\"}": {
       "result": "success"
     },
-    "run-tests {\"DESIGN\": \"ci/s44\"}": {
-      "result": "success"
-    },
-    "run-tests {\"DESIGN\": \"ci/salsa20\"}": {
+    "run-tests {\"DESIGN\": \"ci/xtea\"}": {
       "result": "success"
     },
     "run-tests {\"DESIGN\": \"ci/usb\"}": {
@@ -51,9 +54,6 @@
       "result": "success"
     },
     "run-tests {\"DESIGN\": \"ci/wbqspiflash\"}": {
-      "result": "success"
-    },
-    "run-tests {\"DESIGN\": \"ci/xtea\"}": {
       "result": "success"
     },
     "run-tests {\"DESIGN\": \"'ci/y_huff -override_env QUIT_ON_SYNTH_CHECKS=0'\"}": {
@@ -68,10 +68,10 @@
     "run-tests {\"DESIGN\": \"ci/caravel_upw\"}": {
       "result": "success"
     },
-    "run-tests {\"DESIGN\": \"ci/mem_1r1w\"}": {
+    "run-tests {\"DESIGN\": \"spm\"}": {
       "result": "success"
     },
-    "run-tests {\"DESIGN\": \"spm\"}": {
+    "run-tests {\"DESIGN\": \"ci/mem_1r1w\"}": {
       "result": "success"
     },
     "post": {
@@ -128,7 +128,15 @@
       "step": "checkout"
     },
     {
+      "stage": "ci/APU - Install PDK",
+      "step": "sh"
+    },
+    {
       "stage": "ci/aes_core - Install PDK",
+      "step": "sh"
+    },
+    {
+      "stage": "ci/blabla - Install PDK",
       "step": "sh"
     },
     {
@@ -152,11 +160,11 @@
       "step": "sh"
     },
     {
-      "stage": "ci/blabla - Install PDK",
+      "stage": "ci/APU - Install PDK",
       "step": "sh"
     },
     {
-      "stage": "ci/APU - Install PDK",
+      "stage": "ci/blabla - Install PDK",
       "step": "sh"
     },
     {
@@ -166,22 +174,6 @@
     {
       "stage": "ci/aes - Install PDK",
       "step": "sh"
-    },
-    {
-      "stage": "ci/blabla - Install PDK",
-      "step": "sh"
-    },
-    {
-      "stage": "ci/APU - Install PDK",
-      "step": "sh"
-    },
-    {
-      "stage": "ci/aes_core - Import Docker image",
-      "step": "unstash"
-    },
-    {
-      "stage": "ci/aes - Import Docker image",
-      "step": "unstash"
     },
     {
       "stage": "ci/APU - Import Docker image",
@@ -193,11 +185,11 @@
     },
     {
       "stage": "ci/aes_core - Import Docker image",
-      "step": "sh"
+      "step": "unstash"
     },
     {
       "stage": "ci/aes - Import Docker image",
-      "step": "sh"
+      "step": "unstash"
     },
     {
       "stage": "ci/APU - Import Docker image",
@@ -208,15 +200,15 @@
       "step": "sh"
     },
     {
-      "stage": "ci/aes_core - Update OpenROAD commit",
+      "stage": "ci/aes_core - Import Docker image",
+      "step": "sh"
+    },
+    {
+      "stage": "ci/aes - Import Docker image",
       "step": "sh"
     },
     {
       "stage": "ci/APU - Update OpenROAD commit",
-      "step": "sh"
-    },
-    {
-      "stage": "ci/aes - Update OpenROAD commit",
       "step": "sh"
     },
     {
@@ -240,11 +232,11 @@
       "step": "sh"
     },
     {
-      "stage": "ci/aes_core - Run test",
+      "stage": "ci/aes_core - Update OpenROAD commit",
       "step": "sh"
     },
     {
-      "stage": "ci/aes - Run test",
+      "stage": "ci/aes - Update OpenROAD commit",
       "step": "sh"
     },
     {
@@ -256,43 +248,35 @@
       "step": "sh"
     },
     {
-      "stage": "Test",
-      "step": "checkout"
-    },
-    {
-      "stage": "Test",
-      "step": "checkout"
-    },
-    {
-      "stage": "Test",
-      "step": "checkout"
-    },
-    {
-      "stage": "Test",
-      "step": "checkout"
-    },
-    {
-      "stage": "'ci/BM64 -override_env QUIT_ON_LINTER_ERRORS=0' - Install PDK",
+      "stage": "ci/aes_core - Run test",
       "step": "sh"
+    },
+    {
+      "stage": "ci/aes - Run test",
+      "step": "sh"
+    },
+    {
+      "stage": "Test",
+      "step": "checkout"
+    },
+    {
+      "stage": "Test",
+      "step": "checkout"
+    },
+    {
+      "stage": "Test",
+      "step": "checkout"
+    },
+    {
+      "stage": "Test",
+      "step": "checkout"
     },
     {
       "stage": "ci/gcd - Install PDK",
       "step": "sh"
     },
     {
-      "stage": "ci/manual_macro_placement_test - Install PDK",
-      "step": "sh"
-    },
-    {
-      "stage": "ci/inverter - Install PDK",
-      "step": "sh"
-    },
-    {
       "stage": "'ci/BM64 -override_env QUIT_ON_LINTER_ERRORS=0' - Install PDK",
-      "step": "sh"
-    },
-    {
-      "stage": "ci/gcd - Install PDK",
       "step": "sh"
     },
     {
@@ -304,11 +288,11 @@
       "step": "sh"
     },
     {
-      "stage": "'ci/BM64 -override_env QUIT_ON_LINTER_ERRORS=0' - Install PDK",
+      "stage": "ci/gcd - Install PDK",
       "step": "sh"
     },
     {
-      "stage": "ci/gcd - Install PDK",
+      "stage": "'ci/BM64 -override_env QUIT_ON_LINTER_ERRORS=0' - Install PDK",
       "step": "sh"
     },
     {
@@ -320,15 +304,27 @@
       "step": "sh"
     },
     {
-      "stage": "'ci/BM64 -override_env QUIT_ON_LINTER_ERRORS=0' - Import Docker image",
-      "step": "unstash"
+      "stage": "ci/gcd - Install PDK",
+      "step": "sh"
+    },
+    {
+      "stage": "'ci/BM64 -override_env QUIT_ON_LINTER_ERRORS=0' - Install PDK",
+      "step": "sh"
+    },
+    {
+      "stage": "ci/inverter - Install PDK",
+      "step": "sh"
+    },
+    {
+      "stage": "ci/manual_macro_placement_test - Install PDK",
+      "step": "sh"
     },
     {
       "stage": "ci/gcd - Import Docker image",
       "step": "unstash"
     },
     {
-      "stage": "ci/inverter - Import Docker image",
+      "stage": "'ci/BM64 -override_env QUIT_ON_LINTER_ERRORS=0' - Import Docker image",
       "step": "unstash"
     },
     {
@@ -336,15 +332,15 @@
       "step": "unstash"
     },
     {
-      "stage": "'ci/BM64 -override_env QUIT_ON_LINTER_ERRORS=0' - Import Docker image",
-      "step": "sh"
+      "stage": "ci/inverter - Import Docker image",
+      "step": "unstash"
     },
     {
       "stage": "ci/gcd - Import Docker image",
       "step": "sh"
     },
     {
-      "stage": "ci/inverter - Import Docker image",
+      "stage": "'ci/BM64 -override_env QUIT_ON_LINTER_ERRORS=0' - Import Docker image",
       "step": "sh"
     },
     {
@@ -352,11 +348,15 @@
       "step": "sh"
     },
     {
-      "stage": "'ci/BM64 -override_env QUIT_ON_LINTER_ERRORS=0' - Update OpenROAD commit",
+      "stage": "ci/inverter - Import Docker image",
       "step": "sh"
     },
     {
       "stage": "ci/gcd - Update OpenROAD commit",
+      "step": "sh"
+    },
+    {
+      "stage": "'ci/BM64 -override_env QUIT_ON_LINTER_ERRORS=0' - Update OpenROAD commit",
       "step": "sh"
     },
     {
@@ -368,11 +368,11 @@
       "step": "sh"
     },
     {
-      "stage": "'ci/BM64 -override_env QUIT_ON_LINTER_ERRORS=0' - Update OpenROAD commit",
+      "stage": "ci/gcd - Update OpenROAD commit",
       "step": "sh"
     },
     {
-      "stage": "ci/gcd - Update OpenROAD commit",
+      "stage": "'ci/BM64 -override_env QUIT_ON_LINTER_ERRORS=0' - Update OpenROAD commit",
       "step": "sh"
     },
     {
@@ -381,14 +381,14 @@
     },
     {
       "stage": "ci/manual_macro_placement_test - Update OpenROAD commit",
-      "step": "sh"
-    },
-    {
-      "stage": "'ci/BM64 -override_env QUIT_ON_LINTER_ERRORS=0' - Run test",
       "step": "sh"
     },
     {
       "stage": "ci/gcd - Run test",
+      "step": "sh"
+    },
+    {
+      "stage": "'ci/BM64 -override_env QUIT_ON_LINTER_ERRORS=0' - Run test",
       "step": "sh"
     },
     {
@@ -420,7 +420,15 @@
       "step": "sh"
     },
     {
+      "stage": "ci/s44 - Install PDK",
+      "step": "sh"
+    },
+    {
       "stage": "ci/PPU - Install PDK",
+      "step": "sh"
+    },
+    {
+      "stage": "ci/salsa20 - Install PDK",
       "step": "sh"
     },
     {
@@ -432,11 +440,11 @@
       "step": "sh"
     },
     {
-      "stage": "ci/salsa20 - Install PDK",
+      "stage": "ci/PPU - Install PDK",
       "step": "sh"
     },
     {
-      "stage": "ci/PPU - Install PDK",
+      "stage": "ci/salsa20 - Install PDK",
       "step": "sh"
     },
     {
@@ -448,27 +456,15 @@
       "step": "sh"
     },
     {
-      "stage": "ci/salsa20 - Install PDK",
-      "step": "sh"
-    },
-    {
       "stage": "ci/PPU - Install PDK",
       "step": "sh"
     },
     {
-      "stage": "ci/s44 - Install PDK",
+      "stage": "ci/salsa20 - Install PDK",
       "step": "sh"
     },
     {
       "stage": "ci/picorv32a - Import Docker image",
-      "step": "unstash"
-    },
-    {
-      "stage": "ci/salsa20 - Install PDK",
-      "step": "sh"
-    },
-    {
-      "stage": "ci/PPU - Import Docker image",
       "step": "unstash"
     },
     {
@@ -476,31 +472,31 @@
       "step": "unstash"
     },
     {
-      "stage": "ci/picorv32a - Import Docker image",
-      "step": "sh"
+      "stage": "ci/PPU - Import Docker image",
+      "step": "unstash"
     },
     {
       "stage": "ci/salsa20 - Import Docker image",
       "step": "unstash"
     },
     {
+      "stage": "ci/s44 - Import Docker image",
+      "step": "sh"
+    },
+    {
+      "stage": "ci/picorv32a - Import Docker image",
+      "step": "sh"
+    },
+    {
       "stage": "ci/PPU - Import Docker image",
       "step": "sh"
     },
     {
-      "stage": "ci/s44 - Import Docker image",
+      "stage": "ci/salsa20 - Import Docker image",
       "step": "sh"
     },
     {
       "stage": "ci/picorv32a - Update OpenROAD commit",
-      "step": "sh"
-    },
-    {
-      "stage": "ci/salsa20 - Import Docker image",
-      "step": "sh"
-    },
-    {
-      "stage": "ci/PPU - Update OpenROAD commit",
       "step": "sh"
     },
     {
@@ -508,7 +504,7 @@
       "step": "sh"
     },
     {
-      "stage": "ci/picorv32a - Update OpenROAD commit",
+      "stage": "ci/PPU - Update OpenROAD commit",
       "step": "sh"
     },
     {
@@ -516,23 +512,23 @@
       "step": "sh"
     },
     {
+      "stage": "ci/s44 - Update OpenROAD commit",
+      "step": "sh"
+    },
+    {
+      "stage": "ci/picorv32a - Update OpenROAD commit",
+      "step": "sh"
+    },
+    {
       "stage": "ci/PPU - Update OpenROAD commit",
       "step": "sh"
     },
     {
-      "stage": "ci/s44 - Update OpenROAD commit",
+      "stage": "ci/salsa20 - Update OpenROAD commit",
       "step": "sh"
     },
     {
       "stage": "ci/picorv32a - Run test",
-      "step": "sh"
-    },
-    {
-      "stage": "ci/salsa20 - Update OpenROAD commit",
-      "step": "sh"
-    },
-    {
-      "stage": "ci/PPU - Run test",
       "step": "sh"
     },
     {
@@ -544,27 +540,31 @@
       "step": "sh"
     },
     {
-      "stage": "Test",
-      "step": "checkout"
-    },
-    {
-      "stage": "Test",
-      "step": "checkout"
-    },
-    {
-      "stage": "Test",
-      "step": "checkout"
-    },
-    {
-      "stage": "Test",
-      "step": "checkout"
-    },
-    {
-      "stage": "ci/usb - Install PDK",
+      "stage": "ci/PPU - Run test",
       "step": "sh"
     },
     {
-      "stage": "ci/usb_cdc_core - Install PDK",
+      "stage": "Test",
+      "step": "checkout"
+    },
+    {
+      "stage": "Test",
+      "step": "checkout"
+    },
+    {
+      "stage": "Test",
+      "step": "checkout"
+    },
+    {
+      "stage": "Test",
+      "step": "checkout"
+    },
+    {
+      "stage": "ci/xtea - Install PDK",
+      "step": "sh"
+    },
+    {
+      "stage": "ci/usb - Install PDK",
       "step": "sh"
     },
     {
@@ -572,7 +572,19 @@
       "step": "sh"
     },
     {
+      "stage": "ci/usb_cdc_core - Install PDK",
+      "step": "sh"
+    },
+    {
+      "stage": "ci/xtea - Install PDK",
+      "step": "sh"
+    },
+    {
       "stage": "ci/usb - Install PDK",
+      "step": "sh"
+    },
+    {
+      "stage": "ci/wbqspiflash - Install PDK",
       "step": "sh"
     },
     {
@@ -593,38 +605,6 @@
     },
     {
       "stage": "ci/usb_cdc_core - Install PDK",
-      "step": "sh"
-    },
-    {
-      "stage": "ci/xtea - Install PDK",
-      "step": "sh"
-    },
-    {
-      "stage": "ci/wbqspiflash - Install PDK",
-      "step": "sh"
-    },
-    {
-      "stage": "ci/usb - Import Docker image",
-      "step": "unstash"
-    },
-    {
-      "stage": "ci/usb_cdc_core - Import Docker image",
-      "step": "unstash"
-    },
-    {
-      "stage": "ci/xtea - Install PDK",
-      "step": "sh"
-    },
-    {
-      "stage": "ci/wbqspiflash - Import Docker image",
-      "step": "unstash"
-    },
-    {
-      "stage": "ci/usb - Import Docker image",
-      "step": "sh"
-    },
-    {
-      "stage": "ci/usb_cdc_core - Import Docker image",
       "step": "sh"
     },
     {
@@ -632,27 +612,43 @@
       "step": "unstash"
     },
     {
+      "stage": "ci/usb - Import Docker image",
+      "step": "unstash"
+    },
+    {
       "stage": "ci/wbqspiflash - Import Docker image",
+      "step": "unstash"
+    },
+    {
+      "stage": "ci/usb_cdc_core - Import Docker image",
+      "step": "unstash"
+    },
+    {
+      "stage": "ci/xtea - Import Docker image",
+      "step": "sh"
+    },
+    {
+      "stage": "ci/usb - Import Docker image",
+      "step": "sh"
+    },
+    {
+      "stage": "ci/usb_cdc_core - Import Docker image",
+      "step": "sh"
+    },
+    {
+      "stage": "ci/wbqspiflash - Import Docker image",
+      "step": "sh"
+    },
+    {
+      "stage": "ci/xtea - Update OpenROAD commit",
       "step": "sh"
     },
     {
       "stage": "ci/usb - Update OpenROAD commit",
-      "step": "sh"
-    },
-    {
-      "stage": "ci/usb_cdc_core - Update OpenROAD commit",
-      "step": "sh"
-    },
-    {
-      "stage": "ci/xtea - Import Docker image",
       "step": "sh"
     },
     {
       "stage": "ci/wbqspiflash - Update OpenROAD commit",
-      "step": "sh"
-    },
-    {
-      "stage": "ci/usb - Update OpenROAD commit",
       "step": "sh"
     },
     {
@@ -664,7 +660,19 @@
       "step": "sh"
     },
     {
+      "stage": "ci/usb - Update OpenROAD commit",
+      "step": "sh"
+    },
+    {
+      "stage": "ci/usb_cdc_core - Update OpenROAD commit",
+      "step": "sh"
+    },
+    {
       "stage": "ci/wbqspiflash - Update OpenROAD commit",
+      "step": "sh"
+    },
+    {
+      "stage": "ci/xtea - Run test",
       "step": "sh"
     },
     {
@@ -676,18 +684,10 @@
       "step": "sh"
     },
     {
-      "stage": "ci/xtea - Update OpenROAD commit",
-      "step": "sh"
-    },
-    {
       "stage": "ci/wbqspiflash - Run test",
       "step": "sh"
     },
     {
-      "stage": "ci/xtea - Run test",
-      "step": "sh"
-    },
-    {
       "stage": "Test",
       "step": "checkout"
     },
@@ -713,14 +713,6 @@
     },
     {
       "stage": "ci/aes_user_project_wrapper - Install PDK",
-      "step": "sh"
-    },
-    {
-      "stage": "'ci/y_huff -override_env QUIT_ON_SYNTH_CHECKS=0' - Install PDK",
-      "step": "sh"
-    },
-    {
-      "stage": "ci/zipdiv - Install PDK",
       "step": "sh"
     },
     {
@@ -728,7 +720,19 @@
       "step": "sh"
     },
     {
+      "stage": "'ci/y_huff -override_env QUIT_ON_SYNTH_CHECKS=0' - Install PDK",
+      "step": "sh"
+    },
+    {
+      "stage": "ci/zipdiv - Install PDK",
+      "step": "sh"
+    },
+    {
       "stage": "ci/aes_user_project_wrapper - Install PDK",
+      "step": "sh"
+    },
+    {
+      "stage": "ci/caravel_upw - Install PDK",
       "step": "sh"
     },
     {
@@ -740,11 +744,11 @@
       "step": "sh"
     },
     {
-      "stage": "ci/caravel_upw - Install PDK",
+      "stage": "ci/aes_user_project_wrapper - Install PDK",
       "step": "sh"
     },
     {
-      "stage": "ci/aes_user_project_wrapper - Install PDK",
+      "stage": "ci/caravel_upw - Install PDK",
       "step": "sh"
     },
     {
@@ -754,29 +758,29 @@
     {
       "stage": "ci/zipdiv - Import Docker image",
       "step": "unstash"
-    },
-    {
-      "stage": "ci/caravel_upw - Install PDK",
-      "step": "sh"
     },
     {
       "stage": "ci/aes_user_project_wrapper - Import Docker image",
       "step": "unstash"
-    },
-    {
-      "stage": "'ci/y_huff -override_env QUIT_ON_SYNTH_CHECKS=0' - Import Docker image",
-      "step": "sh"
-    },
-    {
-      "stage": "ci/zipdiv - Import Docker image",
-      "step": "sh"
     },
     {
       "stage": "ci/caravel_upw - Import Docker image",
       "step": "unstash"
     },
     {
+      "stage": "'ci/y_huff -override_env QUIT_ON_SYNTH_CHECKS=0' - Import Docker image",
+      "step": "sh"
+    },
+    {
+      "stage": "ci/zipdiv - Import Docker image",
+      "step": "sh"
+    },
+    {
       "stage": "ci/aes_user_project_wrapper - Import Docker image",
+      "step": "sh"
+    },
+    {
+      "stage": "ci/caravel_upw - Import Docker image",
       "step": "sh"
     },
     {
@@ -788,15 +792,7 @@
       "step": "sh"
     },
     {
-      "stage": "ci/caravel_upw - Import Docker image",
-      "step": "sh"
-    },
-    {
       "stage": "ci/aes_user_project_wrapper - Update OpenROAD commit",
-      "step": "sh"
-    },
-    {
-      "stage": "'ci/y_huff -override_env QUIT_ON_SYNTH_CHECKS=0' - Update OpenROAD commit",
       "step": "sh"
     },
     {
@@ -804,19 +800,23 @@
       "step": "sh"
     },
     {
+      "stage": "'ci/y_huff -override_env QUIT_ON_SYNTH_CHECKS=0' - Update OpenROAD commit",
+      "step": "sh"
+    },
+    {
       "stage": "ci/zipdiv - Update OpenROAD commit",
       "step": "sh"
     },
     {
       "stage": "ci/aes_user_project_wrapper - Update OpenROAD commit",
+      "step": "sh"
+    },
+    {
+      "stage": "ci/caravel_upw - Update OpenROAD commit",
       "step": "sh"
     },
     {
       "stage": "'ci/y_huff -override_env QUIT_ON_SYNTH_CHECKS=0' - Run test",
-      "step": "sh"
-    },
-    {
-      "stage": "ci/caravel_upw - Update OpenROAD commit",
       "step": "sh"
     },
     {
@@ -888,11 +888,11 @@
       "step": "sh"
     },
     {
-      "stage": "ci/mem_1r1w - Update OpenROAD commit",
+      "stage": "spm - Update OpenROAD commit",
       "step": "sh"
     },
     {
-      "stage": "spm - Update OpenROAD commit",
+      "stage": "ci/mem_1r1w - Update OpenROAD commit",
       "step": "sh"
     },
     {
@@ -918,7 +918,7 @@
       "git_branch": "origin/superstable"
     },
     "mode": "trace",
-    "model_sha256": "fb48d6352dd8b6b0235f0268492db66d38571a882f6479c414c4b47f587d3cc4",
+    "model_sha256": "d2018d632f6ad74f9b160997a5cb51d0ba1e1b9f914d87574398a0d250f2f779",
     "images": {
       "jenkins": {
         "ref": "j2gha/jenkins:local",
@@ -970,7 +970,7 @@
       }
     }
   },
-  "finished_at": "2026-10-10T08:08:45+00:00",
+  "finished_at": "2026-10-12T12:43:04+00:00",
   "comparison": {
     "equivalent": true,
     "verdict": "equivalent",
