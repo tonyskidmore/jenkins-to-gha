@@ -90,6 +90,7 @@ jobs:
         J2GHA_WS_LINEAGE: 'check-commit-message:'
         J2GHA_WS_HEADS: check-commit-message
         J2GHA_WS_RESULTS: check-commit-message=${{ needs.check-commit-message.result }}
+        J2GHA_WS_DELTAS: ''
         J2GHA_WS_FALLBACKS: 'check-commit-message:'
       run: |
         ws="$GITHUB_WORKSPACE"
@@ -101,7 +102,12 @@ jobs:
             if [ "${line%%:*}" = "$1" ]; then printf '%s\n' "${line#*:}"; fi
           done <<< "$J2GHA_WS_LINEAGE"
         }
-        present() { [ -f "$d/$1/.j2gha-ws.tgz" ]; }
+        isdelta() { case " $J2GHA_WS_DELTAS " in *" $1 "*) return 0 ;; esac; return 1; }
+        # the cells of a matrix producer that arrived (one directory per artifact, in name order)
+        cells() { local c; for c in "$d/$1"/*/; do if [ -f "$c.j2gha-ws.changes" ]; then basename "$c"; fi; done; }
+        present() {
+          if isdelta "$1"; then [ -n "$(cells "$1")" ]; else [ -f "$d/$1/.j2gha-ws.tgz" ]; fi
+        }
         # read-only directories (a Go module cache) need write permission to be removed
         remove() { rm -rf -- "$@" 2>/dev/null || { chmod -R u+w -- "$@"; rm -rf -- "$@"; }; }
         isdir() { [ -d "$1" ] && [ ! -L "$1" ]; }
@@ -193,7 +199,8 @@ jobs:
           present "$p" || continue
           covered=false
           for q in $J2GHA_WS_ORDER; do
-            if [ "$q" != "$p" ] && present "$q"; then
+            # a matrix hands on its cells' changes, not a workspace: it does not stand in for the producers before it
+            if [ "$q" != "$p" ] && ! isdelta "$q" && present "$q"; then
               case " $(ancestors "$q") " in *" $p "*) covered=true ;; esac
             fi
           done
@@ -207,8 +214,18 @@ jobs:
             if [ "$e" != "$d" ]; then remove "$e"; fi
           done
           shopt -u dotglob nullglob
+          if isdelta "${frontier[0]}"; then
+            echo "::error::no workspace arrived for the changes of matrix job '${frontier[0]}' to be applied to"
+            exit 1
+          fi
           tar -xzpf "$d/${frontier[0]}/.j2gha-ws.tgz" -C "$ws"
-          for f in "${frontier[@]:1}"; do replay "$f"; done
+          for f in "${frontier[@]:1}"; do
+            if isdelta "$f"; then
+              while IFS= read -r c; do replay "$f/$c"; done < <(cells "$f")
+            else
+              replay "$f"
+            fi
+          done
           restored=true
         fi
         remove "$d"
@@ -280,6 +297,7 @@ jobs:
           run-urdf-tests: check-commit-message
         J2GHA_WS_HEADS: run-urdf-tests
         J2GHA_WS_RESULTS: run-urdf-tests=${{ needs.run-urdf-tests.result }}
+        J2GHA_WS_DELTAS: ''
         J2GHA_WS_FALLBACKS: |-
           check-commit-message:
           run-urdf-tests: check-commit-message
@@ -293,7 +311,12 @@ jobs:
             if [ "${line%%:*}" = "$1" ]; then printf '%s\n' "${line#*:}"; fi
           done <<< "$J2GHA_WS_LINEAGE"
         }
-        present() { [ -f "$d/$1/.j2gha-ws.tgz" ]; }
+        isdelta() { case " $J2GHA_WS_DELTAS " in *" $1 "*) return 0 ;; esac; return 1; }
+        # the cells of a matrix producer that arrived (one directory per artifact, in name order)
+        cells() { local c; for c in "$d/$1"/*/; do if [ -f "$c.j2gha-ws.changes" ]; then basename "$c"; fi; done; }
+        present() {
+          if isdelta "$1"; then [ -n "$(cells "$1")" ]; else [ -f "$d/$1/.j2gha-ws.tgz" ]; fi
+        }
         # read-only directories (a Go module cache) need write permission to be removed
         remove() { rm -rf -- "$@" 2>/dev/null || { chmod -R u+w -- "$@"; rm -rf -- "$@"; }; }
         isdir() { [ -d "$1" ] && [ ! -L "$1" ]; }
@@ -385,7 +408,8 @@ jobs:
           present "$p" || continue
           covered=false
           for q in $J2GHA_WS_ORDER; do
-            if [ "$q" != "$p" ] && present "$q"; then
+            # a matrix hands on its cells' changes, not a workspace: it does not stand in for the producers before it
+            if [ "$q" != "$p" ] && ! isdelta "$q" && present "$q"; then
               case " $(ancestors "$q") " in *" $p "*) covered=true ;; esac
             fi
           done
@@ -399,8 +423,18 @@ jobs:
             if [ "$e" != "$d" ]; then remove "$e"; fi
           done
           shopt -u dotglob nullglob
+          if isdelta "${frontier[0]}"; then
+            echo "::error::no workspace arrived for the changes of matrix job '${frontier[0]}' to be applied to"
+            exit 1
+          fi
           tar -xzpf "$d/${frontier[0]}/.j2gha-ws.tgz" -C "$ws"
-          for f in "${frontier[@]:1}"; do replay "$f"; done
+          for f in "${frontier[@]:1}"; do
+            if isdelta "$f"; then
+              while IFS= read -r c; do replay "$f/$c"; done < <(cells "$f")
+            else
+              replay "$f"
+            fi
+          done
           restored=true
         fi
         remove "$d"
@@ -410,6 +444,33 @@ jobs:
       with:
         persist-credentials: false
       if: steps.j2gha-ws-restore.outputs.restored != 'true'
+    - name: Record the starting workspace
+      if: always()
+      shell: bash
+      run: |
+        # one line per path or value: backslashes and newlines escaped (`printf %b` reverses it)
+        esc() { sed -z 's/\\/\\\\/g; s/\n/\\n/g' | tr '\0' '\n'; }
+        # the workspace's entries, the hand-off's own files left out: lines alternating path and "type mode digest"
+        # (digest: hard-link count and content sha256 of a file - a new or removed link changes every name of the file, so a
+        # branch's change list carries the whole group - or the target of a symbolic link)
+        manifest() {
+          local tmp="$RUNNER_TEMP/j2gha-ws-manifest" i
+          local -a recs=() out=()
+          local -A sum=()
+          (cd "$GITHUB_WORKSPACE" && find . -mindepth 1 \( -path ./.j2gha-ws -o -path ./.j2gha-ws.tgz \
+            -o -path ./.j2gha-ws.changes \) -prune -o -type f -print0) > "$tmp.files"
+          (cd "$GITHUB_WORKSPACE" && xargs -0 -r sha256sum -z -- < "$tmp.files") | esc > "$tmp.sums"
+          mapfile -t recs < "$tmp.sums"
+          for i in "${recs[@]}"; do sum["${i#*  }"]=${i%%  *}; done
+          (cd "$GITHUB_WORKSPACE" && find . -mindepth 1 \( -path ./.j2gha-ws -o -path ./.j2gha-ws.tgz \
+            -o -path ./.j2gha-ws.changes \) -prune -o -type f -printf '%p\0f %m %n \0' -o -printf '%p\0%y %m %l\0') |
+            esc > "$tmp.entries"
+          mapfile -t recs < "$tmp.entries"
+          for ((i = 0; i < ${#recs[@]}; i += 2)); do out+=("${recs[i]}" "${recs[i + 1]}${sum[${recs[i]}]-}"); done
+          if [ "${#out[@]}" -gt 0 ]; then printf '%s\n' "${out[@]}"; fi
+          rm -f "$tmp.files" "$tmp.sums" "$tmp.entries"
+        }
+        manifest > "$RUNNER_TEMP/j2gha-ws-start"
     - name: 'Build URDF and SRDF: mkdir -p urdfs && echo "<robot name=''${ROBOT}''/>" > urdfs/${ROBOT}.urd'
       id: s6
       run: mkdir -p urdfs && echo "<robot name='${ROBOT}'/>" > urdfs/${ROBOT}.urdf && echo "<robot name='${ROBOT}'/>" > urdfs/${ROBOT}.srdf
@@ -492,6 +553,104 @@ jobs:
         include-hidden-files: true
         if-no-files-found: error
         overwrite: true
+    - name: Hand on the pipeline workspace (archive)
+      if: always()
+      shell: bash
+      run: |
+        cell=$(printf '%s' "$J2GHA_WS_CELL" | LC_ALL=C tr -c 'A-Za-z0-9._-' '_')
+        key=$(printf '%s' "$J2GHA_WS_CELL_KEY" | sha256sum)
+        echo "cell=${cell:0:48}-${key:0:12}" >> "$GITHUB_OUTPUT"
+        # one line per path or value: backslashes and newlines escaped (`printf %b` reverses it)
+        esc() { sed -z 's/\\/\\\\/g; s/\n/\\n/g' | tr '\0' '\n'; }
+        # the workspace's entries, the hand-off's own files left out: lines alternating path and "type mode digest"
+        # (digest: hard-link count and content sha256 of a file - a new or removed link changes every name of the file, so a
+        # branch's change list carries the whole group - or the target of a symbolic link)
+        manifest() {
+          local tmp="$RUNNER_TEMP/j2gha-ws-manifest" i
+          local -a recs=() out=()
+          local -A sum=()
+          (cd "$GITHUB_WORKSPACE" && find . -mindepth 1 \( -path ./.j2gha-ws -o -path ./.j2gha-ws.tgz \
+            -o -path ./.j2gha-ws.changes \) -prune -o -type f -print0) > "$tmp.files"
+          (cd "$GITHUB_WORKSPACE" && xargs -0 -r sha256sum -z -- < "$tmp.files") | esc > "$tmp.sums"
+          mapfile -t recs < "$tmp.sums"
+          for i in "${recs[@]}"; do sum["${i#*  }"]=${i%%  *}; done
+          (cd "$GITHUB_WORKSPACE" && find . -mindepth 1 \( -path ./.j2gha-ws -o -path ./.j2gha-ws.tgz \
+            -o -path ./.j2gha-ws.changes \) -prune -o -type f -printf '%p\0f %m %n \0' -o -printf '%p\0%y %m %l\0') |
+            esc > "$tmp.entries"
+          mapfile -t recs < "$tmp.entries"
+          for ((i = 0; i < ${#recs[@]}; i += 2)); do out+=("${recs[i]}" "${recs[i + 1]}${sum[${recs[i]}]-}"); done
+          if [ "${#out[@]}" -gt 0 ]; then printf '%s\n' "${out[@]}"; fi
+          rm -f "$tmp.files" "$tmp.sums" "$tmp.entries"
+        }
+        if [ -f "$RUNNER_TEMP/j2gha-ws-start" ]; then
+          declare -A was=() now=()
+          changes=()
+          mapfile -t recs < "$RUNNER_TEMP/j2gha-ws-start"
+          for ((i = 0; i < ${#recs[@]}; i += 2)); do was[${recs[i]}]=${recs[i + 1]}; done
+          manifest > "$RUNNER_TEMP/j2gha-ws-end"
+          mapfile -t recs < "$RUNNER_TEMP/j2gha-ws-end"
+          for ((i = 0; i < ${#recs[@]}; i += 2)); do now[${recs[i]}]=${recs[i + 1]}; done
+          declare -A changed=() inode=() group=()
+          for p in "${!now[@]}"; do
+            if [ "${was[$p]-}" != "${now[$p]}" ]; then changed[$p]=1; fi
+          done
+          # a changed file with other names takes all of them along (a rename keeps the link count): the merge relinks them
+          (cd "$GITHUB_WORKSPACE" && find . -mindepth 1 \( -path ./.j2gha-ws -o -path ./.j2gha-ws.tgz \
+            -o -path ./.j2gha-ws.changes \) -prune -o -type f -links +1 -printf '%D:%i\0%p\0') | esc > "$RUNNER_TEMP/j2gha-ws-links"
+          mapfile -t recs < "$RUNNER_TEMP/j2gha-ws-links"
+          for ((i = 0; i < ${#recs[@]}; i += 2)); do
+            inode[${recs[i + 1]}]=${recs[i]}
+            group[${recs[i]}]+="${recs[i + 1]}"$'\n'
+          done
+          for p in "${!changed[@]}"; do
+            if [ -n "${inode[$p]-}" ]; then
+              while IFS= read -r q; do
+                if [ -n "$q" ]; then changed[$q]=1; fi
+              done <<< "${group[${inode[$p]}]}"
+            fi
+          done
+          for p in "${!changed[@]}"; do changes+=("C$p"); done
+          for p in "${!was[@]}"; do
+            if [ -z "${now[$p]-}" ]; then changes+=("D$p"); fi
+          done
+          : > "$GITHUB_WORKSPACE/.j2gha-ws.changes"
+          if [ "${#changes[@]}" -gt 0 ]; then printf '%s\n' "${changes[@]}" > "$GITHUB_WORKSPACE/.j2gha-ws.changes"; fi
+        else
+          echo "::warning::the workspace this job started from was not recorded: its workspace cannot be merged"
+        fi
+        if [ ! -f "$GITHUB_WORKSPACE/.j2gha-ws.changes" ]; then
+          echo "::error::the workspace this matrix cell started from was not recorded: its changes cannot be handed on"
+          exit 1
+        fi
+        declare -A member=()
+        mapfile -t recs < "$GITHUB_WORKSPACE/.j2gha-ws.changes"
+        for rec in "${recs[@]}"; do
+          if [ "${rec:0:1}" != C ]; then continue; fi
+          printf -v p '%b' "${rec:1}"
+          member[$p]=1
+          while p=${p%/*}; [ "$p" != . ]; do member[$p]=1; done
+        done
+        : > "$RUNNER_TEMP/j2gha-ws-members"
+        if [ "${#member[@]}" -gt 0 ]; then printf '%s\0' "${!member[@]}" | LC_ALL=C sort -z > "$RUNNER_TEMP/j2gha-ws-members"; fi
+        tar -czf "$RUNNER_TEMP/j2gha-ws.tgz" -C "$GITHUB_WORKSPACE" --null --no-unquote --no-recursion \
+          -T "$RUNNER_TEMP/j2gha-ws-members"
+        mv "$RUNNER_TEMP/j2gha-ws.tgz" "$GITHUB_WORKSPACE/.j2gha-ws.tgz"
+      id: j2gha-ws-cell
+      env:
+        J2GHA_WS_CELL: ${{ matrix.ROBOT }}
+        J2GHA_WS_CELL_KEY: ${{ toJSON(matrix) }}
+    - name: Hand on the pipeline workspace (upload)
+      if: always()
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: j2gha-ws-build-robot-urdfs-and-srdfs.${{ steps.j2gha-ws-cell.outputs.cell }}
+        path: |-
+          .j2gha-ws.tgz
+          .j2gha-ws.changes
+        retention-days: 1
+        compression-level: 0
+        if-no-files-found: error
+        include-hidden-files: true
   build-end-effector-urdfs:
     name: Build End Effector URDFs
     needs: build-robot-urdfs-and-srdfs
@@ -513,9 +672,17 @@ jobs:
       with:
         name: j2gha-ws-run-urdf-tests
         path: .j2gha-ws/run-urdf-tests
+    - name: Restore pipeline workspace (build-robot-urdfs-and-srdfs)
+      id: j2gha-ws-build-robot-urdfs-and-srdfs
+      uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+      continue-on-error: true
+      with:
+        pattern: j2gha-ws-build-robot-urdfs-and-srdfs.*
+        path: .j2gha-ws/build-robot-urdfs-and-srdfs
     - name: Restore pipeline workspace (check-commit-message)
       id: j2gha-ws-check-commit-message
-      if: (steps.j2gha-ws-run-urdf-tests.outcome != 'success')
+      if: (steps.j2gha-ws-run-urdf-tests.outcome != 'success') || (steps.j2gha-ws-build-robot-urdfs-and-srdfs.outcome != 'success'
+        && steps.j2gha-ws-run-urdf-tests.outcome != 'success')
       uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
       continue-on-error: true
       with:
@@ -526,15 +693,18 @@ jobs:
       if: always()
       shell: bash
       env:
-        J2GHA_WS_ORDER: check-commit-message run-urdf-tests
+        J2GHA_WS_ORDER: check-commit-message run-urdf-tests build-robot-urdfs-and-srdfs
         J2GHA_WS_LINEAGE: |-
           check-commit-message:
           run-urdf-tests: check-commit-message
-        J2GHA_WS_HEADS: run-urdf-tests
-        J2GHA_WS_RESULTS: ''
+          build-robot-urdfs-and-srdfs: check-commit-message run-urdf-tests
+        J2GHA_WS_HEADS: run-urdf-tests build-robot-urdfs-and-srdfs
+        J2GHA_WS_RESULTS: build-robot-urdfs-and-srdfs=${{ needs.build-robot-urdfs-and-srdfs.result }}
+        J2GHA_WS_DELTAS: build-robot-urdfs-and-srdfs
         J2GHA_WS_FALLBACKS: |-
           check-commit-message:
           run-urdf-tests: check-commit-message
+          build-robot-urdfs-and-srdfs: run-urdf-tests
       run: |
         ws="$GITHUB_WORKSPACE"
         d="$ws/.j2gha-ws"
@@ -545,7 +715,12 @@ jobs:
             if [ "${line%%:*}" = "$1" ]; then printf '%s\n' "${line#*:}"; fi
           done <<< "$J2GHA_WS_LINEAGE"
         }
-        present() { [ -f "$d/$1/.j2gha-ws.tgz" ]; }
+        isdelta() { case " $J2GHA_WS_DELTAS " in *" $1 "*) return 0 ;; esac; return 1; }
+        # the cells of a matrix producer that arrived (one directory per artifact, in name order)
+        cells() { local c; for c in "$d/$1"/*/; do if [ -f "$c.j2gha-ws.changes" ]; then basename "$c"; fi; done; }
+        present() {
+          if isdelta "$1"; then [ -n "$(cells "$1")" ]; else [ -f "$d/$1/.j2gha-ws.tgz" ]; fi
+        }
         # read-only directories (a Go module cache) need write permission to be removed
         remove() { rm -rf -- "$@" 2>/dev/null || { chmod -R u+w -- "$@"; rm -rf -- "$@"; }; }
         isdir() { [ -d "$1" ] && [ ! -L "$1" ]; }
@@ -637,7 +812,8 @@ jobs:
           present "$p" || continue
           covered=false
           for q in $J2GHA_WS_ORDER; do
-            if [ "$q" != "$p" ] && present "$q"; then
+            # a matrix hands on its cells' changes, not a workspace: it does not stand in for the producers before it
+            if [ "$q" != "$p" ] && ! isdelta "$q" && present "$q"; then
               case " $(ancestors "$q") " in *" $p "*) covered=true ;; esac
             fi
           done
@@ -651,8 +827,18 @@ jobs:
             if [ "$e" != "$d" ]; then remove "$e"; fi
           done
           shopt -u dotglob nullglob
+          if isdelta "${frontier[0]}"; then
+            echo "::error::no workspace arrived for the changes of matrix job '${frontier[0]}' to be applied to"
+            exit 1
+          fi
           tar -xzpf "$d/${frontier[0]}/.j2gha-ws.tgz" -C "$ws"
-          for f in "${frontier[@]:1}"; do replay "$f"; done
+          for f in "${frontier[@]:1}"; do
+            if isdelta "$f"; then
+              while IFS= read -r c; do replay "$f/$c"; done < <(cells "$f")
+            else
+              replay "$f"
+            fi
+          done
           restored=true
         fi
         remove "$d"
@@ -720,9 +906,17 @@ jobs:
       with:
         name: j2gha-ws-run-urdf-tests
         path: .j2gha-ws/run-urdf-tests
+    - name: Restore pipeline workspace (build-robot-urdfs-and-srdfs)
+      id: j2gha-ws-build-robot-urdfs-and-srdfs
+      uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+      continue-on-error: true
+      with:
+        pattern: j2gha-ws-build-robot-urdfs-and-srdfs.*
+        path: .j2gha-ws/build-robot-urdfs-and-srdfs
     - name: Restore pipeline workspace (check-commit-message)
       id: j2gha-ws-check-commit-message
-      if: (steps.j2gha-ws-run-urdf-tests.outcome != 'success')
+      if: (steps.j2gha-ws-run-urdf-tests.outcome != 'success') || (steps.j2gha-ws-build-robot-urdfs-and-srdfs.outcome != 'success'
+        && steps.j2gha-ws-run-urdf-tests.outcome != 'success')
       uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
       continue-on-error: true
       with:
@@ -733,15 +927,18 @@ jobs:
       if: always()
       shell: bash
       env:
-        J2GHA_WS_ORDER: check-commit-message run-urdf-tests
+        J2GHA_WS_ORDER: check-commit-message run-urdf-tests build-robot-urdfs-and-srdfs
         J2GHA_WS_LINEAGE: |-
           check-commit-message:
           run-urdf-tests: check-commit-message
-        J2GHA_WS_HEADS: run-urdf-tests
+          build-robot-urdfs-and-srdfs: check-commit-message run-urdf-tests
+        J2GHA_WS_HEADS: run-urdf-tests build-robot-urdfs-and-srdfs
         J2GHA_WS_RESULTS: ''
+        J2GHA_WS_DELTAS: build-robot-urdfs-and-srdfs
         J2GHA_WS_FALLBACKS: |-
           check-commit-message:
           run-urdf-tests: check-commit-message
+          build-robot-urdfs-and-srdfs: run-urdf-tests
       run: |
         ws="$GITHUB_WORKSPACE"
         d="$ws/.j2gha-ws"
@@ -752,7 +949,12 @@ jobs:
             if [ "${line%%:*}" = "$1" ]; then printf '%s\n' "${line#*:}"; fi
           done <<< "$J2GHA_WS_LINEAGE"
         }
-        present() { [ -f "$d/$1/.j2gha-ws.tgz" ]; }
+        isdelta() { case " $J2GHA_WS_DELTAS " in *" $1 "*) return 0 ;; esac; return 1; }
+        # the cells of a matrix producer that arrived (one directory per artifact, in name order)
+        cells() { local c; for c in "$d/$1"/*/; do if [ -f "$c.j2gha-ws.changes" ]; then basename "$c"; fi; done; }
+        present() {
+          if isdelta "$1"; then [ -n "$(cells "$1")" ]; else [ -f "$d/$1/.j2gha-ws.tgz" ]; fi
+        }
         # read-only directories (a Go module cache) need write permission to be removed
         remove() { rm -rf -- "$@" 2>/dev/null || { chmod -R u+w -- "$@"; rm -rf -- "$@"; }; }
         isdir() { [ -d "$1" ] && [ ! -L "$1" ]; }
@@ -844,7 +1046,8 @@ jobs:
           present "$p" || continue
           covered=false
           for q in $J2GHA_WS_ORDER; do
-            if [ "$q" != "$p" ] && present "$q"; then
+            # a matrix hands on its cells' changes, not a workspace: it does not stand in for the producers before it
+            if [ "$q" != "$p" ] && ! isdelta "$q" && present "$q"; then
               case " $(ancestors "$q") " in *" $p "*) covered=true ;; esac
             fi
           done
@@ -858,8 +1061,18 @@ jobs:
             if [ "$e" != "$d" ]; then remove "$e"; fi
           done
           shopt -u dotglob nullglob
+          if isdelta "${frontier[0]}"; then
+            echo "::error::no workspace arrived for the changes of matrix job '${frontier[0]}' to be applied to"
+            exit 1
+          fi
           tar -xzpf "$d/${frontier[0]}/.j2gha-ws.tgz" -C "$ws"
-          for f in "${frontier[@]:1}"; do replay "$f"; done
+          for f in "${frontier[@]:1}"; do
+            if isdelta "$f"; then
+              while IFS= read -r c; do replay "$f/$c"; done < <(cells "$f")
+            else
+              replay "$f"
+            fi
+          done
           restored=true
         fi
         remove "$d"
@@ -1176,9 +1389,18 @@ jobs:
       with:
         name: j2gha-ws-archive-urdfs-and-srdfs
         path: .j2gha-ws/archive-urdfs-and-srdfs
+    - name: Restore pipeline workspace (build-robot-urdfs-and-srdfs)
+      id: j2gha-ws-build-robot-urdfs-and-srdfs
+      if: (steps.j2gha-ws-archive-urdfs-and-srdfs.outcome != 'success')
+      uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+      continue-on-error: true
+      with:
+        pattern: j2gha-ws-build-robot-urdfs-and-srdfs.*
+        path: .j2gha-ws/build-robot-urdfs-and-srdfs
     - name: Restore pipeline workspace (run-urdf-tests)
       id: j2gha-ws-run-urdf-tests
-      if: (steps.j2gha-ws-archive-urdfs-and-srdfs.outcome != 'success')
+      if: ((steps.j2gha-ws-archive-urdfs-and-srdfs.outcome != 'success' && steps.j2gha-ws-build-robot-urdfs-and-srdfs.outcome
+        != 'success')) || ((steps.j2gha-ws-archive-urdfs-and-srdfs.outcome != 'success'))
       uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
       continue-on-error: true
       with:
@@ -1186,7 +1408,8 @@ jobs:
         path: .j2gha-ws/run-urdf-tests
     - name: Restore pipeline workspace (check-commit-message)
       id: j2gha-ws-check-commit-message
-      if: (steps.j2gha-ws-archive-urdfs-and-srdfs.outcome != 'success' && steps.j2gha-ws-run-urdf-tests.outcome != 'success')
+      if: (steps.j2gha-ws-archive-urdfs-and-srdfs.outcome != 'success' && steps.j2gha-ws-build-robot-urdfs-and-srdfs.outcome
+        != 'success' && steps.j2gha-ws-run-urdf-tests.outcome != 'success')
       uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
       continue-on-error: true
       with:
@@ -1197,17 +1420,20 @@ jobs:
       if: always()
       shell: bash
       env:
-        J2GHA_WS_ORDER: check-commit-message run-urdf-tests archive-urdfs-and-srdfs
+        J2GHA_WS_ORDER: check-commit-message run-urdf-tests build-robot-urdfs-and-srdfs archive-urdfs-and-srdfs
         J2GHA_WS_LINEAGE: |-
           check-commit-message:
           run-urdf-tests: check-commit-message
-          archive-urdfs-and-srdfs: check-commit-message run-urdf-tests
+          build-robot-urdfs-and-srdfs: check-commit-message run-urdf-tests
+          archive-urdfs-and-srdfs: check-commit-message run-urdf-tests build-robot-urdfs-and-srdfs
         J2GHA_WS_HEADS: archive-urdfs-and-srdfs
         J2GHA_WS_RESULTS: archive-urdfs-and-srdfs=${{ needs.archive-urdfs-and-srdfs.result }}
+        J2GHA_WS_DELTAS: build-robot-urdfs-and-srdfs
         J2GHA_WS_FALLBACKS: |-
           check-commit-message:
           run-urdf-tests: check-commit-message
-          archive-urdfs-and-srdfs: run-urdf-tests
+          build-robot-urdfs-and-srdfs: run-urdf-tests
+          archive-urdfs-and-srdfs: build-robot-urdfs-and-srdfs
       run: |
         ws="$GITHUB_WORKSPACE"
         d="$ws/.j2gha-ws"
@@ -1218,7 +1444,12 @@ jobs:
             if [ "${line%%:*}" = "$1" ]; then printf '%s\n' "${line#*:}"; fi
           done <<< "$J2GHA_WS_LINEAGE"
         }
-        present() { [ -f "$d/$1/.j2gha-ws.tgz" ]; }
+        isdelta() { case " $J2GHA_WS_DELTAS " in *" $1 "*) return 0 ;; esac; return 1; }
+        # the cells of a matrix producer that arrived (one directory per artifact, in name order)
+        cells() { local c; for c in "$d/$1"/*/; do if [ -f "$c.j2gha-ws.changes" ]; then basename "$c"; fi; done; }
+        present() {
+          if isdelta "$1"; then [ -n "$(cells "$1")" ]; else [ -f "$d/$1/.j2gha-ws.tgz" ]; fi
+        }
         # read-only directories (a Go module cache) need write permission to be removed
         remove() { rm -rf -- "$@" 2>/dev/null || { chmod -R u+w -- "$@"; rm -rf -- "$@"; }; }
         isdir() { [ -d "$1" ] && [ ! -L "$1" ]; }
@@ -1310,7 +1541,8 @@ jobs:
           present "$p" || continue
           covered=false
           for q in $J2GHA_WS_ORDER; do
-            if [ "$q" != "$p" ] && present "$q"; then
+            # a matrix hands on its cells' changes, not a workspace: it does not stand in for the producers before it
+            if [ "$q" != "$p" ] && ! isdelta "$q" && present "$q"; then
               case " $(ancestors "$q") " in *" $p "*) covered=true ;; esac
             fi
           done
@@ -1324,8 +1556,18 @@ jobs:
             if [ "$e" != "$d" ]; then remove "$e"; fi
           done
           shopt -u dotglob nullglob
+          if isdelta "${frontier[0]}"; then
+            echo "::error::no workspace arrived for the changes of matrix job '${frontier[0]}' to be applied to"
+            exit 1
+          fi
           tar -xzpf "$d/${frontier[0]}/.j2gha-ws.tgz" -C "$ws"
-          for f in "${frontier[@]:1}"; do replay "$f"; done
+          for f in "${frontier[@]:1}"; do
+            if isdelta "$f"; then
+              while IFS= read -r c; do replay "$f/$c"; done < <(cells "$f")
+            else
+              replay "$f"
+            fi
+          done
           restored=true
         fi
         remove "$d"
@@ -1456,9 +1698,18 @@ jobs:
       with:
         name: j2gha-ws-archive-urdfs-and-srdfs
         path: .j2gha-ws/archive-urdfs-and-srdfs
+    - name: Restore pipeline workspace (build-robot-urdfs-and-srdfs)
+      id: j2gha-ws-build-robot-urdfs-and-srdfs
+      if: (steps.j2gha-ws-archive-urdfs-and-srdfs.outcome != 'success')
+      uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+      continue-on-error: true
+      with:
+        pattern: j2gha-ws-build-robot-urdfs-and-srdfs.*
+        path: .j2gha-ws/build-robot-urdfs-and-srdfs
     - name: Restore pipeline workspace (run-urdf-tests)
       id: j2gha-ws-run-urdf-tests
-      if: (steps.j2gha-ws-archive-urdfs-and-srdfs.outcome != 'success')
+      if: ((steps.j2gha-ws-archive-urdfs-and-srdfs.outcome != 'success' && steps.j2gha-ws-build-robot-urdfs-and-srdfs.outcome
+        != 'success')) || ((steps.j2gha-ws-archive-urdfs-and-srdfs.outcome != 'success'))
       uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
       continue-on-error: true
       with:
@@ -1466,7 +1717,8 @@ jobs:
         path: .j2gha-ws/run-urdf-tests
     - name: Restore pipeline workspace (check-commit-message)
       id: j2gha-ws-check-commit-message
-      if: (steps.j2gha-ws-archive-urdfs-and-srdfs.outcome != 'success' && steps.j2gha-ws-run-urdf-tests.outcome != 'success')
+      if: (steps.j2gha-ws-archive-urdfs-and-srdfs.outcome != 'success' && steps.j2gha-ws-build-robot-urdfs-and-srdfs.outcome
+        != 'success' && steps.j2gha-ws-run-urdf-tests.outcome != 'success')
       uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
       continue-on-error: true
       with:
@@ -1477,17 +1729,20 @@ jobs:
       if: always()
       shell: bash
       env:
-        J2GHA_WS_ORDER: check-commit-message run-urdf-tests archive-urdfs-and-srdfs
+        J2GHA_WS_ORDER: check-commit-message run-urdf-tests build-robot-urdfs-and-srdfs archive-urdfs-and-srdfs
         J2GHA_WS_LINEAGE: |-
           check-commit-message:
           run-urdf-tests: check-commit-message
-          archive-urdfs-and-srdfs: check-commit-message run-urdf-tests
+          build-robot-urdfs-and-srdfs: check-commit-message run-urdf-tests
+          archive-urdfs-and-srdfs: check-commit-message run-urdf-tests build-robot-urdfs-and-srdfs
         J2GHA_WS_HEADS: archive-urdfs-and-srdfs
         J2GHA_WS_RESULTS: archive-urdfs-and-srdfs=${{ needs.archive-urdfs-and-srdfs.result }}
+        J2GHA_WS_DELTAS: build-robot-urdfs-and-srdfs
         J2GHA_WS_FALLBACKS: |-
           check-commit-message:
           run-urdf-tests: check-commit-message
-          archive-urdfs-and-srdfs: run-urdf-tests
+          build-robot-urdfs-and-srdfs: run-urdf-tests
+          archive-urdfs-and-srdfs: build-robot-urdfs-and-srdfs
       run: |
         ws="$GITHUB_WORKSPACE"
         d="$ws/.j2gha-ws"
@@ -1498,7 +1753,12 @@ jobs:
             if [ "${line%%:*}" = "$1" ]; then printf '%s\n' "${line#*:}"; fi
           done <<< "$J2GHA_WS_LINEAGE"
         }
-        present() { [ -f "$d/$1/.j2gha-ws.tgz" ]; }
+        isdelta() { case " $J2GHA_WS_DELTAS " in *" $1 "*) return 0 ;; esac; return 1; }
+        # the cells of a matrix producer that arrived (one directory per artifact, in name order)
+        cells() { local c; for c in "$d/$1"/*/; do if [ -f "$c.j2gha-ws.changes" ]; then basename "$c"; fi; done; }
+        present() {
+          if isdelta "$1"; then [ -n "$(cells "$1")" ]; else [ -f "$d/$1/.j2gha-ws.tgz" ]; fi
+        }
         # read-only directories (a Go module cache) need write permission to be removed
         remove() { rm -rf -- "$@" 2>/dev/null || { chmod -R u+w -- "$@"; rm -rf -- "$@"; }; }
         isdir() { [ -d "$1" ] && [ ! -L "$1" ]; }
@@ -1590,7 +1850,8 @@ jobs:
           present "$p" || continue
           covered=false
           for q in $J2GHA_WS_ORDER; do
-            if [ "$q" != "$p" ] && present "$q"; then
+            # a matrix hands on its cells' changes, not a workspace: it does not stand in for the producers before it
+            if [ "$q" != "$p" ] && ! isdelta "$q" && present "$q"; then
               case " $(ancestors "$q") " in *" $p "*) covered=true ;; esac
             fi
           done
@@ -1604,8 +1865,18 @@ jobs:
             if [ "$e" != "$d" ]; then remove "$e"; fi
           done
           shopt -u dotglob nullglob
+          if isdelta "${frontier[0]}"; then
+            echo "::error::no workspace arrived for the changes of matrix job '${frontier[0]}' to be applied to"
+            exit 1
+          fi
           tar -xzpf "$d/${frontier[0]}/.j2gha-ws.tgz" -C "$ws"
-          for f in "${frontier[@]:1}"; do replay "$f"; done
+          for f in "${frontier[@]:1}"; do
+            if isdelta "$f"; then
+              while IFS= read -r c; do replay "$f/$c"; done < <(cells "$f")
+            else
+              replay "$f"
+            fi
+          done
           restored=true
         fi
         remove "$d"
@@ -1759,11 +2030,24 @@ jobs:
       with:
         name: j2gha-ws-archive-urdfs-and-srdfs
         path: .j2gha-ws/archive-urdfs-and-srdfs
-    - name: Restore pipeline workspace (run-urdf-tests)
-      id: j2gha-ws-run-urdf-tests
+    - name: Restore pipeline workspace (build-robot-urdfs-and-srdfs)
+      id: j2gha-ws-build-robot-urdfs-and-srdfs
       if: (steps.j2gha-ws-trigger-upstream-franka_ros2_ws-builds-h.outcome != 'success' && steps.j2gha-ws-archive-urdfs-and-srdfs.outcome
         != 'success') || (steps.j2gha-ws-trigger-upstream-franka_ros2_ws-builds-j.outcome != 'success' && steps.j2gha-ws-archive-urdfs-and-srdfs.outcome
         != 'success')
+      uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+      continue-on-error: true
+      with:
+        pattern: j2gha-ws-build-robot-urdfs-and-srdfs.*
+        path: .j2gha-ws/build-robot-urdfs-and-srdfs
+    - name: Restore pipeline workspace (run-urdf-tests)
+      id: j2gha-ws-run-urdf-tests
+      if: ((steps.j2gha-ws-trigger-upstream-franka_ros2_ws-builds-h.outcome != 'success' && steps.j2gha-ws-archive-urdfs-and-srdfs.outcome
+        != 'success' && steps.j2gha-ws-build-robot-urdfs-and-srdfs.outcome != 'success') || (steps.j2gha-ws-trigger-upstream-franka_ros2_ws-builds-j.outcome
+        != 'success' && steps.j2gha-ws-archive-urdfs-and-srdfs.outcome != 'success' && steps.j2gha-ws-build-robot-urdfs-and-srdfs.outcome
+        != 'success')) || ((steps.j2gha-ws-trigger-upstream-franka_ros2_ws-builds-h.outcome != 'success' && steps.j2gha-ws-archive-urdfs-and-srdfs.outcome
+        != 'success') || (steps.j2gha-ws-trigger-upstream-franka_ros2_ws-builds-j.outcome != 'success' && steps.j2gha-ws-archive-urdfs-and-srdfs.outcome
+        != 'success'))
       uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
       continue-on-error: true
       with:
@@ -1772,8 +2056,9 @@ jobs:
     - name: Restore pipeline workspace (check-commit-message)
       id: j2gha-ws-check-commit-message
       if: (steps.j2gha-ws-trigger-upstream-franka_ros2_ws-builds-h.outcome != 'success' && steps.j2gha-ws-archive-urdfs-and-srdfs.outcome
-        != 'success' && steps.j2gha-ws-run-urdf-tests.outcome != 'success') || (steps.j2gha-ws-trigger-upstream-franka_ros2_ws-builds-j.outcome
-        != 'success' && steps.j2gha-ws-archive-urdfs-and-srdfs.outcome != 'success' && steps.j2gha-ws-run-urdf-tests.outcome
+        != 'success' && steps.j2gha-ws-build-robot-urdfs-and-srdfs.outcome != 'success' && steps.j2gha-ws-run-urdf-tests.outcome
+        != 'success') || (steps.j2gha-ws-trigger-upstream-franka_ros2_ws-builds-j.outcome != 'success' && steps.j2gha-ws-archive-urdfs-and-srdfs.outcome
+        != 'success' && steps.j2gha-ws-build-robot-urdfs-and-srdfs.outcome != 'success' && steps.j2gha-ws-run-urdf-tests.outcome
         != 'success')
       uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
       continue-on-error: true
@@ -1785,23 +2070,26 @@ jobs:
       if: always()
       shell: bash
       env:
-        J2GHA_WS_ORDER: check-commit-message run-urdf-tests archive-urdfs-and-srdfs trigger-upstream-franka_ros2_ws-builds-h
+        J2GHA_WS_ORDER: check-commit-message run-urdf-tests build-robot-urdfs-and-srdfs archive-urdfs-and-srdfs trigger-upstream-franka_ros2_ws-builds-h
           trigger-upstream-franka_ros2_ws-builds-j
         J2GHA_WS_LINEAGE: |-
           check-commit-message:
           run-urdf-tests: check-commit-message
-          archive-urdfs-and-srdfs: check-commit-message run-urdf-tests
-          trigger-upstream-franka_ros2_ws-builds-h: check-commit-message run-urdf-tests archive-urdfs-and-srdfs
-          trigger-upstream-franka_ros2_ws-builds-j: check-commit-message run-urdf-tests archive-urdfs-and-srdfs
+          build-robot-urdfs-and-srdfs: check-commit-message run-urdf-tests
+          archive-urdfs-and-srdfs: check-commit-message run-urdf-tests build-robot-urdfs-and-srdfs
+          trigger-upstream-franka_ros2_ws-builds-h: check-commit-message run-urdf-tests build-robot-urdfs-and-srdfs archive-urdfs-and-srdfs
+          trigger-upstream-franka_ros2_ws-builds-j: check-commit-message run-urdf-tests build-robot-urdfs-and-srdfs archive-urdfs-and-srdfs
         J2GHA_WS_HEADS: trigger-upstream-franka_ros2_ws-builds-h trigger-upstream-franka_ros2_ws-builds-j
         J2GHA_WS_RESULTS: check-commit-message=${{ needs.check-commit-message.result }} run-urdf-tests=${{ needs.run-urdf-tests.result
-          }} archive-urdfs-and-srdfs=${{ needs.archive-urdfs-and-srdfs.result }} trigger-upstream-franka_ros2_ws-builds-h=${{
-          needs.trigger-upstream-franka_ros2_ws-builds-h.result }} trigger-upstream-franka_ros2_ws-builds-j=${{ needs.trigger-upstream-franka_ros2_ws-builds-j.result
-          }}
+          }} build-robot-urdfs-and-srdfs=${{ needs.build-robot-urdfs-and-srdfs.result }} archive-urdfs-and-srdfs=${{ needs.archive-urdfs-and-srdfs.result
+          }} trigger-upstream-franka_ros2_ws-builds-h=${{ needs.trigger-upstream-franka_ros2_ws-builds-h.result }} trigger-upstream-franka_ros2_ws-builds-j=${{
+          needs.trigger-upstream-franka_ros2_ws-builds-j.result }}
+        J2GHA_WS_DELTAS: build-robot-urdfs-and-srdfs
         J2GHA_WS_FALLBACKS: |-
           check-commit-message:
           run-urdf-tests: check-commit-message
-          archive-urdfs-and-srdfs: run-urdf-tests
+          build-robot-urdfs-and-srdfs: run-urdf-tests
+          archive-urdfs-and-srdfs: build-robot-urdfs-and-srdfs
           trigger-upstream-franka_ros2_ws-builds-h: archive-urdfs-and-srdfs
           trigger-upstream-franka_ros2_ws-builds-j: archive-urdfs-and-srdfs
       run: |
@@ -1814,7 +2102,12 @@ jobs:
             if [ "${line%%:*}" = "$1" ]; then printf '%s\n' "${line#*:}"; fi
           done <<< "$J2GHA_WS_LINEAGE"
         }
-        present() { [ -f "$d/$1/.j2gha-ws.tgz" ]; }
+        isdelta() { case " $J2GHA_WS_DELTAS " in *" $1 "*) return 0 ;; esac; return 1; }
+        # the cells of a matrix producer that arrived (one directory per artifact, in name order)
+        cells() { local c; for c in "$d/$1"/*/; do if [ -f "$c.j2gha-ws.changes" ]; then basename "$c"; fi; done; }
+        present() {
+          if isdelta "$1"; then [ -n "$(cells "$1")" ]; else [ -f "$d/$1/.j2gha-ws.tgz" ]; fi
+        }
         # read-only directories (a Go module cache) need write permission to be removed
         remove() { rm -rf -- "$@" 2>/dev/null || { chmod -R u+w -- "$@"; rm -rf -- "$@"; }; }
         isdir() { [ -d "$1" ] && [ ! -L "$1" ]; }
@@ -1906,7 +2199,8 @@ jobs:
           present "$p" || continue
           covered=false
           for q in $J2GHA_WS_ORDER; do
-            if [ "$q" != "$p" ] && present "$q"; then
+            # a matrix hands on its cells' changes, not a workspace: it does not stand in for the producers before it
+            if [ "$q" != "$p" ] && ! isdelta "$q" && present "$q"; then
               case " $(ancestors "$q") " in *" $p "*) covered=true ;; esac
             fi
           done
@@ -1920,8 +2214,18 @@ jobs:
             if [ "$e" != "$d" ]; then remove "$e"; fi
           done
           shopt -u dotglob nullglob
+          if isdelta "${frontier[0]}"; then
+            echo "::error::no workspace arrived for the changes of matrix job '${frontier[0]}' to be applied to"
+            exit 1
+          fi
           tar -xzpf "$d/${frontier[0]}/.j2gha-ws.tgz" -C "$ws"
-          for f in "${frontier[@]:1}"; do replay "$f"; done
+          for f in "${frontier[@]:1}"; do
+            if isdelta "$f"; then
+              while IFS= read -r c; do replay "$f/$c"; done < <(cells "$f")
+            else
+              replay "$f"
+            fi
+          done
           restored=true
         fi
         remove "$d"
