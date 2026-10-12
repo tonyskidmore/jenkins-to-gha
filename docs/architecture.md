@@ -197,7 +197,10 @@ falls back to a registration build that is recorded as a `register` attempt. The
 every run record, so a reference run with other values is refused. Execution variants also give the converted run what the
 Jenkins reference ran with: `JOB_NAME`/`JOB_BASE_NAME` are the Jenkins job (`ex-<id>-<mode>`, not `github.workflow`), and an
 undeclared upper-case property the localiser stubbed (it reads `j2gha-stub` on Jenkins) gets that value in the variant's `env`
-(`variants.stubbed_properties`).
+(`variants.stubbed_properties`). When the Jenkins reference had no Docker (the localiser stubbed `withDockerContainer`, so `docker.image().inside`
+and `agent { docker | dockerfile }` ran their steps directly), full variants drop the converted job's `container`, its
+`dockerfile` image build and the `docker run` step wrappers, so those steps also run on the runner itself
+(`variants.reference_had_docker`, on the jobs the generator marks `_j2gha.run_without_docker`).
 
 **Provenance.** analyze stamps the AST and `analysis.json` with the Jenkinsfile's sha256; convert stamps
 `conversion.json` with it and the workflow model's hash; run records carry the Jenkinsfile hash, the scenario, the
