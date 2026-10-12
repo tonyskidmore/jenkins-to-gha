@@ -114,7 +114,11 @@ def test_promoted_multiline_tuple_keeps_lines_and_value():
 
 @pytest.mark.docker
 def test_promoted_multiline_tuple_compiles():
-    from j2gha.analysis.ast import dump_sources
+    from j2gha.analysis.ast import docker_image_exists, dump_sources
+    from j2gha.config import JENKINS_IMAGE
+
+    if not docker_image_exists(JENKINS_IMAGE):
+        pytest.skip(f"{JENKINS_IMAGE} not built (`uv run j2gha docker build --only jenkins`)")
     text, ast = load("localisation")
     script = localize(text, ast, analyse(text, ast), "full", source=SOURCE, remove=[("stub-property", "config")]).script
     parsed = dump_sources({"localised": script})["localised"]
