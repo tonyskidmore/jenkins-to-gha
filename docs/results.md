@@ -1,8 +1,10 @@
-# Results on the corpus (2026-10-07)
+# Results on the corpus
 
-A snapshot of 20 real-world examples (`001`-`020`) spanning all 17 styles, plus the hand-written
-[walkthrough](../examples/000/README.md). The corpus has grown since (16 twins added), so the live table in
-[examples/README.md](../examples/README.md) covers more; to repeat this set, run `uv run j2gha pipeline 1-20`.
+The corpus is 20 real-world examples (`001`-`020`, the *originals*) spanning all 17 styles, the hand-written
+[walkthrough](../examples/000/README.md), and 16 *twins* (`1NN`, [below](#twins-full-mode-against-a-successful-jenkins-reference)).
+The live table is [examples/README.md](../examples/README.md), and every result on this page links to a run in its
+example's README (see [Reference runs](#reference-runs)). To repeat the originals on act, run
+`uv run j2gha pipeline 1-20`.
 
 | Stage | Outcome |
 |---|---|
@@ -12,8 +14,9 @@ A snapshot of 20 real-world examples (`001`-`020`) spanning all 17 styles, plus 
 | Jenkins execution (trace) | 18/20 run to completion after automatic localisation. 017 and 018 stop on their own `error()`, in branches decided by values that trace mode stubs. |
 | act vs Jenkins (trace) | **15/20 equivalent**: 003, 004, 005, 006, 007, 009 (26-cell matrix), 010, 011, 012, 013, 014 (8-cell matrix), 015, 016, 019, 020. **2 inconclusive** (017, 018). 001, 002 and 008 differ: they fan out stages over runtime-built collections. |
 | Real GitHub Actions, self-hosted JIT runners (trace) | **4/4 equivalent** (004, 012, 013, 014), 0 billable minutes. |
-| Real GitHub Actions, GitHub-hosted runners (trace, 2026-10-12) | Every example run once the repository was public (free): the same verdicts as act for all 20. |
-| Walkthrough [000](../examples/000/README.md) | Equivalent on act in trace and full mode for three scenarios (default, snapshot without deploy, integration tests off); full mode also compares the 20-21 JUnit test cases and the archived files. Earlier full-mode runs on real GitHub (self-hosted, both release scenarios) were equivalent on the outcome. Two deliberately broken conversions are caught: a wrong `when` (trace) and a dropped test report (full; both runs still succeed). These runs are an acceptance test: `pytest -m e2e tests/test_walkthrough.py`. |
+| Real GitHub Actions, GitHub-hosted runners (trace) | All 20 (free on the public repository): the same verdicts as act. |
+| Real GitHub Actions, full mode | Self-hosted: equivalent for 14 of the 15 originals that have a record (003-007, 009-016, 019, 020); 019 is inconclusive (neither side names a failing stage). GitHub-hosted (013 only): both fail at `Build Nebula`, but the hosted run archived 4863 of Jenkins' 5330 files, so it differs. Most originals fail on Jenkins in the harness, so these compare two failures: the twins below compare successful runs. |
+| Walkthrough [000](../examples/000/README.md) | Equivalent on act in trace and full mode for three scenarios (default, snapshot without deploy, integration tests off); full mode also compares the 20-21 JUnit test cases and the archived files. On real GitHub (self-hosted and GitHub-hosted runners) it is equivalent in trace and full mode for the default scenario. Two deliberately broken conversions are caught: a wrong `when` (trace) and a dropped test report (full; both runs still succeed). These runs are an acceptance test: `pytest -m e2e tests/test_walkthrough.py`. |
 | Full mode (real commands, 006) | Jenkins built the original repository and failed at `Publish` (no Nexus endpoint locally). The converted workflow first failed one stage earlier, at `Build`: `packname` is built by string concatenation in `script{}`, which the converter did not carry on, and the harness pinpointed the divergence. Since the converter carries such assignments through `$GITHUB_ENV` (2026-10-12), both fail at `Publish`: equivalent on act and self-hosted runners (act gets no credential: the public source is fetched on the host). |
 
 These are trace (control-flow) results, recorded against the current Jenkinsfile, conversion and scenario; runs of
@@ -27,7 +30,7 @@ The analysis predicted where conversion would struggle. The three examples that 
 values that trace mode stubs; see the limitations in
 [architecture.md](architecture.md#known-limitations-and-where-to-extend).
 
-## Twins: full mode against a successful Jenkins reference (2026-10-12)
+## Twins: full mode against a successful Jenkins reference
 
 Full mode runs the real commands, and in the harness most originals cannot succeed on Jenkins (they need private
 services, credentials, cloud or Windows/ARM nodes), so a full-mode comparison against them mostly compares two
@@ -56,3 +59,19 @@ converter's own manual items.
 As everywhere on this page, *equivalent* means no difference was found in the scenario that was run (the same
 outcome, failing stage, JUnit cases and archived files), not that the conversion is correct. Twins check what the
 converted workflow does with the pipeline's own commands; they do not check the edits that made the twin runnable.
+
+## Reference runs
+
+Every result on GitHub Actions on this page is a recorded run, linked from its example's README (the *Converted vs
+Jenkins* table) and kept in its `runs/<tier>-<mode>/` record: 76 records across 36 examples, all run from one commit
+of the harness, plus the walkthrough's (gitignored) records. Each was run in the scenario its record holds:
+
+| Tier and mode | Examples |
+|---|---|
+| Self-hosted, trace | 004, 012, 013, 014 |
+| Self-hosted, full | 003-007, 009-016, 019, 020, and all 16 twins |
+| GitHub-hosted, trace | all 20 originals and all 16 twins |
+| GitHub-hosted, full | 013, 104, 109, 112, 115 |
+
+Scenario options: 006 and 106 run trace mode with `--environments`, 013 runs full mode with `--param PROMOTE=false`.
+How to repeat them is in [usage.md](usage.md#re-run-the-reference-runs).

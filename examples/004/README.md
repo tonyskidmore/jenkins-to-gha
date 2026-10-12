@@ -188,11 +188,11 @@ Trace mode compares the per-stage sequence of executed steps (`J2GHA-TRACE` mark
 |---|---|---|---:|---:|---|---|
 | jenkins | trace | SUCCESS | 8 | - | reference | 4 localisation changes, 76 stubs |
 | act | trace | success | 8 | 100.0% | ✅ equivalent |  |
-| selfhosted | trace | success | 8 | 100.0% | ✅ equivalent | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38261226147) |
-| hosted | trace | success | 8 | 100.0% | ✅ equivalent | billable ≈ 4 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38261366814) |
+| selfhosted | trace | success | 8 | 100.0% | ✅ equivalent | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38305392876) |
+| hosted | trace | success | 8 | 100.0% | ✅ equivalent | billable ≈ 4 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38305511399) |
 | jenkins | full | FAILURE | 1 | - | reference | 4 localisation changes, 36 stubs |
 | act | full | failure | 0 | - | ✅ same outcome |  |
-| selfhosted | full | failure | 0 | - | ✅ same outcome | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38277448644) |
+| selfhosted | full | failure | 0 | - | ✅ same outcome | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38305587440) |
 
 Estimated hosted cost of a trace run: ~4 billable minute(s) (worst case 20).
 
@@ -205,5 +205,5 @@ Estimated hosted cost of a trace run: ~4 billable minute(s) (worst case 20).
 </details>
 - full mode (act): Jenkins **FAILURE** (first failed stage: Build docker image); act **failure** (first failed step: `Build docker image: docker build --pull -t ${IMAGE_NAME}:${IMAGE_TAG} .`); no test results on either side; nothing archived on either side
 - full mode (selfhosted): Jenkins **FAILURE** (first failed stage: Build docker image); selfhosted **failure** (first failed step: `Build docker image: docker build --pull -t ${IMAGE_NAME}:${IMAGE_TAG} .`); no test results on either side; nothing archived on either side
-- workspace hand-off (selfhosted, full): 0 archives, 0.0 MB; 2 steps, 1 s summed over jobs (of 19 s job time); 1 s on the critical path of a 35 s run
+- workspace hand-off (selfhosted, full): 0 archives, 0.0 MB; 2 steps, 1 s summed over jobs (of 17 s job time); 1 s on the critical path of a 31 s run
 <!-- j2gha:execution:end -->

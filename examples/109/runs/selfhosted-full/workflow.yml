@@ -3,7 +3,7 @@ name: j2gha harness run
 on:
   push:
     branches:
-    - j2gha/run/109-full-selfhosted-20261012171332
+    - j2gha/run/109-full-selfhosted-20261012205759
   workflow_dispatch:
 permissions:
   contents: read
@@ -26,7 +26,7 @@ jobs:
     name: checkout
     runs-on:
     - self-hosted
-    - j2gha-f898c932
+    - j2gha-7505cf27
     timeout-minutes: 10
     steps:
     - name: Checkout
@@ -86,7 +86,7 @@ jobs:
     needs: checkout
     runs-on:
     - self-hosted
-    - j2gha-f898c932
+    - j2gha-7505cf27
     timeout-minutes: 10
     strategy:
       fail-fast: false
@@ -423,7 +423,7 @@ jobs:
     if: always()
     runs-on:
     - self-hosted
-    - j2gha-f898c932
+    - j2gha-7505cf27
     steps:
     - name: Restore pipeline workspace (checkout)
       id: j2gha-ws-checkout

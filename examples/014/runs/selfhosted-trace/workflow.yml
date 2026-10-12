@@ -3,7 +3,7 @@ name: j2gha harness run
 on:
   push:
     branches:
-    - j2gha/run/014-trace-selfhosted-20261012165748
+    - j2gha/run/014-trace-selfhosted-20261012211604
   workflow_dispatch:
 permissions:
   contents: read
@@ -23,7 +23,7 @@ jobs:
     name: Update OpenROAD to HEAD of master branch, Build Docker OpenLane image with openroad_app master
     runs-on:
     - self-hosted
-    - j2gha-7f6e1f9d
+    - j2gha-8e81b31d
     timeout-minutes: 5
     steps:
     - name: Checkout
@@ -70,7 +70,7 @@ jobs:
     needs: update-openroad-to-head-of-master-branch
     runs-on:
     - self-hosted
-    - j2gha-7f6e1f9d
+    - j2gha-8e81b31d
     timeout-minutes: 5
     strategy:
       fail-fast: false
@@ -152,7 +152,7 @@ jobs:
     if: always()
     runs-on:
     - self-hosted
-    - j2gha-7f6e1f9d
+    - j2gha-8e81b31d
     steps:
     - name: 'post: emailext notification'
       id: s21

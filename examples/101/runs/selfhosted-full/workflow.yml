@@ -3,7 +3,7 @@ name: j2gha harness run
 on:
   push:
     branches:
-    - j2gha/run/101-full-selfhosted-20261012141529
+    - j2gha/run/101-full-selfhosted-20261012201810
   workflow_dispatch:
 permissions:
   contents: read
@@ -30,7 +30,7 @@ jobs:
     name: Setup Env
     runs-on:
     - self-hosted
-    - j2gha-ae0a1e40
+    - j2gha-7ee4aa5d
     timeout-minutes: 10
     steps:
     - name: Checkout
@@ -61,7 +61,7 @@ jobs:
     needs: setup-env
     runs-on:
     - self-hosted
-    - j2gha-ae0a1e40
+    - j2gha-7ee4aa5d
     timeout-minutes: 10
     steps:
     - name: Checkout
@@ -95,7 +95,7 @@ jobs:
     needs: build-docs
     runs-on:
     - self-hosted
-    - j2gha-ae0a1e40
+    - j2gha-7ee4aa5d
     timeout-minutes: 10
     steps:
     - name: Checkout
@@ -243,7 +243,7 @@ jobs:
     needs: build-release-tarball
     runs-on:
     - self-hosted
-    - j2gha-ae0a1e40
+    - j2gha-7ee4aa5d
     timeout-minutes: 10
     steps:
     - name: Checkout

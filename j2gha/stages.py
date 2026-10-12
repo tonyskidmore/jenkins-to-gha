@@ -279,8 +279,10 @@ def summarize_examples() -> Path:
                 cells.append(f"{tier}: {'✅' if c['equivalent'] else '⚠️' if inconclusive else '❌'}{sim}")
         repo = meta.get("repository", {})
         cx = a.get("complexity", {})
+        original = (meta.get("derived_from") or {}).get("example")
+        twin = f"<br>twin of [{original}]({original}/README.md)" if original else ""
         rows.append(
-            f"| [{i}]({i}/README.md) | [{repo.get('full_name', '?')}]({meta.get('file_url', '')}) | "
+            f"| [{i}]({i}/README.md){twin} | [{repo.get('full_name', '?')}]({meta.get('file_url', '')}) | "
             f"{meta.get('score', {}).get('total', '-')} | `{meta.get('primary_style', '-')}` | `{a.get('dialect', '-')}` | "
             f"{cx.get('score', '-')} {cx.get('classification', '')} | {conv.get('automation_pct', '-')}% | "
             f"{_validation_cell(val)} | {jen.get('result', '-')} | {'<br>'.join(cells) or '-'} |")
@@ -291,6 +293,12 @@ def summarize_examples() -> Path:
         "Real-world Jenkins pipelines collected by the `jenkins-example-crawler` skill (`uv run j2gha crawl --count N`),",
         "each with a citation, a 0-10 score and the results of every harness stage. Regenerate this index with",
         "`uv run j2gha summary`.",
+        "",
+        "Examples below 100 are the crawled originals: each cited Jenkinsfile as published, never edited. `1NN`, marked",
+        "*twin of* `0NN`, is a minimally edited copy of that original, made so that the pipeline runs to completion on the",
+        "harness's local Jenkins (most originals need private services, credentials or other nodes); every edit is listed",
+        "in its `LOCAL.md`. Twins exist for full mode, which runs the real commands and compares the outcome with a",
+        "successful Jenkins run: see [docs/results.md](../docs/results.md#twins-full-mode-against-a-successful-jenkins-reference).",
         "",
         "| Example | Source | Score | Primary style | Dialect | Difficulty (0-100) | Automation | Static validation | "
         "Jenkins (trace) | Converted vs Jenkins (trace) |",

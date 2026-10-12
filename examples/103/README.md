@@ -235,14 +235,14 @@ Trace mode compares the per-stage sequence of executed steps (`J2GHA-TRACE` mark
 |---|---|---|---:|---:|---|---|
 | jenkins | trace | SUCCESS | 78 | - | reference | 7 localisation changes, 81 stubs; auto-repair: ['feDetermineVersionFromGit'] |
 | act | trace | success | 78 | 100.0% | ✅ equivalent |  |
-| hosted | trace | success | 78 | 100.0% | ✅ equivalent | billable ≈ 13 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38292989176) |
+| hosted | trace | success | 78 | 100.0% | ✅ equivalent | billable ≈ 13 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38303610406) |
 | jenkins | full | SUCCESS | 7 | - | reference | 7 localisation changes, 41 stubs; auto-repair: ['feDetermineVersionFromGit'] |
 | act | full | failure | 0 | - | ❌ different outcome |  |
-| selfhosted | full | failure | 0 | - | ❌ different outcome | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38293508599) |
+| selfhosted | full | failure | 0 | - | ❌ different outcome | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38303765913) |
 
 Estimated hosted cost of a trace run: ~13 billable minute(s) (worst case 65).
 
 - full mode (act): Jenkins **SUCCESS** (first failed stage: -); act **failure** (first failed step: `Copy meshes to dist: copyCmd`); no test results on either side; archived files differs (1 Jenkins, 0 converted; missing robot-descriptions_j2gha-stub.tar.gz; content: 0 same, 0 differ)
 - full mode (selfhosted): Jenkins **SUCCESS** (first failed stage: -); selfhosted **failure** (first failed step: `Copy meshes to dist: copyCmd`); no test results on either side; archived files differs (1 Jenkins, 0 converted; missing robot-descriptions_j2gha-stub.tar.gz; content: 0 same, 0 differ)
-- workspace hand-off (selfhosted, full): 8 archives, 274.5 MB; 57 steps, 2167 s summed over jobs (of 2334 s job time); 1049 s on the critical path of a 1445 s run
+- workspace hand-off (selfhosted, full): 8 archives, 274.5 MB; 57 steps, 2457 s summed over jobs (of 2621 s job time); 1184 s on the critical path of a 1587 s run
 <!-- j2gha:execution:end -->
