@@ -88,6 +88,8 @@ its own.
      anchors on it.
    - Untranslatable conditions → `vars.J2GHA_WHEN_L<line>`, polarity-aware: `== 'true'` used positively,
      `!= 'false'` under an odd number of `not`s, so an unset variable never widens the stage.
+   - Groovy assignments: plain string values and captured `sh` output go to `$GITHUB_ENV` and step outputs
+     (`_carry_assignment`); container images resolve top-level constants (`Pipeline.constants`, `_fixed_value`).
    - Metadata: per-step `_j2gha` metadata is stripped from `workflow.yml` and kept in `gha/workflow.model.json`.
 5. **Validate** (`validate/static.py`)
    - actionlint, with structural and shellcheck findings kept separate.
@@ -107,6 +109,9 @@ its own.
    - Provenance (`provenance.py`): AST/analysis/conversion carry the Jenkinsfile sha256 (and model hash); run records
      carry them plus scenario, `LOCALIZER_VERSION` and images. Stale prerequisites are re-done (convert) or refused
      (localiser, GHA tiers); stale run records show ⏸️ and are not counted.
+   - Variants pin `JOB_NAME` to the Jenkins job (`jenkins.run.harness_job`) and give upper-case properties the
+     localiser stubbed its `j2gha-stub` value (`variants.stubbed_properties`); outputs compare `BUILD_TAG` path segments
+     as a placeholder.
    - Remote runs: orphan `j2gha/run/...` branches created through the Git Data API and deleted afterwards.
      `--environments` creates `j2gha-<name>` environments (no required reviewers) with a random canary secret
      via `gh secret set`, and compares deployments with the inputs Jenkins reached (`approved_inputs`).

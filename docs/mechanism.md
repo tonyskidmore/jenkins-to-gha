@@ -122,7 +122,8 @@ logical file (matrix cells upload the same path; Jenkins keeps one) and are grou
 stands in for another Jenkins file; an archive uploaded without the Jenkins paths (a model converted before) is not
 compared and makes the comparison inconclusive. Content hashes are
 recorded and shown but do not decide the verdict, because builds are not reproducible (archive timestamps,
-`BUILD_NUMBER` vs `github.run_number`). Collection problems (a failed download, a file over the download cap, an
+`BUILD_NUMBER` vs `github.run_number`); for the same reason a path segment that is a side's own `BUILD_TAG`
+(`logdir/${BUILD_TAG}/...`) is compared as a placeholder. Collection problems (a failed download, a file over the download cap, an
 artifact listing cut short) make a side's evidence incomplete: a difference counts only if the evidence for it is
 complete (a missing file needs a complete converted side, an extra one a complete Jenkins side; a test case whose status
 changed always counts), otherwise the verdict is *inconclusive*. A Jenkins full-mode reference recorded without

@@ -194,7 +194,10 @@ two outcomes with no stage or job data on either side are *inconclusive*, never 
 variant. Only declared parameters can be set (anything else is refused before a run); on the Jenkins side the job
 defines the parameters in its XML so exactly one build runs, and a pipeline whose parameters cannot be defined up front
 falls back to a registration build that is recorded as a `register` attempt. The parameters are part of the scenario in
-every run record, so a reference run with other values is refused.
+every run record, so a reference run with other values is refused. Execution variants also give the converted run what the
+Jenkins reference ran with: `JOB_NAME`/`JOB_BASE_NAME` are the Jenkins job (`ex-<id>-<mode>`, not `github.workflow`), and an
+undeclared upper-case property the localiser stubbed (it reads `j2gha-stub` on Jenkins) gets that value in the variant's `env`
+(`variants.stubbed_properties`).
 
 **Provenance.** analyze stamps the AST and `analysis.json` with the Jenkinsfile's sha256; convert stamps
 `conversion.json` with it and the workflow model's hash; run records carry the Jenkinsfile hash, the scenario, the
@@ -261,7 +264,7 @@ The process for adding or changing a rule is in [extending.md](extending.md).
 
 | Limitation | Effect | Extension point |
 |---|---|---|
-| Limited Groovy dataflow | An `if`/`else if` chain in `script{}` that only assigns string literals (`target = 'pro'`) or calls `error` becomes one bash step exporting the variable to `$GITHUB_ENV` and job outputs, so a later `when { expression { target == 'pro' } }` reads `env.target` (example 006). Variables computed any other way (command output, string operations) are still not propagated, and a `when` on them becomes an opt-in `vars.J2GHA_WHEN_L<n>` gate. | Extend `generator._literal_chain` to other constant-foldable assignments. |
+| Limited Groovy dataflow | An `if`/`else if` chain in `script{}` that only assigns string literals (`target = 'pro'`) or calls `error` becomes one bash step exporting the variable to `$GITHUB_ENV` and job outputs, so a later `when { expression { target == 'pro' } }` reads `env.target` (example 006). Other assignments carry their value the same way when it is a plain string expression: `x = sh(returnStdout: true)[.trim()]` (the traced `sh` step captures its output), literals, `env`/`params`, top-level constants, earlier variables, `+`, `.take(n)`, simple GStrings and `pwd()` (`generator._carry_assignment`; twins 106, 114, 119). A name that is an environment variable or parameter is left alone, since a Groovy variable is not in the environment of Jenkins' `sh` steps. Values built by dynamic Groovy (closures, loops, collections, `replaceAll`) are still not propagated, and a `when` on them becomes an opt-in `vars.J2GHA_WHEN_L<n>` gate. A later job sees a carried value only where it reads `env.<var>` (wired through job outputs). | Extend `generator._bash_value` to more constant-foldable expressions. |
 | Dynamic fan-out | `parallel` over a runtime-built map and stages created in loops (hard gates) are only partially converted. Examples 001 and 002 show low trace similarity, as predicted by their difficulty scores. | Generate a planning job that emits a bounded JSON matrix (`fromJSON`). |
 | Shared-library internals | Library steps are stubbed: the trace proves the calls happen, not what they do. Library templates run with a permissive configuration object. | Crawl and analyse the library repository; map library steps to composite actions via `rules/steps.yaml`. |
 | Plugin-specific runtime objects | Objects such as `Artifactory.server(...)` are replaced by permissive `J2ghaAny` stubs, so behaviour that depends on their return values is not reproduced. | Add plugins to `docker/jenkins/plugins.txt` where they can run offline. |

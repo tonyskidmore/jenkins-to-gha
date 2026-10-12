@@ -5,3 +5,8 @@ useDefault = true
 [[allowlists]]
 description = "Jenkins plugin pins (name:version) match generic-api-key"
 paths = ['''^docker/jenkins/plugins\.txt$''']
+
+[[allowlists]]
+description = "The harness's fake credentials (jenkins/localize.py FAKE_*), which run logs show by design"
+regexTarget = "match"
+regexes = ['''j2gha-(?:user|fake-[a-z]+)''']
