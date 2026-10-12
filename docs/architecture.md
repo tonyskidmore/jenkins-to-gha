@@ -103,7 +103,7 @@ takes its whole link group (as the branch left it) into the change list, so a ne
 The merge accounts for every producer along the fallback chain it actually uses: a missing workspace must belong to a
 skipped job, whose own nearest producers are then accounted for. A producer the job needs directly has a known
 result - if it ran but its workspace did not arrive, the merge fails instead of restoring an older workspace; any
-other producer's result is not visible to the job, so its missing workspace is taken as skipped, with a warning. Matrix cells, `beforeInput` gate jobs and the pipeline post job restore but do not hand on. Unsupported
+other producer's result is not visible to the job, so its missing workspace is taken as skipped, with a warning. A matrix job's cells hand on only their own changes (`j2gha-ws-<job>.<cell>`), which a later job replays onto the workspace the matrix started from, in cell-name order; a matrix with nothing handed on before it does not hand on (reported). `beforeInput` gate jobs and the pipeline post job restore but do not hand on. Unsupported
 cases fail rather than pass: the steps need bash and GNU tar, findutils and coreutils (a busybox/Alpine job
 container is a manual item in the migration report); an entry the job's user cannot read fails the hand-on; a
 branch without a change list fails the merge; planning refuses concurrent producers that start from different

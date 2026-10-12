@@ -662,9 +662,10 @@ def _workspace_handoff(jobs: dict[str, Any], plans: list[JobPlan], ir: Pipeline,
     """Which jobs share the pipeline workspace (convert.workspace plans and generates the hand-off itself).
 
     *Producers* change the workspace and hand it on: ordinary stage jobs, parallel branches and a parallel/matrix
-    stage's post job, when they run on the pipeline agent. *Consumers* start from it instead of a checkout:
-    producers, matrix cells (their outputs are not handed on: up to 256 cells), `beforeInput` gate jobs and the
-    pipeline post job."""
+    stage's post job, when they run on the pipeline agent. A matrix job hands on each cell's changes instead of a
+    workspace (up to 256 cells: a *delta* producer, convert.workspace); one with no producer before it starts from
+    the checkout, so its cells' changes are not handed on (reported). *Consumers* start from it instead of a
+    checkout: producers, matrix cells, `beforeInput` gate jobs and the pipeline post job."""
     top = ir.agent
     by_id = {jp.id: jp for jp in plans}
 
@@ -677,17 +678,26 @@ def _workspace_handoff(jobs: dict[str, Any], plans: list[JobPlan], ir: Pipeline,
             return _in_pipeline_workspace(jp.parent.agent if jp.parent else None, top)
         return jp.kind != "stage-input" and _in_pipeline_workspace(jp.agent, top)
 
+    matrices = {jp.id for jp in plans if jp.kind == "matrix" and shares(jp) and runs_here(jp.id)}
     producers = {jp.id for jp in plans if jp.kind in ("steps", "parallel-branch", "stage-post") and shares(jp)
-                 and runs_here(jp.id)}
+                 and runs_here(jp.id)} | matrices
     consumers = {jp.id for jp in plans if jp.kind != "stage-input" and shares(jp) and runs_here(jp.id)}
     if post_id and runs_here(post_id):
         consumers.add(post_id)
     needs = {jid: list(by_id[jid].needs) if jid in by_id else [j for j in jobs if j != jid] for jid in jobs}
-    hp = workspace.plan(list(jobs), needs, producers, consumers)
+    hp = workspace.plan(list(jobs), needs, producers, consumers, deltas=matrices)
+    producers = (producers - matrices) | hp.deltas  # a matrix the plan could not hand on stays a consumer only
+    for jid in sorted(matrices - hp.deltas, key=list(jobs).index):
+        ctx.add(f"matrix workspace of '{jid}'", None, None, "approximated", "cells' changes not handed on",
+                "no job hands a workspace on before the matrix (it starts from the checkout): later jobs do not see "
+                "what its cells wrote")
     if hp.restores:
         ctx.handoff = {"handed_on": sorted(hp.handed_on & producers, key=list(jobs).index),
                        "merged": sorted(hp.mergeable & hp.handed_on, key=list(jobs).index),
                        "restored_by": list(hp.restores)}
+        for key, ids in (("matrix", hp.deltas), ("matrix_not_handed_on", matrices - hp.deltas)):
+            if ids:
+                ctx.handoff[key] = sorted(ids, key=list(jobs).index)
     images = {_container_image(jobs[j]) for j in [*hp.restores, *hp.handed_on]} - {None}
     for image in sorted(i for i in images if re.search(r"alpine|busybox", i, re.I)):
         ctx.add(f"workspace hand-off in container '{image}'", None, None, "manual", "bash, GNU tar/findutils/coreutils",
@@ -710,12 +720,19 @@ def _workspace_handoff(jobs: dict[str, Any], plans: list[JobPlan], ir: Pipeline,
         steps[:] = [*restore, *steps]  # first: a stage-entry step may read files (`fileExists`) to decide `when`
         if jid not in producers or jid not in hp.handed_on:  # only a workspace some job restores
             continue
-        if jid in hp.mergeable:
+        if jid in hp.mergeable or jid in hp.deltas:
             # the snapshot it starts from: after the restore or checkout, before the stage's own steps
             at = max([i + 1 for i, st in enumerate(steps) if (st.get("_j2gha") or {}).get("role") == "checkout"
                       or st.get("id") == workspace.RESTORE_ID], default=0)
             steps.insert(at, workspace.record_step())
-        steps += workspace.handon_steps(jid, jid in hp.mergeable, ACTIONS["upload-artifact"])
+        cell = _matrix_cell(jobs[jid]) if jid in hp.deltas else None
+        steps += workspace.handon_steps(jid, jid in hp.mergeable, ACTIONS["upload-artifact"], cell=cell)
+
+
+def _matrix_cell(job: dict[str, Any]) -> str:
+    """A matrix cell's name in artifact names: its axis values (act leaves strategy.job-index empty)."""
+    axes = [k for k in (job.get("strategy") or {}).get("matrix", {}) if k not in ("include", "exclude")]
+    return "-".join(f"${{{{ matrix.{k} }}}}" for k in axes) or "${{ strategy.job-index }}"
 
 
 def _container_image(job: dict[str, Any]) -> str | None:

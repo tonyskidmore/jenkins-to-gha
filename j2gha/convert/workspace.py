@@ -17,6 +17,13 @@ Snapshots and lineage
   its change list next to its snapshot: the entries it added or changed and those it removed, directories included.
   So no merge needs the snapshot the branches started from, whether it was one producer's, itself a merge (a parallel
   stage straight after another) or the checkout (a parallel first stage).
+* A matrix job (`Plan.deltas`) runs up to 256 cells: each cell records the snapshot it starts from and hands on its
+  changes only - its change list and a tar of the entries it added or changed (with their parent directories) - as
+  `j2gha-ws-<job>.<cell>` (job ids have no dots, so `j2gha-ws-<job>.*` matches no other job's artifact). A consumer
+  after the matrix downloads the workspace the matrix started from (its nearest producers: heads of their own) and
+  every cell by that pattern, and replays the cells' changes onto it in cell-name order. A matrix with no producer
+  before it (it starts from the checkout), after another matrix, or concurrent with another producer is not handed
+  on: it stays a consumer, and the generator reports it.
 * A producer skipped at job level (a gate said no, a job it needs failed) made no upload: the consumer downloads the
   workspaces it would have started from instead (its own nearest producers, recursively; at most
   MAX_HANDOFF_FALLBACKS beyond the nearest, the rest is reported). At run time the merge step takes the downloaded
@@ -31,8 +38,9 @@ Snapshots and lineage
 
 Semantics and limits - each unsupported case fails or is reported, none passes silently
 ---------------------------------------------------------------------------------------
-* A path two concurrent branches both change takes the later branch's version (job order), and a branch that removes
-  a directory removes what an earlier branch put in it. In Jenkins the result depends on timing.
+* A path two concurrent branches both change takes the later branch's version (job order; matrix cells: cell-name
+  order), and a branch that removes a directory removes what an earlier branch put in it. In Jenkins the result
+  depends on timing.
 * Changes are found by content, mode, type, link target and hard-link count: a change of timestamps alone (`touch`)
   is not handed on. Hard links are kept: a changed file's change list entry takes every other name of the file along
   (its whole link group as the branch left it, however the group changed - a new name, a removed one, a rename), so
@@ -69,6 +77,7 @@ class Restore:
     fallbacks: list[tuple[str, str]] = field(default_factory=list)  # (producer, `if:` of its download), in order
     lineage: dict[str, list[str]] = field(default_factory=dict)  # downloaded producer -> downloaded ancestors
     dropped: int = 0  # fallbacks over MAX_HANDOFF_FALLBACKS, not generated
+    deltas: list[str] = field(default_factory=list)  # downloaded producers that are matrix jobs (their cells' changes)
 
 
 @dataclass
@@ -76,14 +85,53 @@ class Plan:
     restores: dict[str, Restore]  # consumer -> its restore (consumers with no producer before them: absent)
     mergeable: set[str]  # producers that record their starting snapshot and hand on a change list
     handed_on: set[str]  # producers some consumer downloads (the others need no upload)
+    deltas: set[str] = field(default_factory=set)  # handed-on matrix jobs: one change set per cell
 
 
 Slot = tuple[str, list]  # (producer, the slots to fall back on when it made no upload)
 
 
-def plan(order: list[str], needs: dict[str, list[str]], producers: set[str], consumers: set[str]) -> Plan:
-    """`order`: every job, dependencies first; `needs`: each job's direct dependencies."""
+def plan(order: list[str], needs: dict[str, list[str]], producers: set[str], consumers: set[str],
+         deltas: set[str] | frozenset[str] = frozenset()) -> Plan:
+    """`order`: every job, dependencies first; `needs`: each job's direct dependencies. `deltas`: producers that hand
+    on only their changes, one change set per matrix cell (see the module docstring); one that cannot (no producer
+    before it, a delta or a concurrent producer among them) stays a consumer only and is left out of `Plan.deltas`."""
     pos = {jid: i for i, jid in enumerate(order)}
+    producers, deltas = set(producers), set(deltas) & set(producers)
+    while True:
+        ancestry, before = _lineage(needs, producers, pos)
+        bad = {d for d in deltas if not before(d) or any(s[0] in deltas for s in before(d))
+               or any(_concurrent(ancestry, d, q) for q in producers)}
+        if not bad:
+            break
+        producers -= bad
+        deltas -= bad
+
+    def concurrent(p: str, q: str) -> bool:
+        return _concurrent(ancestry, p, q)
+
+    mergeable = {p for p in producers if any(concurrent(p, q) for q in producers)}
+    for p in sorted(mergeable, key=pos.__getitem__):
+        for q in sorted(producers, key=pos.__getitem__):
+            if concurrent(p, q) and [s[0] for s in before(p)] != [s[0] for s in before(q)]:
+                raise ValueError(f"workspace hand-off: jobs '{p}' and '{q}' run concurrently but start from different "
+                                 "workspaces, which the merge cannot combine")
+    restores = {}
+    for jid in sorted(consumers, key=pos.__getitem__):
+        r = _restore(before(jid), pos, lambda p: ancestry(p) & producers, deltas)
+        if r is not None:
+            r.direct = [p for p in r.fallback_of if p in needs.get(jid, [])]
+            restores[jid] = r
+    handed_on = {p for r in restores.values() for p in [*r.heads, *(f for f, _ in r.fallbacks)]}
+    return Plan(restores, mergeable, handed_on, deltas & handed_on)
+
+
+def _concurrent(ancestry: Any, p: str, q: str) -> bool:
+    return p != q and p not in ancestry(q) and q not in ancestry(p)
+
+
+def _lineage(needs: dict[str, list[str]], producers: set[str], pos: dict[str, int]) -> tuple[Any, Any]:
+    """(ancestry(job), before(job)): a job's dependencies, transitively, and the snapshot it starts from."""
     ancestors: dict[str, set[str]] = {}
 
     def ancestry(jid: str) -> set[str]:
@@ -106,28 +154,20 @@ def plan(order: list[str], needs: dict[str, list[str]], producers: set[str], con
             after[jid] = [(jid, before(jid))] if jid in producers else before(jid)
         return after[jid]
 
-    def concurrent(p: str, q: str) -> bool:
-        return p != q and p not in ancestry(q) and q not in ancestry(p)
-
-    mergeable = {p for p in producers if any(concurrent(p, q) for q in producers)}
-    for p in sorted(mergeable, key=pos.__getitem__):
-        for q in sorted(producers, key=pos.__getitem__):
-            if concurrent(p, q) and [s[0] for s in before(p)] != [s[0] for s in before(q)]:
-                raise ValueError(f"workspace hand-off: jobs '{p}' and '{q}' run concurrently but start from different "
-                                 "workspaces, which the merge cannot combine")
-    restores = {}
-    for jid in sorted(consumers, key=pos.__getitem__):
-        r = _restore(before(jid), pos, lambda p: ancestry(p) & producers)
-        if r is not None:
-            r.direct = [p for p in r.fallback_of if p in needs.get(jid, [])]
-            restores[jid] = r
-    handed_on = {p for r in restores.values() for p in [*r.heads, *(f for f, _ in r.fallbacks)]}
-    return Plan(restores, mergeable, handed_on)
+    return ancestry, before
 
 
-def _restore(slots: list[Slot], pos: dict[str, int], ancestors: Any) -> Restore | None:
+def _restore(slots: list[Slot], pos: dict[str, int], ancestors: Any,
+             deltas: set[str] | frozenset[str] = frozenset()) -> Restore | None:
     if not slots:
         return None
+    # a delta's changes are replayed onto the workspace its job started from: those producers are heads too
+    expanded: dict[str, Slot] = {}
+    for slot in slots:
+        if slot[0] in deltas:
+            expanded.update((b[0], b) for b in slot[1])
+        expanded[slot[0]] = slot
+    slots = sorted(expanded.values(), key=lambda sl: pos[sl[0]])
     heads = [s[0] for s in slots]
     when: dict[str, list[list[str]]] = {}  # fallback producer -> the chains of producers that must all have failed
     queue = [(slot, [slot[0]]) for slot in slots]
@@ -149,12 +189,24 @@ def _restore(slots: list[Slot], pos: dict[str, int], ancestors: Any) -> Restore 
             todo += fallback
     kept = discovered[:MAX_HANDOFF_FALLBACKS]
     scheduled = set(heads) | set(kept)
-    # a fallback's `if:` reads the outcome of downloads before it: chains through dropped fallbacks are left out
-    fallbacks = [(p, " || ".join("(" + " && ".join(f"steps.j2gha-ws-{q}.outcome != 'success'" for q in c) + ")"
-                                 for c in when[p] if set(c) <= scheduled) or "false") for p in kept]
+
+    def downloaded_if(p: str) -> str:
+        # a fallback's `if:` reads the outcome of downloads before it: chains through dropped fallbacks are left out
+        return " || ".join("(" + " && ".join(f"steps.j2gha-ws-{q}.outcome != 'success'" for q in c) + ")"
+                           for c in when[p] if set(c) <= scheduled) or "false"
+
+    conds = {p: downloaded_if(p) for p in kept}
+    # a delta's base is downloaded whenever the delta is: a pattern download that finds no cell still succeeds, so its
+    # outcome cannot decide whether the base is needed
+    for d in [p for p in kept if p in deltas]:
+        for b in fallback_of[d]:
+            if b in conds:
+                conds[b] = f"({conds[b]}) || ({conds[d]})"
+    fallbacks = [(p, conds[p]) for p in kept]
     lineage = {p: sorted(ancestors(p) & scheduled, key=pos.__getitem__) for p in sorted(scheduled, key=pos.__getitem__)}
     return Restore(heads, fallbacks=fallbacks, lineage=lineage, dropped=len(discovered) - len(kept),
-                   fallback_of=dict(sorted(fallback_of.items(), key=lambda kv: pos[kv[0]])))
+                   fallback_of=dict(sorted(fallback_of.items(), key=lambda kv: pos[kv[0]])),
+                   deltas=[p for p in sorted(scheduled, key=pos.__getitem__) if p in deltas])
 
 
 # ----------------------------------------------------------------------------------------------- generated steps
@@ -192,7 +244,7 @@ mv "$RUNNER_TEMP/j2gha-ws.tgz" "$GITHUB_WORKSPACE/.j2gha-ws.tgz"
 
 # a mergeable producer also hands on its own changes - what a merge replays when it ran concurrently with another:
 # lines "C<path>" (added or changed) and "D<path>" (removed), paths escaped
-HANDON_CHANGES_SCRIPT = _MANIFEST + r"""if [ -f "$RUNNER_TEMP/j2gha-ws-start" ]; then
+_CHANGES = r"""if [ -f "$RUNNER_TEMP/j2gha-ws-start" ]; then
   declare -A was=() now=()
   changes=()
   mapfile -t recs < "$RUNNER_TEMP/j2gha-ws-start"
@@ -228,7 +280,29 @@ HANDON_CHANGES_SCRIPT = _MANIFEST + r"""if [ -f "$RUNNER_TEMP/j2gha-ws-start" ];
 else
   echo "::warning::the workspace this job started from was not recorded: its workspace cannot be merged"
 fi
-""" + HANDON_SCRIPT
+"""
+HANDON_CHANGES_SCRIPT = _MANIFEST + _CHANGES + HANDON_SCRIPT
+
+# a matrix cell hands on its changes only: the change list and a tar of the entries it added or changed, with their
+# parent directories (a merge replays them onto the workspace the matrix started from, which it downloads anyway)
+HANDON_DELTA_SCRIPT = _MANIFEST + _CHANGES + r"""if [ ! -f "$GITHUB_WORKSPACE/.j2gha-ws.changes" ]; then
+  echo "::error::the workspace this matrix cell started from was not recorded: its changes cannot be handed on"
+  exit 1
+fi
+declare -A member=()
+mapfile -t recs < "$GITHUB_WORKSPACE/.j2gha-ws.changes"
+for rec in "${recs[@]}"; do
+  if [ "${rec:0:1}" != C ]; then continue; fi
+  printf -v p '%b' "${rec:1}"
+  member[$p]=1
+  while p=${p%/*}; [ "$p" != . ]; do member[$p]=1; done
+done
+: > "$RUNNER_TEMP/j2gha-ws-members"
+if [ "${#member[@]}" -gt 0 ]; then printf '%s\0' "${!member[@]}" | LC_ALL=C sort -z > "$RUNNER_TEMP/j2gha-ws-members"; fi
+tar -czf "$RUNNER_TEMP/j2gha-ws.tgz" -C "$GITHUB_WORKSPACE" --null --no-unquote --no-recursion \
+  -T "$RUNNER_TEMP/j2gha-ws-members"
+mv "$RUNNER_TEMP/j2gha-ws.tgz" "$GITHUB_WORKSPACE/.j2gha-ws.tgz"
+"""
 
 RESTORE_SCRIPT = r"""ws="$GITHUB_WORKSPACE"
 d="$ws/.j2gha-ws"
@@ -239,7 +313,12 @@ ancestors() {
     if [ "${line%%:*}" = "$1" ]; then printf '%s\n' "${line#*:}"; fi
   done <<< "$J2GHA_WS_LINEAGE"
 }
-present() { [ -f "$d/$1/.j2gha-ws.tgz" ]; }
+isdelta() { case " $J2GHA_WS_DELTAS " in *" $1 "*) return 0 ;; esac; return 1; }
+# the cells of a matrix producer that arrived (one directory per artifact, in name order)
+cells() { local c; for c in "$d/$1"/*/; do if [ -f "$c.j2gha-ws.changes" ]; then basename "$c"; fi; done; }
+present() {
+  if isdelta "$1"; then [ -n "$(cells "$1")" ]; else [ -f "$d/$1/.j2gha-ws.tgz" ]; fi
+}
 # read-only directories (a Go module cache) need write permission to be removed
 remove() { rm -rf -- "$@" 2>/dev/null || { chmod -R u+w -- "$@"; rm -rf -- "$@"; }; }
 isdir() { [ -d "$1" ] && [ ! -L "$1" ]; }
@@ -331,7 +410,8 @@ for p in $J2GHA_WS_ORDER; do
   present "$p" || continue
   covered=false
   for q in $J2GHA_WS_ORDER; do
-    if [ "$q" != "$p" ] && present "$q"; then
+    # a matrix hands on its cells' changes, not a workspace: it does not stand in for the producers before it
+    if [ "$q" != "$p" ] && ! isdelta "$q" && present "$q"; then
       case " $(ancestors "$q") " in *" $p "*) covered=true ;; esac
     fi
   done
@@ -345,8 +425,18 @@ if [ "${#frontier[@]}" -gt 0 ]; then
     if [ "$e" != "$d" ]; then remove "$e"; fi
   done
   shopt -u dotglob nullglob
+  if isdelta "${frontier[0]}"; then
+    echo "::error::no workspace arrived for the changes of matrix job '${frontier[0]}' to be applied to"
+    exit 1
+  fi
   tar -xzpf "$d/${frontier[0]}/.j2gha-ws.tgz" -C "$ws"
-  for f in "${frontier[@]:1}"; do replay "$f"; done
+  for f in "${frontier[@]:1}"; do
+    if isdelta "$f"; then
+      while IFS= read -r c; do replay "$f/$c"; done < <(cells "$f")
+    else
+      replay "$f"
+    fi
+  done
   restored=true
 fi
 remove "$d"
@@ -361,12 +451,15 @@ def restore_steps(r: Restore, download: str) -> list[dict[str, Any]]:
         step: dict[str, Any] = {"name": f"Restore pipeline workspace ({p})", "id": f"j2gha-ws-{p}"}
         if cond is not None:
             step["if"] = cond
+        # a matrix job's cells: one artifact each, `j2gha-ws-<job>.<cell>` (job ids have no dots)
+        src = {"pattern": f"j2gha-ws-{p}.*"} if p in r.deltas else {"name": f"j2gha-ws-{p}"}
         step.update({"uses": download, "continue-on-error": True,  # a skipped producer uploaded nothing
-                     "with": {"name": f"j2gha-ws-{p}", "path": f"{HANDOFF_DIR}/{p}"}, "_j2gha": dict(META)})
+                     "with": {**src, "path": f"{HANDOFF_DIR}/{p}"}, "_j2gha": dict(META)})
         steps.append(step)
     lineage = "\n".join(f"{p}: {' '.join(a)}".rstrip() for p, a in r.lineage.items())
     env = {"J2GHA_WS_ORDER": " ".join(r.lineage), "J2GHA_WS_LINEAGE": lineage, "J2GHA_WS_HEADS": " ".join(r.heads),
            "J2GHA_WS_RESULTS": " ".join(f"{h}=${{{{ needs.{h}.result }}}}" for h in r.direct),
+           "J2GHA_WS_DELTAS": " ".join(r.deltas),
            "J2GHA_WS_FALLBACKS": "\n".join(f"{p}: {' '.join(f)}".rstrip() for p, f in r.fallback_of.items())}
     steps.append({"name": "Restore pipeline workspace (merge)", "id": RESTORE_ID, "if": "always()", "shell": "bash",
                   "env": env, "run": RESTORE_SCRIPT, "_j2gha": dict(META)})
@@ -379,12 +472,16 @@ def record_step() -> dict[str, Any]:
             "_j2gha": dict(META)}
 
 
-def handon_steps(jid: str, mergeable: bool, upload: str) -> list[dict[str, Any]]:
+def handon_steps(jid: str, mergeable: bool, upload: str, cell: str | None = None) -> list[dict[str, Any]]:
+    """`cell` (a matrix job): the cell's suffix in its artifact name, `j2gha-ws-<job>.<cell>`; the cell hands on its
+    changes only."""
+    script = HANDON_DELTA_SCRIPT if cell is not None else HANDON_CHANGES_SCRIPT if mergeable else HANDON_SCRIPT
     archive = {"name": "Hand on the pipeline workspace (archive)", "if": "always()", "shell": "bash",
-               "run": HANDON_CHANGES_SCRIPT if mergeable else HANDON_SCRIPT, "_j2gha": dict(META)}
-    path = f"{HANDOFF_TAR}\n{HANDOFF_CHANGES}" if mergeable else HANDOFF_TAR
+               "run": script, "_j2gha": dict(META)}
+    path = f"{HANDOFF_TAR}\n{HANDOFF_CHANGES}" if mergeable or cell is not None else HANDOFF_TAR
+    name = f"j2gha-ws-{jid}" + (f".{cell}" if cell is not None else "")
     return [archive,
             {"name": "Hand on the pipeline workspace (upload)", "if": "always()", "uses": upload,
-             "with": {"name": f"j2gha-ws-{jid}", "path": path, "retention-days": 1, "compression-level": 0,
+             "with": {"name": name, "path": path, "retention-days": 1, "compression-level": 0,
                       "if-no-files-found": "error", "include-hidden-files": True},
              "_j2gha": dict(META)}]

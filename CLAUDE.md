@@ -77,7 +77,9 @@ its own.
    - Workspace hand-off: jobs on the pipeline agent pass the workspace on as `j2gha-ws-<job>` tar artifacts
      (`_workspace_handoff` picks the jobs, `convert/workspace.py` plans and generates; `J2GHA_WORKSPACE_HANDOFF=0`
      disables). Concurrent branches hand on their own change list too; a merge replays later branches' changes onto
-     the first branch's snapshot (a changed file takes its whole hard-link group along). The merge accounts for the
+     the first branch's snapshot (a changed file takes its whole hard-link group along). Matrix cells hand on only
+     their changes (`j2gha-ws-<job>.<cell>`, a *delta* producer), replayed in cell-name order onto the workspace
+     the matrix started from (a matrix starting from the checkout is not handed on: reported). The merge accounts for the
      fallback chain it uses: a job that ran but whose workspace did not arrive fails it; a job whose result is not
      visible (not a direct need) is taken as skipped, with a warning. The migration report's *Workspace hand-off* section states
      the runtime requirements. Conversion-only steps (`role: handoff`): no trace events. Tests that check job
