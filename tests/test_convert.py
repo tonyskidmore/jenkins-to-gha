@@ -817,3 +817,16 @@ def test_full_variants_run_without_docker_when_the_reference_did():
     variant, _ = make_variant(model, "full", "act", {"branch": "main"})  # a reference with Docker: as converted
     assert variant["jobs"]["container"]["container"]["image"] == "debian:12"
     assert any("docker run --rm" in s.get("run", "") for s in variant["jobs"]["inside"]["steps"])
+
+
+def test_a_gstring_stash_name_in_a_matrix_cell_is_that_cells_name():
+    # 103: each cell stashes "ROBOT_${ROBOT}_urdf"; a later stage unstashes 'ROBOT_fr3_urdf'
+    from j2gha.ir import Matrix, Pipeline, Stage
+    cells = Stage("Build", matrix=Matrix(axes={"ROBOT": ["fr3", "fp3"]}, stages=[Stage("Make", steps=[
+        Step("stash", named={"name": "ROBOT_${ROBOT}_urdf", "includes": "${ROBOT}.urdf"}, dynamic=True)])]))
+    use = Stage("Use", steps=[Step("unstash", args=["ROBOT_fr3_urdf"])])
+    jobs = convert(Pipeline(dialect="declarative", stages=[cells, use]), "")["workflow"]["jobs"]
+    up = next(s for s in jobs["build"]["steps"] if s.get("uses", "").startswith("actions/upload-artifact"))
+    down = next(s for s in jobs["use"]["steps"] if s.get("uses", "").startswith("actions/download-artifact"))
+    assert up["with"]["name"] == "stash-ROBOT_${{ env.ROBOT }}_urdf" and jobs["build"]["env"]["ROBOT"]
+    assert down["with"]["name"] == "stash-ROBOT_fr3_urdf"
