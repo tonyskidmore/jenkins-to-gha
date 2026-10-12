@@ -18,7 +18,7 @@ from ..readme import update_section
 from ..analysis.declarative import build_ir
 from ..trace import compare, concurrent_stages, outcome, stage_order, step_name_key
 from ..jenkins.run import harness_job
-from .variants import estimate_minutes, make_variant, stubbed_properties
+from .variants import estimate_minutes, make_variant, reference_had_docker, stubbed_properties
 
 TIER_ORDER = ["jenkins", "act", "selfhosted", "hosted"]
 
@@ -105,7 +105,8 @@ def run_example(d: Path, tiers: list[str], mode: str = "trace", docker_socket: b
                 if environments:
                     log(f"{d.name}: act ignores environments (--environments applies to selfhosted/hosted)")
                 variant, notes = make_variant(model, mode, "act", scenario, source, max_minutes=max_minutes or 10,
-                                              stubbed=stubbed_properties(reference()), job_name=harness_job(d.name, mode))
+                                              stubbed=stubbed_properties(reference()), job_name=harness_job(d.name, mode),
+                                              docker=reference_had_docker(reference()))
                 yml = to_yaml(variant, f"# j2gha act variant ({mode}) of examples/{d.name}\n")
                 (out / "workflow.yml").write_text(yml)
                 rec = run_act(out, yml, scenario["branch"], mode, source=source if mode == "full" else None,
@@ -118,7 +119,7 @@ def run_example(d: Path, tiers: list[str], mode: str = "trace", docker_socket: b
                 from ..gha.remote import run_remote
                 rec = run_remote(d, model, mode, tier, scenario, source, yes=yes, max_minutes=max_minutes,
                                  environments=environments, stubbed=stubbed_properties(reference()),
-                                 job_name=harness_job(d.name, mode))
+                                 job_name=harness_job(d.name, mode), docker=reference_had_docker(reference()))
                 prov = {**base, "model_sha256": model_sha, **({"edited_model": True} if edited else {})}
             else:
                 continue

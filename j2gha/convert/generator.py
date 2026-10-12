@@ -1133,14 +1133,18 @@ def _mk(name: str, ctx: Ctx, inh: Inherit, kind: str, line: int | None, *, run: 
             with_ = {**(with_ or {}), "path": inh.working_dir}  # `dir('x') { checkout scm }` checks out into x
         if with_:
             step["with"] = with_
+    bare = None  # the command without the `docker run` wrapper (execution variants: no Docker on the reference)
     if run is not None:
         if inh.exports and kind in ("sh", "echo", "writeFile"):
             run = "\n".join(_export(k, v) for k, v in inh.exports) + "\n" + run
         if inh.wrap_image and kind in ("sh",):
+            bare = run
             run = (f"docker run --rm -v \"$PWD\":\"$PWD\" -w \"$PWD\" --env-file <(env | grep -v '^PATH=') "
                    f"{inh.wrap_image} sh -c {shlex.quote(run)}")
         shell = shell or inh.shell
         if inh.retry and inh.retry > 1:
+            if bare is not None:
+                bare = _retry_loop(bare, shell, inh.retry, ctx, inh.stage, line)[0]
             run, shell = _retry_loop(run, shell, inh.retry, ctx, inh.stage, line)
         step["run"] = run
         if shell:
@@ -1155,6 +1159,8 @@ def _mk(name: str, ctx: Ctx, inh: Inherit, kind: str, line: int | None, *, run: 
     if inh.timeout:
         step["timeout-minutes"] = inh.timeout
     step["_j2gha"] = {"kind": kind, "stage": inh.stage, "line": line, "trace": trace}
+    if bare is not None:
+        step["_j2gha"]["run_without_docker"] = bare
     if inh.concurrent:
         step["_j2gha"]["concurrent"] = True
     return step

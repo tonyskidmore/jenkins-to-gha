@@ -784,3 +784,36 @@ def test_variants_pin_job_name_to_the_jenkins_job():
     variant, _ = make_variant(model, "full", "act", {"branch": "main"}, job_name=harness_job("106", "full"))
     assert variant["env"]["JOB_NAME"] == "ex-106-full"
     assert variant["env"]["JOB_BASE_NAME"] == "own"  # a value the pipeline set itself is kept
+
+
+def test_full_variants_run_without_docker_when_the_reference_did():
+    # 103 (agent dockerfile), 108 (docker.image().inside), 001 (agent docker): without `run --docker` the Jenkins
+    # reference ran these steps on the controller; act's and the self-hosted runners' jobs have no Docker daemon
+    from j2gha.ir import Agent, Pipeline, Stage
+    from j2gha.runners.variants import reference_had_docker
+    inside = Step("inside", receiver="docker.image('d3fk/s3cmd')", body=[Step("sh", args=["s3cmd ls"])])
+    retried = Step("retry", args=[2], body=[Step("inside", receiver="docker.image('alpine')",
+                                                 body=[Step("sh", args=["echo hi"])])])
+    ir = Pipeline(dialect="declarative", stages=[
+        Stage("Image", agent=Agent("dockerfile", filename="Dockerfile"), steps=[Step("sh", args=["make"])]),
+        Stage("Inside", steps=[inside, retried]),
+        Stage("Container", agent=Agent("docker", image="debian:12"), steps=[Step("sh", args=["make test"])])])
+    model = convert(ir, "")["workflow"]
+    image, plain, container = (model["jobs"][j] for j in ("image", "inside", "container"))
+    assert all("docker run" in s["run"] for s in plain["steps"] if s.get("run"))
+    assert [s["_j2gha"]["run_without_docker"] for s in plain["steps"] if "run_without_docker" in s["_j2gha"]][0] \
+        == "s3cmd ls"
+    assert "j2gha-retry" in plain["steps"][-1]["_j2gha"]["run_without_docker"]  # the retry loop is kept
+    without = {"localisation": {"stubs": ["withCredentials", "withDockerContainer"]}}
+    assert not reference_had_docker(without)
+    assert reference_had_docker({"localisation": {"stubs": ["withCredentials"]}}) and reference_had_docker(None)
+    variant, notes = make_variant(model, "full", "act", {"branch": "main"}, docker=False)
+    jobs = variant["jobs"]
+    assert "container" not in jobs["container"]
+    assert not any(s["_j2gha"]["kind"] == "dockerfile-agent" for s in jobs["image"]["steps"])
+    runs = [s.get("run", "") for j in jobs.values() for s in j["steps"]]
+    assert "s3cmd ls" in runs and not any("docker run --rm" in r for r in runs)
+    assert set(notes["without_docker"]) == {"image", "inside", "container"}
+    variant, _ = make_variant(model, "full", "act", {"branch": "main"})  # a reference with Docker: as converted
+    assert variant["jobs"]["container"]["container"]["image"] == "debian:12"
+    assert any("docker run --rm" in s.get("run", "") for s in variant["jobs"]["inside"]["steps"])
