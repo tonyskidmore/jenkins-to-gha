@@ -209,14 +209,20 @@ def handoff_section(handoff: dict[str, Any] | None) -> list[str]:
             "(`J2GHA_WORKSPACE_HANDOFF=0` converts without).\n",
             f"- **Handed on by:** {jobs(handoff['handed_on'])}. **Merged after running concurrently:** "
             f"{jobs(handoff['merged'])} (each later branch's own changes are replayed onto the first one's workspace).",
+            *([f"- **Matrix jobs:** {jobs(handoff['matrix'])} hand on each cell's own changes "
+               "(`j2gha-ws-<job>.<cell>`), replayed in cell-name order onto the workspace the matrix started from."]
+              if handoff.get("matrix") else []),
+            *([f"- **Not handed on:** the cells' changes of {jobs(handoff['matrix_not_handed_on'])}: no job hands a "
+               "workspace on before the matrix (it starts from the checkout), so later jobs do not see what its cells "
+               "wrote."] if handoff.get("matrix_not_handed_on") else []),
             "- **Runtime requirements:** bash, GNU tar, findutils, coreutils and sed on the runner and in job "
             "containers: GitHub's Linux runners and Debian/Ubuntu-based images. busybox/Alpine images fail at the "
             "hand-off steps.",
             "- **Same as Jenkins:** the files, directories, modes, symbolic and hard links every stage starts with, "
             "provided concurrent branches change different paths.",
             "- **Approximated:** concurrent branches do not see each other's files while they run; a path two of them "
-            "change takes the later branch's version (in Jenkins: whichever wrote last); changes of timestamps alone "
-            "and matrix cells' changes are not handed on.",
+            "change takes the later branch's version (matrix cells: the later cell's, by name; in Jenkins: whichever "
+            "wrote last); changes of timestamps alone are not handed on.",
             "- **Fails instead:** an entry the job's user cannot read, a workspace that did not arrive from a job that "
             "ran - a nearest one or one the restore falls back on because a nearer job was skipped. Where that job's "
             "result is not visible to the restoring job (it is not one it needs directly), a missing workspace is taken "

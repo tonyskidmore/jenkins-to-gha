@@ -3,7 +3,7 @@ name: j2gha harness run
 on:
   push:
     branches:
-    - j2gha/run/013-full-selfhosted-20261012131500
+    - j2gha/run/013-full-selfhosted-20261012163518
   workflow_dispatch:
 permissions:
   contents: read
@@ -11,7 +11,7 @@ env:
   BRANCH_NAME: master
   TAG_NAME: ''
   CHANGE_ID: ''
-  BUILD_NUMBER: ${{ github.run_number }}
+  BUILD_NUMBER: '2'
   JOB_NAME: ex-013-full
   BUILD_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
   GIT_COMMIT: 811efd82360cc40cef0763362c38651a848a6d12
@@ -29,7 +29,7 @@ jobs:
     name: Display Parameters, Build Nebula
     runs-on:
     - self-hosted
-    - j2gha-85b0bd51
+    - j2gha-cfcfcf39
     timeout-minutes: 10
     steps:
     - name: Checkout

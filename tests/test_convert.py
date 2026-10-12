@@ -830,3 +830,14 @@ def test_a_gstring_stash_name_in_a_matrix_cell_is_that_cells_name():
     down = next(s for s in jobs["use"]["steps"] if s.get("uses", "").startswith("actions/download-artifact"))
     assert up["with"]["name"] == "stash-ROBOT_${{ env.ROBOT }}_urdf" and jobs["build"]["env"]["ROBOT"]
     assert down["with"]["name"] == "stash-ROBOT_fr3_urdf"
+
+
+def test_variants_pin_the_build_number_to_the_jenkins_reference_build():
+    # 109: `dir("hpx_${env.BUILD_ID}")` puts the build in archive paths; github.run_id would make every path differ
+    from j2gha.convert.generator import JENKINS_ENV
+    model = {"env": {"BUILD_ID": JENKINS_ENV["BUILD_ID"], "BUILD_NUMBER": "7"},
+             "jobs": {"b": {"runs-on": "ubuntu-latest", "steps": [{"run": "true", "_j2gha": {"trace": True}}]}}}
+    assert make_variant(model, "full", "act", {"branch": "main"})[0]["env"]["BUILD_ID"] == JENKINS_ENV["BUILD_ID"]
+    variant, _ = make_variant(model, "full", "act", {"branch": "main"}, build=3)
+    assert variant["env"]["BUILD_ID"] == "3"
+    assert variant["env"]["BUILD_NUMBER"] == "7"  # a value the pipeline set itself is kept

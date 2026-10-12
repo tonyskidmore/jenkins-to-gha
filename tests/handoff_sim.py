@@ -10,6 +10,10 @@
 * a checkout copies `initial` into the workspace, unless its `if:` sees that the merge step restored a workspace;
 * the hand-off's upload steps store the listed files (they sit at the workspace root, upload-artifact's root).
 
+A matrix job runs once per cell (the cartesian product of its axes, minus `exclude`), each cell in its own workspace,
+with `${{ matrix.<axis> }}` replaced by the cell's value and the job's `env` (its axes) in the cell's steps; a
+download by `pattern` unpacks every matching artifact into `<path>/<artifact name>/`, as download-artifact does.
+
 Other steps (stage entry, echo, uploads of other artifacts...) do not run. A job in `skipped` does not run at all.
 With `prepopulated`, every job's workspace starts with `initial` (act's behaviour).
 Returns {job: its workspace tree when its own steps start} - after restore, checkout and recording, just before the
@@ -20,6 +24,9 @@ first `sh` step or the hand-on.
 
 from __future__ import annotations
 
+import fnmatch
+import itertools
+import json
 import os
 import re
 import shutil
@@ -116,10 +123,10 @@ def simulate(jobs: dict[str, Any], initial: Path, skipped: set[str] | frozenset[
     starts: dict[str, Tree] = {}
     base = Path(tempfile.mkdtemp(prefix="j2gha-sim-"))
     try:
-        for jid, job in jobs.items():
-            if jid in skipped:
-                continue
-            ws, temp = base / jid / "ws", base / jid / "temp"
+        for jid, job0, cell, n in ((jid, j, c, i) for jid, j in jobs.items() if jid not in skipped
+                                   for i, c in enumerate(_cells(j))):
+            job = _in_cell(job0, cell)
+            ws, temp = base / jid / str(n) / "ws", base / jid / str(n) / "temp"
             if prepopulated:
                 shutil.copytree(initial, ws, symlinks=True)
             else:
@@ -127,6 +134,7 @@ def simulate(jobs: dict[str, Any], initial: Path, skipped: set[str] | frozenset[
             temp.mkdir()
             outcomes: dict[str, str] = {}
             outputs: dict[str, dict[str, str]] = {}
+            job_env = {k: str(v) for k, v in (job.get("env") or {}).items()} if cell else {}
             for st in job["steps"]:
                 meta = st.get("_j2gha") or {}
                 uses = str(st.get("uses", ""))
@@ -136,6 +144,16 @@ def simulate(jobs: dict[str, Any], initial: Path, skipped: set[str] | frozenset[
                 if handoff and uses.startswith("actions/download-artifact"):
                     if not _if(st.get("if"), outcomes):
                         outcomes[st["id"]] = "skipped"
+                        continue
+                    if "pattern" in st["with"]:  # every match, each into its own directory; none is no failure
+                        producer = st["with"]["pattern"].removeprefix("j2gha-ws-").split(".")[0]
+                        names = [] if {producer, f"{jid}:{producer}"} & set(lost) else \
+                            sorted(a for a in artifacts if fnmatch.fnmatchcase(a, st["with"]["pattern"]))
+                        outcomes[st["id"]] = "success"
+                        for name in names:
+                            (ws / st["with"]["path"] / name).mkdir(parents=True, exist_ok=True)
+                            for fname, data in artifacts[name].items():
+                                (ws / st["with"]["path"] / name / fname).write_bytes(data)
                         continue
                     name = st["with"]["name"]
                     keys = {name.removeprefix("j2gha-ws-"), f"{jid}:{name.removeprefix('j2gha-ws-')}"}
@@ -153,7 +171,11 @@ def simulate(jobs: dict[str, Any], initial: Path, skipped: set[str] | frozenset[
                              if (ws / line).is_file()}
                     if not files:
                         raise StepFailed(f"{jid}: {st['name']}: no files found")
-                    artifacts[st["with"]["name"]] = files
+                    name = re.sub(r"\$\{\{ steps\.([\w-]+)\.outputs\.(\w+) \}\}",
+                                  lambda m, o=outputs: o[m.group(1)][m.group(2)], st["with"]["name"])
+                    assert "${{" not in name and not set(name) & set('"/\\:<>|*?\r\n'), name
+                    assert name not in artifacts, f"artifact {name} uploaded twice"
+                    artifacts[name] = files
                 elif uses.startswith("actions/checkout"):
                     # act treats a checkout of the repository it copied in as done
                     if not _restored(st.get("if"), outputs) and not prepopulated:
@@ -163,7 +185,7 @@ def simulate(jobs: dict[str, Any], initial: Path, skipped: set[str] | frozenset[
                         continue
                     out = temp / "github-output"
                     out.write_text("")
-                    env = {**{k: _needs(str(v), jobs, skipped) for k, v in (st.get("env") or {}).items()},
+                    env = {**job_env, **{k: _needs(str(v), jobs, skipped) for k, v in (st.get("env") or {}).items()},
                            "GITHUB_WORKSPACE": str(ws), "GITHUB_OUTPUT": str(out), "RUNNER_TEMP": str(temp)}
                     p = _bash(st["run"], st.get("shell"), ws, env, temp)
                     if logs is not None:
@@ -177,6 +199,27 @@ def simulate(jobs: dict[str, Any], initial: Path, skipped: set[str] | frozenset[
     finally:
         _remove(base)
     return starts
+
+
+def _cells(job: dict[str, Any]) -> list[dict[str, str] | None]:
+    """A matrix job's cells (axis -> value), or [None] for an ordinary job."""
+    m = dict((job.get("strategy") or {}).get("matrix") or {})
+    exclude = m.pop("exclude", None) or []
+    m.pop("include", None)
+    if not m:
+        return [None]
+    cells = [dict(zip(m, values, strict=True)) for values in itertools.product(*m.values())]
+    return [c for c in cells if not any(all(c.get(k) == v for k, v in e.items()) for e in exclude)]
+
+
+def _in_cell(job: dict[str, Any], cell: dict[str, str] | None) -> dict[str, Any]:
+    if cell is None:
+        return job
+    text = json.dumps(job)
+    for k, v in cell.items():
+        text = text.replace(f"${{{{ matrix.{k} }}}}", json.dumps(str(v))[1:-1])
+    text = text.replace("${{ toJSON(matrix) }}", json.dumps(json.dumps(cell))[1:-1])
+    return json.loads(text)
 
 
 def _needs(value: str, jobs: dict[str, Any], skipped: set[str] | frozenset[str]) -> str:

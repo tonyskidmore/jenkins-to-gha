@@ -148,13 +148,33 @@ def test_reuse_node_shares_the_pipeline_workspace():
     assert restored_from(jobs["test"]) == ["build"]
 
 
-def test_matrix_cells_receive_the_workspace_but_do_not_hand_it_on():
+def test_matrix_cells_hand_on_their_changes_onto_the_workspace_the_matrix_started_from():
     stages = [Stage("Build", steps=[sh("make")]),
               Stage("Cells", matrix=Matrix(axes={"OS": ["a", "b"]}, stages=[Stage("Run", steps=[sh("run")])])),
               Stage("After", steps=[sh("ls")])]
     jobs = jobs_of(pipeline(stages))
-    assert restored_from(jobs["cells"]) == ["build"] and not hands_on(jobs["cells"])
-    assert restored_from(jobs["after"]) == ["build"]
+    assert restored_from(jobs["cells"]) == ["build"] and hands_on(jobs["cells"])
+    up = next(s for s in jobs["cells"]["steps"] if s["name"] == "Hand on the pipeline workspace (upload)")
+    assert up["with"]["name"] == "j2gha-ws-cells.${{ steps.j2gha-ws-cell.outputs.cell }}"
+    # the cell's values reach the archive script through env (made safe for an artifact name there), not its text
+    archive = next(s for s in jobs["cells"]["steps"] if s.get("id") == "j2gha-ws-cell")
+    assert archive["env"] == {"J2GHA_WS_CELL": "${{ matrix.OS }}", "J2GHA_WS_CELL_KEY": "${{ toJSON(matrix) }}"}
+    assert "${{" not in archive["run"]
+    # the matrix's base is downloaded with its cells, by a pattern no other job's artifact can match
+    downloads = {s["id"]: s["with"] for s in jobs["after"]["steps"] if s["id"].startswith("j2gha-ws-") and "uses" in s}
+    assert downloads == {"j2gha-ws-build": {"name": "j2gha-ws-build", "path": ".j2gha-ws/build"},
+                         "j2gha-ws-cells": {"pattern": "j2gha-ws-cells.*", "path": ".j2gha-ws/cells"}}
+    merge = next(s for s in jobs["after"]["steps"] if s["id"] == "j2gha-ws-restore")
+    assert merge["env"]["J2GHA_WS_DELTAS"] == "cells" and merge["env"]["J2GHA_WS_HEADS"] == "build cells"
+
+
+def test_a_matrix_with_nothing_handed_on_before_it_is_reported_not_handed_on():
+    stages = [Stage("Cells", matrix=Matrix(axes={"OS": ["a", "b"]}, stages=[Stage("Run", steps=[sh("run")])])),
+              Stage("After", steps=[sh("ls")])]
+    out = convert(pipeline(stages), "")
+    assert not hands_on(out["workflow"]["jobs"]["cells"])
+    items = [i for i in out["report"]["items"] if i["jenkins"] == "matrix workspace of 'cells'"]
+    assert [i["status"] for i in items] == ["approximated"]
 
 
 def test_a_restored_workspace_replaces_the_checkout():

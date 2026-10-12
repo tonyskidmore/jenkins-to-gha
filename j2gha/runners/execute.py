@@ -106,7 +106,8 @@ def run_example(d: Path, tiers: list[str], mode: str = "trace", docker_socket: b
                     log(f"{d.name}: act ignores environments (--environments applies to selfhosted/hosted)")
                 variant, notes = make_variant(model, mode, "act", scenario, source, max_minutes=max_minutes or 10,
                                               stubbed=stubbed_properties(reference()), job_name=harness_job(d.name, mode),
-                                              docker=reference_had_docker(reference()))
+                                              docker=reference_had_docker(reference()),
+                                              build=(reference() or {}).get("build"))
                 yml = to_yaml(variant, f"# j2gha act variant ({mode}) of examples/{d.name}\n")
                 (out / "workflow.yml").write_text(yml)
                 rec = run_act(out, yml, scenario["branch"], mode, source=source if mode == "full" else None,
@@ -119,7 +120,8 @@ def run_example(d: Path, tiers: list[str], mode: str = "trace", docker_socket: b
                 from ..gha.remote import run_remote
                 rec = run_remote(d, model, mode, tier, scenario, source, yes=yes, max_minutes=max_minutes,
                                  environments=environments, stubbed=stubbed_properties(reference()),
-                                 job_name=harness_job(d.name, mode), docker=reference_had_docker(reference()))
+                                 job_name=harness_job(d.name, mode), docker=reference_had_docker(reference()),
+                                 build=(reference() or {}).get("build"))
                 prov = {**base, "model_sha256": model_sha, **({"edited_model": True} if edited else {})}
             else:
                 continue

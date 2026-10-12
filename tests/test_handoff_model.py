@@ -7,6 +7,7 @@ Jenkins' order agree; the seeded scenarios combine pipeline shapes with file, di
 changes."""
 
 import random
+import shlex
 import shutil
 
 import pytest
@@ -406,3 +407,67 @@ def test_seeded_skipped_stages_with_a_lost_fetch_fail_loudly_or_change_nothing(t
     expected = jenkins(scripts(stages, skipped_stages), init if checkout else build(tmp_path / "empty", {}))
     warned = any("::warning::" in line for lines in logs.values() for line in lines)
     assert starts["post"] == expected or warned, lost
+
+
+# ------------------------------------------------------------------------------------------------ matrix cells
+CELL = ('echo "$OS" > "out-$OS"; mkdir -p "dir-$OS/sub"; echo "$OS" > "dir-$OS/sub/f"; echo "$OS" > shared; '
+        'rm -f gone; chmod 600 "out-$OS"; ln -sf "out-$OS" "link-$OS"')
+
+
+def matrix(name="Cells", axes=("a", "b", "c"), script=CELL, exclude=()):
+    from j2gha.ir import Matrix
+    return Stage(name, matrix=Matrix(axes={"OS": list(axes)}, excludes=[{"OS": {"values": [e]}} for e in exclude],
+                                     stages=[Stage("Run", steps=[sh(script)])]))
+
+
+def cell_scripts(axes, script=CELL, exclude=()):
+    """Jenkins' cells run concurrently; the merge replays them in cell-name order, so the reference runs them so."""
+    return [f"OS={a}; {script}" for a in sorted(axes) if a not in exclude]
+
+
+@pytest.mark.parametrize("exclude", [(), ("b",)])
+def test_matrix_cells_changes_reach_the_jobs_after_the_matrix(tmp_path, exclude):
+    init = build(tmp_path / "initial", {"gone": "x", "shared": "0"})
+    stages = [Stage("Build", steps=[sh("echo built > out; mkdir -p dir-a; echo keep > dir-a/keep")]),
+              matrix(exclude=exclude), Stage("Cells X", steps=[sh("echo x > x")])]
+    jobs = jobs_of(stages)
+    starts = simulate(jobs, init)
+    expected = jenkins(["echo built > out; mkdir -p dir-a; echo keep > dir-a/keep",
+                        *cell_scripts("abc", exclude=exclude), "echo x > x", "true"], init)
+    assert starts["post"] == expected
+
+
+def test_matrix_cells_with_values_an_artifact_name_cannot_hold_are_handed_on(tmp_path):
+    # `/`, quotes and spaces are not allowed in artifact names; `ci/a`, `ci a` and `ci_a` also read the same once made
+    # safe, so the name carries a digest of the cell too (the simulator refuses an invalid or reused name)
+    axes = ("ci/a", "ci a", "ci_a", "'q\"x' -o K=0")
+    script = 'printf %s "$OS" > "cell-$(printf %s "$OS" | sha256sum | cut -c1-8)"'
+    init = build(tmp_path / "initial", {"gone": "x"})
+    stages = [Stage("Build", steps=[sh("echo built > out")]), matrix(axes=axes, script=script),
+              Stage("Cells X", steps=[sh("echo x > x")])]
+    starts = simulate(jobs_of(stages), init)
+    expected = jenkins(["echo built > out", *(f"OS={shlex.quote(a)}; {script}" for a in axes), "echo x > x", "true"],
+                       init)
+    assert starts["post"] == expected
+
+
+def test_a_skipped_matrix_falls_back_to_the_workspace_before_it(tmp_path):
+    init = build(tmp_path / "initial", {"gone": "x"})
+    stages = [Stage("Build", steps=[sh("echo built > out")]), matrix()]
+    starts = simulate(jobs_of(stages), init, {"cells"})
+    assert starts["post"] == jenkins(["echo built > out", "true"], init)
+
+
+def test_a_matrix_that_ran_but_whose_cells_did_not_arrive_fails_the_merge(tmp_path):
+    init = build(tmp_path / "initial", {"gone": "x"})
+    stages = [Stage("Build", steps=[sh("echo built > out")]), matrix()]
+    with pytest.raises(StepFailed, match="job 'cells' ran"):
+        simulate(jobs_of(stages), init, lost={"cells"})
+
+
+def test_a_matrix_with_nothing_before_it_is_not_handed_on(tmp_path):
+    init = build(tmp_path / "initial", {"gone": "x"})
+    jobs = jobs_of([matrix(), Stage("Build", steps=[sh("echo built > out")])])
+    assert not any("Hand on" in s["name"] for s in jobs["cells"]["steps"])
+    starts = simulate(jobs, init)  # the reported approximation: the cells' changes are missing afterwards
+    assert starts["post"] == jenkins(["echo built > out", "true"], init)

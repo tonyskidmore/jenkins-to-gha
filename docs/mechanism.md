@@ -148,7 +148,7 @@ holds at that point, provided concurrent branches change different paths. This i
 steps against a reference model of Jenkins' workspace (seeded pipeline shapes and file system changes, with lost
 and corrupt transfers) and end to end. **Approximated by design:** concurrent branches do not see each other's files
 while they run, and a path two of them change takes the later branch's version, where Jenkins' result depends on
-timing; timestamp-only changes and matrix cells' changes are not handed on. **Refused:** an unreadable entry, a
+timing (matrix cells: the later cell by name); timestamp-only changes are not handed on, nor are the cells' changes of a matrix that starts from the checkout (reported). **Refused:** an unreadable entry, a
 workspace that did not arrive from a job that ran (a nearest one, or one a skipped job's fallback chain relies on),
 and busybox/Alpine job containers (a manual item in the migration report) fail rather than pass. **Warned:** a missing
 workspace from a job whose result the restoring job cannot see (one it does not need directly) is taken as skipped. Each converted pipeline's migration report lists these under *Workspace hand-off*.

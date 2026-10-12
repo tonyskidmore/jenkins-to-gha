@@ -177,7 +177,7 @@ Structural checks (actionlint, j2gha policy) gate the result; zizmor security fi
 - L138: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:9: Double quote to prevent globbing and word splitting
 - L144: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:6: Double quote to prevent globbing and word splitting
 - L155: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:6: Double quote to prevent globbing and word splitting
-- L374: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:6: Double quote to prevent globbing and word splitting
+- L391: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:6: Double quote to prevent globbing and word splitting
 
 </details>
 
@@ -194,10 +194,10 @@ Trace mode compares the per-stage sequence of executed steps (`J2GHA-TRACE` mark
 |---|---|---|---:|---:|---|---|
 | jenkins | trace | SUCCESS | 22 | - | reference | 1 localisation changes, 79 stubs |
 | act | trace | success | 22 | 100.0% | ✅ equivalent |  |
-| hosted | trace | success | 22 | 100.0% | ✅ equivalent | billable ≈ 4 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38249706563) |
+| hosted | trace | success | 22 | 100.0% | ✅ equivalent | billable ≈ 4 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38261677638) |
 | jenkins | full | FAILURE | 1 | - | reference | 1 localisation changes, 39 stubs |
 | act | full | failure | 0 | - | ✅ same outcome |  |
-| selfhosted | full | failure | 0 | - | ✅ same outcome | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38253373143) |
+| selfhosted | full | failure | 0 | - | ✅ same outcome | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38277712672) |
 
 Estimated hosted cost of a trace run: ~4 billable minute(s) (worst case 20).
 
@@ -211,5 +211,5 @@ Estimated hosted cost of a trace run: ~4 billable minute(s) (worst case 20).
 </details>
 - full mode (act): Jenkins **FAILURE** (first failed stage: Publish); act **failure** (first failed step: `Publish: curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ${packname} ${pu`); no test results on either side; nothing archived on either side
 - full mode (selfhosted): Jenkins **FAILURE** (first failed stage: Publish); selfhosted **failure** (first failed step: `Publish: curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ${packname} ${pu`); no test results on either side; nothing archived on either side
-- workspace hand-off (selfhosted, full): 1 archives, 0.0 MB; 5 steps, 5 s summed over jobs (of 26 s job time); 5 s on the critical path of a 50 s run
+- workspace hand-off (selfhosted, full): 1 archives, 0.0 MB; 5 steps, 6 s summed over jobs (of 42 s job time); 6 s on the critical path of a 62 s run
 <!-- j2gha:execution:end -->

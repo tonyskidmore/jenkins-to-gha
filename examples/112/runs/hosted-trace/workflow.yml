@@ -3,7 +3,7 @@ name: j2gha harness run
 on:
   push:
     branches:
-    - j2gha/run/112-trace-hosted-20261012083146
+    - j2gha/run/112-trace-hosted-20261012143042
   workflow_dispatch:
 permissions:
   contents: read
@@ -23,18 +23,8 @@ jobs:
   init:
     name: Init
     runs-on: ubuntu-latest
-    environment: j2gha-Init
     timeout-minutes: 5
     steps:
-    - name: 'j2gha: environment secret check'
-      env:
-        J2GHA_ENV_CANARY: ${{ secrets.J2GHA_ENV_CANARY }}
-      run: |-
-        actual=$(printf %s "$J2GHA_ENV_CANARY" | sha256sum | cut -d" " -f1)
-        if [ "$actual" != "6b1b5f03beceb4174a076d7585c2049c0a7d739c566c64d92495847e29cb4e53" ]; then
-          echo "::error::secret J2GHA_ENV_CANARY of environment j2gha-Init is not visible to this job"
-          exit 1
-        fi
     - name: Checkout
       run: 'printf ''%s %s\n'' J2GHA-TRACE ''{"stage":"Declarative: Checkout SCM","step":"checkout"}'''
     - name: 'Init: input approval'

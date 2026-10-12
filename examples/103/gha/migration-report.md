@@ -2,7 +2,7 @@
 
 - **Classification:** significant-redesign (difficulty 55/100)
 - **Convertibility:** partial
-- **Automated mapping (effort estimate, not correctness):** 69.0% (41 mapped, 43 approximated, 13 manual, 1 dropped)
+- **Automated mapping (effort estimate, not correctness):** 68.9% (41 mapped, 44 approximated, 13 manual, 1 dropped)
 - **Weighted step coverage (analysis):** 72.8%
 
 ## Blocking items (hard gates)
@@ -54,6 +54,7 @@
 | ✅ mapped | `sh` | 311 | Declarative: Post Actions | run |  |
 | ✅ mapped | `cleanWs` | 312 | Declarative: Post Actions | run: workspace cleanup | runners are ephemeral; kept for parity |
 | ✅ mapped | `sh` | 313 | Declarative: Post Actions | run |  |
+| 🟡 approximated | `matrix workspace of 'build-end-effector-urdfs'` |  |  | cells' changes not handed on | no job hands a workspace on before the matrix (it starts from the checkout): later jobs do not see what its cells wrote |
 | 🟡 approximated | `options: timeout` |  |  | timeout-minutes: 120 (per job) | Jenkins timeout covers the whole pipeline |
 | ⚪ dropped | `options: buildDiscarder` |  |  | - | use artifact retention-days / repo settings |
 | 🟡 approximated | `agent label 'docker'` | 7 | Check Commit Message, Get Ready | runs-on: ubuntu-latest | use a self-hosted runner label if the agent provides special tooling/network |
@@ -117,10 +118,12 @@
 
 Jenkins runs every stage without an agent of its own in one workspace; the converted jobs hand it on as `j2gha-ws-<job>` artifacts (an archive per job, kept one day) and restore it instead of checking out (`J2GHA_WORKSPACE_HANDOFF=0` converts without).
 
-- **Handed on by:** `check-commit-message`, `run-urdf-tests`, `archive-urdfs-and-srdfs`, `trigger-upstream-franka_ros2_ws-builds-h`, `trigger-upstream-franka_ros2_ws-builds-j`. **Merged after running concurrently:** `trigger-upstream-franka_ros2_ws-builds-h`, `trigger-upstream-franka_ros2_ws-builds-j` (each later branch's own changes are replayed onto the first one's workspace).
+- **Handed on by:** `check-commit-message`, `run-urdf-tests`, `build-robot-urdfs-and-srdfs`, `archive-urdfs-and-srdfs`, `trigger-upstream-franka_ros2_ws-builds-h`, `trigger-upstream-franka_ros2_ws-builds-j`. **Merged after running concurrently:** `trigger-upstream-franka_ros2_ws-builds-h`, `trigger-upstream-franka_ros2_ws-builds-j` (each later branch's own changes are replayed onto the first one's workspace).
+- **Matrix jobs:** `build-robot-urdfs-and-srdfs` hand on each cell's own changes (`j2gha-ws-<job>.<cell>`), replayed in cell-name order onto the workspace the matrix started from.
+- **Not handed on:** the cells' changes of `build-end-effector-urdfs`: no job hands a workspace on before the matrix (it starts from the checkout), so later jobs do not see what its cells wrote.
 - **Runtime requirements:** bash, GNU tar, findutils, coreutils and sed on the runner and in job containers: GitHub's Linux runners and Debian/Ubuntu-based images. busybox/Alpine images fail at the hand-off steps.
 - **Same as Jenkins:** the files, directories, modes, symbolic and hard links every stage starts with, provided concurrent branches change different paths.
-- **Approximated:** concurrent branches do not see each other's files while they run; a path two of them change takes the later branch's version (in Jenkins: whichever wrote last); changes of timestamps alone and matrix cells' changes are not handed on.
+- **Approximated:** concurrent branches do not see each other's files while they run; a path two of them change takes the later branch's version (matrix cells: the later cell's, by name; in Jenkins: whichever wrote last); changes of timestamps alone are not handed on.
 - **Fails instead:** an entry the job's user cannot read, a workspace that did not arrive from a job that ran - a nearest one or one the restore falls back on because a nearer job was skipped. Where that job's result is not visible to the restoring job (it is not one it needs directly), a missing workspace is taken as skipped, with a warning.
 
 ## Stage graph
@@ -206,6 +209,9 @@ Where to read about each construct above, most work first: jenkins.io and docs.g
 - **`sh`** (🟡 17 approximated, ✅ 20 mapped): returnStdout -> write to $GITHUB_OUTPUT and read steps.<id>.outputs.
   - Jenkins: [step `sh`](https://www.jenkins.io/doc/pipeline/steps/)
   - GitHub Actions: [workflow-syntax #jobsjob_idstepsrun](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#jobsjob_idstepsrun) · [workflow-syntax #jobsjob_idstepsshell](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#jobsjob_idstepsshell)
+- **`matrix`** (🟡 1 approximated, ✅ 2 mapped): excludes with notValues must be expanded explicitly; matrix job limit per workflow run.
+  - Jenkins: [syntax #declarative-matrix](https://www.jenkins.io/doc/book/pipeline/syntax/#declarative-matrix)
+  - GitHub Actions: [run-job-variations](https://docs.github.com/en/actions/how-tos/write-workflows/choose-what-workflows-do/run-job-variations) · [workflow-syntax #jobsjob_idstrategymatrix](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#jobsjob_idstrategymatrix)
 - **`agent`** (🟡 2 approximated, ✅ 1 mapped): label expressions -> runs-on labels/groups; agent { docker } -> jobs.<id>.container (runs as root); a stage-level agent forces a separate job (workspace is not shared).
   - Jenkins: [syntax #agent](https://www.jenkins.io/doc/book/pipeline/syntax/#agent)
   - GitHub Actions: [workflow-syntax #jobsjob_idruns-on](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#jobsjob_idruns-on) · [choose-the-runner-for-a-job](https://docs.github.com/en/actions/how-tos/write-workflows/choose-where-workflows-run/choose-the-runner-for-a-job) · [run-jobs-in-a-container](https://docs.github.com/en/actions/how-tos/write-workflows/choose-where-workflows-run/run-jobs-in-a-container)
@@ -230,9 +236,6 @@ Where to read about each construct above, most work first: jenkins.io and docs.g
 - **`post`** (✅ 2 mapped): always/success/failure/aborted -> if always()/success()/failure()/cancelled(); unstable/changed/fixed/regression have no equivalent.
   - Jenkins: [syntax #post](https://www.jenkins.io/doc/book/pipeline/syntax/#post)
   - GitHub Actions: [expressions #status-check-functions](https://docs.github.com/en/actions/reference/workflows-and-actions/expressions#status-check-functions) · [workflow-syntax #jobsjob_idstepsif](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#jobsjob_idstepsif)
-- **`matrix`** (✅ 2 mapped): excludes with notValues must be expanded explicitly; matrix job limit per workflow run.
-  - Jenkins: [syntax #declarative-matrix](https://www.jenkins.io/doc/book/pipeline/syntax/#declarative-matrix)
-  - GitHub Actions: [run-job-variations](https://docs.github.com/en/actions/how-tos/write-workflows/choose-what-workflows-do/run-job-variations) · [workflow-syntax #jobsjob_idstrategymatrix](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#jobsjob_idstrategymatrix)
 - **`dir`** (✅ 10 mapped)
   - Jenkins: [step `dir`](https://www.jenkins.io/doc/pipeline/steps/)
   - GitHub Actions: [workflow-syntax #jobsjob_idstepsworking-directory](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#jobsjob_idstepsworking-directory)

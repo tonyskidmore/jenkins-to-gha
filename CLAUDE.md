@@ -77,7 +77,9 @@ its own.
    - Workspace hand-off: jobs on the pipeline agent pass the workspace on as `j2gha-ws-<job>` tar artifacts
      (`_workspace_handoff` picks the jobs, `convert/workspace.py` plans and generates; `J2GHA_WORKSPACE_HANDOFF=0`
      disables). Concurrent branches hand on their own change list too; a merge replays later branches' changes onto
-     the first branch's snapshot (a changed file takes its whole hard-link group along). The merge accounts for the
+     the first branch's snapshot (a changed file takes its whole hard-link group along). Matrix cells hand on only
+     their changes (`j2gha-ws-<job>.<cell>`, a *delta* producer), replayed in cell-name order onto the workspace
+     the matrix started from (a matrix starting from the checkout is not handed on: reported). The merge accounts for the
      fallback chain it uses: a job that ran but whose workspace did not arrive fails it; a job whose result is not
      visible (not a direct need) is taken as skipped, with a warning. The migration report's *Workspace hand-off* section states
      the runtime requirements. Conversion-only steps (`role: handoff`): no trace events. Tests that check job
@@ -109,10 +111,10 @@ its own.
    - Provenance (`provenance.py`): AST/analysis/conversion carry the Jenkinsfile sha256 (and model hash); run records
      carry them plus scenario, `LOCALIZER_VERSION` and images. Stale prerequisites are re-done (convert) or refused
      (localiser, GHA tiers); stale run records show ⏸️ and are not counted.
-   - Variants pin `JOB_NAME` to the Jenkins job (`jenkins.run.harness_job`) and give upper-case properties the
-     localiser stubbed its `j2gha-stub` value (`variants.stubbed_properties`); outputs compare `BUILD_TAG` path segments
-     as a placeholder. A reference that ran with `docker` stubbed makes full variants run the Docker steps on the
-     runner too (`variants.reference_had_docker`).
+   - Variants pin `JOB_NAME` to the Jenkins job (`jenkins.run.harness_job`) and `BUILD_NUMBER`/`BUILD_ID` to its build,
+     and give upper-case properties the localiser stubbed its `j2gha-stub` value (`variants.stubbed_properties`);
+     outputs compare `BUILD_TAG` path segments as a placeholder. A reference that ran with `docker` stubbed makes full
+     variants run the Docker steps on the runner too (`variants.reference_had_docker`).
    - Remote runs: orphan `j2gha/run/...` branches created through the Git Data API and deleted afterwards.
      `--environments` creates `j2gha-<name>` environments (no required reviewers) with a random canary secret
      via `gh secret set`, and compares deployments with the inputs Jenkins reached (`approved_inputs`).

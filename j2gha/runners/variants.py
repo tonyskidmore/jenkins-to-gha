@@ -83,12 +83,13 @@ def make_variant(model: dict[str, Any], mode: str, target: str, scenario: dict[s
                  environments: dict[str, str] | None = None,
                  stubbed: list[str] | None = None,
                  job_name: str | None = None,
-                 docker: bool = True) -> tuple[dict[str, Any], dict[str, Any]]:
+                 docker: bool = True, build: int | None = None) -> tuple[dict[str, Any], dict[str, Any]]:
     """``environments`` (remote tiers, `run --environments`): harness environment name -> sha256 of its canary
     secret; the variant then keeps every job's environment under that name (gha.environments). Otherwise every
     `environment` is removed. ``stubbed``: stubbed_properties() of the Jenkins reference; ``job_name``: the Jenkins
-    job the reference ran in (`jenkins.run.harness_job`); ``docker``: whether the reference ran with Docker
-    (reference_had_docker): without it, full mode runs the steps as the localised Jenkinsfile did, outside any container."""
+    job the reference ran in (`jenkins.run.harness_job`); ``build``: the reference's build number; ``docker``: whether
+    the reference ran with Docker (reference_had_docker): without it, full mode runs the steps as the localised
+    Jenkinsfile did, outside any container."""
     keep_env = bool(environments) and target != "act"
     wf = copy.deepcopy(model)
     # only declared parameters (the dispatch inputs) can be set by a scenario; pipeline and harness env cannot
@@ -116,6 +117,9 @@ def make_variant(model: dict[str, Any], mode: str, target: str, scenario: dict[s
     if job_name:  # github.workflow otherwise: the harness's "j2gha harness run", spaces and all
         pin("JOB_NAME", job_name)
         pin("JOB_BASE_NAME", job_name)
+    if build is not None:  # github.run_number/run_id otherwise: pipelines put it in paths (`dir("hpx_${BUILD_ID}")`)
+        pin("BUILD_NUMBER", str(build))
+        pin("BUILD_ID", str(build))
     for name in stubbed or []:
         if name not in env and name not in inputs:  # the pipeline's own value, or a parameter, is never replaced
             env[name] = STUB_VALUE

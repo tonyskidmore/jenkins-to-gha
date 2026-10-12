@@ -180,11 +180,11 @@ Generated [`gha/workflow.yml`](gha/workflow.yml) and [`gha/migration-report.md`]
 
 | Mapped | Approximated | Manual | Dropped | Automation |
 |---:|---:|---:|---:|---:|
-| 41 | 43 | 13 | 1 | 69.0% |
+| 41 | 44 | 13 | 1 | 68.9% |
 
 Automation is an effort estimate: report items weighted by status (mapped 1, dropped 0.8, approximated 0.6, manual 0; info items are not scored), not a measure of correctness.
 
-Jobs: `check-commit-message` (ubuntu-latest, 8 steps), `run-urdf-tests` (ubuntu-latest, 7 steps), `build-robot-urdfs-and-srdfs` (ubuntu-latest, matrix, 8 steps), `build-end-effector-urdfs` (ubuntu-latest, matrix, 7 steps), `archive-urdfs-and-srdfs` (ubuntu-latest, 60 steps), `trigger-upstream-franka_ros2_ws-builds-h` (ubuntu-latest, 9 steps), `trigger-upstream-franka_ros2_ws-builds-j` (ubuntu-latest, 9 steps), `post` (ubuntu-latest, 10 steps)
+Jobs: `check-commit-message` (ubuntu-latest, 8 steps), `run-urdf-tests` (ubuntu-latest, 7 steps), `build-robot-urdfs-and-srdfs` (ubuntu-latest, matrix, 11 steps), `build-end-effector-urdfs` (ubuntu-latest, matrix, 8 steps), `archive-urdfs-and-srdfs` (ubuntu-latest, 61 steps), `trigger-upstream-franka_ros2_ws-builds-h` (ubuntu-latest, 10 steps), `trigger-upstream-franka_ros2_ws-builds-j` (ubuntu-latest, 10 steps), `post` (ubuntu-latest, 11 steps)
 
 Manual items: options: gitLabConnection; environment VERSION = feDetermineVersionFromGit(...) (L15); decl skipKeywords = [wip, [skip ci], [skip-ci], [ci ski (L38); if (skipKeywords.any { commitMsg.toLowerCase().contain) (L39); notifyBitbucket (L50); decl robs = [fp3, fr3, fr3v2, fr3v2_1, tmrv0_2] (L196); decl copyCmd = robs.collect { "cp -r meshes/robots/${it (L197); collect (L197); fePublishOpkg (L276); fePublishBuildInfo (L277) …
 <!-- j2gha:conversion:end -->
@@ -203,22 +203,22 @@ Structural checks (actionlint, j2gha policy) gate the result; zizmor security fi
 
 <details><summary>actionlint findings</summary>
 
-- L423: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:116: Double quote to prevent globbing and word splitting
-- L423: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:59: Double quote to prevent globbing and word splitting
-- L675: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:56: Double quote to prevent globbing and word splitting
-- L886: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:10: Double quote to prevent globbing and word splitting
-- L889: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:10: Double quote to prevent globbing and word splitting
-- L892: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:10: Double quote to prevent globbing and word splitting
-- L895: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:10: Double quote to prevent globbing and word splitting
-- L923: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:10: Double quote to prevent globbing and word splitting
-- L951: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:10: Double quote to prevent globbing and word splitting
-- L979: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:10: Double quote to prevent globbing and word splitting
-- L1007: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:10: Double quote to prevent globbing and word splitting
-- L1035: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:10: Double quote to prevent globbing and word splitting
-- L1041: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:10: Double quote to prevent globbing and word splitting
-- L1044: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:10: Double quote to prevent globbing and word splitting
-- L1087: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:8: Double quote to prevent globbing and word splitting
-- L1090: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:8: Double quote to prevent globbing and word splitting
+- L484: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:116: Double quote to prevent globbing and word splitting
+- L484: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:59: Double quote to prevent globbing and word splitting
+- L861: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:56: Double quote to prevent globbing and word splitting
+- L1099: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:10: Double quote to prevent globbing and word splitting
+- L1102: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:10: Double quote to prevent globbing and word splitting
+- L1105: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:10: Double quote to prevent globbing and word splitting
+- L1108: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:10: Double quote to prevent globbing and word splitting
+- L1136: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:10: Double quote to prevent globbing and word splitting
+- L1164: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:10: Double quote to prevent globbing and word splitting
+- L1192: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:10: Double quote to prevent globbing and word splitting
+- L1220: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:10: Double quote to prevent globbing and word splitting
+- L1248: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:10: Double quote to prevent globbing and word splitting
+- L1254: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:10: Double quote to prevent globbing and word splitting
+- L1257: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:10: Double quote to prevent globbing and word splitting
+- L1300: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:8: Double quote to prevent globbing and word splitting
+- L1303: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:8: Double quote to prevent globbing and word splitting
 
 </details>
 
@@ -235,14 +235,14 @@ Trace mode compares the per-stage sequence of executed steps (`J2GHA-TRACE` mark
 |---|---|---|---:|---:|---|---|
 | jenkins | trace | SUCCESS | 78 | - | reference | 7 localisation changes, 81 stubs; auto-repair: ['feDetermineVersionFromGit'] |
 | act | trace | success | 78 | 100.0% | ✅ equivalent |  |
-| hosted | trace | success | 78 | 100.0% | ✅ equivalent | billable ≈ 13 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38269314633) |
+| hosted | trace | success | 78 | 100.0% | ✅ equivalent | billable ≈ 13 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38292989176) |
 | jenkins | full | SUCCESS | 7 | - | reference | 7 localisation changes, 41 stubs; auto-repair: ['feDetermineVersionFromGit'] |
 | act | full | failure | 0 | - | ❌ different outcome |  |
-| selfhosted | full | failure | 0 | - | ❌ different outcome | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38269860042) |
+| selfhosted | full | failure | 0 | - | ❌ different outcome | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38293508599) |
 
 Estimated hosted cost of a trace run: ~13 billable minute(s) (worst case 65).
 
 - full mode (act): Jenkins **SUCCESS** (first failed stage: -); act **failure** (first failed step: `Copy meshes to dist: copyCmd`); no test results on either side; archived files differs (1 Jenkins, 0 converted; missing robot-descriptions_j2gha-stub.tar.gz; content: 0 same, 0 differ)
 - full mode (selfhosted): Jenkins **SUCCESS** (first failed stage: -); selfhosted **failure** (first failed step: `Copy meshes to dist: copyCmd`); no test results on either side; archived files differs (1 Jenkins, 0 converted; missing robot-descriptions_j2gha-stub.tar.gz; content: 0 same, 0 differ)
-- workspace hand-off (selfhosted, full): 3 archives, 274.4 MB; 38 steps, 2753 s summed over jobs (of 2947 s job time); 1386 s on the critical path of a 1812 s run
+- workspace hand-off (selfhosted, full): 8 archives, 274.5 MB; 57 steps, 2167 s summed over jobs (of 2334 s job time); 1049 s on the critical path of a 1445 s run
 <!-- j2gha:execution:end -->

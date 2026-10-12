@@ -44,15 +44,14 @@ failures. Each original `0NN` has a *twin* `1NN`: a minimally edited copy whose 
 | 107 | SUCCESS | equivalent | equivalent | - | archive paths contain each run's `BUILD_TAG`: the outputs comparison now treats it as a placeholder (harness, fixed) |
 | 115 | SUCCESS | equivalent | equivalent | equivalent | a timing-sensitive unit test failed in every Jenkins reference: a twin edit widens its margin |
 | 108 | SUCCESS | equivalent | equivalent | - | its steps run in Docker (`agent { dockerfile }`), which the Jenkins reference ran with `docker` stubbed: since 2026-10-12 full variants run them the same way on runners without a Docker daemon (harness parity, fixed) |
+| 109 | SUCCESS | equivalent | equivalent | equivalent | before 2026-10-12: matrix cells did not hand their workspace on, so the post stage found nothing to archive (conversion gap, fixed: cells hand on their changes); the archive paths also hold `BUILD_ID`, now the Jenkins reference's build in the variant, as `JOB_NAME` is (harness parity, fixed) |
 | 101 | SUCCESS | differs | differs | - | the `Test and Package` stage is a dynamic `parallel` (the `DynamicParallel` hard gate, reported manual) |
 | 102, 118 | SUCCESS | differs | differs | - | values built by dynamic Groovy (tuple destructuring in closures, a `for` loop over repositories), reported manual |
 | 103 | SUCCESS | differs | differs | - | `Copy meshes to dist` runs a command built by `collect {}` and `join` (reported manual). It got that far once Docker steps ran as in the reference (as for 108) and a stash name holding a matrix value (`ROBOT_${ROBOT}_urdf`) was evaluated per cell instead of fixed into one literal artifact name (conversion gap, fixed 2026-10-12) |
-| 109 | SUCCESS | differs | differs | differs | matrix cells do not hand their workspace on, so the post stage finds nothing to archive (a documented limitation of the hand-off) |
 
-So the converted workflow showed no difference from the successful Jenkins run for **11 of the 16 twins** on real
+So the converted workflow showed no difference from the successful Jenkins run for **12 of the 16 twins** on real
 GitHub Actions (5 before the fixes of 2026-10-12). The rest are reported, not hidden: 101, 102, 103 and 118 by the
-converter's own manual items, 109 by the comparison. One follow-up is open: handing matrix cells' workspace changes
-on (109).
+converter's own manual items.
 
 As everywhere on this page, *equivalent* means no difference was found in the scenario that was run (the same
 outcome, failing stage, JUnit cases and archived files), not that the conversion is correct. Twins check what the
