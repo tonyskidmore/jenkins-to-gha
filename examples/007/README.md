@@ -210,10 +210,10 @@ Trace mode compares the per-stage sequence of executed steps (`J2GHA-TRACE` mark
 |---|---|---|---:|---:|---|---|
 | jenkins | trace | SUCCESS | 26 | - | reference | 2 localisation changes, 77 stubs |
 | act | trace | success | 26 | 100.0% | ✅ equivalent |  |
-| hosted | trace | success | 26 | 100.0% | ✅ equivalent | billable ≈ 1 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38249956353) |
+| hosted | trace | success | 26 | 100.0% | ✅ equivalent | billable ≈ 1 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38305945661) |
 | jenkins | full | FAILURE | 0 | - | reference | 1 localisation changes, 37 stubs |
 | act | full | failure | 0 | - | ✅ same outcome |  |
-| selfhosted | full | failure | 0 | - | ✅ same outcome | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38253545257) |
+| selfhosted | full | failure | 0 | - | ✅ same outcome | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38305983998) |
 
 Estimated hosted cost of a trace run: ~1 billable minute(s) (worst case 5).
 

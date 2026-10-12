@@ -3,7 +3,7 @@ name: j2gha harness run
 on:
   push:
     branches:
-    - j2gha/run/014-full-selfhosted-20261012170351
+    - j2gha/run/014-full-selfhosted-20261012212009
   workflow_dispatch:
 permissions:
   contents: read
@@ -23,7 +23,7 @@ jobs:
     name: Update OpenROAD to HEAD of master branch, Build Docker OpenLane image with openroad_app master
     runs-on:
     - self-hosted
-    - j2gha-aeb5cc22
+    - j2gha-4cc646d8
     timeout-minutes: 10
     steps:
     - name: Checkout
@@ -218,7 +218,7 @@ jobs:
     needs: update-openroad-to-head-of-master-branch
     runs-on:
     - self-hosted
-    - j2gha-aeb5cc22
+    - j2gha-4cc646d8
     timeout-minutes: 10
     strategy:
       fail-fast: false
@@ -630,7 +630,7 @@ jobs:
     if: always()
     runs-on:
     - self-hosted
-    - j2gha-aeb5cc22
+    - j2gha-4cc646d8
     steps:
     - name: Restore pipeline workspace (update-openroad-to-head-of-master-branch)
       id: j2gha-ws-update-openroad-to-head-of-master-branch

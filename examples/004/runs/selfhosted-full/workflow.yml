@@ -3,7 +3,7 @@ name: j2gha harness run
 on:
   push:
     branches:
-    - j2gha/run/004-full-selfhosted-20261012162646
+    - j2gha/run/004-full-selfhosted-20261012203855
   workflow_dispatch:
 permissions:
   contents: read
@@ -29,7 +29,7 @@ jobs:
     name: Build docker image
     runs-on:
     - self-hosted
-    - j2gha-5157e4ca
+    - j2gha-2104bdc9
     timeout-minutes: 10
     steps:
     - name: Checkout
@@ -53,7 +53,7 @@ jobs:
     needs: build-docker-image
     runs-on:
     - self-hosted
-    - j2gha-5157e4ca
+    - j2gha-2104bdc9
     timeout-minutes: 10
     steps:
     - name: Checkout
@@ -77,7 +77,7 @@ jobs:
     needs: push-docker-image
     runs-on:
     - self-hosted
-    - j2gha-5157e4ca
+    - j2gha-2104bdc9
     timeout-minutes: 10
     steps:
     - name: Checkout
@@ -174,7 +174,7 @@ jobs:
     if: always()
     runs-on:
     - self-hosted
-    - j2gha-5157e4ca
+    - j2gha-2104bdc9
     steps:
     - name: Restore pipeline workspace (deploy-test)
       id: j2gha-ws-deploy-test

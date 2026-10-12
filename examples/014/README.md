@@ -156,11 +156,11 @@ Trace mode compares the per-stage sequence of executed steps (`J2GHA-TRACE` mark
 |---|---|---|---:|---:|---|---|
 | jenkins | trace | SUCCESS | 206 | - | reference | 0 localisation changes, 76 stubs |
 | act | trace | success | 206 | 100.0% | ✅ equivalent |  |
-| selfhosted | trace | success | 206 | 100.0% | ✅ equivalent | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38281028711) |
-| hosted | trace | success | 206 | 100.0% | ✅ equivalent | billable ≈ 24 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38281466235) |
+| selfhosted | trace | success | 206 | 100.0% | ✅ equivalent | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38309553914) |
+| hosted | trace | success | 206 | 100.0% | ✅ equivalent | billable ≈ 24 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38309898268) |
 | jenkins | full | FAILURE | 1 | - | reference | 0 localisation changes, 36 stubs |
 | act | full | failure | 0 | - | ✅ same outcome |  |
-| selfhosted | full | failure | 0 | - | ✅ same outcome | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38281722704) |
+| selfhosted | full | failure | 0 | - | ✅ same outcome | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38309982790) |
 
 Estimated hosted cost of a trace run: ~24 billable minute(s) (worst case 120).
 
@@ -183,5 +183,5 @@ Estimated hosted cost of a trace run: ~24 billable minute(s) (worst case 120).
 </details>
 - full mode (act): Jenkins **FAILURE** (first failed stage: Build Docker OpenLane image with openroad_app master); act **failure** (first failed step: `Build Docker OpenLane image with openroad_app master: make -C docker build-openroad_app`); no test results on either side; nothing archived on either side
 - full mode (selfhosted): Jenkins **FAILURE** (first failed stage: Build Docker OpenLane image with openroad_app master); selfhosted **failure** (first failed step: `Build Docker OpenLane image with openroad_app master: make -C docker build-openroad_app`); no test results on either side; nothing archived on either side
-- workspace hand-off (selfhosted, full): 1 archives, 17.3 MB; 5 steps, 53 s summed over jobs (of 140 s job time); 53 s on the critical path of a 155 s run
+- workspace hand-off (selfhosted, full): 1 archives, 17.3 MB; 5 steps, 47 s summed over jobs (of 128 s job time); 47 s on the critical path of a 144 s run
 <!-- j2gha:execution:end -->

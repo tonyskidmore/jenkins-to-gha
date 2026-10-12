@@ -3,7 +3,7 @@ name: j2gha harness run
 on:
   push:
     branches:
-    - j2gha/run/013-trace-selfhosted-20261012083344
+    - j2gha/run/013-trace-selfhosted-20261012210955
   workflow_dispatch:
 permissions:
   contents: read
@@ -11,8 +11,8 @@ env:
   BRANCH_NAME: master
   TAG_NAME: ''
   CHANGE_ID: ''
-  BUILD_NUMBER: ${{ github.run_number }}
-  JOB_NAME: ${{ github.workflow }}
+  BUILD_NUMBER: '3'
+  JOB_NAME: ex-013-trace
   BUILD_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
   GIT_COMMIT: ${{ github.sha }}
   BUILD_TYPE: ${{ github.event_name != 'workflow_dispatch' && 'nightly' || format('{0}', inputs.BUILD_TYPE) }}
@@ -29,7 +29,7 @@ jobs:
     name: Display Parameters, Build Nebula
     runs-on:
     - self-hosted
-    - j2gha-d4b4180a
+    - j2gha-78ecd65c
     timeout-minutes: 5
     steps:
     - name: Checkout

@@ -218,10 +218,10 @@ Trace mode compares the per-stage sequence of executed steps (`J2GHA-TRACE` mark
 |---|---|---|---:|---:|---|---|
 | jenkins | trace | SUCCESS | 14 | - | reference | 6 localisation changes, 92 stubs; auto-repair: [['stub-property', 'globals'], ['env-globals', 'ARTIFACTORY_URL_UP'], ['stub-property', 'buildType'], ['stub-property', 'artifactUrl'], ['stub-property', 'moduleId']] |
 | act | trace | success | 14 | 100.0% | ✅ equivalent |  |
-| hosted | trace | success | 14 | 100.0% | ✅ equivalent | billable ≈ 1 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38251794201) |
+| hosted | trace | success | 14 | 100.0% | ✅ equivalent | billable ≈ 1 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38310266401) |
 | jenkins | full | FAILURE | 1 | - | reference | 3 localisation changes, 52 stubs; auto-repair: [['stub-property', 'globals'], ['env-globals', 'ARTIFACTORY_URL_UP']] |
 | act | full | failure | 0 | - | ✅ same outcome |  |
-| selfhosted | full | failure | 0 | - | ✅ same outcome | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38279614972) |
+| selfhosted | full | failure | 0 | - | ✅ same outcome | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38310303303) |
 
 Estimated hosted cost of a trace run: ~1 billable minute(s) (worst case 5).
 
