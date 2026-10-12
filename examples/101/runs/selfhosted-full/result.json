@@ -2,7 +2,7 @@
   "tier": "selfhosted",
   "mode": "full",
   "repo": "tonyskidmore/jenkins-to-gha",
-  "branch": "j2gha/run/101-full-selfhosted-20261012121648",
+  "branch": "j2gha/run/101-full-selfhosted-20261012141529",
   "estimate": {
     "typical": 0,
     "worst_case": 0,
@@ -11,145 +11,354 @@
   "variant_notes": {
     "dropped_jobs": [],
     "matrix_jobs": 4,
-    "dropped_container_options": {
-      "setup-env": "-v=/etc/passwd:/etc/passwd -v /etc/group:/etc/group -v /home/jenkins/.gradle:/home/jenkins/.gradle:rw,z -v /home/jenkins/.hex:/home/jenkins/.hex:rw,z -v /home/jenkins/.npm:/home/jenkins/.npm:rw,z -v /home/jenkins/.cache/pip:/home/jenkins/.cache/pip:rw,z -v /home/jenkins/.mix:/home/jenkins/.mix:rw,z",
-      "build-docs": "-v=/etc/passwd:/etc/passwd -v /etc/group:/etc/group -v /home/jenkins/.gradle:/home/jenkins/.gradle:rw,z -v /home/jenkins/.hex:/home/jenkins/.hex:rw,z -v /home/jenkins/.npm:/home/jenkins/.npm:rw,z -v /home/jenkins/.cache/pip:/home/jenkins/.cache/pip:rw,z -v /home/jenkins/.mix:/home/jenkins/.mix:rw,z",
-      "build-release-tarball": "-v=/etc/passwd:/etc/passwd -v /etc/group:/etc/group -v /home/jenkins/.gradle:/home/jenkins/.gradle:rw,z -v /home/jenkins/.hex:/home/jenkins/.hex:rw,z -v /home/jenkins/.npm:/home/jenkins/.npm:rw,z -v /home/jenkins/.cache/pip:/home/jenkins/.cache/pip:rw,z -v /home/jenkins/.mix:/home/jenkins/.mix:rw,z"
+    "without_docker": {
+      "setup-env": [
+        "job container"
+      ],
+      "build-docs": [
+        "job container"
+      ],
+      "build-release-tarball": [
+        "job container"
+      ]
     },
     "jobs": 4
   },
-  "run_url": "https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38248043902",
-  "result": "failure",
-  "run_id": 38248043902,
+  "run_url": "https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38261597398",
+  "result": "success",
+  "run_id": 38261597398,
   "traces": [],
   "jobs": [
     {
       "name": "Setup Env",
       "status": "completed",
-      "conclusion": "failure",
+      "conclusion": "success",
       "labels": [
         "self-hosted",
-        "j2gha-370b5d68"
+        "j2gha-ae0a1e40"
       ],
-      "started_at": "2026-10-12T12:17:06Z",
-      "completed_at": "2026-10-12T12:17:17Z",
+      "started_at": "2026-10-12T14:15:43Z",
+      "completed_at": "2026-10-12T14:16:01Z",
       "steps": [
         {
           "name": "Set up job",
           "number": 1,
           "conclusion": "success",
-          "started_at": "2026-10-12T12:17:09Z",
-          "completed_at": "2026-10-12T12:17:12Z"
-        },
-        {
-          "name": "Initialize containers",
-          "number": 2,
-          "conclusion": "failure",
-          "started_at": "2026-10-12T12:17:12Z",
-          "completed_at": "2026-10-12T12:17:12Z"
+          "started_at": "2026-10-12T14:15:46Z",
+          "completed_at": "2026-10-12T14:15:48Z"
         },
         {
           "name": "Checkout",
-          "number": 3,
-          "conclusion": "skipped",
-          "started_at": "2026-10-12T12:17:12Z",
-          "completed_at": "2026-10-12T12:17:12Z"
+          "number": 2,
+          "conclusion": "success",
+          "started_at": "2026-10-12T14:15:48Z",
+          "completed_at": "2026-10-12T14:15:55Z"
         },
         {
           "name": "Setup Env: enter stage",
+          "number": 3,
+          "conclusion": "success",
+          "started_at": "2026-10-12T14:15:55Z",
+          "completed_at": "2026-10-12T14:15:55Z"
+        },
+        {
+          "name": "Setup Env: Groovy if (manual)",
           "number": 4,
-          "conclusion": "skipped",
-          "started_at": "2026-10-12T12:17:12Z",
-          "completed_at": "2026-10-12T12:17:12Z"
+          "conclusion": "success",
+          "started_at": "2026-10-12T14:15:55Z",
+          "completed_at": "2026-10-12T14:15:55Z"
         },
         {
           "name": "Setup Env: Groovy if (manual)",
           "number": 5,
-          "conclusion": "skipped",
-          "started_at": "2026-10-12T12:17:12Z",
-          "completed_at": "2026-10-12T12:17:12Z"
-        },
-        {
-          "name": "Setup Env: Groovy if (manual)",
-          "number": 6,
-          "conclusion": "skipped",
-          "started_at": "2026-10-12T12:17:12Z",
-          "completed_at": "2026-10-12T12:17:12Z"
+          "conclusion": "success",
+          "started_at": "2026-10-12T14:15:55Z",
+          "completed_at": "2026-10-12T14:15:55Z"
         },
         {
           "name": "Setup Env: ${J2GHA_TODO_wscleanup__}",
-          "number": 7,
-          "conclusion": "skipped",
-          "started_at": "2026-10-12T12:17:12Z",
-          "completed_at": "2026-10-12T12:17:12Z"
+          "number": 6,
+          "conclusion": "success",
+          "started_at": "2026-10-12T14:15:55Z",
+          "completed_at": "2026-10-12T14:15:56Z"
         },
         {
-          "name": "Stop containers",
-          "number": 14,
-          "conclusion": "failure",
-          "started_at": "2026-10-12T12:17:12Z",
-          "completed_at": "2026-10-12T12:17:12Z"
+          "name": "Post Checkout",
+          "number": 12,
+          "conclusion": "success",
+          "started_at": "2026-10-12T14:15:56Z",
+          "completed_at": "2026-10-12T14:15:56Z"
         },
         {
           "name": "Complete job",
-          "number": 15,
+          "number": 13,
           "conclusion": "success",
-          "started_at": "2026-10-12T12:17:13Z",
-          "completed_at": "2026-10-12T12:17:13Z"
+          "started_at": "2026-10-12T14:15:56Z",
+          "completed_at": "2026-10-12T14:15:56Z"
         }
       ]
     },
     {
       "name": "Build Docs",
       "status": "completed",
-      "conclusion": "skipped",
+      "conclusion": "success",
       "labels": [
         "self-hosted",
-        "j2gha-370b5d68"
+        "j2gha-ae0a1e40"
       ],
-      "started_at": "2026-10-12T12:17:17Z",
-      "completed_at": "2026-10-12T12:17:17Z",
-      "steps": []
+      "started_at": "2026-10-12T14:16:03Z",
+      "completed_at": "2026-10-12T14:16:14Z",
+      "steps": [
+        {
+          "name": "Set up job",
+          "number": 1,
+          "conclusion": "success",
+          "started_at": "2026-10-12T14:16:06Z",
+          "completed_at": "2026-10-12T14:16:07Z"
+        },
+        {
+          "name": "Checkout",
+          "number": 2,
+          "conclusion": "success",
+          "started_at": "2026-10-12T14:16:07Z",
+          "completed_at": "2026-10-12T14:16:11Z"
+        },
+        {
+          "name": "Build Docs: enter stage",
+          "number": 3,
+          "conclusion": "skipped",
+          "started_at": "2026-10-12T14:16:11Z",
+          "completed_at": "2026-10-12T14:16:11Z"
+        },
+        {
+          "name": "Build Docs: make python-black",
+          "number": 4,
+          "conclusion": "skipped",
+          "started_at": "2026-10-12T14:16:11Z",
+          "completed_at": "2026-10-12T14:16:11Z"
+        },
+        {
+          "name": "Build Docs: (cd src/docs && ./setup.sh ; make check)",
+          "number": 5,
+          "conclusion": "skipped",
+          "started_at": "2026-10-12T14:16:11Z",
+          "completed_at": "2026-10-12T14:16:11Z"
+        },
+        {
+          "name": "Build Docs: (cd src/docs && make html)",
+          "number": 6,
+          "conclusion": "skipped",
+          "started_at": "2026-10-12T14:16:11Z",
+          "completed_at": "2026-10-12T14:16:11Z"
+        },
+        {
+          "name": "Build Docs: ${J2GHA_TODO_wscleanup__}",
+          "number": 7,
+          "conclusion": "skipped",
+          "started_at": "2026-10-12T14:16:11Z",
+          "completed_at": "2026-10-12T14:16:11Z"
+        },
+        {
+          "name": "Post Checkout",
+          "number": 14,
+          "conclusion": "success",
+          "started_at": "2026-10-12T14:16:11Z",
+          "completed_at": "2026-10-12T14:16:12Z"
+        },
+        {
+          "name": "Complete job",
+          "number": 15,
+          "conclusion": "success",
+          "started_at": "2026-10-12T14:16:12Z",
+          "completed_at": "2026-10-12T14:16:12Z"
+        }
+      ]
     },
     {
       "name": "Build Release Tarball",
       "status": "completed",
-      "conclusion": "skipped",
+      "conclusion": "success",
       "labels": [
         "self-hosted",
-        "j2gha-370b5d68"
+        "j2gha-ae0a1e40"
       ],
-      "started_at": "2026-10-12T12:17:18Z",
-      "completed_at": "2026-10-12T12:17:17Z",
-      "steps": []
+      "started_at": "2026-10-12T14:16:17Z",
+      "completed_at": "2026-10-12T14:16:33Z",
+      "steps": [
+        {
+          "name": "Set up job",
+          "number": 1,
+          "conclusion": "success",
+          "started_at": "2026-10-12T14:16:19Z",
+          "completed_at": "2026-10-12T14:16:21Z"
+        },
+        {
+          "name": "Checkout",
+          "number": 2,
+          "conclusion": "success",
+          "started_at": "2026-10-12T14:16:21Z",
+          "completed_at": "2026-10-12T14:16:24Z"
+        },
+        {
+          "name": "Build Release Tarball: enter stage",
+          "number": 3,
+          "conclusion": "success",
+          "started_at": "2026-10-12T14:16:24Z",
+          "completed_at": "2026-10-12T14:16:24Z"
+        },
+        {
+          "name": "Build Release Tarball: Clean workspace of any previous release artifacts",
+          "number": 4,
+          "conclusion": "success",
+          "started_at": "2026-10-12T14:16:24Z",
+          "completed_at": "2026-10-12T14:16:24Z"
+        },
+        {
+          "name": "Build Release Tarball: echo \"skipped: ./configure --spidermonkey-version 128 --with-nouveau\"",
+          "number": 5,
+          "conclusion": "success",
+          "started_at": "2026-10-12T14:16:24Z",
+          "completed_at": "2026-10-12T14:16:24Z"
+        },
+        {
+          "name": "Build Release Tarball: echo \"skipped: make erlfmt-check\"",
+          "number": 6,
+          "conclusion": "success",
+          "started_at": "2026-10-12T14:16:24Z",
+          "completed_at": "2026-10-12T14:16:24Z"
+        },
+        {
+          "name": "Build Release Tarball: echo \"skipped: make elixir-source-checks\"",
+          "number": 7,
+          "conclusion": "success",
+          "started_at": "2026-10-12T14:16:24Z",
+          "completed_at": "2026-10-12T14:16:24Z"
+        },
+        {
+          "name": "Build Release Tarball: echo \"skipped: make python-black\"",
+          "number": 8,
+          "conclusion": "success",
+          "started_at": "2026-10-12T14:16:24Z",
+          "completed_at": "2026-10-12T14:16:24Z"
+        },
+        {
+          "name": "Build Release Tarball: # j2gha-local: was `make -j4 --output-sync=target dist` (needs Erlang,",
+          "number": 9,
+          "conclusion": "success",
+          "started_at": "2026-10-12T14:16:24Z",
+          "completed_at": "2026-10-12T14:16:24Z"
+        },
+        {
+          "name": "Build Release Tarball: ls -l ${WORKSPACE}",
+          "number": 10,
+          "conclusion": "skipped",
+          "started_at": "2026-10-12T14:16:24Z",
+          "completed_at": "2026-10-12T14:16:24Z"
+        },
+        {
+          "name": "Build Release Tarball: stash tarball",
+          "number": 11,
+          "conclusion": "success",
+          "started_at": "2026-10-12T14:16:24Z",
+          "completed_at": "2026-10-12T14:16:26Z"
+        },
+        {
+          "name": "Build Release Tarball: archive artifacts",
+          "number": 12,
+          "conclusion": "success",
+          "started_at": "2026-10-12T14:16:26Z",
+          "completed_at": "2026-10-12T14:16:28Z"
+        },
+        {
+          "name": "Build Release Tarball: ${J2GHA_TODO_wscleanup__}",
+          "number": 13,
+          "conclusion": "success",
+          "started_at": "2026-10-12T14:16:28Z",
+          "completed_at": "2026-10-12T14:16:28Z"
+        },
+        {
+          "name": "Post Checkout",
+          "number": 26,
+          "conclusion": "success",
+          "started_at": "2026-10-12T14:16:28Z",
+          "completed_at": "2026-10-12T14:16:29Z"
+        },
+        {
+          "name": "Complete job",
+          "number": 27,
+          "conclusion": "success",
+          "started_at": "2026-10-12T14:16:29Z",
+          "completed_at": "2026-10-12T14:16:29Z"
+        }
+      ]
     },
     {
       "name": "Test and Package",
       "status": "completed",
-      "conclusion": "skipped",
+      "conclusion": "success",
       "labels": [
         "self-hosted",
-        "j2gha-370b5d68"
+        "j2gha-ae0a1e40"
       ],
-      "started_at": "2026-10-12T12:17:18Z",
-      "completed_at": "2026-10-12T12:17:17Z",
-      "steps": []
+      "started_at": "2026-10-12T14:16:44Z",
+      "completed_at": "2026-10-12T14:16:53Z",
+      "steps": [
+        {
+          "name": "Set up job",
+          "number": 1,
+          "conclusion": "success",
+          "started_at": "2026-10-12T14:16:45Z",
+          "completed_at": "2026-10-12T14:16:47Z"
+        },
+        {
+          "name": "Checkout",
+          "number": 2,
+          "conclusion": "success",
+          "started_at": "2026-10-12T14:16:47Z",
+          "completed_at": "2026-10-12T14:16:49Z"
+        },
+        {
+          "name": "Test and Package: enter stage",
+          "number": 3,
+          "conclusion": "success",
+          "started_at": "2026-10-12T14:16:49Z",
+          "completed_at": "2026-10-12T14:16:49Z"
+        },
+        {
+          "name": "Post Checkout",
+          "number": 6,
+          "conclusion": "success",
+          "started_at": "2026-10-12T14:16:49Z",
+          "completed_at": "2026-10-12T14:16:50Z"
+        },
+        {
+          "name": "Complete job",
+          "number": 7,
+          "conclusion": "success",
+          "started_at": "2026-10-12T14:16:50Z",
+          "completed_at": "2026-10-12T14:16:50Z"
+        }
+      ]
     }
   ],
-  "failed_steps": [
-    "Initialize containers",
-    "Stop containers"
-  ],
+  "failed_steps": [],
   "billable_minutes": 0,
-  "seconds": 35.3,
+  "seconds": 91.9,
   "outputs": {
-    "archived": [],
+    "archived": [
+      {
+        "path": "apache-couchdb-3.5.2.tar.gz",
+        "size": 18231,
+        "sha256": "5bb6c7c566d2065eaf059ba6df409d8fa78731addce26f155bc7eac446dcdea7",
+        "artifact": "artifacts-19"
+      }
+    ],
     "tests": null,
     "injected": [
       {
         "path": ".github/workflows/j2gha-run.yml",
-        "size": 10879,
-        "sha256": "7dfdba0eeb1e51bc1bbf305f0d9bf17304c1f5b7302a5c87874eefa3eb7e9786"
+        "size": 10123,
+        "sha256": "33f8aeca448d9543b0ac30f3623c05b70a5539dc55844fe14a17e6cf0fb245db"
       }
     ]
   },
@@ -212,17 +421,17 @@
       }
     }
   },
-  "finished_at": "2026-10-12T12:17:28+00:00",
+  "finished_at": "2026-10-12T14:17:07+00:00",
   "comparison": {
     "mode": "full",
     "verdict": "differs",
     "equivalent": false,
     "similarity_pct": 0.0,
     "jenkins_result": "SUCCESS",
-    "gha_result": "failure",
+    "gha_result": "success",
     "jenkins_failed_stage": null,
     "gha_failed_stage": null,
-    "gha_failed_step": "Initialize containers",
+    "gha_failed_step": null,
     "stages": [],
     "outputs": {
       "tests": {
@@ -240,15 +449,16 @@
       "archived": {
         "status": "differs",
         "jenkins": 2,
-        "gha": 0,
+        "gha": 1,
         "missing": [
-          "apache-couchdb-3.5.2.tar.gz",
           "pkgs/base/couchdb_3.5.2_amd64.deb"
         ],
         "extra": [],
         "copies": 0,
         "content_same": 0,
-        "content_differs": [],
+        "content_differs": [
+          "apache-couchdb-3.5.2.tar.gz"
+        ],
         "content_unknown": 0,
         "proven": true
       },

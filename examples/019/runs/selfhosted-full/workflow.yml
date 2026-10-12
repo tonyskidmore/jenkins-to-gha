@@ -3,7 +3,7 @@ name: j2gha harness run
 on:
   push:
     branches:
-    - j2gha/run/019-full-selfhosted-20261012130331
+    - j2gha/run/019-full-selfhosted-20261012151638
   workflow_dispatch:
 permissions:
   contents: read
@@ -29,8 +29,8 @@ jobs:
     name: main, Git Checkout
     runs-on:
     - self-hosted
-    - j2gha-d2f7119b
-    timeout-minutes: 10
+    - j2gha-7e9c8435
+    timeout-minutes: 20
     steps:
     - name: Checkout
       uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
@@ -139,7 +139,7 @@ jobs:
       id: s23
       uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       with:
-        name: stash-target_location
+        name: stash-${{ env.target_location }}
         path: ${{ env.WORKSPACE }}/${{ env.target_location }}/**
         retention-days: 1
         include-hidden-files: true
@@ -155,8 +155,8 @@ jobs:
     needs: main
     runs-on:
     - self-hosted
-    - j2gha-d2f7119b
-    timeout-minutes: 10
+    - j2gha-7e9c8435
+    timeout-minutes: 20
     steps:
     - name: Checkout
       uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
@@ -181,7 +181,7 @@ jobs:
       id: s28
       uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
       with:
-        pattern: stash-target_location
+        pattern: stash-${{ env.target_location }}
         merge-multiple: true
         path: ${{ env.target_location }}
     - name: log (manual migration)
@@ -375,8 +375,8 @@ jobs:
     needs: main-2
     runs-on:
     - self-hosted
-    - j2gha-d2f7119b
-    timeout-minutes: 10
+    - j2gha-7e9c8435
+    timeout-minutes: 20
     steps:
     - name: Checkout
       uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262

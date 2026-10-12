@@ -27,10 +27,6 @@ jobs:
   setup-env:
     name: Setup Env
     runs-on: ubuntu-latest
-    container:
-      image: apache/couchdbci-debian:trixie-erlang-27.3.4.18
-      options: -e npm_config_cache=/home/jenkins/.npm -e HOME=. -e MIX_HOME=/home/jenkins/.mix -e HEX_HOME=/home/jenkins/.hex
-        -e PIP_CACHE_DIR=/home/jenkins/.cache/pip
     timeout-minutes: 10
     steps:
     - name: Checkout
@@ -58,10 +54,6 @@ jobs:
     name: Build Docs
     needs: setup-env
     runs-on: ubuntu-latest
-    container:
-      image: apache/couchdbci-debian:trixie-erlang-27.3.4.18
-      options: -e npm_config_cache=/home/jenkins/.npm -e HOME=. -e MIX_HOME=/home/jenkins/.mix -e HEX_HOME=/home/jenkins/.hex
-        -e PIP_CACHE_DIR=/home/jenkins/.cache/pip
     timeout-minutes: 10
     steps:
     - name: Checkout
@@ -92,10 +84,6 @@ jobs:
     name: Build Release Tarball
     needs: build-docs
     runs-on: ubuntu-latest
-    container:
-      image: apache/couchdbci-debian:trixie-erlang-27.3.4.18
-      options: -e npm_config_cache=/home/jenkins/.npm -e HOME=. -e MIX_HOME=/home/jenkins/.mix -e HEX_HOME=/home/jenkins/.hex
-        -e PIP_CACHE_DIR=/home/jenkins/.cache/pip
     timeout-minutes: 10
     steps:
     - name: Checkout

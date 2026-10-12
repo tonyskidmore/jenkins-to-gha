@@ -1,37 +1,44 @@
 {
   "tier": "act",
   "mode": "full",
-  "result": "failure",
-  "exit_code": 1,
-  "seconds": 105.3,
+  "result": "success",
+  "exit_code": 0,
+  "seconds": 96.3,
   "jobs": {
     "main": {
-      "result": "failure"
+      "result": "success"
     }
   },
   "traces": [],
-  "failed_steps": [
-    "Checkout and Init: echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-8/x64-linux/j"
-  ],
-  "error_tail": [
-    "{\"level\":\"info\",\"msg\":\"Using docker host 'unix:///var/run/docker.sock', and daemon socket '-'\",\"time\":\"2026-10-12T12:41:20Z\"}",
-    "{\"level\":\"info\",\"msg\":\"Start server on http://172.17.0.3:34567\",\"time\":\"2026-10-12T12:41:20Z\"}",
-    "Error: Job 'main, Checkout and Init' failed"
-  ],
+  "failed_steps": [],
+  "error_tail": null,
   "outputs": {
     "archived": [],
     "tests": null,
     "injected": [
       {
         "path": ".github/workflows/j2gha.yml",
-        "size": 9427,
-        "sha256": "a8cb185d7bf9cbfe47d16dee5f03ea82f3486bf371c06920b19267a93efed158"
+        "size": 8464,
+        "sha256": "b9abb6e99b535865c8846f3c4aaa3c1683217dfa97ce3c769e9fd517c4470310"
       }
     ]
   },
   "variant_notes": {
     "dropped_jobs": [],
     "matrix_jobs": 1,
+    "without_docker": {
+      "main": [
+        "docker run wrapper (Checkout and Init: echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-8/x64-linux/j)",
+        "docker run wrapper (Checkout and Init: echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-10/x64-linux/)",
+        "docker run wrapper (Checkout and Init: echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-11/x64-linux/)",
+        "docker run wrapper (Checkout and Init: echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-12/x64-linux/)",
+        "docker run wrapper (Checkout and Init: echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-13/x64-linux/)",
+        "docker run wrapper (Checkout and Init: echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-14/x64-linux/)",
+        "docker run wrapper (Checkout and Init: echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-15/x64-linux/)",
+        "docker run wrapper (Checkout and Init: echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-16/x64-linux/)",
+        "docker run wrapper (Checkout and Init: echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-17/x64-linux/)"
+      ]
+    },
     "jobs": 1
   },
   "provenance": {
@@ -41,7 +48,7 @@
       "git_branch": "origin/master"
     },
     "mode": "full",
-    "model_sha256": "be1802a0d18548f680e80b91a5bcb755e610c4f6bf8d2619349b645a8e57038e",
+    "model_sha256": "baa676a07c1025881ffe7cfb27b6f48a294263b0509347392b978e1c5de457f8",
     "images": {
       "jenkins": {
         "ref": "j2gha/jenkins:local",
@@ -93,17 +100,17 @@
       }
     }
   },
-  "finished_at": "2026-10-12T12:43:05+00:00",
+  "finished_at": "2026-10-12T14:52:56+00:00",
   "comparison": {
     "mode": "full",
-    "verdict": "differs",
-    "equivalent": false,
-    "similarity_pct": 0.0,
+    "verdict": "equivalent",
+    "equivalent": true,
+    "similarity_pct": 100.0,
     "jenkins_result": "SUCCESS",
-    "gha_result": "failure",
+    "gha_result": "success",
     "jenkins_failed_stage": null,
-    "gha_failed_stage": "Checkout and Init",
-    "gha_failed_step": "Checkout and Init: echo s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-8/x64-linux/j",
+    "gha_failed_stage": null,
+    "gha_failed_step": null,
     "stages": [],
     "outputs": {
       "tests": {

@@ -3,7 +3,7 @@ name: j2gha harness run
 on:
   push:
     branches:
-    - j2gha/run/003-full-selfhosted-20261012122323
+    - j2gha/run/003-full-selfhosted-20261012150426
   workflow_dispatch:
 permissions:
   contents: read
@@ -26,8 +26,8 @@ jobs:
     name: Check Commit Message, Get Ready
     runs-on:
     - self-hosted
-    - j2gha-7ab7532d
-    timeout-minutes: 10
+    - j2gha-aa7de922
+    timeout-minutes: 20
     steps:
     - name: Checkout
       uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
@@ -79,8 +79,8 @@ jobs:
     needs: check-commit-message
     runs-on:
     - self-hosted
-    - j2gha-7ab7532d
-    timeout-minutes: 10
+    - j2gha-aa7de922
+    timeout-minutes: 20
     steps:
     - name: Restore pipeline workspace (check-commit-message)
       id: j2gha-ws-check-commit-message
@@ -227,11 +227,9 @@ jobs:
         persist-credentials: false
         repository: frankarobotics/franka_description
         ref: 37c4be2ce36ae6d354339509a3d324063fc99968
-    - name: Build agent image (agent dockerfile)
-      run: docker build -t j2gha-agent:local -f .docker/Dockerfile .docker
     - name: 'Run URDF tests: .ci/run_urdf_tests.sh'
       id: s5
-      run: docker run --rm -v "$PWD":"$PWD" -w "$PWD" --env-file <(env | grep -v '^PATH=') j2gha-agent:local sh -c .ci/run_urdf_tests.sh
+      run: .ci/run_urdf_tests.sh
     - name: Hand on the pipeline workspace (archive)
       if: always()
       shell: bash
@@ -254,8 +252,8 @@ jobs:
     needs: run-urdf-tests
     runs-on:
     - self-hosted
-    - j2gha-7ab7532d
-    timeout-minutes: 10
+    - j2gha-aa7de922
+    timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
@@ -438,7 +436,7 @@ jobs:
       id: s8
       uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       with:
-        name: stash-ROBOT_-ROBOT-_urdf
+        name: stash-ROBOT_${{ env.ROBOT }}_urdf
         path: |-
           urdfs/${{ env.ROBOT }}.urdf
           !urdfs/**/.git
@@ -475,7 +473,7 @@ jobs:
       id: s9
       uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       with:
-        name: stash-ROBOT_-ROBOT-_srdf
+        name: stash-ROBOT_${{ env.ROBOT }}_srdf
         path: |-
           urdfs/${{ env.ROBOT }}.srdf
           !urdfs/**/.git
@@ -513,8 +511,8 @@ jobs:
     needs: build-robot-urdfs-and-srdfs
     runs-on:
     - self-hosted
-    - j2gha-7ab7532d
-    timeout-minutes: 10
+    - j2gha-aa7de922
+    timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
@@ -694,7 +692,7 @@ jobs:
       id: s12
       uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       with:
-        name: stash-EE_-EE-_urdf
+        name: stash-EE_${{ env.EE }}_urdf
         path: |-
           urdfs/${{ env.EE }}.urdf
           !urdfs/**/.git
@@ -732,10 +730,8 @@ jobs:
     needs: build-end-effector-urdfs
     runs-on:
     - self-hosted
-    - j2gha-7ab7532d
-    container:
-      image: franka/build/ubuntu-24.04:0.27.0
-    timeout-minutes: 10
+    - j2gha-aa7de922
+    timeout-minutes: 20
     steps:
     - name: Restore pipeline workspace (run-urdf-tests)
       id: j2gha-ws-run-urdf-tests
@@ -1192,8 +1188,8 @@ jobs:
     needs: archive-urdfs-and-srdfs
     runs-on:
     - self-hosted
-    - j2gha-7ab7532d
-    timeout-minutes: 10
+    - j2gha-aa7de922
+    timeout-minutes: 20
     steps:
     - name: Restore pipeline workspace (archive-urdfs-and-srdfs)
       id: j2gha-ws-archive-urdfs-and-srdfs
@@ -1476,8 +1472,8 @@ jobs:
     needs: archive-urdfs-and-srdfs
     runs-on:
     - self-hosted
-    - j2gha-7ab7532d
-    timeout-minutes: 10
+    - j2gha-aa7de922
+    timeout-minutes: 20
     steps:
     - name: Restore pipeline workspace (archive-urdfs-and-srdfs)
       id: j2gha-ws-archive-urdfs-and-srdfs
@@ -1768,7 +1764,7 @@ jobs:
     if: always()
     runs-on:
     - self-hosted
-    - j2gha-7ab7532d
+    - j2gha-aa7de922
     steps:
     - name: Restore pipeline workspace (trigger-upstream-franka_ros2_ws-builds-h)
       id: j2gha-ws-trigger-upstream-franka_ros2_ws-builds-h
@@ -1976,4 +1972,4 @@ jobs:
       id: s72
       if: always()
       run: echo "::warning::Jenkins step 'feNotifySCM' requires manual migration"
-    timeout-minutes: 10
+    timeout-minutes: 20

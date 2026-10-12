@@ -185,10 +185,10 @@ Trace mode compares the per-stage sequence of executed steps (`J2GHA-TRACE` mark
 |---|---|---|---:|---:|---|---|
 | jenkins | trace | SUCCESS | 40 | - | reference | 6 localisation changes, 76 stubs |
 | act | trace | success | 13 | 29.3% | ❌ differs |  |
-| hosted | trace | success | 13 | 29.3% | ❌ differs | billable ≈ 4 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38247785810) |
+| hosted | trace | success | 13 | 29.3% | ❌ differs | billable ≈ 4 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38261426584) |
 | jenkins | full | SUCCESS | 0 | - | reference | 8 localisation changes, 37 stubs |
 | act | full | success | 0 | - | ❌ different outcome |  |
-| selfhosted | full | failure | 0 | - | ❌ different outcome | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38248043902) |
+| selfhosted | full | success | 0 | - | ❌ different outcome | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38261597398) |
 
 Estimated hosted cost of a trace run: ~4 billable minute(s) (worst case 20).
 
@@ -209,5 +209,5 @@ Estimated hosted cost of a trace run: ~4 billable minute(s) (worst case 20).
 
 </details>
 - full mode (act): Jenkins **SUCCESS** (first failed stage: -); act **success** (first failed step: `-`); tests differ: only the Jenkins run recorded test results; archived files differs (2 Jenkins, 1 converted; missing pkgs/base/couchdb_3.5.2_amd64.deb; content: 0 same, 1 differ)
-- full mode (selfhosted): Jenkins **SUCCESS** (first failed stage: -); selfhosted **failure** (first failed step: `Initialize containers`); tests differ: only the Jenkins run recorded test results; archived files differs (2 Jenkins, 0 converted; missing apache-couchdb-3.5.2.tar.gz, pkgs/base/couchdb_3.5.2_amd64.deb; content: 0 same, 0 differ)
+- full mode (selfhosted): Jenkins **SUCCESS** (first failed stage: -); selfhosted **success** (first failed step: `-`); tests differ: only the Jenkins run recorded test results; archived files differs (2 Jenkins, 1 converted; missing pkgs/base/couchdb_3.5.2_amd64.deb; content: 0 same, 1 differ)
 <!-- j2gha:execution:end -->
