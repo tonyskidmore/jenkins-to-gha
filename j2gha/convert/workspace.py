@@ -19,7 +19,9 @@ Snapshots and lineage
   stage straight after another) or the checkout (a parallel first stage).
 * A matrix job (`Plan.deltas`) runs up to 256 cells: each cell records the snapshot it starts from and hands on its
   changes only - its change list and a tar of the entries it added or changed (with their parent directories) - as
-  `j2gha-ws-<job>.<cell>` (job ids have no dots, so `j2gha-ws-<job>.*` matches no other job's artifact). A consumer
+  `j2gha-ws-<job>.<cell>` (job ids have no dots, so `j2gha-ws-<job>.*` matches no other job's artifact; `<cell>` is
+  the cell's axis values with every character an artifact name may not hold replaced, and a digest of the whole cell
+  so two cells never share a name). A consumer
   after the matrix downloads the workspace the matrix started from (its nearest producers: heads of their own) and
   every cell by that pattern, and replays the cells' changes onto it in cell-name order. A matrix with no producer
   before it (it starts from the checkout), after another matrix, or concurrent with another producer is not handed
@@ -64,6 +66,7 @@ HANDOFF_TAR = ".j2gha-ws.tgz"
 HANDOFF_CHANGES = ".j2gha-ws.changes"
 MAX_HANDOFF_FALLBACKS = 12  # per job, beyond the nearest workspaces (always downloaded): reported
 RESTORE_ID = "j2gha-ws-restore"
+CELL_ID = "j2gha-ws-cell"  # a matrix cell's archive step: its `cell` output names the cell's artifact
 STEP_NAMES = ("Restore pipeline workspace", "Record the starting workspace", "Hand on the pipeline workspace")
 META = {"kind": "workspace-handoff", "trace": False, "role": "handoff"}
 
@@ -285,7 +288,12 @@ HANDON_CHANGES_SCRIPT = _MANIFEST + _CHANGES + HANDON_SCRIPT
 
 # a matrix cell hands on its changes only: the change list and a tar of the entries it added or changed, with their
 # parent directories (a merge replays them onto the workspace the matrix started from, which it downloads anyway)
-HANDON_DELTA_SCRIPT = _MANIFEST + _CHANGES + r"""if [ ! -f "$GITHUB_WORKSPACE/.j2gha-ws.changes" ]; then
+# the cell's name in its artifact name: matrix values can hold `/`, quotes and spaces, which artifact names may not
+_CELL_NAME = r"""cell=$(printf '%s' "$J2GHA_WS_CELL" | LC_ALL=C tr -c 'A-Za-z0-9._-' '_')
+key=$(printf '%s' "$J2GHA_WS_CELL_KEY" | sha256sum)
+echo "cell=${cell:0:48}-${key:0:12}" >> "$GITHUB_OUTPUT"
+"""
+HANDON_DELTA_SCRIPT = _CELL_NAME + _MANIFEST + _CHANGES + r"""if [ ! -f "$GITHUB_WORKSPACE/.j2gha-ws.changes" ]; then
   echo "::error::the workspace this matrix cell started from was not recorded: its changes cannot be handed on"
   exit 1
 fi
@@ -473,13 +481,16 @@ def record_step() -> dict[str, Any]:
 
 
 def handon_steps(jid: str, mergeable: bool, upload: str, cell: str | None = None) -> list[dict[str, Any]]:
-    """`cell` (a matrix job): the cell's suffix in its artifact name, `j2gha-ws-<job>.<cell>`; the cell hands on its
-    changes only."""
+    """`cell` (a matrix job): the expression naming the cell (its axis values), made safe for its artifact name,
+    `j2gha-ws-<job>.<cell>`, at run time; the cell hands on its changes only."""
     script = HANDON_DELTA_SCRIPT if cell is not None else HANDON_CHANGES_SCRIPT if mergeable else HANDON_SCRIPT
     archive = {"name": "Hand on the pipeline workspace (archive)", "if": "always()", "shell": "bash",
                "run": script, "_j2gha": dict(META)}
     path = f"{HANDOFF_TAR}\n{HANDOFF_CHANGES}" if mergeable or cell is not None else HANDOFF_TAR
-    name = f"j2gha-ws-{jid}" + (f".{cell}" if cell is not None else "")
+    name = f"j2gha-ws-{jid}"
+    if cell is not None:  # the values reach the script through env, never into its text
+        archive |= {"id": CELL_ID, "env": {"J2GHA_WS_CELL": cell, "J2GHA_WS_CELL_KEY": "${{ toJSON(matrix) }}"}}
+        name += f".${{{{ steps.{CELL_ID}.outputs.cell }}}}"
     return [archive,
             {"name": "Hand on the pipeline workspace (upload)", "if": "always()", "uses": upload,
              "with": {"name": name, "path": path, "retention-days": 1, "compression-level": 0,

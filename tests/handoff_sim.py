@@ -171,7 +171,11 @@ def simulate(jobs: dict[str, Any], initial: Path, skipped: set[str] | frozenset[
                              if (ws / line).is_file()}
                     if not files:
                         raise StepFailed(f"{jid}: {st['name']}: no files found")
-                    artifacts[st["with"]["name"]] = files
+                    name = re.sub(r"\$\{\{ steps\.([\w-]+)\.outputs\.(\w+) \}\}",
+                                  lambda m, o=outputs: o[m.group(1)][m.group(2)], st["with"]["name"])
+                    assert "${{" not in name and not set(name) & set('"/\\:<>|*?\r\n'), name
+                    assert name not in artifacts, f"artifact {name} uploaded twice"
+                    artifacts[name] = files
                 elif uses.startswith("actions/checkout"):
                     # act treats a checkout of the repository it copied in as done
                     if not _restored(st.get("if"), outputs) and not prepopulated:
@@ -213,7 +217,8 @@ def _in_cell(job: dict[str, Any], cell: dict[str, str] | None) -> dict[str, Any]
         return job
     text = json.dumps(job)
     for k, v in cell.items():
-        text = text.replace(f"${{{{ matrix.{k} }}}}", str(v))
+        text = text.replace(f"${{{{ matrix.{k} }}}}", json.dumps(str(v))[1:-1])
+    text = text.replace("${{ toJSON(matrix) }}", json.dumps(json.dumps(cell))[1:-1])
     return json.loads(text)
 
 

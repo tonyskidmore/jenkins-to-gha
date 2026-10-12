@@ -155,7 +155,11 @@ def test_matrix_cells_hand_on_their_changes_onto_the_workspace_the_matrix_starte
     jobs = jobs_of(pipeline(stages))
     assert restored_from(jobs["cells"]) == ["build"] and hands_on(jobs["cells"])
     up = next(s for s in jobs["cells"]["steps"] if s["name"] == "Hand on the pipeline workspace (upload)")
-    assert up["with"]["name"] == "j2gha-ws-cells.${{ matrix.OS }}"
+    assert up["with"]["name"] == "j2gha-ws-cells.${{ steps.j2gha-ws-cell.outputs.cell }}"
+    # the cell's values reach the archive script through env (made safe for an artifact name there), not its text
+    archive = next(s for s in jobs["cells"]["steps"] if s.get("id") == "j2gha-ws-cell")
+    assert archive["env"] == {"J2GHA_WS_CELL": "${{ matrix.OS }}", "J2GHA_WS_CELL_KEY": "${{ toJSON(matrix) }}"}
+    assert "${{" not in archive["run"]
     # the matrix's base is downloaded with its cells, by a pattern no other job's artifact can match
     downloads = {s["id"]: s["with"] for s in jobs["after"]["steps"] if s["id"].startswith("j2gha-ws-") and "uses" in s}
     assert downloads == {"j2gha-ws-build": {"name": "j2gha-ws-build", "path": ".j2gha-ws/build"},

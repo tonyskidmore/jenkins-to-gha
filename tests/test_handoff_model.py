@@ -7,6 +7,7 @@ Jenkins' order agree; the seeded scenarios combine pipeline shapes with file, di
 changes."""
 
 import random
+import shlex
 import shutil
 
 import pytest
@@ -433,6 +434,20 @@ def test_matrix_cells_changes_reach_the_jobs_after_the_matrix(tmp_path, exclude)
     starts = simulate(jobs, init)
     expected = jenkins(["echo built > out; mkdir -p dir-a; echo keep > dir-a/keep",
                         *cell_scripts("abc", exclude=exclude), "echo x > x", "true"], init)
+    assert starts["post"] == expected
+
+
+def test_matrix_cells_with_values_an_artifact_name_cannot_hold_are_handed_on(tmp_path):
+    # `/`, quotes and spaces are not allowed in artifact names; `ci/a`, `ci a` and `ci_a` also read the same once made
+    # safe, so the name carries a digest of the cell too (the simulator refuses an invalid or reused name)
+    axes = ("ci/a", "ci a", "ci_a", "'q\"x' -o K=0")
+    script = 'printf %s "$OS" > "cell-$(printf %s "$OS" | sha256sum | cut -c1-8)"'
+    init = build(tmp_path / "initial", {"gone": "x"})
+    stages = [Stage("Build", steps=[sh("echo built > out")]), matrix(axes=axes, script=script),
+              Stage("Cells X", steps=[sh("echo x > x")])]
+    starts = simulate(jobs_of(stages), init)
+    expected = jenkins(["echo built > out", *(f"OS={shlex.quote(a)}; {script}" for a in axes), "echo x > x", "true"],
+                       init)
     assert starts["post"] == expected
 
 
