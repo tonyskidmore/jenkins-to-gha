@@ -111,10 +111,10 @@ its own.
    - Provenance (`provenance.py`): AST/analysis/conversion carry the Jenkinsfile sha256 (and model hash); run records
      carry them plus scenario, `LOCALIZER_VERSION` and images. Stale prerequisites are re-done (convert) or refused
      (localiser, GHA tiers); stale run records show ⏸️ and are not counted.
-   - Variants pin `JOB_NAME` to the Jenkins job (`jenkins.run.harness_job`) and give upper-case properties the
-     localiser stubbed its `j2gha-stub` value (`variants.stubbed_properties`); outputs compare `BUILD_TAG` path segments
-     as a placeholder. A reference that ran with `docker` stubbed makes full variants run the Docker steps on the
-     runner too (`variants.reference_had_docker`).
+   - Variants pin `JOB_NAME` to the Jenkins job (`jenkins.run.harness_job`) and `BUILD_NUMBER`/`BUILD_ID` to its build,
+     and give upper-case properties the localiser stubbed its `j2gha-stub` value (`variants.stubbed_properties`);
+     outputs compare `BUILD_TAG` path segments as a placeholder. A reference that ran with `docker` stubbed makes full
+     variants run the Docker steps on the runner too (`variants.reference_had_docker`).
    - Remote runs: orphan `j2gha/run/...` branches created through the Git Data API and deleted afterwards.
      `--environments` creates `j2gha-<name>` environments (no required reviewers) with a random canary secret
      via `gh secret set`, and compares deployments with the inputs Jenkins reached (`approved_inputs`).

@@ -195,7 +195,8 @@ variant. Only declared parameters can be set (anything else is refused before a 
 defines the parameters in its XML so exactly one build runs, and a pipeline whose parameters cannot be defined up front
 falls back to a registration build that is recorded as a `register` attempt. The parameters are part of the scenario in
 every run record, so a reference run with other values is refused. Execution variants also give the converted run what the
-Jenkins reference ran with: `JOB_NAME`/`JOB_BASE_NAME` are the Jenkins job (`ex-<id>-<mode>`, not `github.workflow`), and an
+Jenkins reference ran with: `JOB_NAME`/`JOB_BASE_NAME` are the Jenkins job (`ex-<id>-<mode>`, not `github.workflow`),
+`BUILD_NUMBER`/`BUILD_ID` its build number (not `github.run_number`/`run_id`: pipelines put it in archive paths), and an
 undeclared upper-case property the localiser stubbed (it reads `j2gha-stub` on Jenkins) gets that value in the variant's `env`
 (`variants.stubbed_properties`). When the Jenkins reference had no Docker (the localiser stubbed `withDockerContainer`, so `docker.image().inside`
 and `agent { docker | dockerfile }` ran their steps directly), full variants drop the converted job's `container`, its
