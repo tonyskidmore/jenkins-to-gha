@@ -194,10 +194,10 @@ Trace mode compares the per-stage sequence of executed steps (`J2GHA-TRACE` mark
 |---|---|---|---:|---:|---|---|
 | jenkins | trace | SUCCESS | 140 | - | reference | 7 localisation changes, 79 stubs; auto-repair: [['stub-property', 'buildSummary'], ['stub-property', 'AWS_ACCESS_KEY_ID'], ['stub-property', 'AWS_SECRET_ACCESS_KEY']] |
 | act | trace | success | 14 | 9.3% | ❌ differs |  |
-| hosted | trace | success | 14 | 9.3% | ❌ differs | billable ≈ 1 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38307387460) |
+| hosted | trace | success | 14 | 9.3% | ❌ differs | billable ≈ 1 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38317771960) |
 | jenkins | full | SUCCESS | 1 | - | reference | 7 localisation changes, 40 stubs; auto-repair: [['stub-property', 'buildSummary']] |
 | act | full | success | 0 | - | ✅ same outcome |  |
-| selfhosted | full | success | 0 | - | ✅ same outcome | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38307429075) |
+| selfhosted | full | success | 0 | - | ✅ same outcome | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38317804695) |
 
 Estimated hosted cost of a trace run: ~1 billable minute(s) (worst case 5).
 

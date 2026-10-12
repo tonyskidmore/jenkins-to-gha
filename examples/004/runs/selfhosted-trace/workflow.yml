@@ -3,7 +3,7 @@ name: j2gha harness run
 on:
   push:
     branches:
-    - j2gha/run/004-trace-selfhosted-20261012203707
+    - j2gha/run/004-trace-selfhosted-20261012221935
   workflow_dispatch:
 permissions:
   contents: read
@@ -29,7 +29,7 @@ jobs:
     name: Build docker image
     runs-on:
     - self-hosted
-    - j2gha-741b12cd
+    - j2gha-5255cbe8
     timeout-minutes: 5
     steps:
     - name: Checkout
@@ -46,7 +46,7 @@ jobs:
     needs: build-docker-image
     runs-on:
     - self-hosted
-    - j2gha-741b12cd
+    - j2gha-5255cbe8
     timeout-minutes: 5
     steps:
     - name: Checkout
@@ -59,7 +59,7 @@ jobs:
     needs: push-docker-image
     runs-on:
     - self-hosted
-    - j2gha-741b12cd
+    - j2gha-5255cbe8
     timeout-minutes: 5
     steps:
     - name: 'Deploy test: enter stage'
@@ -117,7 +117,7 @@ jobs:
     if: always()
     runs-on:
     - self-hosted
-    - j2gha-741b12cd
+    - j2gha-5255cbe8
     steps:
     - name: 'post: mail notification'
       id: s13

@@ -149,10 +149,10 @@ Trace mode compares the per-stage sequence of executed steps (`J2GHA-TRACE` mark
 |---|---|---|---:|---:|---|---|
 | jenkins | trace | SUCCESS | 31 | - | reference | 1 localisation changes, 76 stubs; auto-repair: [['remove-directive', 'options']] |
 | act | trace | success | 31 | 100.0% | ✅ equivalent |  |
-| hosted | trace | success | 31 | 100.0% | ✅ equivalent | billable ≈ 28 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38306135986) |
+| hosted | trace | success | 31 | 100.0% | ✅ equivalent | billable ≈ 28 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38316734921) |
 | jenkins | full | FAILURE | 0 | - | reference | 1 localisation changes, 36 stubs; auto-repair: [['remove-directive', 'options']] |
 | act | full | failure | 0 | - | ✅ same outcome |  |
-| selfhosted | full | failure | 0 | - | ✅ same outcome | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38306199144) |
+| selfhosted | full | failure | 0 | - | ✅ same outcome | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38316790976) |
 
 Estimated hosted cost of a trace run: ~28 billable minute(s) (worst case 140).
 
@@ -165,5 +165,5 @@ Estimated hosted cost of a trace run: ~28 billable minute(s) (worst case 140).
 </details>
 - full mode (act): Jenkins **FAILURE** (first failed stage: build); act **failure** (first failed step: `build: .jenkins/lsu/entry.sh`); no test results on either side; nothing archived on either side
 - full mode (selfhosted): Jenkins **FAILURE** (first failed stage: build); selfhosted **failure** (first failed step: `build: .jenkins/lsu/entry.sh`); no test results on either side; nothing archived on either side
-- workspace hand-off (selfhosted, full): 27 archives, 37.3 MB; 135 steps, 3000 s summed over jobs (of 3561 s job time); 222 s on the critical path of a 1146 s run
+- workspace hand-off (selfhosted, full): 27 archives, 37.3 MB; 135 steps, 3200 s summed over jobs (of 3748 s job time); 289 s on the critical path of a 1252 s run
 <!-- j2gha:execution:end -->
