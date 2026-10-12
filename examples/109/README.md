@@ -120,7 +120,7 @@ Generated [`gha/workflow.yml`](gha/workflow.yml) and [`gha/migration-report.md`]
 
 Automation is an effort estimate: report items weighted by status (mapped 1, dropped 0.8, approximated 0.6, manual 0; info items are not scored), not a measure of correctness.
 
-Jobs: `checkout` (ubuntu-latest, 9 steps), `build` (ubuntu-latest, matrix, 5 steps), `post` (ubuntu-latest, 4 steps)
+Jobs: `checkout` (ubuntu-latest, 9 steps), `build` (ubuntu-latest, matrix, 8 steps), `post` (ubuntu-latest, 5 steps)
 
 Secrets to create: `STELLARBOT_GITHUB_TOKEN`
 
@@ -152,17 +152,17 @@ Trace mode compares the per-stage sequence of executed steps (`J2GHA-TRACE` mark
 |---|---|---|---:|---:|---|---|
 | jenkins | trace | SUCCESS | 31 | - | reference | 1 localisation changes, 76 stubs; auto-repair: [['remove-directive', 'options']] |
 | act | trace | success | 31 | 100.0% | ✅ equivalent |  |
-| hosted | trace | success | 31 | 100.0% | ✅ equivalent | billable ≈ 28 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38223566723) |
+| hosted | trace | success | 31 | 100.0% | ✅ equivalent | billable ≈ 28 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38282109344) |
 | jenkins | full | SUCCESS | 0 | - | reference | 1 localisation changes, 36 stubs; auto-repair: [['remove-directive', 'options']] |
-| act | full | failure | 0 | - | ❌ different outcome |  |
-| selfhosted | full | failure | 0 | - | ❌ different outcome | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38226177025) |
-| hosted | full | failure | 0 | - | ❌ different outcome | billable ≈ 28 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38225229649) |
+| act | full | success | 0 | - | ✅ same outcome |  |
+| selfhosted | full | success | 0 | - | ✅ same outcome | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38282797049) |
+| hosted | full | success | 0 | - | ✅ same outcome | billable ≈ 28 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38284765683) |
 
 Estimated hosted cost of a trace run: ~28 billable minute(s) (worst case 140).
 
-- full mode (act): Jenkins **SUCCESS** (first failed stage: -); act **failure** (first failed step: `post: archive artifacts`); no test results on either side; archived files differs (52 Jenkins, 0 converted; missing hpx_1/build/clang-16-Debug/Testing/Temporary/LastTest.log, hpx_1/build/clang-16-Release/Testing/Temporary/LastTest.log, hpx_1/build/clang-17-Debug/Testing/Temporary/LastTest.log, hpx_1/build/clang-17-Release/Testing/Temporary/LastTest.log, hpx_1/build/clang-17-apex-Debug/Testing/Temporary/LastTest.log; content: 0 same, 0 differ)
-- full mode (selfhosted): Jenkins **SUCCESS** (first failed stage: -); selfhosted **failure** (first failed step: `post: archive artifacts`); no test results on either side; archived files differs (52 Jenkins, 0 converted; missing hpx_1/build/clang-16-Debug/Testing/Temporary/LastTest.log, hpx_1/build/clang-16-Release/Testing/Temporary/LastTest.log, hpx_1/build/clang-17-Debug/Testing/Temporary/LastTest.log, hpx_1/build/clang-17-Release/Testing/Temporary/LastTest.log, hpx_1/build/clang-17-apex-Debug/Testing/Temporary/LastTest.log; content: 0 same, 0 differ)
-- workspace hand-off (selfhosted, full): 1 archives, 37.4 MB; 56 steps, 3204 s summed over jobs (of 3434 s job time); 228 s on the critical path of a 1107 s run
-- full mode (hosted): Jenkins **SUCCESS** (first failed stage: -); hosted **failure** (first failed step: `post: archive artifacts`); no test results on either side; archived files differs (52 Jenkins, 0 converted; missing hpx_1/build/clang-16-Debug/Testing/Temporary/LastTest.log, hpx_1/build/clang-16-Release/Testing/Temporary/LastTest.log, hpx_1/build/clang-17-Debug/Testing/Temporary/LastTest.log, hpx_1/build/clang-17-Release/Testing/Temporary/LastTest.log, hpx_1/build/clang-17-apex-Debug/Testing/Temporary/LastTest.log; content: 0 same, 0 differ)
-- workspace hand-off (hosted, full): 1 archives, 37.4 MB; 56 steps, 79 s summed over jobs (of 208 s job time); 11 s on the critical path of a 42 s run
+- full mode (act): Jenkins **SUCCESS** (first failed stage: -); act **success** (first failed step: `-`); no test results on either side; archived files same (52 Jenkins, 52 converted; content: 52 same, 0 differ)
+- full mode (selfhosted): Jenkins **SUCCESS** (first failed stage: -); selfhosted **success** (first failed step: `-`); no test results on either side; archived files same (52 Jenkins, 52 converted; content: 52 same, 0 differ)
+- workspace hand-off (selfhosted, full): 27 archives, 37.4 MB; 135 steps, 2985 s summed over jobs (of 3209 s job time); 185 s on the critical path of a 1036 s run
+- full mode (hosted): Jenkins **SUCCESS** (first failed stage: -); hosted **success** (first failed step: `-`); no test results on either side; archived files same (52 Jenkins, 52 converted; content: 52 same, 0 differ)
+- workspace hand-off (hosted, full): 27 archives, 37.4 MB; 135 steps, 172 s summed over jobs (of 301 s job time); 16 s on the critical path of a 49 s run
 <!-- j2gha:execution:end -->

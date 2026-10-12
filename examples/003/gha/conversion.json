@@ -2,11 +2,11 @@
   "counts": {
     "mapped": 41,
     "manual": 13,
-    "approximated": 43,
+    "approximated": 44,
     "info": 1,
     "dropped": 1
   },
-  "automation_pct": 69.0,
+  "automation_pct": 68.9,
   "items": [
     {
       "jenkins": "post always",
@@ -335,6 +335,14 @@
       "status": "mapped",
       "gha": "run",
       "note": ""
+    },
+    {
+      "jenkins": "matrix workspace of 'build-end-effector-urdfs'",
+      "line": null,
+      "stage": null,
+      "status": "approximated",
+      "gha": "cells' changes not handed on",
+      "note": "no job hands a workspace on before the matrix (it starts from the checkout): later jobs do not see what its cells wrote"
     },
     {
       "jenkins": "options: timeout",
@@ -818,37 +826,37 @@
     "build-robot-urdfs-and-srdfs": {
       "name": "Build robot URDFs and SRDFs",
       "runs-on": "ubuntu-latest",
-      "steps": 8,
+      "steps": 11,
       "matrix": true
     },
     "build-end-effector-urdfs": {
       "name": "Build End Effector URDFs",
       "runs-on": "ubuntu-latest",
-      "steps": 7,
+      "steps": 8,
       "matrix": true
     },
     "archive-urdfs-and-srdfs": {
       "name": "Archive URDFs and SRDFs",
       "runs-on": "ubuntu-latest",
-      "steps": 60,
+      "steps": 61,
       "matrix": false
     },
     "trigger-upstream-franka_ros2_ws-builds-h": {
       "name": "Trigger upstream franka_ros2_ws builds / humble",
       "runs-on": "ubuntu-latest",
-      "steps": 9,
+      "steps": 10,
       "matrix": false
     },
     "trigger-upstream-franka_ros2_ws-builds-j": {
       "name": "Trigger upstream franka_ros2_ws builds / jazzy",
       "runs-on": "ubuntu-latest",
-      "steps": 9,
+      "steps": 10,
       "matrix": false
     },
     "post": {
       "name": "post",
       "runs-on": "ubuntu-latest",
-      "steps": 10,
+      "steps": 11,
       "matrix": false
     }
   },
@@ -857,6 +865,7 @@
     "handed_on": [
       "check-commit-message",
       "run-urdf-tests",
+      "build-robot-urdfs-and-srdfs",
       "archive-urdfs-and-srdfs",
       "trigger-upstream-franka_ros2_ws-builds-h",
       "trigger-upstream-franka_ros2_ws-builds-j"
@@ -873,8 +882,14 @@
       "trigger-upstream-franka_ros2_ws-builds-h",
       "trigger-upstream-franka_ros2_ws-builds-j",
       "post"
+    ],
+    "matrix": [
+      "build-robot-urdfs-and-srdfs"
+    ],
+    "matrix_not_handed_on": [
+      "build-end-effector-urdfs"
     ]
   },
   "source_sha256": "17668ca3bbda47464b862bd666338201af7a49b6a78e54f8ccf22dbe4c29528f",
-  "model_sha256": "21e19fe39b47751f19d8df8d4b4324774b299543151c88406792801259271922"
+  "model_sha256": "87aeb3d1ce771912e234a192ed95483528c95c764cfece22aacebfab30312930"
 }

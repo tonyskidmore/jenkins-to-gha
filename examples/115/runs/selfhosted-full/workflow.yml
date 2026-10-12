@@ -3,7 +3,7 @@ name: j2gha harness run
 on:
   push:
     branches:
-    - j2gha/run/115-full-selfhosted-20261012130454
+    - j2gha/run/115-full-selfhosted-20261012165753
   workflow_dispatch:
 permissions:
   contents: read
@@ -11,7 +11,7 @@ env:
   BRANCH_NAME: main
   TAG_NAME: ''
   CHANGE_ID: ''
-  BUILD_NUMBER: ${{ github.run_number }}
+  BUILD_NUMBER: '30'
   JOB_NAME: ex-115-full
   GIT_COMMIT: e775c33e2de8b8245290200c3e36e52208b09521
   TARGET_VERSION: ${{ github.event_name != 'workflow_dispatch' && 'NONE' || format('{0}', inputs.TARGET_VERSION) }}
@@ -29,7 +29,7 @@ jobs:
     name: Detect Secrets, Init, QA, SonarQube analysis, Publish[staging], Run Gauge tests, Mend scan
     runs-on:
     - self-hosted
-    - j2gha-48c7edf6
+    - j2gha-520cb623
     timeout-minutes: 10
     steps:
     - name: Checkout

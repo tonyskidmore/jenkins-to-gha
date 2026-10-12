@@ -2,7 +2,7 @@
   "tier": "hosted",
   "mode": "trace",
   "repo": "tonyskidmore/jenkins-to-gha",
-  "branch": "j2gha/run/106-trace-hosted-20261012123512",
+  "branch": "j2gha/run/106-trace-hosted-20261012142706",
   "estimate": {
     "typical": 4,
     "worst_case": 20,
@@ -22,11 +22,11 @@
     "usage_complete": null,
     "owner": "tonyskidmore",
     "used_before": null,
-    "reservation": "44232cb23cbe"
+    "reservation": "489dfa4dd81c"
   },
-  "run_url": "https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38249954760",
+  "run_url": "https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38263012137",
   "result": "success",
-  "run_id": 38249954760,
+  "run_id": 38263012137,
   "traces": [
     {
       "stage": "Declarative: Checkout SCM",
@@ -125,141 +125,141 @@
       "labels": [
         "ubuntu-latest"
       ],
-      "started_at": "2026-10-12T12:35:20Z",
-      "completed_at": "2026-10-12T12:35:31Z",
+      "started_at": "2026-10-12T14:27:14Z",
+      "completed_at": "2026-10-12T14:27:23Z",
       "steps": [
         {
           "name": "Set up job",
           "number": 1,
           "conclusion": "success",
-          "started_at": "2026-10-12T12:35:21Z",
-          "completed_at": "2026-10-12T12:35:22Z"
+          "started_at": "2026-10-12T14:27:15Z",
+          "completed_at": "2026-10-12T14:27:15Z"
         },
         {
           "name": "Checkout",
           "number": 2,
           "conclusion": "success",
-          "started_at": "2026-10-12T12:35:22Z",
-          "completed_at": "2026-10-12T12:35:22Z"
+          "started_at": "2026-10-12T14:27:15Z",
+          "completed_at": "2026-10-12T14:27:15Z"
         },
         {
           "name": "Setup: set target",
           "number": 3,
           "conclusion": "success",
-          "started_at": "2026-10-12T12:35:22Z",
-          "completed_at": "2026-10-12T12:35:22Z"
+          "started_at": "2026-10-12T14:27:15Z",
+          "completed_at": "2026-10-12T14:27:15Z"
         },
         {
           "name": "Setup: jq -r '.variable.iac_version.default' src/package.tf",
           "number": 4,
           "conclusion": "success",
-          "started_at": "2026-10-12T12:35:22Z",
-          "completed_at": "2026-10-12T12:35:23Z"
+          "started_at": "2026-10-12T14:27:15Z",
+          "completed_at": "2026-10-12T14:27:15Z"
         },
         {
           "name": "Build: sed -i 's/iac-provider/terraform/g' src/variables.tf",
           "number": 5,
           "conclusion": "success",
-          "started_at": "2026-10-12T12:35:23Z",
-          "completed_at": "2026-10-12T12:35:23Z"
+          "started_at": "2026-10-12T14:27:15Z",
+          "completed_at": "2026-10-12T14:27:15Z"
         },
         {
           "name": "Build: sed -i 's/iac-artifact/${packname}/g' src/variables.tf",
           "number": 6,
           "conclusion": "success",
-          "started_at": "2026-10-12T12:35:23Z",
-          "completed_at": "2026-10-12T12:35:23Z"
+          "started_at": "2026-10-12T14:27:15Z",
+          "completed_at": "2026-10-12T14:27:15Z"
         },
         {
           "name": "Build: sed -i 's/iac-scm-commit/${GIT_COMMIT}/g' src/variables.tf",
           "number": 7,
           "conclusion": "success",
-          "started_at": "2026-10-12T12:35:23Z",
-          "completed_at": "2026-10-12T12:35:23Z"
+          "started_at": "2026-10-12T14:27:15Z",
+          "completed_at": "2026-10-12T14:27:15Z"
         },
         {
           "name": "Build: sed -i 's|iac-scm-branch|${GIT_BRANCH}|g' src/variables.tf",
           "number": 8,
           "conclusion": "success",
-          "started_at": "2026-10-12T12:35:23Z",
-          "completed_at": "2026-10-12T12:35:23Z"
+          "started_at": "2026-10-12T14:27:15Z",
+          "completed_at": "2026-10-12T14:27:15Z"
         },
         {
           "name": "Build: sed -i 's/iac-build-by/jenkins/g' src/variables.tf",
           "number": 9,
           "conclusion": "success",
-          "started_at": "2026-10-12T12:35:23Z",
-          "completed_at": "2026-10-12T12:35:23Z"
+          "started_at": "2026-10-12T14:27:15Z",
+          "completed_at": "2026-10-12T14:27:15Z"
         },
         {
           "name": "Build: sed -i 's/iac-build-name/${JOB_NAME}/g' src/variables.tf",
           "number": 10,
           "conclusion": "success",
-          "started_at": "2026-10-12T12:35:23Z",
-          "completed_at": "2026-10-12T12:35:23Z"
+          "started_at": "2026-10-12T14:27:15Z",
+          "completed_at": "2026-10-12T14:27:15Z"
         },
         {
           "name": "Build: sed -i 's/iac-build-id/${BUILD_NUMBER}/g' src/variables.tf",
           "number": 11,
           "conclusion": "success",
-          "started_at": "2026-10-12T12:35:23Z",
-          "completed_at": "2026-10-12T12:35:23Z"
+          "started_at": "2026-10-12T14:27:15Z",
+          "completed_at": "2026-10-12T14:27:15Z"
         },
         {
           "name": "Build: sed -i 's/iac-build-date/${J2GHA_TODO_currentBuild_startTimeInMillis}/",
           "number": 12,
           "conclusion": "success",
-          "started_at": "2026-10-12T12:35:23Z",
-          "completed_at": "2026-10-12T12:35:23Z"
+          "started_at": "2026-10-12T14:27:15Z",
+          "completed_at": "2026-10-12T14:27:15Z"
         },
         {
           "name": "Build: sed -i 's/${oversion}/${version}/g' src/package.tf",
           "number": 13,
           "conclusion": "success",
-          "started_at": "2026-10-12T12:35:23Z",
-          "completed_at": "2026-10-12T12:35:23Z"
+          "started_at": "2026-10-12T14:27:15Z",
+          "completed_at": "2026-10-12T14:27:15Z"
         },
         {
           "name": "Build: tar --exclude='./.git' --exclude='./Jenkinsfile' --exclude='*.tar.gz'",
           "number": 14,
           "conclusion": "success",
-          "started_at": "2026-10-12T12:35:23Z",
-          "completed_at": "2026-10-12T12:35:23Z"
+          "started_at": "2026-10-12T14:27:15Z",
+          "completed_at": "2026-10-12T14:27:15Z"
         },
         {
           "name": "Publish: echo curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ${packname}",
           "number": 15,
           "conclusion": "success",
-          "started_at": "2026-10-12T12:35:23Z",
-          "completed_at": "2026-10-12T12:35:23Z"
+          "started_at": "2026-10-12T14:27:15Z",
+          "completed_at": "2026-10-12T14:27:15Z"
         },
         {
           "name": "DEV Deploy: echo bash $FOLLOW \"artifact\" \"${publish_url}\" \"29cd3a68-e101-4176-907c",
           "number": 16,
           "conclusion": "success",
-          "started_at": "2026-10-12T12:35:23Z",
-          "completed_at": "2026-10-12T12:35:24Z"
+          "started_at": "2026-10-12T14:27:15Z",
+          "completed_at": "2026-10-12T14:27:15Z"
         },
         {
           "name": "PRE Deploy: enter stage",
           "number": 17,
           "conclusion": "success",
-          "started_at": "2026-10-12T12:35:24Z",
-          "completed_at": "2026-10-12T12:35:24Z"
+          "started_at": "2026-10-12T14:27:15Z",
+          "completed_at": "2026-10-12T14:27:15Z"
         },
         {
           "name": "PRE Deploy: echo bash $FOLLOW \"artifact\" \"${publish_url}\" \"ec0393b9-f0eb-4341-8812",
           "number": 18,
           "conclusion": "success",
-          "started_at": "2026-10-12T12:35:24Z",
-          "completed_at": "2026-10-12T12:35:24Z"
+          "started_at": "2026-10-12T14:27:15Z",
+          "completed_at": "2026-10-12T14:27:15Z"
         },
         {
           "name": "Complete job",
           "number": 19,
           "conclusion": "success",
-          "started_at": "2026-10-12T12:35:24Z",
-          "completed_at": "2026-10-12T12:35:24Z"
+          "started_at": "2026-10-12T14:27:15Z",
+          "completed_at": "2026-10-12T14:27:15Z"
         }
       ]
     },
@@ -270,57 +270,57 @@
       "labels": [
         "ubuntu-latest"
       ],
-      "started_at": "2026-10-12T12:35:34Z",
-      "completed_at": "2026-10-12T12:35:39Z",
+      "started_at": "2026-10-12T14:27:26Z",
+      "completed_at": "2026-10-12T14:27:32Z",
       "steps": [
         {
           "name": "Set up job",
           "number": 1,
           "conclusion": "success",
-          "started_at": "2026-10-12T12:35:35Z",
-          "completed_at": "2026-10-12T12:35:35Z"
+          "started_at": "2026-10-12T14:27:27Z",
+          "completed_at": "2026-10-12T14:27:27Z"
         },
         {
           "name": "Checkout",
           "number": 2,
           "conclusion": "success",
-          "started_at": "2026-10-12T12:35:35Z",
-          "completed_at": "2026-10-12T12:35:35Z"
+          "started_at": "2026-10-12T14:27:27Z",
+          "completed_at": "2026-10-12T14:27:27Z"
         },
         {
           "name": "Acceptance Test: enter stage",
           "number": 3,
           "conclusion": "success",
-          "started_at": "2026-10-12T12:35:35Z",
-          "completed_at": "2026-10-12T12:35:35Z"
+          "started_at": "2026-10-12T14:27:27Z",
+          "completed_at": "2026-10-12T14:27:27Z"
         },
         {
           "name": "Acceptance Test: cd test && npm install",
           "number": 4,
           "conclusion": "success",
-          "started_at": "2026-10-12T12:35:35Z",
-          "completed_at": "2026-10-12T12:35:35Z"
+          "started_at": "2026-10-12T14:27:27Z",
+          "completed_at": "2026-10-12T14:27:28Z"
         },
         {
           "name": "Acceptance Test: cd test && echo npm test",
           "number": 5,
           "conclusion": "success",
-          "started_at": "2026-10-12T12:35:35Z",
-          "completed_at": "2026-10-12T12:35:35Z"
+          "started_at": "2026-10-12T14:27:28Z",
+          "completed_at": "2026-10-12T14:27:28Z"
         },
         {
           "name": "Acceptance Test: cucumber (manual migration)",
           "number": 6,
           "conclusion": "success",
-          "started_at": "2026-10-12T12:35:35Z",
-          "completed_at": "2026-10-12T12:35:35Z"
+          "started_at": "2026-10-12T14:27:28Z",
+          "completed_at": "2026-10-12T14:27:28Z"
         },
         {
           "name": "Complete job",
           "number": 7,
           "conclusion": "success",
-          "started_at": "2026-10-12T12:35:35Z",
-          "completed_at": "2026-10-12T12:35:35Z"
+          "started_at": "2026-10-12T14:27:28Z",
+          "completed_at": "2026-10-12T14:27:28Z"
         }
       ]
     },
@@ -331,50 +331,50 @@
       "labels": [
         "ubuntu-latest"
       ],
-      "started_at": "2026-10-12T12:35:42Z",
-      "completed_at": "2026-10-12T12:35:45Z",
+      "started_at": "2026-10-12T14:27:35Z",
+      "completed_at": "2026-10-12T14:27:38Z",
       "steps": [
         {
           "name": "Set up job",
           "number": 1,
           "conclusion": "success",
-          "started_at": "2026-10-12T12:35:43Z",
-          "completed_at": "2026-10-12T12:35:43Z"
+          "started_at": "2026-10-12T14:27:35Z",
+          "completed_at": "2026-10-12T14:27:35Z"
         },
         {
           "name": "Approval: enter stage",
           "number": 2,
           "conclusion": "success",
-          "started_at": "2026-10-12T12:35:43Z",
-          "completed_at": "2026-10-12T12:35:44Z"
+          "started_at": "2026-10-12T14:27:36Z",
+          "completed_at": "2026-10-12T14:27:36Z"
         },
         {
           "name": "Approval: input",
           "number": 3,
           "conclusion": "success",
-          "started_at": "2026-10-12T12:35:44Z",
-          "completed_at": "2026-10-12T12:35:44Z"
+          "started_at": "2026-10-12T14:27:36Z",
+          "completed_at": "2026-10-12T14:27:36Z"
         },
         {
           "name": "PRO Deploy: enter stage",
           "number": 4,
           "conclusion": "success",
-          "started_at": "2026-10-12T12:35:44Z",
-          "completed_at": "2026-10-12T12:35:44Z"
+          "started_at": "2026-10-12T14:27:36Z",
+          "completed_at": "2026-10-12T14:27:36Z"
         },
         {
           "name": "PRO Deploy: echo bash $FOLLOW \"artifact\" \"${publish_url}\" \"f31fb4bb-4f55-4f23-9c03",
           "number": 5,
           "conclusion": "success",
-          "started_at": "2026-10-12T12:35:44Z",
-          "completed_at": "2026-10-12T12:35:44Z"
+          "started_at": "2026-10-12T14:27:36Z",
+          "completed_at": "2026-10-12T14:27:36Z"
         },
         {
           "name": "Complete job",
           "number": 6,
           "conclusion": "success",
-          "started_at": "2026-10-12T12:35:44Z",
-          "completed_at": "2026-10-12T12:35:44Z"
+          "started_at": "2026-10-12T14:27:36Z",
+          "completed_at": "2026-10-12T14:27:36Z"
         }
       ]
     },
@@ -385,50 +385,50 @@
       "labels": [
         "ubuntu-latest"
       ],
-      "started_at": "2026-10-12T12:35:48Z",
-      "completed_at": "2026-10-12T12:35:52Z",
+      "started_at": "2026-10-12T14:27:41Z",
+      "completed_at": "2026-10-12T14:27:44Z",
       "steps": [
         {
           "name": "Set up job",
           "number": 1,
           "conclusion": "success",
-          "started_at": "2026-10-12T12:35:49Z",
-          "completed_at": "2026-10-12T12:35:49Z"
+          "started_at": "2026-10-12T14:27:42Z",
+          "completed_at": "2026-10-12T14:27:42Z"
         },
         {
           "name": "post: rocketSend (manual migration)",
           "number": 2,
           "conclusion": "skipped",
-          "started_at": "2026-10-12T12:35:49Z",
-          "completed_at": "2026-10-12T12:35:49Z"
+          "started_at": "2026-10-12T14:27:42Z",
+          "completed_at": "2026-10-12T14:27:42Z"
         },
         {
           "name": "post: rocketSend (manual migration)",
           "number": 3,
           "conclusion": "skipped",
-          "started_at": "2026-10-12T12:35:49Z",
-          "completed_at": "2026-10-12T12:35:49Z"
+          "started_at": "2026-10-12T14:27:42Z",
+          "completed_at": "2026-10-12T14:27:42Z"
         },
         {
           "name": "post: rocketSend (manual migration)",
           "number": 4,
           "conclusion": "success",
-          "started_at": "2026-10-12T12:35:49Z",
-          "completed_at": "2026-10-12T12:35:49Z"
+          "started_at": "2026-10-12T14:27:42Z",
+          "completed_at": "2026-10-12T14:27:42Z"
         },
         {
           "name": "Complete job",
           "number": 5,
           "conclusion": "success",
-          "started_at": "2026-10-12T12:35:49Z",
-          "completed_at": "2026-10-12T12:35:49Z"
+          "started_at": "2026-10-12T14:27:42Z",
+          "completed_at": "2026-10-12T14:27:42Z"
         }
       ]
     }
   ],
   "failed_steps": [],
   "billable_minutes": 4,
-  "seconds": 46.8,
+  "seconds": 50.0,
   "environments": {
     "secret_checks": [],
     "entered": []
@@ -440,7 +440,7 @@
       "git_branch": "origin/master"
     },
     "mode": "trace",
-    "model_sha256": "8fed40b83b5a13123e40ed546b9731d098e57f2f77cdc0fd5e212f72ab5e7378",
+    "model_sha256": "a9e3c586f3f2b9af3f15b14351de37e245fd48adfe70d452b3dbaf3e0955db25",
     "images": {
       "jenkins": {
         "ref": "j2gha/jenkins:local",
@@ -492,7 +492,7 @@
       }
     }
   },
-  "finished_at": "2026-10-12T12:36:02+00:00",
+  "finished_at": "2026-10-12T14:27:59+00:00",
   "comparison": {
     "equivalent": true,
     "verdict": "equivalent",

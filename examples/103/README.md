@@ -180,11 +180,11 @@ Generated [`gha/workflow.yml`](gha/workflow.yml) and [`gha/migration-report.md`]
 
 | Mapped | Approximated | Manual | Dropped | Automation |
 |---:|---:|---:|---:|---:|
-| 41 | 43 | 13 | 1 | 69.0% |
+| 41 | 44 | 13 | 1 | 68.9% |
 
 Automation is an effort estimate: report items weighted by status (mapped 1, dropped 0.8, approximated 0.6, manual 0; info items are not scored), not a measure of correctness.
 
-Jobs: `check-commit-message` (ubuntu-latest, 8 steps), `run-urdf-tests` (ubuntu-latest, 7 steps), `build-robot-urdfs-and-srdfs` (ubuntu-latest, matrix, 8 steps), `build-end-effector-urdfs` (ubuntu-latest, matrix, 7 steps), `archive-urdfs-and-srdfs` (ubuntu-latest, 60 steps), `trigger-upstream-franka_ros2_ws-builds-h` (ubuntu-latest, 9 steps), `trigger-upstream-franka_ros2_ws-builds-j` (ubuntu-latest, 9 steps), `post` (ubuntu-latest, 10 steps)
+Jobs: `check-commit-message` (ubuntu-latest, 8 steps), `run-urdf-tests` (ubuntu-latest, 7 steps), `build-robot-urdfs-and-srdfs` (ubuntu-latest, matrix, 11 steps), `build-end-effector-urdfs` (ubuntu-latest, matrix, 8 steps), `archive-urdfs-and-srdfs` (ubuntu-latest, 61 steps), `trigger-upstream-franka_ros2_ws-builds-h` (ubuntu-latest, 10 steps), `trigger-upstream-franka_ros2_ws-builds-j` (ubuntu-latest, 10 steps), `post` (ubuntu-latest, 11 steps)
 
 Manual items: options: gitLabConnection; environment VERSION = feDetermineVersionFromGit(...) (L15); decl skipKeywords = [wip, [skip ci], [skip-ci], [ci ski (L38); if (skipKeywords.any { commitMsg.toLowerCase().contain) (L39); notifyBitbucket (L50); decl robs = [fp3, fr3, fr3v2, fr3v2_1, tmrv0_2] (L196); decl copyCmd = robs.collect { "cp -r meshes/robots/${it (L197); collect (L197); fePublishOpkg (L276); fePublishBuildInfo (L277) …
 <!-- j2gha:conversion:end -->
@@ -203,22 +203,22 @@ Structural checks (actionlint, j2gha policy) gate the result; zizmor security fi
 
 <details><summary>actionlint findings</summary>
 
-- L423: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:116: Double quote to prevent globbing and word splitting
-- L423: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:59: Double quote to prevent globbing and word splitting
-- L675: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:56: Double quote to prevent globbing and word splitting
-- L886: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:10: Double quote to prevent globbing and word splitting
-- L889: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:10: Double quote to prevent globbing and word splitting
-- L892: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:10: Double quote to prevent globbing and word splitting
-- L895: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:10: Double quote to prevent globbing and word splitting
-- L923: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:10: Double quote to prevent globbing and word splitting
-- L951: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:10: Double quote to prevent globbing and word splitting
-- L979: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:10: Double quote to prevent globbing and word splitting
-- L1007: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:10: Double quote to prevent globbing and word splitting
-- L1035: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:10: Double quote to prevent globbing and word splitting
-- L1041: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:10: Double quote to prevent globbing and word splitting
-- L1044: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:10: Double quote to prevent globbing and word splitting
-- L1087: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:8: Double quote to prevent globbing and word splitting
-- L1090: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:8: Double quote to prevent globbing and word splitting
+- L484: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:116: Double quote to prevent globbing and word splitting
+- L484: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:59: Double quote to prevent globbing and word splitting
+- L861: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:56: Double quote to prevent globbing and word splitting
+- L1099: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:10: Double quote to prevent globbing and word splitting
+- L1102: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:10: Double quote to prevent globbing and word splitting
+- L1105: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:10: Double quote to prevent globbing and word splitting
+- L1108: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:10: Double quote to prevent globbing and word splitting
+- L1136: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:10: Double quote to prevent globbing and word splitting
+- L1164: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:10: Double quote to prevent globbing and word splitting
+- L1192: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:10: Double quote to prevent globbing and word splitting
+- L1220: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:10: Double quote to prevent globbing and word splitting
+- L1248: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:10: Double quote to prevent globbing and word splitting
+- L1254: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:10: Double quote to prevent globbing and word splitting
+- L1257: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:10: Double quote to prevent globbing and word splitting
+- L1300: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:8: Double quote to prevent globbing and word splitting
+- L1303: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:8: Double quote to prevent globbing and word splitting
 
 </details>
 

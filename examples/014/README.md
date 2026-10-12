@@ -123,7 +123,7 @@ Generated [`gha/workflow.yml`](gha/workflow.yml) and [`gha/migration-report.md`]
 
 Automation is an effort estimate: report items weighted by status (mapped 1, dropped 0.8, approximated 0.6, manual 0; info items are not scored), not a measure of correctness.
 
-Jobs: `update-openroad-to-head-of-master-branch` (ubuntu-latest, 13 steps), `run-tests` (ubuntu-latest, matrix, 13 steps), `post` (ubuntu-latest, 3 steps)
+Jobs: `update-openroad-to-head-of-master-branch` (ubuntu-latest, 13 steps), `run-tests` (ubuntu-latest, matrix, 16 steps), `post` (ubuntu-latest, 4 steps)
 <!-- j2gha:conversion:end -->
 
 <!-- j2gha:validation:start -->
@@ -140,9 +140,9 @@ Structural checks (actionlint, j2gha policy) gate the result; zizmor security fi
 
 <details><summary>actionlint findings</summary>
 
-- L430: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:10: Double quote to prevent globbing and word splitting
-- L430: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:21: Double quote to prevent globbing and word splitting
-- L434: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:53: Double quote to prevent globbing and word splitting
+- L474: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:10: Double quote to prevent globbing and word splitting
+- L474: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:21: Double quote to prevent globbing and word splitting
+- L478: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:53: Double quote to prevent globbing and word splitting
 
 </details>
 <!-- j2gha:validation:end -->
@@ -156,11 +156,11 @@ Trace mode compares the per-stage sequence of executed steps (`J2GHA-TRACE` mark
 |---|---|---|---:|---:|---|---|
 | jenkins | trace | SUCCESS | 206 | - | reference | 0 localisation changes, 76 stubs |
 | act | trace | success | 206 | 100.0% | ✅ equivalent |  |
-| selfhosted | trace | success | 206 | 100.0% | ✅ equivalent | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38250780715) |
-| hosted | trace | success | 206 | 100.0% | ✅ equivalent | billable ≈ 24 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38251173306) |
+| selfhosted | trace | success | 206 | 100.0% | ✅ equivalent | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38281028711) |
+| hosted | trace | success | 206 | 100.0% | ✅ equivalent | billable ≈ 24 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38281466235) |
 | jenkins | full | FAILURE | 1 | - | reference | 0 localisation changes, 36 stubs |
 | act | full | failure | 0 | - | ✅ same outcome |  |
-| selfhosted | full | failure | 0 | - | ✅ same outcome | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38251464050) |
+| selfhosted | full | failure | 0 | - | ✅ same outcome | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38281722704) |
 
 Estimated hosted cost of a trace run: ~24 billable minute(s) (worst case 120).
 
@@ -183,5 +183,5 @@ Estimated hosted cost of a trace run: ~24 billable minute(s) (worst case 120).
 </details>
 - full mode (act): Jenkins **FAILURE** (first failed stage: Build Docker OpenLane image with openroad_app master); act **failure** (first failed step: `Build Docker OpenLane image with openroad_app master: make -C docker build-openroad_app`); no test results on either side; nothing archived on either side
 - full mode (selfhosted): Jenkins **FAILURE** (first failed stage: Build Docker OpenLane image with openroad_app master); selfhosted **failure** (first failed step: `Build Docker OpenLane image with openroad_app master: make -C docker build-openroad_app`); no test results on either side; nothing archived on either side
-- workspace hand-off (selfhosted, full): 1 archives, 17.3 MB; 4 steps, 52 s summed over jobs (of 135 s job time); 52 s on the critical path of a 150 s run
+- workspace hand-off (selfhosted, full): 1 archives, 17.3 MB; 5 steps, 53 s summed over jobs (of 140 s job time); 53 s on the critical path of a 155 s run
 <!-- j2gha:execution:end -->

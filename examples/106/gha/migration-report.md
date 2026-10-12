@@ -76,7 +76,7 @@ Jenkins runs every stage without an agent of its own in one workspace; the conve
 - **Handed on by:** `setup`, `approval`. **Merged after running concurrently:** none (each later branch's own changes are replayed onto the first one's workspace).
 - **Runtime requirements:** bash, GNU tar, findutils, coreutils and sed on the runner and in job containers: GitHub's Linux runners and Debian/Ubuntu-based images. busybox/Alpine images fail at the hand-off steps.
 - **Same as Jenkins:** the files, directories, modes, symbolic and hard links every stage starts with, provided concurrent branches change different paths.
-- **Approximated:** concurrent branches do not see each other's files while they run; a path two of them change takes the later branch's version (in Jenkins: whichever wrote last); changes of timestamps alone and matrix cells' changes are not handed on.
+- **Approximated:** concurrent branches do not see each other's files while they run; a path two of them change takes the later branch's version (matrix cells: the later cell's, by name; in Jenkins: whichever wrote last); changes of timestamps alone are not handed on.
 - **Fails instead:** an entry the job's user cannot read, a workspace that did not arrive from a job that ran - a nearest one or one the restore falls back on because a nearer job was skipped. Where that job's result is not visible to the restoring job (it is not one it needs directly), a missing workspace is taken as skipped, with a warning.
 
 ## Stage graph

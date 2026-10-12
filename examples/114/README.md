@@ -126,7 +126,7 @@ Generated [`gha/workflow.yml`](gha/workflow.yml) and [`gha/migration-report.md`]
 
 Automation is an effort estimate: report items weighted by status (mapped 1, dropped 0.8, approximated 0.6, manual 0; info items are not scored), not a measure of correctness.
 
-Jobs: `update-openroad-to-head-of-master-branch` (ubuntu-latest, 13 steps), `run-tests` (ubuntu-latest, matrix, 13 steps), `post` (ubuntu-latest, 3 steps)
+Jobs: `update-openroad-to-head-of-master-branch` (ubuntu-latest, 13 steps), `run-tests` (ubuntu-latest, matrix, 16 steps), `post` (ubuntu-latest, 4 steps)
 <!-- j2gha:conversion:end -->
 
 <!-- j2gha:validation:start -->
@@ -143,9 +143,9 @@ Structural checks (actionlint, j2gha policy) gate the result; zizmor security fi
 
 <details><summary>actionlint findings</summary>
 
-- L431: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:10: Double quote to prevent globbing and word splitting
-- L431: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:21: Double quote to prevent globbing and word splitting
-- L435: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:58: Double quote to prevent globbing and word splitting
+- L475: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:10: Double quote to prevent globbing and word splitting
+- L475: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:21: Double quote to prevent globbing and word splitting
+- L479: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:58: Double quote to prevent globbing and word splitting
 
 </details>
 <!-- j2gha:validation:end -->
@@ -159,14 +159,14 @@ Trace mode compares the per-stage sequence of executed steps (`J2GHA-TRACE` mark
 |---|---|---|---:|---:|---|---|
 | jenkins | trace | SUCCESS | 206 | - | reference | 0 localisation changes, 76 stubs |
 | act | trace | success | 206 | 100.0% | ✅ equivalent |  |
-| hosted | trace | success | 206 | 100.0% | ✅ equivalent | billable ≈ 24 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38251137560) |
+| hosted | trace | success | 206 | 100.0% | ✅ equivalent | billable ≈ 24 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38285073505) |
 | jenkins | full | SUCCESS | 0 | - | reference | 0 localisation changes, 36 stubs |
 | act | full | success | 0 | - | ✅ same outcome |  |
-| selfhosted | full | success | 0 | - | ✅ same outcome | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38251638114) |
+| selfhosted | full | success | 0 | - | ✅ same outcome | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38285489403) |
 
 Estimated hosted cost of a trace run: ~24 billable minute(s) (worst case 120).
 
 - full mode (act): Jenkins **SUCCESS** (first failed stage: -); act **success** (first failed step: `-`); no test results on either side; nothing archived on either side
 - full mode (selfhosted): Jenkins **SUCCESS** (first failed stage: -); selfhosted **success** (first failed step: `-`); no test results on either side; nothing archived on either side
-- workspace hand-off (selfhosted, full): 1 archives, 17.3 MB; 48 steps, 1020 s summed over jobs (of 1406 s job time); 88 s on the critical path of a 514 s run
+- workspace hand-off (selfhosted, full): 23 archives, 19.3 MB; 115 steps, 1161 s summed over jobs (of 1522 s job time); 118 s on the critical path of a 555 s run
 <!-- j2gha:execution:end -->

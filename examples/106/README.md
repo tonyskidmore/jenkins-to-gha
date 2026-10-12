@@ -180,7 +180,7 @@ Structural checks (actionlint, j2gha policy) gate the result; zizmor security fi
 - L138: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:72: Double quote to prevent globbing and word splitting
 - L144: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:11: Double quote to prevent globbing and word splitting
 - L155: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:11: Double quote to prevent globbing and word splitting
-- L374: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:11: Double quote to prevent globbing and word splitting
+- L391: [shellcheck] shellcheck reported issue in this script: SC2086:info:1:11: Double quote to prevent globbing and word splitting
 
 </details>
 
@@ -197,15 +197,15 @@ Trace mode compares the per-stage sequence of executed steps (`J2GHA-TRACE` mark
 |---|---|---|---:|---:|---|---|
 | jenkins | trace | SUCCESS | 22 | - | reference | 1 localisation changes, 79 stubs |
 | act | trace | success | 22 | 100.0% | ✅ equivalent |  |
-| hosted | trace | success | 22 | 100.0% | ✅ equivalent | billable ≈ 4 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38249954760) |
+| hosted | trace | success | 22 | 100.0% | ✅ equivalent | billable ≈ 4 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38263012137) |
 | jenkins | full | SUCCESS | 2 | - | reference | 1 localisation changes, 39 stubs |
 | act | full | success | 0 | - | ✅ same outcome |  |
-| selfhosted | full | success | 0 | - | ✅ same outcome | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38255813582) |
+| selfhosted | full | success | 0 | - | ✅ same outcome | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38280418039) |
 
 Estimated hosted cost of a trace run: ~4 billable minute(s) (worst case 20).
 
 - environments (hosted, trace): same - expected none, entered none
 - full mode (act): Jenkins **SUCCESS** (first failed stage: -); act **success** (first failed step: `-`); no test results on either side; nothing archived on either side
 - full mode (selfhosted): Jenkins **SUCCESS** (first failed stage: -); selfhosted **success** (first failed step: `-`); no test results on either side; nothing archived on either side
-- workspace hand-off (selfhosted, full): 2 archives, 0.1 MB; 9 steps, 8 s summed over jobs (of 56 s job time); 8 s on the critical path of a 96 s run
+- workspace hand-off (selfhosted, full): 2 archives, 0.1 MB; 9 steps, 7 s summed over jobs (of 62 s job time); 7 s on the critical path of a 80 s run
 <!-- j2gha:execution:end -->

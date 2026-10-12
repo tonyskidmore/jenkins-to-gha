@@ -3,7 +3,7 @@ name: j2gha harness run
 on:
   push:
     branches:
-    - j2gha/run/117-full-selfhosted-20261012132156
+    - j2gha/run/117-full-selfhosted-20261012170430
   workflow_dispatch:
 permissions:
   contents: read
@@ -11,7 +11,7 @@ env:
   BRANCH_NAME: master
   TAG_NAME: ''
   CHANGE_ID: ''
-  BUILD_NUMBER: ${{ github.run_number }}
+  BUILD_NUMBER: '6'
   JOB_NAME: ex-117-full
   BUILD_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
   WORKSPACE: ${{ github.workspace }}
@@ -26,7 +26,7 @@ jobs:
     name: Init
     runs-on:
     - self-hosted
-    - j2gha-09f73b21
+    - j2gha-2373219a
     timeout-minutes: 10
     steps:
     - name: Checkout
@@ -205,7 +205,7 @@ jobs:
     needs: init
     runs-on:
     - self-hosted
-    - j2gha-09f73b21
+    - j2gha-2373219a
     timeout-minutes: 10
     steps:
     - name: 'Build: enter stage'
@@ -272,7 +272,7 @@ jobs:
     needs: init
     runs-on:
     - self-hosted
-    - j2gha-09f73b21
+    - j2gha-2373219a
     timeout-minutes: 10
     steps:
     - name: 'Build: enter stage'
@@ -339,7 +339,7 @@ jobs:
     needs: init
     runs-on:
     - self-hosted
-    - j2gha-09f73b21
+    - j2gha-2373219a
     timeout-minutes: 10
     steps:
     - name: 'Build: enter stage'
@@ -415,7 +415,7 @@ jobs:
     needs: init
     runs-on:
     - self-hosted
-    - j2gha-09f73b21
+    - j2gha-2373219a
     timeout-minutes: 10
     steps:
     - name: 'Build: enter stage'
@@ -486,7 +486,7 @@ jobs:
     - build-build-cvr-data-update-module
     runs-on:
     - self-hosted
-    - j2gha-09f73b21
+    - j2gha-2373219a
     timeout-minutes: 10
     steps:
     - name: Checkout
@@ -647,7 +647,7 @@ jobs:
     needs: deploy
     runs-on:
     - self-hosted
-    - j2gha-09f73b21
+    - j2gha-2373219a
     timeout-minutes: 10
     steps:
     - name: Checkout
@@ -699,7 +699,7 @@ jobs:
     needs: load-test-data-to-db
     runs-on:
     - self-hosted
-    - j2gha-09f73b21
+    - j2gha-2373219a
     timeout-minutes: 10
     steps:
     - name: Checkout
@@ -741,7 +741,7 @@ jobs:
     if: always()
     runs-on:
     - self-hosted
-    - j2gha-09f73b21
+    - j2gha-2373219a
     steps:
     - name: 'Declarative: Post Actions: if (line 768)'
       id: s114

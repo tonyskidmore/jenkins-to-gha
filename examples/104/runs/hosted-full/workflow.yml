@@ -3,7 +3,7 @@ name: j2gha harness run
 on:
   push:
     branches:
-    - j2gha/run/104-full-hosted-20261012132223
+    - j2gha/run/104-full-hosted-20261012165045
   workflow_dispatch:
 permissions:
   contents: read
@@ -11,7 +11,7 @@ env:
   BRANCH_NAME: aws-main
   TAG_NAME: ''
   CHANGE_ID: ''
-  BUILD_NUMBER: ${{ github.run_number }}
+  BUILD_NUMBER: '1'
   JOB_NAME: ex-104-full
   BUILD_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
   GIT_COMMIT: 4d48d2d9d80c31817c6026a1b269589601f34de6
@@ -184,6 +184,7 @@ jobs:
         J2GHA_WS_LINEAGE: 'deploy-test:'
         J2GHA_WS_HEADS: deploy-test
         J2GHA_WS_RESULTS: deploy-test=${{ needs.deploy-test.result }}
+        J2GHA_WS_DELTAS: ''
         J2GHA_WS_FALLBACKS: 'deploy-test:'
       run: |
         ws="$GITHUB_WORKSPACE"
@@ -195,7 +196,12 @@ jobs:
             if [ "${line%%:*}" = "$1" ]; then printf '%s\n' "${line#*:}"; fi
           done <<< "$J2GHA_WS_LINEAGE"
         }
-        present() { [ -f "$d/$1/.j2gha-ws.tgz" ]; }
+        isdelta() { case " $J2GHA_WS_DELTAS " in *" $1 "*) return 0 ;; esac; return 1; }
+        # the cells of a matrix producer that arrived (one directory per artifact, in name order)
+        cells() { local c; for c in "$d/$1"/*/; do if [ -f "$c.j2gha-ws.changes" ]; then basename "$c"; fi; done; }
+        present() {
+          if isdelta "$1"; then [ -n "$(cells "$1")" ]; else [ -f "$d/$1/.j2gha-ws.tgz" ]; fi
+        }
         # read-only directories (a Go module cache) need write permission to be removed
         remove() { rm -rf -- "$@" 2>/dev/null || { chmod -R u+w -- "$@"; rm -rf -- "$@"; }; }
         isdir() { [ -d "$1" ] && [ ! -L "$1" ]; }
@@ -287,7 +293,8 @@ jobs:
           present "$p" || continue
           covered=false
           for q in $J2GHA_WS_ORDER; do
-            if [ "$q" != "$p" ] && present "$q"; then
+            # a matrix hands on its cells' changes, not a workspace: it does not stand in for the producers before it
+            if [ "$q" != "$p" ] && ! isdelta "$q" && present "$q"; then
               case " $(ancestors "$q") " in *" $p "*) covered=true ;; esac
             fi
           done
@@ -301,8 +308,18 @@ jobs:
             if [ "$e" != "$d" ]; then remove "$e"; fi
           done
           shopt -u dotglob nullglob
+          if isdelta "${frontier[0]}"; then
+            echo "::error::no workspace arrived for the changes of matrix job '${frontier[0]}' to be applied to"
+            exit 1
+          fi
           tar -xzpf "$d/${frontier[0]}/.j2gha-ws.tgz" -C "$ws"
-          for f in "${frontier[@]:1}"; do replay "$f"; done
+          for f in "${frontier[@]:1}"; do
+            if isdelta "$f"; then
+              while IFS= read -r c; do replay "$f/$c"; done < <(cells "$f")
+            else
+              replay "$f"
+            fi
+          done
           restored=true
         fi
         remove "$d"

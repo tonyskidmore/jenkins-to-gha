@@ -3,7 +3,7 @@ name: j2gha harness run
 on:
   push:
     branches:
-    - j2gha/run/112-full-selfhosted-20261012091109
+    - j2gha/run/112-full-selfhosted-20261012143206
   workflow_dispatch:
 permissions:
   contents: read
@@ -24,7 +24,7 @@ jobs:
     name: Init
     runs-on:
     - self-hosted
-    - j2gha-2c2ecbb3
+    - j2gha-449a52ca
     timeout-minutes: 10
     steps:
     - name: Checkout
@@ -66,7 +66,7 @@ jobs:
     needs: init
     runs-on:
     - self-hosted
-    - j2gha-2c2ecbb3
+    - j2gha-449a52ca
     timeout-minutes: 10
     steps:
     - name: Restore pipeline workspace (init)
@@ -85,6 +85,7 @@ jobs:
         J2GHA_WS_LINEAGE: 'init:'
         J2GHA_WS_HEADS: init
         J2GHA_WS_RESULTS: init=${{ needs.init.result }}
+        J2GHA_WS_DELTAS: ''
         J2GHA_WS_FALLBACKS: 'init:'
       run: |
         ws="$GITHUB_WORKSPACE"
@@ -96,7 +97,12 @@ jobs:
             if [ "${line%%:*}" = "$1" ]; then printf '%s\n' "${line#*:}"; fi
           done <<< "$J2GHA_WS_LINEAGE"
         }
-        present() { [ -f "$d/$1/.j2gha-ws.tgz" ]; }
+        isdelta() { case " $J2GHA_WS_DELTAS " in *" $1 "*) return 0 ;; esac; return 1; }
+        # the cells of a matrix producer that arrived (one directory per artifact, in name order)
+        cells() { local c; for c in "$d/$1"/*/; do if [ -f "$c.j2gha-ws.changes" ]; then basename "$c"; fi; done; }
+        present() {
+          if isdelta "$1"; then [ -n "$(cells "$1")" ]; else [ -f "$d/$1/.j2gha-ws.tgz" ]; fi
+        }
         # read-only directories (a Go module cache) need write permission to be removed
         remove() { rm -rf -- "$@" 2>/dev/null || { chmod -R u+w -- "$@"; rm -rf -- "$@"; }; }
         isdir() { [ -d "$1" ] && [ ! -L "$1" ]; }
@@ -188,7 +194,8 @@ jobs:
           present "$p" || continue
           covered=false
           for q in $J2GHA_WS_ORDER; do
-            if [ "$q" != "$p" ] && present "$q"; then
+            # a matrix hands on its cells' changes, not a workspace: it does not stand in for the producers before it
+            if [ "$q" != "$p" ] && ! isdelta "$q" && present "$q"; then
               case " $(ancestors "$q") " in *" $p "*) covered=true ;; esac
             fi
           done
@@ -202,8 +209,18 @@ jobs:
             if [ "$e" != "$d" ]; then remove "$e"; fi
           done
           shopt -u dotglob nullglob
+          if isdelta "${frontier[0]}"; then
+            echo "::error::no workspace arrived for the changes of matrix job '${frontier[0]}' to be applied to"
+            exit 1
+          fi
           tar -xzpf "$d/${frontier[0]}/.j2gha-ws.tgz" -C "$ws"
-          for f in "${frontier[@]:1}"; do replay "$f"; done
+          for f in "${frontier[@]:1}"; do
+            if isdelta "$f"; then
+              while IFS= read -r c; do replay "$f/$c"; done < <(cells "$f")
+            else
+              replay "$f"
+            fi
+          done
           restored=true
         fi
         remove "$d"
@@ -336,7 +353,7 @@ jobs:
     needs: init
     runs-on:
     - self-hosted
-    - j2gha-2c2ecbb3
+    - j2gha-449a52ca
     timeout-minutes: 10
     steps:
     - name: Restore pipeline workspace (init)
@@ -355,6 +372,7 @@ jobs:
         J2GHA_WS_LINEAGE: 'init:'
         J2GHA_WS_HEADS: init
         J2GHA_WS_RESULTS: init=${{ needs.init.result }}
+        J2GHA_WS_DELTAS: ''
         J2GHA_WS_FALLBACKS: 'init:'
       run: |
         ws="$GITHUB_WORKSPACE"
@@ -366,7 +384,12 @@ jobs:
             if [ "${line%%:*}" = "$1" ]; then printf '%s\n' "${line#*:}"; fi
           done <<< "$J2GHA_WS_LINEAGE"
         }
-        present() { [ -f "$d/$1/.j2gha-ws.tgz" ]; }
+        isdelta() { case " $J2GHA_WS_DELTAS " in *" $1 "*) return 0 ;; esac; return 1; }
+        # the cells of a matrix producer that arrived (one directory per artifact, in name order)
+        cells() { local c; for c in "$d/$1"/*/; do if [ -f "$c.j2gha-ws.changes" ]; then basename "$c"; fi; done; }
+        present() {
+          if isdelta "$1"; then [ -n "$(cells "$1")" ]; else [ -f "$d/$1/.j2gha-ws.tgz" ]; fi
+        }
         # read-only directories (a Go module cache) need write permission to be removed
         remove() { rm -rf -- "$@" 2>/dev/null || { chmod -R u+w -- "$@"; rm -rf -- "$@"; }; }
         isdir() { [ -d "$1" ] && [ ! -L "$1" ]; }
@@ -458,7 +481,8 @@ jobs:
           present "$p" || continue
           covered=false
           for q in $J2GHA_WS_ORDER; do
-            if [ "$q" != "$p" ] && present "$q"; then
+            # a matrix hands on its cells' changes, not a workspace: it does not stand in for the producers before it
+            if [ "$q" != "$p" ] && ! isdelta "$q" && present "$q"; then
               case " $(ancestors "$q") " in *" $p "*) covered=true ;; esac
             fi
           done
@@ -472,8 +496,18 @@ jobs:
             if [ "$e" != "$d" ]; then remove "$e"; fi
           done
           shopt -u dotglob nullglob
+          if isdelta "${frontier[0]}"; then
+            echo "::error::no workspace arrived for the changes of matrix job '${frontier[0]}' to be applied to"
+            exit 1
+          fi
           tar -xzpf "$d/${frontier[0]}/.j2gha-ws.tgz" -C "$ws"
-          for f in "${frontier[@]:1}"; do replay "$f"; done
+          for f in "${frontier[@]:1}"; do
+            if isdelta "$f"; then
+              while IFS= read -r c; do replay "$f/$c"; done < <(cells "$f")
+            else
+              replay "$f"
+            fi
+          done
           restored=true
         fi
         remove "$d"
@@ -608,7 +642,7 @@ jobs:
     - parallel-stage-branch-b
     runs-on:
     - self-hosted
-    - j2gha-2c2ecbb3
+    - j2gha-449a52ca
     timeout-minutes: 10
     steps:
     - name: Restore pipeline workspace (parallel-stage-branch-a)
@@ -647,6 +681,7 @@ jobs:
         J2GHA_WS_HEADS: parallel-stage-branch-a parallel-stage-branch-b
         J2GHA_WS_RESULTS: parallel-stage-branch-a=${{ needs.parallel-stage-branch-a.result }} parallel-stage-branch-b=${{
           needs.parallel-stage-branch-b.result }}
+        J2GHA_WS_DELTAS: ''
         J2GHA_WS_FALLBACKS: |-
           init:
           parallel-stage-branch-a: init
@@ -661,7 +696,12 @@ jobs:
             if [ "${line%%:*}" = "$1" ]; then printf '%s\n' "${line#*:}"; fi
           done <<< "$J2GHA_WS_LINEAGE"
         }
-        present() { [ -f "$d/$1/.j2gha-ws.tgz" ]; }
+        isdelta() { case " $J2GHA_WS_DELTAS " in *" $1 "*) return 0 ;; esac; return 1; }
+        # the cells of a matrix producer that arrived (one directory per artifact, in name order)
+        cells() { local c; for c in "$d/$1"/*/; do if [ -f "$c.j2gha-ws.changes" ]; then basename "$c"; fi; done; }
+        present() {
+          if isdelta "$1"; then [ -n "$(cells "$1")" ]; else [ -f "$d/$1/.j2gha-ws.tgz" ]; fi
+        }
         # read-only directories (a Go module cache) need write permission to be removed
         remove() { rm -rf -- "$@" 2>/dev/null || { chmod -R u+w -- "$@"; rm -rf -- "$@"; }; }
         isdir() { [ -d "$1" ] && [ ! -L "$1" ]; }
@@ -753,7 +793,8 @@ jobs:
           present "$p" || continue
           covered=false
           for q in $J2GHA_WS_ORDER; do
-            if [ "$q" != "$p" ] && present "$q"; then
+            # a matrix hands on its cells' changes, not a workspace: it does not stand in for the producers before it
+            if [ "$q" != "$p" ] && ! isdelta "$q" && present "$q"; then
               case " $(ancestors "$q") " in *" $p "*) covered=true ;; esac
             fi
           done
@@ -767,8 +808,18 @@ jobs:
             if [ "$e" != "$d" ]; then remove "$e"; fi
           done
           shopt -u dotglob nullglob
+          if isdelta "${frontier[0]}"; then
+            echo "::error::no workspace arrived for the changes of matrix job '${frontier[0]}' to be applied to"
+            exit 1
+          fi
           tar -xzpf "$d/${frontier[0]}/.j2gha-ws.tgz" -C "$ws"
-          for f in "${frontier[@]:1}"; do replay "$f"; done
+          for f in "${frontier[@]:1}"; do
+            if isdelta "$f"; then
+              while IFS= read -r c; do replay "$f/$c"; done < <(cells "$f")
+            else
+              replay "$f"
+            fi
+          done
           restored=true
         fi
         remove "$d"
