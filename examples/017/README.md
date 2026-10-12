@@ -234,6 +234,7 @@ Trace mode compares the per-stage sequence of executed steps (`J2GHA-TRACE` mark
 |---|---|---|---:|---:|---|---|
 | jenkins | trace | FAILURE | 2 | - | reference | 33 localisation changes, 77 stubs; auto-repair: [['untype-decl', 10], ['stub-property', 'APP_BRANCH'], ['stub-property', 'log'], ['untype-decl', 193]] |
 | act | trace | success | 4 | 25.0% | ⚠️ inconclusive |  |
+| hosted | trace | success | 4 | 25.0% | ⚠️ inconclusive | billable ≈ 9 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38222969497) |
 | jenkins | full | FAILURE | 0 | - | reference | 33 localisation changes, 37 stubs; auto-repair: [['untype-decl', 10], ['stub-property', 'APP_BRANCH'], ['stub-property', 'log'], ['untype-decl', 193]] |
 | act | full | success | 0 | - | ❌ different outcome |  |
 
@@ -252,6 +253,14 @@ Estimated hosted cost of a trace run: ~9 billable minute(s) (worst case 45).
 - `Init: TF deployment bucket`: differs - jenkins ['error'] vs act ['sh']
 - `Load test data to DB`: extra-stage - jenkins [] vs act ['checkout']
 - `Tests`: extra-stage - jenkins [] vs act ['checkout']
+
+</details>
+- hosted (trace) inconclusive: Jenkins stopped on the pipeline's own error() in stage 'Init: TF deployment bucket'; the 1 stage(s) before it are equivalent. Compare these runs in full mode instead.
+<details><summary>hosted (trace) differences</summary>
+
+- `Init: TF deployment bucket`: differs - jenkins ['error'] vs hosted ['sh']
+- `Load test data to DB`: extra-stage - jenkins [] vs hosted ['checkout']
+- `Tests`: extra-stage - jenkins [] vs hosted ['checkout']
 
 </details>
 <details><summary>jenkins (full) failure</summary>

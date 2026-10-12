@@ -183,6 +183,7 @@ Trace mode compares the per-stage sequence of executed steps (`J2GHA-TRACE` mark
 |---|---|---|---:|---:|---|---|
 | jenkins | trace | SUCCESS | 341 | - | reference | 6 localisation changes, 76 stubs |
 | act | trace | success | 13 | 3.5% | ❌ differs |  |
+| hosted | trace | success | 13 | 3.5% | ❌ differs | billable ≈ 4 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38223076146) |
 | jenkins | full | FAILURE | 0 | - | reference | 9 localisation changes, 37 stubs |
 | act | full | failure | 0 | - | ⚠️ inconclusive |  |
 
@@ -220,6 +221,40 @@ Estimated hosted cost of a trace run: ~4 billable minute(s) (worst case 20).
 - `centos8`: missing-stage - jenkins ['sh'] vs act []
 - `centos9`: missing-stage - jenkins ['sh'] vs act []
 - `jammy`: missing-stage - jenkins ['sh'] vs act []
+
+</details>
+<details><summary>hosted (trace) differences</summary>
+
+- `Build Docs`: extra-stage - jenkins [] vs hosted ['checkout']
+- `CentOS 10 - build & test`: missing-stage - jenkins ['sh', 'unstash', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'writeFile', 'sh', 'sh', 'sh', 'sh', 'junit', 'sh'] vs hosted []
+- `CentOS 10 - package`: missing-stage - jenkins ['unstash', 'sh', 'sh', 'sh', 'sh', 'sh', 'archiveArtifacts', 'sh'] vs hosted []
+- `CentOS 8 - build & test`: missing-stage - jenkins ['sh', 'unstash', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'writeFile', 'sh', 'sh', 'sh', 'sh', 'junit', 'sh'] vs hosted []
+- `CentOS 8 - package`: missing-stage - jenkins ['unstash', 'sh', 'sh', 'sh', 'sh', 'sh', 'archiveArtifacts', 'sh'] vs hosted []
+- `CentOS 9 - build & test`: missing-stage - jenkins ['sh', 'unstash', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'writeFile', 'sh', 'sh', 'sh', 'sh', 'junit', 'sh'] vs hosted []
+- `CentOS 9 - package`: missing-stage - jenkins ['unstash', 'sh', 'sh', 'sh', 'sh', 'sh', 'archiveArtifacts', 'sh'] vs hosted []
+- `Debian 12 with QuickJS - build & test`: missing-stage - jenkins ['sh', 'unstash', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'writeFile', 'sh', 'sh', 'sh', 'sh', 'junit', 'sh'] vs hosted []
+- `Debian 12 with QuickJS - package`: missing-stage - jenkins ['unstash', 'sh', 'sh', 'sh', 'sh', 'sh', 'archiveArtifacts', 'sh'] vs hosted []
+- `Debian ARM64 - build & test`: missing-stage - jenkins ['sh', 'unstash', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'writeFile', 'sh', 'sh', 'sh', 'sh', 'junit', 'sh'] vs hosted []
+- `Debian ARM64 - package`: missing-stage - jenkins ['unstash', 'sh', 'sh', 'sh', 'sh', 'sh', 'archiveArtifacts', 'sh'] vs hosted []
+- `Debian x86_64 - build & test`: missing-stage - jenkins ['sh', 'sh', 'sh', 'sh', 'unstash', 'unstash', 'unstash', 'unstash', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'writeFile', 'writeFile', 'writeFile', 'sh', 'sh', 'sh', 'sh', 'writeFile', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'junit', 'junit', 'junit', 'sh', 'sh', 'sh', 'junit', 'sh'] vs hosted []
+- `Debian x86_64 - package`: missing-stage - jenkins ['unstash', 'unstash', 'unstash', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'unstash', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'archiveArtifacts', 'archiveArtifacts', 'archiveArtifacts', 'sh', 'sh', 'sh', 'sh', 'archiveArtifacts', 'sh'] vs hosted []
+- `Setup Env`: differs - jenkins ['checkout', 'sh', 'sh', 'sh', 'sh', 'sh'] vs hosted ['checkout', 'sh']
+- `Ubuntu 22.04 - build & test`: missing-stage - jenkins ['sh', 'unstash', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'writeFile', 'sh', 'sh', 'sh', 'sh', 'junit', 'sh'] vs hosted []
+- `Ubuntu 22.04 - package`: missing-stage - jenkins ['unstash', 'sh', 'sh', 'sh', 'sh', 'sh', 'archiveArtifacts', 'sh'] vs hosted []
+- `Ubuntu 24.04 - build & test`: missing-stage - jenkins ['sh', 'unstash', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'writeFile', 'sh', 'sh', 'sh', 'sh', 'junit', 'sh'] vs hosted []
+- `Ubuntu 24.04 - package`: missing-stage - jenkins ['unstash', 'sh', 'sh', 'sh', 'sh', 'sh', 'archiveArtifacts', 'sh'] vs hosted []
+- `Ubuntu 26.04 - build & test`: missing-stage - jenkins ['sh', 'unstash', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'writeFile', 'sh', 'sh', 'sh', 'sh', 'junit', 'sh'] vs hosted []
+- `Ubuntu 26.04 - package`: missing-stage - jenkins ['unstash', 'sh', 'sh', 'sh', 'sh', 'sh', 'archiveArtifacts', 'sh'] vs hosted []
+- `base`: missing-stage - jenkins ['sh'] vs hosted []
+- `base-arm64`: missing-stage - jenkins ['sh'] vs hosted []
+- `base-intermediate-erlang`: missing-stage - jenkins ['sh'] vs hosted []
+- `base-max-erlang`: missing-stage - jenkins ['sh'] vs hosted []
+- `base-quickjs`: missing-stage - jenkins ['sh'] vs hosted []
+- `bookworm`: missing-stage - jenkins ['sh'] vs hosted []
+- `centos10`: missing-stage - jenkins ['sh'] vs hosted []
+- `centos8`: missing-stage - jenkins ['sh'] vs hosted []
+- `centos9`: missing-stage - jenkins ['sh'] vs hosted []
+- `jammy`: missing-stage - jenkins ['sh'] vs hosted []
 
 </details>
 <details><summary>jenkins (full) failure</summary>

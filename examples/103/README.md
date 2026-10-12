@@ -235,6 +235,7 @@ Trace mode compares the per-stage sequence of executed steps (`J2GHA-TRACE` mark
 |---|---|---|---:|---:|---|---|
 | jenkins | trace | SUCCESS | 78 | - | reference | 7 localisation changes, 81 stubs; auto-repair: ['feDetermineVersionFromGit'] |
 | act | trace | success | 78 | 100.0% | ✅ equivalent |  |
+| hosted | trace | success | 78 | 100.0% | ✅ equivalent | billable ≈ 13 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38223293158) |
 | jenkins | full | SUCCESS | 7 | - | reference | 7 localisation changes, 41 stubs; auto-repair: ['feDetermineVersionFromGit'] |
 | act | full | failure | 0 | - | ❌ different outcome |  |
 

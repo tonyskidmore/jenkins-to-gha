@@ -1,0 +1,43 @@
+# j2gha hosted variant (trace) of examples/018
+name: j2gha harness run
+on:
+  push:
+    branches:
+    - j2gha/run/018-trace-hosted-20261012082116
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  BRANCH_NAME: master
+  TAG_NAME: ''
+  CHANGE_ID: ''
+  GIT_COMMIT: ${{ github.sha }}
+  GIT_BRANCH: origin/master
+  GIT_URL: ${{ github.server_url }}/${{ github.repository }}.git
+defaults:
+  run:
+    shell: bash
+jobs:
+  main:
+    name: main, App Branch Close and Tag (not currently integrated), Get Repos, Get App Release Tags
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+    - name: 'Get Repos: deleteDir'
+      id: s1
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Get Repos","step":"deleteDir"}'
+    - name: 'Get App Release Tags: git describe --abbrev=0 --tags `git rev-list --tags --skip=1 --max-cou'
+      id: s5
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Get App Release Tags","step":"sh"}'
+    - name: 'Check Artefacts from Input Params: ${cmd}'
+      id: s8
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Check Artefacts from Input Params","step":"sh"}'
+    - name: 'Check Artefacts from Input Params: ${cmd2}'
+      id: s9
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Check Artefacts from Input Params","step":"sh"}'
+    - name: 'Check Artefacts from Input Params: ${cmd3}'
+      id: s12
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Check Artefacts from Input Params","step":"sh"}'
+    - name: 'Check Artefacts from Input Params: ${cmd4}'
+      id: s13
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Check Artefacts from Input Params","step":"sh"}'

@@ -187,6 +187,7 @@ Trace mode compares the per-stage sequence of executed steps (`J2GHA-TRACE` mark
 |---|---|---|---:|---:|---|---|
 | jenkins | trace | SUCCESS | 140 | - | reference | 9 localisation changes, 80 stubs; auto-repair: [['stub-property', 'buildSummary'], ['stub-property', 'AWS_ACCESS_KEY_ID'], ['stub-property', 'AWS_SECRET_ACCESS_KEY']] |
 | act | trace | success | 14 | 9.3% | ❌ differs |  |
+| hosted | trace | success | 14 | 9.3% | ❌ differs | billable ≈ 1 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38223380625) |
 | jenkins | full | FAILURE | 1 | - | reference | 9 localisation changes, 40 stubs; auto-repair: [['stub-property', 'buildSummary']] |
 | act | full | failure | 0 | - | ⚠️ inconclusive |  |
 
@@ -195,6 +196,11 @@ Estimated hosted cost of a trace run: ~1 billable minute(s) (worst case 5).
 <details><summary>act (trace) differences</summary>
 
 - `(no stage)`: differs - jenkins ['buildSummary', 'cleanWs', 'checkout', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'stash', 'deleteDir', 'sh', 'sh', 'sh', 'unstash', 'sh', 'sh', 'stash', 'sh', 'deleteDir', 'deleteDir', 'sh', 'sh', 'sh', 'sh', 'unstash', 'unstash', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'unstash', 'unstash', 'sh', 'sh', 'sh', 'sh', 'stash', 'stash', 'sh', 'sh', 'deleteDir', 'sh', 'sh', 'unstash', 'sh', 'sh', 'sh', 'unstash', 'sh', 'sh', 'stash', 'sh', 'deleteDir', 'sh', 'sh', 'unstash', 'sh', 'sh', 'sh', 'unstash', 'sh', 'sh', 'stash', 'sh', 'deleteDir', 'deleteDir', 'deleteDir', 'deleteDir', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'unstash', 'unstash', 'unstash', 'unstash', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'unstash', 'unstash', 'unstash', 'unstash', 'sh', 'sh', 'sh', 'sh', 'deleteDir', 'sh', 'sh', 'unstash', 'sh', 'sh', 'sh', 'unstash', 'sh', 'sh', 'stash', 'sh', 'deleteDir', 'sh', 'sh', 'unstash', 'sh', 'sh', 'sh', 'unstash', 'sh', 'sh', 'stash', 'sh', 'deleteDir', 'sh', 'sh', 'unstash', 'sh', 'sh', 'sh', 'unstash', 'sh'] vs act ['buildSummary', 'cleanWs', 'checkout', 'pipelineContextFactory', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'stash']
+
+</details>
+<details><summary>hosted (trace) differences</summary>
+
+- `(no stage)`: differs - jenkins ['buildSummary', 'cleanWs', 'checkout', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'stash', 'deleteDir', 'sh', 'sh', 'sh', 'unstash', 'sh', 'sh', 'stash', 'sh', 'deleteDir', 'deleteDir', 'sh', 'sh', 'sh', 'sh', 'unstash', 'unstash', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'unstash', 'unstash', 'sh', 'sh', 'sh', 'sh', 'stash', 'stash', 'sh', 'sh', 'deleteDir', 'sh', 'sh', 'unstash', 'sh', 'sh', 'sh', 'unstash', 'sh', 'sh', 'stash', 'sh', 'deleteDir', 'sh', 'sh', 'unstash', 'sh', 'sh', 'sh', 'unstash', 'sh', 'sh', 'stash', 'sh', 'deleteDir', 'deleteDir', 'deleteDir', 'deleteDir', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'unstash', 'unstash', 'unstash', 'unstash', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'unstash', 'unstash', 'unstash', 'unstash', 'sh', 'sh', 'sh', 'sh', 'deleteDir', 'sh', 'sh', 'unstash', 'sh', 'sh', 'sh', 'unstash', 'sh', 'sh', 'stash', 'sh', 'deleteDir', 'sh', 'sh', 'unstash', 'sh', 'sh', 'sh', 'unstash', 'sh', 'sh', 'stash', 'sh', 'deleteDir', 'sh', 'sh', 'unstash', 'sh', 'sh', 'sh', 'unstash', 'sh'] vs hosted ['buildSummary', 'cleanWs', 'checkout', 'pipelineContextFactory', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'stash']
 
 </details>
 <details><summary>jenkins (full) failure</summary>

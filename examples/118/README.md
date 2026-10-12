@@ -190,6 +190,7 @@ Trace mode compares the per-stage sequence of executed steps (`J2GHA-TRACE` mark
 |---|---|---|---:|---:|---|---|
 | jenkins | trace | FAILURE | 65 | - | reference | 2 localisation changes, 77 stubs |
 | act | trace | success | 17 | 5.2% | ⚠️ inconclusive |  |
+| hosted | trace | success | 17 | 5.2% | ⚠️ inconclusive | billable ≈ 1 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38223949426) |
 | jenkins | full | SUCCESS | 11 | - | reference | 2 localisation changes, 37 stubs |
 | act | full | failure | 0 | - | ❌ different outcome |  |
 
@@ -212,6 +213,16 @@ Estimated hosted cost of a trace run: ~1 billable minute(s) (worst case 5).
 - `Check and Build Release Artefacts`: missing-stage - jenkins ['sh', 'sh', 'build', 'sh', 'sh', 'build', 'sh', 'sh', 'build', 'sh', 'sh', 'build', 'sh', 'sh', 'build', 'sh', 'sh', 'build', 'sh', 'sh', 'build', 'sh', 'sh', 'build', 'sh', 'sh', 'build', 'sh', 'sh', 'build'] vs act []
 - `Create and Push Release Manifest`: extra-stage - jenkins [] vs act ['deleteDir', 'sh', 'checkout', 'sh', 'sh', 'writeFile', 'sh', 'sh', 'sh', 'sh']
 - `Get Repos`: differs - jenkins ['deleteDir', 'sh', 'checkout', 'sh', 'sh', 'checkout', 'sh', 'sh', 'checkout', 'sh', 'sh', 'checkout', 'sh', 'sh', 'checkout', 'sh', 'sh', 'checkout', 'sh', 'sh', 'checkout', 'sh', 'sh', 'checkout', 'sh', 'sh', 'checkout', 'sh', 'sh', 'checkout', 'sh'] vs act ['deleteDir']
+
+</details>
+- hosted (trace) inconclusive: Jenkins stopped on the pipeline's own error() in stage 'Check Artefacts from Input Params'; the 3 stage(s) before it are not equivalent. Compare these runs in full mode instead.
+<details><summary>hosted (trace) differences</summary>
+
+- `Check App Version against Built artefacts`: extra-stage - jenkins [] vs hosted ['build']
+- `Check Artefacts from Input Params`: differs - jenkins ['sh', 'sh', 'error'] vs hosted ['sh', 'sh', 'sh', 'sh']
+- `Check and Build Release Artefacts`: missing-stage - jenkins ['sh', 'sh', 'build', 'sh', 'sh', 'build', 'sh', 'sh', 'build', 'sh', 'sh', 'build', 'sh', 'sh', 'build', 'sh', 'sh', 'build', 'sh', 'sh', 'build', 'sh', 'sh', 'build', 'sh', 'sh', 'build', 'sh', 'sh', 'build'] vs hosted []
+- `Create and Push Release Manifest`: extra-stage - jenkins [] vs hosted ['deleteDir', 'sh', 'checkout', 'sh', 'sh', 'writeFile', 'sh', 'sh', 'sh', 'sh']
+- `Get Repos`: differs - jenkins ['deleteDir', 'sh', 'checkout', 'sh', 'sh', 'checkout', 'sh', 'sh', 'checkout', 'sh', 'sh', 'checkout', 'sh', 'sh', 'checkout', 'sh', 'sh', 'checkout', 'sh', 'sh', 'checkout', 'sh', 'sh', 'checkout', 'sh', 'sh', 'checkout', 'sh', 'sh', 'checkout', 'sh'] vs hosted ['deleteDir']
 
 </details>
 - full mode (act): Jenkins **SUCCESS** (first failed stage: -); act **failure** (first failed step: `Get App Release Tags: git describe --abbrev=0 --tags `git rev-list --tags --skip=1 --max-cou`); no test results on either side; nothing archived on either side

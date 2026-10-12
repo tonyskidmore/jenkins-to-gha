@@ -1,0 +1,296 @@
+# j2gha hosted variant (trace) of examples/003
+name: j2gha harness run
+on:
+  push:
+    branches:
+    - j2gha/run/003-trace-hosted-20261012082231
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  BRANCH_NAME: main
+  TAG_NAME: ''
+  CHANGE_ID: ''
+  DEPENDENCIES_DIR: dependencies/
+  VERSION: 'TODO-j2gha: feDetermineVersionFromGit()'
+  ARTIFACT_FILENAME: robot-descriptions
+  DIST_DIR: dist/usr/share/robot-descriptions
+  GIT_COMMIT: ${{ github.sha }}
+  GIT_BRANCH: origin/main
+  GIT_URL: ${{ github.server_url }}/${{ github.repository }}.git
+defaults:
+  run:
+    shell: bash
+jobs:
+  check-commit-message:
+    name: Check Commit Message, Get Ready
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+    - name: Checkout
+      run: 'printf ''%s %s\n'' J2GHA-TRACE ''{"stage":"Declarative: Checkout SCM","step":"checkout"}'''
+    - name: Set pipeline environment (Jenkins environment {})
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"","step":"feDetermineVersionFromGit"}'
+    - name: 'Check Commit Message: git log -1 --pretty=format:%s'
+      id: s1
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Check Commit Message","step":"sh"}'
+    - name: 'Get Ready: notifyBitbucket (manual migration)'
+      id: s3
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Get Ready","step":"notifyBitbucket"}'
+    - name: 'Get Ready: git clean -x -d -f'
+      id: s4
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Get Ready","step":"sh"}'
+  run-urdf-tests:
+    name: Run URDF tests
+    needs: check-commit-message
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+    - name: Checkout
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Run URDF tests","step":"checkout"}'
+    - name: 'Run URDF tests: .ci/run_urdf_tests.sh'
+      id: s5
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Run URDF tests","step":"sh"}'
+  build-robot-urdfs-and-srdfs:
+    name: Build robot URDFs and SRDFs
+    needs: run-urdf-tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    strategy:
+      fail-fast: false
+      matrix:
+        ROBOT:
+        - fp3
+        - fr3
+        - fr3v2
+        - fr3v2_1
+        - tmrv0_2
+    env:
+      ROBOT: ${{ matrix.ROBOT }}
+    steps:
+    - name: 'Build URDF and SRDF: ./scripts/create_urdf.sh --no-ee --no-prefix ${ROBOT}'
+      id: s6
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build URDF and SRDF","step":"sh"}'
+    - name: 'Build URDF and SRDF: stash ROBOT_${ROBOT}_urdf'
+      id: s8
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build URDF and SRDF","step":"stash"}'
+    - name: 'Build URDF and SRDF: stash ROBOT_${ROBOT}_srdf'
+      id: s9
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build URDF and SRDF","step":"stash"}'
+  build-end-effector-urdfs:
+    name: Build End Effector URDFs
+    needs: build-robot-urdfs-and-srdfs
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    strategy:
+      fail-fast: false
+      matrix:
+        EE:
+        - franka_hand
+        - cobot_pump
+    env:
+      EE: ${{ matrix.EE }}
+    steps:
+    - name: 'Build URDF: ./scripts/create_urdf.sh --only-ee --robot-ee ${EE}'
+      id: s10
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build URDF","step":"sh"}'
+    - name: 'Build URDF: stash EE_${EE}_urdf'
+      id: s12
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build URDF","step":"stash"}'
+  archive-urdfs-and-srdfs:
+    name: Archive URDFs and SRDFs
+    needs: build-end-effector-urdfs
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+    - name: Checkout
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Archive URDFs and SRDFs","step":"checkout"}'
+    - name: 'Cleanup: rm -rf usr'
+      id: s13
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Cleanup","step":"sh"}'
+    - name: 'Create directory structure: mkdir -p ${DIST_DIR}/meshes'
+      id: s14
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Create directory structure","step":"sh"}'
+    - name: 'Create directory structure: mkdir -p ${DIST_DIR}/robots'
+      id: s15
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Create directory structure","step":"sh"}'
+    - name: 'Create directory structure: mkdir -p ${DIST_DIR}/end_effectors'
+      id: s16
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Create directory structure","step":"sh"}'
+    - name: 'Arm3R: mkdir -p ${DIST_DIR}/robots/Arm3R'
+      id: s17
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Arm3R","step":"sh"}'
+    - name: 'Arm3R: unstash ROBOT_fr3_urdf'
+      id: s19
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Arm3R","step":"unstash"}'
+    - name: 'Arm3R: unstash ROBOT_fr3_srdf'
+      id: s20
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Arm3R","step":"unstash"}'
+    - name: 'Arm3R: mv fr3.urdf robot.urdf'
+      id: s21
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Arm3R","step":"sh"}'
+    - name: 'Arm3R: mv fr3.srdf robot.srdf'
+      id: s22
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Arm3R","step":"sh"}'
+    - name: 'Arm3P: mkdir -p ${DIST_DIR}/robots/Arm3P'
+      id: s23
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Arm3P","step":"sh"}'
+    - name: 'Arm3P: unstash ROBOT_fp3_urdf'
+      id: s25
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Arm3P","step":"unstash"}'
+    - name: 'Arm3P: unstash ROBOT_fp3_srdf'
+      id: s26
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Arm3P","step":"unstash"}'
+    - name: 'Arm3P: mv fp3.urdf robot.urdf'
+      id: s27
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Arm3P","step":"sh"}'
+    - name: 'Arm3P: mv fp3.srdf robot.srdf'
+      id: s28
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Arm3P","step":"sh"}'
+    - name: 'Arm3Rv2: mkdir -p ${DIST_DIR}/robots/Arm3Rv2'
+      id: s29
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Arm3Rv2","step":"sh"}'
+    - name: 'Arm3Rv2: unstash ROBOT_fr3v2_urdf'
+      id: s31
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Arm3Rv2","step":"unstash"}'
+    - name: 'Arm3Rv2: unstash ROBOT_fr3v2_srdf'
+      id: s32
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Arm3Rv2","step":"unstash"}'
+    - name: 'Arm3Rv2: mv fr3v2.urdf robot.urdf'
+      id: s33
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Arm3Rv2","step":"sh"}'
+    - name: 'Arm3Rv2: mv fr3v2.srdf robot.srdf'
+      id: s34
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Arm3Rv2","step":"sh"}'
+    - name: 'Arm3Rv2.1: mkdir -p ${DIST_DIR}/robots/Arm3Rv2.1'
+      id: s35
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Arm3Rv2.1","step":"sh"}'
+    - name: 'Arm3Rv2.1: unstash ROBOT_fr3v2_1_urdf'
+      id: s37
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Arm3Rv2.1","step":"unstash"}'
+    - name: 'Arm3Rv2.1: unstash ROBOT_fr3v2_1_srdf'
+      id: s38
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Arm3Rv2.1","step":"unstash"}'
+    - name: 'Arm3Rv2.1: mv fr3v2_1.urdf robot.urdf'
+      id: s39
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Arm3Rv2.1","step":"sh"}'
+    - name: 'Arm3Rv2.1: mv fr3v2_1.srdf robot.srdf'
+      id: s40
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Arm3Rv2.1","step":"sh"}'
+    - name: 'TMRv0.2: mkdir -p ${DIST_DIR}/robots/TMRv0.2'
+      id: s41
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"TMRv0.2","step":"sh"}'
+    - name: 'TMRv0.2: unstash ROBOT_tmrv0_2_urdf'
+      id: s43
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"TMRv0.2","step":"unstash"}'
+    - name: 'TMRv0.2: unstash ROBOT_tmrv0_2_srdf'
+      id: s44
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"TMRv0.2","step":"unstash"}'
+    - name: 'TMRv0.2: mv tmrv0_2.urdf robot.urdf'
+      id: s45
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"TMRv0.2","step":"sh"}'
+    - name: 'TMRv0.2: mv tmrv0_2.srdf robot.srdf'
+      id: s46
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"TMRv0.2","step":"sh"}'
+    - name: 'Copy meshes to dist: mkdir -p ${DIST_DIR}/meshes/robots'
+      id: s47
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Copy meshes to dist","step":"sh"}'
+    - name: 'Copy meshes to dist: copyCmd'
+      id: s48
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Copy meshes to dist","step":"sh"}'
+    - name: 'Create End Effector directories: mkdir -p ${DIST_DIR}/end_effectors/cobot_pump'
+      id: s49
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Create End Effector directories","step":"sh"}'
+    - name: 'Create End Effector directories: mkdir -p ${DIST_DIR}/end_effectors/franka_hand'
+      id: s50
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Create End Effector directories","step":"sh"}'
+    - name: 'cobot_pump: mkdir -p "${DIST_DIR}/meshes/robot_ee/cobot_pump"'
+      id: s51
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"cobot_pump","step":"sh"}'
+    - name: 'franka_hand: mkdir -p "${DIST_DIR}/meshes/robot_ee/franka_hand_white"'
+      id: s52
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"franka_hand","step":"sh"}'
+    - name: 'Unstash URDF: unstash EE_cobot_pump_urdf'
+      id: s54
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Unstash URDF","step":"unstash"}'
+    - name: 'Unstash URDF: mv cobot_pump.urdf endeffector.urdf'
+      id: s55
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Unstash URDF","step":"sh"}'
+    - name: 'Unstash URDF: unstash EE_franka_hand_urdf'
+      id: s57
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Unstash URDF","step":"unstash"}'
+    - name: 'Unstash URDF: mv franka_hand.urdf endeffector.urdf'
+      id: s58
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Unstash URDF","step":"sh"}'
+    - name: 'Create archive: rm -rf ${DIST_DIR}/robots/*@tmp'
+      id: s59
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Create archive","step":"sh"}'
+    - name: 'Create archive: rm -rf ${DIST_DIR}/end_effectors/*@tmp'
+      id: s60
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Create archive","step":"sh"}'
+    - name: 'Create archive: tar czvf "${ARTIFACT_FILENAME}_${VERSION}.tar.gz" usr/share'
+      id: s62
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Create archive","step":"sh"}'
+    - name: 'Create archive: archive artifacts'
+      id: s63
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Create archive","step":"archiveArtifacts"}'
+    - name: 'Publish to artifactory: enter stage'
+      id: s64
+      if: (!((job.status) == ('UNSTABLE'))) && ((env.TAG_NAME != '' || env.BRANCH_NAME == env.BRANCH_NAME))
+      run: echo "run=true" >> "$GITHUB_OUTPUT"
+    - name: 'Publish to artifactory: fePublishOpkg (manual migration)'
+      id: s65
+      if: steps.s64.outputs.run == 'true'
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Publish to artifactory","step":"fePublishOpkg"}'
+    - name: 'Publish to artifactory: fePublishBuildInfo (manual migration)'
+      id: s66
+      if: steps.s64.outputs.run == 'true'
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Publish to artifactory","step":"fePublishBuildInfo"}'
+  trigger-upstream-franka_ros2_ws-builds-h:
+    name: Trigger upstream franka_ros2_ws builds / humble
+    needs: archive-urdfs-and-srdfs
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+    - name: 'humble: trigger downstream ''FCI/franka_ros2_ws/humble'''
+      id: s67
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"humble","step":"build"}'
+  trigger-upstream-franka_ros2_ws-builds-j:
+    name: Trigger upstream franka_ros2_ws builds / jazzy
+    needs: archive-urdfs-and-srdfs
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+    - name: 'jazzy: trigger downstream ''FCI/franka_ros2_ws/jazzy'''
+      id: s68
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"jazzy","step":"build"}'
+  post:
+    name: post
+    needs:
+    - check-commit-message
+    - run-urdf-tests
+    - build-robot-urdfs-and-srdfs
+    - build-end-effector-urdfs
+    - archive-urdfs-and-srdfs
+    - trigger-upstream-franka_ros2_ws-builds-h
+    - trigger-upstream-franka_ros2_ws-builds-j
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+    - name: 'post: git clean -x -d -f'
+      id: s69
+      if: always()
+      run: 'printf ''%s %s\n'' J2GHA-TRACE ''{"stage":"Declarative: Post Actions","step":"sh"}'''
+    - name: 'post: cleanWs'
+      id: s70
+      if: always()
+      run: 'printf ''%s %s\n'' J2GHA-TRACE ''{"stage":"Declarative: Post Actions","step":"cleanWs"}'''
+    - name: 'post: du -h --max-depth=1 . && ls -la'
+      id: s71
+      if: always()
+      run: 'printf ''%s %s\n'' J2GHA-TRACE ''{"stage":"Declarative: Post Actions","step":"sh"}'''
+    - name: 'post: feNotifySCM (manual migration)'
+      id: s72
+      if: always()
+      run: 'printf ''%s %s\n'' J2GHA-TRACE ''{"stage":"Declarative: Post Actions","step":"feNotifySCM"}'''
+    timeout-minutes: 5

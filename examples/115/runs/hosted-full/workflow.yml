@@ -1,9 +1,9 @@
 # j2gha hosted variant (full) of examples/115
-name: 'j2gha 115: IBM/cloudant-node-sdk Jenkinsfile (j2gha)'
+name: j2gha harness run
 on:
   push:
     branches:
-    - j2gha/run/115-full-hosted-20261010110812
+    - j2gha/run/115-full-hosted-20261012084412
   workflow_dispatch:
 permissions:
   contents: read
@@ -28,7 +28,7 @@ jobs:
   detect-secrets:
     name: Detect Secrets, Init, QA, SonarQube analysis, Publish[staging], Run Gauge tests, Mend scan
     runs-on: ubuntu-latest
-    timeout-minutes: 60
+    timeout-minutes: 10
     steps:
     - name: Checkout
       uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262

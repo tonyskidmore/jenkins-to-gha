@@ -1,9 +1,9 @@
 # j2gha selfhosted variant (full) of examples/106
-name: 'j2gha 106: fabiojose/platform-as-code-example Jenkinsfile (j2gha)'
+name: j2gha harness run
 on:
   push:
     branches:
-    - j2gha/run/106-full-selfhosted-20261010103321
+    - j2gha/run/106-full-selfhosted-20261012084912
   workflow_dispatch:
 permissions:
   contents: read
@@ -25,7 +25,7 @@ jobs:
     name: Setup, Build, Publish, DEV Deploy, PRE Deploy
     runs-on:
     - self-hosted
-    - j2gha-f4ceac65
+    - j2gha-c2af06ed
     timeout-minutes: 10
     steps:
     - name: Checkout
@@ -132,7 +132,7 @@ jobs:
     needs: setup
     runs-on:
     - self-hosted
-    - j2gha-f4ceac65
+    - j2gha-c2af06ed
     timeout-minutes: 10
     steps:
     - name: Checkout
@@ -166,7 +166,7 @@ jobs:
     - setup
     runs-on:
     - self-hosted
-    - j2gha-f4ceac65
+    - j2gha-c2af06ed
     timeout-minutes: 10
     steps:
     - name: Restore pipeline workspace (setup)
@@ -363,7 +363,7 @@ jobs:
     if: always()
     runs-on:
     - self-hosted
-    - j2gha-f4ceac65
+    - j2gha-c2af06ed
     steps:
     - name: Restore pipeline workspace (approval)
       id: j2gha-ws-approval

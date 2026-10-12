@@ -1,0 +1,199 @@
+# j2gha hosted variant (trace) of examples/007
+name: j2gha harness run
+on:
+  push:
+    branches:
+    - j2gha/run/007-trace-hosted-20261012082408
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  BRANCH_NAME: main
+  TAG_NAME: ''
+  CHANGE_ID: ''
+  BUILD_TAG: gha-${{ github.repository_owner }}-${{ github.event.repository.name }}-${{ github.run_number }}
+  JOB_NAME: ${{ github.workflow }}
+  GIT_BRANCH: origin/main
+  WORKSPACE: ${{ github.workspace }}
+  MAVEN_PROFILE_NAME: ${{ github.event_name != 'workflow_dispatch' && 'wls-srg' || format('{0}', inputs.MAVEN_PROFILE_NAME)
+    }}
+  IT_TEST: ${{ github.event_name != 'workflow_dispatch' && '' || format('{0}', inputs.IT_TEST) }}
+  OPERATOR_LOG_LEVEL: ${{ github.event_name != 'workflow_dispatch' && '' || format('{0}', inputs.OPERATOR_LOG_LEVEL) }}
+  KIND_VERSION: ${{ github.event_name != 'workflow_dispatch' && '0.32.0' || format('{0}', inputs.KIND_VERSION) }}
+  KUBE_VERSION: ${{ github.event_name != 'workflow_dispatch' && '1.36.1' || format('{0}', inputs.KUBE_VERSION) }}
+  HELM_VERSION: ${{ github.event_name != 'workflow_dispatch' && '3.11.2' || format('{0}', inputs.HELM_VERSION) }}
+  ISTIO_VERSION: ${{ github.event_name != 'workflow_dispatch' && '1.27.2' || format('{0}', inputs.ISTIO_VERSION) }}
+  PARALLEL_RUN: ${{ github.event_name != 'workflow_dispatch' && 'true' || format('{0}', inputs.PARALLEL_RUN) }}
+  NUMBER_OF_THREADS: ${{ github.event_name != 'workflow_dispatch' && '3' || format('{0}', inputs.NUMBER_OF_THREADS) }}
+  WDT_DOWNLOAD_URL: ${{ github.event_name != 'workflow_dispatch' && 'https://github.com/oracle/weblogic-deploy-tooling/releases/latest'
+    || format('{0}', inputs.WDT_DOWNLOAD_URL) }}
+  WIT_DOWNLOAD_URL: ${{ github.event_name != 'workflow_dispatch' && 'https://github.com/oracle/weblogic-image-tool/releases/latest'
+    || format('{0}', inputs.WIT_DOWNLOAD_URL) }}
+  REMOTECONSOLE_VERSION: ${{ github.event_name != 'workflow_dispatch' && '2.4.7' || format('{0}', inputs.REMOTECONSOLE_VERSION)
+    }}
+  TEST_IMAGES_REPO: ${{ github.event_name != 'workflow_dispatch' && '' || format('{0}', inputs.TEST_IMAGES_REPO) }}
+  BASE_IMAGES_REPO: ${{ github.event_name != 'workflow_dispatch' && '' || format('{0}', inputs.BASE_IMAGES_REPO) }}
+  WEBLOGIC_IMAGE_NAME: ${{ github.event_name != 'workflow_dispatch' && 'test-images/weblogic_cpu' || format('{0}', inputs.WEBLOGIC_IMAGE_NAME)
+    }}
+  WEBLOGIC_IMAGE_TAG: ${{ github.event_name != 'workflow_dispatch' && '14.1.2.0-generic-jdk17-ol8' || format('{0}', inputs.WEBLOGIC_IMAGE_TAG)
+    }}
+  FMWINFRA_IMAGE_NAME: ${{ github.event_name != 'workflow_dispatch' && 'test-images/fmw-infrastructure_cpu' || format('{0}',
+    inputs.FMWINFRA_IMAGE_NAME) }}
+  FMWINFRA_IMAGE_TAG: ${{ github.event_name != 'workflow_dispatch' && '14.1.2.0-jdk17-ol8' || format('{0}', inputs.FMWINFRA_IMAGE_TAG)
+    }}
+  DB_IMAGE_NAME: ${{ github.event_name != 'workflow_dispatch' && 'test-images/database/enterprise' || format('{0}', inputs.DB_IMAGE_NAME)
+    }}
+  DB_IMAGE_TAG: ${{ github.event_name != 'workflow_dispatch' && '19.3.0.0' || format('{0}', inputs.DB_IMAGE_TAG) }}
+  MONITORING_EXPORTER_BRANCH: ${{ github.event_name != 'workflow_dispatch' && 'main' || format('{0}', inputs.MONITORING_EXPORTER_BRANCH)
+    }}
+  MONITORING_EXPORTER_WEBAPP_VERSION: ${{ github.event_name != 'workflow_dispatch' && '' || format('{0}', inputs.MONITORING_EXPORTER_WEBAPP_VERSION)
+    }}
+  PROMETHEUS_CHART_VERSION: ${{ github.event_name != 'workflow_dispatch' && '17.0.0' || format('{0}', inputs.PROMETHEUS_CHART_VERSION)
+    }}
+  GRAFANA_CHART_VERSION: ${{ github.event_name != 'workflow_dispatch' && '6.38.6' || format('{0}', inputs.GRAFANA_CHART_VERSION)
+    }}
+  COLLECT_LOGS_ON_SUCCESS: ${{ github.event_name != 'workflow_dispatch' && 'false' || format('{0}', inputs.COLLECT_LOGS_ON_SUCCESS)
+    }}
+  ocir_creds: wkt-ocir-creds
+  kind_name: kind
+  kind_network: kind
+  registry_name: kind-registry
+  registry_port: '5000'
+  wle_download_url: https://github.com/oracle/weblogic-logging-exporter/releases/latest
+  GIT_COMMIT: ${{ github.sha }}
+  GIT_URL: ${{ github.server_url }}/${{ github.repository }}.git
+defaults:
+  run:
+    shell: bash
+jobs:
+  filter-unwanted-branches:
+    name: Filter unwanted branches, Sync
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+    - name: Checkout
+      run: 'printf ''%s %s\n'' J2GHA-TRACE ''{"stage":"Declarative: Checkout SCM","step":"checkout"}'''
+    - name: Set pipeline environment (Jenkins environment {})
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"","step":"sh"}'
+    - name: 'Filter unwanted branches: enter stage'
+      id: s1
+      if: (env.CHANGE_ID != '' || env.BRANCH_NAME == 'main' || env.BRANCH_NAME == 'release/4.0' || env.BRANCH_NAME == 'release/3.4')
+      run: echo "run=true" >> "$GITHUB_OUTPUT"
+    - name: 'Workaround JENKINS-41929 Parameters bug: echo'
+      id: s2
+      if: steps.s1.outputs.run == 'true'
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Workaround JENKINS-41929 Parameters bug","step":"echo"}'
+    - name: 'Echo environment: export PATH=${runtime_path}'
+      id: s4
+      if: steps.s1.outputs.run == 'true'
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Echo environment","step":"sh"}'
+    - name: 'Echo environment: echo'
+      id: s6
+      if: steps.s1.outputs.run == 'true'
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Echo environment","step":"echo"}'
+    - name: 'Echo environment: if (line 262)'
+      id: s7
+      if: (steps.s1.outputs.run == 'true') && (env.JOB_NAME == 'wko-kind-k8sversion')
+      run: echo "taken=true" >> "$GITHUB_OUTPUT"
+    - name: 'Echo environment: if (line 262)'
+      id: s8
+      if: (steps.s1.outputs.run == 'true') && (steps.s7.outcome == 'skipped')
+      run: echo "taken=false" >> "$GITHUB_OUTPUT"
+    - name: 'Build WebLogic Kubernetes Operator: mvn -DtrimStackTrace=false clean install'
+      id: s9
+      if: steps.s1.outputs.run == 'true'
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build WebLogic Kubernetes Operator","step":"sh"}'
+    - name: 'Make Workspace bin directory: mkdir -m777 -p ${WORKSPACE}/bin'
+      id: s10
+      if: steps.s1.outputs.run == 'true'
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Make Workspace bin directory","step":"sh"}'
+    - name: 'Install Helm: export PATH=${runtime_path}'
+      id: s11
+      if: steps.s1.outputs.run == 'true'
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Install Helm","step":"sh"}'
+    - name: 'Run Helm installation tests: export PATH="${WORKSPACE}/bin:${PATH}"'
+      id: s12
+      if: steps.s1.outputs.run == 'true'
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Run Helm installation tests","step":"sh"}'
+    - name: 'Install kubectl: export PATH=${runtime_path}'
+      id: s13
+      if: steps.s1.outputs.run == 'true'
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Install kubectl","step":"sh"}'
+    - name: 'Install kind: export PATH=${runtime_path}'
+      id: s14
+      if: steps.s1.outputs.run == 'true'
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Install kind","step":"sh"}'
+    - name: 'Preparing Integration Test Environment: mkdir -m777 -p ${result_root}'
+      id: s15
+      if: steps.s1.outputs.run == 'true'
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Preparing Integration Test Environment","step":"sh"}'
+    - name: 'Preparing Integration Test Environment: echo'
+      id: s16
+      if: steps.s1.outputs.run == 'true'
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Preparing Integration Test Environment","step":"echo"}'
+    - name: 'Preparing Integration Test Environment: mkdir -m777 -p ${pv_root}'
+      id: s17
+      if: steps.s1.outputs.run == 'true'
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Preparing Integration Test Environment","step":"sh"}'
+    - name: 'Preparing Integration Test Environment: echo'
+      id: s18
+      if: steps.s1.outputs.run == 'true'
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Preparing Integration Test Environment","step":"echo"}'
+    - name: 'Start registry container: export PATH=${runtime_path}'
+      id: s19
+      if: steps.s1.outputs.run == 'true'
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Start registry container","step":"sh"}'
+    - name: 'Create kind cluster: stage environment'
+      id: s20
+      if: steps.s1.outputs.run == 'true'
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Create kind cluster","step":"sh"}'
+    - name: 'Create kind cluster: export PATH=${runtime_path}'
+      id: s21
+      if: steps.s1.outputs.run == 'true'
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Create kind cluster","step":"sh"}'
+    - name: 'Run integration tests: enter stage'
+      id: s22
+      if: steps.s1.outputs.run == 'true'
+      run: echo "run=true" >> "$GITHUB_OUTPUT"
+    - name: 'Run integration tests: if [ -z "${IT_TEST}" ] && [ "${MAVEN_PROFILE_NAME}" = "integration-tes'
+      id: s23
+      if: steps.s22.outputs.run == 'true'
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Run integration tests","step":"sh"}'
+    - name: 'Run integration tests: export PATH=${runtime_path}'
+      id: s25
+      if: steps.s22.outputs.run == 'true'
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Run integration tests","step":"sh"}'
+    - name: 'Run integration tests: export PATH="${WORKSPACE}/bin:${PATH}"'
+      id: s26
+      if: steps.s22.outputs.run == 'true'
+      env:
+        OCIR_USER: j2gha-user
+        OCIR_PASS: j2gha-fake-password
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Run integration tests","step":"sh"}'
+    - name: 'Run integration tests: export PATH="${WORKSPACE}/bin:${PATH}"'
+      id: s27
+      if: (always()) && (steps.s22.outcome == 'success')
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Run integration tests","step":"sh"}'
+    - name: 'Run integration tests: archive artifacts'
+      id: s28
+      if: (always()) && (steps.s22.outcome == 'success')
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Run integration tests","step":"archiveArtifacts"}'
+    - name: 'Run integration tests: junit summary'
+      id: s29
+      if: ((always()) && (steps.s22.outcome == 'success')) && (always())
+      env:
+        J2GHA_JUNIT: integration-tests/target/failsafe-reports/*.xml
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Run integration tests","step":"junit"}'
+    - name: 'Filter unwanted branches: export PATH="${WORKSPACE}/bin:${PATH}"'
+      id: s31
+      if: (always()) && (steps.s1.outcome == 'success')
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Filter unwanted branches","step":"sh"}'
+    - name: 'Sync: enter stage'
+      id: s32
+      if: ((env.BRANCH_NAME == 'main' || env.BRANCH_NAME == 'release/4.0' || env.BRANCH_NAME == 'release/3.4')) && ((!(github.event_name
+        == 'schedule') || (startsWith(env.TAG_NAME, 'v') && !contains(env.TAG_NAME, '/'))))
+      run: echo "run=true" >> "$GITHUB_OUTPUT"
+    - name: 'Sync: trigger downstream ''wkt-sync'''
+      id: s33
+      if: steps.s32.outputs.run == 'true'
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Sync","step":"build"}'

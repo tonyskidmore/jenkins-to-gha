@@ -143,13 +143,15 @@ Trace mode compares the per-stage sequence of executed steps (`J2GHA-TRACE` mark
 |---|---|---|---:|---:|---|---|
 | jenkins | trace | SUCCESS | 11 | - | reference | 2 localisation changes, 76 stubs; auto-repair: [['fill-stage', 'Init']] |
 | act | trace | success | 11 | 100.0% | ✅ equivalent |  |
-| selfhosted | trace | success | 11 | 100.0% | ✅ equivalent | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38036749083) |
+| selfhosted | trace | success | 11 | 100.0% | ✅ equivalent | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38224227275) |
+| hosted | trace | success | 11 | 100.0% | ✅ equivalent | billable ≈ 4 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38223821254) |
 | jenkins | full | FAILURE | 0 | - | reference | 2 localisation changes, 36 stubs; auto-repair: [['fill-stage', 'Init']] |
 | act | full | failure | 0 | - | ✅ same outcome |  |
-| selfhosted | full | failure | 0 | - | ✅ same outcome | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38044668231) |
+| selfhosted | full | failure | 0 | - | ✅ same outcome | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38228405841) |
 
 Estimated hosted cost of a trace run: ~4 billable minute(s) (worst case 20).
 
+- environments (hosted, trace): same - expected ['j2gha-Init'], entered ['j2gha-Init']
 <details><summary>jenkins (full) failure</summary>
 
 ```text
@@ -169,5 +171,5 @@ Estimated hosted cost of a trace run: ~4 billable minute(s) (worst case 20).
 </details>
 - full mode (act): Jenkins **FAILURE** (first failed stage: Build); act **failure** (first failed step: `Build: mvn clean install -Dmaven.test.skip=true`); no test results on either side; nothing archived on either side
 - full mode (selfhosted): Jenkins **FAILURE** (first failed stage: Build); selfhosted **failure** (first failed step: `Build: mvn clean install -Dmaven.test.skip=true`); no test results on either side; nothing archived on either side
-- workspace hand-off (selfhosted, full): 3 archives, 20.9 MB; 16 steps, 67 s summed over jobs (of 100 s job time); 49 s on the critical path of a 101 s run
+- workspace hand-off (selfhosted, full): 3 archives, 20.9 MB; 16 steps, 82 s summed over jobs (of 119 s job time); 63 s on the critical path of a 119 s run
 <!-- j2gha:execution:end -->

@@ -213,12 +213,13 @@ Trace mode compares the per-stage sequence of executed steps (`J2GHA-TRACE` mark
 |---|---|---|---:|---:|---|---|
 | jenkins | trace | SUCCESS | 27 | - | reference | 2 localisation changes, 77 stubs |
 | act | trace | success | 27 | 100.0% | ✅ equivalent |  |
+| hosted | trace | success | 27 | 100.0% | ✅ equivalent | billable ≈ 1 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38223492397) |
 | jenkins | full | SUCCESS | 1 | - | reference | 1 localisation changes, 37 stubs |
 | act | full | success | 0 | - | ❌ different outcome |  |
-| selfhosted | full | success | 0 | - | ❌ different outcome | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38045360507) |
+| selfhosted | full | success | 0 | - | ❌ different outcome | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38226037327) |
 
 Estimated hosted cost of a trace run: ~1 billable minute(s) (worst case 5).
 
 - full mode (act): Jenkins **SUCCESS** (first failed stage: -); act **success** (first failed step: `-`); tests same (Jenkins 2 cases, 0 failed, 0 skipped; converted 2 cases, 0 failed, 0 skipped); archived files differs (3 Jenkins, 3 converted; missing logdir/jenkins-ex-107-full-6/wl_k8s_test_results/diagnostics/ItLocalTwin/operator.log, logdir/jenkins-ex-107-full-6/wl_k8s_test_results/workdir/liftandshiftworkdir/README.txt; extra logdir/gha-nektos--1/wl_k8s_test_results/diagnostics/ItLocalTwin/operator.log, logdir/gha-nektos--1/wl_k8s_test_results/workdir/liftandshiftworkdir/README.txt; content: 1 same, 0 differ)
-- full mode (selfhosted): Jenkins **SUCCESS** (first failed stage: -); selfhosted **success** (first failed step: `-`); tests same (Jenkins 2 cases, 0 failed, 0 skipped; converted 2 cases, 0 failed, 0 skipped); archived files differs (3 Jenkins, 3 converted; missing logdir/jenkins-ex-107-full-6/wl_k8s_test_results/diagnostics/ItLocalTwin/operator.log, logdir/jenkins-ex-107-full-6/wl_k8s_test_results/workdir/liftandshiftworkdir/README.txt; extra logdir/gha-tonyskidmore-jenkins-to-gha-125/wl_k8s_test_results/diagnostics/ItLocalTwin/operator.log, logdir/gha-tonyskidmore-jenkins-to-gha-125/wl_k8s_test_results/workdir/liftandshiftworkdir/README.txt; content: 1 same, 0 differ)
+- full mode (selfhosted): Jenkins **SUCCESS** (first failed stage: -); selfhosted **success** (first failed step: `-`); tests same (Jenkins 2 cases, 0 failed, 0 skipped; converted 2 cases, 0 failed, 0 skipped); archived files differs (3 Jenkins, 3 converted; missing logdir/jenkins-ex-107-full-6/wl_k8s_test_results/diagnostics/ItLocalTwin/operator.log, logdir/jenkins-ex-107-full-6/wl_k8s_test_results/workdir/liftandshiftworkdir/README.txt; extra logdir/gha-tonyskidmore-jenkins-to-gha-67/wl_k8s_test_results/diagnostics/ItLocalTwin/operator.log, logdir/gha-tonyskidmore-jenkins-to-gha-67/wl_k8s_test_results/workdir/liftandshiftworkdir/README.txt; content: 1 same, 0 differ)
 <!-- j2gha:execution:end -->

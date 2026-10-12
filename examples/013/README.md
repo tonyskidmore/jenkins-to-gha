@@ -175,11 +175,12 @@ Trace mode compares the per-stage sequence of executed steps (`J2GHA-TRACE` mark
 |---|---|---|---:|---:|---|---|
 | jenkins | trace | SUCCESS | 7 | - | reference | 3 localisation changes, 79 stubs |
 | act | trace | success | 7 | 100.0% | ✅ equivalent |  |
-| selfhosted | trace | success | 7 | 100.0% | ✅ equivalent | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38036813731) |
+| selfhosted | trace | success | 7 | 100.0% | ✅ equivalent | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38224319790) |
+| hosted | trace | success | 7 | 100.0% | ✅ equivalent | billable ≈ 1 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38223555728) |
 | jenkins | full | FAILURE | 2 | - | reference | 2 localisation changes, 39 stubs |
 | act | full | failure | 0 | - | ❌ different outcome |  |
-| selfhosted | full | failure | 0 | - | ✅ same outcome | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38042444823) |
-| hosted | full | failure | 0 | - | ❌ different outcome | billable ≈ 1 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38047128562) |
+| selfhosted | full | failure | 0 | - | ✅ same outcome | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38229811651) |
+| hosted | full | failure | 0 | - | ❌ different outcome | billable ≈ 1 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38229726423) |
 
 Estimated hosted cost of a trace run: ~1 billable minute(s) (worst case 5).
 

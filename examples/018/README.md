@@ -184,6 +184,7 @@ Trace mode compares the per-stage sequence of executed steps (`J2GHA-TRACE` mark
 |---|---|---|---:|---:|---|---|
 | jenkins | trace | FAILURE | 55 | - | reference | 2 localisation changes, 77 stubs |
 | act | trace | success | 6 | 7.1% | ⚠️ inconclusive |  |
+| hosted | trace | success | 6 | 7.1% | ⚠️ inconclusive | billable ≈ 1 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38223058899) |
 | jenkins | full | FAILURE | 0 | - | reference | 2 localisation changes, 37 stubs |
 | act | full | failure | 0 | - | ❌ different outcome |  |
 
@@ -204,6 +205,14 @@ Estimated hosted cost of a trace run: ~1 billable minute(s) (worst case 5).
 - `Check Artefacts from Input Params`: differs - jenkins ['sh', 'sh', 'error'] vs act ['sh', 'sh', 'sh', 'sh']
 - `Check and Build Release Artefacts`: missing-stage - jenkins ['sh', 'sh', 'build', 'sh', 'sh', 'build', 'sh', 'sh', 'build', 'sh', 'sh', 'build', 'sh', 'sh', 'build', 'sh', 'sh', 'build', 'sh', 'sh', 'build', 'sh', 'sh', 'build', 'sh', 'sh', 'build', 'sh', 'sh', 'build'] vs act []
 - `Get Repos`: differs - jenkins ['deleteDir', 'checkout', 'sh', 'checkout', 'sh', 'checkout', 'sh', 'checkout', 'sh', 'checkout', 'sh', 'checkout', 'sh', 'checkout', 'sh', 'checkout', 'sh', 'checkout', 'sh', 'checkout', 'sh'] vs act ['deleteDir']
+
+</details>
+- hosted (trace) inconclusive: Jenkins stopped on the pipeline's own error() in stage 'Check Artefacts from Input Params'; the 3 stage(s) before it are not equivalent. Compare these runs in full mode instead.
+<details><summary>hosted (trace) differences</summary>
+
+- `Check Artefacts from Input Params`: differs - jenkins ['sh', 'sh', 'error'] vs hosted ['sh', 'sh', 'sh', 'sh']
+- `Check and Build Release Artefacts`: missing-stage - jenkins ['sh', 'sh', 'build', 'sh', 'sh', 'build', 'sh', 'sh', 'build', 'sh', 'sh', 'build', 'sh', 'sh', 'build', 'sh', 'sh', 'build', 'sh', 'sh', 'build', 'sh', 'sh', 'build', 'sh', 'sh', 'build', 'sh', 'sh', 'build'] vs hosted []
+- `Get Repos`: differs - jenkins ['deleteDir', 'checkout', 'sh', 'checkout', 'sh', 'checkout', 'sh', 'checkout', 'sh', 'checkout', 'sh', 'checkout', 'sh', 'checkout', 'sh', 'checkout', 'sh', 'checkout', 'sh', 'checkout', 'sh'] vs hosted ['deleteDir']
 
 </details>
 <details><summary>jenkins (full) failure</summary>

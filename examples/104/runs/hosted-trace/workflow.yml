@@ -1,0 +1,122 @@
+# j2gha hosted variant (trace) of examples/104
+name: j2gha harness run
+on:
+  push:
+    branches:
+    - j2gha/run/104-trace-hosted-20261012082452
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  BRANCH_NAME: aws-main
+  TAG_NAME: ''
+  CHANGE_ID: ''
+  BUILD_NUMBER: ${{ github.run_number }}
+  JOB_NAME: ${{ github.workflow }}
+  BUILD_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+  GIT_COMMIT: ${{ github.sha }}
+  APP_NAME: open-vsx-org
+  NAMESPACE: foundation-internal-webdev-apps
+  IMAGE_NAME: ghcr.io/eclipsefdn/openvsx-website
+  CONTAINER_NAME: open-vsx-org
+  GIT_BRANCH: origin/aws-main
+  GIT_URL: ${{ github.server_url }}/${{ github.repository }}.git
+defaults:
+  run:
+    shell: bash
+jobs:
+  build-docker-image:
+    name: Build docker image
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+    - name: Checkout
+      run: |-
+        printf '%s %s\n' J2GHA-TRACE '{"stage":"Declarative: Checkout SCM","step":"checkout"}'
+        printf '%s %s\n' J2GHA-TRACE '{"stage":"Build docker image","step":"checkout"}'
+    - name: Set pipeline environment (Jenkins environment {})
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"","step":"sh"}'
+    - name: 'Build docker image: echo docker build --pull -t ${IMAGE_NAME}:${IMAGE_TAG} . # j2gha-loca'
+      id: s1
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build docker image","step":"sh"}'
+  push-docker-image:
+    name: Push docker image
+    needs: build-docker-image
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+    - name: Checkout
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Push docker image","step":"checkout"}'
+    - name: 'Push docker image: echo docker push ${IMAGE_NAME}:${IMAGE_TAG} # j2gha-local: no registr'
+      id: s2
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Push docker image","step":"sh"}'
+  deploy-test:
+    name: Deploy test, Deploy staging, Deploy production, Deploy aws-staging, Deploy aws-production
+    needs: push-docker-image
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+    - name: 'Deploy test: enter stage'
+      id: s3
+      if: env.BRANCH_NAME == 'test'
+      run: echo "run=true" >> "$GITHUB_OUTPUT"
+    - name: 'Deploy test: echo ./kubernetes/helm-deploy.sh test "${IMAGE_TAG}" # j2gha-local: n'
+      id: s4
+      if: steps.s3.outputs.run == 'true'
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Deploy test","step":"sh"}'
+    - name: 'Deploy staging: enter stage'
+      id: s5
+      if: env.BRANCH_NAME == 'main'
+      run: echo "run=true" >> "$GITHUB_OUTPUT"
+    - name: 'Deploy staging: echo ./kubernetes/helm-deploy.sh staging "${IMAGE_TAG}" # j2gha-local'
+      id: s6
+      if: steps.s5.outputs.run == 'true'
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Deploy staging","step":"sh"}'
+    - name: 'Deploy production: enter stage'
+      id: s7
+      if: env.BRANCH_NAME == 'production'
+      run: echo "run=true" >> "$GITHUB_OUTPUT"
+    - name: 'Deploy production: echo ./kubernetes/helm-deploy.sh production "${IMAGE_TAG}" # j2gha-lo'
+      id: s8
+      if: steps.s7.outputs.run == 'true'
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Deploy production","step":"sh"}'
+    - name: 'Deploy aws-staging: enter stage'
+      id: s9
+      if: env.BRANCH_NAME == 'aws-main'
+      run: echo "run=true" >> "$GITHUB_OUTPUT"
+    - name: 'Deploy aws-staging: set -e'
+      id: s10
+      if: steps.s9.outputs.run == 'true'
+      env:
+        AWS_ACCESS_KEY_ID: j2gha-fake-secret
+        AWS_SECRET_ACCESS_KEY: j2gha-fake-secret
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Deploy aws-staging","step":"sh"}'
+    - name: 'Deploy aws-production: enter stage'
+      id: s11
+      if: env.BRANCH_NAME == 'aws-production'
+      run: echo "run=true" >> "$GITHUB_OUTPUT"
+    - name: 'Deploy aws-production: set -e'
+      id: s12
+      if: steps.s11.outputs.run == 'true'
+      env:
+        AWS_ACCESS_KEY_ID: j2gha-fake-secret
+        AWS_SECRET_ACCESS_KEY: j2gha-fake-secret
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Deploy aws-production","step":"sh"}'
+  post:
+    name: post
+    needs:
+    - build-docker-image
+    - push-docker-image
+    - deploy-test
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+    - name: 'post: mail notification'
+      id: s13
+      if: always() && (contains(needs.*.result, 'failure') || failure())
+      run: 'printf ''%s %s\n'' J2GHA-TRACE ''{"stage":"Declarative: Post Actions","step":"mail"}'''
+    - name: 'post: deleteDir'
+      id: s14
+      if: always()
+      run: 'printf ''%s %s\n'' J2GHA-TRACE ''{"stage":"Declarative: Post Actions","step":"deleteDir"}'''
+    timeout-minutes: 5

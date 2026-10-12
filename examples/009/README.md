@@ -149,9 +149,10 @@ Trace mode compares the per-stage sequence of executed steps (`J2GHA-TRACE` mark
 |---|---|---|---:|---:|---|---|
 | jenkins | trace | SUCCESS | 31 | - | reference | 1 localisation changes, 76 stubs; auto-repair: [['remove-directive', 'options']] |
 | act | trace | success | 31 | 100.0% | ✅ equivalent |  |
+| hosted | trace | success | 31 | 100.0% | ✅ equivalent | billable ≈ 28 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38223418764) |
 | jenkins | full | FAILURE | 0 | - | reference | 1 localisation changes, 36 stubs; auto-repair: [['remove-directive', 'options']] |
 | act | full | failure | 0 | - | ✅ same outcome |  |
-| selfhosted | full | failure | 0 | - | ✅ same outcome | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38043556424) |
+| selfhosted | full | failure | 0 | - | ✅ same outcome | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38226113865) |
 
 Estimated hosted cost of a trace run: ~28 billable minute(s) (worst case 140).
 
@@ -164,5 +165,5 @@ Estimated hosted cost of a trace run: ~28 billable minute(s) (worst case 140).
 </details>
 - full mode (act): Jenkins **FAILURE** (first failed stage: build); act **failure** (first failed step: `build: .jenkins/lsu/entry.sh`); no test results on either side; nothing archived on either side
 - full mode (selfhosted): Jenkins **FAILURE** (first failed stage: build); selfhosted **failure** (first failed step: `build: .jenkins/lsu/entry.sh`); no test results on either side; nothing archived on either side
-- workspace hand-off (selfhosted, full): 1 archives, 37.4 MB; 56 steps, 2711 s summed over jobs (of 3295 s job time); 189 s on the critical path of a 1057 s run
+- workspace hand-off (selfhosted, full): 1 archives, 37.4 MB; 56 steps, 3339 s summed over jobs (of 3876 s job time); 196 s on the critical path of a 1194 s run
 <!-- j2gha:execution:end -->

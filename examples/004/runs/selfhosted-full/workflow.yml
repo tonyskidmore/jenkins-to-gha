@@ -1,9 +1,9 @@
 # j2gha selfhosted variant (full) of examples/004
-name: 'j2gha 004: EclipseFdn/open-vsx.org Jenkinsfile (j2gha)'
+name: j2gha harness run
 on:
   push:
     branches:
-    - j2gha/run/004-full-selfhosted-20261010095938
+    - j2gha/run/004-full-selfhosted-20261012084725
   workflow_dispatch:
 permissions:
   contents: read
@@ -29,7 +29,7 @@ jobs:
     name: Build docker image
     runs-on:
     - self-hosted
-    - j2gha-a5c56103
+    - j2gha-81361021
     timeout-minutes: 10
     steps:
     - name: Checkout
@@ -53,7 +53,7 @@ jobs:
     needs: build-docker-image
     runs-on:
     - self-hosted
-    - j2gha-a5c56103
+    - j2gha-81361021
     timeout-minutes: 10
     steps:
     - name: Checkout
@@ -77,7 +77,7 @@ jobs:
     needs: push-docker-image
     runs-on:
     - self-hosted
-    - j2gha-a5c56103
+    - j2gha-81361021
     timeout-minutes: 10
     steps:
     - name: Checkout
@@ -174,7 +174,7 @@ jobs:
     if: always()
     runs-on:
     - self-hosted
-    - j2gha-a5c56103
+    - j2gha-81361021
     steps:
     - name: Restore pipeline workspace (deploy-test)
       id: j2gha-ws-deploy-test

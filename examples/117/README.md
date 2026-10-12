@@ -237,9 +237,10 @@ Trace mode compares the per-stage sequence of executed steps (`J2GHA-TRACE` mark
 |---|---|---|---:|---:|---|---|
 | jenkins | trace | FAILURE | 4 | - | reference | 23 localisation changes, 77 stubs; auto-repair: [['stub-property', 'log'], ['untype-decl', 203]] |
 | act | trace | success | 4 | 33.3% | ❌ differs |  |
+| hosted | trace | success | 4 | 33.3% | ❌ differs | billable ≈ 9 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38223856622) |
 | jenkins | full | SUCCESS | 0 | - | reference | 23 localisation changes, 37 stubs; auto-repair: [['stub-property', 'log'], ['untype-decl', 203]] |
 | act | full | success | 0 | - | ✅ same outcome |  |
-| selfhosted | full | success | 0 | - | ✅ same outcome | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38046950955) |
+| selfhosted | full | success | 0 | - | ✅ same outcome | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38229302125) |
 
 Estimated hosted cost of a trace run: ~9 billable minute(s) (worst case 45).
 
@@ -265,6 +266,14 @@ Estimated hosted cost of a trace run: ~9 billable minute(s) (worst case 45).
 - `Init: TF deployment bucket`: differs - jenkins ['sh', 'sh'] vs act ['sh']
 - `Load test data to DB`: extra-stage - jenkins [] vs act ['checkout']
 - `Tests`: extra-stage - jenkins [] vs act ['checkout']
+
+</details>
+<details><summary>hosted (trace) differences</summary>
+
+- `Declarative: Post Actions`: missing-stage - jenkins ['slackSend'] vs hosted []
+- `Init: TF deployment bucket`: differs - jenkins ['sh', 'sh'] vs hosted ['sh']
+- `Load test data to DB`: extra-stage - jenkins [] vs hosted ['checkout']
+- `Tests`: extra-stage - jenkins [] vs hosted ['checkout']
 
 </details>
 - full mode (act): Jenkins **SUCCESS** (first failed stage: -); act **success** (first failed step: `-`); no test results on either side; nothing archived on either side

@@ -1,9 +1,9 @@
 # j2gha selfhosted variant (trace) of examples/004
-name: 'j2gha 004: EclipseFdn/open-vsx.org Jenkinsfile (j2gha)'
+name: j2gha harness run
 on:
   push:
     branches:
-    - j2gha/run/004-trace-selfhosted-20261010080329
+    - j2gha/run/004-trace-selfhosted-20261012083136
   workflow_dispatch:
 permissions:
   contents: read
@@ -29,7 +29,7 @@ jobs:
     name: Build docker image
     runs-on:
     - self-hosted
-    - j2gha-69b35125
+    - j2gha-781aed72
     timeout-minutes: 5
     steps:
     - name: Checkout
@@ -46,7 +46,7 @@ jobs:
     needs: build-docker-image
     runs-on:
     - self-hosted
-    - j2gha-69b35125
+    - j2gha-781aed72
     timeout-minutes: 5
     steps:
     - name: Checkout
@@ -59,7 +59,7 @@ jobs:
     needs: push-docker-image
     runs-on:
     - self-hosted
-    - j2gha-69b35125
+    - j2gha-781aed72
     timeout-minutes: 5
     steps:
     - name: 'Deploy test: enter stage'
@@ -117,7 +117,7 @@ jobs:
     if: always()
     runs-on:
     - self-hosted
-    - j2gha-69b35125
+    - j2gha-781aed72
     steps:
     - name: 'post: mail notification'
       id: s13

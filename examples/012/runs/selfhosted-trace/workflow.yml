@@ -1,9 +1,9 @@
 # j2gha selfhosted variant (trace) of examples/012
-name: 'j2gha 012: owen2016/devops-practices jenkins/pipeline/jenkinsfile-1 (j2gha)'
+name: j2gha harness run
 on:
   push:
     branches:
-    - j2gha/run/012-trace-selfhosted-20261010080641
+    - j2gha/run/012-trace-selfhosted-20261012083249
   workflow_dispatch:
 permissions:
   contents: read
@@ -24,7 +24,7 @@ jobs:
     name: Init
     runs-on:
     - self-hosted
-    - j2gha-7aea3928
+    - j2gha-7b281eb5
     timeout-minutes: 5
     steps:
     - name: Checkout
@@ -41,7 +41,7 @@ jobs:
     needs: init
     runs-on:
     - self-hosted
-    - j2gha-7aea3928
+    - j2gha-7b281eb5
     timeout-minutes: 5
     steps:
     - name: 'Parallel Stage: enter stage'
@@ -57,7 +57,7 @@ jobs:
     needs: init
     runs-on:
     - self-hosted
-    - j2gha-7aea3928
+    - j2gha-7b281eb5
     timeout-minutes: 5
     steps:
     - name: 'Parallel Stage: enter stage'
@@ -75,7 +75,7 @@ jobs:
     - parallel-stage-branch-b
     runs-on:
     - self-hosted
-    - j2gha-7aea3928
+    - j2gha-7b281eb5
     timeout-minutes: 5
     steps:
     - name: 'Build: echo'

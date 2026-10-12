@@ -194,6 +194,7 @@ Trace mode compares the per-stage sequence of executed steps (`J2GHA-TRACE` mark
 |---|---|---|---:|---:|---|---|
 | jenkins | trace | SUCCESS | 140 | - | reference | 7 localisation changes, 79 stubs; auto-repair: [['stub-property', 'buildSummary'], ['stub-property', 'AWS_ACCESS_KEY_ID'], ['stub-property', 'AWS_SECRET_ACCESS_KEY']] |
 | act | trace | success | 14 | 9.3% | ❌ differs |  |
+| hosted | trace | success | 14 | 9.3% | ❌ differs | billable ≈ 1 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38223528864) |
 | jenkins | full | SUCCESS | 1 | - | reference | 7 localisation changes, 40 stubs; auto-repair: [['stub-property', 'buildSummary']] |
 | act | full | failure | 0 | - | ❌ different outcome |  |
 
@@ -214,6 +215,23 @@ Estimated hosted cost of a trace run: ~1 billable minute(s) (worst case 5).
 - `Build dev-r-base`: missing-stage - jenkins ['deleteDir', 'sh', 'sh', 'unstash', 'sh', 'sh', 'sh', 'unstash', 'sh', 'sh', 'stash', 'sh'] vs act []
 - `Build dev-release`: missing-stage - jenkins ['deleteDir', 'sh', 'sh', 'unstash', 'sh', 'sh', 'sh', 'unstash', 'sh'] vs act []
 - `Checkout and Init`: differs - jenkins ['cleanWs', 'checkout', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'stash'] vs act ['cleanWs', 'checkout', 'pipelineContextFactory', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'stash']
+
+</details>
+<details><summary>hosted (trace) differences</summary>
+
+- `Build dev-base`: missing-stage - jenkins ['deleteDir', 'sh', 'sh', 'sh', 'unstash', 'sh', 'sh', 'stash', 'sh'] vs hosted []
+- `Build dev-build-base`: missing-stage - jenkins ['deleteDir', 'sh', 'sh', 'unstash', 'sh', 'sh', 'sh', 'unstash', 'sh', 'sh', 'stash', 'sh'] vs hosted []
+- `Build dev-build-hadoop`: missing-stage - jenkins ['deleteDir', 'sh', 'sh', 'unstash', 'sh', 'sh', 'sh', 'unstash', 'sh', 'sh', 'stash', 'sh'] vs hosted []
+- `Build dev-jdk-11`: missing-stage - jenkins ['deleteDir', 'sh', 'sh', 'unstash', 'sh', 'sh', 'sh', 'unstash', 'sh'] vs hosted []
+- `Build dev-jdk-17`: missing-stage - jenkins ['deleteDir', 'sh', 'sh', 'unstash', 'sh', 'sh', 'sh', 'unstash', 'sh'] vs hosted []
+- `Build dev-jdk-8`: missing-stage - jenkins ['deleteDir', 'sh', 'sh', 'unstash', 'sh', 'sh', 'sh', 'unstash', 'sh'] vs hosted []
+- `Build dev-jdk-8-base`: missing-stage - jenkins ['deleteDir', 'sh', 'sh', 'unstash', 'sh', 'sh', 'sh', 'unstash', 'sh', 'sh', 'stash', 'sh'] vs hosted []
+- `Build dev-jdk-others-base`: missing-stage - jenkins ['deleteDir', 'sh', 'sh', 'unstash', 'sh', 'sh', 'sh', 'unstash', 'sh', 'sh', 'stash', 'sh'] vs hosted []
+- `Build dev-mojocompat`: missing-stage - jenkins ['deleteDir', 'sh', 'sh', 'unstash', 'sh', 'sh', 'sh', 'unstash', 'sh'] vs hosted []
+- `Build dev-python-base`: missing-stage - jenkins ['deleteDir', 'sh', 'sh', 'unstash', 'sh', 'sh', 'sh', 'unstash', 'sh', 'sh', 'stash', 'sh'] vs hosted []
+- `Build dev-r-base`: missing-stage - jenkins ['deleteDir', 'sh', 'sh', 'unstash', 'sh', 'sh', 'sh', 'unstash', 'sh', 'sh', 'stash', 'sh'] vs hosted []
+- `Build dev-release`: missing-stage - jenkins ['deleteDir', 'sh', 'sh', 'unstash', 'sh', 'sh', 'sh', 'unstash', 'sh'] vs hosted []
+- `Checkout and Init`: differs - jenkins ['cleanWs', 'checkout', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'stash'] vs hosted ['cleanWs', 'checkout', 'pipelineContextFactory', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'sh', 'stash']
 
 </details>
 - full mode (act): Jenkins **SUCCESS** (first failed stage: -); act **failure** (first failed step: `Checkout`); no test results on either side; nothing archived on either side

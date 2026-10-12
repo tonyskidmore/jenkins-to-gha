@@ -190,6 +190,7 @@ Trace mode compares the per-stage sequence of executed steps (`J2GHA-TRACE` mark
 |---|---|---|---:|---:|---|---|
 | jenkins | trace | SUCCESS | 40 | - | reference | 5 localisation changes, 90 stubs; auto-repair: [['stub-property', 'infra']] |
 | act | trace | success | 6 | 15.0% | ❌ differs |  |
+| hosted | trace | success | 6 | 15.0% | ❌ differs | billable ≈ 1 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38223256246) |
 | jenkins | full | SUCCESS | 10 | - | reference | 6 localisation changes, 51 stubs; auto-repair: [['stub-property', 'infra']] |
 | act | full | failure | 0 | - | ❌ different outcome |  |
 
@@ -205,6 +206,18 @@ Estimated hosted cost of a trace run: ~1 billable minute(s) (worst case 5).
 - `Linux - JDK 25 - Checkout`: missing-stage - jenkins ['deleteDir', 'checkout'] vs act []
 - `Linux - JDK 25 - Publish`: missing-stage - jenkins ['archiveArtifacts', 'sh'] vs act []
 - `Record build`: differs - jenkins ['checkout', 'sh', 'sh', 'stash', 'sh', 'stash', 'sh', 'sh'] vs act ['checkout', 'sh', 'sh', 'stash', 'sh', 'sh']
+
+</details>
+<details><summary>hosted (trace) differences</summary>
+
+- `(no stage)`: missing-stage - jenkins ['deleteDir', 'checkout', 'withChecks', 'sh', 'junit'] vs hosted []
+- `Linux - JDK 21 - Build / Test`: missing-stage - jenkins ['unstash', 'withChecks', 'sh', 'sh', 'junit'] vs hosted []
+- `Linux - JDK 21 - Checkout`: missing-stage - jenkins ['deleteDir', 'checkout'] vs hosted []
+- `Linux - JDK 21 - Publish`: missing-stage - jenkins ['archiveArtifacts', 'recordCoverage', 'echo', 'recordIssues', 'recordIssues', 'recordIssues', 'recordIssues', 'recordIssues', 'recordIssues', 'archiveArtifacts', 'sh'] vs hosted []
+- `Linux - JDK 25 - Build / Test`: missing-stage - jenkins ['unstash', 'withChecks', 'sh', 'sh', 'junit'] vs hosted []
+- `Linux - JDK 25 - Checkout`: missing-stage - jenkins ['deleteDir', 'checkout'] vs hosted []
+- `Linux - JDK 25 - Publish`: missing-stage - jenkins ['archiveArtifacts', 'sh'] vs hosted []
+- `Record build`: differs - jenkins ['checkout', 'sh', 'sh', 'stash', 'sh', 'stash', 'sh', 'sh'] vs hosted ['checkout', 'sh', 'sh', 'stash', 'sh', 'sh']
 
 </details>
 - full mode (act): Jenkins **SUCCESS** (first failed stage: -); act **failure** (first failed step: `Checkout`); tests differ: only the Jenkins run recorded test results; archived files differs (3 Jenkins, 0 converted; missing core/target/surefire-reports/jenkins.j2gha.LocalTest-output.dumpstream, org/jenkins-ci/main/jenkins-core/2.999-rc1.d076aeb66b68/jenkins-core-2.999-rc1.d076aeb66b68.jar, org/jenkins-ci/main/jenkins-war/2.999-rc1.d076aeb66b68/jenkins-war-2.999-rc1.d076aeb66b68.war; content: 0 same, 0 differ)

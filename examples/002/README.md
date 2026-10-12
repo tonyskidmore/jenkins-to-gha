@@ -191,6 +191,7 @@ Trace mode compares the per-stage sequence of executed steps (`J2GHA-TRACE` mark
 |---|---|---|---:|---:|---|---|
 | jenkins | trace | SUCCESS | 41 | - | reference | 5 localisation changes, 91 stubs; auto-repair: [['stub-property', 'infra']] |
 | act | trace | success | 5 | 12.2% | ❌ differs |  |
+| hosted | trace | success | 5 | 12.2% | ❌ differs | billable ≈ 1 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38223146869) |
 | jenkins | full | FAILURE | 0 | - | reference | 6 localisation changes, 52 stubs; auto-repair: [['stub-property', 'infra']] |
 | act | full | failure | 0 | - | ⚠️ inconclusive |  |
 
@@ -206,6 +207,18 @@ Estimated hosted cost of a trace run: ~1 billable minute(s) (worst case 5).
 - `Record build`: differs - jenkins ['sh', 'sh', 'stash', 'sh', 'stash', 'sh', 'stash', 'sh', 'sh'] vs act ['sh', 'sh', 'stash', 'sh', 'sh']
 - `Windows - JDK 25 - Build / Test`: missing-stage - jenkins ['unstash', 'withChecks', 'realtimeJUnit', 'sh'] vs act []
 - `Windows - JDK 25 - Publish`: missing-stage - jenkins ['archiveArtifacts', 'sh'] vs act []
+
+</details>
+<details><summary>hosted (trace) differences</summary>
+
+- `(no stage)`: missing-stage - jenkins ['deleteDir', 'checkout', 'withChecks', 'sh', 'junit'] vs hosted []
+- `Linux - JDK 21 - Build / Test`: missing-stage - jenkins ['unstash', 'withChecks', 'realtimeJUnit', 'sh'] vs hosted []
+- `Linux - JDK 21 - Publish`: missing-stage - jenkins ['archiveArtifacts', 'recordCoverage', 'echo', 'recordIssues', 'recordIssues', 'recordIssues', 'recordIssues', 'recordIssues', 'recordIssues', 'archiveArtifacts', 'sh'] vs hosted []
+- `Linux - JDK 25 - Build / Test`: missing-stage - jenkins ['unstash', 'withChecks', 'realtimeJUnit', 'sh'] vs hosted []
+- `Linux - JDK 25 - Publish`: missing-stage - jenkins ['archiveArtifacts', 'sh'] vs hosted []
+- `Record build`: differs - jenkins ['sh', 'sh', 'stash', 'sh', 'stash', 'sh', 'stash', 'sh', 'sh'] vs hosted ['sh', 'sh', 'stash', 'sh', 'sh']
+- `Windows - JDK 25 - Build / Test`: missing-stage - jenkins ['unstash', 'withChecks', 'realtimeJUnit', 'sh'] vs hosted []
+- `Windows - JDK 25 - Publish`: missing-stage - jenkins ['archiveArtifacts', 'sh'] vs hosted []
 
 </details>
 <details><summary>jenkins (full) failure</summary>

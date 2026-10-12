@@ -198,9 +198,10 @@ Trace mode compares the per-stage sequence of executed steps (`J2GHA-TRACE` mark
 |---|---|---|---:|---:|---|---|
 | jenkins | trace | SUCCESS | 7 | - | reference | 13 localisation changes, 77 stubs; auto-repair: [['stub-property', 'TARGET_LOCATION'], ['stub-property', 'GIT_REPO_URL'], ['stub-property', 'PLUGIN'], ['stub-property', 'BUCKET'], ['stub-property', 'IPA_FILE_NAME'], ['stub-property', 'INTEGRATION_TEST_CHECK']] |
 | act | trace | success | 7 | 100.0% | ✅ equivalent |  |
+| hosted | trace | success | 7 | 100.0% | ✅ equivalent | billable ≈ 3 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38223992362) |
 | jenkins | full | SUCCESS | 0 | - | reference | 13 localisation changes, 37 stubs; auto-repair: [['stub-property', 'TARGET_LOCATION'], ['stub-property', 'GIT_REPO_URL'], ['stub-property', 'PLUGIN'], ['stub-property', 'BUCKET'], ['stub-property', 'IPA_FILE_NAME'], ['stub-property', 'INTEGRATION_TEST_CHECK']] |
 | act | full | success | 0 | - | ✅ same outcome | dropped: main-2 (macos-latest: not runnable under act) |
-| selfhosted | full | failure | 0 | - | ❌ different outcome | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38047061572) |
+| selfhosted | full | failure | 0 | - | ❌ different outcome | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38229514826) |
 
 Estimated hosted cost of a trace run: ~3 billable minute(s) (worst case 15).
 

@@ -197,13 +197,15 @@ Trace mode compares the per-stage sequence of executed steps (`J2GHA-TRACE` mark
 |---|---|---|---:|---:|---|---|
 | jenkins | trace | SUCCESS | 22 | - | reference | 1 localisation changes, 79 stubs |
 | act | trace | success | 22 | 100.0% | ✅ equivalent |  |
+| hosted | trace | success | 22 | 100.0% | ✅ equivalent | billable ≈ 4 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38224049002) |
 | jenkins | full | SUCCESS | 2 | - | reference | 1 localisation changes, 39 stubs |
 | act | full | failure | 0 | - | ❌ different outcome |  |
-| selfhosted | full | failure | 0 | - | ❌ different outcome | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38045311523) |
+| selfhosted | full | failure | 0 | - | ❌ different outcome | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38225935303) |
 
 Estimated hosted cost of a trace run: ~4 billable minute(s) (worst case 20).
 
+- environments (hosted, trace): same - expected none, entered none
 - full mode (act): Jenkins **SUCCESS** (first failed stage: -); act **failure** (first failed step: `Build: tar --exclude='./.git' --exclude='./Jenkinsfile' --exclude='*.tar.gz'`); no test results on either side; nothing archived on either side
 - full mode (selfhosted): Jenkins **SUCCESS** (first failed stage: -); selfhosted **failure** (first failed step: `Build: tar --exclude='./.git' --exclude='./Jenkinsfile' --exclude='*.tar.gz'`); no test results on either side; nothing archived on either side
-- workspace hand-off (selfhosted, full): 1 archives, 0.0 MB; 5 steps, 4 s summed over jobs (of 25 s job time); 4 s on the critical path of a 38 s run
+- workspace hand-off (selfhosted, full): 1 archives, 0.0 MB; 5 steps, 5 s summed over jobs (of 24 s job time); 5 s on the critical path of a 42 s run
 <!-- j2gha:execution:end -->

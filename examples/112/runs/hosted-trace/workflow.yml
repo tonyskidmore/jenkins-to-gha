@@ -1,0 +1,124 @@
+# j2gha hosted variant (trace) of examples/112
+name: j2gha harness run
+on:
+  push:
+    branches:
+    - j2gha/run/112-trace-hosted-20261012083146
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  BRANCH_NAME: master
+  TAG_NAME: ''
+  CHANGE_ID: ''
+  PERSON: ${{ github.event_name != 'workflow_dispatch' && 'Mr Jenkins' || format('{0}', inputs.PERSON) }}
+  M2_HOME: /usr/lib/maven/apache-maven-3.6.0
+  GIT_COMMIT: ${{ github.sha }}
+  GIT_BRANCH: origin/master
+  GIT_URL: ${{ github.server_url }}/${{ github.repository }}.git
+defaults:
+  run:
+    shell: bash
+jobs:
+  init:
+    name: Init
+    runs-on: ubuntu-latest
+    environment: j2gha-Init
+    timeout-minutes: 5
+    steps:
+    - name: 'j2gha: environment secret check'
+      env:
+        J2GHA_ENV_CANARY: ${{ secrets.J2GHA_ENV_CANARY }}
+      run: |-
+        actual=$(printf %s "$J2GHA_ENV_CANARY" | sha256sum | cut -d" " -f1)
+        if [ "$actual" != "6b1b5f03beceb4174a076d7585c2049c0a7d739c566c64d92495847e29cb4e53" ]; then
+          echo "::error::secret J2GHA_ENV_CANARY of environment j2gha-Init is not visible to this job"
+          exit 1
+        fi
+    - name: Checkout
+      run: 'printf ''%s %s\n'' J2GHA-TRACE ''{"stage":"Declarative: Checkout SCM","step":"checkout"}'''
+    - name: 'Init: input approval'
+      id: s1
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Init","step":"input"}'
+    - name: 'Init: enter stage'
+      id: s2
+      if: env.BRANCH == 'develop'
+      run: echo "run=true" >> "$GITHUB_OUTPUT"
+  parallel-stage-branch-a:
+    name: Parallel Stage / Branch A
+    needs: init
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+    - name: 'Parallel Stage: enter stage'
+      id: s3
+      if: env.BRANCH == 'develop'
+      run: echo "run=true" >> "$GITHUB_OUTPUT"
+    - name: 'Branch A: echo'
+      id: s4
+      if: steps.s3.outputs.run == 'true'
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Branch A","step":"echo"}'
+  parallel-stage-branch-b:
+    name: Parallel Stage / Branch B
+    needs: init
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+    - name: 'Parallel Stage: enter stage'
+      id: s5
+      if: env.BRANCH == 'develop'
+      run: echo "run=true" >> "$GITHUB_OUTPUT"
+    - name: 'Branch B: echo'
+      id: s6
+      if: steps.s5.outputs.run == 'true'
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Branch B","step":"echo"}'
+  build:
+    name: Build, Deploy
+    needs:
+    - parallel-stage-branch-a
+    - parallel-stage-branch-b
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+    - name: 'Build: echo'
+      id: s7
+      env:
+        M2_HOME: /usr/lib/maven/apache-maven-3.6.0
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build","step":"echo"}'
+    - name: 'Build: echo'
+      id: s8
+      env:
+        M2_HOME: /usr/lib/maven/apache-maven-3.6.0
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build","step":"echo"}'
+    - name: 'Build: echo'
+      id: s9
+      env:
+        M2_HOME: /usr/lib/maven/apache-maven-3.6.0
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build","step":"echo"}'
+    - name: 'Build: python3 --version'
+      id: s10
+      env:
+        M2_HOME: /usr/lib/maven/apache-maven-3.6.0
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build","step":"sh"}'
+    - name: 'Build: mkdir -p target && python3 -c "print(42)" > target/app.txt'
+      id: s11
+      env:
+        M2_HOME: /usr/lib/maven/apache-maven-3.6.0
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build","step":"sh"}'
+    - name: 'Build: echo'
+      id: s12
+      env:
+        M2_HOME: /usr/lib/maven/apache-maven-3.6.0
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build","step":"echo"}'
+    - name: 'Deploy: echo'
+      id: s13
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Deploy","step":"echo"}'
+    - name: 'Deploy: printf "#!/bin/sh\necho deploy\n" > deploy.sh'
+      id: s14
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Deploy","step":"sh"}'
+    - name: 'Deploy: chmod 777 deploy.sh'
+      id: s15
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Deploy","step":"sh"}'
+    - name: 'Deploy: ./deploy.sh'
+      id: s16
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Deploy","step":"sh"}'

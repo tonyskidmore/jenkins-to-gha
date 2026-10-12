@@ -1,0 +1,57 @@
+# j2gha hosted variant (trace) of examples/111
+name: j2gha harness run
+on:
+  push:
+    branches:
+    - j2gha/run/111-trace-hosted-20261012082715
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  BRANCH_NAME: main
+  TAG_NAME: ''
+  CHANGE_ID: ''
+  JOB_NAME: ${{ github.workflow }}
+  APPLICATION_NAME: 'TODO-j2gha: application'
+  GIT_COMMIT: ${{ github.sha }}
+  GIT_BRANCH: origin/main
+  GIT_URL: ${{ github.server_url }}/${{ github.repository }}.git
+defaults:
+  run:
+    shell: bash
+jobs:
+  checkout:
+    name: Checkout, Install, Test, Build
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+    - name: 'Checkout: checkout'
+      id: s1
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Checkout","step":"checkout"}'
+    - name: 'Install: echo install'
+      id: s2
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Install","step":"sh"}'
+    - name: 'Test: mkdir -p reports && printf ''<testsuite name="unit" tests="1" failures='
+      id: s3
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Test","step":"sh"}'
+    - name: 'Build: mkdir -p dist && cp README.md dist/'
+      id: s4
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build","step":"sh"}'
+    - name: 'post: junit summary'
+      id: s5
+      if: (always()) && (always())
+      env:
+        J2GHA_JUNIT: '**/junit-*.xml'
+      run: 'printf ''%s %s\n'' J2GHA-TRACE ''{"stage":"Declarative: Post Actions","step":"junit"}'''
+    - name: 'post: archive artifacts'
+      id: s7
+      if: always()
+      run: 'printf ''%s %s\n'' J2GHA-TRACE ''{"stage":"Declarative: Post Actions","step":"archiveArtifacts"}'''
+    - name: 'post: echo'
+      id: s8
+      if: failure()
+      run: 'printf ''%s %s\n'' J2GHA-TRACE ''{"stage":"Declarative: Post Actions","step":"echo"}'''
+    - name: 'post: echo'
+      id: s9
+      if: success()
+      run: 'printf ''%s %s\n'' J2GHA-TRACE ''{"stage":"Declarative: Post Actions","step":"echo"}'''

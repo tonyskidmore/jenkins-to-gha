@@ -194,12 +194,14 @@ Trace mode compares the per-stage sequence of executed steps (`J2GHA-TRACE` mark
 |---|---|---|---:|---:|---|---|
 | jenkins | trace | SUCCESS | 22 | - | reference | 1 localisation changes, 79 stubs |
 | act | trace | success | 22 | 100.0% | ✅ equivalent |  |
+| hosted | trace | success | 22 | 100.0% | ✅ equivalent | billable ≈ 4 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38223745982) |
 | jenkins | full | FAILURE | 1 | - | reference | 1 localisation changes, 39 stubs |
 | act | full | failure | 0 | - | ❌ different outcome |  |
-| selfhosted | full | failure | 0 | - | ❌ different outcome | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38043431478) |
+| selfhosted | full | failure | 0 | - | ❌ different outcome | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38225892715) |
 
 Estimated hosted cost of a trace run: ~4 billable minute(s) (worst case 20).
 
+- environments (hosted, trace): same - expected none, entered none
 <details><summary>jenkins (full) failure</summary>
 
 ```text
@@ -209,5 +211,5 @@ Estimated hosted cost of a trace run: ~4 billable minute(s) (worst case 20).
 </details>
 - full mode (act): Jenkins **FAILURE** (first failed stage: Publish); act **failure** (first failed step: `Build: tar --exclude='./.git' --exclude='./Jenkinsfile' --exclude='*.tar.gz'`); no test results on either side; nothing archived on either side
 - full mode (selfhosted): Jenkins **FAILURE** (first failed stage: Publish); selfhosted **failure** (first failed step: `Build: tar --exclude='./.git' --exclude='./Jenkinsfile' --exclude='*.tar.gz'`); no test results on either side; nothing archived on either side
-- workspace hand-off (selfhosted, full): 1 archives, 0.0 MB; 5 steps, 5 s summed over jobs (of 27 s job time); 5 s on the critical path of a 41 s run
+- workspace hand-off (selfhosted, full): 1 archives, 0.0 MB; 5 steps, 5 s summed over jobs (of 25 s job time); 5 s on the critical path of a 41 s run
 <!-- j2gha:execution:end -->

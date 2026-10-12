@@ -152,16 +152,17 @@ Trace mode compares the per-stage sequence of executed steps (`J2GHA-TRACE` mark
 |---|---|---|---:|---:|---|---|
 | jenkins | trace | SUCCESS | 31 | - | reference | 1 localisation changes, 76 stubs; auto-repair: [['remove-directive', 'options']] |
 | act | trace | success | 31 | 100.0% | ✅ equivalent |  |
+| hosted | trace | success | 31 | 100.0% | ✅ equivalent | billable ≈ 28 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38223566723) |
 | jenkins | full | SUCCESS | 0 | - | reference | 1 localisation changes, 36 stubs; auto-repair: [['remove-directive', 'options']] |
 | act | full | failure | 0 | - | ❌ different outcome |  |
-| selfhosted | full | failure | 0 | - | ❌ different outcome | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38045431555) |
-| hosted | full | failure | 0 | - | ❌ different outcome | billable ≈ 28 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38047527389) |
+| selfhosted | full | failure | 0 | - | ❌ different outcome | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38226177025) |
+| hosted | full | failure | 0 | - | ❌ different outcome | billable ≈ 28 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38225229649) |
 
 Estimated hosted cost of a trace run: ~28 billable minute(s) (worst case 140).
 
 - full mode (act): Jenkins **SUCCESS** (first failed stage: -); act **failure** (first failed step: `post: archive artifacts`); no test results on either side; archived files differs (52 Jenkins, 0 converted; missing hpx_1/build/clang-16-Debug/Testing/Temporary/LastTest.log, hpx_1/build/clang-16-Release/Testing/Temporary/LastTest.log, hpx_1/build/clang-17-Debug/Testing/Temporary/LastTest.log, hpx_1/build/clang-17-Release/Testing/Temporary/LastTest.log, hpx_1/build/clang-17-apex-Debug/Testing/Temporary/LastTest.log; content: 0 same, 0 differ)
 - full mode (selfhosted): Jenkins **SUCCESS** (first failed stage: -); selfhosted **failure** (first failed step: `post: archive artifacts`); no test results on either side; archived files differs (52 Jenkins, 0 converted; missing hpx_1/build/clang-16-Debug/Testing/Temporary/LastTest.log, hpx_1/build/clang-16-Release/Testing/Temporary/LastTest.log, hpx_1/build/clang-17-Debug/Testing/Temporary/LastTest.log, hpx_1/build/clang-17-Release/Testing/Temporary/LastTest.log, hpx_1/build/clang-17-apex-Debug/Testing/Temporary/LastTest.log; content: 0 same, 0 differ)
-- workspace hand-off (selfhosted, full): 1 archives, 37.3 MB; 56 steps, 2708 s summed over jobs (of 2928 s job time); 196 s on the critical path of a 970 s run
+- workspace hand-off (selfhosted, full): 1 archives, 37.4 MB; 56 steps, 3204 s summed over jobs (of 3434 s job time); 228 s on the critical path of a 1107 s run
 - full mode (hosted): Jenkins **SUCCESS** (first failed stage: -); hosted **failure** (first failed step: `post: archive artifacts`); no test results on either side; archived files differs (52 Jenkins, 0 converted; missing hpx_1/build/clang-16-Debug/Testing/Temporary/LastTest.log, hpx_1/build/clang-16-Release/Testing/Temporary/LastTest.log, hpx_1/build/clang-17-Debug/Testing/Temporary/LastTest.log, hpx_1/build/clang-17-Release/Testing/Temporary/LastTest.log, hpx_1/build/clang-17-apex-Debug/Testing/Temporary/LastTest.log; content: 0 same, 0 differ)
-- workspace hand-off (hosted, full): 1 archives, 37.4 MB; 56 steps, 84 s summed over jobs (of 225 s job time); 12 s on the critical path of a 43 s run
+- workspace hand-off (hosted, full): 1 archives, 37.4 MB; 56 steps, 79 s summed over jobs (of 208 s job time); 11 s on the critical path of a 42 s run
 <!-- j2gha:execution:end -->

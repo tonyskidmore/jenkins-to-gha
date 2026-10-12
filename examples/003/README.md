@@ -232,9 +232,10 @@ Trace mode compares the per-stage sequence of executed steps (`J2GHA-TRACE` mark
 |---|---|---|---:|---:|---|---|
 | jenkins | trace | SUCCESS | 78 | - | reference | 7 localisation changes, 81 stubs; auto-repair: ['feDetermineVersionFromGit'] |
 | act | trace | success | 78 | 100.0% | ✅ equivalent |  |
+| hosted | trace | success | 78 | 100.0% | ✅ equivalent | billable ≈ 13 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38223183812) |
 | jenkins | full | FAILURE | 3 | - | reference | 7 localisation changes, 41 stubs; auto-repair: ['feDetermineVersionFromGit'] |
 | act | full | failure | 0 | - | ⚠️ inconclusive |  |
-| selfhosted | full | failure | 0 | - | ⚠️ inconclusive | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38042748299) |
+| selfhosted | full | failure | 0 | - | ⚠️ inconclusive | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38224687037) |
 
 Estimated hosted cost of a trace run: ~13 billable minute(s) (worst case 65).
 
@@ -248,6 +249,6 @@ Estimated hosted cost of a trace run: ~13 billable minute(s) (worst case 65).
 - full mode (act): Jenkins **FAILURE** (first failed stage: Run URDF tests); act **failure** (first failed step: `Build agent image (agent dockerfile)`); no test results on either side; nothing archived on either side
 - act (full) inconclusive: the failing stage is unknown on the converted side.
 - full mode (selfhosted): Jenkins **FAILURE** (first failed stage: Run URDF tests); selfhosted **failure** (first failed step: `Build agent image (agent dockerfile)`); no test results on either side; nothing archived on either side
-- workspace hand-off (selfhosted, full): 2 archives, 183.0 MB; 12 steps, 522 s summed over jobs (of 577 s job time); 522 s on the critical path of a 604 s run
+- workspace hand-off (selfhosted, full): 2 archives, 183.0 MB; 12 steps, 528 s summed over jobs (of 571 s job time); 528 s on the critical path of a 597 s run
 - selfhosted (full) inconclusive: the failing stage is unknown on the converted side.
 <!-- j2gha:execution:end -->

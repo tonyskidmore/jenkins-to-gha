@@ -1,0 +1,52 @@
+# j2gha hosted variant (trace) of examples/002
+name: j2gha harness run
+on:
+  push:
+    branches:
+    - j2gha/run/002-trace-hosted-20261012082209
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  BRANCH_NAME: master
+  TAG_NAME: ''
+  CHANGE_ID: ''
+  BUILD_TAG: gha-${{ github.repository_owner }}-${{ github.event.repository.name }}-${{ github.run_number }}
+  JOB_NAME: ${{ github.workflow }}
+  GIT_COMMIT: ${{ github.sha }}
+  GIT_BRANCH: origin/master
+  GIT_URL: ${{ github.server_url }}/${{ github.repository }}.git
+defaults:
+  run:
+    shell: bash
+jobs:
+  main:
+    name: main, Record build
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+    - name: 'Record build: launchable verify && launchable record build --name ${launchableName}'
+      id: s2
+      env:
+        LAUNCHABLE_TOKEN: j2gha-fake-secret
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Record build","step":"sh"}'
+    - name: 'Record build: launchable record session --build ${launchableName} --flavor platform='
+      id: s4
+      env:
+        LAUNCHABLE_TOKEN: j2gha-fake-secret
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Record build","step":"sh"}'
+    - name: 'Record build: stash sessionFile'
+      id: s5
+      env:
+        LAUNCHABLE_TOKEN: j2gha-fake-secret
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Record build","step":"stash"}'
+    - name: 'Record build: launchable verify && launchable record commit'
+      id: s7
+      env:
+        LAUNCHABLE_TOKEN: j2gha-fake-secret
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Record build","step":"sh"}'
+    - name: 'Record build: launchable verify && launchable record commit'
+      id: s8
+      env:
+        LAUNCHABLE_TOKEN: j2gha-fake-secret
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Record build","step":"sh"}'

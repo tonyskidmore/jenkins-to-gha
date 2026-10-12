@@ -1,0 +1,155 @@
+# j2gha hosted variant (trace) of examples/014
+name: j2gha harness run
+on:
+  push:
+    branches:
+    - j2gha/run/014-trace-hosted-20261012082634
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  BRANCH_NAME: superstable
+  TAG_NAME: ''
+  CHANGE_ID: ''
+  ROUTING_CORES: '32'
+  GIT_COMMIT: ${{ github.sha }}
+  GIT_BRANCH: origin/superstable
+  GIT_URL: ${{ github.server_url }}/${{ github.repository }}.git
+defaults:
+  run:
+    shell: bash
+jobs:
+  update-openroad-to-head-of-master-branch:
+    name: Update OpenROAD to HEAD of master branch, Build Docker OpenLane image with openroad_app master
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+    - name: Checkout
+      run: 'printf ''%s %s\n'' J2GHA-TRACE ''{"stage":"Declarative: Checkout SCM","step":"checkout"}'''
+    - name: 'Update OpenROAD to HEAD of master branch: checkout'
+      id: s1
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Update OpenROAD to HEAD of master branch","step":"checkout"}'
+    - name: 'Build Docker OpenLane image with openroad_app master: try (line 29)'
+      id: s2
+      run: echo "run=true" >> "$GITHUB_OUTPUT"
+    - name: 'Build Docker OpenLane image with openroad_app master: PDK_ROOT=$(pwd)/pdks OPENLANE_IMAGE_NAME=efabless/openlane
+        python3'
+      id: s3
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build Docker OpenLane image with openroad_app master","step":"sh"}'
+    - name: 'Build Docker OpenLane image with openroad_app master: make -C docker build-openroad_app'
+      id: s4
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build Docker OpenLane image with openroad_app master","step":"sh"}'
+    - name: 'Build Docker OpenLane image with openroad_app master: python3 dependencies/tool.py -f commit openroad_app'
+      id: s5
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build Docker OpenLane image with openroad_app master","step":"sh"}'
+    - name: 'Build Docker OpenLane image with openroad_app master: make -C docker openlane OPENLANE_IMAGE_NAME=current:latest'
+      id: s6
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build Docker OpenLane image with openroad_app master","step":"sh"}'
+    - name: 'Build Docker OpenLane image with openroad_app master: docker save current:latest-amd64 | gzip > openlane-current.tar.gz'
+      id: s7
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build Docker OpenLane image with openroad_app master","step":"sh"}'
+    - name: 'Build Docker OpenLane image with openroad_app master: stash data'
+      id: s8
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build Docker OpenLane image with openroad_app master","step":"stash"}'
+    - name: 'Build Docker OpenLane image with openroad_app master: sleep'
+      id: s9
+      if: (always()) && (steps.s2.outcome == 'success') && ((steps.s3.outcome == 'failure' || steps.s4.outcome == 'failure'
+        || steps.s5.outcome == 'failure' || steps.s6.outcome == 'failure' || steps.s7.outcome == 'failure' || steps.s8.outcome
+        == 'failure'))
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build Docker OpenLane image with openroad_app master","step":"sleep"}'
+    - name: 'Build Docker OpenLane image with openroad_app master: exit 1'
+      id: s10
+      if: (always()) && (steps.s2.outcome == 'success') && ((steps.s3.outcome == 'failure' || steps.s4.outcome == 'failure'
+        || steps.s5.outcome == 'failure' || steps.s6.outcome == 'failure' || steps.s7.outcome == 'failure' || steps.s8.outcome
+        == 'failure'))
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build Docker OpenLane image with openroad_app master","step":"sh"}'
+  run-tests:
+    name: Run Tests
+    needs: update-openroad-to-head-of-master-branch
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    strategy:
+      fail-fast: false
+      matrix:
+        DESIGN:
+        - ci/aes
+        - ci/aes_core
+        - ci/APU
+        - ci/blabla
+        - '''ci/BM64 -override_env QUIT_ON_LINTER_ERRORS=0'''
+        - ci/gcd
+        - ci/inverter
+        - ci/manual_macro_placement_test
+        - ci/picorv32a
+        - ci/PPU
+        - ci/s44
+        - ci/salsa20
+        - ci/usb
+        - ci/usb_cdc_core
+        - ci/wbqspiflash
+        - ci/xtea
+        - '''ci/y_huff -override_env QUIT_ON_SYNTH_CHECKS=0'''
+        - ci/zipdiv
+        - ci/aes_user_project_wrapper
+        - ci/caravel_upw
+        - ci/mem_1r1w
+        - spm
+    env:
+      DESIGN: ${{ matrix.DESIGN }}
+    steps:
+    - name: Checkout
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Test","step":"checkout"}'
+    - name: 'Test: enter stage'
+      id: s11
+      run: echo "run=true" >> "$GITHUB_OUTPUT"
+    - name: '${DESIGN} - Install PDK: python3 -m pip install --user --upgrade --no-cache-dir pip'
+      id: s12
+      if: steps.s11.outputs.run == 'true'
+      run: printf '%s {"stage":"%s","step":"%s"}\n' J2GHA-TRACE "${DESIGN} - Install PDK" 'sh'
+    - name: '${DESIGN} - Install PDK: python3 -m pip install --user --upgrade --no-cache-dir volare'
+      id: s13
+      if: steps.s11.outputs.run == 'true'
+      run: printf '%s {"stage":"%s","step":"%s"}\n' J2GHA-TRACE "${DESIGN} - Install PDK" 'sh'
+    - name: '${DESIGN} - Install PDK: make pdk'
+      id: s14
+      if: steps.s11.outputs.run == 'true'
+      run: printf '%s {"stage":"%s","step":"%s"}\n' J2GHA-TRACE "${DESIGN} - Install PDK" 'sh'
+    - name: '${DESIGN} - Import Docker image: unstash data'
+      id: s15
+      if: steps.s11.outputs.run == 'true'
+      run: printf '%s {"stage":"%s","step":"%s"}\n' J2GHA-TRACE "${DESIGN} - Import Docker image" 'unstash'
+    - name: '${DESIGN} - Import Docker image: docker load --input openlane-current.tar.gz'
+      id: s16
+      if: steps.s11.outputs.run == 'true'
+      run: printf '%s {"stage":"%s","step":"%s"}\n' J2GHA-TRACE "${DESIGN} - Import Docker image" 'sh'
+    - name: '${DESIGN} - Update OpenROAD commit: python3 dependencies/tool.py -f commit openroad_app'
+      id: s17
+      if: steps.s11.outputs.run == 'true'
+      run: printf '%s {"stage":"%s","step":"%s"}\n' J2GHA-TRACE "${DESIGN} - Update OpenROAD commit" 'sh'
+    - name: '${DESIGN} - Update OpenROAD commit: sed -i s/${OLD_SHA}/${NEW_SHA}/ ./dependencies/tool_metadata.yml'
+      id: s18
+      if: steps.s11.outputs.run == 'true'
+      run: printf '%s {"stage":"%s","step":"%s"}\n' J2GHA-TRACE "${DESIGN} - Update OpenROAD commit" 'sh'
+    - name: '${DESIGN} - Run test: make OPENLANE_IMAGE_NAME=current:latest TEST_DESIGN=${DESIGN} test'
+      id: s19
+      if: steps.s11.outputs.run == 'true'
+      run: printf '%s {"stage":"%s","step":"%s"}\n' J2GHA-TRACE "${DESIGN} - Run test" 'sh'
+    - name: 'Test: archive artifacts'
+      id: s20
+      if: (always()) && (steps.s11.outcome == 'success') && ((steps.s12.outcome == 'failure' || steps.s13.outcome == 'failure'
+        || steps.s14.outcome == 'failure' || steps.s15.outcome == 'failure' || steps.s16.outcome == 'failure' || steps.s17.outcome
+        == 'failure' || steps.s18.outcome == 'failure' || steps.s19.outcome == 'failure'))
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Test","step":"archiveArtifacts"}'
+  post:
+    name: post
+    needs:
+    - update-openroad-to-head-of-master-branch
+    - run-tests
+    if: always()
+    runs-on: ubuntu-latest
+    steps:
+    - name: 'post: emailext notification'
+      id: s21
+      if: always() && (contains(needs.*.result, 'failure') || failure())
+      run: 'printf ''%s %s\n'' J2GHA-TRACE ''{"stage":"Declarative: Post Actions","step":"emailext"}'''
+    timeout-minutes: 5

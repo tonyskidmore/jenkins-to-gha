@@ -1,9 +1,9 @@
 # j2gha hosted variant (full) of examples/104
-name: 'j2gha 104: EclipseFdn/open-vsx.org Jenkinsfile (j2gha)'
+name: j2gha harness run
 on:
   push:
     branches:
-    - j2gha/run/104-full-hosted-20261010110723
+    - j2gha/run/104-full-hosted-20261012083715
   workflow_dispatch:
 permissions:
   contents: read
@@ -28,7 +28,7 @@ jobs:
   build-docker-image:
     name: Build docker image
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 10
     steps:
     - name: Checkout
       uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
@@ -50,7 +50,7 @@ jobs:
     name: Push docker image
     needs: build-docker-image
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 10
     steps:
     - name: Checkout
       uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
@@ -72,7 +72,7 @@ jobs:
     name: Deploy test, Deploy staging, Deploy production, Deploy aws-staging, Deploy aws-production
     needs: push-docker-image
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 10
     steps:
     - name: Checkout
       uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
@@ -322,4 +322,4 @@ jobs:
       id: s14
       if: always()
       run: find . -mindepth 1 -delete || true
-    timeout-minutes: 30
+    timeout-minutes: 10
