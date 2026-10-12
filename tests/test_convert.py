@@ -773,3 +773,14 @@ def test_self_assignment_from_a_parameter_adds_no_step():
     out = convert(ir, "")
     assert not any("GITHUB_ENV" in s.get("run", "") for s in out["workflow"]["jobs"]["build"]["steps"])
     assert {i["status"] for i in out["report"]["items"] if i["jenkins"].startswith("decl VERSION")} == {"mapped"}
+
+
+def test_variants_pin_job_name_to_the_jenkins_job():
+    # 106: `iacname = env.JOB_NAME` names a tar file; github.workflow ("j2gha harness run") has spaces, ex-106-full not
+    from j2gha.convert.generator import JENKINS_ENV
+    from j2gha.jenkins.run import harness_job
+    model = {"env": {"JOB_NAME": JENKINS_ENV["JOB_NAME"], "JOB_BASE_NAME": "own"},
+             "jobs": {"b": {"runs-on": "ubuntu-latest", "steps": [{"run": "true", "_j2gha": {"trace": True}}]}}}
+    variant, _ = make_variant(model, "full", "act", {"branch": "main"}, job_name=harness_job("106", "full"))
+    assert variant["env"]["JOB_NAME"] == "ex-106-full"
+    assert variant["env"]["JOB_BASE_NAME"] == "own"  # a value the pipeline set itself is kept

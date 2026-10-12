@@ -26,6 +26,11 @@ def log(msg: str) -> None:
     print(f"[jenkins] {msg}", file=sys.stderr, flush=True)
 
 
+def harness_job(example: str, mode: str) -> str:
+    """The Jenkins job a reference runs in: its JOB_NAME (execution variants pin the converted run to it)."""
+    return f"ex-{example}-{mode}"
+
+
 def run_jenkins(d: Path, mode: str, scenario: dict[str, Any], docker: bool = False) -> dict[str, Any]:
     with controller.exclusive(f"jenkins {mode} run of examples/{d.name}"):
         return _run_jenkins(d, mode, scenario, docker)
@@ -54,7 +59,7 @@ def _run_jenkins(d: Path, mode: str, scenario: dict[str, Any], docker: bool) -> 
     log(f"{d.name}: {prov.strip()[:200]}")
     removes: list[tuple[str, str]] = []
     extra: list[str] = []
-    job = f"ex-{d.name}-{mode}"
+    job = harness_job(d.name, mode)
     has_params = bool(ir and ir.parameters)
     timeout = 600 if mode == "trace" else 1800
     attempts = []

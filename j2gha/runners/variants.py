@@ -52,10 +52,12 @@ def make_variant(model: dict[str, Any], mode: str, target: str, scenario: dict[s
                  source: dict[str, Any] | None = None, runner_label: str | None = None,
                  branch: str | None = None, max_minutes: int = 10,
                  environments: dict[str, str] | None = None,
-                 stubbed: list[str] | None = None) -> tuple[dict[str, Any], dict[str, Any]]:
+                 stubbed: list[str] | None = None,
+                 job_name: str | None = None) -> tuple[dict[str, Any], dict[str, Any]]:
     """``environments`` (remote tiers, `run --environments`): harness environment name -> sha256 of its canary
     secret; the variant then keeps every job's environment under that name (gha.environments). Otherwise every
-    `environment` is removed. ``stubbed``: stubbed_properties() of the Jenkins reference."""
+    `environment` is removed. ``stubbed``: stubbed_properties() of the Jenkins reference; ``job_name``: the Jenkins
+    job the reference ran in (`jenkins.run.harness_job`)."""
     keep_env = bool(environments) and target != "act"
     wf = copy.deepcopy(model)
     # only declared parameters (the dispatch inputs) can be set by a scenario; pipeline and harness env cannot
@@ -80,6 +82,9 @@ def make_variant(model: dict[str, Any], mode: str, target: str, scenario: dict[s
     pin("GIT_BRANCH", scenario.get("git_branch", scenario.get("branch", "main")), always=True)
     for k in ("CHANGE_TARGET", "CHANGE_BRANCH", "CHANGE_AUTHOR", "CHANGE_TITLE", "CHANGE_URL"):
         pin(k, scenario.get(k.lower(), ""))
+    if job_name:  # github.workflow otherwise: the harness's "j2gha harness run", spaces and all
+        pin("JOB_NAME", job_name)
+        pin("JOB_BASE_NAME", job_name)
     for name in stubbed or []:
         if name not in env and name not in inputs:  # the pipeline's own value, or a parameter, is never replaced
             env[name] = STUB_VALUE

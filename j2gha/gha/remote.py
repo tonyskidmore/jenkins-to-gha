@@ -367,7 +367,8 @@ def _abort(gh: GitHub, repo: str, state: dict[str, Any], run: dict[str, Any], re
 # ------------------------------------------------------------------------------------------- entry point
 def run_remote(d: Path, model: dict[str, Any], mode: str, tier: str, scenario: dict[str, Any],
                source: dict[str, Any] | None, yes: bool = False, max_minutes: int | None = None,
-               environments: bool = False, stubbed: list[str] | None = None) -> dict[str, Any]:
+               environments: bool = False, stubbed: list[str] | None = None,
+               job_name: str | None = None) -> dict[str, Any]:
     gh = GitHub(cache_ttl=0)
     repo = harness_repo()
     ts = datetime.now(timezone.utc).strftime("%Y%m%d%H%M%S")
@@ -378,7 +379,7 @@ def run_remote(d: Path, model: dict[str, Any], mode: str, tier: str, scenario: d
     variant, notes = make_variant(model, mode, tier, scenario, source, runner_label=label, branch=branch,
                                   max_minutes=max_minutes or 10,
                                   environments={e: env_check.digest(v) for e, v in canaries.items()} or None,
-                                  stubbed=stubbed)
+                                  stubbed=stubbed, job_name=job_name)
     est = estimate_minutes(variant, mode)
     record: dict[str, Any] = {"tier": tier, "mode": mode, "repo": repo, "branch": branch, "estimate": est,
                               "variant_notes": notes}
