@@ -41,9 +41,9 @@ uv run j2gha pipeline all                 # analyze -> convert -> validate -> ru
 uv run j2gha summary                      # corpus index: examples/README.md
 ```
 
-`all` means every numbered example: 20 crawled originals (`001`-`020`) and 16 twins (`1NN`) at the time of writing.
-The dated results in [results.md](results.md) cover `001`-`020` in trace mode on act; to repeat that set, run
-`uv run j2gha pipeline 1-20`.
+`all` means every numbered example: the crawled originals (`001`-`020`) and their twins (`1NN`, minimally edited copies
+that run to completion on the local Jenkins; see [results.md](results.md#twins-full-mode-against-a-successful-jenkins-reference)).
+To repeat the originals' trace results on act from [results.md](results.md), run `uv run j2gha pipeline 1-20`.
 
 Each stage writes its results into the example's `README.md`, `analysis/`, `gha/` and `runs/`. These are committed for
 the corpus examples, so running them changes tracked files: `git restore examples/` puts back the committed versions
@@ -62,6 +62,34 @@ uv run j2gha run 004 --tier hosted --yes --max-minutes N    # GitHub-hosted runn
 
 Both push the workflow to a throw-away branch of the repository in `J2GHA_REPO` (default: this clone's `origin`) and
 delete it afterwards. act, the local tier, cannot be the final word; why is in [act-evaluation.md](act-evaluation.md).
+
+## Re-run the reference runs
+
+The runs linked from the examples' READMEs ([results.md](results.md#reference-runs)) are re-run by re-running every
+remote record in its own mode and scenario, which rewrites the records and links. On the public repository the hosted
+runs are free; `J2GHA_MAX_RUN_MINUTES` only caps a run's worst case:
+
+```bash
+export J2GHA_MAX_RUN_MINUTES=300
+for d in examples/[0-9]*/; do
+  i=$(basename "$d")
+  for mode in trace full; do
+    tiers=$(for t in selfhosted hosted; do [ -d "examples/$i/runs/$t-$mode" ] && echo "$t"; done | paste -sd,)
+    [ -n "$tiers" ] || continue
+    extra=()
+    case "$i-$mode" in
+      006-trace|106-trace) extra=(--environments) ;;
+      013-full) extra=(--param PROMOTE=false) ;;
+    esac
+    uv run j2gha run "$i" --tier "$tiers" --mode "$mode" --yes "${extra[@]}"
+  done
+done
+uv run j2gha summary
+```
+
+GitHub occasionally starts a second run for one push to a run branch; the harness records the first, and the duplicate
+stays queued with no runner to pick it up. Cancel it with
+`gh api -X POST repos/<owner>/<repo>/actions/runs/<id>/force-cancel`.
 
 ## Keep an eye on GitHub Actions minutes
 

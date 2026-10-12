@@ -51,8 +51,20 @@ optional ([docs/AI.md](docs/AI.md)).
 4. **Run and compare:** Jenkins against act locally, or against real GitHub Actions on self-hosted or GitHub-hosted
    runners (behind a minutes budget guard).
 
-On the 20-example corpus (2026-10-07), 15 conversions matched Jenkins on act, 2 were inconclusive and 3 differed, all
-three on pipelines that build stages at run time. Details: [docs/results.md](docs/results.md).
+## The example corpus
+
+- **`examples/000`:** the hand-written walkthrough.
+- **`examples/001`-`020`, the originals:** 20 real-world Jenkinsfiles found on GitHub, each cited and never edited.
+- **`examples/1NN`, the twins:** `1NN` is a minimally edited copy of original `0NN`, made so that the pipeline runs to
+  completion on the local Jenkins, with every edit listed in its `LOCAL.md`. Most originals need private services,
+  credentials or other nodes, so with their real commands they can only fail; a twin gives full mode a successful
+  Jenkins run to compare against. 16 of the 20 originals have one.
+
+In trace mode (control flow), 15 of the 20 originals' conversions matched Jenkins on act and on GitHub-hosted runners,
+2 were inconclusive and 3 differed, all three on pipelines that build stages at run time. In full mode (real
+commands), 12 of the 16 twins' conversions showed no difference from the successful Jenkins run on real GitHub
+Actions; the other 4 differ where the converter reports manual work. Each example's README links its reference runs on
+GitHub Actions. Index: [examples/README.md](examples/README.md); details: [docs/results.md](docs/results.md).
 
 ## Documentation
 
