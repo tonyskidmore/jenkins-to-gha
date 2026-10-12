@@ -152,17 +152,17 @@ Trace mode compares the per-stage sequence of executed steps (`J2GHA-TRACE` mark
 |---|---|---|---:|---:|---|---|
 | jenkins | trace | SUCCESS | 31 | - | reference | 1 localisation changes, 76 stubs; auto-repair: [['remove-directive', 'options']] |
 | act | trace | success | 31 | 100.0% | ✅ equivalent |  |
-| hosted | trace | success | 31 | 100.0% | ✅ equivalent | billable ≈ 28 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38307554269) |
+| hosted | trace | success | 31 | 100.0% | ✅ equivalent | billable ≈ 28 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38317903148) |
 | jenkins | full | SUCCESS | 0 | - | reference | 1 localisation changes, 36 stubs; auto-repair: [['remove-directive', 'options']] |
 | act | full | success | 0 | - | ✅ same outcome |  |
-| selfhosted | full | success | 0 | - | ✅ same outcome | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38307616128) |
-| hosted | full | success | 0 | - | ✅ same outcome | billable ≈ 28 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38309606296) |
+| selfhosted | full | success | 0 | - | ✅ same outcome | billable ≈ 0 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38317959118) |
+| hosted | full | success | 0 | - | ✅ same outcome | billable ≈ 28 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38319656861) |
 
 Estimated hosted cost of a trace run: ~28 billable minute(s) (worst case 140).
 
 - full mode (act): Jenkins **SUCCESS** (first failed stage: -); act **success** (first failed step: `-`); no test results on either side; archived files same (52 Jenkins, 52 converted; content: 52 same, 0 differ)
 - full mode (selfhosted): Jenkins **SUCCESS** (first failed stage: -); selfhosted **success** (first failed step: `-`); no test results on either side; archived files same (52 Jenkins, 52 converted; content: 52 same, 0 differ)
-- workspace hand-off (selfhosted, full): 27 archives, 37.4 MB; 135 steps, 3104 s summed over jobs (of 3336 s job time); 213 s on the critical path of a 1086 s run
+- workspace hand-off (selfhosted, full): 27 archives, 37.4 MB; 135 steps, 3152 s summed over jobs (of 3373 s job time); 232 s on the critical path of a 1074 s run
 - full mode (hosted): Jenkins **SUCCESS** (first failed stage: -); hosted **success** (first failed step: `-`); no test results on either side; archived files same (52 Jenkins, 52 converted; content: 52 same, 0 differ)
-- workspace hand-off (hosted, full): 27 archives, 37.4 MB; 135 steps, 174 s summed over jobs (of 301 s job time); 15 s on the critical path of a 48 s run
+- workspace hand-off (hosted, full): 27 archives, 37.4 MB; 135 steps, 176 s summed over jobs (of 290 s job time); 19 s on the critical path of a 50 s run
 <!-- j2gha:execution:end -->

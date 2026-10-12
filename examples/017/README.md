@@ -234,7 +234,7 @@ Trace mode compares the per-stage sequence of executed steps (`J2GHA-TRACE` mark
 |---|---|---|---:|---:|---|---|
 | jenkins | trace | FAILURE | 2 | - | reference | 33 localisation changes, 77 stubs; auto-repair: [['untype-decl', 10], ['stub-property', 'APP_BRANCH'], ['stub-property', 'log'], ['untype-decl', 193]] |
 | act | trace | success | 4 | 25.0% | ⚠️ inconclusive |  |
-| hosted | trace | success | 4 | 25.0% | ⚠️ inconclusive | billable ≈ 9 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38310676066) |
+| hosted | trace | success | 4 | 25.0% | ⚠️ inconclusive | billable ≈ 9 min; [run](https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38320767706) |
 | jenkins | full | FAILURE | 0 | - | reference | 33 localisation changes, 37 stubs; auto-repair: [['untype-decl', 10], ['stub-property', 'APP_BRANCH'], ['stub-property', 'log'], ['untype-decl', 193]] |
 | act | full | success | 0 | - | ❌ different outcome |  |
 
