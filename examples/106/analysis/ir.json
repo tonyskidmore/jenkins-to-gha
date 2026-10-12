@@ -46,7 +46,11 @@
                               "line": 15,
                               "named": {
                                 "_target": "target",
-                                "_literal": "pro"
+                                "_literal": "pro",
+                                "_value": {
+                                  "t": "str",
+                                  "v": "pro"
+                                }
                               },
                               "category": "dynamic",
                               "source": "target = pro",
@@ -65,7 +69,11 @@
                         "line": 13,
                         "named": {
                           "_target": "target",
-                          "_literal": "pre"
+                          "_literal": "pre",
+                          "_value": {
+                            "t": "str",
+                            "v": "pre"
+                          }
                         },
                         "category": "dynamic",
                         "source": "target = pre",
@@ -84,7 +92,11 @@
                   "line": 11,
                   "named": {
                     "_target": "target",
-                    "_literal": "dev"
+                    "_literal": "dev",
+                    "_value": {
+                      "t": "str",
+                      "v": "dev"
+                    }
                   },
                   "category": "dynamic",
                   "source": "target = dev",
@@ -99,7 +111,31 @@
               "name": "<assign>",
               "line": 21,
               "named": {
-                "_target": "oversion"
+                "_target": "oversion",
+                "_value": {
+                  "t": "call",
+                  "call": {
+                    "k": "call",
+                    "name": "trim",
+                    "receiver": "sh(script: \"jq -r '.variable.iac_version.default' src/package.tf\", returnStdout: true)",
+                    "receiverCalls": [
+                      {
+                        "k": "call",
+                        "name": "sh",
+                        "named": {
+                          "script": {
+                            "t": "str",
+                            "v": "jq -r '.variable.iac_version.default' src/package.tf"
+                          },
+                          "returnStdout": {
+                            "t": "bool",
+                            "v": true
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
               },
               "body": [
                 {
@@ -121,7 +157,39 @@
               "name": "<assign>",
               "line": 24,
               "named": {
-                "_target": "version"
+                "_target": "version",
+                "_value": {
+                  "t": "concat",
+                  "parts": [
+                    {
+                      "t": "concat",
+                      "parts": [
+                        {
+                          "t": "call",
+                          "call": {
+                            "k": "call",
+                            "name": "take",
+                            "args": [
+                              {
+                                "t": "num",
+                                "v": 10
+                              }
+                            ],
+                            "receiver": "oversion"
+                          }
+                        },
+                        {
+                          "t": "str",
+                          "v": "-"
+                        }
+                      ]
+                    },
+                    {
+                      "t": "prop",
+                      "text": "env.BUILD_NUMBER"
+                    }
+                  ]
+                }
               },
               "category": "dynamic",
               "source": "version = ${oversion.take(...)}-${env.BUILD_NUMBER}",
@@ -131,7 +199,21 @@
               "name": "<assign>",
               "line": 25,
               "named": {
-                "_target": "oversion"
+                "_target": "oversion",
+                "_value": {
+                  "t": "call",
+                  "call": {
+                    "k": "call",
+                    "name": "take",
+                    "args": [
+                      {
+                        "t": "num",
+                        "v": 10
+                      }
+                    ],
+                    "receiver": "oversion"
+                  }
+                }
               },
               "body": [
                 {
@@ -152,7 +234,11 @@
               "name": "<assign>",
               "line": 26,
               "named": {
-                "_target": "iacname"
+                "_target": "iacname",
+                "_value": {
+                  "t": "prop",
+                  "text": "env.JOB_NAME"
+                }
               },
               "category": "dynamic",
               "source": "iacname = env.JOB_NAME",
@@ -163,7 +249,11 @@
               "line": 29,
               "named": {
                 "_target": "prjname",
-                "_literal": "oss-opensource"
+                "_literal": "oss-opensource",
+                "_value": {
+                  "t": "str",
+                  "v": "oss-opensource"
+                }
               },
               "category": "dynamic",
               "source": "prjname = oss-opensource",
@@ -173,7 +263,38 @@
               "name": "<assign>",
               "line": 32,
               "named": {
-                "_target": "packname"
+                "_target": "packname",
+                "_value": {
+                  "t": "concat",
+                  "parts": [
+                    {
+                      "t": "concat",
+                      "parts": [
+                        {
+                          "t": "concat",
+                          "parts": [
+                            {
+                              "t": "var",
+                              "name": "iacname"
+                            },
+                            {
+                              "t": "str",
+                              "v": "-v"
+                            }
+                          ]
+                        },
+                        {
+                          "t": "var",
+                          "name": "version"
+                        }
+                      ]
+                    },
+                    {
+                      "t": "str",
+                      "v": ".tar.gz"
+                    }
+                  ]
+                }
               },
               "category": "dynamic",
               "source": "packname = ${iacname}-v${version}.tar.gz",
@@ -183,7 +304,47 @@
               "name": "<assign>",
               "line": 35,
               "named": {
-                "_target": "publish_url"
+                "_target": "publish_url",
+                "_value": {
+                  "t": "concat",
+                  "parts": [
+                    {
+                      "t": "concat",
+                      "parts": [
+                        {
+                          "t": "concat",
+                          "parts": [
+                            {
+                              "t": "concat",
+                              "parts": [
+                                {
+                                  "t": "prop",
+                                  "text": "env.NEXUS_URL "
+                                },
+                                {
+                                  "t": "str",
+                                  "v": "/repository/raw-terraform/"
+                                }
+                              ]
+                            },
+                            {
+                              "t": "var",
+                              "name": "prjname"
+                            }
+                          ]
+                        },
+                        {
+                          "t": "str",
+                          "v": "/"
+                        }
+                      ]
+                    },
+                    {
+                      "t": "var",
+                      "name": "packname"
+                    }
+                  ]
+                }
               },
               "category": "dynamic",
               "source": "publish_url = ${env.NEXUS_URL }/repository/raw-terraform/${prjname}/${packname}",

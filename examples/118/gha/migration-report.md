@@ -2,7 +2,7 @@
 
 - **Classification:** assisted (difficulty 23/100)
 - **Convertibility:** partial
-- **Automated mapping (effort estimate, not correctness):** 29.2% (15 mapped, 11 approximated, 48 manual, 0 dropped)
+- **Automated mapping (effort estimate, not correctness):** 60.3% (38 mapped, 11 approximated, 25 manual, 0 dropped)
 - **Weighted step coverage (analysis):** 76.1%
 
 ## Mapping detail
@@ -13,9 +13,32 @@
 | ✅ mapped | `parameters: string VERSION` | 11 |  | on.workflow_dispatch.inputs |  |
 | ✅ mapped | `parameters: string olcs_transxchange_version` | 12 |  | on.workflow_dispatch.inputs |  |
 | ✅ mapped | `parameters: string olcs_auth_version` | 13 |  | on.workflow_dispatch.inputs |  |
+| ✅ mapped | `decl defaultS3Bucket = devapp-olcs-pri-olcs-deploy-s3/` | 21 |  | run: $GITHUB_ENV | later steps of the job read the variable |
+| ✅ mapped | `decl templateS3Bucket = devapp-shd-pri-file-deploy-s3/` | 22 |  | run: $GITHUB_ENV | later steps of the job read the variable |
+| ✅ mapped | `decl ldifLabel = olcs-dir-ldif-version` | 23 |  | run: $GITHUB_ENV | later steps of the job read the variable |
+| ✅ mapped | `decl txcLabel = olcs-transxchange-version` | 24 |  | run: $GITHUB_ENV | later steps of the job read the variable |
+| ✅ mapped | `decl txcFile = txc` | 25 |  | run: $GITHUB_ENV | later steps of the job read the variable |
+| ✅ mapped | `decl authLabel = olcs_auth_version` | 26 |  | run: $GITHUB_ENV | later steps of the job read the variable |
+| ✅ mapped | `decl authFile = openam` | 27 |  | run: $GITHUB_ENV | later steps of the job read the variable |
+| ✅ mapped | `decl appVersionFile = ` | 28 |  | run: $GITHUB_ENV | later steps of the job read the variable |
+| ✅ mapped | `assign stageName = App Branch Close and Tag (not currentl` | 49 |  | run: $GITHUB_ENV | later steps of the job read the variable |
+| ✅ mapped | `assign stageName = Get Repos` | 58 |  | run: $GITHUB_ENV | later steps of the job read the variable |
 | ✅ mapped | `deleteDir` | 61 | Get Repos | run: workspace cleanup | runners are ephemeral; kept for parity |
+| ✅ mapped | `assign stageName = Get App Release Tags` | 81 |  | run: $GITHUB_ENV | later steps of the job read the variable |
 | ✅ mapped | `dir` | 101 | Get App Release Tags | working-directory |  |
 | ✅ mapped | `sh` | 102 | Get App Release Tags | run |  |
+| ✅ mapped | `assign appVersionFile = ${txcLabel} : '${params.olcs_tran` | 108 | Get App Release Tags | run: $GITHUB_ENV | later steps of the job read the variable |
+| ✅ mapped | `assign appVersionFile = ${authLabel} : '${params.olcs_aut` | 111 | Get App Release Tags | run: $GITHUB_ENV | later steps of the job read the variable |
+| ✅ mapped | `assign stageName = Check and Build Release Artefacts` | 117 |  | run: $GITHUB_ENV | later steps of the job read the variable |
+| ✅ mapped | `decl message = ` | 119 | Check and Build Release Artefacts | run: $GITHUB_ENV | later steps of the job read the variable |
+| ✅ mapped | `assign stageName = Check Artefacts from Input Params` | 150 |  | run: $GITHUB_ENV | later steps of the job read the variable |
+| ✅ mapped | `decl message = ` | 152 | Check Artefacts from Input Params | run: $GITHUB_ENV | later steps of the job read the variable |
+| ✅ mapped | `decl cmd = echo "2018-03-29 13:20      1024   s3://${de` | 155 | Check Artefacts from Input Params | run: $GITHUB_ENV | later steps of the job read the variable |
+| ✅ mapped | `decl cmd2 = grep ${authFile}-${params.olcs_auth_version` | 158 | Check Artefacts from Input Params | run: $GITHUB_ENV | later steps of the job read the variable |
+| ✅ mapped | `decl cmd3 = echo "2018-03-29 13:20      1024   s3://${d` | 174 | Check Artefacts from Input Params | run: $GITHUB_ENV | later steps of the job read the variable |
+| ✅ mapped | `decl cmd4 = grep ${txcFile}-${params.olcs_transxchange_` | 177 | Check Artefacts from Input Params | run: $GITHUB_ENV | later steps of the job read the variable |
+| ✅ mapped | `assign stageName = Check App Version against Built artefa` | 195 |  | run: $GITHUB_ENV | later steps of the job read the variable |
+| ✅ mapped | `assign stageName = Create and Push Release Manifest` | 209 |  | run: $GITHUB_ENV | later steps of the job read the variable |
 | ✅ mapped | `dir` | 214 | Create and Push Release Manifest | working-directory |  |
 | ✅ mapped | `deleteDir` | 215 | Create and Push Release Manifest | run: workspace cleanup | runners are ephemeral; kept for parity |
 | ✅ mapped | `checkout scm` | 217 | Create and Push Release Manifest | actions/checkout@v4 |  |
@@ -37,52 +60,29 @@
 | 🟡 approximated | `sh` | 228 | Create and Push Release Manifest | run |  |
 | 🔴 manual | `decl VERSION = params.VERSION` | 19 |  | - | Groovy variable assignment |
 | 🔴 manual | `decl GitRepo = file://${env.WORKSPACE}/.gitlab/` | 20 |  | - | Groovy variable assignment |
-| 🔴 manual | `decl defaultS3Bucket = devapp-olcs-pri-olcs-deploy-s3/` | 21 |  | - | Groovy variable assignment |
-| 🔴 manual | `decl templateS3Bucket = devapp-shd-pri-file-deploy-s3/` | 22 |  | - | Groovy variable assignment |
-| 🔴 manual | `decl ldifLabel = olcs-dir-ldif-version` | 23 |  | - | Groovy variable assignment |
-| 🔴 manual | `decl txcLabel = olcs-transxchange-version` | 24 |  | - | Groovy variable assignment |
-| 🔴 manual | `decl txcFile = txc` | 25 |  | - | Groovy variable assignment |
-| 🔴 manual | `decl authLabel = olcs_auth_version` | 26 |  | - | Groovy variable assignment |
-| 🔴 manual | `decl authFile = openam` | 27 |  | - | Groovy variable assignment |
-| 🔴 manual | `decl appVersionFile = ` | 28 |  | - | Groovy variable assignment |
 | 🔴 manual | `decl repos = [[olcs-ssweb-version, olcs/olcs-selfserve,` | 36 |  | - | Groovy variable assignment |
-| 🔴 manual | `assign stageName = App Branch Close and Tag (not currentl` | 49 |  | - | Groovy variable assignment |
-| 🔴 manual | `assign stageName = Get Repos` | 58 |  | - | Groovy variable assignment |
 | 🔴 manual | `for (int i = 0; i < repos.size; i++)` | 63 | Get Repos | placeholder | Groovy control flow requires manual migration |
-| 🔴 manual | `assign stageName = Get App Release Tags` | 81 |  | - | Groovy variable assignment |
 | 🔴 manual | `for (int i = 0; i < repos.size; i++)` | 83 | Get App Release Tags | placeholder | Groovy control flow requires manual migration |
 | 🔴 manual | `decl version = readFile('result').trim(...)` | 103 | Get App Release Tags | - | Groovy variable assignment from a step |
 | 🔴 manual | `readFile` | 103 | Get App Release Tags | placeholder step | policy step with no deterministic mapping |
 | 🔴 manual | `assign appVersionFile = ${ldifLabel} : '${version}'
 ` | 104 | Get App Release Tags | - | Groovy variable assignment |
-| 🔴 manual | `assign appVersionFile = ${txcLabel} : '${params.olcs_tran` | 108 | Get App Release Tags | - | Groovy variable assignment |
-| 🔴 manual | `assign appVersionFile = ${authLabel} : '${params.olcs_aut` | 111 | Get App Release Tags | - | Groovy variable assignment |
 | 🔴 manual | `print` | 113 | Get App Release Tags | - | Groovy method / helper call - port logic to a script |
-| 🔴 manual | `assign stageName = Check and Build Release Artefacts` | 117 |  | - | Groovy variable assignment |
-| 🔴 manual | `decl message = ` | 119 | Check and Build Release Artefacts | - | Groovy variable assignment |
 | 🔴 manual | `for (int i = 0; i < repos.size; i++)` | 120 | Check and Build Release Artefacts | placeholder | Groovy control flow requires manual migration |
 | 🔴 manual | `print` | 147 | Check and Build Release Artefacts | - | Groovy method / helper call - port logic to a script |
-| 🔴 manual | `assign stageName = Check Artefacts from Input Params` | 150 |  | - | Groovy variable assignment |
-| 🔴 manual | `decl message = ` | 152 | Check Artefacts from Input Params | - | Groovy variable assignment |
-| 🔴 manual | `decl cmd = echo "2018-03-29 13:20      1024   s3://${de` | 155 | Check Artefacts from Input Params | - | Groovy variable assignment |
 | 🔴 manual | `print` | 157 | Check Artefacts from Input Params | - | Groovy method / helper call - port logic to a script |
-| 🔴 manual | `decl cmd2 = grep ${authFile}-${params.olcs_auth_version` | 158 | Check Artefacts from Input Params | - | Groovy variable assignment |
 | 🔴 manual | `decl file = readFile('result2').trim(...)` | 160 | Check Artefacts from Input Params | - | Groovy variable assignment from a step |
 | 🔴 manual | `readFile` | 160 | Check Artefacts from Input Params | placeholder step | policy step with no deterministic mapping |
 | 🔴 manual | `print` | 161 | Check Artefacts from Input Params | - | Groovy method / helper call - port logic to a script |
 | 🔴 manual | `if (file.contains(authFile + '-' + params.olcs_auth_ve)` | 162 | Check Artefacts from Input Params | placeholder | condition depends on Groovy runtime state |
-| 🔴 manual | `decl cmd3 = echo "2018-03-29 13:20      1024   s3://${d` | 174 | Check Artefacts from Input Params | - | Groovy variable assignment |
 | 🔴 manual | `print` | 176 | Check Artefacts from Input Params | - | Groovy method / helper call - port logic to a script |
-| 🔴 manual | `decl cmd4 = grep ${txcFile}-${params.olcs_transxchange_` | 177 | Check Artefacts from Input Params | - | Groovy variable assignment |
 | 🔴 manual | `decl file2 = readFile('result2').trim(...)` | 179 | Check Artefacts from Input Params | - | Groovy variable assignment from a step |
 | 🔴 manual | `readFile` | 179 | Check Artefacts from Input Params | placeholder step | policy step with no deterministic mapping |
 | 🔴 manual | `print` | 180 | Check Artefacts from Input Params | - | Groovy method / helper call - port logic to a script |
 | 🔴 manual | `if (file2.contains(txcFile + '-' + params.olcs_transxc)` | 181 | Check Artefacts from Input Params | placeholder | condition depends on Groovy runtime state |
 | 🔴 manual | `print` | 192 | Check Artefacts from Input Params | - | Groovy method / helper call - port logic to a script |
-| 🔴 manual | `assign stageName = Check App Version against Built artefa` | 195 |  | - | Groovy variable assignment |
 | 🔴 manual | `print` | 198 | Check App Version against Built artefacts | - | Groovy method / helper call - port logic to a script |
 | 🔴 manual | `build job: Check App Release Tags` | 201 | Check App Version against Built artefacts | workflow_call / workflow_dispatch | downstream Jenkins job must be migrated; trigger with `gh workflow run` or a reusable workflow |
-| 🔴 manual | `assign stageName = Create and Push Release Manifest` | 209 |  | - | Groovy variable assignment |
 | 🔴 manual | `print` | 212 | Create and Push Release Manifest | - | Groovy method / helper call - port logic to a script |
 | ℹ️ info | `checkout: SCM environment (GIT_COMMIT, GIT_BRANCH, GIT_URL)` |  |  | env | Jenkins' git plugin exports them to every step after a checkout, so called scripts may read them; defined at workflow level even when the Jenkinsfile does not |
 
@@ -137,7 +137,7 @@ pipeline [scripted] agent: label master
 
 Where to read about each construct above, most work first: jenkins.io and docs.github.com (GitHub.com) pages from the crosswalk in `j2gha/rules/docs-xref.yaml`. With the local docs bundles fetched, `uv run j2gha docs xref <construct>` resolves the same pages offline, or for another GitHub version.
 
-- **`scripted`** (🔴 35 manual, 🟡 2 approximated): Groovy control flow -> expressions/if, matrix, or a script step; anything dynamic needs redesign.
+- **`scripted`** (🔴 12 manual, 🟡 2 approximated, ✅ 23 mapped): Groovy control flow -> expressions/if, matrix, or a script step; anything dynamic needs redesign.
   - Jenkins: [syntax #scripted-pipeline](https://www.jenkins.io/doc/book/pipeline/syntax/#scripted-pipeline) · [cps-method-mismatches](https://www.jenkins.io/doc/book/pipeline/cps-method-mismatches/)
   - GitHub Actions: [migrate-from-jenkins](https://docs.github.com/en/actions/tutorials/migrate-to-github-actions/manual-migrations/migrate-from-jenkins)
 - **`build`** (🔴 1 manual): downstream job -> reusable workflow call (wait) or workflow_dispatch via API (fire-and-forget).

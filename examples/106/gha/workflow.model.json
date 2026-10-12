@@ -69,7 +69,7 @@
         {
           "name": "Setup: jq -r '.variable.iac_version.default' src/package.tf",
           "id": "s2",
-          "run": "jq -r '.variable.iac_version.default' src/package.tf",
+          "run": "oversion=\"$(\njq -r '.variable.iac_version.default' src/package.tf\n)\"\noversion=\"${oversion#\"${oversion%%[![:space:]]*}\"}\"\noversion=\"${oversion%\"${oversion##*[![:space:]]}\"}\"\n{ echo 'oversion<<J2GHA_EOF'; printf '%s\\n' \"$oversion\"; echo J2GHA_EOF; } >> \"$GITHUB_ENV\"\n{ echo 'oversion<<J2GHA_EOF'; printf '%s\\n' \"$oversion\"; echo J2GHA_EOF; } >> \"$GITHUB_OUTPUT\"",
           "_j2gha": {
             "kind": "sh",
             "stage": "Setup",
@@ -78,8 +78,80 @@
           }
         },
         {
-          "name": "Build: sed -i 's/iac-provider/terraform/g' src/variables.tf",
+          "name": "Setup: set version",
           "id": "s3",
+          "run": "version=\"${oversion:0:10}-${BUILD_NUMBER}\"\n{ echo 'version<<J2GHA_EOF'; printf '%s\\n' \"$version\"; echo J2GHA_EOF; } >> \"$GITHUB_ENV\"\n{ echo 'version<<J2GHA_EOF'; printf '%s\\n' \"$version\"; echo J2GHA_EOF; } >> \"$GITHUB_OUTPUT\"",
+          "shell": "bash",
+          "_j2gha": {
+            "kind": "script-assign",
+            "stage": "Setup",
+            "line": 24,
+            "trace": false
+          }
+        },
+        {
+          "name": "Setup: set oversion",
+          "id": "s4",
+          "run": "oversion=\"${oversion:0:10}\"\n{ echo 'oversion<<J2GHA_EOF'; printf '%s\\n' \"$oversion\"; echo J2GHA_EOF; } >> \"$GITHUB_ENV\"\n{ echo 'oversion<<J2GHA_EOF'; printf '%s\\n' \"$oversion\"; echo J2GHA_EOF; } >> \"$GITHUB_OUTPUT\"",
+          "shell": "bash",
+          "_j2gha": {
+            "kind": "script-assign",
+            "stage": "Setup",
+            "line": 25,
+            "trace": false
+          }
+        },
+        {
+          "name": "Setup: set iacname",
+          "id": "s5",
+          "run": "iacname=\"${JOB_NAME}\"\n{ echo 'iacname<<J2GHA_EOF'; printf '%s\\n' \"$iacname\"; echo J2GHA_EOF; } >> \"$GITHUB_ENV\"\n{ echo 'iacname<<J2GHA_EOF'; printf '%s\\n' \"$iacname\"; echo J2GHA_EOF; } >> \"$GITHUB_OUTPUT\"",
+          "shell": "bash",
+          "_j2gha": {
+            "kind": "script-assign",
+            "stage": "Setup",
+            "line": 26,
+            "trace": false
+          }
+        },
+        {
+          "name": "Setup: set prjname",
+          "id": "s6",
+          "run": "prjname=\"oss-opensource\"\n{ echo 'prjname<<J2GHA_EOF'; printf '%s\\n' \"$prjname\"; echo J2GHA_EOF; } >> \"$GITHUB_ENV\"\n{ echo 'prjname<<J2GHA_EOF'; printf '%s\\n' \"$prjname\"; echo J2GHA_EOF; } >> \"$GITHUB_OUTPUT\"",
+          "shell": "bash",
+          "_j2gha": {
+            "kind": "script-assign",
+            "stage": "Setup",
+            "line": 29,
+            "trace": false
+          }
+        },
+        {
+          "name": "Setup: set packname",
+          "id": "s7",
+          "run": "packname=\"${iacname}-v${version}.tar.gz\"\n{ echo 'packname<<J2GHA_EOF'; printf '%s\\n' \"$packname\"; echo J2GHA_EOF; } >> \"$GITHUB_ENV\"\n{ echo 'packname<<J2GHA_EOF'; printf '%s\\n' \"$packname\"; echo J2GHA_EOF; } >> \"$GITHUB_OUTPUT\"",
+          "shell": "bash",
+          "_j2gha": {
+            "kind": "script-assign",
+            "stage": "Setup",
+            "line": 32,
+            "trace": false
+          }
+        },
+        {
+          "name": "Setup: set publish_url",
+          "id": "s8",
+          "run": "publish_url=\"${NEXUS_URL}/repository/raw-terraform/${prjname}/${packname}\"\n{ echo 'publish_url<<J2GHA_EOF'; printf '%s\\n' \"$publish_url\"; echo J2GHA_EOF; } >> \"$GITHUB_ENV\"\n{ echo 'publish_url<<J2GHA_EOF'; printf '%s\\n' \"$publish_url\"; echo J2GHA_EOF; } >> \"$GITHUB_OUTPUT\"",
+          "shell": "bash",
+          "_j2gha": {
+            "kind": "script-assign",
+            "stage": "Setup",
+            "line": 35,
+            "trace": false
+          }
+        },
+        {
+          "name": "Build: sed -i 's/iac-provider/terraform/g' src/variables.tf",
+          "id": "s9",
           "run": "sed -i 's/iac-provider/terraform/g' src/variables.tf",
           "_j2gha": {
             "kind": "sh",
@@ -90,7 +162,7 @@
         },
         {
           "name": "Build: sed -i 's/iac-artifact/${packname}/g' src/variables.tf",
-          "id": "s4",
+          "id": "s10",
           "run": "sed -i 's/iac-artifact/${packname}/g' src/variables.tf",
           "_j2gha": {
             "kind": "sh",
@@ -101,7 +173,7 @@
         },
         {
           "name": "Build: sed -i 's/iac-scm-commit/${GIT_COMMIT}/g' src/variables.tf",
-          "id": "s5",
+          "id": "s11",
           "run": "sed -i 's/iac-scm-commit/${GIT_COMMIT}/g' src/variables.tf",
           "_j2gha": {
             "kind": "sh",
@@ -112,7 +184,7 @@
         },
         {
           "name": "Build: sed -i 's|iac-scm-branch|${GIT_BRANCH}|g' src/variables.tf",
-          "id": "s6",
+          "id": "s12",
           "run": "sed -i 's|iac-scm-branch|${GIT_BRANCH}|g' src/variables.tf",
           "_j2gha": {
             "kind": "sh",
@@ -123,7 +195,7 @@
         },
         {
           "name": "Build: sed -i 's/iac-build-by/jenkins/g' src/variables.tf",
-          "id": "s7",
+          "id": "s13",
           "run": "sed -i 's/iac-build-by/jenkins/g' src/variables.tf",
           "_j2gha": {
             "kind": "sh",
@@ -134,7 +206,7 @@
         },
         {
           "name": "Build: sed -i 's/iac-build-name/${JOB_NAME}/g' src/variables.tf",
-          "id": "s8",
+          "id": "s14",
           "run": "sed -i 's/iac-build-name/${JOB_NAME}/g' src/variables.tf",
           "_j2gha": {
             "kind": "sh",
@@ -145,7 +217,7 @@
         },
         {
           "name": "Build: sed -i 's/iac-build-id/${BUILD_NUMBER}/g' src/variables.tf",
-          "id": "s9",
+          "id": "s15",
           "run": "sed -i 's/iac-build-id/${BUILD_NUMBER}/g' src/variables.tf",
           "_j2gha": {
             "kind": "sh",
@@ -156,7 +228,7 @@
         },
         {
           "name": "Build: sed -i 's/iac-build-date/${J2GHA_TODO_currentBuild_startTimeInMillis}/",
-          "id": "s10",
+          "id": "s16",
           "run": "sed -i 's/iac-build-date/${J2GHA_TODO_currentBuild_startTimeInMillis}/g' src/variables.tf",
           "_j2gha": {
             "kind": "sh",
@@ -167,7 +239,7 @@
         },
         {
           "name": "Build: sed -i 's/${oversion}/${version}/g' src/package.tf",
-          "id": "s11",
+          "id": "s17",
           "run": "sed -i 's/${oversion}/${version}/g' src/package.tf",
           "_j2gha": {
             "kind": "sh",
@@ -178,7 +250,7 @@
         },
         {
           "name": "Build: tar --exclude='./.git' --exclude='./Jenkinsfile' --exclude='*.tar.gz'",
-          "id": "s12",
+          "id": "s18",
           "run": "tar --exclude='./.git' --exclude='./Jenkinsfile' --exclude='*.tar.gz' -czv ./src -f ${packname}",
           "_j2gha": {
             "kind": "sh",
@@ -189,7 +261,7 @@
         },
         {
           "name": "Publish: echo curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ${packname}",
-          "id": "s13",
+          "id": "s19",
           "run": "echo curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ${packname} ${publish_url}",
           "env": {
             "NEXUS_USERNAME": "${{ secrets.NEXUS_CREDENTIAL_USR }}",
@@ -204,7 +276,7 @@
         },
         {
           "name": "DEV Deploy: echo bash $FOLLOW \"artifact\" \"${publish_url}\" \"29cd3a68-e101-4176-907c",
-          "id": "s14",
+          "id": "s20",
           "run": "echo bash $FOLLOW \"artifact\" \"${publish_url}\" \"29cd3a68-e101-4176-907c-6fdf5bde13e7\"",
           "env": {
             "RUNDECK_USERNAME": "${{ secrets.RUNDECK_CREDENTIAL_USR }}",
@@ -219,7 +291,7 @@
         },
         {
           "name": "PRE Deploy: enter stage",
-          "id": "s15",
+          "id": "s21",
           "if": "env.target == 'pre' || env.target == 'pro'",
           "run": "echo \"run=true\" >> \"$GITHUB_OUTPUT\"",
           "_j2gha": {
@@ -232,8 +304,8 @@
         },
         {
           "name": "PRE Deploy: echo bash $FOLLOW \"artifact\" \"${publish_url}\" \"ec0393b9-f0eb-4341-8812",
-          "id": "s16",
-          "if": "steps.s15.outputs.run == 'true'",
+          "id": "s22",
+          "if": "steps.s21.outputs.run == 'true'",
           "run": "echo bash $FOLLOW \"artifact\" \"${publish_url}\" \"ec0393b9-f0eb-4341-8812-eae241ef6544\"",
           "env": {
             "RUNDECK_USERNAME": "${{ secrets.RUNDECK_CREDENTIAL_USR }}",
@@ -307,7 +379,7 @@
         },
         {
           "name": "Acceptance Test: enter stage",
-          "id": "s17",
+          "id": "s23",
           "if": "env.target == 'pro'",
           "run": "echo \"run=true\" >> \"$GITHUB_OUTPUT\"",
           "_j2gha": {
@@ -320,8 +392,8 @@
         },
         {
           "name": "Acceptance Test: cd test && npm install",
-          "id": "s18",
-          "if": "steps.s17.outputs.run == 'true'",
+          "id": "s24",
+          "if": "steps.s23.outputs.run == 'true'",
           "run": "cd test && npm install",
           "_j2gha": {
             "kind": "sh",
@@ -332,8 +404,8 @@
         },
         {
           "name": "Acceptance Test: cd test && echo npm test",
-          "id": "s19",
-          "if": "steps.s17.outputs.run == 'true'",
+          "id": "s25",
+          "if": "steps.s23.outputs.run == 'true'",
           "run": "cd test && echo npm test",
           "_j2gha": {
             "kind": "sh",
@@ -344,8 +416,8 @@
         },
         {
           "name": "Acceptance Test: cucumber (manual migration)",
-          "id": "s20",
-          "if": "steps.s17.outputs.run == 'true'",
+          "id": "s26",
+          "if": "steps.s23.outputs.run == 'true'",
           "run": "echo \"::warning::Jenkins step 'cucumber' requires manual migration\"",
           "_j2gha": {
             "kind": "cucumber",
@@ -419,7 +491,7 @@
         },
         {
           "name": "Approval: enter stage",
-          "id": "s21",
+          "id": "s27",
           "if": "env.target == 'pro'",
           "run": "echo \"run=true\" >> \"$GITHUB_OUTPUT\"",
           "_j2gha": {
@@ -432,8 +504,8 @@
         },
         {
           "name": "Approval: input",
-          "id": "s22",
-          "if": "steps.s21.outputs.run == 'true'",
+          "id": "s28",
+          "if": "steps.s27.outputs.run == 'true'",
           "run": "echo \"::notice::Manual approval point: Deploy to Production? (use a protected environment)\"",
           "timeout-minutes": 30,
           "_j2gha": {
@@ -445,7 +517,7 @@
         },
         {
           "name": "PRO Deploy: enter stage",
-          "id": "s23",
+          "id": "s29",
           "if": "env.target == 'pro'",
           "run": "echo \"run=true\" >> \"$GITHUB_OUTPUT\"",
           "_j2gha": {
@@ -458,8 +530,8 @@
         },
         {
           "name": "PRO Deploy: echo bash $FOLLOW \"artifact\" \"${publish_url}\" \"f31fb4bb-4f55-4f23-9c03",
-          "id": "s24",
-          "if": "steps.s23.outputs.run == 'true'",
+          "id": "s30",
+          "if": "steps.s29.outputs.run == 'true'",
           "run": "echo bash $FOLLOW \"artifact\" \"${publish_url}\" \"f31fb4bb-4f55-4f23-9c03-784008acb5c4\"",
           "env": {
             "RUNDECK_USERNAME": "${{ secrets.RUNDECK_CREDENTIAL_USR }}",
@@ -568,7 +640,7 @@
         },
         {
           "name": "post: rocketSend (manual migration)",
-          "id": "s25",
+          "id": "s31",
           "if": "always() && contains(needs.*.result, 'cancelled')",
           "run": "echo \"::warning::Jenkins step 'rocketSend' requires manual migration\"",
           "_j2gha": {
@@ -580,7 +652,7 @@
         },
         {
           "name": "post: rocketSend (manual migration)",
-          "id": "s26",
+          "id": "s32",
           "if": "always() && (contains(needs.*.result, 'failure') || failure())",
           "run": "echo \"::warning::Jenkins step 'rocketSend' requires manual migration\"",
           "_j2gha": {
@@ -592,7 +664,7 @@
         },
         {
           "name": "post: rocketSend (manual migration)",
-          "id": "s27",
+          "id": "s33",
           "if": "!failure() && !cancelled() && !contains(needs.*.result, 'failure') && !contains(needs.*.result, 'cancelled')",
           "run": "echo \"::warning::Jenkins step 'rocketSend' requires manual migration\"",
           "_j2gha": {

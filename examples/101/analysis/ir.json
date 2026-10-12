@@ -62,7 +62,11 @@
               "line": 414,
               "named": {
                 "_target": "env.DOCS_CHANGED",
-                "_literal": "0"
+                "_literal": "0",
+                "_value": {
+                  "t": "str",
+                  "v": "0"
+                }
               },
               "category": "dynamic",
               "source": "env.DOCS_CHANGED = 0",
@@ -73,7 +77,11 @@
               "line": 415,
               "named": {
                 "_target": "env.ONLY_DOCS_CHANGED",
-                "_literal": "0"
+                "_literal": "0",
+                "_value": {
+                  "t": "str",
+                  "v": "0"
+                }
               },
               "category": "dynamic",
               "source": "env.ONLY_DOCS_CHANGED = 0",
@@ -84,7 +92,11 @@
               "line": 416,
               "named": {
                 "_target": "env.GITHUB_CHANGED",
-                "_literal": "0"
+                "_literal": "0",
+                "_value": {
+                  "t": "str",
+                  "v": "0"
+                }
               },
               "category": "dynamic",
               "source": "env.GITHUB_CHANGED = 0",
@@ -95,7 +107,11 @@
               "line": 417,
               "named": {
                 "_target": "env.ONLY_GITHUB_CHANGED",
-                "_literal": "0"
+                "_literal": "0",
+                "_value": {
+                  "t": "str",
+                  "v": "0"
+                }
               },
               "category": "dynamic",
               "source": "env.ONLY_GITHUB_CHANGED = 0",
@@ -110,7 +126,11 @@
                   "line": 419,
                   "named": {
                     "_target": "env.DOCS_CHANGED",
-                    "_literal": "1"
+                    "_literal": "1",
+                    "_value": {
+                      "t": "str",
+                      "v": "1"
+                    }
                   },
                   "category": "dynamic",
                   "source": "env.DOCS_CHANGED = 1",
@@ -125,7 +145,11 @@
                       "line": 421,
                       "named": {
                         "_target": "env.ONLY_DOCS_CHANGED",
-                        "_literal": "1"
+                        "_literal": "1",
+                        "_value": {
+                          "t": "str",
+                          "v": "1"
+                        }
                       },
                       "category": "dynamic",
                       "source": "env.ONLY_DOCS_CHANGED = 1",
@@ -150,7 +174,11 @@
                   "line": 425,
                   "named": {
                     "_target": "env.GITHUB_CHANGED",
-                    "_literal": "1"
+                    "_literal": "1",
+                    "_value": {
+                      "t": "str",
+                      "v": "1"
+                    }
                   },
                   "category": "dynamic",
                   "source": "env.GITHUB_CHANGED = 1",
@@ -165,7 +193,11 @@
                       "line": 427,
                       "named": {
                         "_target": "env.ONLY_GITHUB_CHANGED",
-                        "_literal": "1"
+                        "_literal": "1",
+                        "_value": {
+                          "t": "str",
+                          "v": "1"
+                        }
                       },
                       "category": "dynamic",
                       "source": "env.ONLY_GITHUB_CHANGED = 1",
@@ -410,7 +442,64 @@
               "name": "<assign>",
               "line": 532,
               "named": {
-                "_target": "parallelStagesMap"
+                "_target": "parallelStagesMap",
+                "_value": {
+                  "t": "call",
+                  "call": {
+                    "k": "call",
+                    "name": "collectEntries",
+                    "named": {
+                      "failFast": {
+                        "t": "bool"
+                      }
+                    },
+                    "receiver": "meta",
+                    "body": [
+                      {
+                        "k": "if",
+                        "cond": "values.image",
+                        "then": [
+                          {
+                            "k": "expr",
+                            "kind": "MapExpression",
+                            "text": "[\"${key}\": generateContainerStage(key)]",
+                            "calls": [
+                              {
+                                "k": "call",
+                                "name": "generateContainerStage",
+                                "args": [
+                                  {
+                                    "t": "var",
+                                    "name": "key"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ],
+                        "else": [
+                          {
+                            "k": "expr",
+                            "kind": "MapExpression",
+                            "text": "[\"${key}\": generateNativeStage(key)]",
+                            "calls": [
+                              {
+                                "k": "call",
+                                "name": "generateNativeStage",
+                                "args": [
+                                  {
+                                    "t": "var",
+                                    "name": "key"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
               },
               "body": [
                 {
@@ -492,7 +581,14 @@
                 "name": "<assign>",
                 "line": 86,
                 "named": {
-                  "_target": "result"
+                  "_target": "result",
+                  "_value": {
+                    "t": "gstr",
+                    "v": "\"./configure --skip-deps --spidermonkey-version ${config.spidermonkey_vsn}\"",
+                    "vars": [
+                      "{config.spidermonkey_vsn}"
+                    ]
+                  }
                 },
                 "category": "dynamic",
                 "source": "result = ./configure --skip-deps --spidermonkey-version ${config.spidermonkey_vsn}",
@@ -506,7 +602,11 @@
               "line": 84,
               "named": {
                 "_target": "result",
-                "_literal": "./configure --skip-deps --disable-spidermonkey"
+                "_literal": "./configure --skip-deps --disable-spidermonkey",
+                "_value": {
+                  "t": "str",
+                  "v": "./configure --skip-deps --disable-spidermonkey"
+                }
               },
               "category": "dynamic",
               "source": "result = ./configure --skip-deps --disable-spidermonkey",
@@ -526,7 +626,11 @@
               "line": 89,
               "named": {
                 "_target": "result",
-                "_literal": " --with-nouveau"
+                "_literal": " --with-nouveau",
+                "_value": {
+                  "t": "str",
+                  "v": " --with-nouveau"
+                }
               },
               "category": "dynamic",
               "source": "result =  --with-nouveau",
@@ -546,7 +650,11 @@
               "line": 92,
               "named": {
                 "_target": "result",
-                "_literal": " --with-clouseau"
+                "_literal": " --with-clouseau",
+                "_value": {
+                  "t": "str",
+                  "v": " --with-clouseau"
+                }
               },
               "category": "dynamic",
               "source": "result =  --with-clouseau",
@@ -601,5 +709,14 @@
         }
       ]
     }
+  },
+  "constants": {
+    "DOCKER_IMAGE_BASE": "apache/couchdbci-debian:trixie-erlang",
+    "ERLANG_VERSION": "27.3.4.18",
+    "MINIMUM_ERLANG_VERSION": "27.3.4.18",
+    "MAXIMUM_ERLANG_VERSION": "29.0.6",
+    "INTERMEDIATE_ERLANG_VERSION": "28.5.0.6",
+    "DEFAULT_GNU_MAKE_EUNIT_OPTS": "-j2 --output-sync=target",
+    "containerClouseauConfig": "logger: {\n  format: Raw\n  output: Stdout\n  level: debug\n}\nconfig: [\n  {\n    node: {\n      name: clouseau1\n      domain: 127.0.0.1\n    }\n    clouseau: {\n      commit_interval_secs: 1\n    }\n  }\n]\n"
   }
 }

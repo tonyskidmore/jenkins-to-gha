@@ -2,7 +2,7 @@
 
 - **Classification:** significant-redesign (difficulty 55/100)
 - **Convertibility:** partial
-- **Automated mapping (effort estimate, not correctness):** 68.6% (40 mapped, 44 approximated, 13 manual, 1 dropped)
+- **Automated mapping (effort estimate, not correctness):** 69.0% (41 mapped, 43 approximated, 13 manual, 1 dropped)
 - **Weighted step coverage (analysis):** 72.8%
 
 ## Blocking items (hard gates)
@@ -18,6 +18,7 @@
 | ✅ mapped | `environment DEPENDENCIES_DIR` | 14 |  | env |  |
 | ✅ mapped | `environment ARTIFACT_FILENAME` | 16 |  | env |  |
 | ✅ mapped | `environment DIST_DIR` | 17 |  | env |  |
+| ✅ mapped | `decl commitMsg = sh(returnStdout: true, script: 'git lo` | 37 | Check Commit Message | run step; its output goes to $GITHUB_ENV | later steps of the job read the variable |
 | ✅ mapped | `sh` | 53 | Get Ready | run |  |
 | ✅ mapped | `sh` | 65 | Run URDF tests | run |  |
 | ✅ mapped | `stage 'Build robot URDFs and SRDFs' matrix (ROBOT[5])` | 70 | Build robot URDFs and SRDFs | strategy.matrix |  |
@@ -57,7 +58,6 @@
 | ⚪ dropped | `options: buildDiscarder` |  |  | - | use artifact retention-days / repo settings |
 | 🟡 approximated | `agent label 'docker'` | 7 | Check Commit Message, Get Ready | runs-on: ubuntu-latest | use a self-hosted runner label if the agent provides special tooling/network |
 | 🟡 approximated | `script {}` | 36 | Check Commit Message | inner steps translated individually | imperative Groovy is not executed; review control flow |
-| 🟡 approximated | `decl commitMsg = sh(returnStdout: true, script: 'git lo` | 37 | Check Commit Message | run step (captured output not propagated) | write values to $GITHUB_OUTPUT/$GITHUB_ENV |
 | 🟡 approximated | `sh` | 37 | Check Commit Message | run | Groovy interpolation of non-env values needs review |
 | 🟡 approximated | `script {}` | 49 | Get Ready | inner steps translated individually | imperative Groovy is not executed; review control flow |
 | 🟡 approximated | `agent dockerfile 'Dockerfile'` | 58 | Run URDF tests | docker build + docker run wrapper | steps run via `docker run` in the built image |
@@ -194,7 +194,7 @@ Where to read about each construct above, most work first: jenkins.io and docs.g
 - **`environment`** (🔴 1 manual, ✅ 3 mapped): the env context is not available in jobs.<id>.if; credentials('id') -> secrets.<NAME>.
   - Jenkins: [syntax #environment](https://www.jenkins.io/doc/book/pipeline/syntax/#environment)
   - GitHub Actions: [workflow-syntax #env](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#env) · [variables](https://docs.github.com/en/actions/reference/workflows-and-actions/variables) · [variables](https://docs.github.com/en/actions/concepts/workflows-and-actions/variables)
-- **`scripted`** (🔴 4 manual, 🟡 5 approximated): Groovy control flow -> expressions/if, matrix, or a script step; anything dynamic needs redesign.
+- **`scripted`** (🔴 4 manual, 🟡 4 approximated, ✅ 1 mapped): Groovy control flow -> expressions/if, matrix, or a script step; anything dynamic needs redesign.
   - Jenkins: [syntax #scripted-pipeline](https://www.jenkins.io/doc/book/pipeline/syntax/#scripted-pipeline) · [cps-method-mismatches](https://www.jenkins.io/doc/book/pipeline/cps-method-mismatches/)
   - GitHub Actions: [migrate-from-jenkins](https://docs.github.com/en/actions/tutorials/migrate-to-github-actions/manual-migrations/migrate-from-jenkins)
 - **`options`** (🔴 1 manual)

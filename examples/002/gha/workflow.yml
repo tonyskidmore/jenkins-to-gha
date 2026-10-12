@@ -47,7 +47,7 @@ jobs:
           bash --noprofile --norc -eo pipefail "$j2gha_script" || rc=$?
           if [ "$rc" = 0 ]; then break; fi
           if [ "$attempt" = 2 ]; then exit "$rc"; fi
-          echo "retrying ($attempt/2)"
+          echo "retrying ($attempt/2)" >&2
         done
       shell: bash
     - name: 'Record build: launchable verify && launchable record build --name ${launchableName}'
@@ -62,7 +62,7 @@ jobs:
           bash --noprofile --norc -eo pipefail "$j2gha_script" || rc=$?
           if [ "$rc" = 0 ]; then break; fi
           if [ "$attempt" = 2 ]; then exit "$rc"; fi
-          echo "retrying ($attempt/2)"
+          echo "retrying ($attempt/2)" >&2
         done
       shell: bash
       env:
@@ -79,7 +79,7 @@ jobs:
           bash --noprofile --norc -eo pipefail "$j2gha_script" || rc=$?
           if [ "$rc" = 0 ]; then break; fi
           if [ "$attempt" = 2 ]; then exit "$rc"; fi
-          echo "retrying ($attempt/2)"
+          echo "retrying ($attempt/2)" >&2
         done
       shell: bash
       env:
@@ -96,7 +96,7 @@ jobs:
           bash --noprofile --norc -eo pipefail "$j2gha_script" || rc=$?
           if [ "$rc" = 0 ]; then break; fi
           if [ "$attempt" = 2 ]; then exit "$rc"; fi
-          echo "retrying ($attempt/2)"
+          echo "retrying ($attempt/2)" >&2
         done
       shell: bash
       env:
@@ -113,7 +113,7 @@ jobs:
           bash --noprofile --norc -eo pipefail "$j2gha_script" || rc=$?
           if [ "$rc" = 0 ]; then break; fi
           if [ "$attempt" = 2 ]; then exit "$rc"; fi
-          echo "retrying ($attempt/2)"
+          echo "retrying ($attempt/2)" >&2
         done
       shell: bash
       env:
@@ -168,7 +168,7 @@ jobs:
           bash --noprofile --norc -eo pipefail "$j2gha_script" || rc=$?
           if [ "$rc" = 0 ]; then break; fi
           if [ "$attempt" = 2 ]; then exit "$rc"; fi
-          echo "retrying ($attempt/2)"
+          echo "retrying ($attempt/2)" >&2
         done
       shell: bash
       env:
@@ -185,7 +185,7 @@ jobs:
           bash --noprofile --norc -eo pipefail "$j2gha_script" || rc=$?
           if [ "$rc" = 0 ]; then break; fi
           if [ "$attempt" = 2 ]; then exit "$rc"; fi
-          echo "retrying ($attempt/2)"
+          echo "retrying ($attempt/2)" >&2
         done
       shell: bash
       env:

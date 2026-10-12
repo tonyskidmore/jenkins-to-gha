@@ -1,12 +1,28 @@
 {
   "counts": {
-    "manual": 13,
+    "manual": 10,
+    "mapped": 8,
     "approximated": 3,
-    "mapped": 5,
     "info": 1
   },
-  "automation_pct": 32.4,
+  "automation_pct": 46.7,
   "items": [
+    {
+      "jenkins": "decl sbtOnMain = no",
+      "line": 3,
+      "stage": "",
+      "status": "mapped",
+      "gha": "run: $GITHUB_ENV",
+      "note": "later steps of the job read the variable"
+    },
+    {
+      "jenkins": "decl podLabel = Jenkinsfile-apibuilder",
+      "line": 8,
+      "stage": "",
+      "status": "mapped",
+      "gha": "run: $GITHUB_ENV",
+      "note": "later steps of the job read the variable"
+    },
     {
       "jenkins": "echo",
       "line": 18,
@@ -22,6 +38,14 @@
       "status": "mapped",
       "gha": "actions/checkout@v4",
       "note": ""
+    },
+    {
+      "jenkins": "decl jsondata = \n      [{\"serviceName\": \"apibuilder-api",
+      "line": 31,
+      "stage": "",
+      "status": "mapped",
+      "gha": "run: $GITHUB_ENV",
+      "note": "later steps of the job read the variable"
     },
     {
       "jenkins": "withCredentials string 'jenkins-argocd-token'",
@@ -80,22 +104,6 @@
       "note": "Groovy variable assignment"
     },
     {
-      "jenkins": "decl sbtOnMain = no",
-      "line": 3,
-      "stage": "",
-      "status": "manual",
-      "gha": "-",
-      "note": "Groovy variable assignment"
-    },
-    {
-      "jenkins": "decl podLabel = Jenkinsfile-apibuilder",
-      "line": 8,
-      "stage": "",
-      "status": "manual",
-      "gha": "-",
-      "note": "Groovy variable assignment"
-    },
-    {
       "jenkins": "podTemplate",
       "line": 9,
       "stage": "",
@@ -144,14 +152,6 @@
       "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
     },
     {
-      "jenkins": "decl jsondata = \n      [{\"serviceName\": \"apibuilder-api",
-      "line": 31,
-      "stage": "",
-      "status": "manual",
-      "gha": "-",
-      "note": "Groovy variable assignment"
-    },
-    {
       "jenkins": "mainJenkinsBuildArgo",
       "line": 42,
       "stage": "",
@@ -191,12 +191,12 @@
     "main": {
       "name": "main",
       "runs-on": "ubuntu-latest",
-      "steps": 12,
+      "steps": 15,
       "matrix": false
     }
   },
   "notes": [],
   "handoff": {},
   "source_sha256": "10ea8550230ae6b14af7fb42322c6b921b14897853107750d439b2bf88aeb42c",
-  "model_sha256": "67da51187c745e739b43a5beddd2a7628e2a718fa90506710052b8cd09569afb"
+  "model_sha256": "02d5b258bb08e6e60496a08e3dab6f55d99641f8bb596e6d6e71d2f8e61745ed"
 }

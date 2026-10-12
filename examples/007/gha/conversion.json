@@ -1,18 +1,18 @@
 {
   "counts": {
-    "mapped": 51,
+    "mapped": 54,
     "approximated": 37,
-    "manual": 10,
+    "manual": 7,
     "info": 1
   },
-  "automation_pct": 74.7,
+  "automation_pct": 77.8,
   "items": [
     {
       "jenkins": "stage 'Run integration tests' post always",
       "line": null,
       "stage": "Run integration tests",
       "status": "mapped",
-      "gha": "if: (always()) && (steps.s22.outcome == 'success')",
+      "gha": "if: (always()) && (steps.s24.outcome == 'success')",
       "note": ""
     },
     {
@@ -296,6 +296,22 @@
       "note": ""
     },
     {
+      "jenkins": "decl knd = params.KIND_VERSION",
+      "line": 245,
+      "stage": "Echo environment",
+      "status": "mapped",
+      "gha": "run: $GITHUB_ENV",
+      "note": "later steps of the job read the variable"
+    },
+    {
+      "jenkins": "decl k8s = params.KUBE_VERSION",
+      "line": 246,
+      "stage": "Echo environment",
+      "status": "mapped",
+      "gha": "run: $GITHUB_ENV",
+      "note": "later steps of the job read the variable"
+    },
+    {
       "jenkins": "sh",
       "line": 275,
       "stage": "Build WebLogic Kubernetes Operator",
@@ -366,6 +382,14 @@
       "status": "mapped",
       "gha": "run",
       "note": ""
+    },
+    {
+      "jenkins": "decl res = 0",
+      "line": 550,
+      "stage": "Run integration tests",
+      "status": "mapped",
+      "gha": "run: $GITHUB_ENV",
+      "note": "later steps of the job read the variable"
     },
     {
       "jenkins": "sh",
@@ -728,22 +752,6 @@
       "note": "Groovy variable assignment"
     },
     {
-      "jenkins": "decl knd = params.KIND_VERSION",
-      "line": 245,
-      "stage": "Echo environment",
-      "status": "manual",
-      "gha": "-",
-      "note": "Groovy variable assignment"
-    },
-    {
-      "jenkins": "decl k8s = params.KUBE_VERSION",
-      "line": 246,
-      "stage": "Echo environment",
-      "status": "manual",
-      "gha": "-",
-      "note": "Groovy variable assignment"
-    },
-    {
       "jenkins": "if (knd != null && k8s != null)",
       "line": 247,
       "stage": "Echo environment",
@@ -763,14 +771,6 @@
       "jenkins": "assign currentBuild.description = ${GIT_BRANCH} ${MAVEN_P",
       "line": 265,
       "stage": "Echo environment",
-      "status": "manual",
-      "gha": "-",
-      "note": "Groovy variable assignment"
-    },
-    {
-      "jenkins": "decl res = 0",
-      "line": 550,
-      "stage": "Run integration tests",
       "status": "manual",
       "gha": "-",
       "note": "Groovy variable assignment"
@@ -808,12 +808,12 @@
     "filter-unwanted-branches": {
       "name": "Filter unwanted branches, Sync",
       "runs-on": "ubuntu-latest",
-      "steps": 36,
+      "steps": 39,
       "matrix": false
     }
   },
   "notes": [],
   "handoff": {},
   "source_sha256": "e7b6565ebf56715564b7b7ed51fc250dd2d46768a727caf489c990bb97326287",
-  "model_sha256": "a9a72fce4c0f5351a029ef6227230d6c4b0193d2664b125884e213578213d7a7"
+  "model_sha256": "2d8e9da1b2f00d3070436dc101bfec647c0d15463ded14faef73f1327d2351db"
 }

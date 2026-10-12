@@ -13,7 +13,11 @@
           "name": "<decl>",
           "line": 13,
           "named": {
-            "_target": "VERSION"
+            "_target": "VERSION",
+            "_value": {
+              "t": "prop",
+              "text": "params.VERSION"
+            }
           },
           "category": "dynamic",
           "source": "VERSION = params.VERSION",
@@ -24,7 +28,11 @@
           "line": 14,
           "named": {
             "_target": "GitRepo",
-            "_literal": "git@repo.shd.ci.nonprod.dvsa.aws:"
+            "_literal": "git@repo.shd.ci.nonprod.dvsa.aws:",
+            "_value": {
+              "t": "str",
+              "v": "git@repo.shd.ci.nonprod.dvsa.aws:"
+            }
           },
           "category": "dynamic",
           "source": "GitRepo = git@repo.shd.ci.nonprod.dvsa.aws:",
@@ -35,7 +43,11 @@
           "line": 15,
           "named": {
             "_target": "defaultS3Bucket",
-            "_literal": "devapp-olcs-pri-olcs-deploy-s3/"
+            "_literal": "devapp-olcs-pri-olcs-deploy-s3/",
+            "_value": {
+              "t": "str",
+              "v": "devapp-olcs-pri-olcs-deploy-s3/"
+            }
           },
           "category": "dynamic",
           "source": "defaultS3Bucket = devapp-olcs-pri-olcs-deploy-s3/",
@@ -46,7 +58,11 @@
           "line": 16,
           "named": {
             "_target": "templateS3Bucket",
-            "_literal": "devapp-shd-pri-file-deploy-s3/"
+            "_literal": "devapp-shd-pri-file-deploy-s3/",
+            "_value": {
+              "t": "str",
+              "v": "devapp-shd-pri-file-deploy-s3/"
+            }
           },
           "category": "dynamic",
           "source": "templateS3Bucket = devapp-shd-pri-file-deploy-s3/",
@@ -57,7 +73,11 @@
           "line": 17,
           "named": {
             "_target": "ldifLabel",
-            "_literal": "olcs-dir-ldif-version"
+            "_literal": "olcs-dir-ldif-version",
+            "_value": {
+              "t": "str",
+              "v": "olcs-dir-ldif-version"
+            }
           },
           "category": "dynamic",
           "source": "ldifLabel = olcs-dir-ldif-version",
@@ -68,7 +88,11 @@
           "line": 18,
           "named": {
             "_target": "txcLabel",
-            "_literal": "olcs-transxchange-version"
+            "_literal": "olcs-transxchange-version",
+            "_value": {
+              "t": "str",
+              "v": "olcs-transxchange-version"
+            }
           },
           "category": "dynamic",
           "source": "txcLabel = olcs-transxchange-version",
@@ -79,7 +103,11 @@
           "line": 19,
           "named": {
             "_target": "txcFile",
-            "_literal": "txc"
+            "_literal": "txc",
+            "_value": {
+              "t": "str",
+              "v": "txc"
+            }
           },
           "category": "dynamic",
           "source": "txcFile = txc",
@@ -90,7 +118,11 @@
           "line": 20,
           "named": {
             "_target": "authLabel",
-            "_literal": "olcs_auth_version"
+            "_literal": "olcs_auth_version",
+            "_value": {
+              "t": "str",
+              "v": "olcs_auth_version"
+            }
           },
           "category": "dynamic",
           "source": "authLabel = olcs_auth_version",
@@ -101,7 +133,11 @@
           "line": 21,
           "named": {
             "_target": "authFile",
-            "_literal": "openam"
+            "_literal": "openam",
+            "_value": {
+              "t": "str",
+              "v": "openam"
+            }
           },
           "category": "dynamic",
           "source": "authFile = openam",
@@ -111,7 +147,10 @@
           "name": "<decl>",
           "line": 22,
           "named": {
-            "_target": "appVersionFile"
+            "_target": "appVersionFile",
+            "_value": {
+              "t": "str"
+            }
           },
           "category": "dynamic",
           "source": "appVersionFile = ",
@@ -121,7 +160,343 @@
           "name": "<decl>",
           "line": 30,
           "named": {
-            "_target": "repos"
+            "_target": "repos",
+            "_value": {
+              "t": "list",
+              "v": [
+                {
+                  "t": "list",
+                  "v": [
+                    {
+                      "t": "str",
+                      "v": "olcs-ssweb-version"
+                    },
+                    {
+                      "t": "str",
+                      "v": "olcs/olcs-selfserve"
+                    },
+                    {
+                      "t": "concat",
+                      "parts": [
+                        {
+                          "t": "var",
+                          "name": "defaultS3Bucket"
+                        },
+                        {
+                          "t": "str",
+                          "v": "selfserve/"
+                        }
+                      ]
+                    },
+                    {
+                      "t": "str",
+                      "v": "olcs-selfserve-"
+                    },
+                    {
+                      "t": "str",
+                      "v": "Build_Selfserve"
+                    }
+                  ]
+                },
+                {
+                  "t": "list",
+                  "v": [
+                    {
+                      "t": "str",
+                      "v": "olcs-static-version"
+                    },
+                    {
+                      "t": "str",
+                      "v": "olcs/olcs-static"
+                    },
+                    {
+                      "t": "concat",
+                      "parts": [
+                        {
+                          "t": "var",
+                          "name": "defaultS3Bucket"
+                        },
+                        {
+                          "t": "str",
+                          "v": "staticcontent/"
+                        }
+                      ]
+                    },
+                    {
+                      "t": "str",
+                      "v": "olcs-static-"
+                    },
+                    {
+                      "t": "str",
+                      "v": "Build_Static"
+                    }
+                  ]
+                },
+                {
+                  "t": "list",
+                  "v": [
+                    {
+                      "t": "str",
+                      "v": "olcs-iuweb-version"
+                    },
+                    {
+                      "t": "str",
+                      "v": "olcs/olcs-internal"
+                    },
+                    {
+                      "t": "concat",
+                      "parts": [
+                        {
+                          "t": "var",
+                          "name": "defaultS3Bucket"
+                        },
+                        {
+                          "t": "str",
+                          "v": "internal/"
+                        }
+                      ]
+                    },
+                    {
+                      "t": "str",
+                      "v": "olcs-internal-"
+                    },
+                    {
+                      "t": "str",
+                      "v": "Build_Internal"
+                    }
+                  ]
+                },
+                {
+                  "t": "list",
+                  "v": [
+                    {
+                      "t": "str",
+                      "v": "olcs-api-version"
+                    },
+                    {
+                      "t": "str",
+                      "v": "olcs/olcs-backend"
+                    },
+                    {
+                      "t": "concat",
+                      "parts": [
+                        {
+                          "t": "var",
+                          "name": "defaultS3Bucket"
+                        },
+                        {
+                          "t": "str",
+                          "v": "api/"
+                        }
+                      ]
+                    },
+                    {
+                      "t": "str",
+                      "v": "olcs-backend-"
+                    },
+                    {
+                      "t": "str",
+                      "v": "Build_Backend"
+                    }
+                  ]
+                },
+                {
+                  "t": "list",
+                  "v": [
+                    {
+                      "t": "str",
+                      "v": "olcs-search-version"
+                    },
+                    {
+                      "t": "str",
+                      "v": "olcs/olcs-elasticsearch"
+                    },
+                    {
+                      "t": "concat",
+                      "parts": [
+                        {
+                          "t": "var",
+                          "name": "defaultS3Bucket"
+                        },
+                        {
+                          "t": "str",
+                          "v": "search/elasticv5/"
+                        }
+                      ]
+                    },
+                    {
+                      "t": "str",
+                      "v": "olcs-elasticsearch-"
+                    },
+                    {
+                      "t": "str",
+                      "v": "Build_Elastic"
+                    }
+                  ]
+                },
+                {
+                  "t": "list",
+                  "v": [
+                    {
+                      "t": "str",
+                      "v": "olcs-address-base-version"
+                    },
+                    {
+                      "t": "str",
+                      "v": "sc/address-base"
+                    },
+                    {
+                      "t": "concat",
+                      "parts": [
+                        {
+                          "t": "var",
+                          "name": "defaultS3Bucket"
+                        },
+                        {
+                          "t": "str",
+                          "v": "addressbase/"
+                        }
+                      ]
+                    },
+                    {
+                      "t": "str",
+                      "v": "address-scripts-"
+                    },
+                    {
+                      "t": "str",
+                      "v": "Build_Address_Base"
+                    }
+                  ]
+                },
+                {
+                  "t": "list",
+                  "v": [
+                    {
+                      "t": "str",
+                      "v": "olcs-address-service-version"
+                    },
+                    {
+                      "t": "str",
+                      "v": "sc/address-service"
+                    },
+                    {
+                      "t": "concat",
+                      "parts": [
+                        {
+                          "t": "var",
+                          "name": "defaultS3Bucket"
+                        },
+                        {
+                          "t": "str",
+                          "v": "addressbase/"
+                        }
+                      ]
+                    },
+                    {
+                      "t": "str",
+                      "v": "address-service-"
+                    },
+                    {
+                      "t": "str",
+                      "v": "Build_Address_Service"
+                    }
+                  ]
+                },
+                {
+                  "t": "list",
+                  "v": [
+                    {
+                      "t": "str",
+                      "v": "olcs_dir_version"
+                    },
+                    {
+                      "t": "str",
+                      "v": "olcs/olcs-oa"
+                    },
+                    {
+                      "t": "concat",
+                      "parts": [
+                        {
+                          "t": "var",
+                          "name": "defaultS3Bucket"
+                        },
+                        {
+                          "t": "str",
+                          "v": "opendj/"
+                        }
+                      ]
+                    },
+                    {
+                      "t": "str",
+                      "v": "opendj-"
+                    },
+                    {
+                      "t": "str",
+                      "v": "Build_OpenDJ"
+                    }
+                  ]
+                },
+                {
+                  "t": "list",
+                  "v": [
+                    {
+                      "t": "str",
+                      "v": "olcs_etl_version"
+                    },
+                    {
+                      "t": "str",
+                      "v": "olcs/olcs-etl"
+                    },
+                    {
+                      "t": "concat",
+                      "parts": [
+                        {
+                          "t": "var",
+                          "name": "defaultS3Bucket"
+                        },
+                        {
+                          "t": "str",
+                          "v": "api/"
+                        }
+                      ]
+                    },
+                    {
+                      "t": "str",
+                      "v": "olcs-etl-"
+                    },
+                    {
+                      "t": "str",
+                      "v": "Build_ETL"
+                    }
+                  ]
+                },
+                {
+                  "t": "list",
+                  "v": [
+                    {
+                      "t": "str",
+                      "v": "olcs_templates_version"
+                    },
+                    {
+                      "t": "str",
+                      "v": "olcs/olcs-templates"
+                    },
+                    {
+                      "t": "var",
+                      "name": "templateS3Bucket"
+                    },
+                    {
+                      "t": "str",
+                      "v": "olcs-templates-"
+                    },
+                    {
+                      "t": "str",
+                      "v": "Build_Templates"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           "category": "dynamic",
           "source": "repos = [[olcs-ssweb-version, olcs/olcs-selfserve, ${defaultS3Bucket}selfserve/, olcs-selfserve-, Build_Selfserve], [olcs-static-version, olcs/olcs-static, ${defaultS3Bucket}staticcontent/, olcs-static-, Build_Static], [olcs-iuweb-version, olcs/olcs-internal, ${defaultS3Bucket}internal/, olcs-internal-, Build_Internal], [olcs-api-version, olcs/olcs-backend, ${defaultS3Bucket}api/, olcs-backend-, Build_Backend], [olcs-search-version, olcs/olcs-elasticsearch, ${defaultS3Bucket}search/elasticv5/, olcs-elasticsearch-, Build_Elastic], [olcs-address-base-version, sc/address-base, ${defaultS3Bucket}addressbase/, address-scripts-, Build_Address_Base], [olcs-address-service-version, sc/address-service, ${defaultS3Bucket}addressbase/, address-service-, Build_Address_Service], [olcs_dir_version, olcs/olcs-oa, ${defaultS3Bucket}opendj/, opendj-, Build_OpenDJ], [olcs_etl_version, olcs/olcs-etl, ${defaultS3Bucket}api/, olcs-etl-, Build_ETL], [olcs_templates_version, olcs/olcs-templates, templateS3Bucket, olcs-templates-, Build_Templates]]",
@@ -132,7 +507,11 @@
           "line": 43,
           "named": {
             "_target": "stageName",
-            "_literal": "App Branch Close and Tag (not currently integrated)"
+            "_literal": "App Branch Close and Tag (not currently integrated)",
+            "_value": {
+              "t": "str",
+              "v": "App Branch Close and Tag (not currently integrated)"
+            }
           },
           "category": "dynamic",
           "source": "stageName = App Branch Close and Tag (not currently integrated)",
@@ -152,7 +531,11 @@
           "line": 52,
           "named": {
             "_target": "stageName",
-            "_literal": "Get Repos"
+            "_literal": "Get Repos",
+            "_value": {
+              "t": "str",
+              "v": "Get Repos"
+            }
           },
           "category": "dynamic",
           "source": "stageName = Get Repos",
@@ -210,7 +593,27 @@
                   "name": "<decl>",
                   "line": 67,
                   "named": {
-                    "_target": "version"
+                    "_target": "version",
+                    "_value": {
+                      "t": "call",
+                      "call": {
+                        "k": "call",
+                        "name": "trim",
+                        "receiver": "readFile('result')",
+                        "receiverCalls": [
+                          {
+                            "k": "call",
+                            "name": "readFile",
+                            "args": [
+                              {
+                                "t": "str",
+                                "v": "result"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    }
                   },
                   "body": [
                     {
@@ -233,7 +636,11 @@
                   "name": "<assign>",
                   "line": 68,
                   "named": {
-                    "_target": "repos[i]"
+                    "_target": "repos[i]",
+                    "_value": {
+                      "t": "var",
+                      "name": "version"
+                    }
                   },
                   "category": "dynamic",
                   "source": "repos[i] = version",
@@ -258,7 +665,11 @@
           "line": 74,
           "named": {
             "_target": "stageName",
-            "_literal": "Get App Release Tags"
+            "_literal": "Get App Release Tags",
+            "_value": {
+              "t": "str",
+              "v": "Get App Release Tags"
+            }
           },
           "category": "dynamic",
           "source": "stageName = Get App Release Tags",
@@ -283,7 +694,40 @@
                     "name": "<assign>",
                     "line": 88,
                     "named": {
-                      "_target": "appVersionFile"
+                      "_target": "appVersionFile",
+                      "_value": {
+                        "t": "concat",
+                        "parts": [
+                          {
+                            "t": "concat",
+                            "parts": [
+                              {
+                                "t": "concat",
+                                "parts": [
+                                  {
+                                    "t": "expr",
+                                    "kind": "BinaryExpression",
+                                    "text": "repos[i][0]"
+                                  },
+                                  {
+                                    "t": "str",
+                                    "v": ": '"
+                                  }
+                                ]
+                              },
+                              {
+                                "t": "expr",
+                                "kind": "BinaryExpression",
+                                "text": "repos[i][5]"
+                              }
+                            ]
+                          },
+                          {
+                            "t": "str",
+                            "v": "'\n"
+                          }
+                        ]
+                      }
                     },
                     "category": "dynamic",
                     "source": "appVersionFile = ${repos[i][0]}: '${repos[i][5]}'\n",
@@ -301,7 +745,30 @@
                         "name": "<assign>",
                         "line": 82,
                         "named": {
-                          "_target": "appVersionFile"
+                          "_target": "appVersionFile",
+                          "_value": {
+                            "t": "concat",
+                            "parts": [
+                              {
+                                "t": "concat",
+                                "parts": [
+                                  {
+                                    "t": "str",
+                                    "v": "olcs-address-version: '"
+                                  },
+                                  {
+                                    "t": "expr",
+                                    "kind": "BinaryExpression",
+                                    "text": "repos[i + 1][5]"
+                                  }
+                                ]
+                              },
+                              {
+                                "t": "str",
+                                "v": "'\n"
+                              }
+                            ]
+                          }
                         },
                         "category": "dynamic",
                         "source": "appVersionFile = olcs-address-version: '${repos[i + 1][5]}'\n",
@@ -311,7 +778,11 @@
                         "name": "<assign>",
                         "line": 83,
                         "named": {
-                          "_target": "i"
+                          "_target": "i",
+                          "_value": {
+                            "t": "num",
+                            "v": 1
+                          }
                         },
                         "category": "dynamic",
                         "source": "i = 1",
@@ -332,7 +803,30 @@
                       "name": "<assign>",
                       "line": 79,
                       "named": {
-                        "_target": "appVersionFile"
+                        "_target": "appVersionFile",
+                        "_value": {
+                          "t": "concat",
+                          "parts": [
+                            {
+                              "t": "concat",
+                              "parts": [
+                                {
+                                  "t": "str",
+                                  "v": "olcs-address-version: '"
+                                },
+                                {
+                                  "t": "expr",
+                                  "kind": "BinaryExpression",
+                                  "text": "repos[i][5]"
+                                }
+                              ]
+                            },
+                            {
+                              "t": "str",
+                              "v": "'\n"
+                            }
+                          ]
+                        }
                       },
                       "category": "dynamic",
                       "source": "appVersionFile = olcs-address-version: '${repos[i][5]}'\n",
@@ -342,7 +836,11 @@
                       "name": "<assign>",
                       "line": 80,
                       "named": {
-                        "_target": "i"
+                        "_target": "i",
+                        "_value": {
+                          "t": "num",
+                          "v": 1
+                        }
                       },
                       "category": "dynamic",
                       "source": "i = 1",
@@ -382,7 +880,27 @@
               "name": "<decl>",
               "line": 96,
               "named": {
-                "_target": "version"
+                "_target": "version",
+                "_value": {
+                  "t": "call",
+                  "call": {
+                    "k": "call",
+                    "name": "trim",
+                    "receiver": "readFile('result')",
+                    "receiverCalls": [
+                      {
+                        "k": "call",
+                        "name": "readFile",
+                        "args": [
+                          {
+                            "t": "str",
+                            "v": "result"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
               },
               "body": [
                 {
@@ -405,7 +923,38 @@
               "name": "<assign>",
               "line": 97,
               "named": {
-                "_target": "appVersionFile"
+                "_target": "appVersionFile",
+                "_value": {
+                  "t": "concat",
+                  "parts": [
+                    {
+                      "t": "concat",
+                      "parts": [
+                        {
+                          "t": "concat",
+                          "parts": [
+                            {
+                              "t": "var",
+                              "name": "ldifLabel"
+                            },
+                            {
+                              "t": "str",
+                              "v": " : '"
+                            }
+                          ]
+                        },
+                        {
+                          "t": "var",
+                          "name": "version"
+                        }
+                      ]
+                    },
+                    {
+                      "t": "str",
+                      "v": "'\n"
+                    }
+                  ]
+                }
               },
               "category": "dynamic",
               "source": "appVersionFile = ${ldifLabel} : '${version}'\n",
@@ -418,7 +967,38 @@
           "name": "<assign>",
           "line": 101,
           "named": {
-            "_target": "appVersionFile"
+            "_target": "appVersionFile",
+            "_value": {
+              "t": "concat",
+              "parts": [
+                {
+                  "t": "concat",
+                  "parts": [
+                    {
+                      "t": "concat",
+                      "parts": [
+                        {
+                          "t": "var",
+                          "name": "txcLabel"
+                        },
+                        {
+                          "t": "str",
+                          "v": " : '"
+                        }
+                      ]
+                    },
+                    {
+                      "t": "prop",
+                      "text": "params.olcs_transxchange_version "
+                    }
+                  ]
+                },
+                {
+                  "t": "str",
+                  "v": "'\n"
+                }
+              ]
+            }
           },
           "category": "dynamic",
           "source": "appVersionFile = ${txcLabel} : '${params.olcs_transxchange_version }'\n",
@@ -428,7 +1008,38 @@
           "name": "<assign>",
           "line": 104,
           "named": {
-            "_target": "appVersionFile"
+            "_target": "appVersionFile",
+            "_value": {
+              "t": "concat",
+              "parts": [
+                {
+                  "t": "concat",
+                  "parts": [
+                    {
+                      "t": "concat",
+                      "parts": [
+                        {
+                          "t": "var",
+                          "name": "authLabel"
+                        },
+                        {
+                          "t": "str",
+                          "v": " : '"
+                        }
+                      ]
+                    },
+                    {
+                      "t": "prop",
+                      "text": "params.olcs_auth_version "
+                    }
+                  ]
+                },
+                {
+                  "t": "str",
+                  "v": "'\n"
+                }
+              ]
+            }
           },
           "category": "dynamic",
           "source": "appVersionFile = ${authLabel} : '${params.olcs_auth_version }'\n",
@@ -456,7 +1067,11 @@
           "line": 110,
           "named": {
             "_target": "stageName",
-            "_literal": "Check and Build Release Artefacts"
+            "_literal": "Check and Build Release Artefacts",
+            "_value": {
+              "t": "str",
+              "v": "Check and Build Release Artefacts"
+            }
           },
           "category": "dynamic",
           "source": "stageName = Check and Build Release Artefacts",
@@ -472,7 +1087,10 @@
           "name": "<decl>",
           "line": 112,
           "named": {
-            "_target": "message"
+            "_target": "message",
+            "_value": {
+              "t": "str"
+            }
           },
           "category": "dynamic",
           "source": "message = ",
@@ -486,7 +1104,30 @@
               "name": "<decl>",
               "line": 116,
               "named": {
-                "_target": "cmd"
+                "_target": "cmd",
+                "_value": {
+                  "t": "concat",
+                  "parts": [
+                    {
+                      "t": "concat",
+                      "parts": [
+                        {
+                          "t": "str",
+                          "v": "s3cmd ls s3://"
+                        },
+                        {
+                          "t": "expr",
+                          "kind": "BinaryExpression",
+                          "text": "repos[i][2]"
+                        }
+                      ]
+                    },
+                    {
+                      "t": "str",
+                      "v": " > result"
+                    }
+                  ]
+                }
               },
               "category": "dynamic",
               "source": "cmd = s3cmd ls s3://${repos[i][2]} > result",
@@ -514,7 +1155,40 @@
               "name": "<decl>",
               "line": 119,
               "named": {
-                "_target": "cmd2"
+                "_target": "cmd2",
+                "_value": {
+                  "t": "concat",
+                  "parts": [
+                    {
+                      "t": "concat",
+                      "parts": [
+                        {
+                          "t": "concat",
+                          "parts": [
+                            {
+                              "t": "str",
+                              "v": "grep "
+                            },
+                            {
+                              "t": "expr",
+                              "kind": "BinaryExpression",
+                              "text": "repos[i][3]"
+                            }
+                          ]
+                        },
+                        {
+                          "t": "expr",
+                          "kind": "BinaryExpression",
+                          "text": "repos[i][5]"
+                        }
+                      ]
+                    },
+                    {
+                      "t": "str",
+                      "v": ".tar.gz result > result2 || true"
+                    }
+                  ]
+                }
               },
               "category": "dynamic",
               "source": "cmd2 = grep ${repos[i][3]}${repos[i][5]}.tar.gz result > result2 || true",
@@ -533,7 +1207,27 @@
               "name": "<decl>",
               "line": 121,
               "named": {
-                "_target": "file"
+                "_target": "file",
+                "_value": {
+                  "t": "call",
+                  "call": {
+                    "k": "call",
+                    "name": "trim",
+                    "receiver": "readFile('result2')",
+                    "receiverCalls": [
+                      {
+                        "k": "call",
+                        "name": "readFile",
+                        "args": [
+                          {
+                            "t": "str",
+                            "v": "result2"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
               },
               "body": [
                 {
@@ -575,7 +1269,40 @@
                           "name": "<assign>",
                           "line": 129,
                           "named": {
-                            "_target": "message"
+                            "_target": "message",
+                            "_value": {
+                              "t": "concat",
+                              "parts": [
+                                {
+                                  "t": "concat",
+                                  "parts": [
+                                    {
+                                      "t": "concat",
+                                      "parts": [
+                                        {
+                                          "t": "str",
+                                          "v": "Creating: "
+                                        },
+                                        {
+                                          "t": "expr",
+                                          "kind": "BinaryExpression",
+                                          "text": "repos[i][3]"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "t": "expr",
+                                      "kind": "BinaryExpression",
+                                      "text": "repos[i][5]"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "t": "str",
+                                  "v": "\n"
+                                }
+                              ]
+                            }
                           },
                           "category": "dynamic",
                           "source": "message = Creating: ${repos[i][3]}${repos[i][5]}\n",
@@ -616,7 +1343,40 @@
                         "name": "<assign>",
                         "line": 127,
                         "named": {
-                          "_target": "message"
+                          "_target": "message",
+                          "_value": {
+                            "t": "concat",
+                            "parts": [
+                              {
+                                "t": "concat",
+                                "parts": [
+                                  {
+                                    "t": "concat",
+                                    "parts": [
+                                      {
+                                        "t": "str",
+                                        "v": "MISSING: "
+                                      },
+                                      {
+                                        "t": "expr",
+                                        "kind": "BinaryExpression",
+                                        "text": "repos[i][3]"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "t": "expr",
+                                    "kind": "BinaryExpression",
+                                    "text": "repos[i][5]"
+                                  }
+                                ]
+                              },
+                              {
+                                "t": "str",
+                                "v": "\n"
+                              }
+                            ]
+                          }
                         },
                         "category": "dynamic",
                         "source": "message = MISSING: ${repos[i][3]}${repos[i][5]}\n",
@@ -634,7 +1394,40 @@
                   "name": "<assign>",
                   "line": 124,
                   "named": {
-                    "_target": "message"
+                    "_target": "message",
+                    "_value": {
+                      "t": "concat",
+                      "parts": [
+                        {
+                          "t": "concat",
+                          "parts": [
+                            {
+                              "t": "concat",
+                              "parts": [
+                                {
+                                  "t": "str",
+                                  "v": "Exists: "
+                                },
+                                {
+                                  "t": "expr",
+                                  "kind": "BinaryExpression",
+                                  "text": "repos[i][3]"
+                                }
+                              ]
+                            },
+                            {
+                              "t": "expr",
+                              "kind": "BinaryExpression",
+                              "text": "repos[i][5]"
+                            }
+                          ]
+                        },
+                        {
+                          "t": "str",
+                          "v": "\n"
+                        }
+                      ]
+                    }
                   },
                   "category": "dynamic",
                   "source": "message = Exists: ${repos[i][3]}${repos[i][5]}\n",
@@ -681,7 +1474,11 @@
           "line": 143,
           "named": {
             "_target": "stageName",
-            "_literal": "Check Artefacts from Input Params"
+            "_literal": "Check Artefacts from Input Params",
+            "_value": {
+              "t": "str",
+              "v": "Check Artefacts from Input Params"
+            }
           },
           "category": "dynamic",
           "source": "stageName = Check Artefacts from Input Params",
@@ -697,7 +1494,10 @@
           "name": "<decl>",
           "line": 145,
           "named": {
-            "_target": "message"
+            "_target": "message",
+            "_value": {
+              "t": "str"
+            }
           },
           "category": "dynamic",
           "source": "message = ",
@@ -707,7 +1507,29 @@
           "name": "<decl>",
           "line": 148,
           "named": {
-            "_target": "cmd"
+            "_target": "cmd",
+            "_value": {
+              "t": "concat",
+              "parts": [
+                {
+                  "t": "concat",
+                  "parts": [
+                    {
+                      "t": "str",
+                      "v": "s3cmd ls s3://"
+                    },
+                    {
+                      "t": "var",
+                      "name": "defaultS3Bucket"
+                    }
+                  ]
+                },
+                {
+                  "t": "str",
+                  "v": "openam/ > result"
+                }
+              ]
+            }
           },
           "category": "dynamic",
           "source": "cmd = s3cmd ls s3://${defaultS3Bucket}openam/ > result",
@@ -735,7 +1557,47 @@
           "name": "<decl>",
           "line": 151,
           "named": {
-            "_target": "cmd2"
+            "_target": "cmd2",
+            "_value": {
+              "t": "concat",
+              "parts": [
+                {
+                  "t": "concat",
+                  "parts": [
+                    {
+                      "t": "concat",
+                      "parts": [
+                        {
+                          "t": "concat",
+                          "parts": [
+                            {
+                              "t": "str",
+                              "v": "grep "
+                            },
+                            {
+                              "t": "var",
+                              "name": "authFile"
+                            }
+                          ]
+                        },
+                        {
+                          "t": "str",
+                          "v": "-"
+                        }
+                      ]
+                    },
+                    {
+                      "t": "prop",
+                      "text": "params.olcs_auth_version "
+                    }
+                  ]
+                },
+                {
+                  "t": "str",
+                  "v": ".tar.gz result > result2 || true"
+                }
+              ]
+            }
           },
           "category": "dynamic",
           "source": "cmd2 = grep ${authFile}-${params.olcs_auth_version }.tar.gz result > result2 || true",
@@ -754,7 +1616,27 @@
           "name": "<decl>",
           "line": 153,
           "named": {
-            "_target": "file"
+            "_target": "file",
+            "_value": {
+              "t": "call",
+              "call": {
+                "k": "call",
+                "name": "trim",
+                "receiver": "readFile('result2')",
+                "receiverCalls": [
+                  {
+                    "k": "call",
+                    "name": "readFile",
+                    "args": [
+                      {
+                        "t": "str",
+                        "v": "result2"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
           },
           "body": [
             {
@@ -796,7 +1678,47 @@
                       "name": "<assign>",
                       "line": 161,
                       "named": {
-                        "_target": "message"
+                        "_target": "message",
+                        "_value": {
+                          "t": "concat",
+                          "parts": [
+                            {
+                              "t": "concat",
+                              "parts": [
+                                {
+                                  "t": "concat",
+                                  "parts": [
+                                    {
+                                      "t": "concat",
+                                      "parts": [
+                                        {
+                                          "t": "str",
+                                          "v": "MISSING: "
+                                        },
+                                        {
+                                          "t": "var",
+                                          "name": "authFile"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "t": "str",
+                                      "v": "-"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "t": "prop",
+                                  "text": "params.olcs_auth_version "
+                                }
+                              ]
+                            },
+                            {
+                              "t": "str",
+                              "v": "\n"
+                            }
+                          ]
+                        }
                       },
                       "category": "dynamic",
                       "source": "message = MISSING: ${authFile}-${params.olcs_auth_version }\n",
@@ -818,7 +1740,47 @@
                     "name": "<assign>",
                     "line": 159,
                     "named": {
-                      "_target": "message"
+                      "_target": "message",
+                      "_value": {
+                        "t": "concat",
+                        "parts": [
+                          {
+                            "t": "concat",
+                            "parts": [
+                              {
+                                "t": "concat",
+                                "parts": [
+                                  {
+                                    "t": "concat",
+                                    "parts": [
+                                      {
+                                        "t": "str",
+                                        "v": "MISSING: "
+                                      },
+                                      {
+                                        "t": "var",
+                                        "name": "authFile"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "t": "str",
+                                    "v": "-"
+                                  }
+                                ]
+                              },
+                              {
+                                "t": "prop",
+                                "text": "params.olcs_auth_version "
+                              }
+                            ]
+                          },
+                          {
+                            "t": "str",
+                            "v": "\n"
+                          }
+                        ]
+                      }
                     },
                     "category": "dynamic",
                     "source": "message = MISSING: ${authFile}-${params.olcs_auth_version }\n",
@@ -836,7 +1798,47 @@
               "name": "<assign>",
               "line": 156,
               "named": {
-                "_target": "message"
+                "_target": "message",
+                "_value": {
+                  "t": "concat",
+                  "parts": [
+                    {
+                      "t": "concat",
+                      "parts": [
+                        {
+                          "t": "concat",
+                          "parts": [
+                            {
+                              "t": "concat",
+                              "parts": [
+                                {
+                                  "t": "str",
+                                  "v": "Exists: "
+                                },
+                                {
+                                  "t": "var",
+                                  "name": "authFile"
+                                }
+                              ]
+                            },
+                            {
+                              "t": "str",
+                              "v": "-"
+                            }
+                          ]
+                        },
+                        {
+                          "t": "prop",
+                          "text": "params.olcs_auth_version "
+                        }
+                      ]
+                    },
+                    {
+                      "t": "str",
+                      "v": "\n"
+                    }
+                  ]
+                }
               },
               "category": "dynamic",
               "source": "message = Exists: ${authFile}-${params.olcs_auth_version }\n",
@@ -851,7 +1853,29 @@
           "name": "<decl>",
           "line": 167,
           "named": {
-            "_target": "cmd3"
+            "_target": "cmd3",
+            "_value": {
+              "t": "concat",
+              "parts": [
+                {
+                  "t": "concat",
+                  "parts": [
+                    {
+                      "t": "str",
+                      "v": "s3cmd ls s3://"
+                    },
+                    {
+                      "t": "var",
+                      "name": "defaultS3Bucket"
+                    }
+                  ]
+                },
+                {
+                  "t": "str",
+                  "v": "api/ > result"
+                }
+              ]
+            }
           },
           "category": "dynamic",
           "source": "cmd3 = s3cmd ls s3://${defaultS3Bucket}api/ > result",
@@ -879,7 +1903,47 @@
           "name": "<decl>",
           "line": 170,
           "named": {
-            "_target": "cmd4"
+            "_target": "cmd4",
+            "_value": {
+              "t": "concat",
+              "parts": [
+                {
+                  "t": "concat",
+                  "parts": [
+                    {
+                      "t": "concat",
+                      "parts": [
+                        {
+                          "t": "concat",
+                          "parts": [
+                            {
+                              "t": "str",
+                              "v": "grep "
+                            },
+                            {
+                              "t": "var",
+                              "name": "txcFile"
+                            }
+                          ]
+                        },
+                        {
+                          "t": "str",
+                          "v": "-"
+                        }
+                      ]
+                    },
+                    {
+                      "t": "prop",
+                      "text": "params.olcs_transxchange_version "
+                    }
+                  ]
+                },
+                {
+                  "t": "str",
+                  "v": ".war result > result2 || true"
+                }
+              ]
+            }
           },
           "category": "dynamic",
           "source": "cmd4 = grep ${txcFile}-${params.olcs_transxchange_version }.war result > result2 || true",
@@ -898,7 +1962,27 @@
           "name": "<decl>",
           "line": 172,
           "named": {
-            "_target": "file2"
+            "_target": "file2",
+            "_value": {
+              "t": "call",
+              "call": {
+                "k": "call",
+                "name": "trim",
+                "receiver": "readFile('result2')",
+                "receiverCalls": [
+                  {
+                    "k": "call",
+                    "name": "readFile",
+                    "args": [
+                      {
+                        "t": "str",
+                        "v": "result2"
+                      }
+                    ]
+                  }
+                ]
+              }
+            }
           },
           "body": [
             {
@@ -940,7 +2024,47 @@
                       "name": "<assign>",
                       "line": 180,
                       "named": {
-                        "_target": "message"
+                        "_target": "message",
+                        "_value": {
+                          "t": "concat",
+                          "parts": [
+                            {
+                              "t": "concat",
+                              "parts": [
+                                {
+                                  "t": "concat",
+                                  "parts": [
+                                    {
+                                      "t": "concat",
+                                      "parts": [
+                                        {
+                                          "t": "str",
+                                          "v": "MISSING: "
+                                        },
+                                        {
+                                          "t": "var",
+                                          "name": "txcFile"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "t": "str",
+                                      "v": "-"
+                                    }
+                                  ]
+                                },
+                                {
+                                  "t": "prop",
+                                  "text": "params.olcs_transxchange_version "
+                                }
+                              ]
+                            },
+                            {
+                              "t": "str",
+                              "v": "\n"
+                            }
+                          ]
+                        }
                       },
                       "category": "dynamic",
                       "source": "message = MISSING: ${txcFile}-${params.olcs_transxchange_version }\n",
@@ -962,7 +2086,47 @@
                     "name": "<assign>",
                     "line": 178,
                     "named": {
-                      "_target": "message"
+                      "_target": "message",
+                      "_value": {
+                        "t": "concat",
+                        "parts": [
+                          {
+                            "t": "concat",
+                            "parts": [
+                              {
+                                "t": "concat",
+                                "parts": [
+                                  {
+                                    "t": "concat",
+                                    "parts": [
+                                      {
+                                        "t": "str",
+                                        "v": "MISSING: "
+                                      },
+                                      {
+                                        "t": "var",
+                                        "name": "txcFile"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "t": "str",
+                                    "v": "-"
+                                  }
+                                ]
+                              },
+                              {
+                                "t": "prop",
+                                "text": "params.olcs_transxchange_version "
+                              }
+                            ]
+                          },
+                          {
+                            "t": "str",
+                            "v": "\n"
+                          }
+                        ]
+                      }
                     },
                     "category": "dynamic",
                     "source": "message = MISSING: ${txcFile}-${params.olcs_transxchange_version }\n",
@@ -980,7 +2144,47 @@
               "name": "<assign>",
               "line": 175,
               "named": {
-                "_target": "message"
+                "_target": "message",
+                "_value": {
+                  "t": "concat",
+                  "parts": [
+                    {
+                      "t": "concat",
+                      "parts": [
+                        {
+                          "t": "concat",
+                          "parts": [
+                            {
+                              "t": "concat",
+                              "parts": [
+                                {
+                                  "t": "str",
+                                  "v": "Exists: "
+                                },
+                                {
+                                  "t": "var",
+                                  "name": "txcFile"
+                                }
+                              ]
+                            },
+                            {
+                              "t": "str",
+                              "v": "-"
+                            }
+                          ]
+                        },
+                        {
+                          "t": "prop",
+                          "text": "params.olcs_transxchange_version "
+                        }
+                      ]
+                    },
+                    {
+                      "t": "str",
+                      "v": "\n"
+                    }
+                  ]
+                }
               },
               "category": "dynamic",
               "source": "message = Exists: ${txcFile}-${params.olcs_transxchange_version }\n",
@@ -1013,7 +2217,11 @@
           "line": 188,
           "named": {
             "_target": "stageName",
-            "_literal": "Check App Version against Built artefacts"
+            "_literal": "Check App Version against Built artefacts",
+            "_value": {
+              "t": "str",
+              "v": "Check App Version against Built artefacts"
+            }
           },
           "category": "dynamic",
           "source": "stageName = Check App Version against Built artefacts",
@@ -1074,7 +2282,11 @@
           "line": 202,
           "named": {
             "_target": "stageName",
-            "_literal": "Create and Push Release Manifest"
+            "_literal": "Create and Push Release Manifest",
+            "_value": {
+              "t": "str",
+              "v": "Create and Push Release Manifest"
+            }
           },
           "category": "dynamic",
           "source": "stageName = Create and Push Release Manifest",

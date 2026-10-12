@@ -2,7 +2,7 @@
 
 - **Classification:** significant-redesign (difficulty 56/100)
 - **Convertibility:** partial
-- **Automated mapping (effort estimate, not correctness):** 42.8% (19 mapped, 29 approximated, 37 manual, 0 dropped)
+- **Automated mapping (effort estimate, not correctness):** 46.4% (22 mapped, 29 approximated, 34 manual, 0 dropped)
 - **Weighted step coverage (analysis):** 43.7%
 
 ## Secrets required
@@ -22,8 +22,8 @@
 
 | | Jenkins | Line | Stage | GitHub Actions | Note |
 |---|---|---:|---|---|---|
-| ✅ mapped | `stage 'QA' post always` |  | QA | if: (always()) && (steps.s2.outcome == 'success') |  |
-| ✅ mapped | `stage 'Publish[staging]' post always` |  | Publish[staging] | if: (always()) && (steps.s12.outcome == 'success') |  |
+| ✅ mapped | `stage 'QA' post always` |  | QA | if: (always()) && (steps.s3.outcome == 'success') |  |
+| ✅ mapped | `stage 'Publish[staging]' post always` |  | Publish[staging] | if: (always()) && (steps.s13.outcome == 'success') |  |
 | ✅ mapped | `environment ARTIFACTORY_CREDS = credentials('artifactory')` | 17 |  | env from secrets.ARTIFACTORY | create the repository/environment secret |
 | ✅ mapped | `withEnv` | 39 | QA | step env |  |
 | ✅ mapped | `withCredentials usernamePassword 'container-test-server'` | 45 | QA | secrets -> step env |  |
@@ -32,7 +32,10 @@
 | ✅ mapped | `stage 'Publish[staging]' when` | 94 | Publish[staging] | if: !(env.TAG_NAME != '') | evaluated once at stage entry against env |
 | ✅ mapped | `sh` | 116 | Publish[staging] | run |  |
 | ✅ mapped | `stage 'Run Gauge tests' when` | 123 | Run Gauge tests | if: !(env.TAG_NAME != '') | evaluated once at stage entry against env |
+| ✅ mapped | `assign gaugeBranchName = env.BRANCH_NAME` | 133 | Run Gauge tests | run: $GITHUB_ENV | later steps of the job read the variable |
+| ✅ mapped | `assign gaugeBranchName = env.TARGET_GAUGE_RELEASE_BRANCH_` | 139 | Run Gauge tests | run: $GITHUB_ENV | later steps of the job read the variable |
 | ✅ mapped | `sh` | 189 | Update version and tag | run |  |
+| ✅ mapped | `assign libName = node` | 318 | Init | run: $GITHUB_ENV | later steps of the job read the variable |
 | ✅ mapped | `withCredentials usernamePassword 'artifactory'` | 380 | QA | secrets -> step env |  |
 | ✅ mapped | `sh` | 383 | QA | run |  |
 | ✅ mapped | `sh` | 384 | QA | run |  |
@@ -82,9 +85,7 @@
 | 🔴 manual | `customizePublishingInfo` | 103 | Publish[staging] | placeholder step | unknown step with no deterministic mapping (plugin/shared-library step) |
 | 🔴 manual | `publishArtifactoryBuildInfo` | 110 | Publish[staging] | placeholder step | unknown step with no deterministic mapping (plugin/shared-library step) |
 | 🔴 manual | `assign buildResults = null` | 129 | Run Gauge tests | - | Groovy variable assignment |
-| 🔴 manual | `assign gaugeBranchName = env.BRANCH_NAME` | 133 | Run Gauge tests | - | Groovy variable assignment |
 | 🔴 manual | `assign fallbackBranchName = ?:` | 134 | Run Gauge tests | - | Groovy variable assignment |
-| 🔴 manual | `assign gaugeBranchName = env.TARGET_GAUGE_RELEASE_BRANCH_` | 139 | Run Gauge tests | - | Groovy variable assignment |
 | 🔴 manual | `assign fallbackBranchName = ?:` | 140 | Run Gauge tests | - | Groovy variable assignment |
 | 🔴 manual | `assign buildResults = build(...)` | 143 | Run Gauge tests | - | Groovy variable assignment from a step |
 | 🔴 manual | `build job: /${env.SDKS_GAUGE_PIPELINE_PROJECT}/${gaugeBranchName}` | 143 | Run Gauge tests | workflow_call / workflow_dispatch | downstream Jenkins job must be migrated; trigger with `gh workflow run` or a reusable workflow |
@@ -103,7 +104,6 @@
 | 🔴 manual | `assign publishArtifactoryBuildInfoScript = ` | 280 | Init | - | Groovy variable assignment |
 | 🔴 manual | `assign publishArtifactoryBuildInfo = ` | 285 | Init | - | Groovy variable assignment |
 | 🔴 manual | `assign scanCode = ` | 303 | Init | - | Groovy variable assignment |
-| 🔴 manual | `assign libName = node` | 318 | Init | - | Groovy variable assignment |
 | 🔴 manual | `assign bumpVersion = ` | 319 | Init | - | Groovy variable assignment |
 | 🔴 manual | `assign customizeVersion = ` | 336 | Init | - | Groovy variable assignment |
 | 🔴 manual | `assign customizePublishingInfo = ` | 342 | Init | - | Groovy variable assignment |
@@ -151,7 +151,7 @@ Where to read about each construct above, most work first: jenkins.io and docs.g
 - **`when`** (🔴 2 manual, 🟡 2 approximated, ✅ 2 mapped): GHA == is case-insensitive; changeset -> paths filters (workflow level) or a paths-filter action (step level).
   - Jenkins: [syntax #when](https://www.jenkins.io/doc/book/pipeline/syntax/#when)
   - GitHub Actions: [control-jobs-with-conditions](https://docs.github.com/en/actions/how-tos/write-workflows/choose-when-workflows-run/control-jobs-with-conditions) · [expressions](https://docs.github.com/en/actions/reference/workflows-and-actions/expressions) · [workflow-syntax #onpushpull_requestpull_request_targetpathspaths-ignore](https://docs.github.com/en/actions/reference/workflows-and-actions/workflow-syntax#onpushpull_requestpull_request_targetpathspaths-ignore)
-- **`scripted`** (🔴 21 manual, 🟡 16 approximated): Groovy control flow -> expressions/if, matrix, or a script step; anything dynamic needs redesign.
+- **`scripted`** (🔴 18 manual, 🟡 16 approximated, ✅ 3 mapped): Groovy control flow -> expressions/if, matrix, or a script step; anything dynamic needs redesign.
   - Jenkins: [syntax #scripted-pipeline](https://www.jenkins.io/doc/book/pipeline/syntax/#scripted-pipeline) · [cps-method-mismatches](https://www.jenkins.io/doc/book/pipeline/cps-method-mismatches/)
   - GitHub Actions: [migrate-from-jenkins](https://docs.github.com/en/actions/tutorials/migrate-to-github-actions/manual-migrations/migrate-from-jenkins)
 - **`agent`** (🔴 1 manual): label expressions -> runs-on labels/groups; agent { docker } -> jobs.<id>.container (runs as root); a stage-level agent forces a separate job (workspace is not shared).

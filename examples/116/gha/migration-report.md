@@ -2,7 +2,7 @@
 
 - **Classification:** assisted (difficulty 45/100)
 - **Convertibility:** partial
-- **Automated mapping (effort estimate, not correctness):** 44.0% (4 mapped, 8 approximated, 8 manual, 0 dropped)
+- **Automated mapping (effort estimate, not correctness):** 51.0% (6 mapped, 7 approximated, 7 manual, 0 dropped)
 - **Weighted step coverage (analysis):** 57.9%
 
 ## Secrets required
@@ -17,15 +17,16 @@
 
 | | Jenkins | Line | Stage | GitHub Actions | Note |
 |---|---|---:|---|---|---|
+| ✅ mapped | `assign APP_ID = ` | 12 |  | run: $GITHUB_ENV | later steps of the job read the variable |
 | ✅ mapped | `checkout scm` | 15 | checkout | actions/checkout@v4 |  |
 | ✅ mapped | `withCredentials usernamePassword 'jenkins-iam'` | 19 | Get IPA from AWS S3 | secrets -> step env |  |
 | ✅ mapped | `withCredentials usernameColonPassword 'browserstack-uploader'` | 26 | install ipa in browserstack | secrets -> step env |  |
+| ✅ mapped | `assign APP_ID = sh(script: 'test -n "$BROWSERSTACK_CREDS"` | 27 | install ipa in browserstack | run step; its output goes to $GITHUB_ENV | later steps of the job read the variable |
 | ✅ mapped | `sh` | 38 | create report | run |  |
 | 🟡 approximated | `(no pipeline timeout)` |  |  | timeout-minutes: 60 | explicit job timeout added (GitHub's default is 360 minutes); set J2GHA_DEFAULT_TIMEOUT to change |
 | 🟡 approximated | `node (in steps)` | 5 |  | inlined | nested agent allocation flattened |
 | 🟡 approximated | `sh` | 20 | Get IPA from AWS S3 | run |  |
 | 🟡 approximated | `sh` | 25 | install ipa in browserstack | run |  |
-| 🟡 approximated | `assign APP_ID = sh(script: 'test -n "$BROWSERSTACK_CREDS"` | 27 | install ipa in browserstack | run step (captured output not propagated) | write values to $GITHUB_OUTPUT/$GITHUB_ENV |
 | 🟡 approximated | `sh` | 27 | install ipa in browserstack | run | Groovy interpolation of non-env values needs review |
 | 🟡 approximated | `sh` | 33 | test | run |  |
 | 🟡 approximated | `publishHTML` | 39 | create report | actions/upload-artifact@v4 | HTML report published as artifact |
@@ -35,7 +36,6 @@
 | 🔴 manual | `withFolderProperties` | 8 |  | placeholder step | unknown step with no deterministic mapping (plugin/shared-library step) |
 | 🔴 manual | `assign LBRANCH = "${env.BRANCH}".toLowerCase(...)` | 9 |  | - | Groovy variable assignment from a step |
 | 🔴 manual | `toLowerCase` | 9 |  | - | Groovy method / helper call - port logic to a script |
-| 🔴 manual | `assign APP_ID = ` | 12 |  | - | Groovy variable assignment |
 | 🔴 manual | `browserstack` | 32 | test | placeholder step | unknown step with no deterministic mapping (plugin/shared-library step) |
 | ℹ️ info | `checkout: SCM environment (GIT_COMMIT, GIT_BRANCH, GIT_URL)` |  |  | env | Jenkins' git plugin exports them to every step after a checkout, so called scripts may read them; defined at workflow level even when the Jenkinsfile does not |
 
@@ -67,7 +67,7 @@ pipeline [scripted]
 
 Where to read about each construct above, most work first: jenkins.io and docs.github.com (GitHub.com) pages from the crosswalk in `j2gha/rules/docs-xref.yaml`. With the local docs bundles fetched, `uv run j2gha docs xref <construct>` resolves the same pages offline, or for another GitHub version.
 
-- **`scripted`** (🔴 3 manual, 🟡 1 approximated): Groovy control flow -> expressions/if, matrix, or a script step; anything dynamic needs redesign.
+- **`scripted`** (🔴 2 manual, ✅ 2 mapped): Groovy control flow -> expressions/if, matrix, or a script step; anything dynamic needs redesign.
   - Jenkins: [syntax #scripted-pipeline](https://www.jenkins.io/doc/book/pipeline/syntax/#scripted-pipeline) · [cps-method-mismatches](https://www.jenkins.io/doc/book/pipeline/cps-method-mismatches/)
   - GitHub Actions: [migrate-from-jenkins](https://docs.github.com/en/actions/tutorials/migrate-to-github-actions/manual-migrations/migrate-from-jenkins)
 - **`podTemplate`** (🔴 2 manual): Kubernetes pod agents -> ARC runner scale sets, or job container + services.

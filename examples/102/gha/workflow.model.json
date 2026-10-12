@@ -68,7 +68,7 @@
         {
           "name": "Record build: echo launchable verify && echo launchable record build --name ${launch",
           "id": "s2",
-          "run": "j2gha_script=\"$(mktemp \"${RUNNER_TEMP:-/tmp}/j2gha-retry.XXXXXX\")\"\ncat > \"$j2gha_script\" <<'J2GHA_RETRY_EOF'\necho launchable verify && echo launchable record build --name ${launchableName} --source jenkinsci/jenkins=.\nJ2GHA_RETRY_EOF\nfor attempt in $(seq 1 2); do\n  rc=0\n  bash --noprofile --norc -eo pipefail \"$j2gha_script\" || rc=$?\n  if [ \"$rc\" = 0 ]; then break; fi\n  if [ \"$attempt\" = 2 ]; then exit \"$rc\"; fi\n  echo \"retrying ($attempt/2)\"\ndone",
+          "run": "j2gha_script=\"$(mktemp \"${RUNNER_TEMP:-/tmp}/j2gha-retry.XXXXXX\")\"\ncat > \"$j2gha_script\" <<'J2GHA_RETRY_EOF'\necho launchable verify && echo launchable record build --name ${launchableName} --source jenkinsci/jenkins=.\nJ2GHA_RETRY_EOF\nfor attempt in $(seq 1 2); do\n  rc=0\n  bash --noprofile --norc -eo pipefail \"$j2gha_script\" || rc=$?\n  if [ \"$rc\" = 0 ]; then break; fi\n  if [ \"$attempt\" = 2 ]; then exit \"$rc\"; fi\n  echo \"retrying ($attempt/2)\" >&2\ndone",
           "shell": "bash",
           "env": {
             "LAUNCHABLE_TOKEN": "${{ secrets.LAUNCHABLE_JENKINS_JENKINS }}"
@@ -83,7 +83,7 @@
         {
           "name": "Record build: combinations (manual migration)",
           "id": "s6",
-          "run": "j2gha_script=\"$(mktemp \"${RUNNER_TEMP:-/tmp}/j2gha-retry.XXXXXX\")\"\ncat > \"$j2gha_script\" <<'J2GHA_RETRY_EOF'\necho \"::warning::Jenkins step 'combinations' requires manual migration\"\nJ2GHA_RETRY_EOF\nfor attempt in $(seq 1 2); do\n  rc=0\n  bash --noprofile --norc -eo pipefail \"$j2gha_script\" || rc=$?\n  if [ \"$rc\" = 0 ]; then break; fi\n  if [ \"$attempt\" = 2 ]; then exit \"$rc\"; fi\n  echo \"retrying ($attempt/2)\"\ndone",
+          "run": "j2gha_script=\"$(mktemp \"${RUNNER_TEMP:-/tmp}/j2gha-retry.XXXXXX\")\"\ncat > \"$j2gha_script\" <<'J2GHA_RETRY_EOF'\necho \"::warning::Jenkins step 'combinations' requires manual migration\"\nJ2GHA_RETRY_EOF\nfor attempt in $(seq 1 2); do\n  rc=0\n  bash --noprofile --norc -eo pipefail \"$j2gha_script\" || rc=$?\n  if [ \"$rc\" = 0 ]; then break; fi\n  if [ \"$attempt\" = 2 ]; then exit \"$rc\"; fi\n  echo \"retrying ($attempt/2)\" >&2\ndone",
           "shell": "bash",
           "env": {
             "LAUNCHABLE_TOKEN": "${{ secrets.LAUNCHABLE_JENKINS_JENKINS }}"
@@ -98,7 +98,7 @@
         {
           "name": "Record build: Groovy if (manual)",
           "id": "s3",
-          "run": "j2gha_script=\"$(mktemp \"${RUNNER_TEMP:-/tmp}/j2gha-retry.XXXXXX\")\"\ncat > \"$j2gha_script\" <<'J2GHA_RETRY_EOF'\necho \"::warning::manual migration: Groovy condition at line 38: platform == 'windows' && jdk != axes.jdks.last()\"\nJ2GHA_RETRY_EOF\nfor attempt in $(seq 1 2); do\n  rc=0\n  bash --noprofile --norc -eo pipefail \"$j2gha_script\" || rc=$?\n  if [ \"$rc\" = 0 ]; then break; fi\n  if [ \"$attempt\" = 2 ]; then exit \"$rc\"; fi\n  echo \"retrying ($attempt/2)\"\ndone",
+          "run": "j2gha_script=\"$(mktemp \"${RUNNER_TEMP:-/tmp}/j2gha-retry.XXXXXX\")\"\ncat > \"$j2gha_script\" <<'J2GHA_RETRY_EOF'\necho \"::warning::manual migration: Groovy condition at line 38: platform == 'windows' && jdk != axes.jdks.last()\"\nJ2GHA_RETRY_EOF\nfor attempt in $(seq 1 2); do\n  rc=0\n  bash --noprofile --norc -eo pipefail \"$j2gha_script\" || rc=$?\n  if [ \"$rc\" = 0 ]; then break; fi\n  if [ \"$attempt\" = 2 ]; then exit \"$rc\"; fi\n  echo \"retrying ($attempt/2)\" >&2\ndone",
           "shell": "bash",
           "env": {
             "LAUNCHABLE_TOKEN": "${{ secrets.LAUNCHABLE_JENKINS_JENKINS }}"
@@ -113,7 +113,7 @@
         {
           "name": "Record build: echo launchable record session --build ${launchableName} --flavor plat",
           "id": "s4",
-          "run": "j2gha_script=\"$(mktemp \"${RUNNER_TEMP:-/tmp}/j2gha-retry.XXXXXX\")\"\ncat > \"$j2gha_script\" <<'J2GHA_RETRY_EOF'\necho launchable record session --build ${launchableName} --flavor platform=${platform} --flavor jdk=${jdk} >${sessionFile}\nJ2GHA_RETRY_EOF\nfor attempt in $(seq 1 2); do\n  rc=0\n  bash --noprofile --norc -eo pipefail \"$j2gha_script\" || rc=$?\n  if [ \"$rc\" = 0 ]; then break; fi\n  if [ \"$attempt\" = 2 ]; then exit \"$rc\"; fi\n  echo \"retrying ($attempt/2)\"\ndone",
+          "run": "j2gha_script=\"$(mktemp \"${RUNNER_TEMP:-/tmp}/j2gha-retry.XXXXXX\")\"\ncat > \"$j2gha_script\" <<'J2GHA_RETRY_EOF'\necho launchable record session --build ${launchableName} --flavor platform=${platform} --flavor jdk=${jdk} >${sessionFile}\nJ2GHA_RETRY_EOF\nfor attempt in $(seq 1 2); do\n  rc=0\n  bash --noprofile --norc -eo pipefail \"$j2gha_script\" || rc=$?\n  if [ \"$rc\" = 0 ]; then break; fi\n  if [ \"$attempt\" = 2 ]; then exit \"$rc\"; fi\n  echo \"retrying ($attempt/2)\" >&2\ndone",
           "shell": "bash",
           "env": {
             "LAUNCHABLE_TOKEN": "${{ secrets.LAUNCHABLE_JENKINS_JENKINS }}"
@@ -149,7 +149,7 @@
         {
           "name": "Record build: echo launchable verify && echo launchable record commit",
           "id": "s7",
-          "run": "j2gha_script=\"$(mktemp \"${RUNNER_TEMP:-/tmp}/j2gha-retry.XXXXXX\")\"\ncat > \"$j2gha_script\" <<'J2GHA_RETRY_EOF'\necho launchable verify && echo launchable record commit\nJ2GHA_RETRY_EOF\nfor attempt in $(seq 1 2); do\n  rc=0\n  bash --noprofile --norc -eo pipefail \"$j2gha_script\" || rc=$?\n  if [ \"$rc\" = 0 ]; then break; fi\n  if [ \"$attempt\" = 2 ]; then exit \"$rc\"; fi\n  echo \"retrying ($attempt/2)\"\ndone",
+          "run": "j2gha_script=\"$(mktemp \"${RUNNER_TEMP:-/tmp}/j2gha-retry.XXXXXX\")\"\ncat > \"$j2gha_script\" <<'J2GHA_RETRY_EOF'\necho launchable verify && echo launchable record commit\nJ2GHA_RETRY_EOF\nfor attempt in $(seq 1 2); do\n  rc=0\n  bash --noprofile --norc -eo pipefail \"$j2gha_script\" || rc=$?\n  if [ \"$rc\" = 0 ]; then break; fi\n  if [ \"$attempt\" = 2 ]; then exit \"$rc\"; fi\n  echo \"retrying ($attempt/2)\" >&2\ndone",
           "shell": "bash",
           "env": {
             "LAUNCHABLE_TOKEN": "${{ secrets.LAUNCHABLE_JENKINS_ACCEPTANCE_TEST_HARNESS }}"
@@ -164,7 +164,7 @@
         {
           "name": "Record build: echo launchable verify && echo launchable record commit",
           "id": "s8",
-          "run": "j2gha_script=\"$(mktemp \"${RUNNER_TEMP:-/tmp}/j2gha-retry.XXXXXX\")\"\ncat > \"$j2gha_script\" <<'J2GHA_RETRY_EOF'\necho launchable verify && echo launchable record commit\nJ2GHA_RETRY_EOF\nfor attempt in $(seq 1 2); do\n  rc=0\n  bash --noprofile --norc -eo pipefail \"$j2gha_script\" || rc=$?\n  if [ \"$rc\" = 0 ]; then break; fi\n  if [ \"$attempt\" = 2 ]; then exit \"$rc\"; fi\n  echo \"retrying ($attempt/2)\"\ndone",
+          "run": "j2gha_script=\"$(mktemp \"${RUNNER_TEMP:-/tmp}/j2gha-retry.XXXXXX\")\"\ncat > \"$j2gha_script\" <<'J2GHA_RETRY_EOF'\necho launchable verify && echo launchable record commit\nJ2GHA_RETRY_EOF\nfor attempt in $(seq 1 2); do\n  rc=0\n  bash --noprofile --norc -eo pipefail \"$j2gha_script\" || rc=$?\n  if [ \"$rc\" = 0 ]; then break; fi\n  if [ \"$attempt\" = 2 ]; then exit \"$rc\"; fi\n  echo \"retrying ($attempt/2)\" >&2\ndone",
           "shell": "bash",
           "env": {
             "LAUNCHABLE_TOKEN": "${{ secrets.LAUNCHABLE_JENKINS_BOM }}"

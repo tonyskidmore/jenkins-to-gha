@@ -1,12 +1,20 @@
 {
   "counts": {
-    "manual": 8,
-    "approximated": 8,
-    "mapped": 4,
+    "manual": 7,
+    "approximated": 7,
+    "mapped": 6,
     "info": 1
   },
-  "automation_pct": 44.0,
+  "automation_pct": 51.0,
   "items": [
+    {
+      "jenkins": "assign APP_ID = ",
+      "line": 12,
+      "stage": "",
+      "status": "mapped",
+      "gha": "run: $GITHUB_ENV",
+      "note": "later steps of the job read the variable"
+    },
     {
       "jenkins": "checkout scm",
       "line": 15,
@@ -30,6 +38,14 @@
       "status": "mapped",
       "gha": "secrets -> step env",
       "note": ""
+    },
+    {
+      "jenkins": "assign APP_ID = sh(script: 'test -n \"$BROWSERSTACK_CREDS\"",
+      "line": 27,
+      "stage": "install ipa in browserstack",
+      "status": "mapped",
+      "gha": "run step; its output goes to $GITHUB_ENV",
+      "note": "later steps of the job read the variable"
     },
     {
       "jenkins": "sh",
@@ -70,14 +86,6 @@
       "status": "approximated",
       "gha": "run",
       "note": ""
-    },
-    {
-      "jenkins": "assign APP_ID = sh(script: 'test -n \"$BROWSERSTACK_CREDS\"",
-      "line": 27,
-      "stage": "install ipa in browserstack",
-      "status": "approximated",
-      "gha": "run step (captured output not propagated)",
-      "note": "write values to $GITHUB_OUTPUT/$GITHUB_ENV"
     },
     {
       "jenkins": "sh",
@@ -152,14 +160,6 @@
       "note": "Groovy method / helper call - port logic to a script"
     },
     {
-      "jenkins": "assign APP_ID = ",
-      "line": 12,
-      "stage": "",
-      "status": "manual",
-      "gha": "-",
-      "note": "Groovy variable assignment"
-    },
-    {
       "jenkins": "browserstack",
       "line": 32,
       "stage": "test",
@@ -185,12 +185,12 @@
     "main": {
       "name": "main",
       "runs-on": "ubuntu-latest",
-      "steps": 11,
+      "steps": 12,
       "matrix": false
     }
   },
   "notes": [],
   "handoff": {},
   "source_sha256": "9f732995f23ac179907468fb1a7f2fdbd69fb03fd923505e41dec81a18f79b10",
-  "model_sha256": "f635797836002fff79c7ca1a633b3abf9245578a890f9f6842eef8d39ef5d148"
+  "model_sha256": "44e3eb9b1b6f99cd0ff9288d233829cac45c978a575056acfd5c407a5fc4b1a8"
 }

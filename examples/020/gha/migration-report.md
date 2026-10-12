@@ -2,13 +2,15 @@
 
 - **Classification:** assisted (difficulty 32/100)
 - **Convertibility:** partial
-- **Automated mapping (effort estimate, not correctness):** 18.1% (4 mapped, 3 approximated, 25 manual, 0 dropped)
+- **Automated mapping (effort estimate, not correctness):** 24.4% (6 mapped, 3 approximated, 23 manual, 0 dropped)
 - **Weighted step coverage (analysis):** 76.3%
 
 ## Mapping detail
 
 | | Jenkins | Line | Stage | GitHub Actions | Note |
 |---|---|---:|---|---|---|
+| ✅ mapped | `decl branch_name = ${env.BRANCH_NAME}` | 14 |  | run: $GITHUB_ENV | later steps of the job read the variable |
+| ✅ mapped | `decl mobile_config_branch = master` | 17 |  | run: $GITHUB_ENV | later steps of the job read the variable |
 | ✅ mapped | `deleteDir` | 22 |  | run: workspace cleanup | runners are ephemeral; kept for parity |
 | ✅ mapped | `dir` | 35 | install dependencies | working-directory |  |
 | ✅ mapped | `dir` | 41 | tests | working-directory |  |
@@ -26,10 +28,8 @@
 | 🔴 manual | `new MobileFunctions` | 11 |  | placeholder step | unknown step with no deterministic mapping (plugin/shared-library step) |
 | 🔴 manual | `decl NVMFunctions = new NVMFunctions(...)` | 12 |  | - | Groovy variable assignment from a step |
 | 🔴 manual | `new NVMFunctions` | 12 |  | placeholder step | unknown step with no deterministic mapping (plugin/shared-library step) |
-| 🔴 manual | `decl branch_name = ${env.BRANCH_NAME}` | 14 |  | - | Groovy variable assignment |
 | 🔴 manual | `decl ionic_app_id = Globals.MOBILE_APP_ID` | 15 |  | - | Groovy variable assignment |
 | 🔴 manual | `decl nodejs_installation = Globals.MOBILE_NODE_JS` | 16 |  | - | Groovy variable assignment |
-| 🔴 manual | `decl mobile_config_branch = master` | 17 |  | - | Groovy variable assignment |
 | 🔴 manual | `assign currentBuild.description = BRANCH: ${branch_name}` | 20 |  | - | Groovy variable assignment |
 | 🔴 manual | `assign env.WSPACE = pwd(...)` | 24 |  | - | Groovy variable assignment from a step |
 | 🔴 manual | `pwd` | 24 |  | placeholder step | policy step with no deterministic mapping |
@@ -82,7 +82,7 @@ pipeline [scripted] agent: label Globals.NONPROD_BUILDER_TAG
 
 Where to read about each construct above, most work first: jenkins.io and docs.github.com (GitHub.com) pages from the crosswalk in `j2gha/rules/docs-xref.yaml`. With the local docs bundles fetched, `uv run j2gha docs xref <construct>` resolves the same pages offline, or for another GitHub version.
 
-- **`scripted`** (🔴 17 manual): Groovy control flow -> expressions/if, matrix, or a script step; anything dynamic needs redesign.
+- **`scripted`** (🔴 15 manual, ✅ 2 mapped): Groovy control flow -> expressions/if, matrix, or a script step; anything dynamic needs redesign.
   - Jenkins: [syntax #scripted-pipeline](https://www.jenkins.io/doc/book/pipeline/syntax/#scripted-pipeline) · [cps-method-mismatches](https://www.jenkins.io/doc/book/pipeline/cps-method-mismatches/)
   - GitHub Actions: [migrate-from-jenkins](https://docs.github.com/en/actions/tutorials/migrate-to-github-actions/manual-migrations/migrate-from-jenkins)
 - **`timeout`** (🟡 1 approximated)

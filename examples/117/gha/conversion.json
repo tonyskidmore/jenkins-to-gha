@@ -1,12 +1,12 @@
 {
   "counts": {
-    "mapped": 27,
-    "approximated": 54,
-    "manual": 102,
+    "mapped": 30,
+    "approximated": 53,
+    "manual": 100,
     "info": 1,
     "dropped": 3
   },
-  "automation_pct": 33.2,
+  "automation_pct": 34.5,
   "items": [
     {
       "jenkins": "options: disableConcurrentBuilds",
@@ -31,6 +31,30 @@
       "status": "mapped",
       "gha": "final job if: always() && (contains(needs.*.result, 'failure') || failure())",
       "note": ""
+    },
+    {
+      "jenkins": "assign buildUser = env.BUILD_USER ",
+      "line": 202,
+      "stage": "Init: TF deployment bucket",
+      "status": "mapped",
+      "gha": "run: $GITHUB_ENV",
+      "note": "later steps of the job read the variable"
+    },
+    {
+      "jenkins": "decl releaseTimestamp = sh(script: 'date +%Y%m%d%H%M%S'",
+      "line": 213,
+      "stage": "Init: TF deployment bucket",
+      "status": "mapped",
+      "gha": "run step; its output goes to $GITHUB_ENV",
+      "note": "later steps of the job read the variable"
+    },
+    {
+      "jenkins": "assign manifestVersion = ${releaseTimestamp}_${env.BUILD_",
+      "line": 214,
+      "stage": "Init: TF deployment bucket",
+      "status": "mapped",
+      "gha": "run: $GITHUB_ENV",
+      "note": "later steps of the job read the variable"
     },
     {
       "jenkins": "dir",
@@ -327,14 +351,6 @@
       "status": "approximated",
       "gha": "inlined",
       "note": "body of the Jenkinsfile helper method inlined"
-    },
-    {
-      "jenkins": "decl releaseTimestamp = sh(script: 'date +%Y%m%d%H%M%S'",
-      "line": 213,
-      "stage": "Init: TF deployment bucket",
-      "status": "approximated",
-      "gha": "run step (captured output not propagated)",
-      "note": "write values to $GITHUB_OUTPUT/$GITHUB_ENV"
     },
     {
       "jenkins": "sh",
@@ -793,14 +809,6 @@
       "note": "Groovy variable assignment from a step"
     },
     {
-      "jenkins": "assign buildUser = env.BUILD_USER ",
-      "line": 202,
-      "stage": "Init: TF deployment bucket",
-      "status": "manual",
-      "gha": "-",
-      "note": "Groovy variable assignment"
-    },
-    {
       "jenkins": "decl output = getAwsFunctions().awsCli(...)",
       "line": 203,
       "stage": "Init: TF deployment bucket",
@@ -843,14 +851,6 @@
     {
       "jenkins": "assign projectBucketPrefix = ${project}-${accountId}-${gl",
       "line": 212,
-      "stage": "Init: TF deployment bucket",
-      "status": "manual",
-      "gha": "-",
-      "note": "Groovy variable assignment"
-    },
-    {
-      "jenkins": "assign manifestVersion = ${releaseTimestamp}_${env.BUILD_",
-      "line": 214,
       "stage": "Init: TF deployment bucket",
       "status": "manual",
       "gha": "-",
@@ -1510,7 +1510,7 @@
     "init": {
       "name": "Init",
       "runs-on": "ubuntu-latest",
-      "steps": 32,
+      "steps": 34,
       "matrix": false
     },
     "build-build-cvr-frontend": {
@@ -1565,5 +1565,5 @@
   "notes": [],
   "handoff": {},
   "source_sha256": "b51a5a533f16cebacb87d81a771f548ed4e5f7304e756872c48a160b60bd7f56",
-  "model_sha256": "072cdfe6e71ab234e346b13c1cbfb8a3bffc2d333972fcf727377f5244e6b4ac"
+  "model_sha256": "588ed8c9a4e295f5185a4f89f74e91c563d9698af3ebf1f2e6a4f96deb42e3ad"
 }

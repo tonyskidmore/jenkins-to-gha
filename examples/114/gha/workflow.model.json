@@ -80,7 +80,7 @@
         {
           "name": "Build Docker OpenLane image with openroad_app master: PDK_ROOT=$(pwd)/pdks OPENLANE_IMAGE_NAME=efabless/openlane python3",
           "id": "s3",
-          "run": "j2gha_script=\"$(mktemp \"${RUNNER_TEMP:-/tmp}/j2gha-retry.XXXXXX\")\"\ncat > \"$j2gha_script\" <<'J2GHA_RETRY_EOF'\nPDK_ROOT=$(pwd)/pdks OPENLANE_IMAGE_NAME=efabless/openlane python3 .github/scripts/update_tools.py openroad_app\nJ2GHA_RETRY_EOF\nfor attempt in $(seq 1 3); do\n  rc=0\n  bash --noprofile --norc -eo pipefail \"$j2gha_script\" || rc=$?\n  if [ \"$rc\" = 0 ]; then break; fi\n  if [ \"$attempt\" = 3 ]; then exit \"$rc\"; fi\n  echo \"retrying ($attempt/3)\"\ndone",
+          "run": "j2gha_script=\"$(mktemp \"${RUNNER_TEMP:-/tmp}/j2gha-retry.XXXXXX\")\"\ncat > \"$j2gha_script\" <<'J2GHA_RETRY_EOF'\nPDK_ROOT=$(pwd)/pdks OPENLANE_IMAGE_NAME=efabless/openlane python3 .github/scripts/update_tools.py openroad_app\nJ2GHA_RETRY_EOF\nfor attempt in $(seq 1 3); do\n  rc=0\n  bash --noprofile --norc -eo pipefail \"$j2gha_script\" || rc=$?\n  if [ \"$rc\" = 0 ]; then break; fi\n  if [ \"$attempt\" = 3 ]; then exit \"$rc\"; fi\n  echo \"retrying ($attempt/3)\" >&2\ndone",
           "shell": "bash",
           "_j2gha": {
             "kind": "sh",
@@ -92,7 +92,7 @@
         {
           "name": "Build Docker OpenLane image with openroad_app master: echo make -C docker build-openroad_app",
           "id": "s4",
-          "run": "j2gha_script=\"$(mktemp \"${RUNNER_TEMP:-/tmp}/j2gha-retry.XXXXXX\")\"\ncat > \"$j2gha_script\" <<'J2GHA_RETRY_EOF'\necho make -C docker build-openroad_app\nJ2GHA_RETRY_EOF\nfor attempt in $(seq 1 3); do\n  rc=0\n  bash --noprofile --norc -eo pipefail \"$j2gha_script\" || rc=$?\n  if [ \"$rc\" = 0 ]; then break; fi\n  if [ \"$attempt\" = 3 ]; then exit \"$rc\"; fi\n  echo \"retrying ($attempt/3)\"\ndone",
+          "run": "j2gha_script=\"$(mktemp \"${RUNNER_TEMP:-/tmp}/j2gha-retry.XXXXXX\")\"\ncat > \"$j2gha_script\" <<'J2GHA_RETRY_EOF'\necho make -C docker build-openroad_app\nJ2GHA_RETRY_EOF\nfor attempt in $(seq 1 3); do\n  rc=0\n  bash --noprofile --norc -eo pipefail \"$j2gha_script\" || rc=$?\n  if [ \"$rc\" = 0 ]; then break; fi\n  if [ \"$attempt\" = 3 ]; then exit \"$rc\"; fi\n  echo \"retrying ($attempt/3)\" >&2\ndone",
           "shell": "bash",
           "_j2gha": {
             "kind": "sh",
@@ -104,7 +104,7 @@
         {
           "name": "Build Docker OpenLane image with openroad_app master: python3 dependencies/tool.py -f commit openroad_app",
           "id": "s5",
-          "run": "j2gha_script=\"$(mktemp \"${RUNNER_TEMP:-/tmp}/j2gha-retry.XXXXXX\")\"\ncat > \"$j2gha_script\" <<'J2GHA_RETRY_EOF'\npython3 dependencies/tool.py -f commit openroad_app\nJ2GHA_RETRY_EOF\nfor attempt in $(seq 1 3); do\n  rc=0\n  bash --noprofile --norc -eo pipefail \"$j2gha_script\" || rc=$?\n  if [ \"$rc\" = 0 ]; then break; fi\n  if [ \"$attempt\" = 3 ]; then exit \"$rc\"; fi\n  echo \"retrying ($attempt/3)\"\ndone",
+          "run": "NEW_SHA=\"$(\nj2gha_script=\"$(mktemp \"${RUNNER_TEMP:-/tmp}/j2gha-retry.XXXXXX\")\"\ncat > \"$j2gha_script\" <<'J2GHA_RETRY_EOF'\npython3 dependencies/tool.py -f commit openroad_app\nJ2GHA_RETRY_EOF\nfor attempt in $(seq 1 3); do\n  rc=0\n  bash --noprofile --norc -eo pipefail \"$j2gha_script\" || rc=$?\n  if [ \"$rc\" = 0 ]; then break; fi\n  if [ \"$attempt\" = 3 ]; then exit \"$rc\"; fi\n  echo \"retrying ($attempt/3)\" >&2\ndone\n)\"\nNEW_SHA=\"${NEW_SHA#\"${NEW_SHA%%[![:space:]]*}\"}\"\nNEW_SHA=\"${NEW_SHA%\"${NEW_SHA##*[![:space:]]}\"}\"\n{ echo 'NEW_SHA<<J2GHA_EOF'; printf '%s\\n' \"$NEW_SHA\"; echo J2GHA_EOF; } >> \"$GITHUB_ENV\"\n{ echo 'NEW_SHA<<J2GHA_EOF'; printf '%s\\n' \"$NEW_SHA\"; echo J2GHA_EOF; } >> \"$GITHUB_OUTPUT\"",
           "shell": "bash",
           "_j2gha": {
             "kind": "sh",
@@ -116,7 +116,7 @@
         {
           "name": "Build Docker OpenLane image with openroad_app master: echo make -C docker openlane OPENLANE_IMAGE_NAME=current:latest",
           "id": "s6",
-          "run": "j2gha_script=\"$(mktemp \"${RUNNER_TEMP:-/tmp}/j2gha-retry.XXXXXX\")\"\ncat > \"$j2gha_script\" <<'J2GHA_RETRY_EOF'\necho make -C docker openlane OPENLANE_IMAGE_NAME=current:latest\nJ2GHA_RETRY_EOF\nfor attempt in $(seq 1 3); do\n  rc=0\n  bash --noprofile --norc -eo pipefail \"$j2gha_script\" || rc=$?\n  if [ \"$rc\" = 0 ]; then break; fi\n  if [ \"$attempt\" = 3 ]; then exit \"$rc\"; fi\n  echo \"retrying ($attempt/3)\"\ndone",
+          "run": "j2gha_script=\"$(mktemp \"${RUNNER_TEMP:-/tmp}/j2gha-retry.XXXXXX\")\"\ncat > \"$j2gha_script\" <<'J2GHA_RETRY_EOF'\necho make -C docker openlane OPENLANE_IMAGE_NAME=current:latest\nJ2GHA_RETRY_EOF\nfor attempt in $(seq 1 3); do\n  rc=0\n  bash --noprofile --norc -eo pipefail \"$j2gha_script\" || rc=$?\n  if [ \"$rc\" = 0 ]; then break; fi\n  if [ \"$attempt\" = 3 ]; then exit \"$rc\"; fi\n  echo \"retrying ($attempt/3)\" >&2\ndone",
           "shell": "bash",
           "_j2gha": {
             "kind": "sh",
@@ -128,7 +128,7 @@
         {
           "name": "Build Docker OpenLane image with openroad_app master: echo \"docker save current:latest-amd64 (j2gha-local stand-in for t",
           "id": "s7",
-          "run": "j2gha_script=\"$(mktemp \"${RUNNER_TEMP:-/tmp}/j2gha-retry.XXXXXX\")\"\ncat > \"$j2gha_script\" <<'J2GHA_RETRY_EOF'\necho \"docker save current:latest-amd64 (j2gha-local stand-in for the image)\" | gzip > openlane-current.tar.gz\nJ2GHA_RETRY_EOF\nfor attempt in $(seq 1 3); do\n  rc=0\n  bash --noprofile --norc -eo pipefail \"$j2gha_script\" || rc=$?\n  if [ \"$rc\" = 0 ]; then break; fi\n  if [ \"$attempt\" = 3 ]; then exit \"$rc\"; fi\n  echo \"retrying ($attempt/3)\"\ndone",
+          "run": "j2gha_script=\"$(mktemp \"${RUNNER_TEMP:-/tmp}/j2gha-retry.XXXXXX\")\"\ncat > \"$j2gha_script\" <<'J2GHA_RETRY_EOF'\necho \"docker save current:latest-amd64 (j2gha-local stand-in for the image)\" | gzip > openlane-current.tar.gz\nJ2GHA_RETRY_EOF\nfor attempt in $(seq 1 3); do\n  rc=0\n  bash --noprofile --norc -eo pipefail \"$j2gha_script\" || rc=$?\n  if [ \"$rc\" = 0 ]; then break; fi\n  if [ \"$attempt\" = 3 ]; then exit \"$rc\"; fi\n  echo \"retrying ($attempt/3)\" >&2\ndone",
           "shell": "bash",
           "_j2gha": {
             "kind": "sh",
@@ -159,7 +159,7 @@
           "name": "Build Docker OpenLane image with openroad_app master: sleep",
           "id": "s9",
           "if": "(always()) && (steps.s2.outcome == 'success') && ((steps.s3.outcome == 'failure' || steps.s4.outcome == 'failure' || steps.s5.outcome == 'failure' || steps.s6.outcome == 'failure' || steps.s7.outcome == 'failure' || steps.s8.outcome == 'failure'))",
-          "run": "j2gha_script=\"$(mktemp \"${RUNNER_TEMP:-/tmp}/j2gha-retry.XXXXXX\")\"\ncat > \"$j2gha_script\" <<'J2GHA_RETRY_EOF'\nsleep 60\nJ2GHA_RETRY_EOF\nfor attempt in $(seq 1 3); do\n  rc=0\n  bash --noprofile --norc -eo pipefail \"$j2gha_script\" || rc=$?\n  if [ \"$rc\" = 0 ]; then break; fi\n  if [ \"$attempt\" = 3 ]; then exit \"$rc\"; fi\n  echo \"retrying ($attempt/3)\"\ndone",
+          "run": "j2gha_script=\"$(mktemp \"${RUNNER_TEMP:-/tmp}/j2gha-retry.XXXXXX\")\"\ncat > \"$j2gha_script\" <<'J2GHA_RETRY_EOF'\nsleep 60\nJ2GHA_RETRY_EOF\nfor attempt in $(seq 1 3); do\n  rc=0\n  bash --noprofile --norc -eo pipefail \"$j2gha_script\" || rc=$?\n  if [ \"$rc\" = 0 ]; then break; fi\n  if [ \"$attempt\" = 3 ]; then exit \"$rc\"; fi\n  echo \"retrying ($attempt/3)\" >&2\ndone",
           "shell": "bash",
           "_j2gha": {
             "kind": "sleep",
@@ -172,7 +172,7 @@
           "name": "Build Docker OpenLane image with openroad_app master: exit 1",
           "id": "s10",
           "if": "(always()) && (steps.s2.outcome == 'success') && ((steps.s3.outcome == 'failure' || steps.s4.outcome == 'failure' || steps.s5.outcome == 'failure' || steps.s6.outcome == 'failure' || steps.s7.outcome == 'failure' || steps.s8.outcome == 'failure'))",
-          "run": "j2gha_script=\"$(mktemp \"${RUNNER_TEMP:-/tmp}/j2gha-retry.XXXXXX\")\"\ncat > \"$j2gha_script\" <<'J2GHA_RETRY_EOF'\nexit 1\nJ2GHA_RETRY_EOF\nfor attempt in $(seq 1 3); do\n  rc=0\n  bash --noprofile --norc -eo pipefail \"$j2gha_script\" || rc=$?\n  if [ \"$rc\" = 0 ]; then break; fi\n  if [ \"$attempt\" = 3 ]; then exit \"$rc\"; fi\n  echo \"retrying ($attempt/3)\"\ndone",
+          "run": "j2gha_script=\"$(mktemp \"${RUNNER_TEMP:-/tmp}/j2gha-retry.XXXXXX\")\"\ncat > \"$j2gha_script\" <<'J2GHA_RETRY_EOF'\nexit 1\nJ2GHA_RETRY_EOF\nfor attempt in $(seq 1 3); do\n  rc=0\n  bash --noprofile --norc -eo pipefail \"$j2gha_script\" || rc=$?\n  if [ \"$rc\" = 0 ]; then break; fi\n  if [ \"$attempt\" = 3 ]; then exit \"$rc\"; fi\n  echo \"retrying ($attempt/3)\" >&2\ndone",
           "shell": "bash",
           "_j2gha": {
             "kind": "sh",
@@ -382,7 +382,7 @@
           "name": "${DESIGN} - Update OpenROAD commit: python3 dependencies/tool.py -f commit openroad_app",
           "id": "s17",
           "if": "steps.s11.outputs.run == 'true'",
-          "run": "python3 dependencies/tool.py -f commit openroad_app",
+          "run": "OLD_SHA=\"$(\npython3 dependencies/tool.py -f commit openroad_app\n)\"\nOLD_SHA=\"${OLD_SHA#\"${OLD_SHA%%[![:space:]]*}\"}\"\nOLD_SHA=\"${OLD_SHA%\"${OLD_SHA##*[![:space:]]}\"}\"\n{ echo 'OLD_SHA<<J2GHA_EOF'; printf '%s\\n' \"$OLD_SHA\"; echo J2GHA_EOF; } >> \"$GITHUB_ENV\"\n{ echo 'OLD_SHA<<J2GHA_EOF'; printf '%s\\n' \"$OLD_SHA\"; echo J2GHA_EOF; } >> \"$GITHUB_OUTPUT\"",
           "_j2gha": {
             "kind": "sh",
             "stage": "${DESIGN} - Update OpenROAD commit",

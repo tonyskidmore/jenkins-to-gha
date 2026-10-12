@@ -1,12 +1,28 @@
 {
   "counts": {
-    "mapped": 17,
-    "manual": 29,
+    "mapped": 21,
+    "manual": 25,
     "approximated": 15,
     "info": 1
   },
-  "automation_pct": 42.6,
+  "automation_pct": 49.2,
   "items": [
+    {
+      "jenkins": "assign DEFAULT_LABEL = h2o3_linux",
+      "line": 4,
+      "stage": "",
+      "status": "mapped",
+      "gha": "run: $GITHUB_ENV",
+      "note": "later steps of the job read the variable"
+    },
+    {
+      "jenkins": "assign H2O_ECR = 353750902984.dkr.ecr.us-east-1.amazonaws",
+      "line": 6,
+      "stage": "",
+      "status": "mapped",
+      "gha": "run: $GITHUB_ENV",
+      "note": "later steps of the job read the variable"
+    },
     {
       "jenkins": "parameters: booleanParam forceBuild",
       "line": 15,
@@ -38,6 +54,14 @@
       "status": "mapped",
       "gha": "on.workflow_dispatch.inputs",
       "note": ""
+    },
+    {
+      "jenkins": "decl checkoutStageName = Checkout and Init",
+      "line": 90,
+      "stage": "",
+      "status": "mapped",
+      "gha": "run: $GITHUB_ENV",
+      "note": "later steps of the job read the variable"
     },
     {
       "jenkins": "cleanWs",
@@ -142,6 +166,14 @@
       "status": "mapped",
       "gha": "run",
       "note": ""
+    },
+    {
+      "jenkins": "assign componentImages = dev-mojocompat",
+      "line": 151,
+      "stage": "",
+      "status": "mapped",
+      "gha": "run: $GITHUB_ENV",
+      "note": "later steps of the job read the variable"
     },
     {
       "jenkins": "(no pipeline timeout)",
@@ -272,22 +304,6 @@
       "note": "Groovy variable assignment"
     },
     {
-      "jenkins": "assign DEFAULT_LABEL = h2o3_linux",
-      "line": 4,
-      "stage": "",
-      "status": "manual",
-      "gha": "-",
-      "note": "Groovy variable assignment"
-    },
-    {
-      "jenkins": "assign H2O_ECR = 353750902984.dkr.ecr.us-east-1.amazonaws",
-      "line": 6,
-      "stage": "",
-      "status": "manual",
-      "gha": "-",
-      "note": "Groovy variable assignment"
-    },
-    {
       "jenkins": "buildSummary",
       "line": 9,
       "stage": "",
@@ -322,14 +338,6 @@
     {
       "jenkins": "decl pipelineContext = <not implemented yet for class: ",
       "line": 86,
-      "stage": "",
-      "status": "manual",
-      "gha": "-",
-      "note": "Groovy variable assignment"
-    },
-    {
-      "jenkins": "decl checkoutStageName = Checkout and Init",
-      "line": 90,
       "stage": "",
       "status": "manual",
       "gha": "-",
@@ -464,14 +472,6 @@
       "note": "Groovy method / helper call - port logic to a script"
     },
     {
-      "jenkins": "assign componentImages = dev-mojocompat",
-      "line": 151,
-      "stage": "",
-      "status": "manual",
-      "gha": "-",
-      "note": "Groovy variable assignment"
-    },
-    {
       "jenkins": "decl componentJdkImages = []",
       "line": 158,
       "stage": "",
@@ -512,12 +512,12 @@
     "main": {
       "name": "main, Checkout and Init",
       "runs-on": "ubuntu-latest",
-      "steps": 20,
+      "steps": 24,
       "matrix": false
     }
   },
   "notes": [],
   "handoff": {},
   "source_sha256": "dfaf33c9263cfde5e5ed81231c2631ef8fd735ced7689cc7a019b2f5b28bd67c",
-  "model_sha256": "c8f19b4de909ab93d8aa45f55397f35252af53bdfdf069f1de233ffd7d438502"
+  "model_sha256": "be1802a0d18548f680e80b91a5bcb755e610c4f6bf8d2619349b645a8e57038e"
 }

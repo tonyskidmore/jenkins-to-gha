@@ -1,12 +1,28 @@
 {
   "counts": {
     "approximated": 3,
-    "manual": 25,
-    "mapped": 4,
+    "manual": 23,
+    "mapped": 6,
     "info": 1
   },
-  "automation_pct": 18.1,
+  "automation_pct": 24.4,
   "items": [
+    {
+      "jenkins": "decl branch_name = ${env.BRANCH_NAME}",
+      "line": 14,
+      "stage": "",
+      "status": "mapped",
+      "gha": "run: $GITHUB_ENV",
+      "note": "later steps of the job read the variable"
+    },
+    {
+      "jenkins": "decl mobile_config_branch = master",
+      "line": 17,
+      "stage": "",
+      "status": "mapped",
+      "gha": "run: $GITHUB_ENV",
+      "note": "later steps of the job read the variable"
+    },
     {
       "jenkins": "deleteDir",
       "line": 22,
@@ -144,14 +160,6 @@
       "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
     },
     {
-      "jenkins": "decl branch_name = ${env.BRANCH_NAME}",
-      "line": 14,
-      "stage": "",
-      "status": "manual",
-      "gha": "-",
-      "note": "Groovy variable assignment"
-    },
-    {
       "jenkins": "decl ionic_app_id = Globals.MOBILE_APP_ID",
       "line": 15,
       "stage": "",
@@ -162,14 +170,6 @@
     {
       "jenkins": "decl nodejs_installation = Globals.MOBILE_NODE_JS",
       "line": 16,
-      "stage": "",
-      "status": "manual",
-      "gha": "-",
-      "note": "Groovy variable assignment"
-    },
-    {
-      "jenkins": "decl mobile_config_branch = master",
-      "line": 17,
       "stage": "",
       "status": "manual",
       "gha": "-",
@@ -277,12 +277,12 @@
     "main": {
       "name": "main, checkout, install dependencies, tests, build",
       "runs-on": "ubuntu-latest",
-      "steps": 19,
+      "steps": 21,
       "matrix": false
     }
   },
   "notes": [],
   "handoff": {},
   "source_sha256": "0f8dec4856c002713fb186ec727fd7572f96f422d2ed48ec131468da19bdab38",
-  "model_sha256": "b86e081a75b38539149bdc86794234681b7524b88267a6d6547a6056b08ed7b6"
+  "model_sha256": "c6356d55a66fda95b8f6a07e2b4ce2bc7066297492b1b012c7f641b852713a54"
 }

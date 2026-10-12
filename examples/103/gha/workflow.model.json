@@ -72,7 +72,7 @@
         {
           "name": "Check Commit Message: git log -1 --pretty=format:%s",
           "id": "s1",
-          "run": "git log -1 --pretty=format:%s",
+          "run": "commitMsg=\"$(\ngit log -1 --pretty=format:%s\n)\"\ncommitMsg=\"${commitMsg#\"${commitMsg%%[![:space:]]*}\"}\"\ncommitMsg=\"${commitMsg%\"${commitMsg##*[![:space:]]}\"}\"\n{ echo 'commitMsg<<J2GHA_EOF'; printf '%s\\n' \"$commitMsg\"; echo J2GHA_EOF; } >> \"$GITHUB_ENV\"\n{ echo 'commitMsg<<J2GHA_EOF'; printf '%s\\n' \"$commitMsg\"; echo J2GHA_EOF; } >> \"$GITHUB_OUTPUT\"",
           "_j2gha": {
             "kind": "sh",
             "stage": "Check Commit Message",

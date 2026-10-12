@@ -77,8 +77,32 @@
           }
         },
         {
-          "name": "buildSummary (manual migration)",
+          "name": ": set DEFAULT_LABEL",
           "id": "s1",
+          "run": "DEFAULT_LABEL=\"h2o3_linux\"\n{ echo 'DEFAULT_LABEL<<J2GHA_EOF'; printf '%s\\n' \"$DEFAULT_LABEL\"; echo J2GHA_EOF; } >> \"$GITHUB_ENV\"\n{ echo 'DEFAULT_LABEL<<J2GHA_EOF'; printf '%s\\n' \"$DEFAULT_LABEL\"; echo J2GHA_EOF; } >> \"$GITHUB_OUTPUT\"",
+          "shell": "bash",
+          "_j2gha": {
+            "kind": "script-assign",
+            "stage": "",
+            "line": 4,
+            "trace": false
+          }
+        },
+        {
+          "name": ": set H2O_ECR",
+          "id": "s2",
+          "run": "H2O_ECR=\"353750902984.dkr.ecr.us-east-1.amazonaws.com\"\n{ echo 'H2O_ECR<<J2GHA_EOF'; printf '%s\\n' \"$H2O_ECR\"; echo J2GHA_EOF; } >> \"$GITHUB_ENV\"\n{ echo 'H2O_ECR<<J2GHA_EOF'; printf '%s\\n' \"$H2O_ECR\"; echo J2GHA_EOF; } >> \"$GITHUB_OUTPUT\"",
+          "shell": "bash",
+          "_j2gha": {
+            "kind": "script-assign",
+            "stage": "",
+            "line": 6,
+            "trace": false
+          }
+        },
+        {
+          "name": "buildSummary (manual migration)",
+          "id": "s3",
           "run": "echo \"::warning::Jenkins step 'buildSummary' requires manual migration\"",
           "_j2gha": {
             "kind": "buildSummary",
@@ -89,7 +113,7 @@
         },
         {
           "name": "addStagesSummary (manual migration)",
-          "id": "s2",
+          "id": "s4",
           "run": "echo \"::warning::Jenkins step 'addStagesSummary' requires manual migration\"",
           "_j2gha": {
             "kind": "addStagesSummary",
@@ -99,8 +123,20 @@
           }
         },
         {
+          "name": ": set checkoutStageName",
+          "id": "s5",
+          "run": "checkoutStageName=\"Checkout and Init\"\n{ echo 'checkoutStageName<<J2GHA_EOF'; printf '%s\\n' \"$checkoutStageName\"; echo J2GHA_EOF; } >> \"$GITHUB_ENV\"\n{ echo 'checkoutStageName<<J2GHA_EOF'; printf '%s\\n' \"$checkoutStageName\"; echo J2GHA_EOF; } >> \"$GITHUB_OUTPUT\"",
+          "shell": "bash",
+          "_j2gha": {
+            "kind": "script-assign",
+            "stage": "",
+            "line": 90,
+            "trace": false
+          }
+        },
+        {
           "name": "stageWithSummary (manual migration)",
-          "id": "s20",
+          "id": "s23",
           "run": "echo \"::warning::Jenkins step 'stageWithSummary' requires manual migration\"",
           "_j2gha": {
             "kind": "stageWithSummary",
@@ -111,7 +147,7 @@
         },
         {
           "name": "refreshStage (manual migration)",
-          "id": "s3",
+          "id": "s6",
           "run": "echo \"::warning::Jenkins step 'refreshStage' requires manual migration\"",
           "_j2gha": {
             "kind": "refreshStage",
@@ -122,7 +158,7 @@
         },
         {
           "name": "cleanWs",
-          "id": "s4",
+          "id": "s7",
           "run": "find . -mindepth 1 -delete || true",
           "_j2gha": {
             "kind": "cleanWs",
@@ -133,7 +169,7 @@
         },
         {
           "name": "checkout",
-          "id": "s5",
+          "id": "s8",
           "uses": "actions/checkout@11d5960a326750d5838078e36cf38b85af677262",
           "with": {
             "persist-credentials": false
@@ -147,7 +183,7 @@
         },
         {
           "name": "load (manual migration)",
-          "id": "s6",
+          "id": "s9",
           "run": "echo \"::warning::Jenkins step 'load' requires manual migration\"",
           "_j2gha": {
             "kind": "load",
@@ -158,7 +194,7 @@
         },
         {
           "name": "pipelineContextFactory (manual migration)",
-          "id": "s7",
+          "id": "s10",
           "run": "echo \"::warning::Jenkins step 'pipelineContextFactory' requires manual migration\"",
           "_j2gha": {
             "kind": "pipelineContextFactory",
@@ -169,7 +205,7 @@
         },
         {
           "name": "getDefaultImageVersion (manual migration)",
-          "id": "s8",
+          "id": "s11",
           "run": "echo \"::warning::Jenkins step 'getDefaultImageVersion' requires manual migration\"",
           "_j2gha": {
             "kind": "getDefaultImageVersion",
@@ -180,7 +216,7 @@
         },
         {
           "name": "dir docker",
-          "id": "s9",
+          "id": "s12",
           "run": "mkdir -p -- \"$J2GHA_DIR\"",
           "env": {
             "J2GHA_DIR": "docker"
@@ -194,7 +230,7 @@
         },
         {
           "name": "s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-8/x64-linux/jdk-8u",
-          "id": "s10",
+          "id": "s13",
           "run": "docker run --rm -v \"$PWD\":\"$PWD\" -w \"$PWD\" --env-file <(env | grep -v '^PATH=') d3fk/s3cmd sh -c 's3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-8/x64-linux/jdk-8u311-linux-x64.tar.gz'",
           "working-directory": "docker",
           "env": {
@@ -210,7 +246,7 @@
         },
         {
           "name": "s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-10/x64-linux/jdk-1",
-          "id": "s11",
+          "id": "s14",
           "run": "docker run --rm -v \"$PWD\":\"$PWD\" -w \"$PWD\" --env-file <(env | grep -v '^PATH=') d3fk/s3cmd sh -c 's3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-10/x64-linux/jdk-10.0.2_linux-x64_bin.tar.gz'",
           "working-directory": "docker",
           "env": {
@@ -226,7 +262,7 @@
         },
         {
           "name": "s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-11/x64-linux/jdk-1",
-          "id": "s12",
+          "id": "s15",
           "run": "docker run --rm -v \"$PWD\":\"$PWD\" -w \"$PWD\" --env-file <(env | grep -v '^PATH=') d3fk/s3cmd sh -c 's3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-11/x64-linux/jdk-11.0.3_linux-x64_bin.tar.gz'",
           "working-directory": "docker",
           "env": {
@@ -242,7 +278,7 @@
         },
         {
           "name": "s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-12/x64-linux/jdk-1",
-          "id": "s13",
+          "id": "s16",
           "run": "docker run --rm -v \"$PWD\":\"$PWD\" -w \"$PWD\" --env-file <(env | grep -v '^PATH=') d3fk/s3cmd sh -c 's3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-12/x64-linux/jdk-12.0.2_linux-x64_bin.tar.gz'",
           "working-directory": "docker",
           "env": {
@@ -258,7 +294,7 @@
         },
         {
           "name": "s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-13/x64-linux/jdk-1",
-          "id": "s14",
+          "id": "s17",
           "run": "docker run --rm -v \"$PWD\":\"$PWD\" -w \"$PWD\" --env-file <(env | grep -v '^PATH=') d3fk/s3cmd sh -c 's3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-13/x64-linux/jdk-13.0.2_linux-x64_bin.tar.gz'",
           "working-directory": "docker",
           "env": {
@@ -274,7 +310,7 @@
         },
         {
           "name": "s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-14/x64-linux/jdk-1",
-          "id": "s15",
+          "id": "s18",
           "run": "docker run --rm -v \"$PWD\":\"$PWD\" -w \"$PWD\" --env-file <(env | grep -v '^PATH=') d3fk/s3cmd sh -c 's3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-14/x64-linux/jdk-14.0.2_linux-x64_bin.tar.gz'",
           "working-directory": "docker",
           "env": {
@@ -290,7 +326,7 @@
         },
         {
           "name": "s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-15/x64-linux/jdk-1",
-          "id": "s16",
+          "id": "s19",
           "run": "docker run --rm -v \"$PWD\":\"$PWD\" -w \"$PWD\" --env-file <(env | grep -v '^PATH=') d3fk/s3cmd sh -c 's3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-15/x64-linux/jdk-15.0.2_linux-x64_bin.tar.gz'",
           "working-directory": "docker",
           "env": {
@@ -306,7 +342,7 @@
         },
         {
           "name": "s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-16/x64-linux/jdk-1",
-          "id": "s17",
+          "id": "s20",
           "run": "docker run --rm -v \"$PWD\":\"$PWD\" -w \"$PWD\" --env-file <(env | grep -v '^PATH=') d3fk/s3cmd sh -c 's3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-16/x64-linux/jdk-16.0.2_linux-x64_bin.tar.gz'",
           "working-directory": "docker",
           "env": {
@@ -322,7 +358,7 @@
         },
         {
           "name": "s3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-17/x64-linux/jdk-1",
-          "id": "s18",
+          "id": "s21",
           "run": "docker run --rm -v \"$PWD\":\"$PWD\" -w \"$PWD\" --env-file <(env | grep -v '^PATH=') d3fk/s3cmd sh -c 's3cmd get s3://artifacts.h2o.ai/releases/oracle/jdk-17/x64-linux/jdk-17.0.0_linux-x64_bin.tar.gz'",
           "working-directory": "docker",
           "env": {
@@ -338,7 +374,7 @@
         },
         {
           "name": "stash docker-sources",
-          "id": "s19",
+          "id": "s22",
           "uses": "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
           "with": {
             "name": "stash-docker-sources",
@@ -352,6 +388,18 @@
             "stage": "",
             "line": 125,
             "trace": true
+          }
+        },
+        {
+          "name": ": set componentImages",
+          "id": "s24",
+          "run": "componentImages=\"dev-mojocompat\"\n{ echo 'componentImages<<J2GHA_EOF'; printf '%s\\n' \"$componentImages\"; echo J2GHA_EOF; } >> \"$GITHUB_ENV\"\n{ echo 'componentImages<<J2GHA_EOF'; printf '%s\\n' \"$componentImages\"; echo J2GHA_EOF; } >> \"$GITHUB_OUTPUT\"",
+          "shell": "bash",
+          "_j2gha": {
+            "kind": "script-assign",
+            "stage": "",
+            "line": 151,
+            "trace": false
           }
         }
       ]

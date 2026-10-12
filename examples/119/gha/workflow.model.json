@@ -91,8 +91,56 @@
           }
         },
         {
-          "name": ": Groovy if (manual)",
+          "name": ": set branch",
           "id": "s5",
+          "run": "branch=\"${GIT_BRANCH}\"\n{ echo 'branch<<J2GHA_EOF'; printf '%s\\n' \"$branch\"; echo J2GHA_EOF; } >> \"$GITHUB_ENV\"\n{ echo 'branch<<J2GHA_EOF'; printf '%s\\n' \"$branch\"; echo J2GHA_EOF; } >> \"$GITHUB_OUTPUT\"",
+          "shell": "bash",
+          "_j2gha": {
+            "kind": "script-assign",
+            "stage": "",
+            "line": 13,
+            "trace": false
+          }
+        },
+        {
+          "name": ": set target_location",
+          "id": "s6",
+          "run": "target_location=\"${TARGET_LOCATION}\"\n{ echo 'target_location<<J2GHA_EOF'; printf '%s\\n' \"$target_location\"; echo J2GHA_EOF; } >> \"$GITHUB_ENV\"\n{ echo 'target_location<<J2GHA_EOF'; printf '%s\\n' \"$target_location\"; echo J2GHA_EOF; } >> \"$GITHUB_OUTPUT\"",
+          "shell": "bash",
+          "_j2gha": {
+            "kind": "script-assign",
+            "stage": "",
+            "line": 14,
+            "trace": false
+          }
+        },
+        {
+          "name": ": set git_repo_url",
+          "id": "s7",
+          "run": "git_repo_url=\"${GIT_REPO_URL}\"\n{ echo 'git_repo_url<<J2GHA_EOF'; printf '%s\\n' \"$git_repo_url\"; echo J2GHA_EOF; } >> \"$GITHUB_ENV\"\n{ echo 'git_repo_url<<J2GHA_EOF'; printf '%s\\n' \"$git_repo_url\"; echo J2GHA_EOF; } >> \"$GITHUB_OUTPUT\"",
+          "shell": "bash",
+          "_j2gha": {
+            "kind": "script-assign",
+            "stage": "",
+            "line": 15,
+            "trace": false
+          }
+        },
+        {
+          "name": ": set plugin_check",
+          "id": "s8",
+          "run": "plugin_check=\"${PLUGIN}\"\n{ echo 'plugin_check<<J2GHA_EOF'; printf '%s\\n' \"$plugin_check\"; echo J2GHA_EOF; } >> \"$GITHUB_ENV\"\n{ echo 'plugin_check<<J2GHA_EOF'; printf '%s\\n' \"$plugin_check\"; echo J2GHA_EOF; } >> \"$GITHUB_OUTPUT\"",
+          "shell": "bash",
+          "_j2gha": {
+            "kind": "script-assign",
+            "stage": "",
+            "line": 16,
+            "trace": false
+          }
+        },
+        {
+          "name": ": Groovy if (manual)",
+          "id": "s9",
           "run": "echo \"::warning::manual migration: Groovy condition at line 18: plugin_check.toString() == 'Yes'\"",
           "_j2gha": {
             "kind": "script-manual",
@@ -102,8 +150,44 @@
           }
         },
         {
+          "name": ": set bucket",
+          "id": "s10",
+          "run": "bucket=\"${BUCKET}\"\n{ echo 'bucket<<J2GHA_EOF'; printf '%s\\n' \"$bucket\"; echo J2GHA_EOF; } >> \"$GITHUB_ENV\"\n{ echo 'bucket<<J2GHA_EOF'; printf '%s\\n' \"$bucket\"; echo J2GHA_EOF; } >> \"$GITHUB_OUTPUT\"",
+          "shell": "bash",
+          "_j2gha": {
+            "kind": "script-assign",
+            "stage": "",
+            "line": 24,
+            "trace": false
+          }
+        },
+        {
+          "name": ": set file",
+          "id": "s11",
+          "run": "file=\"${IPA_FILE_NAME}\"\n{ echo 'file<<J2GHA_EOF'; printf '%s\\n' \"$file\"; echo J2GHA_EOF; } >> \"$GITHUB_ENV\"\n{ echo 'file<<J2GHA_EOF'; printf '%s\\n' \"$file\"; echo J2GHA_EOF; } >> \"$GITHUB_OUTPUT\"",
+          "shell": "bash",
+          "_j2gha": {
+            "kind": "script-assign",
+            "stage": "",
+            "line": 25,
+            "trace": false
+          }
+        },
+        {
+          "name": ": set integration_test_check",
+          "id": "s12",
+          "run": "integration_test_check=\"${INTEGRATION_TEST_CHECK}\"\n{ echo 'integration_test_check<<J2GHA_EOF'; printf '%s\\n' \"$integration_test_check\"; echo J2GHA_EOF; } >> \"$GITHUB_ENV\"\n{ echo 'integration_test_check<<J2GHA_EOF'; printf '%s\\n' \"$integration_test_check\"; echo J2GHA_EOF; } >> \"$GITHUB_OUTPUT\"",
+          "shell": "bash",
+          "_j2gha": {
+            "kind": "script-assign",
+            "stage": "",
+            "line": 26,
+            "trace": false
+          }
+        },
+        {
           "name": ": Groovy if (manual)",
-          "id": "s6",
+          "id": "s13",
           "run": "echo \"::warning::manual migration: Groovy condition at line 28: integration_test_check.toString() == 'Yes'\"",
           "_j2gha": {
             "kind": "script-manual",
@@ -114,7 +198,7 @@
         },
         {
           "name": "deleteDir",
-          "id": "s7",
+          "id": "s14",
           "run": "find . -mindepth 1 -delete || true",
           "_j2gha": {
             "kind": "deleteDir",
@@ -125,7 +209,7 @@
         },
         {
           "name": "Git Checkout: log (manual migration)",
-          "id": "s8",
+          "id": "s15",
           "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
           "_j2gha": {
             "kind": "log",
@@ -136,7 +220,7 @@
         },
         {
           "name": "Git Checkout: git_check_out (manual migration)",
-          "id": "s9",
+          "id": "s16",
           "run": "echo \"::warning::Jenkins step 'git_check_out' requires manual migration\"",
           "_j2gha": {
             "kind": "git_check_out",
@@ -148,7 +232,7 @@
         },
         {
           "name": "Git Checkout: Groovy if (manual)",
-          "id": "s10",
+          "id": "s17",
           "run": "echo \"::warning::manual migration: Groovy condition at line 53: plugin_check == 'Yes'\"",
           "_j2gha": {
             "kind": "script-manual",
@@ -160,7 +244,7 @@
         },
         {
           "name": "Git Checkout: Groovy if (manual)",
-          "id": "s11",
+          "id": "s18",
           "run": "echo \"::warning::manual migration: Groovy condition at line 59: plugin_check == 'Yes'\"",
           "_j2gha": {
             "kind": "script-manual",
@@ -171,7 +255,7 @@
         },
         {
           "name": "Git Checkout: log (manual migration)",
-          "id": "s12",
+          "id": "s19",
           "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
           "_j2gha": {
             "kind": "log",
@@ -182,7 +266,7 @@
         },
         {
           "name": "pwd (manual migration)",
-          "id": "s13",
+          "id": "s20",
           "run": "echo \"::warning::Jenkins step 'pwd' requires manual migration\"",
           "_j2gha": {
             "kind": "pwd",
@@ -193,7 +277,7 @@
         },
         {
           "name": "dir",
-          "id": "s14",
+          "id": "s21",
           "run": "mkdir -p -- \"$J2GHA_DIR\"",
           "env": {
             "J2GHA_DIR": "${{ env.WORKSPACE }}"
@@ -207,7 +291,7 @@
         },
         {
           "name": "log (manual migration)",
-          "id": "s15",
+          "id": "s22",
           "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
           "working-directory": "${{ env.WORKSPACE }}",
           "_j2gha": {
@@ -219,7 +303,7 @@
         },
         {
           "name": "stash ${target_location}",
-          "id": "s16",
+          "id": "s23",
           "uses": "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
           "with": {
             "name": "stash-target_location",
@@ -237,7 +321,7 @@
         },
         {
           "name": "log (manual migration)",
-          "id": "s17",
+          "id": "s24",
           "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
           "working-directory": "${{ env.WORKSPACE }}",
           "_j2gha": {
@@ -247,7 +331,10 @@
             "trace": false
           }
         }
-      ]
+      ],
+      "outputs": {
+        "target_location": "${{ steps.s6.outputs.target_location }}"
+      }
     },
     "main-2": {
       "name": "main, NPM Install, Security Check, SonarQube, Unit Tests, NPM Build, Cordova Platform",
@@ -271,7 +358,7 @@
         },
         {
           "name": "deleteDir",
-          "id": "s18",
+          "id": "s25",
           "run": "find . -mindepth 1 -delete || true",
           "_j2gha": {
             "kind": "deleteDir",
@@ -281,11 +368,12 @@
           }
         },
         {
-          "name": "pwd (manual migration)",
-          "id": "s19",
-          "run": "echo \"::warning::Jenkins step 'pwd' requires manual migration\"",
+          "name": ": set mac_workspace",
+          "id": "s26",
+          "run": "mac_workspace=\"${PWD}\"\n{ echo 'mac_workspace<<J2GHA_EOF'; printf '%s\\n' \"$mac_workspace\"; echo J2GHA_EOF; } >> \"$GITHUB_ENV\"\n{ echo 'mac_workspace<<J2GHA_EOF'; printf '%s\\n' \"$mac_workspace\"; echo J2GHA_EOF; } >> \"$GITHUB_OUTPUT\"",
+          "shell": "bash",
           "_j2gha": {
-            "kind": "pwd",
+            "kind": "script-assign",
             "stage": "",
             "line": 84,
             "trace": false
@@ -293,7 +381,7 @@
         },
         {
           "name": "log (manual migration)",
-          "id": "s20",
+          "id": "s27",
           "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
           "_j2gha": {
             "kind": "log",
@@ -304,7 +392,7 @@
         },
         {
           "name": "unstash ${target_location}",
-          "id": "s21",
+          "id": "s28",
           "uses": "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093",
           "with": {
             "pattern": "stash-target_location",
@@ -320,7 +408,7 @@
         },
         {
           "name": "log (manual migration)",
-          "id": "s22",
+          "id": "s29",
           "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
           "_j2gha": {
             "kind": "log",
@@ -331,7 +419,7 @@
         },
         {
           "name": "NPM Install: dir",
-          "id": "s23",
+          "id": "s30",
           "run": "mkdir -p -- \"$J2GHA_DIR\"",
           "env": {
             "J2GHA_DIR": "${{ env.mac_workspace }}/${{ env.target_location }}"
@@ -345,7 +433,7 @@
         },
         {
           "name": "NPM Install: log (manual migration)",
-          "id": "s24",
+          "id": "s31",
           "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
           "working-directory": "${{ env.mac_workspace }}/${{ env.target_location }}",
           "_j2gha": {
@@ -357,7 +445,7 @@
         },
         {
           "name": "NPM Install: install (manual migration)",
-          "id": "s25",
+          "id": "s32",
           "run": "echo \"::warning::Jenkins step 'install' requires manual migration\"",
           "working-directory": "${{ env.mac_workspace }}/${{ env.target_location }}",
           "_j2gha": {
@@ -369,7 +457,7 @@
         },
         {
           "name": "NPM Install: log (manual migration)",
-          "id": "s26",
+          "id": "s33",
           "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
           "working-directory": "${{ env.mac_workspace }}/${{ env.target_location }}",
           "_j2gha": {
@@ -381,7 +469,7 @@
         },
         {
           "name": "Security Check: dir",
-          "id": "s27",
+          "id": "s34",
           "run": "mkdir -p -- \"$J2GHA_DIR\"",
           "env": {
             "J2GHA_DIR": "${{ env.mac_workspace }}/${{ env.target_location }}"
@@ -395,7 +483,7 @@
         },
         {
           "name": "Security Check: log (manual migration)",
-          "id": "s28",
+          "id": "s35",
           "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
           "working-directory": "${{ env.mac_workspace }}/${{ env.target_location }}",
           "_j2gha": {
@@ -407,7 +495,7 @@
         },
         {
           "name": "Security Check: security (manual migration)",
-          "id": "s29",
+          "id": "s36",
           "run": "echo \"::warning::Jenkins step 'security' requires manual migration\"",
           "working-directory": "${{ env.mac_workspace }}/${{ env.target_location }}",
           "_j2gha": {
@@ -419,7 +507,7 @@
         },
         {
           "name": "Security Check: log (manual migration)",
-          "id": "s30",
+          "id": "s37",
           "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
           "working-directory": "${{ env.mac_workspace }}/${{ env.target_location }}",
           "_j2gha": {
@@ -431,7 +519,7 @@
         },
         {
           "name": "SonarQube: dir",
-          "id": "s31",
+          "id": "s38",
           "run": "mkdir -p -- \"$J2GHA_DIR\"",
           "env": {
             "J2GHA_DIR": "${{ env.mac_workspace }}/${{ env.target_location }}"
@@ -445,7 +533,7 @@
         },
         {
           "name": "SonarQube: log (manual migration)",
-          "id": "s32",
+          "id": "s39",
           "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
           "working-directory": "${{ env.mac_workspace }}/${{ env.target_location }}",
           "_j2gha": {
@@ -457,7 +545,7 @@
         },
         {
           "name": "SonarQube: sonar (manual migration)",
-          "id": "s33",
+          "id": "s40",
           "run": "echo \"::warning::Jenkins step 'sonar' requires manual migration\"",
           "working-directory": "${{ env.mac_workspace }}/${{ env.target_location }}",
           "_j2gha": {
@@ -469,7 +557,7 @@
         },
         {
           "name": "SonarQube: log (manual migration)",
-          "id": "s34",
+          "id": "s41",
           "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
           "working-directory": "${{ env.mac_workspace }}/${{ env.target_location }}",
           "_j2gha": {
@@ -481,7 +569,7 @@
         },
         {
           "name": "Unit Tests: dir",
-          "id": "s35",
+          "id": "s42",
           "run": "mkdir -p -- \"$J2GHA_DIR\"",
           "env": {
             "J2GHA_DIR": "${{ env.mac_workspace }}/${{ env.target_location }}"
@@ -495,7 +583,7 @@
         },
         {
           "name": "Unit Tests: log (manual migration)",
-          "id": "s36",
+          "id": "s43",
           "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
           "working-directory": "${{ env.mac_workspace }}/${{ env.target_location }}",
           "_j2gha": {
@@ -507,7 +595,7 @@
         },
         {
           "name": "Unit Tests: testing (manual migration)",
-          "id": "s37",
+          "id": "s44",
           "run": "echo \"::warning::Jenkins step 'testing' requires manual migration\"",
           "working-directory": "${{ env.mac_workspace }}/${{ env.target_location }}",
           "_j2gha": {
@@ -519,7 +607,7 @@
         },
         {
           "name": "Unit Tests: log (manual migration)",
-          "id": "s38",
+          "id": "s45",
           "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
           "working-directory": "${{ env.mac_workspace }}/${{ env.target_location }}",
           "_j2gha": {
@@ -531,7 +619,7 @@
         },
         {
           "name": "NPM Build: dir",
-          "id": "s39",
+          "id": "s46",
           "run": "mkdir -p -- \"$J2GHA_DIR\"",
           "env": {
             "J2GHA_DIR": "${{ env.mac_workspace }}/${{ env.target_location }}"
@@ -545,7 +633,7 @@
         },
         {
           "name": "NPM Build: log (manual migration)",
-          "id": "s40",
+          "id": "s47",
           "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
           "working-directory": "${{ env.mac_workspace }}/${{ env.target_location }}",
           "_j2gha": {
@@ -557,7 +645,7 @@
         },
         {
           "name": "NPM Build: npmBuild (manual migration)",
-          "id": "s41",
+          "id": "s48",
           "run": "echo \"::warning::Jenkins step 'npmBuild' requires manual migration\"",
           "working-directory": "${{ env.mac_workspace }}/${{ env.target_location }}",
           "_j2gha": {
@@ -569,7 +657,7 @@
         },
         {
           "name": "NPM Build: log (manual migration)",
-          "id": "s42",
+          "id": "s49",
           "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
           "working-directory": "${{ env.mac_workspace }}/${{ env.target_location }}",
           "_j2gha": {
@@ -581,7 +669,7 @@
         },
         {
           "name": "dir",
-          "id": "s43",
+          "id": "s50",
           "run": "mkdir -p -- \"$J2GHA_DIR\"",
           "env": {
             "J2GHA_DIR": "${{ env.mac_workspace }}/${{ env.target_location }}"
@@ -595,7 +683,7 @@
         },
         {
           "name": "log (manual migration)",
-          "id": "s44",
+          "id": "s51",
           "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
           "working-directory": "${{ env.mac_workspace }}/${{ env.target_location }}",
           "_j2gha": {
@@ -607,7 +695,7 @@
         },
         {
           "name": ": Groovy if (manual)",
-          "id": "s45",
+          "id": "s52",
           "run": "echo \"::warning::manual migration: Groovy condition at line 137: plugin_check == 'Yes'\"",
           "working-directory": "${{ env.mac_workspace }}/${{ env.target_location }}",
           "_j2gha": {
@@ -619,7 +707,7 @@
         },
         {
           "name": "Cordova Platform: dir",
-          "id": "s46",
+          "id": "s53",
           "run": "mkdir -p -- \"$J2GHA_DIR\"",
           "env": {
             "J2GHA_DIR": "${{ env.mac_workspace }}/${{ env.target_location }}"
@@ -633,7 +721,7 @@
         },
         {
           "name": "Cordova Platform: log (manual migration)",
-          "id": "s47",
+          "id": "s54",
           "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
           "working-directory": "${{ env.mac_workspace }}/${{ env.target_location }}",
           "_j2gha": {
@@ -645,7 +733,7 @@
         },
         {
           "name": "Cordova Platform: configure (manual migration)",
-          "id": "s48",
+          "id": "s55",
           "run": "echo \"::warning::Jenkins step 'configure' requires manual migration\"",
           "working-directory": "${{ env.mac_workspace }}/${{ env.target_location }}",
           "_j2gha": {
@@ -657,7 +745,7 @@
         },
         {
           "name": "Cordova Platform: log (manual migration)",
-          "id": "s49",
+          "id": "s56",
           "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
           "working-directory": "${{ env.mac_workspace }}/${{ env.target_location }}",
           "_j2gha": {
@@ -669,7 +757,7 @@
         },
         {
           "name": "Build: dir",
-          "id": "s50",
+          "id": "s57",
           "run": "mkdir -p -- \"$J2GHA_DIR\"",
           "env": {
             "J2GHA_DIR": "${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios"
@@ -683,7 +771,7 @@
         },
         {
           "name": "Build: log (manual migration)",
-          "id": "s51",
+          "id": "s58",
           "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
           "working-directory": "${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios",
           "_j2gha": {
@@ -695,7 +783,7 @@
         },
         {
           "name": "Build: build (manual migration)",
-          "id": "s52",
+          "id": "s59",
           "run": "echo \"::warning::Jenkins step 'build' requires manual migration\"",
           "working-directory": "${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios",
           "_j2gha": {
@@ -707,7 +795,7 @@
         },
         {
           "name": "Build: log (manual migration)",
-          "id": "s53",
+          "id": "s60",
           "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
           "working-directory": "${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios",
           "_j2gha": {
@@ -719,7 +807,7 @@
         },
         {
           "name": "dir",
-          "id": "s54",
+          "id": "s61",
           "run": "mkdir -p -- \"$J2GHA_DIR\"",
           "env": {
             "J2GHA_DIR": "${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios"
@@ -733,7 +821,7 @@
         },
         {
           "name": "stash build",
-          "id": "s55",
+          "id": "s62",
           "uses": "actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02",
           "with": {
             "name": "stash-build",
@@ -751,7 +839,7 @@
         },
         {
           "name": "log (manual migration)",
-          "id": "s56",
+          "id": "s63",
           "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
           "working-directory": "${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios",
           "_j2gha": {
@@ -763,7 +851,7 @@
         },
         {
           "name": ": Groovy if (manual)",
-          "id": "s57",
+          "id": "s64",
           "run": "echo \"::warning::manual migration: Groovy condition at line 171: integration_test_check == 'Yes'\"",
           "working-directory": "${{ env.mac_workspace }}/${{ env.target_location }}/platforms/ios",
           "_j2gha": {
@@ -773,7 +861,10 @@
             "trace": false
           }
         }
-      ]
+      ],
+      "env": {
+        "target_location": "${{ needs.main.outputs.target_location }}"
+      }
     },
     "main-3": {
       "name": "main, Upload to S3, Generate bucket URL",
@@ -797,7 +888,7 @@
         },
         {
           "name": "deleteDir",
-          "id": "s58",
+          "id": "s65",
           "run": "find . -mindepth 1 -delete || true",
           "_j2gha": {
             "kind": "deleteDir",
@@ -808,7 +899,7 @@
         },
         {
           "name": "unstash build",
-          "id": "s59",
+          "id": "s66",
           "uses": "actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093",
           "with": {
             "pattern": "stash-build",
@@ -824,7 +915,7 @@
         },
         {
           "name": "Upload to S3: log (manual migration)",
-          "id": "s60",
+          "id": "s67",
           "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
           "_j2gha": {
             "kind": "log",
@@ -835,7 +926,7 @@
         },
         {
           "name": "Upload to S3: upload (manual migration)",
-          "id": "s61",
+          "id": "s68",
           "run": "echo \"::warning::Jenkins step 'upload' requires manual migration\"",
           "_j2gha": {
             "kind": "upload",
@@ -846,7 +937,7 @@
         },
         {
           "name": "Upload to S3: log (manual migration)",
-          "id": "s62",
+          "id": "s69",
           "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
           "_j2gha": {
             "kind": "log",
@@ -857,7 +948,7 @@
         },
         {
           "name": "Generate bucket URL: log (manual migration)",
-          "id": "s63",
+          "id": "s70",
           "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
           "_j2gha": {
             "kind": "log",
@@ -868,7 +959,7 @@
         },
         {
           "name": "Generate bucket URL: publish (manual migration)",
-          "id": "s64",
+          "id": "s71",
           "run": "echo \"::warning::Jenkins step 'publish' requires manual migration\"",
           "_j2gha": {
             "kind": "publish",
@@ -879,7 +970,7 @@
         },
         {
           "name": "Generate bucket URL: log (manual migration)",
-          "id": "s65",
+          "id": "s72",
           "run": "echo \"::warning::Jenkins step 'log' requires manual migration\"",
           "_j2gha": {
             "kind": "log",

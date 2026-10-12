@@ -1,12 +1,68 @@
 {
   "counts": {
     "approximated": 9,
-    "manual": 61,
-    "mapped": 6,
+    "manual": 52,
+    "mapped": 14,
     "info": 1
   },
-  "automation_pct": 15.0,
+  "automation_pct": 25.9,
   "items": [
+    {
+      "jenkins": "assign branch = ${GIT_BRANCH}",
+      "line": 13,
+      "stage": "",
+      "status": "mapped",
+      "gha": "run: $GITHUB_ENV",
+      "note": "later steps of the job read the variable"
+    },
+    {
+      "jenkins": "assign target_location = ${TARGET_LOCATION}",
+      "line": 14,
+      "stage": "",
+      "status": "mapped",
+      "gha": "run: $GITHUB_ENV",
+      "note": "later steps of the job read the variable"
+    },
+    {
+      "jenkins": "assign git_repo_url = ${GIT_REPO_URL}",
+      "line": 15,
+      "stage": "",
+      "status": "mapped",
+      "gha": "run: $GITHUB_ENV",
+      "note": "later steps of the job read the variable"
+    },
+    {
+      "jenkins": "assign plugin_check = ${PLUGIN}",
+      "line": 16,
+      "stage": "",
+      "status": "mapped",
+      "gha": "run: $GITHUB_ENV",
+      "note": "later steps of the job read the variable"
+    },
+    {
+      "jenkins": "assign bucket = ${BUCKET}",
+      "line": 24,
+      "stage": "",
+      "status": "mapped",
+      "gha": "run: $GITHUB_ENV",
+      "note": "later steps of the job read the variable"
+    },
+    {
+      "jenkins": "assign file = ${IPA_FILE_NAME}",
+      "line": 25,
+      "stage": "",
+      "status": "mapped",
+      "gha": "run: $GITHUB_ENV",
+      "note": "later steps of the job read the variable"
+    },
+    {
+      "jenkins": "assign integration_test_check = ${INTEGRATION_TEST_CHECK}",
+      "line": 26,
+      "stage": "",
+      "status": "mapped",
+      "gha": "run: $GITHUB_ENV",
+      "note": "later steps of the job read the variable"
+    },
     {
       "jenkins": "deleteDir",
       "line": 41,
@@ -30,6 +86,14 @@
       "status": "mapped",
       "gha": "run: workspace cleanup",
       "note": "runners are ephemeral; kept for parity"
+    },
+    {
+      "jenkins": "decl mac_workspace = pwd(...)",
+      "line": 84,
+      "stage": "",
+      "status": "mapped",
+      "gha": "run: $GITHUB_ENV",
+      "note": "later steps of the job read the variable"
     },
     {
       "jenkins": "dir",
@@ -192,68 +256,12 @@
       "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
     },
     {
-      "jenkins": "assign branch = ${GIT_BRANCH}",
-      "line": 13,
-      "stage": "",
-      "status": "manual",
-      "gha": "-",
-      "note": "Groovy variable assignment"
-    },
-    {
-      "jenkins": "assign target_location = ${TARGET_LOCATION}",
-      "line": 14,
-      "stage": "",
-      "status": "manual",
-      "gha": "-",
-      "note": "Groovy variable assignment"
-    },
-    {
-      "jenkins": "assign git_repo_url = ${GIT_REPO_URL}",
-      "line": 15,
-      "stage": "",
-      "status": "manual",
-      "gha": "-",
-      "note": "Groovy variable assignment"
-    },
-    {
-      "jenkins": "assign plugin_check = ${PLUGIN}",
-      "line": 16,
-      "stage": "",
-      "status": "manual",
-      "gha": "-",
-      "note": "Groovy variable assignment"
-    },
-    {
       "jenkins": "if (plugin_check.toString() == 'Yes')",
       "line": 18,
       "stage": "",
       "status": "manual",
       "gha": "placeholder",
       "note": "condition depends on Groovy runtime state"
-    },
-    {
-      "jenkins": "assign bucket = ${BUCKET}",
-      "line": 24,
-      "stage": "",
-      "status": "manual",
-      "gha": "-",
-      "note": "Groovy variable assignment"
-    },
-    {
-      "jenkins": "assign file = ${IPA_FILE_NAME}",
-      "line": 25,
-      "stage": "",
-      "status": "manual",
-      "gha": "-",
-      "note": "Groovy variable assignment"
-    },
-    {
-      "jenkins": "assign integration_test_check = ${INTEGRATION_TEST_CHECK}",
-      "line": 26,
-      "stage": "",
-      "status": "manual",
-      "gha": "-",
-      "note": "Groovy variable assignment"
     },
     {
       "jenkins": "if (integration_test_check.toString() == 'Yes')",
@@ -334,22 +342,6 @@
       "status": "manual",
       "gha": "placeholder step",
       "note": "unknown step with no deterministic mapping (plugin/shared-library step)"
-    },
-    {
-      "jenkins": "decl mac_workspace = pwd(...)",
-      "line": 84,
-      "stage": "",
-      "status": "manual",
-      "gha": "-",
-      "note": "Groovy variable assignment from a step"
-    },
-    {
-      "jenkins": "pwd",
-      "line": 84,
-      "stage": "",
-      "status": "manual",
-      "gha": "placeholder step",
-      "note": "policy step with no deterministic mapping"
     },
     {
       "jenkins": "log",
@@ -629,7 +621,7 @@
     "main": {
       "name": "main, Git Checkout",
       "runs-on": "ubuntu-latest",
-      "steps": 18,
+      "steps": 25,
       "matrix": false
     },
     "main-2": {
@@ -648,5 +640,5 @@
   "notes": [],
   "handoff": {},
   "source_sha256": "86f5013e2c7b55a8874c400750ded33aeb2a237d5a4d5af3047de525717831f6",
-  "model_sha256": "9479b38166f7adbdc8009d8542b83daae2a0327f952112dff9e5979ca632a7a3"
+  "model_sha256": "d972b2884af028ce674593227de6e8f3f542da1f3b69140ec63b17caf1b7e1b0"
 }

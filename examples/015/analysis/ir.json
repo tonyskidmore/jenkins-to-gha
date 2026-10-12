@@ -69,7 +69,27 @@
               "name": "<assign>",
               "line": 33,
               "named": {
-                "_target": "commitHash"
+                "_target": "commitHash",
+                "_value": {
+                  "t": "gstr",
+                  "v": "\"${env.GIT_COMMIT.take(7)}\"",
+                  "vars": [
+                    "{env.GIT_COMMIT.take(7)}"
+                  ],
+                  "calls": [
+                    {
+                      "k": "call",
+                      "name": "take",
+                      "args": [
+                        {
+                          "t": "num",
+                          "v": 7
+                        }
+                      ],
+                      "receiver": "env.GIT_COMMIT"
+                    }
+                  ]
+                }
               },
               "category": "dynamic",
               "source": "commitHash = ${env.GIT_COMMIT.take(7)}",
@@ -353,7 +373,10 @@
               "name": "<assign>",
               "line": 129,
               "named": {
-                "_target": "buildResults"
+                "_target": "buildResults",
+                "_value": {
+                  "t": "null"
+                }
               },
               "category": "dynamic",
               "source": "buildResults = null",
@@ -363,7 +386,11 @@
               "name": "<assign>",
               "line": 133,
               "named": {
-                "_target": "gaugeBranchName"
+                "_target": "gaugeBranchName",
+                "_value": {
+                  "t": "prop",
+                  "text": "env.BRANCH_NAME"
+                }
               },
               "category": "dynamic",
               "source": "gaugeBranchName = env.BRANCH_NAME",
@@ -373,7 +400,12 @@
               "name": "<assign>",
               "line": 134,
               "named": {
-                "_target": "fallbackBranchName"
+                "_target": "fallbackBranchName",
+                "_value": {
+                  "t": "expr",
+                  "kind": "ElvisOperatorExpression",
+                  "text": "?:"
+                }
               },
               "category": "dynamic",
               "source": "fallbackBranchName = ?:",
@@ -387,7 +419,11 @@
                   "name": "<assign>",
                   "line": 139,
                   "named": {
-                    "_target": "gaugeBranchName"
+                    "_target": "gaugeBranchName",
+                    "_value": {
+                      "t": "prop",
+                      "text": "env.TARGET_GAUGE_RELEASE_BRANCH_NAME"
+                    }
                   },
                   "category": "dynamic",
                   "source": "gaugeBranchName = env.TARGET_GAUGE_RELEASE_BRANCH_NAME",
@@ -397,7 +433,12 @@
                   "name": "<assign>",
                   "line": 140,
                   "named": {
-                    "_target": "fallbackBranchName"
+                    "_target": "fallbackBranchName",
+                    "_value": {
+                      "t": "expr",
+                      "kind": "ElvisOperatorExpression",
+                      "text": "?:"
+                    }
                   },
                   "category": "dynamic",
                   "source": "fallbackBranchName = ?:",
@@ -462,7 +503,79 @@
                   "name": "<assign>",
                   "line": 143,
                   "named": {
-                    "_target": "buildResults"
+                    "_target": "buildResults",
+                    "_value": {
+                      "t": "call",
+                      "call": {
+                        "k": "call",
+                        "name": "build",
+                        "named": {
+                          "job": {
+                            "t": "gstr",
+                            "v": "\"/${env.SDKS_GAUGE_PIPELINE_PROJECT}/${gaugeBranchName}\"",
+                            "vars": [
+                              "{env.SDKS_GAUGE_PIPELINE_PROJECT}",
+                              "{gaugeBranchName}"
+                            ]
+                          },
+                          "parameters": {
+                            "t": "list",
+                            "v": [
+                              {
+                                "t": "call",
+                                "call": {
+                                  "k": "call",
+                                  "name": "string",
+                                  "named": {
+                                    "name": {
+                                      "t": "str",
+                                      "v": "SDK_RUN_LANG"
+                                    },
+                                    "value": {
+                                      "t": "gstr",
+                                      "v": "\"$libName\"",
+                                      "vars": [
+                                        "libName"
+                                      ]
+                                    }
+                                  }
+                                }
+                              },
+                              {
+                                "t": "call",
+                                "call": {
+                                  "k": "call",
+                                  "name": "string",
+                                  "named": {
+                                    "name": {
+                                      "t": "gstr",
+                                      "v": "\"SDK_VERSION_${libName.toUpperCase()}\"",
+                                      "vars": [
+                                        "{libName.toUpperCase()}"
+                                      ],
+                                      "calls": [
+                                        {
+                                          "k": "call",
+                                          "name": "toUpperCase",
+                                          "receiver": "libName"
+                                        }
+                                      ]
+                                    },
+                                    "value": {
+                                      "t": "gstr",
+                                      "v": "\"${env.NEW_SDK_VERSION}\"",
+                                      "vars": [
+                                        "{env.NEW_SDK_VERSION}"
+                                      ]
+                                    }
+                                  }
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
                   },
                   "body": [
                     {
@@ -656,7 +769,56 @@
           "name": "<assign>",
           "line": 231,
           "named": {
-            "_target": "bumpVersion"
+            "_target": "bumpVersion",
+            "_value": {
+              "t": "closure",
+              "params": [
+                "isDevRelease"
+              ],
+              "body": [
+                {
+                  "k": "assign",
+                  "op": "=",
+                  "target": "newVersion",
+                  "value": {
+                    "t": "call",
+                    "call": {
+                      "k": "call",
+                      "name": "getNewVersion",
+                      "args": [
+                        {
+                          "t": "var",
+                          "name": "isDevRelease"
+                        }
+                      ]
+                    }
+                  }
+                },
+                {
+                  "k": "assign",
+                  "op": "=",
+                  "target": "env.NEW_SDK_VERSION ",
+                  "value": {
+                    "t": "var",
+                    "name": "newVersion"
+                  }
+                },
+                {
+                  "k": "call",
+                  "name": "doVersionBump",
+                  "args": [
+                    {
+                      "t": "var",
+                      "name": "isDevRelease"
+                    },
+                    {
+                      "t": "var",
+                      "name": "newVersion"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           "category": "dynamic",
           "source": "bumpVersion = ",
@@ -666,7 +828,32 @@
           "name": "<assign>",
           "line": 238,
           "named": {
-            "_target": "doVersionBump"
+            "_target": "doVersionBump",
+            "_value": {
+              "t": "closure",
+              "params": [
+                "isDevRelease",
+                "newVersion",
+                "allowDirty"
+              ],
+              "body": [
+                {
+                  "k": "call",
+                  "name": "sh",
+                  "args": [
+                    {
+                      "t": "gstr",
+                      "v": "\"bump-my-version bump patch --new-version ${newVersion} ${allowDirty ? '--allow-dirty': ''} ${isDevRelease ? '--no-commit' : '--tag --tag-message \"Release {new_version}\"'}\"",
+                      "vars": [
+                        "{newVersion}",
+                        "{allowDirty ? '--allow-dirty': ''}",
+                        "{isDevRelease ? '--no-commit' : '--tag --tag-message \"Release {new_version}\"'}"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
           },
           "category": "dynamic",
           "source": "doVersionBump = ",
@@ -676,7 +863,42 @@
           "name": "<assign>",
           "line": 242,
           "named": {
-            "_target": "getNewVersion"
+            "_target": "getNewVersion",
+            "_value": {
+              "t": "closure",
+              "params": [
+                "isDevRelease"
+              ],
+              "body": [
+                {
+                  "k": "return",
+                  "value": {
+                    "t": "call",
+                    "call": {
+                      "k": "call",
+                      "name": "customizeVersion",
+                      "args": [
+                        {
+                          "t": "expr",
+                          "kind": "TernaryExpression",
+                          "text": "isDevRelease ? getDevVersion() : getTargetVersion()",
+                          "calls": [
+                            {
+                              "k": "call",
+                              "name": "getDevVersion"
+                            },
+                            {
+                              "k": "call",
+                              "name": "getTargetVersion"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
           },
           "category": "dynamic",
           "source": "getNewVersion = ",
@@ -686,7 +908,70 @@
           "name": "<assign>",
           "line": 247,
           "named": {
-            "_target": "getTargetVersion"
+            "_target": "getTargetVersion",
+            "_value": {
+              "t": "closure",
+              "body": [
+                {
+                  "k": "assign",
+                  "op": "=",
+                  "target": "version",
+                  "value": {
+                    "t": "str"
+                  }
+                },
+                {
+                  "k": "if",
+                  "cond": "'NONE' != params.TARGET_VERSION",
+                  "then": [
+                    {
+                      "k": "assign",
+                      "op": "=",
+                      "target": "version",
+                      "value": {
+                        "t": "prop",
+                        "text": "params.TARGET_VERSION"
+                      }
+                    }
+                  ],
+                  "else": [
+                    {
+                      "k": "assign",
+                      "op": "=",
+                      "target": "version",
+                      "value": {
+                        "t": "call",
+                        "call": {
+                          "k": "call",
+                          "name": "sh",
+                          "named": {
+                            "returnStdout": {
+                              "t": "bool",
+                              "v": true
+                            },
+                            "script": {
+                              "t": "str",
+                              "v": "bump-my-version show-bump --ascii | grep patch | rev | cut -f1 -d \" \" | rev"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                },
+                {
+                  "k": "return",
+                  "value": {
+                    "t": "call",
+                    "call": {
+                      "k": "call",
+                      "name": "trim",
+                      "receiver": "version"
+                    }
+                  }
+                }
+              ]
+            }
           },
           "category": "dynamic",
           "source": "getTargetVersion = ",
@@ -696,7 +981,86 @@
           "name": "<assign>",
           "line": 258,
           "named": {
-            "_target": "getDevVersion"
+            "_target": "getDevVersion",
+            "_value": {
+              "t": "closure",
+              "body": [
+                {
+                  "k": "assign",
+                  "op": "=",
+                  "target": "devVersion",
+                  "value": {
+                    "t": "call",
+                    "call": {
+                      "k": "call",
+                      "name": "getTargetVersion"
+                    }
+                  }
+                },
+                {
+                  "k": "if",
+                  "cond": "devVersion ==~ /${env.SVRE_RELEASE}/",
+                  "then": [
+                    {
+                      "k": "assign",
+                      "op": "+=",
+                      "target": "devVersion",
+                      "value": {
+                        "t": "str",
+                        "v": "-"
+                      }
+                    }
+                  ],
+                  "else": [
+                    {
+                      "k": "if",
+                      "cond": "devVersion ==~ /${env.SVRE_PRE_RELEASE}/",
+                      "then": [
+                        {
+                          "k": "assign",
+                          "op": "+=",
+                          "target": "devVersion",
+                          "value": {
+                            "t": "str",
+                            "v": "."
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "k": "assign",
+                  "op": "+=",
+                  "target": "devVersion",
+                  "value": {
+                    "t": "str",
+                    "v": "dev0"
+                  }
+                },
+                {
+                  "k": "assign",
+                  "op": "+=",
+                  "target": "devVersion",
+                  "value": {
+                    "t": "gstr",
+                    "v": "\"+git${commitHash}.${currentBuild.startTimeInMillis}.${currentBuild.number}\"",
+                    "vars": [
+                      "{commitHash}",
+                      "{currentBuild.startTimeInMillis}",
+                      "{currentBuild.number}"
+                    ]
+                  }
+                },
+                {
+                  "k": "return",
+                  "value": {
+                    "t": "var",
+                    "name": "devVersion"
+                  }
+                }
+              ]
+            }
           },
           "category": "dynamic",
           "source": "getDevVersion = ",
@@ -706,7 +1070,20 @@
           "name": "<assign>",
           "line": 276,
           "named": {
-            "_target": "customizeVersion"
+            "_target": "customizeVersion",
+            "_value": {
+              "t": "closure",
+              "params": [
+                "semverFormatVersion"
+              ],
+              "body": [
+                {
+                  "k": "expr",
+                  "kind": "VariableExpression",
+                  "text": "semverFormatVersion"
+                }
+              ]
+            }
           },
           "category": "dynamic",
           "source": "customizeVersion = ",
@@ -716,7 +1093,22 @@
           "name": "<assign>",
           "line": 280,
           "named": {
-            "_target": "publishArtifactoryBuildInfoScript"
+            "_target": "publishArtifactoryBuildInfoScript",
+            "_value": {
+              "t": "closure",
+              "body": [
+                {
+                  "k": "call",
+                  "name": "sh",
+                  "args": [
+                    {
+                      "t": "str",
+                      "v": "./scripts/publish_buildinfo.sh"
+                    }
+                  ]
+                }
+              ]
+            }
           },
           "category": "dynamic",
           "source": "publishArtifactoryBuildInfoScript = ",
@@ -726,7 +1118,81 @@
           "name": "<assign>",
           "line": 285,
           "named": {
-            "_target": "publishArtifactoryBuildInfo"
+            "_target": "publishArtifactoryBuildInfo",
+            "_value": {
+              "t": "closure",
+              "body": [
+                {
+                  "k": "call",
+                  "name": "rtBuildInfo",
+                  "named": {
+                    "buildName": {
+                      "t": "gstr",
+                      "v": "\"${env.BUILD_NAME}\"",
+                      "vars": [
+                        "{env.BUILD_NAME}"
+                      ]
+                    },
+                    "buildNumber": {
+                      "t": "gstr",
+                      "v": "\"${env.BUILD_NUMBER}\"",
+                      "vars": [
+                        "{env.BUILD_NUMBER}"
+                      ]
+                    },
+                    "includeEnvPatterns": {
+                      "t": "list",
+                      "v": [
+                        {
+                          "t": "str",
+                          "v": "BRANCH_NAME"
+                        }
+                      ]
+                    },
+                    "maxDays": {
+                      "t": "num",
+                      "v": 90
+                    },
+                    "deleteBuildArtifacts": {
+                      "t": "bool",
+                      "v": true
+                    },
+                    "asyncBuildRetention": {
+                      "t": "bool",
+                      "v": true
+                    }
+                  }
+                },
+                {
+                  "k": "call",
+                  "name": "rtPublishBuildInfo",
+                  "named": {
+                    "buildName": {
+                      "t": "gstr",
+                      "v": "\"${env.BUILD_NAME}\"",
+                      "vars": [
+                        "{env.BUILD_NAME}"
+                      ]
+                    },
+                    "buildNumber": {
+                      "t": "gstr",
+                      "v": "\"${env.BUILD_NUMBER}\"",
+                      "vars": [
+                        "{env.BUILD_NUMBER}"
+                      ]
+                    },
+                    "serverId": {
+                      "t": "str",
+                      "v": "taas-artifactory-upload"
+                    }
+                  }
+                },
+                {
+                  "k": "call",
+                  "name": "publishArtifactoryBuildInfoScript"
+                }
+              ]
+            }
           },
           "category": "dynamic",
           "source": "publishArtifactoryBuildInfo = ",
@@ -736,7 +1202,38 @@
           "name": "<assign>",
           "line": 303,
           "named": {
-            "_target": "scanCode"
+            "_target": "scanCode",
+            "_value": {
+              "t": "closure",
+              "body": [
+                {
+                  "k": "call",
+                  "name": "withSonarQubeEnv",
+                  "named": {
+                    "installationName": {
+                      "t": "str",
+                      "v": "SonarQubeServer"
+                    }
+                  },
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "sh",
+                      "args": [
+                        {
+                          "t": "gstr",
+                          "v": "\"${scannerHome}/bin/sonar-scanner -Dsonar.qualitygate.wait=true -Dsonar.projectKey=cloudant-${libName}-sdk -Dsonar.exclusions=examples/**\"",
+                          "vars": [
+                            "{scannerHome}",
+                            "{libName}"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
           },
           "category": "dynamic",
           "source": "scanCode = ",
@@ -751,7 +1248,11 @@
           "line": 318,
           "named": {
             "_target": "libName",
-            "_literal": "node"
+            "_literal": "node",
+            "_value": {
+              "t": "str",
+              "v": "node"
+            }
           },
           "category": "dynamic",
           "source": "libName = node",
@@ -761,7 +1262,151 @@
           "name": "<assign>",
           "line": 319,
           "named": {
-            "_target": "bumpVersion"
+            "_target": "bumpVersion",
+            "_value": {
+              "t": "closure",
+              "params": [
+                "isDevRelease"
+              ],
+              "body": [
+                {
+                  "k": "call",
+                  "name": "withCredentials",
+                  "args": [
+                    {
+                      "t": "list",
+                      "v": [
+                        {
+                          "t": "call",
+                          "call": {
+                            "k": "call",
+                            "name": "usernamePassword",
+                            "named": {
+                              "usernameVariable": {
+                                "t": "str",
+                                "v": "NPMRC_USER"
+                              },
+                              "passwordVariable": {
+                                "t": "str",
+                                "v": "NPMRC_TOKEN"
+                              },
+                              "credentialsId": {
+                                "t": "str",
+                                "v": "artifactory"
+                              }
+                            }
+                          }
+                        }
+                      ]
+                    }
+                  ],
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "withEnv",
+                      "args": [
+                        {
+                          "t": "list",
+                          "v": [
+                            {
+                              "t": "concat",
+                              "parts": [
+                                {
+                                  "t": "str",
+                                  "v": "NPMRC_EMAIL="
+                                },
+                                {
+                                  "t": "prop",
+                                  "text": "env.NPMRC_USER"
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ],
+                      "body": [
+                        {
+                          "k": "call",
+                          "name": "withNpmEnv",
+                          "args": [
+                            {
+                              "t": "var",
+                              "name": "registryArtifactoryDown"
+                            }
+                          ],
+                          "body": [
+                            {
+                              "k": "call",
+                              "name": "sh",
+                              "args": [
+                                {
+                                  "t": "str",
+                                  "v": "npm ci --no-audit"
+                                }
+                              ]
+                            },
+                            {
+                              "k": "assign",
+                              "op": "=",
+                              "target": "newVersion",
+                              "value": {
+                                "t": "call",
+                                "call": {
+                                  "k": "call",
+                                  "name": "getNewVersion",
+                                  "args": [
+                                    {
+                                      "t": "var",
+                                      "name": "isDevRelease"
+                                    }
+                                  ]
+                                }
+                              }
+                            },
+                            {
+                              "k": "call",
+                              "name": "sh",
+                              "args": [
+                                {
+                                  "t": "gstr",
+                                  "v": "\"npm version ${isDevRelease ? '--no-git-tag-version' : '-m \"Update version -> %s\"'} ${newVersion}\"",
+                                  "vars": [
+                                    "{isDevRelease ? '--no-git-tag-version' : '-m \"Update version -> %s\"'}",
+                                    "{newVersion}"
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "k": "assign",
+                              "op": "=",
+                              "target": "env.NEW_SDK_VERSION ",
+                              "value": {
+                                "t": "call",
+                                "call": {
+                                  "k": "call",
+                                  "name": "sh",
+                                  "named": {
+                                    "returnStdout": {
+                                      "t": "bool",
+                                      "v": true
+                                    },
+                                    "script": {
+                                      "t": "str",
+                                      "v": "jq -j .version package.json"
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
           },
           "category": "dynamic",
           "source": "bumpVersion = ",
@@ -771,7 +1416,30 @@
           "name": "<assign>",
           "line": 336,
           "named": {
-            "_target": "customizeVersion"
+            "_target": "customizeVersion",
+            "_value": {
+              "t": "closure",
+              "params": [
+                "semverFormatVersion"
+              ],
+              "body": [
+                {
+                  "k": "call",
+                  "name": "replace",
+                  "args": [
+                    {
+                      "t": "str",
+                      "v": "+"
+                    },
+                    {
+                      "t": "str",
+                      "v": "."
+                    }
+                  ],
+                  "receiver": "semverFormatVersion"
+                }
+              ]
+            }
           },
           "category": "dynamic",
           "source": "customizeVersion = ",
@@ -781,7 +1449,46 @@
           "name": "<assign>",
           "line": 342,
           "named": {
-            "_target": "customizePublishingInfo"
+            "_target": "customizePublishingInfo",
+            "_value": {
+              "t": "closure",
+              "body": [
+                {
+                  "k": "assign",
+                  "op": "=",
+                  "target": "buildType",
+                  "value": {
+                    "t": "str",
+                    "v": "GENERIC"
+                  }
+                },
+                {
+                  "k": "assign",
+                  "op": "=",
+                  "target": "artifactUrl",
+                  "value": {
+                    "t": "gstr",
+                    "v": "\"${STAGE_ROOT}storage/cloudant-sdks-npm-local/@ibm-cloud/cloudant/-/@ibm-cloud/cloudant-${env.NEW_SDK_VERSION}.tgz\"",
+                    "vars": [
+                      "{STAGE_ROOT}",
+                      "{env.NEW_SDK_VERSION}"
+                    ]
+                  }
+                },
+                {
+                  "k": "assign",
+                  "op": "=",
+                  "target": "moduleId",
+                  "value": {
+                    "t": "gstr",
+                    "v": "\"ibm-cloud:cloudant:${env.NEW_SDK_VERSION}\"",
+                    "vars": [
+                      "{env.NEW_SDK_VERSION}"
+                    ]
+                  }
+                }
+              ]
+            }
           },
           "category": "dynamic",
           "source": "customizePublishingInfo = ",

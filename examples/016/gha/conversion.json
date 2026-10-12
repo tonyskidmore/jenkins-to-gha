@@ -1,12 +1,20 @@
 {
   "counts": {
-    "manual": 8,
-    "approximated": 8,
-    "mapped": 3,
+    "manual": 7,
+    "approximated": 7,
+    "mapped": 5,
     "info": 1
   },
-  "automation_pct": 41.1,
+  "automation_pct": 48.4,
   "items": [
+    {
+      "jenkins": "assign APP_ID = ",
+      "line": 12,
+      "stage": "",
+      "status": "mapped",
+      "gha": "run: $GITHUB_ENV",
+      "note": "later steps of the job read the variable"
+    },
     {
       "jenkins": "checkout scm",
       "line": 15,
@@ -30,6 +38,14 @@
       "status": "mapped",
       "gha": "secrets -> step env",
       "note": ""
+    },
+    {
+      "jenkins": "assign APP_ID = sh(script: 'curl -u $BROWSERSTACK_CREDS -",
+      "line": 27,
+      "stage": "install ipa in browserstack",
+      "status": "mapped",
+      "gha": "run step; its output goes to $GITHUB_ENV",
+      "note": "later steps of the job read the variable"
     },
     {
       "jenkins": "(no pipeline timeout)",
@@ -62,14 +78,6 @@
       "status": "approximated",
       "gha": "run",
       "note": ""
-    },
-    {
-      "jenkins": "assign APP_ID = sh(script: 'curl -u $BROWSERSTACK_CREDS -",
-      "line": 27,
-      "stage": "install ipa in browserstack",
-      "status": "approximated",
-      "gha": "run step (captured output not propagated)",
-      "note": "write values to $GITHUB_OUTPUT/$GITHUB_ENV"
     },
     {
       "jenkins": "sh",
@@ -144,14 +152,6 @@
       "note": "Groovy method / helper call - port logic to a script"
     },
     {
-      "jenkins": "assign APP_ID = ",
-      "line": 12,
-      "stage": "",
-      "status": "manual",
-      "gha": "-",
-      "note": "Groovy variable assignment"
-    },
-    {
       "jenkins": "browserstack",
       "line": 32,
       "stage": "test",
@@ -177,12 +177,12 @@
     "main": {
       "name": "main",
       "runs-on": "ubuntu-latest",
-      "steps": 10,
+      "steps": 11,
       "matrix": false
     }
   },
   "notes": [],
   "handoff": {},
   "source_sha256": "668476e41272bc046daf8622e298b91d122b4fdaf5aad8c6804ae053b7025ca7",
-  "model_sha256": "2f705a335fe1acf149e69ec83f7968da0f103c300200009e55748a2b540eb771"
+  "model_sha256": "66c3c1e11d4450aef583412cfac2e9c62ff6217e27892ba4a30e44a285efa9a2"
 }

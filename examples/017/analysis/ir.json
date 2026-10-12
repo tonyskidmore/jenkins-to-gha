@@ -53,7 +53,10 @@
                   "name": "<assign>",
                   "line": 179,
                   "named": {
-                    "_target": "shouldLoadDbData"
+                    "_target": "shouldLoadDbData",
+                    "_value": {
+                      "t": "bool"
+                    }
                   },
                   "category": "dynamic",
                   "source": "shouldLoadDbData = False",
@@ -93,7 +96,20 @@
                   "name": "<assign>",
                   "line": 184,
                   "named": {
-                    "_target": "shouldLoadDbData"
+                    "_target": "shouldLoadDbData",
+                    "_value": {
+                      "t": "call",
+                      "call": {
+                        "k": "call",
+                        "name": "isAnyDbTableMissing",
+                        "args": [
+                          {
+                            "t": "var",
+                            "name": "params"
+                          }
+                        ]
+                      }
+                    }
                   },
                   "body": [
                     {
@@ -137,7 +153,11 @@
                       "name": "<assign>",
                       "line": 192,
                       "named": {
-                        "_target": "buildUser"
+                        "_target": "buildUser",
+                        "_value": {
+                          "t": "prop",
+                          "text": "env.BUILD_USER "
+                        }
                       },
                       "category": "dynamic",
                       "source": "buildUser = env.BUILD_USER ",
@@ -150,7 +170,27 @@
                   "name": "<decl>",
                   "line": 193,
                   "named": {
-                    "_target": "output"
+                    "_target": "output",
+                    "_value": {
+                      "t": "call",
+                      "call": {
+                        "k": "call",
+                        "name": "awsCli",
+                        "args": [
+                          {
+                            "t": "str",
+                            "v": "aws sts get-caller-identity --query 'Account' --output text"
+                          }
+                        ],
+                        "receiver": "getAwsFunctions()",
+                        "receiverCalls": [
+                          {
+                            "k": "call",
+                            "name": "getAwsFunctions"
+                          }
+                        ]
+                      }
+                    }
                   },
                   "body": [
                     {
@@ -187,7 +227,15 @@
                   "name": "<assign>",
                   "line": 200,
                   "named": {
-                    "_target": "accountId"
+                    "_target": "accountId",
+                    "_value": {
+                      "t": "call",
+                      "call": {
+                        "k": "call",
+                        "name": "trim",
+                        "receiver": "output.stdout"
+                      }
+                    }
                   },
                   "body": [
                     {
@@ -205,7 +253,17 @@
                   "name": "<assign>",
                   "line": 201,
                   "named": {
-                    "_target": "projectBucketPrefix"
+                    "_target": "projectBucketPrefix",
+                    "_value": {
+                      "t": "gstr",
+                      "v": "\"${project}-${accountId}-${globalValuesFactory.AWS_REGION}-${params.environment}\"",
+                      "vars": [
+                        "{project}",
+                        "{accountId}",
+                        "{globalValuesFactory.AWS_REGION}",
+                        "{params.environment}"
+                      ]
+                    }
                   },
                   "category": "dynamic",
                   "source": "projectBucketPrefix = ${project}-${accountId}-${globalValuesFactory.AWS_REGION}-${params.environment}",
@@ -215,7 +273,31 @@
                   "name": "<decl>",
                   "line": 202,
                   "named": {
-                    "_target": "releaseTimestamp"
+                    "_target": "releaseTimestamp",
+                    "_value": {
+                      "t": "call",
+                      "call": {
+                        "k": "call",
+                        "name": "trim",
+                        "receiver": "sh(script: 'date +%Y%m%d%H%M%S', returnStdout: true)",
+                        "receiverCalls": [
+                          {
+                            "k": "call",
+                            "name": "sh",
+                            "named": {
+                              "script": {
+                                "t": "str",
+                                "v": "date +%Y%m%d%H%M%S"
+                              },
+                              "returnStdout": {
+                                "t": "bool",
+                                "v": true
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
                   },
                   "body": [
                     {
@@ -237,7 +319,15 @@
                   "name": "<assign>",
                   "line": 203,
                   "named": {
-                    "_target": "manifestVersion"
+                    "_target": "manifestVersion",
+                    "_value": {
+                      "t": "gstr",
+                      "v": "\"${releaseTimestamp}_${env.BUILD_NUMBER}\"",
+                      "vars": [
+                        "{releaseTimestamp}",
+                        "{env.BUILD_NUMBER}"
+                      ]
+                    }
                   },
                   "category": "dynamic",
                   "source": "manifestVersion = ${releaseTimestamp}_${env.BUILD_NUMBER}",
@@ -247,7 +337,18 @@
                   "name": "<assign>",
                   "line": 204,
                   "named": {
-                    "_target": "currentBuild.description"
+                    "_target": "currentBuild.description",
+                    "_value": {
+                      "t": "gstr",
+                      "v": "\"CVR ${params.action} <br/> Branch: ${params.branch} <br/> Env: ${params.environment} <br/> Manifest: ${manifestVersion} <br/> ${buildUser}\"",
+                      "vars": [
+                        "{params.action}",
+                        "{params.branch}",
+                        "{params.environment}",
+                        "{manifestVersion}",
+                        "{buildUser}"
+                      ]
+                    }
                   },
                   "category": "dynamic",
                   "source": "currentBuild.description = CVR ${params.action} <br/> Branch: ${params.branch} <br/> Env: ${params.environment} <br/> Manifest: ${manifestVersion} <br/> ${buildUser}",
@@ -291,7 +392,14 @@
                                 "name": "<assign>",
                                 "line": 230,
                                 "named": {
-                                  "_target": "s3DeploymentBucket"
+                                  "_target": "s3DeploymentBucket",
+                                  "_value": {
+                                    "t": "gstr",
+                                    "v": "\"${projectBucketPrefix}-deployment\"",
+                                    "vars": [
+                                      "{projectBucketPrefix}"
+                                    ]
+                                  }
                                 },
                                 "category": "dynamic",
                                 "source": "s3DeploymentBucket = ${projectBucketPrefix}-deployment",
@@ -384,7 +492,45 @@
                       "name": "<decl>",
                       "line": 253,
                       "named": {
-                        "_target": "backendRevision"
+                        "_target": "backendRevision",
+                        "_value": {
+                          "t": "call",
+                          "call": {
+                            "k": "call",
+                            "name": "getOutputOrFail",
+                            "args": [
+                              {
+                                "t": "call",
+                                "call": {
+                                  "k": "call",
+                                  "name": "getRevision",
+                                  "args": [
+                                    {
+                                      "t": "gstr",
+                                      "v": "\"${env.WORKSPACE}/${github.cvr_app.name}\"",
+                                      "vars": [
+                                        "{env.WORKSPACE}",
+                                        "{github.cvr_app.name}"
+                                      ]
+                                    },
+                                    {
+                                      "t": "var",
+                                      "name": "backendAppName"
+                                    }
+                                  ],
+                                  "receiver": "repoFunctionsFactory"
+                                }
+                              },
+                              {
+                                "t": "gstr",
+                                "v": "\"Failure while calculating ${backendAppName} revision\"",
+                                "vars": [
+                                  "{backendAppName}"
+                                ]
+                              }
+                            ]
+                          }
+                        }
                       },
                       "body": [
                         {
@@ -406,7 +552,45 @@
                       "name": "<decl>",
                       "line": 256,
                       "named": {
-                        "_target": "frontendRevision"
+                        "_target": "frontendRevision",
+                        "_value": {
+                          "t": "call",
+                          "call": {
+                            "k": "call",
+                            "name": "getOutputOrFail",
+                            "args": [
+                              {
+                                "t": "call",
+                                "call": {
+                                  "k": "call",
+                                  "name": "getRevision",
+                                  "args": [
+                                    {
+                                      "t": "gstr",
+                                      "v": "\"${env.WORKSPACE}/${github.cvr_app.name}\"",
+                                      "vars": [
+                                        "{env.WORKSPACE}",
+                                        "{github.cvr_app.name}"
+                                      ]
+                                    },
+                                    {
+                                      "t": "var",
+                                      "name": "frontendAppName"
+                                    }
+                                  ],
+                                  "receiver": "repoFunctionsFactory"
+                                }
+                              },
+                              {
+                                "t": "gstr",
+                                "v": "\"Failure while calculating ${frontendAppName} revision\"",
+                                "vars": [
+                                  "{frontendAppName}"
+                                ]
+                              }
+                            ]
+                          }
+                        }
                       },
                       "body": [
                         {
@@ -428,7 +612,45 @@
                       "name": "<decl>",
                       "line": 259,
                       "named": {
-                        "_target": "commonsRevision"
+                        "_target": "commonsRevision",
+                        "_value": {
+                          "t": "call",
+                          "call": {
+                            "k": "call",
+                            "name": "getOutputOrFail",
+                            "args": [
+                              {
+                                "t": "call",
+                                "call": {
+                                  "k": "call",
+                                  "name": "getRevision",
+                                  "args": [
+                                    {
+                                      "t": "gstr",
+                                      "v": "\"${env.WORKSPACE}/${github.cvr_app.name}\"",
+                                      "vars": [
+                                        "{env.WORKSPACE}",
+                                        "{github.cvr_app.name}"
+                                      ]
+                                    },
+                                    {
+                                      "t": "var",
+                                      "name": "commonModuleName"
+                                    }
+                                  ],
+                                  "receiver": "repoFunctionsFactory"
+                                }
+                              },
+                              {
+                                "t": "gstr",
+                                "v": "\"Failure while calculating ${commonModuleName} revision\"",
+                                "vars": [
+                                  "{commonModuleName}"
+                                ]
+                              }
+                            ]
+                          }
+                        }
                       },
                       "body": [
                         {
@@ -450,7 +672,45 @@
                       "name": "<decl>",
                       "line": 262,
                       "named": {
-                        "_target": "dataUpdateRevision"
+                        "_target": "dataUpdateRevision",
+                        "_value": {
+                          "t": "call",
+                          "call": {
+                            "k": "call",
+                            "name": "getOutputOrFail",
+                            "args": [
+                              {
+                                "t": "call",
+                                "call": {
+                                  "k": "call",
+                                  "name": "getRevision",
+                                  "args": [
+                                    {
+                                      "t": "gstr",
+                                      "v": "\"${env.WORKSPACE}/${github.cvr_app.name}\"",
+                                      "vars": [
+                                        "{env.WORKSPACE}",
+                                        "{github.cvr_app.name}"
+                                      ]
+                                    },
+                                    {
+                                      "t": "var",
+                                      "name": "dataUpdateModuleName"
+                                    }
+                                  ],
+                                  "receiver": "repoFunctionsFactory"
+                                }
+                              },
+                              {
+                                "t": "gstr",
+                                "v": "\"Failure while calculating ${dataUpdateModuleName} revision\"",
+                                "vars": [
+                                  "{dataUpdateModuleName}"
+                                ]
+                              }
+                            ]
+                          }
+                        }
                       },
                       "body": [
                         {
@@ -472,7 +732,11 @@
                       "name": "<decl>",
                       "line": 265,
                       "named": {
-                        "_target": "isNewCommonsRevision"
+                        "_target": "isNewCommonsRevision",
+                        "_value": {
+                          "t": "bool",
+                          "v": true
+                        }
                       },
                       "category": "dynamic",
                       "source": "isNewCommonsRevision = True",
@@ -482,7 +746,30 @@
                       "name": "<decl>",
                       "line": 267,
                       "named": {
-                        "_target": "manifestsListing"
+                        "_target": "manifestsListing",
+                        "_value": {
+                          "t": "call",
+                          "call": {
+                            "k": "call",
+                            "name": "awsCli",
+                            "args": [
+                              {
+                                "t": "gstr",
+                                "v": "\"aws s3 ls ${s3DeploymentBucket}/manifests/\"",
+                                "vars": [
+                                  "{s3DeploymentBucket}"
+                                ]
+                              }
+                            ],
+                            "receiver": "getAwsFunctions()",
+                            "receiverCalls": [
+                              {
+                                "k": "call",
+                                "name": "getAwsFunctions"
+                              }
+                            ]
+                          }
+                        }
                       },
                       "body": [
                         {
@@ -517,7 +804,20 @@
                             "name": "<assign>",
                             "line": 288,
                             "named": {
-                              "_target": "manifestContent"
+                              "_target": "manifestContent",
+                              "_value": {
+                                "t": "call",
+                                "call": {
+                                  "k": "call",
+                                  "name": "readJSON",
+                                  "named": {
+                                    "text": {
+                                      "t": "str",
+                                      "v": "{}"
+                                    }
+                                  }
+                                }
+                              }
                             },
                             "body": [
                               {
@@ -537,7 +837,11 @@
                             "name": "<assign>",
                             "line": 289,
                             "named": {
-                              "_target": "isNewVersion[frontendAppName]"
+                              "_target": "isNewVersion[frontendAppName]",
+                              "_value": {
+                                "t": "bool",
+                                "v": true
+                              }
                             },
                             "category": "dynamic",
                             "source": "isNewVersion[frontendAppName] = True",
@@ -547,7 +851,11 @@
                             "name": "<assign>",
                             "line": 290,
                             "named": {
-                              "_target": "isNewVersion[backendAppName]"
+                              "_target": "isNewVersion[backendAppName]",
+                              "_value": {
+                                "t": "bool",
+                                "v": true
+                              }
                             },
                             "category": "dynamic",
                             "source": "isNewVersion[backendAppName] = True",
@@ -557,7 +865,11 @@
                             "name": "<assign>",
                             "line": 291,
                             "named": {
-                              "_target": "isNewVersion[dataUpdateModuleName]"
+                              "_target": "isNewVersion[dataUpdateModuleName]",
+                              "_value": {
+                                "t": "bool",
+                                "v": true
+                              }
                             },
                             "category": "dynamic",
                             "source": "isNewVersion[dataUpdateModuleName] = True",
@@ -570,7 +882,46 @@
                           "name": "<decl>",
                           "line": 269,
                           "named": {
-                            "_target": "latestManifestFile"
+                            "_target": "latestManifestFile",
+                            "_value": {
+                              "t": "expr",
+                              "kind": "BinaryExpression",
+                              "text": "manifestsListing.stdout.split('\\n').sort().last().split()[3]",
+                              "calls": [
+                                {
+                                  "k": "call",
+                                  "name": "split",
+                                  "receiver": "manifestsListing.stdout.split('\\n').sort().last()",
+                                  "receiverCalls": [
+                                    {
+                                      "k": "call",
+                                      "name": "last",
+                                      "receiver": "manifestsListing.stdout.split('\\n').sort()",
+                                      "receiverCalls": [
+                                        {
+                                          "k": "call",
+                                          "name": "sort",
+                                          "receiver": "manifestsListing.stdout.split('\\n')",
+                                          "receiverCalls": [
+                                            {
+                                              "k": "call",
+                                              "name": "split",
+                                              "args": [
+                                                {
+                                                  "t": "str",
+                                                  "v": "\n"
+                                                }
+                                              ],
+                                              "receiver": "manifestsListing.stdout"
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
                           },
                           "category": "dynamic",
                           "source": "latestManifestFile = manifestsListing.stdout.split('\\n').sort().last().split()[3]",
@@ -617,7 +968,24 @@
                           "name": "<assign>",
                           "line": 277,
                           "named": {
-                            "_target": "manifestContent"
+                            "_target": "manifestContent",
+                            "_value": {
+                              "t": "call",
+                              "call": {
+                                "k": "call",
+                                "name": "readJSON",
+                                "named": {
+                                  "file": {
+                                    "t": "gstr",
+                                    "v": "\"${env.WORKSPACE}/manifests/manifest_${manifestVersion}.json\"",
+                                    "vars": [
+                                      "{env.WORKSPACE}",
+                                      "{manifestVersion}"
+                                    ]
+                                  }
+                                }
+                              }
+                            }
                           },
                           "body": [
                             {
@@ -638,7 +1006,12 @@
                           "name": "<assign>",
                           "line": 279,
                           "named": {
-                            "_target": "isNewCommonsRevision"
+                            "_target": "isNewCommonsRevision",
+                            "_value": {
+                              "t": "expr",
+                              "kind": "BinaryExpression",
+                              "text": "commonsRevision != manifestContent.common_version"
+                            }
                           },
                           "category": "dynamic",
                           "source": "isNewCommonsRevision = commonsRevision != manifestContent.common_version",
@@ -648,7 +1021,24 @@
                           "name": "<assign>",
                           "line": 280,
                           "named": {
-                            "_target": "isNewVersion[frontendAppName]"
+                            "_target": "isNewVersion[frontendAppName]",
+                            "_value": {
+                              "t": "expr",
+                              "kind": "BinaryExpression",
+                              "text": "getRevisionFromArtifactName(manifestContent.frontend_version) != frontendRevision ||\n                      isNewCommonsRevision",
+                              "calls": [
+                                {
+                                  "k": "call",
+                                  "name": "getRevisionFromArtifactName",
+                                  "args": [
+                                    {
+                                      "t": "prop",
+                                      "text": "manifestContent.frontend_version"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
                           },
                           "category": "dynamic",
                           "source": "isNewVersion[frontendAppName] = getRevisionFromArtifactName(manifestContent.frontend_version) != frontendRevision ||\n                      isNewCommonsRevision",
@@ -658,7 +1048,24 @@
                           "name": "<assign>",
                           "line": 282,
                           "named": {
-                            "_target": "isNewVersion[backendAppName]"
+                            "_target": "isNewVersion[backendAppName]",
+                            "_value": {
+                              "t": "expr",
+                              "kind": "BinaryExpression",
+                              "text": "getRevisionFromArtifactName(manifestContent.backend_version) != backendRevision ||\n                      isNewCommonsRevision",
+                              "calls": [
+                                {
+                                  "k": "call",
+                                  "name": "getRevisionFromArtifactName",
+                                  "args": [
+                                    {
+                                      "t": "prop",
+                                      "text": "manifestContent.backend_version"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
                           },
                           "category": "dynamic",
                           "source": "isNewVersion[backendAppName] = getRevisionFromArtifactName(manifestContent.backend_version) != backendRevision ||\n                      isNewCommonsRevision",
@@ -668,7 +1075,24 @@
                           "name": "<assign>",
                           "line": 284,
                           "named": {
-                            "_target": "isNewVersion[dataUpdateModuleName]"
+                            "_target": "isNewVersion[dataUpdateModuleName]",
+                            "_value": {
+                              "t": "expr",
+                              "kind": "BinaryExpression",
+                              "text": "getRevisionFromArtifactName(manifestContent.data_update_version) != dataUpdateRevision ||\n                      isNewCommonsRevision",
+                              "calls": [
+                                {
+                                  "k": "call",
+                                  "name": "getRevisionFromArtifactName",
+                                  "args": [
+                                    {
+                                      "t": "prop",
+                                      "text": "manifestContent.data_update_version"
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
                           },
                           "category": "dynamic",
                           "source": "isNewVersion[dataUpdateModuleName] = getRevisionFromArtifactName(manifestContent.data_update_version) != dataUpdateRevision ||\n                      isNewCommonsRevision",
@@ -855,7 +1279,20 @@
                       "name": "<decl>",
                       "line": 336,
                       "named": {
-                        "_target": "revision"
+                        "_target": "revision",
+                        "_value": {
+                          "t": "call",
+                          "call": {
+                            "k": "call",
+                            "name": "getRevisionFromArtifactName",
+                            "args": [
+                              {
+                                "t": "prop",
+                                "text": "manifestContent.frontend_version"
+                              }
+                            ]
+                          }
+                        }
                       },
                       "body": [
                         {
@@ -886,7 +1323,15 @@
                       "name": "<decl>",
                       "line": 338,
                       "named": {
-                        "_target": "feVersion"
+                        "_target": "feVersion",
+                        "_value": {
+                          "t": "call",
+                          "call": {
+                            "k": "call",
+                            "name": "toString",
+                            "receiver": "\"${manifestVersion}_${revision}\""
+                          }
+                        }
                       },
                       "body": [
                         {
@@ -909,7 +1354,16 @@
                             "name": "<assign>",
                             "line": 343,
                             "named": {
-                              "_target": "frontendArtifact"
+                              "_target": "frontendArtifact",
+                              "_value": {
+                                "t": "gstr",
+                                "v": "\"${env.WORKSPACE}/${github.cvr_app.name}/${manifestContent.frontend_version}\"",
+                                "vars": [
+                                  "{env.WORKSPACE}",
+                                  "{github.cvr_app.name}",
+                                  "{manifestContent.frontend_version}"
+                                ]
+                              }
                             },
                             "category": "dynamic",
                             "source": "frontendArtifact = ${env.WORKSPACE}/${github.cvr_app.name}/${manifestContent.frontend_version}",
@@ -1011,7 +1465,20 @@
                       "name": "<decl>",
                       "line": 369,
                       "named": {
-                        "_target": "revision"
+                        "_target": "revision",
+                        "_value": {
+                          "t": "call",
+                          "call": {
+                            "k": "call",
+                            "name": "getRevisionFromArtifactName",
+                            "args": [
+                              {
+                                "t": "prop",
+                                "text": "manifestContent.backend_version"
+                              }
+                            ]
+                          }
+                        }
                       },
                       "body": [
                         {
@@ -1042,7 +1509,15 @@
                       "name": "<decl>",
                       "line": 371,
                       "named": {
-                        "_target": "backendVersion"
+                        "_target": "backendVersion",
+                        "_value": {
+                          "t": "call",
+                          "call": {
+                            "k": "call",
+                            "name": "toString",
+                            "receiver": "\"${manifestVersion}_${revision}\""
+                          }
+                        }
                       },
                       "body": [
                         {
@@ -1065,7 +1540,16 @@
                             "name": "<assign>",
                             "line": 376,
                             "named": {
-                              "_target": "backendArtifact"
+                              "_target": "backendArtifact",
+                              "_value": {
+                                "t": "gstr",
+                                "v": "\"${env.WORKSPACE}/${github.cvr_app.name}/${manifestContent.backend_version}\"",
+                                "vars": [
+                                  "{env.WORKSPACE}",
+                                  "{github.cvr_app.name}",
+                                  "{manifestContent.backend_version}"
+                                ]
+                              }
                             },
                             "category": "dynamic",
                             "source": "backendArtifact = ${env.WORKSPACE}/${github.cvr_app.name}/${manifestContent.backend_version}",
@@ -1151,7 +1635,10 @@
                   "name": "<decl>",
                   "line": 400,
                   "named": {
-                    "_target": "assetsVersion"
+                    "_target": "assetsVersion",
+                    "_value": {
+                      "t": "null"
+                    }
                   },
                   "category": "dynamic",
                   "source": "assetsVersion = null",
@@ -1175,7 +1662,20 @@
                           "name": "<assign>",
                           "line": 403,
                           "named": {
-                            "_target": "assetsVersion"
+                            "_target": "assetsVersion",
+                            "_value": {
+                              "t": "call",
+                              "call": {
+                                "k": "call",
+                                "name": "readFile",
+                                "args": [
+                                  {
+                                    "t": "str",
+                                    "v": "assets.version"
+                                  }
+                                ]
+                              }
+                            }
                           },
                           "body": [
                             {
@@ -1242,7 +1742,15 @@
                             "name": "<assign>",
                             "line": 421,
                             "named": {
-                              "_target": "assetsBasePath"
+                              "_target": "assetsBasePath",
+                              "_value": {
+                                "t": "gstr",
+                                "v": "\"${env.WORKSPACE}/${github.front_end.name}\"",
+                                "vars": [
+                                  "{env.WORKSPACE}",
+                                  "{github.front_end.name}"
+                                ]
+                              }
                             },
                             "category": "dynamic",
                             "source": "assetsBasePath = ${env.WORKSPACE}/${github.front_end.name}",
@@ -1252,7 +1760,34 @@
                             "name": "<decl>",
                             "line": 422,
                             "named": {
-                              "_target": "revision"
+                              "_target": "revision",
+                              "_value": {
+                                "t": "call",
+                                "call": {
+                                  "k": "call",
+                                  "name": "getOutputOrFail",
+                                  "args": [
+                                    {
+                                      "t": "call",
+                                      "call": {
+                                        "k": "call",
+                                        "name": "getRevision",
+                                        "args": [
+                                          {
+                                            "t": "prop",
+                                            "text": "github.front_end.name"
+                                          }
+                                        ],
+                                        "receiver": "repoFunctionsFactory"
+                                      }
+                                    },
+                                    {
+                                      "t": "str",
+                                      "v": "Failure while calculating assets revision"
+                                    }
+                                  ]
+                                }
+                              }
                             },
                             "body": [
                               {
@@ -1284,7 +1819,24 @@
                             "name": "<assign>",
                             "line": 427,
                             "named": {
-                              "_target": "isNewVersion['assets']"
+                              "_target": "isNewVersion['assets']",
+                              "_value": {
+                                "t": "expr",
+                                "kind": "BinaryExpression",
+                                "text": "getRevisionFromArtifactName(manifestContent.assets_version) != revision",
+                                "calls": [
+                                  {
+                                    "k": "call",
+                                    "name": "getRevisionFromArtifactName",
+                                    "args": [
+                                      {
+                                        "t": "prop",
+                                        "text": "manifestContent.assets_version"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
                             },
                             "category": "dynamic",
                             "source": "isNewVersion['assets'] = getRevisionFromArtifactName(manifestContent.assets_version) != revision",
@@ -1309,7 +1861,15 @@
                                   "name": "<decl>",
                                   "line": 439,
                                   "named": {
-                                    "_target": "assetsVer"
+                                    "_target": "assetsVer",
+                                    "_value": {
+                                      "t": "call",
+                                      "call": {
+                                        "k": "call",
+                                        "name": "toString",
+                                        "receiver": "\"assets-${manifestVersion}_${revision}.zip\""
+                                      }
+                                    }
                                   },
                                   "body": [
                                     {
@@ -1479,7 +2039,20 @@
                       "name": "<decl>",
                       "line": 468,
                       "named": {
-                        "_target": "revision"
+                        "_target": "revision",
+                        "_value": {
+                          "t": "call",
+                          "call": {
+                            "k": "call",
+                            "name": "getRevisionFromArtifactName",
+                            "args": [
+                              {
+                                "t": "prop",
+                                "text": "manifestContent.data_update_version"
+                              }
+                            ]
+                          }
+                        }
                       },
                       "body": [
                         {
@@ -1510,7 +2083,15 @@
                       "name": "<decl>",
                       "line": 470,
                       "named": {
-                        "_target": "dataUpdateVersion"
+                        "_target": "dataUpdateVersion",
+                        "_value": {
+                          "t": "call",
+                          "call": {
+                            "k": "call",
+                            "name": "toString",
+                            "receiver": "\"${manifestVersion}_${revision}\""
+                          }
+                        }
                       },
                       "body": [
                         {
@@ -1533,7 +2114,16 @@
                             "name": "<assign>",
                             "line": 475,
                             "named": {
-                              "_target": "dataUpdateArtifact"
+                              "_target": "dataUpdateArtifact",
+                              "_value": {
+                                "t": "gstr",
+                                "v": "\"${env.WORKSPACE}/${github.cvr_app.name}/${manifestContent.data_update_version}\"",
+                                "vars": [
+                                  "{env.WORKSPACE}",
+                                  "{github.cvr_app.name}",
+                                  "{manifestContent.data_update_version}"
+                                ]
+                              }
                             },
                             "category": "dynamic",
                             "source": "dataUpdateArtifact = ${env.WORKSPACE}/${github.cvr_app.name}/${manifestContent.data_update_version}",
@@ -1870,7 +2460,14 @@
                       "name": "<decl>",
                       "line": 550,
                       "named": {
-                        "_target": "frontendTfVar"
+                        "_target": "frontendTfVar",
+                        "_value": {
+                          "t": "gstr",
+                          "v": "\"-var lambda_frontend_s3_key=${manifestContent?.frontend_version}\"",
+                          "vars": [
+                            "{manifestContent?.frontend_version}"
+                          ]
+                        }
                       },
                       "category": "dynamic",
                       "source": "frontendTfVar = -var lambda_frontend_s3_key=${manifestContent?.frontend_version}",
@@ -1880,7 +2477,14 @@
                       "name": "<decl>",
                       "line": 551,
                       "named": {
-                        "_target": "backendTfVar"
+                        "_target": "backendTfVar",
+                        "_value": {
+                          "t": "gstr",
+                          "v": "\"-var lambda_backend_s3_key=${manifestContent?.backend_version}\"",
+                          "vars": [
+                            "{manifestContent?.backend_version}"
+                          ]
+                        }
                       },
                       "category": "dynamic",
                       "source": "backendTfVar = -var lambda_backend_s3_key=${manifestContent?.backend_version}",
@@ -1890,7 +2494,14 @@
                       "name": "<decl>",
                       "line": 552,
                       "named": {
-                        "_target": "dataUpdateTfVar"
+                        "_target": "dataUpdateTfVar",
+                        "_value": {
+                          "t": "gstr",
+                          "v": "\"-var lambda_data_update_s3_key=${manifestContent?.data_update_version}\"",
+                          "vars": [
+                            "{manifestContent?.data_update_version}"
+                          ]
+                        }
                       },
                       "category": "dynamic",
                       "source": "dataUpdateTfVar = -var lambda_data_update_s3_key=${manifestContent?.data_update_version}",
@@ -1900,7 +2511,15 @@
                       "name": "<decl>",
                       "line": 553,
                       "named": {
-                        "_target": "tfLambdaParams"
+                        "_target": "tfLambdaParams",
+                        "_value": {
+                          "t": "call",
+                          "call": {
+                            "k": "call",
+                            "name": "toString",
+                            "receiver": "\"${frontendTfVar} ${backendTfVar} ${dataUpdateTfVar}\""
+                          }
+                        }
                       },
                       "body": [
                         {
@@ -1927,7 +2546,14 @@
                                 "name": "<decl>",
                                 "line": 570,
                                 "named": {
-                                  "_target": "frontendCustomDomain"
+                                  "_target": "frontendCustomDomain",
+                                  "_value": {
+                                    "t": "gstr",
+                                    "v": "\"${params.environment}.dev.check-vehicle-recalls.service.gov.uk\"",
+                                    "vars": [
+                                      "{params.environment}"
+                                    ]
+                                  }
                                 },
                                 "category": "dynamic",
                                 "source": "frontendCustomDomain = ${params.environment}.dev.check-vehicle-recalls.service.gov.uk",
@@ -1942,7 +2568,14 @@
                                       "name": "<decl>",
                                       "line": 575,
                                       "named": {
-                                        "_target": "frontendCustomDevDomain"
+                                        "_target": "frontendCustomDevDomain",
+                                        "_value": {
+                                          "t": "gstr",
+                                          "v": "\"dev-${params.environment}.dev.check-vehicle-recalls.service.gov.uk\"",
+                                          "vars": [
+                                            "{params.environment}"
+                                          ]
+                                        }
                                       },
                                       "category": "dynamic",
                                       "source": "frontendCustomDevDomain = dev-${params.environment}.dev.check-vehicle-recalls.service.gov.uk",
@@ -1957,7 +2590,30 @@
                                             "name": "<decl>",
                                             "line": 580,
                                             "named": {
-                                              "_target": "output"
+                                              "_target": "output",
+                                              "_value": {
+                                                "t": "call",
+                                                "call": {
+                                                  "k": "call",
+                                                  "name": "awsCli",
+                                                  "args": [
+                                                    {
+                                                      "t": "gstr",
+                                                      "v": "\"aws apigateway get-rest-apis --query='items[?name == `${frontendApigwName}`].id | [0]' | jq '.' -r\"\n                      ",
+                                                      "vars": [
+                                                        "{frontendApigwName}"
+                                                      ]
+                                                    }
+                                                  ],
+                                                  "receiver": "getAwsFunctions()",
+                                                  "receiverCalls": [
+                                                    {
+                                                      "k": "call",
+                                                      "name": "getAwsFunctions"
+                                                    }
+                                                  ]
+                                                }
+                                              }
                                             },
                                             "body": [
                                               {
@@ -1994,7 +2650,23 @@
                                             "name": "<assign>",
                                             "line": 588,
                                             "named": {
-                                              "_target": "recallsApiGwUrl"
+                                              "_target": "recallsApiGwUrl",
+                                              "_value": {
+                                                "t": "gstr",
+                                                "v": "\"https://${output.stdout.trim()}.execute-api.${globalValuesFactory.AWS_REGION}.amazonaws.com/${params.environment}\"",
+                                                "vars": [
+                                                  "{output.stdout.trim()}",
+                                                  "{globalValuesFactory.AWS_REGION}",
+                                                  "{params.environment}"
+                                                ],
+                                                "calls": [
+                                                  {
+                                                    "k": "call",
+                                                    "name": "trim",
+                                                    "receiver": "output.stdout"
+                                                  }
+                                                ]
+                                              }
                                             },
                                             "category": "dynamic",
                                             "source": "recallsApiGwUrl = https://${output.stdout.trim()}.execute-api.${globalValuesFactory.AWS_REGION}.amazonaws.com/${params.environment}",
@@ -2007,7 +2679,14 @@
                                           "name": "<assign>",
                                           "line": 577,
                                           "named": {
-                                            "_target": "recallsApiGwUrl"
+                                            "_target": "recallsApiGwUrl",
+                                            "_value": {
+                                              "t": "gstr",
+                                              "v": "\"https://${frontendCustomDevDomain}\"",
+                                              "vars": [
+                                                "{frontendCustomDevDomain}"
+                                              ]
+                                            }
                                           },
                                           "category": "dynamic",
                                           "source": "recallsApiGwUrl = https://${frontendCustomDevDomain}",
@@ -2025,7 +2704,14 @@
                                     "name": "<assign>",
                                     "line": 572,
                                     "named": {
-                                      "_target": "recallsApiGwUrl"
+                                      "_target": "recallsApiGwUrl",
+                                      "_value": {
+                                        "t": "gstr",
+                                        "v": "\"https://${frontendCustomDomain}\"",
+                                        "vars": [
+                                          "{frontendCustomDomain}"
+                                        ]
+                                      }
                                     },
                                     "category": "dynamic",
                                     "source": "recallsApiGwUrl = https://${frontendCustomDomain}",
@@ -2040,7 +2726,14 @@
                                 "name": "<assign>",
                                 "line": 592,
                                 "named": {
-                                  "_target": "s3AssetsBucket"
+                                  "_target": "s3AssetsBucket",
+                                  "_value": {
+                                    "t": "gstr",
+                                    "v": "\"${projectBucketPrefix}-assets\"",
+                                    "vars": [
+                                      "{projectBucketPrefix}"
+                                    ]
+                                  }
                                 },
                                 "category": "dynamic",
                                 "source": "s3AssetsBucket = ${projectBucketPrefix}-assets",
@@ -2578,7 +3271,30 @@
                         "name": "<decl>",
                         "line": 729,
                         "named": {
-                          "_target": "testStatus"
+                          "_target": "testStatus",
+                          "_value": {
+                            "t": "call",
+                            "call": {
+                              "k": "call",
+                              "name": "sh",
+                              "named": {
+                                "returnStatus": {
+                                  "t": "bool",
+                                  "v": true
+                                },
+                                "script": {
+                                  "t": "gstr",
+                                  "v": "\"\"\"\n                        mkdir -p ./${seleniumScreenshotsDir}\n\n                        ./gradlew clean build \\\n                          -Dtest.baseUrl=${recallsApiGwUrl}\\\n                          -Dtest.platform=linux \\\n                          -Dtest.browserName=firefox \\\n                          -Dtest.gridEnabled=selenium \\\n                          -Dtest.javascript.enabled=yes \\\n                          -Dtest.gridUrl=${params.selenium_hub_address} \\\n                          -Dtest.screenshots.error.enabled=yes \\\n                          -Dtest.screenshots.error.folder=./${seleniumScreenshotsDir}\n                      \"\"\"",
+                                  "vars": [
+                                    "{seleniumScreenshotsDir}",
+                                    "{recallsApiGwUrl}",
+                                    "{params.selenium_hub_address}",
+                                    "{seleniumScreenshotsDir}"
+                                  ]
+                                }
+                              }
+                            }
+                          }
                         },
                         "body": [
                           {
@@ -2858,7 +3574,11 @@
           "line": 60,
           "named": {
             "_target": "currentBuild.result",
-            "_literal": "FAILURE"
+            "_literal": "FAILURE",
+            "_value": {
+              "t": "str",
+              "v": "FAILURE"
+            }
           },
           "category": "dynamic",
           "source": "currentBuild.result = FAILURE",
@@ -3005,7 +3725,30 @@
           "name": "<decl>",
           "line": 99,
           "named": {
-            "_target": "response"
+            "_target": "response",
+            "_value": {
+              "t": "call",
+              "call": {
+                "k": "call",
+                "name": "awsCli",
+                "args": [
+                  {
+                    "t": "gstr",
+                    "v": "\"aws dynamodb describe-table --table-name ${tableName}\"\n  ",
+                    "vars": [
+                      "{tableName}"
+                    ]
+                  }
+                ],
+                "receiver": "getAwsFunctions()",
+                "receiverCalls": [
+                  {
+                    "k": "call",
+                    "name": "getAwsFunctions"
+                  }
+                ]
+              }
+            }
           },
           "body": [
             {
@@ -3063,7 +3806,30 @@
           "name": "<decl>",
           "line": 111,
           "named": {
-            "_target": "response"
+            "_target": "response",
+            "_value": {
+              "t": "call",
+              "call": {
+                "k": "call",
+                "name": "awsCli",
+                "args": [
+                  {
+                    "t": "gstr",
+                    "v": "\"aws dynamodb delete-table --table-name ${tableName}\"\n  ",
+                    "vars": [
+                      "{tableName}"
+                    ]
+                  }
+                ],
+                "receiver": "getAwsFunctions()",
+                "receiverCalls": [
+                  {
+                    "k": "call",
+                    "name": "getAwsFunctions"
+                  }
+                ]
+              }
+            }
           },
           "body": [
             {
@@ -3123,7 +3889,10 @@
           "name": "<decl>",
           "line": 122,
           "named": {
-            "_target": "isAnyTableMissing"
+            "_target": "isAnyTableMissing",
+            "_value": {
+              "t": "bool"
+            }
           },
           "category": "dynamic",
           "source": "isAnyTableMissing = False",
@@ -3141,7 +3910,11 @@
                   "name": "<assign>",
                   "line": 126,
                   "named": {
-                    "_target": "isAnyTableMissing"
+                    "_target": "isAnyTableMissing",
+                    "_value": {
+                      "t": "bool",
+                      "v": true
+                    }
                   },
                   "category": "dynamic",
                   "source": "isAnyTableMissing = True",
@@ -3221,7 +3994,30 @@
           "name": "<decl>",
           "line": 143,
           "named": {
-            "_target": "domainOutput"
+            "_target": "domainOutput",
+            "_value": {
+              "t": "call",
+              "call": {
+                "k": "call",
+                "name": "awsCli",
+                "args": [
+                  {
+                    "t": "gstr",
+                    "v": "\"aws cloudfront list-distributions --query 'DistributionList.Items[?contains(Aliases.Items,`${domainName}`)] | [0] ' --output text\"\n  ",
+                    "vars": [
+                      "{domainName}"
+                    ]
+                  }
+                ],
+                "receiver": "getAwsFunctions()",
+                "receiverCalls": [
+                  {
+                    "k": "call",
+                    "name": "getAwsFunctions"
+                  }
+                ]
+              }
+            }
           },
           "body": [
             {

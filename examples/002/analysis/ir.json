@@ -12,7 +12,10 @@
           "name": "<decl>",
           "line": 8,
           "named": {
-            "_target": "failFast"
+            "_target": "failFast",
+            "_value": {
+              "t": "bool"
+            }
           },
           "category": "dynamic",
           "source": "failFast = False",
@@ -22,7 +25,12 @@
           "name": "<decl>",
           "line": 9,
           "named": {
-            "_target": "numBuildToKeep"
+            "_target": "numBuildToKeep",
+            "_value": {
+              "t": "expr",
+              "kind": "TernaryExpression",
+              "text": "?"
+            }
           },
           "category": "dynamic",
           "source": "numBuildToKeep = ?",
@@ -32,7 +40,38 @@
           "name": "<decl>",
           "line": 16,
           "named": {
-            "_target": "axes"
+            "_target": "axes",
+            "_value": {
+              "t": "map",
+              "v": {
+                "platforms": {
+                  "t": "list",
+                  "v": [
+                    {
+                      "t": "str",
+                      "v": "linux"
+                    },
+                    {
+                      "t": "str",
+                      "v": "windows"
+                    }
+                  ]
+                },
+                "jdks": {
+                  "t": "list",
+                  "v": [
+                    {
+                      "t": "num",
+                      "v": 21
+                    },
+                    {
+                      "t": "num",
+                      "v": 25
+                    }
+                  ]
+                }
+              }
+            }
           },
           "category": "dynamic",
           "source": "axes = [platforms: [linux, windows], jdks: [21, 25]]",
@@ -92,7 +131,25 @@
                       "name": "<decl>",
                       "line": 34,
                       "named": {
-                        "_target": "launchableName"
+                        "_target": "launchableName",
+                        "_value": {
+                          "t": "call",
+                          "call": {
+                            "k": "call",
+                            "name": "replaceAll",
+                            "args": [
+                              {
+                                "t": "str",
+                                "v": "(%[0-9A-Fa-f]{2})+"
+                              },
+                              {
+                                "t": "str",
+                                "v": "-"
+                              }
+                            ],
+                            "receiver": "env.BUILD_TAG"
+                          }
+                        }
                       },
                       "body": [
                         {
@@ -127,7 +184,11 @@
                           "name": "<decl>",
                           "line": 37,
                           "named": {
-                            "_target": "("
+                            "_target": "(",
+                            "_value": {
+                              "t": "var",
+                              "name": "it"
+                            }
                           },
                           "category": "dynamic",
                           "source": "( = it",
@@ -152,7 +213,15 @@
                           "name": "<decl>",
                           "line": 41,
                           "named": {
-                            "_target": "sessionFile"
+                            "_target": "sessionFile",
+                            "_value": {
+                              "t": "gstr",
+                              "v": "\"launchable-session-${platform}-jdk${jdk}.txt\"",
+                              "vars": [
+                                "{platform}",
+                                "{jdk}"
+                              ]
+                            }
                           },
                           "category": "dynamic",
                           "source": "sessionFile = launchable-session-${platform}-jdk${jdk}.txt",
@@ -264,7 +333,10 @@
           "name": "<decl>",
           "line": 60,
           "named": {
-            "_target": "builds"
+            "_target": "builds",
+            "_value": {
+              "t": "map"
+            }
           },
           "category": "dynamic",
           "source": "builds = []",
@@ -278,7 +350,11 @@
               "name": "<decl>",
               "line": 63,
               "named": {
-                "_target": "("
+                "_target": "(",
+                "_value": {
+                  "t": "var",
+                  "name": "it"
+                }
               },
               "category": "dynamic",
               "source": "( = it",
@@ -303,7 +379,1207 @@
               "name": "<assign>",
               "line": 67,
               "named": {
-                "_target": "builds[\"${platform}-jdk${jdk}\"]"
+                "_target": "builds[\"${platform}-jdk${jdk}\"]",
+                "_value": {
+                  "t": "closure",
+                  "body": [
+                    {
+                      "k": "decl",
+                      "name": "agentContainerLabel",
+                      "value": {
+                        "t": "concat",
+                        "parts": [
+                          {
+                            "t": "str",
+                            "v": "maven-"
+                          },
+                          {
+                            "t": "var",
+                            "name": "jdk"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "k": "if",
+                      "cond": "platform == 'windows'",
+                      "then": [
+                        {
+                          "k": "assign",
+                          "op": "+=",
+                          "target": "agentContainerLabel",
+                          "value": {
+                            "t": "str",
+                            "v": "-windows"
+                          }
+                        }
+                      ]
+                    },
+                    {
+                      "k": "assign",
+                      "op": "+=",
+                      "target": "agentContainerLabel",
+                      "value": {
+                        "t": "str",
+                        "v": "-nonspot"
+                      }
+                    },
+                    {
+                      "k": "call",
+                      "name": "retry",
+                      "named": {
+                        "conditions": {
+                          "t": "list",
+                          "v": [
+                            {
+                              "t": "call",
+                              "call": {
+                                "k": "call",
+                                "name": "kubernetesAgent",
+                                "named": {
+                                  "handleNonKubernetes": {
+                                    "t": "bool",
+                                    "v": true
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "t": "call",
+                              "call": {
+                                "k": "call",
+                                "name": "nonresumable"
+                              }
+                            }
+                          ]
+                        },
+                        "count": {
+                          "t": "num",
+                          "v": 2
+                        }
+                      },
+                      "body": [
+                        {
+                          "k": "call",
+                          "name": "node",
+                          "args": [
+                            {
+                              "t": "var",
+                              "name": "agentContainerLabel"
+                            }
+                          ],
+                          "body": [
+                            {
+                              "k": "call",
+                              "name": "stage",
+                              "args": [
+                                {
+                                  "t": "gstr",
+                                  "v": "\"${platform.capitalize()} - JDK ${jdk} - Checkout\"",
+                                  "vars": [
+                                    "{platform.capitalize()}",
+                                    "{jdk}"
+                                  ],
+                                  "calls": [
+                                    {
+                                      "k": "call",
+                                      "name": "capitalize",
+                                      "receiver": "platform"
+                                    }
+                                  ]
+                                }
+                              ],
+                              "body": [
+                                {
+                                  "k": "call",
+                                  "name": "checkoutSCM",
+                                  "receiver": "infra"
+                                }
+                              ]
+                            },
+                            {
+                              "k": "decl",
+                              "name": "tmpDir",
+                              "value": {
+                                "t": "call",
+                                "call": {
+                                  "k": "call",
+                                  "name": "pwd",
+                                  "named": {
+                                    "tmp": {
+                                      "t": "bool",
+                                      "v": true
+                                    }
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "k": "decl",
+                              "name": "changelistF",
+                              "value": {
+                                "t": "gstr",
+                                "v": "\"${tmpDir}/changelist\"",
+                                "vars": [
+                                  "{tmpDir}"
+                                ]
+                              }
+                            },
+                            {
+                              "k": "decl",
+                              "name": "m2repo",
+                              "value": {
+                                "t": "gstr",
+                                "v": "\"${tmpDir}/m2repo\"",
+                                "vars": [
+                                  "{tmpDir}"
+                                ]
+                              }
+                            },
+                            {
+                              "k": "decl",
+                              "name": "session",
+                              "value": {
+                                "t": "expr",
+                                "kind": "EmptyExpression",
+                                "text": "<not implemented yet for class: org.codehaus.groovy.ast.expr.EmptyExpression>"
+                              }
+                            },
+                            {
+                              "k": "call",
+                              "name": "stage",
+                              "args": [
+                                {
+                                  "t": "gstr",
+                                  "v": "\"${platform.capitalize()} - JDK ${jdk} - Build / Test\"",
+                                  "vars": [
+                                    "{platform.capitalize()}",
+                                    "{jdk}"
+                                  ],
+                                  "calls": [
+                                    {
+                                      "k": "call",
+                                      "name": "capitalize",
+                                      "receiver": "platform"
+                                    }
+                                  ]
+                                }
+                              ],
+                              "body": [
+                                {
+                                  "k": "call",
+                                  "name": "timeout",
+                                  "named": {
+                                    "time": {
+                                      "t": "num",
+                                      "v": 6
+                                    },
+                                    "unit": {
+                                      "t": "str",
+                                      "v": "HOURS"
+                                    }
+                                  },
+                                  "body": [
+                                    {
+                                      "k": "call",
+                                      "name": "dir",
+                                      "args": [
+                                        {
+                                          "t": "var",
+                                          "name": "tmpDir"
+                                        }
+                                      ],
+                                      "body": [
+                                        {
+                                          "k": "decl",
+                                          "name": "sessionFile",
+                                          "value": {
+                                            "t": "gstr",
+                                            "v": "\"launchable-session-${platform}-jdk${jdk}.txt\"",
+                                            "vars": [
+                                              "{platform}",
+                                              "{jdk}"
+                                            ]
+                                          }
+                                        },
+                                        {
+                                          "k": "call",
+                                          "name": "unstash",
+                                          "args": [
+                                            {
+                                              "t": "var",
+                                              "name": "sessionFile"
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "k": "assign",
+                                          "op": "=",
+                                          "target": "session",
+                                          "value": {
+                                            "t": "call",
+                                            "call": {
+                                              "k": "call",
+                                              "name": "trim",
+                                              "receiver": "readFile(sessionFile)",
+                                              "receiverCalls": [
+                                                {
+                                                  "k": "call",
+                                                  "name": "readFile",
+                                                  "args": [
+                                                    {
+                                                      "t": "var",
+                                                      "name": "sessionFile"
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            }
+                                          }
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "k": "decl",
+                                      "name": "mavenOptions",
+                                      "value": {
+                                        "t": "list",
+                                        "v": [
+                                          {
+                                            "t": "str",
+                                            "v": "-Pdebug"
+                                          },
+                                          {
+                                            "t": "str",
+                                            "v": "-Penable-jacoco"
+                                          },
+                                          {
+                                            "t": "str",
+                                            "v": "--update-snapshots"
+                                          },
+                                          {
+                                            "t": "gstr",
+                                            "v": "\"-Dmaven.repo.local=$m2repo\"",
+                                            "vars": [
+                                              "m2repo"
+                                            ]
+                                          },
+                                          {
+                                            "t": "str",
+                                            "v": "-Dmaven.test.failure.ignore"
+                                          },
+                                          {
+                                            "t": "str",
+                                            "v": "-DforkCount=2"
+                                          },
+                                          {
+                                            "t": "str",
+                                            "v": "-Dspotbugs.failOnError=false"
+                                          },
+                                          {
+                                            "t": "str",
+                                            "v": "-Dcheckstyle.failOnViolation=false"
+                                          },
+                                          {
+                                            "t": "str",
+                                            "v": "-Dset.changelist"
+                                          },
+                                          {
+                                            "t": "str",
+                                            "v": "help:evaluate"
+                                          },
+                                          {
+                                            "t": "str",
+                                            "v": "-Dexpression=changelist"
+                                          },
+                                          {
+                                            "t": "gstr",
+                                            "v": "\"-Doutput=$changelistF\"",
+                                            "vars": [
+                                              "changelistF"
+                                            ]
+                                          },
+                                          {
+                                            "t": "str",
+                                            "v": "clean"
+                                          },
+                                          {
+                                            "t": "str",
+                                            "v": "install"
+                                          }
+                                        ]
+                                      }
+                                    },
+                                    {
+                                      "k": "if",
+                                      "cond": "env.CHANGE_ID && !pullRequest.labels.contains('full-test')",
+                                      "condCalls": [
+                                        {
+                                          "k": "call",
+                                          "name": "contains",
+                                          "args": [
+                                            {
+                                              "t": "str",
+                                              "v": "full-test"
+                                            }
+                                          ],
+                                          "receiver": "pullRequest.labels"
+                                        }
+                                      ],
+                                      "then": [
+                                        {
+                                          "k": "decl",
+                                          "name": "excludesFile",
+                                          "value": {
+                                            "t": "expr",
+                                            "kind": "EmptyExpression",
+                                            "text": "<not implemented yet for class: org.codehaus.groovy.ast.expr.EmptyExpression>"
+                                          }
+                                        },
+                                        {
+                                          "k": "decl",
+                                          "name": "target",
+                                          "value": {
+                                            "t": "expr",
+                                            "kind": "TernaryExpression",
+                                            "text": "?"
+                                          }
+                                        },
+                                        {
+                                          "k": "call",
+                                          "name": "withCredentials",
+                                          "args": [
+                                            {
+                                              "t": "list",
+                                              "v": [
+                                                {
+                                                  "t": "call",
+                                                  "call": {
+                                                    "k": "call",
+                                                    "name": "string",
+                                                    "named": {
+                                                      "credentialsId": {
+                                                        "t": "str",
+                                                        "v": "launchable-jenkins-jenkins"
+                                                      },
+                                                      "variable": {
+                                                        "t": "str",
+                                                        "v": "LAUNCHABLE_TOKEN"
+                                                      }
+                                                    }
+                                                  }
+                                                }
+                                              ]
+                                            }
+                                          ],
+                                          "body": [
+                                            {
+                                              "k": "if",
+                                              "cond": "isUnix()",
+                                              "condCalls": [
+                                                {
+                                                  "k": "call",
+                                                  "name": "isUnix"
+                                                }
+                                              ],
+                                              "then": [
+                                                {
+                                                  "k": "assign",
+                                                  "op": "=",
+                                                  "target": "excludesFile",
+                                                  "value": {
+                                                    "t": "gstr",
+                                                    "v": "\"${tmpDir}/excludes.txt\"",
+                                                    "vars": [
+                                                      "{tmpDir}"
+                                                    ]
+                                                  }
+                                                },
+                                                {
+                                                  "k": "call",
+                                                  "name": "sh",
+                                                  "args": [
+                                                    {
+                                                      "t": "gstr",
+                                                      "v": "\"launchable verify && launchable subset --session ${session} --target ${target} --get-tests-from-previous-sessions --output-exclusion-rules maven >${excludesFile}\"",
+                                                      "vars": [
+                                                        "{session}",
+                                                        "{target}",
+                                                        "{excludesFile}"
+                                                      ]
+                                                    }
+                                                  ]
+                                                }
+                                              ],
+                                              "else": [
+                                                {
+                                                  "k": "assign",
+                                                  "op": "=",
+                                                  "target": "excludesFile",
+                                                  "value": {
+                                                    "t": "gstr",
+                                                    "v": "\"${tmpDir}\\\\excludes.txt\"",
+                                                    "vars": [
+                                                      "{tmpDir}"
+                                                    ]
+                                                  }
+                                                },
+                                                {
+                                                  "k": "call",
+                                                  "name": "bat",
+                                                  "args": [
+                                                    {
+                                                      "t": "gstr",
+                                                      "v": "\"launchable verify && launchable subset --session ${session} --target ${target}% --get-tests-from-previous-sessions --output-exclusion-rules maven >${excludesFile}\"",
+                                                      "vars": [
+                                                        "{session}",
+                                                        "{target}",
+                                                        "{excludesFile}"
+                                                      ]
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        },
+                                        {
+                                          "k": "call",
+                                          "name": "add",
+                                          "args": [
+                                            {
+                                              "t": "num"
+                                            },
+                                            {
+                                              "t": "gstr",
+                                              "v": "\"-Dsurefire.excludesFile=${excludesFile}\"",
+                                              "vars": [
+                                                "{excludesFile}"
+                                              ]
+                                            }
+                                          ],
+                                          "receiver": "mavenOptions"
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "k": "call",
+                                      "name": "withChecks",
+                                      "named": {
+                                        "name": {
+                                          "t": "str",
+                                          "v": "Tests"
+                                        },
+                                        "includeStage": {
+                                          "t": "bool",
+                                          "v": true
+                                        }
+                                      },
+                                      "body": [
+                                        {
+                                          "k": "call",
+                                          "name": "realtimeJUnit",
+                                          "named": {
+                                            "healthScaleFactor": {
+                                              "t": "num",
+                                              "v": 20.0
+                                            },
+                                            "testResults": {
+                                              "t": "str",
+                                              "v": "*/target/surefire-reports/*.xml,target/vitest-reports/*.xml"
+                                            }
+                                          },
+                                          "body": [
+                                            {
+                                              "k": "call",
+                                              "name": "runMaven",
+                                              "args": [
+                                                {
+                                                  "t": "var",
+                                                  "name": "mavenOptions"
+                                                },
+                                                {
+                                                  "t": "var",
+                                                  "name": "jdk"
+                                                }
+                                              ],
+                                              "receiver": "infra"
+                                            },
+                                            {
+                                              "k": "if",
+                                              "cond": "isUnix()",
+                                              "condCalls": [
+                                                {
+                                                  "k": "call",
+                                                  "name": "isUnix"
+                                                }
+                                              ],
+                                              "then": [
+                                                {
+                                                  "k": "call",
+                                                  "name": "sh",
+                                                  "args": [
+                                                    {
+                                                      "t": "str",
+                                                      "v": "git add . && git diff --exit-code HEAD"
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            {
+                              "k": "call",
+                              "name": "stage",
+                              "args": [
+                                {
+                                  "t": "gstr",
+                                  "v": "\"${platform.capitalize()} - JDK ${jdk} - Publish\"",
+                                  "vars": [
+                                    "{platform.capitalize()}",
+                                    "{jdk}"
+                                  ],
+                                  "calls": [
+                                    {
+                                      "k": "call",
+                                      "name": "capitalize",
+                                      "receiver": "platform"
+                                    }
+                                  ]
+                                }
+                              ],
+                              "body": [
+                                {
+                                  "k": "call",
+                                  "name": "archiveArtifacts",
+                                  "named": {
+                                    "allowEmptyArchive": {
+                                      "t": "bool",
+                                      "v": true
+                                    },
+                                    "artifacts": {
+                                      "t": "str",
+                                      "v": "**/target/surefire-reports/*.dumpstream"
+                                    }
+                                  }
+                                },
+                                {
+                                  "k": "if",
+                                  "cond": "failFast && currentBuild.result == 'UNSTABLE'",
+                                  "then": [
+                                    {
+                                      "k": "call",
+                                      "name": "error",
+                                      "args": [
+                                        {
+                                          "t": "str",
+                                          "v": "There were test failures; halting early"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "k": "if",
+                                  "cond": "platform == 'linux' && jdk == axes['jdks'][0]",
+                                  "then": [
+                                    {
+                                      "k": "decl",
+                                      "name": "folders",
+                                      "value": {
+                                        "t": "call",
+                                        "call": {
+                                          "k": "call",
+                                          "name": "split",
+                                          "args": [
+                                            {
+                                              "t": "str",
+                                              "v": "/"
+                                            }
+                                          ],
+                                          "receiver": "env.JOB_NAME"
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "k": "if",
+                                      "cond": "folders.length > 1",
+                                      "then": [
+                                        {
+                                          "k": "call",
+                                          "name": "discoverGitReferenceBuild",
+                                          "named": {
+                                            "scm": {
+                                              "t": "expr",
+                                              "kind": "BinaryExpression",
+                                              "text": "folders[1]"
+                                            }
+                                          }
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "k": "call",
+                                      "name": "recordCoverage",
+                                      "named": {
+                                        "tools": {
+                                          "t": "list",
+                                          "v": [
+                                            {
+                                              "t": "map",
+                                              "v": {
+                                                "parser": {
+                                                  "t": "str",
+                                                  "v": "JACOCO"
+                                                },
+                                                "pattern": {
+                                                  "t": "str",
+                                                  "v": "coverage/target/site/jacoco-aggregate/jacoco.xml"
+                                                }
+                                              }
+                                            }
+                                          ]
+                                        },
+                                        "sourceCodeRetention": {
+                                          "t": "str",
+                                          "v": "MODIFIED"
+                                        },
+                                        "sourceDirectories": {
+                                          "t": "list",
+                                          "v": [
+                                            {
+                                              "t": "map",
+                                              "v": {
+                                                "path": {
+                                                  "t": "str",
+                                                  "v": "core/src/main/java"
+                                                }
+                                              }
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "k": "call",
+                                      "name": "echo",
+                                      "args": [
+                                        {
+                                          "t": "gstr",
+                                          "v": "\"Recording static analysis results for '${platform.capitalize()}'\"",
+                                          "vars": [
+                                            "{platform.capitalize()}"
+                                          ],
+                                          "calls": [
+                                            {
+                                              "k": "call",
+                                              "name": "capitalize",
+                                              "receiver": "platform"
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "k": "call",
+                                      "name": "recordIssues",
+                                      "named": {
+                                        "enabledForFailure": {
+                                          "t": "bool",
+                                          "v": true
+                                        },
+                                        "tools": {
+                                          "t": "list",
+                                          "v": [
+                                            {
+                                              "t": "call",
+                                              "call": {
+                                                "k": "call",
+                                                "name": "java"
+                                              }
+                                            }
+                                          ]
+                                        },
+                                        "filters": {
+                                          "t": "list",
+                                          "v": [
+                                            {
+                                              "t": "call",
+                                              "call": {
+                                                "k": "call",
+                                                "name": "excludeFile",
+                                                "args": [
+                                                  {
+                                                    "t": "str",
+                                                    "v": ".*Assert.java"
+                                                  }
+                                                ]
+                                              }
+                                            }
+                                          ]
+                                        },
+                                        "sourceCodeEncoding": {
+                                          "t": "str",
+                                          "v": "UTF-8"
+                                        },
+                                        "skipBlames": {
+                                          "t": "bool",
+                                          "v": true
+                                        },
+                                        "trendChartType": {
+                                          "t": "str",
+                                          "v": "TOOLS_ONLY"
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "k": "call",
+                                      "name": "recordIssues",
+                                      "named": {
+                                        "enabledForFailure": {
+                                          "t": "bool",
+                                          "v": true
+                                        },
+                                        "tools": {
+                                          "t": "list",
+                                          "v": [
+                                            {
+                                              "t": "call",
+                                              "call": {
+                                                "k": "call",
+                                                "name": "javaDoc"
+                                              }
+                                            }
+                                          ]
+                                        },
+                                        "filters": {
+                                          "t": "list",
+                                          "v": [
+                                            {
+                                              "t": "call",
+                                              "call": {
+                                                "k": "call",
+                                                "name": "excludeFile",
+                                                "args": [
+                                                  {
+                                                    "t": "str",
+                                                    "v": ".*Assert.java"
+                                                  }
+                                                ]
+                                              }
+                                            }
+                                          ]
+                                        },
+                                        "sourceCodeEncoding": {
+                                          "t": "str",
+                                          "v": "UTF-8"
+                                        },
+                                        "skipBlames": {
+                                          "t": "bool",
+                                          "v": true
+                                        },
+                                        "trendChartType": {
+                                          "t": "str",
+                                          "v": "TOOLS_ONLY"
+                                        },
+                                        "qualityGates": {
+                                          "t": "list",
+                                          "v": [
+                                            {
+                                              "t": "map",
+                                              "v": {
+                                                "threshold": {
+                                                  "t": "num",
+                                                  "v": 1
+                                                },
+                                                "type": {
+                                                  "t": "str",
+                                                  "v": "TOTAL"
+                                                },
+                                                "unstable": {
+                                                  "t": "bool",
+                                                  "v": true
+                                                }
+                                              }
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "k": "call",
+                                      "name": "recordIssues",
+                                      "named": {
+                                        "tool": {
+                                          "t": "call",
+                                          "call": {
+                                            "k": "call",
+                                            "name": "spotBugs",
+                                            "named": {
+                                              "pattern": {
+                                                "t": "str",
+                                                "v": "**/target/spotbugsXml.xml"
+                                              }
+                                            }
+                                          }
+                                        },
+                                        "sourceCodeEncoding": {
+                                          "t": "str",
+                                          "v": "UTF-8"
+                                        },
+                                        "skipBlames": {
+                                          "t": "bool",
+                                          "v": true
+                                        },
+                                        "trendChartType": {
+                                          "t": "str",
+                                          "v": "TOOLS_ONLY"
+                                        },
+                                        "qualityGates": {
+                                          "t": "list",
+                                          "v": [
+                                            {
+                                              "t": "map",
+                                              "v": {
+                                                "threshold": {
+                                                  "t": "num",
+                                                  "v": 1
+                                                },
+                                                "type": {
+                                                  "t": "str",
+                                                  "v": "NEW"
+                                                },
+                                                "unstable": {
+                                                  "t": "bool",
+                                                  "v": true
+                                                }
+                                              }
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "k": "call",
+                                      "name": "recordIssues",
+                                      "named": {
+                                        "tool": {
+                                          "t": "call",
+                                          "call": {
+                                            "k": "call",
+                                            "name": "checkStyle",
+                                            "named": {
+                                              "pattern": {
+                                                "t": "str",
+                                                "v": "**/target/checkstyle-result.xml"
+                                              }
+                                            }
+                                          }
+                                        },
+                                        "sourceCodeEncoding": {
+                                          "t": "str",
+                                          "v": "UTF-8"
+                                        },
+                                        "skipBlames": {
+                                          "t": "bool",
+                                          "v": true
+                                        },
+                                        "trendChartType": {
+                                          "t": "str",
+                                          "v": "TOOLS_ONLY"
+                                        },
+                                        "qualityGates": {
+                                          "t": "list",
+                                          "v": [
+                                            {
+                                              "t": "map",
+                                              "v": {
+                                                "threshold": {
+                                                  "t": "num",
+                                                  "v": 1
+                                                },
+                                                "type": {
+                                                  "t": "str",
+                                                  "v": "TOTAL"
+                                                },
+                                                "unstable": {
+                                                  "t": "bool",
+                                                  "v": true
+                                                }
+                                              }
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "k": "call",
+                                      "name": "recordIssues",
+                                      "named": {
+                                        "tool": {
+                                          "t": "call",
+                                          "call": {
+                                            "k": "call",
+                                            "name": "esLint",
+                                            "named": {
+                                              "pattern": {
+                                                "t": "str",
+                                                "v": "**/target/eslint-warnings.xml"
+                                              }
+                                            }
+                                          }
+                                        },
+                                        "sourceCodeEncoding": {
+                                          "t": "str",
+                                          "v": "UTF-8"
+                                        },
+                                        "skipBlames": {
+                                          "t": "bool",
+                                          "v": true
+                                        },
+                                        "trendChartType": {
+                                          "t": "str",
+                                          "v": "TOOLS_ONLY"
+                                        },
+                                        "qualityGates": {
+                                          "t": "list",
+                                          "v": [
+                                            {
+                                              "t": "map",
+                                              "v": {
+                                                "threshold": {
+                                                  "t": "num",
+                                                  "v": 1
+                                                },
+                                                "type": {
+                                                  "t": "str",
+                                                  "v": "TOTAL"
+                                                },
+                                                "unstable": {
+                                                  "t": "bool",
+                                                  "v": true
+                                                }
+                                              }
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "k": "call",
+                                      "name": "recordIssues",
+                                      "named": {
+                                        "tool": {
+                                          "t": "call",
+                                          "call": {
+                                            "k": "call",
+                                            "name": "styleLint",
+                                            "named": {
+                                              "pattern": {
+                                                "t": "str",
+                                                "v": "**/target/stylelint-warnings.xml"
+                                              }
+                                            }
+                                          }
+                                        },
+                                        "sourceCodeEncoding": {
+                                          "t": "str",
+                                          "v": "UTF-8"
+                                        },
+                                        "skipBlames": {
+                                          "t": "bool",
+                                          "v": true
+                                        },
+                                        "trendChartType": {
+                                          "t": "str",
+                                          "v": "TOOLS_ONLY"
+                                        },
+                                        "qualityGates": {
+                                          "t": "list",
+                                          "v": [
+                                            {
+                                              "t": "map",
+                                              "v": {
+                                                "threshold": {
+                                                  "t": "num",
+                                                  "v": 1
+                                                },
+                                                "type": {
+                                                  "t": "str",
+                                                  "v": "TOTAL"
+                                                },
+                                                "unstable": {
+                                                  "t": "bool",
+                                                  "v": true
+                                                }
+                                              }
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "k": "if",
+                                      "cond": "failFast && currentBuild.result == 'UNSTABLE'",
+                                      "then": [
+                                        {
+                                          "k": "call",
+                                          "name": "error",
+                                          "args": [
+                                            {
+                                              "t": "str",
+                                              "v": "Static analysis quality gates not passed; halting early"
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      "k": "decl",
+                                      "name": "changelist",
+                                      "value": {
+                                        "t": "call",
+                                        "call": {
+                                          "k": "call",
+                                          "name": "readFile",
+                                          "args": [
+                                            {
+                                              "t": "var",
+                                              "name": "changelistF"
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "k": "call",
+                                      "name": "dir",
+                                      "args": [
+                                        {
+                                          "t": "var",
+                                          "name": "m2repo"
+                                        }
+                                      ],
+                                      "body": [
+                                        {
+                                          "k": "call",
+                                          "name": "archiveArtifacts",
+                                          "named": {
+                                            "artifacts": {
+                                              "t": "gstr",
+                                              "v": "\"**/*$changelist/*$changelist*\"",
+                                              "vars": [
+                                                "changelist",
+                                                "changelist"
+                                              ]
+                                            },
+                                            "excludes": {
+                                              "t": "str",
+                                              "v": "**/*.lastUpdated,**/jenkins-coverage*/,**/jenkins-test*/"
+                                            },
+                                            "allowEmptyArchive": {
+                                              "t": "bool",
+                                              "v": true
+                                            },
+                                            "fingerprint": {
+                                              "t": "bool",
+                                              "v": true
+                                            }
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "k": "call",
+                                  "name": "withCredentials",
+                                  "args": [
+                                    {
+                                      "t": "list",
+                                      "v": [
+                                        {
+                                          "t": "call",
+                                          "call": {
+                                            "k": "call",
+                                            "name": "string",
+                                            "named": {
+                                              "credentialsId": {
+                                                "t": "str",
+                                                "v": "launchable-jenkins-jenkins"
+                                              },
+                                              "variable": {
+                                                "t": "str",
+                                                "v": "LAUNCHABLE_TOKEN"
+                                              }
+                                            }
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  ],
+                                  "body": [
+                                    {
+                                      "k": "if",
+                                      "cond": "isUnix()",
+                                      "condCalls": [
+                                        {
+                                          "k": "call",
+                                          "name": "isUnix"
+                                        }
+                                      ],
+                                      "then": [
+                                        {
+                                          "k": "call",
+                                          "name": "sh",
+                                          "args": [
+                                            {
+                                              "t": "gstr",
+                                              "v": "\"launchable verify && launchable record tests --session ${session} --flavor platform=${platform} --flavor jdk=${jdk} maven './**/target/surefire-reports'\"",
+                                              "vars": [
+                                                "{session}",
+                                                "{platform}",
+                                                "{jdk}"
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ],
+                                      "else": [
+                                        {
+                                          "k": "call",
+                                          "name": "bat",
+                                          "args": [
+                                            {
+                                              "t": "gstr",
+                                              "v": "\"launchable verify && launchable record tests --session ${session} --flavor platform=${platform} --flavor jdk=${jdk} maven ./**/target/surefire-reports\"",
+                                              "vars": [
+                                                "{session}",
+                                                "{platform}",
+                                                "{jdk}"
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
               },
               "category": "dynamic",
               "source": "builds[\"${platform}-jdk${jdk}\"] = ",
@@ -317,7 +1593,39 @@
           "name": "<decl>",
           "line": 215,
           "named": {
-            "_target": "athAxes"
+            "_target": "athAxes",
+            "_value": {
+              "t": "map",
+              "v": {
+                "platforms": {
+                  "t": "list",
+                  "v": [
+                    {
+                      "t": "str",
+                      "v": "linux"
+                    }
+                  ]
+                },
+                "jdks": {
+                  "t": "list",
+                  "v": [
+                    {
+                      "t": "num",
+                      "v": 21
+                    }
+                  ]
+                },
+                "browsers": {
+                  "t": "list",
+                  "v": [
+                    {
+                      "t": "str",
+                      "v": "firefox"
+                    }
+                  ]
+                }
+              }
+            }
           },
           "category": "dynamic",
           "source": "athAxes = [platforms: [linux], jdks: [21], browsers: [firefox]]",
@@ -331,7 +1639,11 @@
               "name": "<decl>",
               "line": 221,
               "named": {
-                "_target": "("
+                "_target": "(",
+                "_value": {
+                  "t": "var",
+                  "name": "it"
+                }
               },
               "category": "dynamic",
               "source": "( = it",
@@ -341,7 +1653,130 @@
               "name": "<assign>",
               "line": 222,
               "named": {
-                "_target": "builds[\"ath-${platform}-jdk${jdk}-${browser}\"]"
+                "_target": "builds[\"ath-${platform}-jdk${jdk}-${browser}\"]",
+                "_value": {
+                  "t": "closure",
+                  "body": [
+                    {
+                      "k": "call",
+                      "name": "retry",
+                      "named": {
+                        "conditions": {
+                          "t": "list",
+                          "v": [
+                            {
+                              "t": "call",
+                              "call": {
+                                "k": "call",
+                                "name": "agent"
+                              }
+                            },
+                            {
+                              "t": "call",
+                              "call": {
+                                "k": "call",
+                                "name": "nonresumable"
+                              }
+                            }
+                          ]
+                        },
+                        "count": {
+                          "t": "num",
+                          "v": 2
+                        }
+                      },
+                      "body": [
+                        {
+                          "k": "call",
+                          "name": "node",
+                          "args": [
+                            {
+                              "t": "str",
+                              "v": "docker-highmem"
+                            }
+                          ],
+                          "body": [
+                            {
+                              "k": "call",
+                              "name": "deleteDir"
+                            },
+                            {
+                              "k": "call",
+                              "name": "checkout",
+                              "args": [
+                                {
+                                  "t": "var",
+                                  "name": "scm"
+                                }
+                              ]
+                            },
+                            {
+                              "k": "call",
+                              "name": "withChecks",
+                              "named": {
+                                "name": {
+                                  "t": "str",
+                                  "v": "Tests"
+                                },
+                                "includeStage": {
+                                  "t": "bool",
+                                  "v": true
+                                }
+                              },
+                              "body": [
+                                {
+                                  "k": "call",
+                                  "name": "withArtifactCachingProxy",
+                                  "receiver": "infra",
+                                  "body": [
+                                    {
+                                      "k": "call",
+                                      "name": "sh",
+                                      "args": [
+                                        {
+                                          "t": "gstr",
+                                          "v": "\"bash ath.sh ${jdk} ${browser}\"",
+                                          "vars": [
+                                            "{jdk}",
+                                            "{browser}"
+                                          ]
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                {
+                                  "k": "call",
+                                  "name": "junit",
+                                  "named": {
+                                    "testResults": {
+                                      "t": "str",
+                                      "v": "target/ath-reports/TEST-*.xml"
+                                    },
+                                    "testDataPublishers": {
+                                      "t": "list",
+                                      "v": [
+                                        {
+                                          "t": "map",
+                                          "v": {
+                                            "$class": {
+                                              "t": "str",
+                                              "v": "AttachmentPublisher"
+                                            }
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
               },
               "category": "dynamic",
               "source": "builds[\"ath-${platform}-jdk${jdk}-${browser}\"] = ",
@@ -355,7 +1790,11 @@
           "name": "<assign>",
           "line": 250,
           "named": {
-            "_target": "builds.failFast"
+            "_target": "builds.failFast",
+            "_value": {
+              "t": "var",
+              "name": "failFast"
+            }
           },
           "category": "dynamic",
           "source": "builds.failFast = failFast",

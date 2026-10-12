@@ -33,8 +33,11 @@ jobs:
     name: Setup Env
     runs-on: ubuntu-latest
     container:
-      image: ${DOCKER_IMAGE_BASE}-${MINIMUM_ERLANG_VERSION}
-      options: ${DOCKER_ARGS}
+      image: apache/couchdbci-debian:trixie-erlang-27.3.4.18
+      options: -e npm_config_cache=/home/jenkins/.npm -e HOME=. -e MIX_HOME=/home/jenkins/.mix -e HEX_HOME=/home/jenkins/.hex
+        -e PIP_CACHE_DIR=/home/jenkins/.cache/pip -v=/etc/passwd:/etc/passwd -v /etc/group:/etc/group -v /home/jenkins/.gradle:/home/jenkins/.gradle:rw,z
+        -v /home/jenkins/.hex:/home/jenkins/.hex:rw,z -v /home/jenkins/.npm:/home/jenkins/.npm:rw,z -v /home/jenkins/.cache/pip:/home/jenkins/.cache/pip:rw,z
+        -v /home/jenkins/.mix:/home/jenkins/.mix:rw,z
       credentials:
         username: ${{ secrets.DOCKERHUB_CREDS_USR }}
         password: ${{ secrets.DOCKERHUB_CREDS_PSW }}
@@ -66,8 +69,11 @@ jobs:
     needs: setup-env
     runs-on: ubuntu-latest
     container:
-      image: ${DOCKER_IMAGE_BASE}-${MINIMUM_ERLANG_VERSION}
-      options: ${DOCKER_ARGS}
+      image: apache/couchdbci-debian:trixie-erlang-27.3.4.18
+      options: -e npm_config_cache=/home/jenkins/.npm -e HOME=. -e MIX_HOME=/home/jenkins/.mix -e HEX_HOME=/home/jenkins/.hex
+        -e PIP_CACHE_DIR=/home/jenkins/.cache/pip -v=/etc/passwd:/etc/passwd -v /etc/group:/etc/group -v /home/jenkins/.gradle:/home/jenkins/.gradle:rw,z
+        -v /home/jenkins/.hex:/home/jenkins/.hex:rw,z -v /home/jenkins/.npm:/home/jenkins/.npm:rw,z -v /home/jenkins/.cache/pip:/home/jenkins/.cache/pip:rw,z
+        -v /home/jenkins/.mix:/home/jenkins/.mix:rw,z
       credentials:
         username: ${{ secrets.DOCKERHUB_CREDS_USR }}
         password: ${{ secrets.DOCKERHUB_CREDS_PSW }}
@@ -102,8 +108,11 @@ jobs:
     needs: build-docs
     runs-on: ubuntu-latest
     container:
-      image: ${DOCKER_IMAGE_BASE}-${MINIMUM_ERLANG_VERSION}
-      options: ${DOCKER_ARGS}
+      image: apache/couchdbci-debian:trixie-erlang-27.3.4.18
+      options: -e npm_config_cache=/home/jenkins/.npm -e HOME=. -e MIX_HOME=/home/jenkins/.mix -e HEX_HOME=/home/jenkins/.hex
+        -e PIP_CACHE_DIR=/home/jenkins/.cache/pip -v=/etc/passwd:/etc/passwd -v /etc/group:/etc/group -v /home/jenkins/.gradle:/home/jenkins/.gradle:rw,z
+        -v /home/jenkins/.hex:/home/jenkins/.hex:rw,z -v /home/jenkins/.npm:/home/jenkins/.npm:rw,z -v /home/jenkins/.cache/pip:/home/jenkins/.cache/pip:rw,z
+        -v /home/jenkins/.mix:/home/jenkins/.mix:rw,z
       credentials:
         username: ${{ secrets.DOCKERHUB_CREDS_USR }}
         password: ${{ secrets.DOCKERHUB_CREDS_PSW }}
