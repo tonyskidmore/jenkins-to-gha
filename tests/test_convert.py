@@ -365,14 +365,15 @@ def test_retry_attempts_fail_on_the_first_failing_command(semantics, tmp_path):
     step = next(s for s in steps if "SHOULD_NOT_RUN" in s.get("run", ""))
     assert step["shell"] == "bash"
     p = _run_bash(step["run"], tmp_path)
-    assert "SHOULD_NOT_RUN" not in p.stdout and p.returncode == 1 and "retrying (1/2)" in p.stdout
+    assert "SHOULD_NOT_RUN" not in p.stdout and p.returncode == 1
+    assert "retrying (1/2)" in p.stderr and "retrying" not in p.stdout  # a captured `sh` value only gets the output
     ctx = Ctx(ir=Pipeline(dialect="declarative"), source_text="")
     # exhaustion keeps the last exit status; a later attempt can succeed
     p = _run_bash(_retry_loop("echo try\nexit 7", None, 3, ctx, "S", 1)[0], tmp_path)
     assert p.returncode == 7 and p.stdout.splitlines().count("try") == 3
     flaky = 'n=$(cat count 2>/dev/null || echo 0); echo $((n + 1)) > count\n[ "$n" -ge 1 ]\necho done'
     p = _run_bash(_retry_loop(flaky, None, 3, ctx, "S", 1)[0], tmp_path)
-    assert p.returncode == 0 and p.stdout.count("done") == 1 and "retrying (1/3)" in p.stdout
+    assert p.returncode == 0 and p.stdout.count("done") == 1 and "retrying (1/3)" in p.stderr
     # a shebang interpreter keeps its semantics inside the loop; Windows shells are reported, not wrapped
     assert '"$j2gha_script"' in _retry_loop("print(1)", "python3 {0}", 2, ctx, "S", 1)[0]
     assert _retry_loop("dir", "cmd", 2, ctx, "S", 1) == ("dir", "cmd")
@@ -661,3 +662,114 @@ def test_credential_id_from_a_literal_pipeline_environment_value():
     (sh,) = generator._step(step, ctx, generator.Inherit(stage="S"))
     assert sh["env"]["U"] == "${{ secrets.WKT_OCIR_CREDS_USR }}"
 
+
+
+def test_script_constants_are_top_level_literals_assigned_once():
+    from j2gha.analysis.declarative import script_constants
+
+    def assign(name, value):
+        return {"k": "assign", "op": "=", "target": name, "value": value}
+
+    ast = {"statements": [assign("IMAGE", {"t": "str", "v": "debian"}),
+                          assign("TAG", {"t": "str", "v": "12"}),
+                          assign("BUILT", {"t": "call", "name": "sh"}),
+                          assign("CHANGED", {"t": "str", "v": "a"}),
+                          {"k": "call", "name": "node", "body": [assign("CHANGED", {"t": "str", "v": "b"})]}],
+           "methods": [{"name": "f", "body": [{"k": "decl", "name": "TAG", "value": {"t": "str", "v": "13"}}]}]}
+    assert script_constants(ast) == {"IMAGE": "debian"}
+
+
+def test_container_image_resolves_values_fixed_before_the_run():
+    from j2gha.ir import Agent, EnvValue, Pipeline, Stage
+    ir = Pipeline(dialect="declarative", constants={"BASE": "apache/ci:erlang", "VER": "27"},
+                  environment={"ARGS": EnvValue("literal", "-e HOME=."), "LATER": EnvValue("shell", "date")},
+                  stages=[Stage("Build", agent=Agent("docker", image="${BASE}-${VER}", args="${ARGS}"),
+                                steps=[Step("sh", args=["make"])]),
+                          Stage("Test", agent=Agent("docker", image="${BASE}-${LATER}"),
+                                steps=[Step("sh", args=["make test"])])])
+    out = convert(ir, "")
+    jobs = out["workflow"]["jobs"]
+    assert jobs["build"]["container"] == {"image": "apache/ci:erlang-27", "options": "-e HOME=."}
+    assert jobs["test"]["container"]["image"] == "apache/ci:erlang-${LATER}"  # not fixed before the run: left as is
+    status = {i["jenkins"]: i["status"] for i in out["report"]["items"]}
+    assert status["agent docker '${BASE}-${VER}'"] == "mapped"
+    assert status["agent docker '${BASE}-${LATER}'"] == "manual"
+
+
+def _assign(target, value, body=None, kind="<assign>"):
+    return Step(kind, named={"_target": target, "_value": value}, body=body or [], source=f"{target} = ...")
+
+
+def test_assigned_values_reach_later_steps_through_github_env(tmp_path):
+    # 106: `oversion = sh(returnStdout).trim()`, `version = oversion.take(10) + '-' + env.BUILD_NUMBER`, a GString of
+    # earlier variables; 119: `def ws = pwd()`. Run the generated scripts in order, as one job's steps would.
+    import os
+    import subprocess
+    from j2gha.ir import Pipeline, Stage
+    trim = {"t": "call", "call": {"name": "trim", "args": [], "receiver": "sh(...)"}}
+    take = {"t": "call", "call": {"name": "take", "args": [{"t": "num", "v": 5}], "receiver": "oversion"}}
+    steps = [
+        _assign("oversion", trim, [Step("sh", args=["echo '  1.2.3-rc1  '"], named={"returnStdout": True})]),
+        _assign("version", {"t": "concat", "parts": [{"t": "concat", "parts": [take, {"t": "str", "v": "-"}]},
+                                                      {"t": "prop", "text": "env.BUILD_NUMBER", "calls": []}]}),
+        _assign("pack", {"t": "gstr", "v": '"app-v${version}.tar.gz"'}),
+        _assign("ws", {"t": "call", "call": {"name": "pwd", "args": []}}, [Step("pwd")], kind="<decl>"),
+        _assign("odd", {"t": "str", "v": 'a "quoted" $HOME `x`'}),
+        _assign("helper", {"t": "new", "type": "Helper"}),  # not a string expression: reported as before
+    ]
+    out = convert(Pipeline(dialect="declarative", stages=[Stage("Build", steps=steps)]), "")
+    runs = [s["run"] for s in out["workflow"]["jobs"]["build"]["steps"] if s.get("run", "").split("=")[0] in
+            ("oversion", "version", "pack", "ws", "odd")]
+    assert len(runs) == 5
+    env_file, out_file = tmp_path / "env", tmp_path / "out"
+    env = {**os.environ, "GITHUB_ENV": str(env_file), "GITHUB_OUTPUT": str(out_file), "BUILD_NUMBER": "42"}
+    for run in runs:  # each step is its own shell: it only sees what earlier steps wrote to $GITHUB_ENV
+        for name, val in re.findall(r"^(\w+)<<J2GHA_EOF\n(.*?)\nJ2GHA_EOF$", env_file.read_text() if env_file.exists()
+                                    else "", re.M | re.S):
+            env[name] = val
+        subprocess.run(["bash", "-eo", "pipefail", "-c", run], env=env, cwd=tmp_path, check=True)
+    values = dict(re.findall(r"^(\w+)<<J2GHA_EOF\n(.*?)\nJ2GHA_EOF$", env_file.read_text(), re.M | re.S))
+    assert values == {"oversion": "1.2.3-rc1", "version": "1.2.3-42", "pack": "app-v1.2.3-42.tar.gz",
+                      "ws": str(tmp_path), "odd": 'a "quoted" $HOME `x`'}
+    assert out_file.read_text() == env_file.read_text()  # later jobs get the same values through job outputs
+    trace = [s for s in out["workflow"]["jobs"]["build"]["steps"] if s["_j2gha"].get("trace")]
+    assert [s["_j2gha"]["kind"] for s in trace] == ["sh"]  # trace parity: only the captured `sh` is a traced step
+    status = {i["jenkins"].split(" =")[0]: i["status"] for i in out["report"]["items"]}
+    assert status["assign helper"] == "manual" and status["assign version"] == "mapped"
+
+
+def test_assignment_named_like_an_environment_variable_is_not_exported():
+    from j2gha.ir import EnvValue, Parameter, Pipeline, Stage
+    ir = Pipeline(dialect="declarative", environment={"STAGE_ENV": EnvValue("literal", "x")},
+                  parameters=[Parameter("string", "TARGET")],
+                  stages=[Stage("Build", steps=[_assign(n, {"t": "str", "v": "y"})
+                                                for n in ("BRANCH_NAME", "STAGE_ENV", "TARGET", "PATH")])])
+    runs = [s.get("run", "") for s in convert(ir, "")["workflow"]["jobs"]["build"]["steps"]]
+    assert not any("GITHUB_ENV" in r for r in runs)
+
+
+def test_variants_give_stubbed_properties_the_jenkins_stub_value():
+    # 119: `target_location = "${TARGET_LOCATION}"` reads 'j2gha-stub' on Jenkins (an undeclared property the
+    # localiser stubs); the converted run must not read an empty value instead
+    from j2gha.jenkins.localize import STUBBED_PROPERTY_CHANGE
+    from j2gha.runners.variants import stubbed_properties
+    ref = {"localisation": {"changes": ["L40: node(master) -> node('built-in')",
+                                        *(STUBBED_PROPERTY_CHANGE.format(n) for n in ("TARGET_LOCATION", "docker",
+                                                                                      "OWN", "PARAM"))]}}
+    names = stubbed_properties(ref)
+    assert names == ["TARGET_LOCATION", "OWN", "PARAM"]  # objects (`docker`) have no environment value
+    model = {"on": {"workflow_dispatch": {"inputs": {"PARAM": {}}}}, "env": {"OWN": "mine"},
+             "jobs": {"b": {"runs-on": "ubuntu-latest", "steps": [{"run": "true", "_j2gha": {"trace": True}}]}}}
+    for mode in ("trace", "full"):
+        variant, _ = make_variant(model, mode, "act", {"branch": "main"}, stubbed=names)
+        assert variant["env"]["TARGET_LOCATION"] == "j2gha-stub"
+        assert variant["env"]["OWN"] == "mine" and "PARAM" not in variant["env"]
+
+
+def test_self_assignment_from_a_parameter_adds_no_step():
+    from j2gha.ir import Pipeline, Stage
+    ir = Pipeline(dialect="declarative", stages=[Stage("Build", steps=[
+        _assign("VERSION", {"t": "prop", "text": "params.VERSION", "calls": []}, kind="<decl>")])])
+    out = convert(ir, "")
+    assert not any("GITHUB_ENV" in s.get("run", "") for s in out["workflow"]["jobs"]["build"]["steps"])
+    assert {i["status"] for i in out["report"]["items"] if i["jenkins"].startswith("decl VERSION")} == {"mapped"}

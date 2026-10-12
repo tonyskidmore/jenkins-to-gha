@@ -59,12 +59,41 @@ def build_ir(ast: dict) -> Pipeline | None:
         p.libraries = libraries
         if method:
             p.notes.append(f"pipeline {{}} is defined inside shared-library method '{method}()'")
+        p.constants = script_constants(ast)
         return p
     p = interpret_scripted(ast)
     p.methods = methods
     p.method_defs = method_defs
     p.libraries = libraries
+    p.constants = script_constants(ast)
     return p
+
+
+def script_constants(ast: dict) -> dict[str, str]:
+    """Top-level ``NAME = 'literal'`` script bindings assigned nowhere else: their value is fixed for the whole run."""
+    counts: dict[str, int] = {}
+
+    def walk(node: Any) -> None:
+        if isinstance(node, dict):
+            name = node.get("target") if node.get("k") == "assign" else node.get("name") if node.get("k") == "decl" else None
+            if isinstance(name, str):
+                counts[name] = counts.get(name, 0) + 1
+            for v in node.values():
+                walk(v)
+        elif isinstance(node, list):
+            for v in node:
+                walk(v)
+
+    walk(ast.get("statements"))
+    walk(ast.get("methods"))
+    walk(ast.get("classes"))
+    out: dict[str, str] = {}
+    for s in ast.get("statements", []):
+        value = s.get("value") or {}
+        if (s.get("k") == "assign" and s.get("op") == "=" and isinstance(s.get("target"), str)
+                and value.get("t") == "str" and counts.get(s["target"]) == 1):
+            out[s["target"]] = str(value.get("v"))
+    return out
 
 
 def _libraries(ast: dict) -> list[str]:
@@ -555,13 +584,23 @@ def parse_script_body(body: list[dict] | None) -> list[Step]:
             v = s.get("value") or {}
             inner = [parse_step(v["call"])] if v.get("t") == "call" else []
             target = str(s.get("name") or s.get("target") or "").strip()
-            named = {"_target": target, **({"_literal": v["v"]} if v.get("t") == "str" else {})}
+            named = {"_target": target, **({"_literal": v["v"]} if v.get("t") == "str" else {}),
+                     "_value": _strip_positions(v)}  # the right-hand side, for values the converter can carry on
             out.append(Step(name=f"<{k}>", line=s.get("line"), category="dynamic", dynamic=True,
                             source=f"{target} = {value_text(v)}", body=inner, named=named))
         else:
             out.append(Step(name=f"<{k}>", line=s.get("line"), category="dynamic", dynamic=True,
                             source=s.get("text")))
     return out
+
+
+def _strip_positions(node: Any) -> Any:
+    """An AST value without its source positions (they are on the step already)."""
+    if isinstance(node, dict):
+        return {k: _strip_positions(v) for k, v in node.items() if k not in ("line", "col", "endLine", "endCol")}
+    if isinstance(node, list):
+        return [_strip_positions(v) for v in node]
+    return node
 
 
 def _short_receiver(receiver: str | None) -> str | None:

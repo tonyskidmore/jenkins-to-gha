@@ -152,6 +152,7 @@ class Pipeline:
     methods: list[str] = field(default_factory=list)  # script-level helper methods
     method_defs: dict[str, Any] = field(default_factory=dict)  # name -> {"params": [...], "body": [Step]}
     notes: list[str] = field(default_factory=list)  # interpretation caveats
+    constants: dict[str, str] = field(default_factory=dict)  # top-level `NAME = 'literal'` bindings nothing reassigns
 
     def to_dict(self) -> dict[str, Any]:
         return _prune(asdict(self))

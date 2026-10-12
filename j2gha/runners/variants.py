@@ -23,7 +23,7 @@ import shlex
 from typing import Any
 
 from ..convert.generator import JENKINS_ENV
-from ..jenkins.localize import FAKE_PASSWORD, FAKE_SECRET, FAKE_USER
+from ..jenkins.localize import FAKE_PASSWORD, FAKE_SECRET, FAKE_USER, STUB_VALUE, STUBBED_PROPERTY_CHANGE
 from ..outputs import root_marker
 from ..trace import marker_cmd
 
@@ -37,13 +37,25 @@ SAFE_FLAG_OPTIONS = {"--init", "--read-only", "--rm", "-i", "--interactive", "-t
 MAX_MATRIX_JOBS = 256  # GitHub's per-matrix limit: the bound for matrices that cannot be expanded statically
 
 
+_STUBBED = re.compile(re.escape(STUBBED_PROPERTY_CHANGE).replace(re.escape("{}"), "([^']+)"))
+
+
+def stubbed_properties(reference: dict[str, Any] | None) -> list[str]:
+    """Environment-like (upper-case) properties the Jenkins reference ran with as permissive stubs: an undeclared
+    `TARGET_LOCATION` reads 'j2gha-stub' there, so the converted run gets the same value instead of an empty one."""
+    changes = ((reference or {}).get("localisation") or {}).get("changes") or []
+    names = (m.group(1) for c in changes if (m := _STUBBED.fullmatch(c)))
+    return list(dict.fromkeys(n for n in names if re.fullmatch(r"[A-Z_][A-Z0-9_]*", n)))
+
+
 def make_variant(model: dict[str, Any], mode: str, target: str, scenario: dict[str, Any],
                  source: dict[str, Any] | None = None, runner_label: str | None = None,
                  branch: str | None = None, max_minutes: int = 10,
-                 environments: dict[str, str] | None = None) -> tuple[dict[str, Any], dict[str, Any]]:
+                 environments: dict[str, str] | None = None,
+                 stubbed: list[str] | None = None) -> tuple[dict[str, Any], dict[str, Any]]:
     """``environments`` (remote tiers, `run --environments`): harness environment name -> sha256 of its canary
     secret; the variant then keeps every job's environment under that name (gha.environments). Otherwise every
-    `environment` is removed."""
+    `environment` is removed. ``stubbed``: stubbed_properties() of the Jenkins reference."""
     keep_env = bool(environments) and target != "act"
     wf = copy.deepcopy(model)
     # only declared parameters (the dispatch inputs) can be set by a scenario; pipeline and harness env cannot
@@ -68,6 +80,9 @@ def make_variant(model: dict[str, Any], mode: str, target: str, scenario: dict[s
     pin("GIT_BRANCH", scenario.get("git_branch", scenario.get("branch", "main")), always=True)
     for k in ("CHANGE_TARGET", "CHANGE_BRANCH", "CHANGE_AUTHOR", "CHANGE_TITLE", "CHANGE_URL"):
         pin(k, scenario.get(k.lower(), ""))
+    for name in stubbed or []:
+        if name not in env and name not in inputs:  # the pipeline's own value, or a parameter, is never replaced
+            env[name] = STUB_VALUE
     if mode == "full" and source and source.get("sha"):
         # the checkout is pinned to the cited upstream commit on every target (act's workspace holds it too):
         # GIT_COMMIT names that commit, as Jenkins' does, not the harness run branch's `github.sha`
