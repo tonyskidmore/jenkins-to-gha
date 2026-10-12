@@ -3,7 +3,7 @@
   "mode": "full",
   "result": "failure",
   "exit_code": 1,
-  "seconds": 18.0,
+  "seconds": 25.1,
   "jobs": {
     "setup": {
       "result": "failure"
@@ -14,12 +14,12 @@
   },
   "traces": [],
   "failed_steps": [
-    "Build: tar --exclude='./.git' --exclude='./Jenkinsfile' --exclude='*.tar.gz'",
+    "Publish: curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ${packname} ${pu",
     "Restore pipeline workspace (approval)"
   ],
   "error_tail": [
-    "{\"level\":\"info\",\"msg\":\"Using docker host 'unix:///var/run/docker.sock', and daemon socket '-'\",\"time\":\"2026-10-10T08:27:07Z\"}",
-    "{\"level\":\"info\",\"msg\":\"Start server on http://172.17.0.3:34567\",\"time\":\"2026-10-10T08:27:07Z\"}",
+    "{\"level\":\"info\",\"msg\":\"Using docker host 'unix:///var/run/docker.sock', and daemon socket '-'\",\"time\":\"2026-10-12T13:05:56Z\"}",
+    "{\"level\":\"info\",\"msg\":\"Start server on http://172.17.0.3:34567\",\"time\":\"2026-10-12T13:05:56Z\"}",
     "Error: Job 'Setup, Build, Publish, DEV Deploy, PRE Deploy' failed"
   ],
   "outputs": {
@@ -28,8 +28,8 @@
     "injected": [
       {
         "path": ".github/workflows/j2gha.yml",
-        "size": 22170,
-        "sha256": "3deaa18af28c9a0ce0214b56213e6faa625aaaf41af02a273020dfde0c3ad8a5"
+        "size": 24505,
+        "sha256": "3ae397b1d57510fac1830b97cc992553a3aa73c6a2dc7c9c19bc84c88b9d4967"
       }
     ]
   },
@@ -45,7 +45,7 @@
       "git_branch": "origin/master"
     },
     "mode": "full",
-    "model_sha256": "8a419b0db5c568ec43b4d4f80d2d03e9a1ef77b908cf807f138c946fb823db7c",
+    "model_sha256": "e20a9bef8900e697be0746781189b8de575d3322a38603bb4495b4e754f6e7a4",
     "images": {
       "jenkins": {
         "ref": "j2gha/jenkins:local",
@@ -97,17 +97,17 @@
       }
     }
   },
-  "finished_at": "2026-10-10T08:27:24+00:00",
+  "finished_at": "2026-10-12T13:06:20+00:00",
   "comparison": {
     "mode": "full",
-    "verdict": "differs",
-    "equivalent": false,
-    "similarity_pct": 0.0,
+    "verdict": "equivalent",
+    "equivalent": true,
+    "similarity_pct": 100.0,
     "jenkins_result": "FAILURE",
     "gha_result": "failure",
     "jenkins_failed_stage": "Publish",
-    "gha_failed_stage": "Build",
-    "gha_failed_step": "Build: tar --exclude='./.git' --exclude='./Jenkinsfile' --exclude='*.tar.gz'",
+    "gha_failed_stage": "Publish",
+    "gha_failed_step": "Publish: curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ${packname} ${pu",
     "stages": [],
     "outputs": {
       "tests": {

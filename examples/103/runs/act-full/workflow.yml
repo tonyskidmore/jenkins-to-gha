@@ -33,7 +33,14 @@ jobs:
       run: 'true'
     - name: 'Check Commit Message: git log -1 --pretty=format:%s'
       id: s1
-      run: git log -1 --pretty=format:%s
+      run: |-
+        commitMsg="$(
+        git log -1 --pretty=format:%s
+        )"
+        commitMsg="${commitMsg#"${commitMsg%%[![:space:]]*}"}"
+        commitMsg="${commitMsg%"${commitMsg##*[![:space:]]}"}"
+        { echo 'commitMsg<<J2GHA_EOF'; printf '%s\n' "$commitMsg"; echo J2GHA_EOF; } >> "$GITHUB_ENV"
+        { echo 'commitMsg<<J2GHA_EOF'; printf '%s\n' "$commitMsg"; echo J2GHA_EOF; } >> "$GITHUB_OUTPUT"
     - name: 'Check Commit Message: Groovy if (manual)'
       id: s2
       run: 'echo "::warning::manual migration: Groovy condition at line 39: skipKeywords.any { commitMsg.toLowerCase().contains(it)

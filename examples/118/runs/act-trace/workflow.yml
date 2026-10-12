@@ -28,80 +28,80 @@ jobs:
     timeout-minutes: 5
     steps:
     - name: 'Get Repos: deleteDir'
-      id: s1
+      id: s11
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Get Repos","step":"deleteDir"}'
     - name: 'Get App Release Tags: git describe --abbrev=0 --tags `git rev-list --tags --skip=1 --max-cou'
-      id: s5
+      id: s16
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Get App Release Tags","step":"sh"}'
     - name: 'Check Artefacts from Input Params: ${cmd}'
-      id: s8
+      id: s26
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Check Artefacts from Input Params","step":"sh"}'
     - name: 'Check Artefacts from Input Params: ${cmd2}'
-      id: s9
+      id: s28
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Check Artefacts from Input Params","step":"sh"}'
     - name: 'Check Artefacts from Input Params: ${cmd3}'
-      id: s12
+      id: s32
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Check Artefacts from Input Params","step":"sh"}'
     - name: 'Check Artefacts from Input Params: ${cmd4}'
-      id: s13
+      id: s34
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Check Artefacts from Input Params","step":"sh"}'
     - name: 'Check App Version against Built artefacts: if (line 197)'
-      id: s16
+      id: s38
       if: env.DRYRUN == 'true'
       run: echo "taken=true" >> "$GITHUB_OUTPUT"
     - name: 'Check App Version against Built artefacts: if (line 197)'
-      id: s17
-      if: steps.s16.outcome == 'skipped'
+      id: s39
+      if: steps.s38.outcome == 'skipped'
       run: echo "taken=false" >> "$GITHUB_OUTPUT"
     - name: 'Check App Version against Built artefacts: trigger downstream ''Check App Release Tags'''
-      id: s18
-      if: steps.s17.outputs.taken == 'false'
+      id: s40
+      if: steps.s39.outputs.taken == 'false'
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Check App Version against Built artefacts","step":"build"}'
     - name: 'Create and Push Release Manifest: if (line 211)'
-      id: s19
+      id: s42
       if: env.DRYRUN == 'true'
       run: echo "taken=true" >> "$GITHUB_OUTPUT"
     - name: 'Create and Push Release Manifest: if (line 211)'
-      id: s20
-      if: steps.s19.outcome == 'skipped'
+      id: s43
+      if: steps.s42.outcome == 'skipped'
       run: echo "taken=false" >> "$GITHUB_OUTPUT"
     - name: 'Create and Push Release Manifest: deleteDir'
-      id: s22
-      if: steps.s20.outputs.taken == 'false'
+      id: s45
+      if: steps.s43.outputs.taken == 'false'
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Create and Push Release Manifest","step":"deleteDir"}'
     - name: 'Create and Push Release Manifest: git init -q -b develop ${WORKSPACE}/.gitlab/aws/app-version.git && cd'
-      id: s23
-      if: steps.s20.outputs.taken == 'false'
+      id: s46
+      if: steps.s43.outputs.taken == 'false'
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Create and Push Release Manifest","step":"sh"}'
     - name: 'Create and Push Release Manifest: checkout'
-      id: s24
-      if: steps.s20.outputs.taken == 'false'
+      id: s47
+      if: steps.s43.outputs.taken == 'false'
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Create and Push Release Manifest","step":"checkout"}'
     - name: 'Create and Push Release Manifest: ls -lrt'
-      id: s25
-      if: steps.s20.outputs.taken == 'false'
+      id: s48
+      if: steps.s43.outputs.taken == 'false'
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Create and Push Release Manifest","step":"sh"}'
     - name: 'Create and Push Release Manifest: git checkout -b release-candidate'
-      id: s26
-      if: steps.s20.outputs.taken == 'false'
+      id: s49
+      if: steps.s43.outputs.taken == 'false'
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Create and Push Release Manifest","step":"sh"}'
     - name: 'Create and Push Release Manifest: writeFile hiera/app_version.eyaml'
-      id: s27
-      if: steps.s20.outputs.taken == 'false'
+      id: s50
+      if: steps.s43.outputs.taken == 'false'
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Create and Push Release Manifest","step":"writeFile"}'
     - name: 'Create and Push Release Manifest: git status'
-      id: s28
-      if: steps.s20.outputs.taken == 'false'
+      id: s51
+      if: steps.s43.outputs.taken == 'false'
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Create and Push Release Manifest","step":"sh"}'
     - name: 'Create and Push Release Manifest: git add hiera/app_version.eyaml'
-      id: s29
-      if: steps.s20.outputs.taken == 'false'
+      id: s52
+      if: steps.s43.outputs.taken == 'false'
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Create and Push Release Manifest","step":"sh"}'
     - name: 'Create and Push Release Manifest: git -c user.name=j2gha -c user.email=j2gha@localhost commit -m "Releas'
-      id: s30
-      if: steps.s20.outputs.taken == 'false'
+      id: s53
+      if: steps.s43.outputs.taken == 'false'
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Create and Push Release Manifest","step":"sh"}'
     - name: 'Create and Push Release Manifest: git push --set-upstream origin release-candidate'
-      id: s31
-      if: steps.s20.outputs.taken == 'false'
+      id: s54
+      if: steps.s43.outputs.taken == 'false'
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Create and Push Release Manifest","step":"sh"}'

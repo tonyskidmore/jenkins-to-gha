@@ -10,7 +10,7 @@ env:
   TAG_NAME: ''
   CHANGE_ID: ''
   BUILD_NUMBER: ${{ github.run_number }}
-  JOB_NAME: ${{ github.workflow }}
+  JOB_NAME: ex-115-trace
   GIT_COMMIT: ${{ github.sha }}
   TARGET_VERSION: ${{ github.event_name != 'workflow_dispatch' && 'NONE' || format('{0}', inputs.TARGET_VERSION) }}
   ARTIFACTORY_CREDS: j2gha-fake-secret
@@ -34,11 +34,11 @@ jobs:
       id: s1
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Detect Secrets","step":"detectSecrets"}'
     - name: 'QA: enter stage'
-      id: s2
+      id: s3
       run: echo "run=true" >> "$GITHUB_OUTPUT"
     - name: 'QA: echo ./scripts/setup_couch.sh'
-      id: s3
-      if: steps.s2.outputs.run == 'true'
+      id: s4
+      if: steps.s3.outputs.run == 'true'
       env:
         DOCKER_HOST: ''
         SERVER_AUTH_TYPE: basic
@@ -49,8 +49,8 @@ jobs:
         SERVER_PASSWORD: j2gha-fake-password
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"QA","step":"sh"}'
     - name: 'QA: echo ./scripts/setup_wiremock.sh'
-      id: s4
-      if: steps.s2.outputs.run == 'true'
+      id: s5
+      if: steps.s3.outputs.run == 'true'
       env:
         DOCKER_HOST: ''
         SERVER_AUTH_TYPE: basic
@@ -61,8 +61,8 @@ jobs:
         SERVER_PASSWORD: j2gha-fake-password
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"QA","step":"sh"}'
     - name: 'QA: npm ci --no-audit'
-      id: s5
-      if: steps.s2.outputs.run == 'true'
+      id: s6
+      if: steps.s3.outputs.run == 'true'
       env:
         DOCKER_HOST: ''
         SERVER_AUTH_TYPE: basic
@@ -75,9 +75,9 @@ jobs:
         NPMRC_TOKEN: j2gha-fake-password
         NPM_CONFIG_USERCONFIG: /dev/null
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"QA","step":"sh"}'
-    - name: 'QA: npm run test-unit'
-      id: s6
-      if: steps.s2.outputs.run == 'true'
+    - name: 'QA: sed -i ''s/const DWELL_TIME = 200;/const DWELL_TIME = 1000;/'' test/unit'
+      id: s7
+      if: steps.s3.outputs.run == 'true'
       env:
         DOCKER_HOST: ''
         SERVER_AUTH_TYPE: basic
@@ -91,113 +91,113 @@ jobs:
         NPM_CONFIG_USERCONFIG: /dev/null
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"QA","step":"sh"}'
     - name: 'QA: junit summary'
-      id: s7
-      if: ((always()) && (steps.s2.outcome == 'success')) && (always())
+      id: s8
+      if: ((always()) && (steps.s3.outcome == 'success')) && (always())
       env:
         J2GHA_JUNIT: '**/junitreports/*.xml'
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"QA","step":"junit"}'
     - name: 'SonarQube analysis: enter stage'
-      id: s9
+      id: s10
       if: ((env.CHANGE_ID != '' || env.BRANCH_IS_PRIMARY != '')) && (!(((env.CHANGE_ID != '' && ((startsWith(env.CHANGE_BRANCH,
         'dependabot') && !contains(env.CHANGE_BRANCH, '/')))) && !((env.CHANGE_ID != '' && (vars.J2GHA_WHEN_L82 == 'true'))))))
       run: echo "run=true" >> "$GITHUB_OUTPUT"
     - name: 'SonarQube analysis: stage environment'
-      id: s10
-      if: steps.s9.outputs.run == 'true'
+      id: s11
+      if: steps.s10.outputs.run == 'true'
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"SonarQube analysis","step":"tool"}'
     - name: 'SonarQube analysis: scanCode (manual migration)'
-      id: s11
-      if: steps.s9.outputs.run == 'true'
+      id: s12
+      if: steps.s10.outputs.run == 'true'
       env:
         scannerHome: 'TODO-j2gha: tool()'
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"SonarQube analysis","step":"scanCode"}'
     - name: 'Publish[staging]: enter stage'
-      id: s12
+      id: s13
       if: '!(env.TAG_NAME != '''')'
       run: echo "run=true" >> "$GITHUB_OUTPUT"
     - name: 'Publish[staging]: bumpVersion (manual migration)'
-      id: s13
-      if: steps.s12.outputs.run == 'true'
+      id: s14
+      if: steps.s13.outputs.run == 'true'
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Publish[staging]","step":"bumpVersion"}'
     - name: 'Publish[staging]: customizePublishingInfo (manual migration)'
-      id: s14
-      if: steps.s12.outputs.run == 'true'
+      id: s15
+      if: steps.s13.outputs.run == 'true'
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Publish[staging]","step":"customizePublishingInfo"}'
     - name: 'Publish[staging]: npm run build'
-      id: s15
-      if: steps.s12.outputs.run == 'true'
+      id: s16
+      if: steps.s13.outputs.run == 'true'
       env:
         NPMRC_USER: j2gha-user
         NPMRC_TOKEN: j2gha-fake-password
         NPM_CONFIG_USERCONFIG: /dev/null
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Publish[staging]","step":"sh"}'
     - name: 'Publish[staging]: npm pack ./dist'
-      id: s16
-      if: steps.s12.outputs.run == 'true'
+      id: s17
+      if: steps.s13.outputs.run == 'true'
       env:
         NPMRC_USER: j2gha-user
         NPMRC_TOKEN: j2gha-fake-password
         NPM_CONFIG_USERCONFIG: /dev/null
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Publish[staging]","step":"sh"}'
     - name: 'Publish[staging]: publishArtifactoryBuildInfo (manual migration)'
-      id: s17
-      if: steps.s12.outputs.run == 'true'
+      id: s18
+      if: steps.s13.outputs.run == 'true'
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Publish[staging]","step":"publishArtifactoryBuildInfo"}'
     - name: 'Publish[staging]: git reset --hard'
-      id: s18
-      if: (always()) && (steps.s12.outcome == 'success')
+      id: s19
+      if: (always()) && (steps.s13.outcome == 'success')
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Publish[staging]","step":"sh"}'
     - name: 'Run Gauge tests: enter stage'
-      id: s19
+      id: s20
       if: '!(env.TAG_NAME != '''')'
       run: echo "run=true" >> "$GITHUB_OUTPUT"
     - name: 'Run Gauge tests: if (line 138)'
-      id: s20
-      if: (steps.s19.outputs.run == 'true') && (env.TAG_NAME != '' || env.BRANCH_IS_PRIMARY != '')
+      id: s22
+      if: (steps.s20.outputs.run == 'true') && (env.TAG_NAME != '' || env.BRANCH_IS_PRIMARY != '')
       run: echo "taken=true" >> "$GITHUB_OUTPUT"
     - name: 'Run Gauge tests: if (line 138)'
-      id: s21
-      if: (steps.s19.outputs.run == 'true') && (steps.s20.outcome == 'skipped')
+      id: s23
+      if: (steps.s20.outputs.run == 'true') && (steps.s22.outcome == 'skipped')
       run: echo "taken=false" >> "$GITHUB_OUTPUT"
     - name: 'Run Gauge tests: try (line 142)'
-      id: s22
-      if: steps.s19.outputs.run == 'true'
+      id: s25
+      if: steps.s20.outputs.run == 'true'
       run: echo "run=true" >> "$GITHUB_OUTPUT"
     - name: 'Run Gauge tests: trigger downstream ''/${env.SDKS_GAUGE_PIPELINE_PROJECT}/${gaugeBranchName}'''
-      id: s23
-      if: steps.s19.outputs.run == 'true'
+      id: s26
+      if: steps.s20.outputs.run == 'true'
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Run Gauge tests","step":"build"}'
     - name: 'Mend scan: enter stage'
-      id: s25
+      id: s28
       if: env.BRANCH_IS_PRIMARY != ''
       run: echo "run=true" >> "$GITHUB_OUTPUT"
     - name: 'Mend scan: mendScan (manual migration)'
-      id: s26
-      if: steps.s25.outputs.run == 'true'
+      id: s29
+      if: steps.s28.outputs.run == 'true'
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Mend scan","step":"mendScan"}'
     - name: 'Update version and tag: enter stage'
-      id: s27
+      id: s30
       if: (env.BRANCH_NAME == 'main' && !((env.TARGET_VERSION) == ('NONE')))
       run: echo "run=true" >> "$GITHUB_OUTPUT"
     - name: 'Update version and tag: gitsh (manual migration)'
-      id: s30
-      if: steps.s27.outputs.run == 'true'
+      id: s33
+      if: steps.s30.outputs.run == 'true'
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Update version and tag","step":"gitsh"}'
     - name: 'Update version and tag: bumpVersion (manual migration)'
-      id: s28
-      if: steps.s27.outputs.run == 'true'
+      id: s31
+      if: steps.s30.outputs.run == 'true'
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Update version and tag","step":"bumpVersion"}'
     - name: 'Update version and tag: git push --tags origin HEAD:main'
-      id: s29
-      if: steps.s27.outputs.run == 'true'
+      id: s32
+      if: steps.s30.outputs.run == 'true'
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Update version and tag","step":"sh"}'
     - name: 'Publish[repository]: enter stage'
-      id: s31
+      id: s34
       if: (env.TAG_NAME != '' && (vars.J2GHA_WHEN_L200 == 'true'))
       run: echo "run=true" >> "$GITHUB_OUTPUT"
     - name: 'Publish[repository]: npm run build'
-      id: s32
-      if: steps.s31.outputs.run == 'true'
+      id: s35
+      if: steps.s34.outputs.run == 'true'
       env:
         NPMRC_EMAIL: j2gha-fake-secret
         NPMRC_USER: j2gha-user
@@ -205,8 +205,8 @@ jobs:
         NPM_CONFIG_USERCONFIG: /dev/null
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Publish[repository]","step":"sh"}'
     - name: 'Publish[repository]: npm pack ./dist'
-      id: s33
-      if: steps.s31.outputs.run == 'true'
+      id: s36
+      if: steps.s34.outputs.run == 'true'
       env:
         NPMRC_EMAIL: j2gha-fake-secret
         NPMRC_USER: j2gha-user
@@ -214,10 +214,10 @@ jobs:
         NPM_CONFIG_USERCONFIG: /dev/null
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Publish[repository]","step":"sh"}'
     - name: 'Publish[repository]: gitsh (manual migration)'
-      id: s35
-      if: steps.s31.outputs.run == 'true'
+      id: s38
+      if: steps.s34.outputs.run == 'true'
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Publish[repository]","step":"gitsh"}'
     - name: 'Publish[repository]: ./scripts/typedoc/publish-doc.sh'
-      id: s34
-      if: steps.s31.outputs.run == 'true'
+      id: s37
+      if: steps.s34.outputs.run == 'true'
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Publish[repository]","step":"sh"}'

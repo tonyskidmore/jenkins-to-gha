@@ -26,45 +26,59 @@ jobs:
       with:
         persist-credentials: false
     - name: podTemplate (manual migration)
-      id: s10
+      id: s11
       run: echo "::warning::Jenkins step 'podTemplate' requires manual migration"
     - name: withFolderProperties (manual migration)
       id: s1
       run: echo "::warning::Jenkins step 'withFolderProperties' requires manual migration"
-    - name: 'checkout: checkout'
+    - name: ': set APP_ID'
       id: s2
+      run: |-
+        APP_ID=""
+        { echo 'APP_ID<<J2GHA_EOF'; printf '%s\n' "$APP_ID"; echo J2GHA_EOF; } >> "$GITHUB_ENV"
+        { echo 'APP_ID<<J2GHA_EOF'; printf '%s\n' "$APP_ID"; echo J2GHA_EOF; } >> "$GITHUB_OUTPUT"
+      shell: bash
+    - name: 'checkout: checkout'
+      id: s3
       uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
       with:
         persist-credentials: false
     - name: 'Get IPA from AWS S3: test -n "$AWS_ACCESS_KEY_ID" && echo https://raw.githubusercontent.com'
-      id: s3
+      id: s4
       run: test -n "$AWS_ACCESS_KEY_ID" && echo https://raw.githubusercontent.com/dvsa/cvs-auto-mobile-app-retired/bf150f606a385a8ed5eacc00070a988c675dd815/README.md
         > ${LBRANCH}.txt
       env:
         AWS_ACCESS_KEY_ID: j2gha-user
         AWS_SECRET_ACCESS_KEY: j2gha-fake-password
     - name: 'install ipa in browserstack: curl -sSfLo CVSMobile.ipa `cat ${LBRANCH}.txt`'
-      id: s4
+      id: s5
       run: curl -sSfLo CVSMobile.ipa `cat ${LBRANCH}.txt`
     - name: 'install ipa in browserstack: test -n "$BROWSERSTACK_CREDS" && echo ''{"app_url":"bs://j2gha-local"}'''
-      id: s5
-      run: test -n "$BROWSERSTACK_CREDS" && echo '{"app_url":"bs://j2gha-local"}' | jq ".app_url"
+      id: s6
+      run: |-
+        APP_ID="$(
+        test -n "$BROWSERSTACK_CREDS" && echo '{"app_url":"bs://j2gha-local"}' | jq ".app_url"
+        )"
+        APP_ID="${APP_ID#"${APP_ID%%[![:space:]]*}"}"
+        APP_ID="${APP_ID%"${APP_ID##*[![:space:]]}"}"
+        { echo 'APP_ID<<J2GHA_EOF'; printf '%s\n' "$APP_ID"; echo J2GHA_EOF; } >> "$GITHUB_ENV"
+        { echo 'APP_ID<<J2GHA_EOF'; printf '%s\n' "$APP_ID"; echo J2GHA_EOF; } >> "$GITHUB_OUTPUT"
       env:
         BROWSERSTACK_CREDS: j2gha-fake-secret
     - name: 'test: browserstack (manual migration)'
-      id: s7
+      id: s8
       run: echo "::warning::Jenkins step 'browserstack' requires manual migration"
     - name: 'test: mvn --batch-mode clean install -DskipTests -DBROWSERSTACK_APP_ID=${APP'
-      id: s6
+      id: s7
       run: mvn --batch-mode clean install -DskipTests -DBROWSERSTACK_APP_ID=${APP_ID} -Dorg.slf4j.simpleLogger.log.org.apache.maven.cli.transfer.Slf4jMavenTransferListener=warn
     - name: 'create report: mkdir -p target/site/serenity && echo "<html><body><h1>DVSA CVS Mobile'
-      id: s8
+      id: s9
       run: mkdir -p target/site/serenity && echo "<html><body><h1>DVSA CVS Mobile Automation</h1><p>j2gha-local stand-in for
         the Serenity report</p></body></html>" > target/site/serenity/index.html
     - name: 'create report: publish HTML report'
-      id: s9
+      id: s10
       if: always()
       uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
       with:
-        name: html-report-9
+        name: html-report-10
         path: target/site/serenity

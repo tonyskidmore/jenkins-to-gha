@@ -3,7 +3,7 @@ name: j2gha harness run
 on:
   push:
     branches:
-    - j2gha/run/014-full-selfhosted-20261012091853
+    - j2gha/run/014-full-selfhosted-20261012124920
   workflow_dispatch:
 permissions:
   contents: read
@@ -23,7 +23,7 @@ jobs:
     name: Update OpenROAD to HEAD of master branch, Build Docker OpenLane image with openroad_app master
     runs-on:
     - self-hosted
-    - j2gha-d37dae73
+    - j2gha-68e782eb
     timeout-minutes: 10
     steps:
     - name: Checkout
@@ -55,7 +55,7 @@ jobs:
           bash --noprofile --norc -eo pipefail "$j2gha_script" || rc=$?
           if [ "$rc" = 0 ]; then break; fi
           if [ "$attempt" = 3 ]; then exit "$rc"; fi
-          echo "retrying ($attempt/3)"
+          echo "retrying ($attempt/3)" >&2
         done
       shell: bash
     - name: 'Build Docker OpenLane image with openroad_app master: make -C docker build-openroad_app'
@@ -70,12 +70,13 @@ jobs:
           bash --noprofile --norc -eo pipefail "$j2gha_script" || rc=$?
           if [ "$rc" = 0 ]; then break; fi
           if [ "$attempt" = 3 ]; then exit "$rc"; fi
-          echo "retrying ($attempt/3)"
+          echo "retrying ($attempt/3)" >&2
         done
       shell: bash
     - name: 'Build Docker OpenLane image with openroad_app master: python3 dependencies/tool.py -f commit openroad_app'
       id: s5
       run: |-
+        NEW_SHA="$(
         j2gha_script="$(mktemp "${RUNNER_TEMP:-/tmp}/j2gha-retry.XXXXXX")"
         cat > "$j2gha_script" <<'J2GHA_RETRY_EOF'
         python3 dependencies/tool.py -f commit openroad_app
@@ -85,8 +86,13 @@ jobs:
           bash --noprofile --norc -eo pipefail "$j2gha_script" || rc=$?
           if [ "$rc" = 0 ]; then break; fi
           if [ "$attempt" = 3 ]; then exit "$rc"; fi
-          echo "retrying ($attempt/3)"
+          echo "retrying ($attempt/3)" >&2
         done
+        )"
+        NEW_SHA="${NEW_SHA#"${NEW_SHA%%[![:space:]]*}"}"
+        NEW_SHA="${NEW_SHA%"${NEW_SHA##*[![:space:]]}"}"
+        { echo 'NEW_SHA<<J2GHA_EOF'; printf '%s\n' "$NEW_SHA"; echo J2GHA_EOF; } >> "$GITHUB_ENV"
+        { echo 'NEW_SHA<<J2GHA_EOF'; printf '%s\n' "$NEW_SHA"; echo J2GHA_EOF; } >> "$GITHUB_OUTPUT"
       shell: bash
     - name: 'Build Docker OpenLane image with openroad_app master: make -C docker openlane OPENLANE_IMAGE_NAME=current:latest'
       id: s6
@@ -100,7 +106,7 @@ jobs:
           bash --noprofile --norc -eo pipefail "$j2gha_script" || rc=$?
           if [ "$rc" = 0 ]; then break; fi
           if [ "$attempt" = 3 ]; then exit "$rc"; fi
-          echo "retrying ($attempt/3)"
+          echo "retrying ($attempt/3)" >&2
         done
       shell: bash
     - name: 'Build Docker OpenLane image with openroad_app master: docker save current:latest-amd64 | gzip > openlane-current.tar.gz'
@@ -115,7 +121,7 @@ jobs:
           bash --noprofile --norc -eo pipefail "$j2gha_script" || rc=$?
           if [ "$rc" = 0 ]; then break; fi
           if [ "$attempt" = 3 ]; then exit "$rc"; fi
-          echo "retrying ($attempt/3)"
+          echo "retrying ($attempt/3)" >&2
         done
       shell: bash
     - name: 'Build Docker OpenLane image with openroad_app master: stash data'
@@ -169,7 +175,7 @@ jobs:
           bash --noprofile --norc -eo pipefail "$j2gha_script" || rc=$?
           if [ "$rc" = 0 ]; then break; fi
           if [ "$attempt" = 3 ]; then exit "$rc"; fi
-          echo "retrying ($attempt/3)"
+          echo "retrying ($attempt/3)" >&2
         done
       shell: bash
     - name: 'Build Docker OpenLane image with openroad_app master: exit 1'
@@ -187,7 +193,7 @@ jobs:
           bash --noprofile --norc -eo pipefail "$j2gha_script" || rc=$?
           if [ "$rc" = 0 ]; then break; fi
           if [ "$attempt" = 3 ]; then exit "$rc"; fi
-          echo "retrying ($attempt/3)"
+          echo "retrying ($attempt/3)" >&2
         done
       shell: bash
     - name: Hand on the pipeline workspace (archive)
@@ -212,7 +218,7 @@ jobs:
     needs: update-openroad-to-head-of-master-branch
     runs-on:
     - self-hosted
-    - j2gha-d37dae73
+    - j2gha-68e782eb
     timeout-minutes: 10
     strategy:
       fail-fast: false
@@ -417,7 +423,14 @@ jobs:
     - name: '${DESIGN} - Update OpenROAD commit: python3 dependencies/tool.py -f commit openroad_app'
       id: s17
       if: steps.s11.outputs.run == 'true'
-      run: python3 dependencies/tool.py -f commit openroad_app
+      run: |-
+        OLD_SHA="$(
+        python3 dependencies/tool.py -f commit openroad_app
+        )"
+        OLD_SHA="${OLD_SHA#"${OLD_SHA%%[![:space:]]*}"}"
+        OLD_SHA="${OLD_SHA%"${OLD_SHA##*[![:space:]]}"}"
+        { echo 'OLD_SHA<<J2GHA_EOF'; printf '%s\n' "$OLD_SHA"; echo J2GHA_EOF; } >> "$GITHUB_ENV"
+        { echo 'OLD_SHA<<J2GHA_EOF'; printf '%s\n' "$OLD_SHA"; echo J2GHA_EOF; } >> "$GITHUB_OUTPUT"
     - name: '${DESIGN} - Update OpenROAD commit: sed -i s/${OLD_SHA}/${NEW_SHA}/ ./dependencies/tool_metadata.yml'
       id: s18
       if: steps.s11.outputs.run == 'true'
@@ -475,7 +488,7 @@ jobs:
     if: always()
     runs-on:
     - self-hosted
-    - j2gha-d37dae73
+    - j2gha-68e782eb
     steps:
     - name: Restore pipeline workspace (update-openroad-to-head-of-master-branch)
       id: j2gha-ws-update-openroad-to-head-of-master-branch

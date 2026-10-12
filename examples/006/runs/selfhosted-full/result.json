@@ -2,7 +2,7 @@
   "tier": "selfhosted",
   "mode": "full",
   "repo": "tonyskidmore/jenkins-to-gha",
-  "branch": "j2gha/run/006-full-selfhosted-20261012084848",
+  "branch": "j2gha/run/006-full-selfhosted-20261012130620",
   "estimate": {
     "typical": 0,
     "worst_case": 0,
@@ -13,9 +13,9 @@
     "matrix_jobs": 4,
     "jobs": 4
   },
-  "run_url": "https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38225892715",
+  "run_url": "https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38253373143",
   "result": "failure",
-  "run_id": 38225892715,
+  "run_id": 38253373143,
   "traces": [],
   "jobs": [
     {
@@ -24,164 +24,206 @@
       "conclusion": "failure",
       "labels": [
         "self-hosted",
-        "j2gha-30f3d246"
+        "j2gha-be95aa59"
       ],
-      "started_at": "2026-10-12T08:49:02Z",
-      "completed_at": "2026-10-12T08:49:18Z",
+      "started_at": "2026-10-12T13:06:35Z",
+      "completed_at": "2026-10-12T13:06:54Z",
       "steps": [
         {
           "name": "Set up job",
           "number": 1,
           "conclusion": "success",
-          "started_at": "2026-10-12T08:49:04Z",
-          "completed_at": "2026-10-12T08:49:06Z"
+          "started_at": "2026-10-12T13:06:37Z",
+          "completed_at": "2026-10-12T13:06:39Z"
         },
         {
           "name": "Checkout",
           "number": 2,
           "conclusion": "success",
-          "started_at": "2026-10-12T08:49:06Z",
-          "completed_at": "2026-10-12T08:49:08Z"
+          "started_at": "2026-10-12T13:06:39Z",
+          "completed_at": "2026-10-12T13:06:41Z"
         },
         {
           "name": "Setup: set target",
           "number": 3,
           "conclusion": "success",
-          "started_at": "2026-10-12T08:49:08Z",
-          "completed_at": "2026-10-12T08:49:08Z"
+          "started_at": "2026-10-12T13:06:41Z",
+          "completed_at": "2026-10-12T13:06:41Z"
         },
         {
           "name": "Setup: jq -r '.variable.iac_version.default' src/package.tf",
           "number": 4,
           "conclusion": "success",
-          "started_at": "2026-10-12T08:49:08Z",
-          "completed_at": "2026-10-12T08:49:08Z"
+          "started_at": "2026-10-12T13:06:41Z",
+          "completed_at": "2026-10-12T13:06:41Z"
+        },
+        {
+          "name": "Setup: set version",
+          "number": 5,
+          "conclusion": "success",
+          "started_at": "2026-10-12T13:06:41Z",
+          "completed_at": "2026-10-12T13:06:41Z"
+        },
+        {
+          "name": "Setup: set oversion",
+          "number": 6,
+          "conclusion": "success",
+          "started_at": "2026-10-12T13:06:41Z",
+          "completed_at": "2026-10-12T13:06:41Z"
+        },
+        {
+          "name": "Setup: set iacname",
+          "number": 7,
+          "conclusion": "success",
+          "started_at": "2026-10-12T13:06:41Z",
+          "completed_at": "2026-10-12T13:06:41Z"
+        },
+        {
+          "name": "Setup: set prjname",
+          "number": 8,
+          "conclusion": "success",
+          "started_at": "2026-10-12T13:06:41Z",
+          "completed_at": "2026-10-12T13:06:41Z"
+        },
+        {
+          "name": "Setup: set packname",
+          "number": 9,
+          "conclusion": "success",
+          "started_at": "2026-10-12T13:06:41Z",
+          "completed_at": "2026-10-12T13:06:41Z"
+        },
+        {
+          "name": "Setup: set publish_url",
+          "number": 10,
+          "conclusion": "success",
+          "started_at": "2026-10-12T13:06:41Z",
+          "completed_at": "2026-10-12T13:06:41Z"
         },
         {
           "name": "Build: sed -i 's/iac-provider/terraform/g' src/variables.tf",
-          "number": 5,
+          "number": 11,
           "conclusion": "success",
-          "started_at": "2026-10-12T08:49:08Z",
-          "completed_at": "2026-10-12T08:49:08Z"
+          "started_at": "2026-10-12T13:06:41Z",
+          "completed_at": "2026-10-12T13:06:41Z"
         },
         {
           "name": "Build: sed -i 's/iac-artifact/${packname}/g' src/variables.tf",
-          "number": 6,
+          "number": 12,
           "conclusion": "success",
-          "started_at": "2026-10-12T08:49:08Z",
-          "completed_at": "2026-10-12T08:49:08Z"
+          "started_at": "2026-10-12T13:06:41Z",
+          "completed_at": "2026-10-12T13:06:41Z"
         },
         {
           "name": "Build: sed -i 's/iac-scm-commit/${GIT_COMMIT}/g' src/variables.tf",
-          "number": 7,
+          "number": 13,
           "conclusion": "success",
-          "started_at": "2026-10-12T08:49:08Z",
-          "completed_at": "2026-10-12T08:49:08Z"
+          "started_at": "2026-10-12T13:06:41Z",
+          "completed_at": "2026-10-12T13:06:41Z"
         },
         {
           "name": "Build: sed -i 's|iac-scm-branch|${GIT_BRANCH}|g' src/variables.tf",
-          "number": 8,
+          "number": 14,
           "conclusion": "success",
-          "started_at": "2026-10-12T08:49:08Z",
-          "completed_at": "2026-10-12T08:49:08Z"
+          "started_at": "2026-10-12T13:06:41Z",
+          "completed_at": "2026-10-12T13:06:41Z"
         },
         {
           "name": "Build: sed -i 's/iac-build-by/jenkins/g' src/variables.tf",
-          "number": 9,
+          "number": 15,
           "conclusion": "success",
-          "started_at": "2026-10-12T08:49:08Z",
-          "completed_at": "2026-10-12T08:49:08Z"
+          "started_at": "2026-10-12T13:06:41Z",
+          "completed_at": "2026-10-12T13:06:41Z"
         },
         {
           "name": "Build: sed -i 's/iac-build-name/${JOB_NAME}/g' src/variables.tf",
-          "number": 10,
+          "number": 16,
           "conclusion": "success",
-          "started_at": "2026-10-12T08:49:08Z",
-          "completed_at": "2026-10-12T08:49:08Z"
+          "started_at": "2026-10-12T13:06:41Z",
+          "completed_at": "2026-10-12T13:06:41Z"
         },
         {
           "name": "Build: sed -i 's/iac-build-id/${BUILD_NUMBER}/g' src/variables.tf",
-          "number": 11,
+          "number": 17,
           "conclusion": "success",
-          "started_at": "2026-10-12T08:49:08Z",
-          "completed_at": "2026-10-12T08:49:08Z"
+          "started_at": "2026-10-12T13:06:41Z",
+          "completed_at": "2026-10-12T13:06:41Z"
         },
         {
           "name": "Build: sed -i 's/iac-build-date/${J2GHA_TODO_currentBuild_startTimeInMillis}/",
-          "number": 12,
+          "number": 18,
           "conclusion": "success",
-          "started_at": "2026-10-12T08:49:08Z",
-          "completed_at": "2026-10-12T08:49:08Z"
+          "started_at": "2026-10-12T13:06:41Z",
+          "completed_at": "2026-10-12T13:06:41Z"
         },
         {
           "name": "Build: sed -i 's/${oversion}/${version}/g' src/package.tf",
-          "number": 13,
+          "number": 19,
           "conclusion": "success",
-          "started_at": "2026-10-12T08:49:08Z",
-          "completed_at": "2026-10-12T08:49:08Z"
+          "started_at": "2026-10-12T13:06:41Z",
+          "completed_at": "2026-10-12T13:06:41Z"
         },
         {
           "name": "Build: tar --exclude='./.git' --exclude='./Jenkinsfile' --exclude='*.tar.gz'",
-          "number": 14,
-          "conclusion": "failure",
-          "started_at": "2026-10-12T08:49:08Z",
-          "completed_at": "2026-10-12T08:49:08Z"
+          "number": 20,
+          "conclusion": "success",
+          "started_at": "2026-10-12T13:06:41Z",
+          "completed_at": "2026-10-12T13:06:41Z"
         },
         {
           "name": "Publish: curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ${packname} ${pu",
-          "number": 15,
-          "conclusion": "skipped",
-          "started_at": "2026-10-12T08:49:08Z",
-          "completed_at": "2026-10-12T08:49:08Z"
+          "number": 21,
+          "conclusion": "failure",
+          "started_at": "2026-10-12T13:06:41Z",
+          "completed_at": "2026-10-12T13:06:41Z"
         },
         {
           "name": "DEV Deploy: bash $FOLLOW \"artifact\" \"${publish_url}\" \"29cd3a68-e101-4176-907c-6fdf",
-          "number": 16,
+          "number": 22,
           "conclusion": "skipped",
-          "started_at": "2026-10-12T08:49:08Z",
-          "completed_at": "2026-10-12T08:49:08Z"
+          "started_at": "2026-10-12T13:06:41Z",
+          "completed_at": "2026-10-12T13:06:41Z"
         },
         {
           "name": "PRE Deploy: enter stage",
-          "number": 17,
+          "number": 23,
           "conclusion": "skipped",
-          "started_at": "2026-10-12T08:49:08Z",
-          "completed_at": "2026-10-12T08:49:08Z"
+          "started_at": "2026-10-12T13:06:41Z",
+          "completed_at": "2026-10-12T13:06:41Z"
         },
         {
           "name": "PRE Deploy: bash $FOLLOW \"artifact\" \"${publish_url}\" \"ec0393b9-f0eb-4341-8812-eae2",
-          "number": 18,
+          "number": 24,
           "conclusion": "skipped",
-          "started_at": "2026-10-12T08:49:08Z",
-          "completed_at": "2026-10-12T08:49:08Z"
+          "started_at": "2026-10-12T13:06:41Z",
+          "completed_at": "2026-10-12T13:06:41Z"
         },
         {
           "name": "Hand on the pipeline workspace (archive)",
-          "number": 19,
+          "number": 25,
           "conclusion": "success",
-          "started_at": "2026-10-12T08:49:08Z",
-          "completed_at": "2026-10-12T08:49:08Z"
+          "started_at": "2026-10-12T13:06:41Z",
+          "completed_at": "2026-10-12T13:06:41Z"
         },
         {
           "name": "Hand on the pipeline workspace (upload)",
-          "number": 20,
+          "number": 26,
           "conclusion": "success",
-          "started_at": "2026-10-12T08:49:08Z",
-          "completed_at": "2026-10-12T08:49:10Z"
+          "started_at": "2026-10-12T13:06:41Z",
+          "completed_at": "2026-10-12T13:06:43Z"
         },
         {
           "name": "Post Checkout",
-          "number": 40,
+          "number": 52,
           "conclusion": "success",
-          "started_at": "2026-10-12T08:49:10Z",
-          "completed_at": "2026-10-12T08:49:11Z"
+          "started_at": "2026-10-12T13:06:43Z",
+          "completed_at": "2026-10-12T13:06:44Z"
         },
         {
           "name": "Complete job",
-          "number": 41,
+          "number": 53,
           "conclusion": "success",
-          "started_at": "2026-10-12T08:49:11Z",
-          "completed_at": "2026-10-12T08:49:11Z"
+          "started_at": "2026-10-12T13:06:44Z",
+          "completed_at": "2026-10-12T13:06:44Z"
         }
       ]
     },
@@ -191,80 +233,68 @@
       "conclusion": "success",
       "labels": [
         "self-hosted",
-        "j2gha-30f3d246"
+        "j2gha-be95aa59"
       ],
-      "started_at": "2026-10-12T08:49:20Z",
-      "completed_at": "2026-10-12T08:49:31Z",
+      "started_at": "2026-10-12T13:07:03Z",
+      "completed_at": "2026-10-12T13:07:12Z",
       "steps": [
         {
           "name": "Set up job",
           "number": 1,
           "conclusion": "success",
-          "started_at": "2026-10-12T08:49:23Z",
-          "completed_at": "2026-10-12T08:49:25Z"
+          "started_at": "2026-10-12T13:07:05Z",
+          "completed_at": "2026-10-12T13:07:06Z"
         },
         {
           "name": "Restore pipeline workspace (approval)",
           "number": 2,
           "conclusion": "success",
-          "started_at": "2026-10-12T08:49:25Z",
-          "completed_at": "2026-10-12T08:49:26Z"
+          "started_at": "2026-10-12T13:07:06Z",
+          "completed_at": "2026-10-12T13:07:07Z"
         },
         {
           "name": "Restore pipeline workspace (setup)",
           "number": 3,
           "conclusion": "success",
-          "started_at": "2026-10-12T08:49:26Z",
-          "completed_at": "2026-10-12T08:49:28Z"
+          "started_at": "2026-10-12T13:07:07Z",
+          "completed_at": "2026-10-12T13:07:09Z"
         },
         {
           "name": "Restore pipeline workspace (merge)",
           "number": 4,
           "conclusion": "success",
-          "started_at": "2026-10-12T08:49:28Z",
-          "completed_at": "2026-10-12T08:49:28Z"
+          "started_at": "2026-10-12T13:07:09Z",
+          "completed_at": "2026-10-12T13:07:09Z"
         },
         {
           "name": "post: rocketSend (manual migration)",
           "number": 5,
           "conclusion": "skipped",
-          "started_at": "2026-10-12T08:49:28Z",
-          "completed_at": "2026-10-12T08:49:28Z"
+          "started_at": "2026-10-12T13:07:09Z",
+          "completed_at": "2026-10-12T13:07:09Z"
         },
         {
           "name": "post: rocketSend (manual migration)",
           "number": 6,
           "conclusion": "success",
-          "started_at": "2026-10-12T08:49:28Z",
-          "completed_at": "2026-10-12T08:49:28Z"
+          "started_at": "2026-10-12T13:07:09Z",
+          "completed_at": "2026-10-12T13:07:09Z"
         },
         {
           "name": "post: rocketSend (manual migration)",
           "number": 7,
           "conclusion": "skipped",
-          "started_at": "2026-10-12T08:49:28Z",
-          "completed_at": "2026-10-12T08:49:28Z"
+          "started_at": "2026-10-12T13:07:09Z",
+          "completed_at": "2026-10-12T13:07:09Z"
         },
         {
           "name": "Complete job",
           "number": 8,
           "conclusion": "success",
-          "started_at": "2026-10-12T08:49:28Z",
-          "completed_at": "2026-10-12T08:49:28Z"
+          "started_at": "2026-10-12T13:07:09Z",
+          "completed_at": "2026-10-12T13:07:09Z"
         }
       ]
-    },
-    {
-      "name": "Approval, PRO Deploy",
-      "status": "completed",
-      "conclusion": "skipped",
-      "labels": [
-        "self-hosted",
-        "j2gha-30f3d246"
-      ],
-      "started_at": "2026-10-12T08:49:19Z",
-      "completed_at": "2026-10-12T08:49:18Z",
-      "steps": []
     },
     {
       "name": "Acceptance Test",
@@ -272,36 +302,48 @@
       "conclusion": "skipped",
       "labels": [
         "self-hosted",
-        "j2gha-30f3d246"
+        "j2gha-be95aa59"
       ],
-      "started_at": "2026-10-12T08:49:19Z",
-      "completed_at": "2026-10-12T08:49:18Z",
+      "started_at": "2026-10-12T13:06:55Z",
+      "completed_at": "2026-10-12T13:06:54Z",
+      "steps": []
+    },
+    {
+      "name": "Approval, PRO Deploy",
+      "status": "completed",
+      "conclusion": "skipped",
+      "labels": [
+        "self-hosted",
+        "j2gha-be95aa59"
+      ],
+      "started_at": "2026-10-12T13:06:55Z",
+      "completed_at": "2026-10-12T13:06:54Z",
       "steps": []
     }
   ],
   "failed_steps": [
-    "Build: tar --exclude='./.git' --exclude='./Jenkinsfile' --exclude='*.tar.gz'"
+    "Publish: curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ${packname} ${pu"
   ],
   "billable_minutes": 0,
-  "seconds": 45.4,
+  "seconds": 57.8,
   "outputs": {
     "archived": [],
     "tests": null,
     "injected": [
       {
         "path": ".github/workflows/j2gha-run.yml",
-        "size": 22619,
-        "sha256": "144a5886a5db734f4e4b333d7d117c241914130e1c0ad8ef0f071d176473ef86"
+        "size": 24954,
+        "sha256": "412eacf6d471fe8ccb9c03470b60e4d088616790082d0e41f9b0a9d6c5084d16"
       }
     ]
   },
   "handoff": {
     "steps": 5,
     "seconds": 5,
-    "job_seconds": 25,
+    "job_seconds": 26,
     "archives": 1,
-    "bytes": 39581,
-    "run_seconds": 41,
+    "bytes": 42331,
+    "run_seconds": 50,
     "critical_path_seconds": 5
   },
   "provenance": {
@@ -311,7 +353,7 @@
       "git_branch": "origin/master"
     },
     "mode": "full",
-    "model_sha256": "8a419b0db5c568ec43b4d4f80d2d03e9a1ef77b908cf807f138c946fb823db7c",
+    "model_sha256": "e20a9bef8900e697be0746781189b8de575d3322a38603bb4495b4e754f6e7a4",
     "images": {
       "jenkins": {
         "ref": "j2gha/jenkins:local",
@@ -363,17 +405,17 @@
       }
     }
   },
-  "finished_at": "2026-10-12T08:49:38+00:00",
+  "finished_at": "2026-10-12T13:07:22+00:00",
   "comparison": {
     "mode": "full",
-    "verdict": "differs",
-    "equivalent": false,
-    "similarity_pct": 0.0,
+    "verdict": "equivalent",
+    "equivalent": true,
+    "similarity_pct": 100.0,
     "jenkins_result": "FAILURE",
     "gha_result": "failure",
     "jenkins_failed_stage": "Publish",
-    "gha_failed_stage": "Build",
-    "gha_failed_step": "Build: tar --exclude='./.git' --exclude='./Jenkinsfile' --exclude='*.tar.gz'",
+    "gha_failed_stage": "Publish",
+    "gha_failed_step": "Publish: curl -u $NEXUS_USERNAME:$NEXUS_PASSWORD --upload-file ${packname} ${pu",
     "stages": [],
     "outputs": {
       "tests": {

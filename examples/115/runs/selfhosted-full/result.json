@@ -2,7 +2,7 @@
   "tier": "selfhosted",
   "mode": "full",
   "repo": "tonyskidmore/jenkins-to-gha",
-  "branch": "j2gha/run/115-full-selfhosted-20261012091322",
+  "branch": "j2gha/run/115-full-selfhosted-20261012130454",
   "estimate": {
     "typical": 0,
     "worst_case": 0,
@@ -13,9 +13,9 @@
     "matrix_jobs": 1,
     "jobs": 1
   },
-  "run_url": "https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38228485738",
+  "run_url": "https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38253205231",
   "result": "success",
-  "run_id": 38228485738,
+  "run_id": 38253205231,
   "traces": [],
   "jobs": [
     {
@@ -24,290 +24,311 @@
       "conclusion": "success",
       "labels": [
         "self-hosted",
-        "j2gha-71a03a0a"
+        "j2gha-48c7edf6"
       ],
-      "started_at": "2026-10-12T09:13:38Z",
-      "completed_at": "2026-10-12T09:15:58Z",
+      "started_at": "2026-10-12T13:05:15Z",
+      "completed_at": "2026-10-12T13:08:13Z",
       "steps": [
         {
           "name": "Set up job",
           "number": 1,
           "conclusion": "success",
-          "started_at": "2026-10-12T09:13:40Z",
-          "completed_at": "2026-10-12T09:13:42Z"
+          "started_at": "2026-10-12T13:05:17Z",
+          "completed_at": "2026-10-12T13:05:20Z"
         },
         {
           "name": "Checkout",
           "number": 2,
           "conclusion": "success",
-          "started_at": "2026-10-12T09:13:42Z",
-          "completed_at": "2026-10-12T09:13:43Z"
+          "started_at": "2026-10-12T13:05:20Z",
+          "completed_at": "2026-10-12T13:05:22Z"
         },
         {
           "name": "Detect Secrets: detectSecrets (manual migration)",
           "number": 3,
           "conclusion": "success",
-          "started_at": "2026-10-12T09:13:43Z",
-          "completed_at": "2026-10-12T09:13:43Z"
+          "started_at": "2026-10-12T13:05:22Z",
+          "completed_at": "2026-10-12T13:05:22Z"
+        },
+        {
+          "name": "Init: set libName",
+          "number": 4,
+          "conclusion": "success",
+          "started_at": "2026-10-12T13:05:22Z",
+          "completed_at": "2026-10-12T13:05:22Z"
         },
         {
           "name": "QA: enter stage",
-          "number": 4,
+          "number": 5,
           "conclusion": "success",
-          "started_at": "2026-10-12T09:13:43Z",
-          "completed_at": "2026-10-12T09:13:43Z"
+          "started_at": "2026-10-12T13:05:22Z",
+          "completed_at": "2026-10-12T13:05:22Z"
         },
         {
           "name": "QA: echo ./scripts/setup_couch.sh",
-          "number": 5,
+          "number": 6,
           "conclusion": "success",
-          "started_at": "2026-10-12T09:13:43Z",
-          "completed_at": "2026-10-12T09:13:43Z"
+          "started_at": "2026-10-12T13:05:22Z",
+          "completed_at": "2026-10-12T13:05:22Z"
         },
         {
           "name": "QA: echo ./scripts/setup_wiremock.sh",
-          "number": 6,
+          "number": 7,
           "conclusion": "success",
-          "started_at": "2026-10-12T09:13:43Z",
-          "completed_at": "2026-10-12T09:13:43Z"
+          "started_at": "2026-10-12T13:05:22Z",
+          "completed_at": "2026-10-12T13:05:22Z"
         },
         {
           "name": "QA: npm ci --no-audit",
-          "number": 7,
-          "conclusion": "success",
-          "started_at": "2026-10-12T09:13:43Z",
-          "completed_at": "2026-10-12T09:14:18Z"
-        },
-        {
-          "name": "QA: npm run test-unit",
           "number": 8,
           "conclusion": "success",
-          "started_at": "2026-10-12T09:14:18Z",
-          "completed_at": "2026-10-12T09:15:29Z"
+          "started_at": "2026-10-12T13:05:22Z",
+          "completed_at": "2026-10-12T13:06:09Z"
+        },
+        {
+          "name": "QA: sed -i 's/const DWELL_TIME = 200;/const DWELL_TIME = 1000;/' test/unit",
+          "number": 9,
+          "conclusion": "success",
+          "started_at": "2026-10-12T13:06:09Z",
+          "completed_at": "2026-10-12T13:07:43Z"
         },
         {
           "name": "QA: junit summary",
-          "number": 9,
+          "number": 10,
           "conclusion": "success",
-          "started_at": "2026-10-12T09:15:29Z",
-          "completed_at": "2026-10-12T09:15:30Z"
+          "started_at": "2026-10-12T13:07:43Z",
+          "completed_at": "2026-10-12T13:07:44Z"
         },
         {
           "name": "QA: upload test reports",
-          "number": 10,
+          "number": 11,
           "conclusion": "success",
-          "started_at": "2026-10-12T09:15:30Z",
-          "completed_at": "2026-10-12T09:15:43Z"
+          "started_at": "2026-10-12T13:07:44Z",
+          "completed_at": "2026-10-12T13:07:59Z"
         },
         {
           "name": "SonarQube analysis: enter stage",
-          "number": 11,
+          "number": 12,
           "conclusion": "skipped",
-          "started_at": "2026-10-12T09:15:43Z",
-          "completed_at": "2026-10-12T09:15:43Z"
+          "started_at": "2026-10-12T13:07:59Z",
+          "completed_at": "2026-10-12T13:07:59Z"
         },
         {
           "name": "SonarQube analysis: stage environment",
-          "number": 12,
+          "number": 13,
           "conclusion": "skipped",
-          "started_at": "2026-10-12T09:15:43Z",
-          "completed_at": "2026-10-12T09:15:43Z"
+          "started_at": "2026-10-12T13:07:59Z",
+          "completed_at": "2026-10-12T13:07:59Z"
         },
         {
           "name": "SonarQube analysis: scanCode (manual migration)",
-          "number": 13,
+          "number": 14,
           "conclusion": "skipped",
-          "started_at": "2026-10-12T09:15:43Z",
-          "completed_at": "2026-10-12T09:15:43Z"
+          "started_at": "2026-10-12T13:07:59Z",
+          "completed_at": "2026-10-12T13:07:59Z"
         },
         {
           "name": "Publish[staging]: enter stage",
-          "number": 14,
+          "number": 15,
           "conclusion": "success",
-          "started_at": "2026-10-12T09:15:43Z",
-          "completed_at": "2026-10-12T09:15:43Z"
+          "started_at": "2026-10-12T13:07:59Z",
+          "completed_at": "2026-10-12T13:07:59Z"
         },
         {
           "name": "Publish[staging]: bumpVersion (manual migration)",
-          "number": 15,
+          "number": 16,
           "conclusion": "success",
-          "started_at": "2026-10-12T09:15:43Z",
-          "completed_at": "2026-10-12T09:15:43Z"
+          "started_at": "2026-10-12T13:07:59Z",
+          "completed_at": "2026-10-12T13:07:59Z"
         },
         {
           "name": "Publish[staging]: customizePublishingInfo (manual migration)",
-          "number": 16,
+          "number": 17,
           "conclusion": "success",
-          "started_at": "2026-10-12T09:15:43Z",
-          "completed_at": "2026-10-12T09:15:43Z"
+          "started_at": "2026-10-12T13:07:59Z",
+          "completed_at": "2026-10-12T13:07:59Z"
         },
         {
           "name": "Publish[staging]: npm run build",
-          "number": 17,
+          "number": 18,
           "conclusion": "success",
-          "started_at": "2026-10-12T09:15:43Z",
-          "completed_at": "2026-10-12T09:15:52Z"
+          "started_at": "2026-10-12T13:07:59Z",
+          "completed_at": "2026-10-12T13:08:07Z"
         },
         {
           "name": "Publish[staging]: npm pack ./dist",
-          "number": 18,
+          "number": 19,
           "conclusion": "success",
-          "started_at": "2026-10-12T09:15:52Z",
-          "completed_at": "2026-10-12T09:15:52Z"
+          "started_at": "2026-10-12T13:08:07Z",
+          "completed_at": "2026-10-12T13:08:08Z"
         },
         {
           "name": "Publish[staging]: publishArtifactoryBuildInfo (manual migration)",
-          "number": 19,
+          "number": 20,
           "conclusion": "success",
-          "started_at": "2026-10-12T09:15:52Z",
-          "completed_at": "2026-10-12T09:15:52Z"
+          "started_at": "2026-10-12T13:08:08Z",
+          "completed_at": "2026-10-12T13:08:08Z"
         },
         {
           "name": "Publish[staging]: git reset --hard",
-          "number": 20,
+          "number": 21,
           "conclusion": "success",
-          "started_at": "2026-10-12T09:15:52Z",
-          "completed_at": "2026-10-12T09:15:53Z"
+          "started_at": "2026-10-12T13:08:08Z",
+          "completed_at": "2026-10-12T13:08:08Z"
         },
         {
           "name": "Run Gauge tests: enter stage",
-          "number": 21,
-          "conclusion": "success",
-          "started_at": "2026-10-12T09:15:53Z",
-          "completed_at": "2026-10-12T09:15:53Z"
-        },
-        {
-          "name": "Run Gauge tests: if (line 138)",
           "number": 22,
-          "conclusion": "skipped",
-          "started_at": "2026-10-12T09:15:53Z",
-          "completed_at": "2026-10-12T09:15:53Z"
+          "conclusion": "success",
+          "started_at": "2026-10-12T13:08:08Z",
+          "completed_at": "2026-10-12T13:08:08Z"
         },
         {
-          "name": "Run Gauge tests: if (line 138)",
+          "name": "Run Gauge tests: set gaugeBranchName",
           "number": 23,
           "conclusion": "success",
-          "started_at": "2026-10-12T09:15:53Z",
-          "completed_at": "2026-10-12T09:15:53Z"
+          "started_at": "2026-10-12T13:08:08Z",
+          "completed_at": "2026-10-12T13:08:08Z"
+        },
+        {
+          "name": "Run Gauge tests: if (line 138)",
+          "number": 24,
+          "conclusion": "skipped",
+          "started_at": "2026-10-12T13:08:08Z",
+          "completed_at": "2026-10-12T13:08:08Z"
+        },
+        {
+          "name": "Run Gauge tests: if (line 138)",
+          "number": 25,
+          "conclusion": "success",
+          "started_at": "2026-10-12T13:08:08Z",
+          "completed_at": "2026-10-12T13:08:08Z"
+        },
+        {
+          "name": "Run Gauge tests: set gaugeBranchName",
+          "number": 26,
+          "conclusion": "skipped",
+          "started_at": "2026-10-12T13:08:08Z",
+          "completed_at": "2026-10-12T13:08:08Z"
         },
         {
           "name": "Run Gauge tests: try (line 142)",
-          "number": 24,
+          "number": 27,
           "conclusion": "success",
-          "started_at": "2026-10-12T09:15:53Z",
-          "completed_at": "2026-10-12T09:15:53Z"
+          "started_at": "2026-10-12T13:08:08Z",
+          "completed_at": "2026-10-12T13:08:08Z"
         },
         {
           "name": "Run Gauge tests: trigger downstream '/${env.SDKS_GAUGE_PIPELINE_PROJECT}/${gaugeBranchName}'",
-          "number": 25,
+          "number": 28,
           "conclusion": "success",
-          "started_at": "2026-10-12T09:15:53Z",
-          "completed_at": "2026-10-12T09:15:53Z"
+          "started_at": "2026-10-12T13:08:08Z",
+          "completed_at": "2026-10-12T13:08:08Z"
         },
         {
           "name": "Run Gauge tests: Groovy if (manual)",
-          "number": 26,
+          "number": 29,
           "conclusion": "skipped",
-          "started_at": "2026-10-12T09:15:53Z",
-          "completed_at": "2026-10-12T09:15:53Z"
+          "started_at": "2026-10-12T13:08:08Z",
+          "completed_at": "2026-10-12T13:08:08Z"
         },
         {
           "name": "Mend scan: enter stage",
-          "number": 27,
+          "number": 30,
           "conclusion": "skipped",
-          "started_at": "2026-10-12T09:15:53Z",
-          "completed_at": "2026-10-12T09:15:53Z"
+          "started_at": "2026-10-12T13:08:08Z",
+          "completed_at": "2026-10-12T13:08:08Z"
         },
         {
           "name": "Mend scan: mendScan (manual migration)",
-          "number": 28,
+          "number": 31,
           "conclusion": "skipped",
-          "started_at": "2026-10-12T09:15:53Z",
-          "completed_at": "2026-10-12T09:15:53Z"
+          "started_at": "2026-10-12T13:08:08Z",
+          "completed_at": "2026-10-12T13:08:08Z"
         },
         {
           "name": "Update version and tag: enter stage",
-          "number": 29,
+          "number": 32,
           "conclusion": "skipped",
-          "started_at": "2026-10-12T09:15:53Z",
-          "completed_at": "2026-10-12T09:15:53Z"
+          "started_at": "2026-10-12T13:08:08Z",
+          "completed_at": "2026-10-12T13:08:08Z"
         },
         {
           "name": "Update version and tag: gitsh (manual migration)",
-          "number": 30,
+          "number": 33,
           "conclusion": "skipped",
-          "started_at": "2026-10-12T09:15:53Z",
-          "completed_at": "2026-10-12T09:15:53Z"
+          "started_at": "2026-10-12T13:08:08Z",
+          "completed_at": "2026-10-12T13:08:08Z"
         },
         {
           "name": "Update version and tag: bumpVersion (manual migration)",
-          "number": 31,
+          "number": 34,
           "conclusion": "skipped",
-          "started_at": "2026-10-12T09:15:53Z",
-          "completed_at": "2026-10-12T09:15:53Z"
+          "started_at": "2026-10-12T13:08:08Z",
+          "completed_at": "2026-10-12T13:08:08Z"
         },
         {
           "name": "Update version and tag: git push --tags origin HEAD:main",
-          "number": 32,
+          "number": 35,
           "conclusion": "skipped",
-          "started_at": "2026-10-12T09:15:53Z",
-          "completed_at": "2026-10-12T09:15:53Z"
+          "started_at": "2026-10-12T13:08:08Z",
+          "completed_at": "2026-10-12T13:08:08Z"
         },
         {
           "name": "Publish[repository]: enter stage",
-          "number": 33,
+          "number": 36,
           "conclusion": "skipped",
-          "started_at": "2026-10-12T09:15:53Z",
-          "completed_at": "2026-10-12T09:15:53Z"
+          "started_at": "2026-10-12T13:08:08Z",
+          "completed_at": "2026-10-12T13:08:08Z"
         },
         {
           "name": "Publish[repository]: npm run build",
-          "number": 34,
+          "number": 37,
           "conclusion": "skipped",
-          "started_at": "2026-10-12T09:15:53Z",
-          "completed_at": "2026-10-12T09:15:53Z"
+          "started_at": "2026-10-12T13:08:08Z",
+          "completed_at": "2026-10-12T13:08:08Z"
         },
         {
           "name": "Publish[repository]: npm pack ./dist",
-          "number": 35,
+          "number": 38,
           "conclusion": "skipped",
-          "started_at": "2026-10-12T09:15:53Z",
-          "completed_at": "2026-10-12T09:15:53Z"
+          "started_at": "2026-10-12T13:08:08Z",
+          "completed_at": "2026-10-12T13:08:08Z"
         },
         {
           "name": "Publish[repository]: gitsh (manual migration)",
-          "number": 36,
+          "number": 39,
           "conclusion": "skipped",
-          "started_at": "2026-10-12T09:15:53Z",
-          "completed_at": "2026-10-12T09:15:53Z"
+          "started_at": "2026-10-12T13:08:08Z",
+          "completed_at": "2026-10-12T13:08:08Z"
         },
         {
           "name": "Publish[repository]: ./scripts/typedoc/publish-doc.sh",
-          "number": 37,
+          "number": 40,
           "conclusion": "skipped",
-          "started_at": "2026-10-12T09:15:53Z",
-          "completed_at": "2026-10-12T09:15:53Z"
+          "started_at": "2026-10-12T13:08:08Z",
+          "completed_at": "2026-10-12T13:08:08Z"
         },
         {
           "name": "Post Checkout",
-          "number": 74,
+          "number": 80,
           "conclusion": "success",
-          "started_at": "2026-10-12T09:15:53Z",
-          "completed_at": "2026-10-12T09:15:53Z"
+          "started_at": "2026-10-12T13:08:08Z",
+          "completed_at": "2026-10-12T13:08:08Z"
         },
         {
           "name": "Complete job",
-          "number": 75,
+          "number": 81,
           "conclusion": "success",
-          "started_at": "2026-10-12T09:15:53Z",
-          "completed_at": "2026-10-12T09:15:53Z"
+          "started_at": "2026-10-12T13:08:08Z",
+          "completed_at": "2026-10-12T13:08:08Z"
         }
       ]
     }
   ],
   "failed_steps": [],
   "billable_minutes": 0,
-  "seconds": 162.7,
+  "seconds": 202.4,
   "outputs": {
     "archived": [],
     "tests": [
@@ -10140,19 +10161,19 @@
     "injected": [
       {
         "path": ".github/workflows/j2gha-run.yml",
-        "size": 12027,
-        "sha256": "d89a76beb6aa47abf3ff15e11574a4eee78da557ca63f82b94b75fef2928e61c"
+        "size": 13370,
+        "sha256": "8ea63406a3e557094897945cd01530ab48e605233ba8b4779643de5409146916"
       }
     ]
   },
   "provenance": {
-    "jenkinsfile_sha256": "757b651b8376f700b0e12459ce9b0a379044b69015ce5fd534d5473d94749007",
+    "jenkinsfile_sha256": "edfb32bff7837c03e9b3ce9e299286b35c3aafc7f2a023ee096b5691605bc305",
     "scenario": {
       "branch": "main",
       "git_branch": "origin/main"
     },
     "mode": "full",
-    "model_sha256": "448f4faa07ce8c7b82d88334b2203a88e21017f9474e7feb018062ad8c23773a",
+    "model_sha256": "975c7b37ae049a8d1419f4a24c67aacd356ce3925c588bda1e0fc65058e4262a",
     "images": {
       "jenkins": {
         "ref": "j2gha/jenkins:local",
@@ -10204,25 +10225,25 @@
       }
     }
   },
-  "finished_at": "2026-10-12T09:16:09+00:00",
+  "finished_at": "2026-10-12T13:08:22+00:00",
   "comparison": {
     "mode": "full",
-    "verdict": "differs",
-    "equivalent": false,
-    "similarity_pct": 0.0,
-    "jenkins_result": "FAILURE",
+    "verdict": "equivalent",
+    "equivalent": true,
+    "similarity_pct": 100.0,
+    "jenkins_result": "SUCCESS",
     "gha_result": "success",
-    "jenkins_failed_stage": "QA",
+    "jenkins_failed_stage": null,
     "gha_failed_stage": null,
     "gha_failed_step": null,
     "stages": [],
     "outputs": {
       "tests": {
-        "status": "differs",
+        "status": "same",
         "jenkins": {
           "cases": 1965,
-          "passed": 1964,
-          "failed": 1,
+          "passed": 1965,
+          "failed": 0,
           "skipped": 0
         },
         "gha": {
@@ -10230,22 +10251,7 @@
           "passed": 1965,
           "failed": 0,
           "skipped": 0
-        },
-        "only_jenkins": [
-          [
-            "Test ChangesResultIterator 0 \u203a testNextWithFiniteErrorTolerance",
-            "transientErrors $message",
-            "failed"
-          ]
-        ],
-        "only_gha": [
-          [
-            "Test ChangesResultIterator 0 \u203a testNextWithFiniteErrorTolerance",
-            "transientErrors $message",
-            "passed"
-          ]
-        ],
-        "proven": true
+        }
       },
       "archived": {
         "status": "none",
@@ -10259,7 +10265,7 @@
         "content_unknown": 0,
         "proven": false
       },
-      "verdict": "differs"
+      "verdict": "same"
     }
   }
 }

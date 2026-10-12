@@ -1,0 +1,638 @@
+# j2gha selfhosted variant (full) of examples/114
+name: j2gha harness run
+on:
+  push:
+    branches:
+    - j2gha/run/114-full-selfhosted-20261012124942
+  workflow_dispatch:
+permissions:
+  contents: read
+env:
+  BRANCH_NAME: superstable
+  TAG_NAME: ''
+  CHANGE_ID: ''
+  ROUTING_CORES: '32'
+  GIT_COMMIT: 32dc185225c45f1a3d3756f231b4cbdfaac2f68c
+  GIT_BRANCH: origin/superstable
+  GIT_URL: ${{ github.server_url }}/${{ github.repository }}.git
+defaults:
+  run:
+    shell: bash
+jobs:
+  update-openroad-to-head-of-master-branch:
+    name: Update OpenROAD to HEAD of master branch, Build Docker OpenLane image with openroad_app master
+    runs-on:
+    - self-hosted
+    - j2gha-e89fdb59
+    timeout-minutes: 10
+    steps:
+    - name: Checkout
+      uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      with:
+        persist-credentials: false
+        repository: The-OpenROAD-Project/OpenLane
+        ref: 32dc185225c45f1a3d3756f231b4cbdfaac2f68c
+    - name: 'Update OpenROAD to HEAD of master branch: checkout'
+      id: s1
+      uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      with:
+        persist-credentials: false
+        repository: The-OpenROAD-Project/OpenLane
+        ref: 32dc185225c45f1a3d3756f231b4cbdfaac2f68c
+    - name: 'Build Docker OpenLane image with openroad_app master: try (line 29)'
+      id: s2
+      run: echo "run=true" >> "$GITHUB_OUTPUT"
+    - name: 'Build Docker OpenLane image with openroad_app master: PDK_ROOT=$(pwd)/pdks OPENLANE_IMAGE_NAME=efabless/openlane
+        python3'
+      id: s3
+      run: |-
+        j2gha_script="$(mktemp "${RUNNER_TEMP:-/tmp}/j2gha-retry.XXXXXX")"
+        cat > "$j2gha_script" <<'J2GHA_RETRY_EOF'
+        PDK_ROOT=$(pwd)/pdks OPENLANE_IMAGE_NAME=efabless/openlane python3 .github/scripts/update_tools.py openroad_app
+        J2GHA_RETRY_EOF
+        for attempt in $(seq 1 3); do
+          rc=0
+          bash --noprofile --norc -eo pipefail "$j2gha_script" || rc=$?
+          if [ "$rc" = 0 ]; then break; fi
+          if [ "$attempt" = 3 ]; then exit "$rc"; fi
+          echo "retrying ($attempt/3)" >&2
+        done
+      shell: bash
+    - name: 'Build Docker OpenLane image with openroad_app master: echo make -C docker build-openroad_app'
+      id: s4
+      run: |-
+        j2gha_script="$(mktemp "${RUNNER_TEMP:-/tmp}/j2gha-retry.XXXXXX")"
+        cat > "$j2gha_script" <<'J2GHA_RETRY_EOF'
+        echo make -C docker build-openroad_app
+        J2GHA_RETRY_EOF
+        for attempt in $(seq 1 3); do
+          rc=0
+          bash --noprofile --norc -eo pipefail "$j2gha_script" || rc=$?
+          if [ "$rc" = 0 ]; then break; fi
+          if [ "$attempt" = 3 ]; then exit "$rc"; fi
+          echo "retrying ($attempt/3)" >&2
+        done
+      shell: bash
+    - name: 'Build Docker OpenLane image with openroad_app master: python3 dependencies/tool.py -f commit openroad_app'
+      id: s5
+      run: |-
+        NEW_SHA="$(
+        j2gha_script="$(mktemp "${RUNNER_TEMP:-/tmp}/j2gha-retry.XXXXXX")"
+        cat > "$j2gha_script" <<'J2GHA_RETRY_EOF'
+        python3 dependencies/tool.py -f commit openroad_app
+        J2GHA_RETRY_EOF
+        for attempt in $(seq 1 3); do
+          rc=0
+          bash --noprofile --norc -eo pipefail "$j2gha_script" || rc=$?
+          if [ "$rc" = 0 ]; then break; fi
+          if [ "$attempt" = 3 ]; then exit "$rc"; fi
+          echo "retrying ($attempt/3)" >&2
+        done
+        )"
+        NEW_SHA="${NEW_SHA#"${NEW_SHA%%[![:space:]]*}"}"
+        NEW_SHA="${NEW_SHA%"${NEW_SHA##*[![:space:]]}"}"
+        { echo 'NEW_SHA<<J2GHA_EOF'; printf '%s\n' "$NEW_SHA"; echo J2GHA_EOF; } >> "$GITHUB_ENV"
+        { echo 'NEW_SHA<<J2GHA_EOF'; printf '%s\n' "$NEW_SHA"; echo J2GHA_EOF; } >> "$GITHUB_OUTPUT"
+      shell: bash
+    - name: 'Build Docker OpenLane image with openroad_app master: echo make -C docker openlane OPENLANE_IMAGE_NAME=current:latest'
+      id: s6
+      run: |-
+        j2gha_script="$(mktemp "${RUNNER_TEMP:-/tmp}/j2gha-retry.XXXXXX")"
+        cat > "$j2gha_script" <<'J2GHA_RETRY_EOF'
+        echo make -C docker openlane OPENLANE_IMAGE_NAME=current:latest
+        J2GHA_RETRY_EOF
+        for attempt in $(seq 1 3); do
+          rc=0
+          bash --noprofile --norc -eo pipefail "$j2gha_script" || rc=$?
+          if [ "$rc" = 0 ]; then break; fi
+          if [ "$attempt" = 3 ]; then exit "$rc"; fi
+          echo "retrying ($attempt/3)" >&2
+        done
+      shell: bash
+    - name: 'Build Docker OpenLane image with openroad_app master: echo "docker save current:latest-amd64 (j2gha-local stand-in
+        for t'
+      id: s7
+      run: |-
+        j2gha_script="$(mktemp "${RUNNER_TEMP:-/tmp}/j2gha-retry.XXXXXX")"
+        cat > "$j2gha_script" <<'J2GHA_RETRY_EOF'
+        echo "docker save current:latest-amd64 (j2gha-local stand-in for the image)" | gzip > openlane-current.tar.gz
+        J2GHA_RETRY_EOF
+        for attempt in $(seq 1 3); do
+          rc=0
+          bash --noprofile --norc -eo pipefail "$j2gha_script" || rc=$?
+          if [ "$rc" = 0 ]; then break; fi
+          if [ "$attempt" = 3 ]; then exit "$rc"; fi
+          echo "retrying ($attempt/3)" >&2
+        done
+      shell: bash
+    - name: 'Build Docker OpenLane image with openroad_app master: stash data'
+      id: s8
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: stash-data
+        path: |-
+          openlane-current.tar.gz
+          !**/.git
+          !**/.git/**
+          !**/.gitignore
+          !**/.gitattributes
+          !**/.gitmodules
+          !**/.svn
+          !**/.svn/**
+          !**/.hg
+          !**/.hg/**
+          !**/.hgignore
+          !**/.hgtags
+          !**/.bzr
+          !**/.bzr/**
+          !**/.bzrignore
+          !**/CVS
+          !**/CVS/**
+          !**/.cvsignore
+          !**/SCCS
+          !**/SCCS/**
+          !**/vssver.scc
+          !**/.DS_Store
+          !**/*~
+          !**/#*#
+          !**/.#*
+          !**/%*%
+          !**/._*
+        retention-days: 1
+        include-hidden-files: true
+        if-no-files-found: error
+    - name: 'Build Docker OpenLane image with openroad_app master: sleep'
+      id: s9
+      if: (always()) && (steps.s2.outcome == 'success') && ((steps.s3.outcome == 'failure' || steps.s4.outcome == 'failure'
+        || steps.s5.outcome == 'failure' || steps.s6.outcome == 'failure' || steps.s7.outcome == 'failure' || steps.s8.outcome
+        == 'failure'))
+      run: |-
+        j2gha_script="$(mktemp "${RUNNER_TEMP:-/tmp}/j2gha-retry.XXXXXX")"
+        cat > "$j2gha_script" <<'J2GHA_RETRY_EOF'
+        sleep 60
+        J2GHA_RETRY_EOF
+        for attempt in $(seq 1 3); do
+          rc=0
+          bash --noprofile --norc -eo pipefail "$j2gha_script" || rc=$?
+          if [ "$rc" = 0 ]; then break; fi
+          if [ "$attempt" = 3 ]; then exit "$rc"; fi
+          echo "retrying ($attempt/3)" >&2
+        done
+      shell: bash
+    - name: 'Build Docker OpenLane image with openroad_app master: exit 1'
+      id: s10
+      if: (always()) && (steps.s2.outcome == 'success') && ((steps.s3.outcome == 'failure' || steps.s4.outcome == 'failure'
+        || steps.s5.outcome == 'failure' || steps.s6.outcome == 'failure' || steps.s7.outcome == 'failure' || steps.s8.outcome
+        == 'failure'))
+      run: |-
+        j2gha_script="$(mktemp "${RUNNER_TEMP:-/tmp}/j2gha-retry.XXXXXX")"
+        cat > "$j2gha_script" <<'J2GHA_RETRY_EOF'
+        exit 1
+        J2GHA_RETRY_EOF
+        for attempt in $(seq 1 3); do
+          rc=0
+          bash --noprofile --norc -eo pipefail "$j2gha_script" || rc=$?
+          if [ "$rc" = 0 ]; then break; fi
+          if [ "$attempt" = 3 ]; then exit "$rc"; fi
+          echo "retrying ($attempt/3)" >&2
+        done
+      shell: bash
+    - name: Hand on the pipeline workspace (archive)
+      if: always()
+      shell: bash
+      run: |
+        tar --exclude=./.j2gha-ws --exclude=./.j2gha-ws.tgz --exclude=./.j2gha-ws.changes \
+          -czf "$RUNNER_TEMP/j2gha-ws.tgz" -C "$GITHUB_WORKSPACE" .
+        mv "$RUNNER_TEMP/j2gha-ws.tgz" "$GITHUB_WORKSPACE/.j2gha-ws.tgz"
+    - name: Hand on the pipeline workspace (upload)
+      if: always()
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: j2gha-ws-update-openroad-to-head-of-master-branch
+        path: .j2gha-ws.tgz
+        retention-days: 1
+        compression-level: 0
+        if-no-files-found: error
+        include-hidden-files: true
+  run-tests:
+    name: Run Tests
+    needs: update-openroad-to-head-of-master-branch
+    runs-on:
+    - self-hosted
+    - j2gha-e89fdb59
+    timeout-minutes: 10
+    strategy:
+      fail-fast: false
+      matrix:
+        DESIGN:
+        - ci/aes
+        - ci/aes_core
+        - ci/APU
+        - ci/blabla
+        - '''ci/BM64 -override_env QUIT_ON_LINTER_ERRORS=0'''
+        - ci/gcd
+        - ci/inverter
+        - ci/manual_macro_placement_test
+        - ci/picorv32a
+        - ci/PPU
+        - ci/s44
+        - ci/salsa20
+        - ci/usb
+        - ci/usb_cdc_core
+        - ci/wbqspiflash
+        - ci/xtea
+        - '''ci/y_huff -override_env QUIT_ON_SYNTH_CHECKS=0'''
+        - ci/zipdiv
+        - ci/aes_user_project_wrapper
+        - ci/caravel_upw
+        - ci/mem_1r1w
+        - spm
+    env:
+      DESIGN: ${{ matrix.DESIGN }}
+    steps:
+    - name: Restore pipeline workspace (update-openroad-to-head-of-master-branch)
+      id: j2gha-ws-update-openroad-to-head-of-master-branch
+      uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+      continue-on-error: true
+      with:
+        name: j2gha-ws-update-openroad-to-head-of-master-branch
+        path: .j2gha-ws/update-openroad-to-head-of-master-branch
+    - name: Restore pipeline workspace (merge)
+      id: j2gha-ws-restore
+      if: always()
+      shell: bash
+      env:
+        J2GHA_WS_ORDER: update-openroad-to-head-of-master-branch
+        J2GHA_WS_LINEAGE: 'update-openroad-to-head-of-master-branch:'
+        J2GHA_WS_HEADS: update-openroad-to-head-of-master-branch
+        J2GHA_WS_RESULTS: update-openroad-to-head-of-master-branch=${{ needs.update-openroad-to-head-of-master-branch.result
+          }}
+        J2GHA_WS_FALLBACKS: 'update-openroad-to-head-of-master-branch:'
+      run: |
+        ws="$GITHUB_WORKSPACE"
+        d="$ws/.j2gha-ws"
+        # the downloaded producers a producer descends from
+        ancestors() {
+          local line
+          while IFS= read -r line; do
+            if [ "${line%%:*}" = "$1" ]; then printf '%s\n' "${line#*:}"; fi
+          done <<< "$J2GHA_WS_LINEAGE"
+        }
+        present() { [ -f "$d/$1/.j2gha-ws.tgz" ]; }
+        # read-only directories (a Go module cache) need write permission to be removed
+        remove() { rm -rf -- "$@" 2>/dev/null || { chmod -R u+w -- "$@"; rm -rf -- "$@"; }; }
+        isdir() { [ -d "$1" ] && [ ! -L "$1" ]; }
+        # replay a branch's own changes (its change list) onto the workspace
+        replay() {
+          local src="$d/$1" t="$d/.replay" rec p a
+          local -a recs=() gone=()
+          local -A want=() locked=() removed=()
+          if [ ! -f "$src/.j2gha-ws.changes" ]; then
+            echo "::error::the workspace of job '$1' has no change list (the workspace it started from was not recorded): it cannot be merged"
+            exit 1
+          fi
+          mapfile -t recs < "$src/.j2gha-ws.changes"
+          for rec in "${recs[@]}"; do
+            printf -v p '%b' "${rec:1}"
+            if [ "${rec:0:1}" = D ]; then
+              removed[$p]=1
+              continue
+            fi
+            want[$p]=1
+            # a parent directory an earlier branch removed or replaced is taken from this branch too
+            a=$p
+            while a=${a%/*}; [ "$a" != . ]; do
+              if isdir "$ws/$a"; then break; fi
+              want[$a]=1
+            done
+          done
+          # a removed directory takes its contents with it: only the top-most removed entries are removed
+          for p in "${!removed[@]}"; do
+            a=$p
+            while a=${a%/*}; [ "$a" != . ] && [ -z "${removed[$a]-}" ]; do :; done
+            if [ "$a" = . ]; then gone+=("$p"); fi
+          done
+          # only the entries to copy come out of the branch's workspace (parents first)
+          mkdir -p "$t"
+          printf '%s\0' "${!want[@]}" | LC_ALL=C sort -z > "$d/.want"
+          if [ "${#want[@]}" -gt 0 ]; then tar -xzpf "$src/.j2gha-ws.tgz" -C "$t" --null --no-unquote --no-recursion -T "$d/.want"; fi
+          # read-only directories (a Go module cache) are opened for the changes; their modes are put back afterwards
+          for p in "${gone[@]}" "${!want[@]}"; do
+            a=${p%/*}
+            if [ "$a" != . ] && isdir "$ws/$a" && [ ! -w "$ws/$a" ] && [ -z "${locked[$a]-}" ]; then
+              locked[$a]=$(stat -c %a "$ws/$a")
+              chmod u+w "$ws/$a"
+            fi
+          done
+          for p in "${gone[@]}"; do remove "$ws/$p"; done
+          # clear what is in the way of an entry's type: a file or link where the branch has a directory, or the reverse
+          for p in "${!want[@]}"; do
+            if isdir "$t/$p"; then
+              if [ -L "$ws/$p" ] || { [ -e "$ws/$p" ] && [ ! -d "$ws/$p" ]; }; then rm -f -- "$ws/$p"; fi
+              if isdir "$ws/$p" && [ ! -w "$ws/$p" ]; then chmod u+w "$ws/$p"; fi  # tar sets the branch's mode
+            elif isdir "$ws/$p"; then
+              remove "$ws/$p"
+            fi
+          done
+          if [ "${#want[@]}" -gt 0 ]; then
+            # tar sets directory modes after their contents
+            tar -C "$t" --null --no-unquote --no-recursion -T "$d/.want" -cf - | tar -xpf - -C "$ws"
+          fi
+          for a in "${!locked[@]}"; do
+            if [ -z "${want[$a]-}" ] && isdir "$ws/$a"; then chmod "${locked[$a]}" "$ws/$a"; fi
+          done
+          remove "$t"
+        }
+        # every producer the restore relies on is accounted for: its workspace arrived, or its job was skipped and the
+        # producers it would have started from are accounted for in turn (the fallback chain actually used)
+        declare -A result=() fallback=() seen=()
+        for r in $J2GHA_WS_RESULTS; do result[${r%%=*}]=${r#*=}; done
+        while IFS= read -r line; do
+          if [ -n "$line" ]; then fallback[${line%%:*}]=${line#*:}; fi
+        done <<< "$J2GHA_WS_FALLBACKS"
+        account() {
+          local p=$1 f
+          if [ -n "${seen[$p]-}" ] || present "$p"; then return 0; fi
+          seen[$p]=1
+          case "${result[$p]-}" in
+            success|failure)
+              echo "::error::job '$p' ran (${result[$p]}) but its workspace did not arrive: restoring an older one would lose its changes"
+              exit 1 ;;
+            skipped|cancelled) ;;
+            *) echo "::warning::the workspace of job '$p' did not arrive and its result is not known here (not a job this one needs): taken as skipped - if it ran, its changes are missing" ;;
+          esac
+          for f in ${fallback[$p]-}; do account "$f"; done
+        }
+        for p in $J2GHA_WS_HEADS; do account "$p"; done
+        # the workspaces to merge: those downloaded that no other downloaded one descends from
+        frontier=()
+        for p in $J2GHA_WS_ORDER; do
+          present "$p" || continue
+          covered=false
+          for q in $J2GHA_WS_ORDER; do
+            if [ "$q" != "$p" ] && present "$q"; then
+              case " $(ancestors "$q") " in *" $p "*) covered=true ;; esac
+            fi
+          done
+          if [ "$covered" = false ]; then frontier+=("$p"); fi
+        done
+        restored=false
+        if [ "${#frontier[@]}" -gt 0 ]; then
+          # the restored workspace replaces what the job started with (act copies the repository into every job)
+          shopt -s dotglob nullglob
+          for e in "$ws"/*; do
+            if [ "$e" != "$d" ]; then remove "$e"; fi
+          done
+          shopt -u dotglob nullglob
+          tar -xzpf "$d/${frontier[0]}/.j2gha-ws.tgz" -C "$ws"
+          for f in "${frontier[@]:1}"; do replay "$f"; done
+          restored=true
+        fi
+        remove "$d"
+        echo "restored=$restored" >> "$GITHUB_OUTPUT"
+    - name: Checkout
+      uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+      with:
+        persist-credentials: false
+        repository: The-OpenROAD-Project/OpenLane
+        ref: 32dc185225c45f1a3d3756f231b4cbdfaac2f68c
+    - name: 'Test: enter stage'
+      id: s11
+      run: echo "run=true" >> "$GITHUB_OUTPUT"
+    - name: '${DESIGN} - Install PDK: echo python3 -m pip install --user --upgrade --no-cache-dir pip'
+      id: s12
+      if: steps.s11.outputs.run == 'true'
+      run: echo python3 -m pip install --user --upgrade --no-cache-dir pip
+    - name: '${DESIGN} - Install PDK: echo python3 -m pip install --user --upgrade --no-cache-dir volare'
+      id: s13
+      if: steps.s11.outputs.run == 'true'
+      run: echo python3 -m pip install --user --upgrade --no-cache-dir volare
+    - name: '${DESIGN} - Install PDK: echo make pdk'
+      id: s14
+      if: steps.s11.outputs.run == 'true'
+      run: echo make pdk
+    - name: '${DESIGN} - Import Docker image: unstash data'
+      id: s15
+      if: steps.s11.outputs.run == 'true'
+      uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+      with:
+        name: stash-data
+    - name: '${DESIGN} - Import Docker image: echo docker load --input openlane-current.tar.gz && gzip -dc openlane-'
+      id: s16
+      if: steps.s11.outputs.run == 'true'
+      run: echo docker load --input openlane-current.tar.gz && gzip -dc openlane-current.tar.gz
+    - name: '${DESIGN} - Update OpenROAD commit: python3 dependencies/tool.py -f commit openroad_app'
+      id: s17
+      if: steps.s11.outputs.run == 'true'
+      run: |-
+        OLD_SHA="$(
+        python3 dependencies/tool.py -f commit openroad_app
+        )"
+        OLD_SHA="${OLD_SHA#"${OLD_SHA%%[![:space:]]*}"}"
+        OLD_SHA="${OLD_SHA%"${OLD_SHA##*[![:space:]]}"}"
+        { echo 'OLD_SHA<<J2GHA_EOF'; printf '%s\n' "$OLD_SHA"; echo J2GHA_EOF; } >> "$GITHUB_ENV"
+        { echo 'OLD_SHA<<J2GHA_EOF'; printf '%s\n' "$OLD_SHA"; echo J2GHA_EOF; } >> "$GITHUB_OUTPUT"
+    - name: '${DESIGN} - Update OpenROAD commit: sed -i s/${OLD_SHA}/${NEW_SHA}/ ./dependencies/tool_metadata.yml'
+      id: s18
+      if: steps.s11.outputs.run == 'true'
+      run: sed -i s/${OLD_SHA}/${NEW_SHA}/ ./dependencies/tool_metadata.yml
+    - name: '${DESIGN} - Run test: echo make OPENLANE_IMAGE_NAME=current:latest TEST_DESIGN=${DESIGN} tes'
+      id: s19
+      if: steps.s11.outputs.run == 'true'
+      run: echo make OPENLANE_IMAGE_NAME=current:latest TEST_DESIGN=${DESIGN} test
+    - name: 'Test: archive artifacts'
+      id: s20
+      if: (always()) && (steps.s11.outcome == 'success') && ((steps.s12.outcome == 'failure' || steps.s13.outcome == 'failure'
+        || steps.s14.outcome == 'failure' || steps.s15.outcome == 'failure' || steps.s16.outcome == 'failure' || steps.s17.outcome
+        == 'failure' || steps.s18.outcome == 'failure' || steps.s19.outcome == 'failure'))
+      uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02
+      with:
+        name: artifacts-20-${{ matrix.DESIGN }}
+        path: |-
+          designs/**/*.log
+          designs/**/openroad_issue_reproducible/**/*
+          !**/.git
+          !**/.git/**
+          !**/.gitignore
+          !**/.gitattributes
+          !**/.gitmodules
+          !**/.svn
+          !**/.svn/**
+          !**/.hg
+          !**/.hg/**
+          !**/.hgignore
+          !**/.hgtags
+          !**/.bzr
+          !**/.bzr/**
+          !**/.bzrignore
+          !**/CVS
+          !**/CVS/**
+          !**/.cvsignore
+          !**/SCCS
+          !**/SCCS/**
+          !**/vssver.scc
+          !**/.DS_Store
+          !**/*~
+          !**/#*#
+          !**/.#*
+          !**/%*%
+          !**/._*
+          .j2gha-artifact-root
+        if-no-files-found: error
+        include-hidden-files: true
+        retention-days: 1
+  post:
+    name: post
+    needs:
+    - update-openroad-to-head-of-master-branch
+    - run-tests
+    if: always()
+    runs-on:
+    - self-hosted
+    - j2gha-e89fdb59
+    steps:
+    - name: Restore pipeline workspace (update-openroad-to-head-of-master-branch)
+      id: j2gha-ws-update-openroad-to-head-of-master-branch
+      uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093
+      continue-on-error: true
+      with:
+        name: j2gha-ws-update-openroad-to-head-of-master-branch
+        path: .j2gha-ws/update-openroad-to-head-of-master-branch
+    - name: Restore pipeline workspace (merge)
+      id: j2gha-ws-restore
+      if: always()
+      shell: bash
+      env:
+        J2GHA_WS_ORDER: update-openroad-to-head-of-master-branch
+        J2GHA_WS_LINEAGE: 'update-openroad-to-head-of-master-branch:'
+        J2GHA_WS_HEADS: update-openroad-to-head-of-master-branch
+        J2GHA_WS_RESULTS: update-openroad-to-head-of-master-branch=${{ needs.update-openroad-to-head-of-master-branch.result
+          }}
+        J2GHA_WS_FALLBACKS: 'update-openroad-to-head-of-master-branch:'
+      run: |
+        ws="$GITHUB_WORKSPACE"
+        d="$ws/.j2gha-ws"
+        # the downloaded producers a producer descends from
+        ancestors() {
+          local line
+          while IFS= read -r line; do
+            if [ "${line%%:*}" = "$1" ]; then printf '%s\n' "${line#*:}"; fi
+          done <<< "$J2GHA_WS_LINEAGE"
+        }
+        present() { [ -f "$d/$1/.j2gha-ws.tgz" ]; }
+        # read-only directories (a Go module cache) need write permission to be removed
+        remove() { rm -rf -- "$@" 2>/dev/null || { chmod -R u+w -- "$@"; rm -rf -- "$@"; }; }
+        isdir() { [ -d "$1" ] && [ ! -L "$1" ]; }
+        # replay a branch's own changes (its change list) onto the workspace
+        replay() {
+          local src="$d/$1" t="$d/.replay" rec p a
+          local -a recs=() gone=()
+          local -A want=() locked=() removed=()
+          if [ ! -f "$src/.j2gha-ws.changes" ]; then
+            echo "::error::the workspace of job '$1' has no change list (the workspace it started from was not recorded): it cannot be merged"
+            exit 1
+          fi
+          mapfile -t recs < "$src/.j2gha-ws.changes"
+          for rec in "${recs[@]}"; do
+            printf -v p '%b' "${rec:1}"
+            if [ "${rec:0:1}" = D ]; then
+              removed[$p]=1
+              continue
+            fi
+            want[$p]=1
+            # a parent directory an earlier branch removed or replaced is taken from this branch too
+            a=$p
+            while a=${a%/*}; [ "$a" != . ]; do
+              if isdir "$ws/$a"; then break; fi
+              want[$a]=1
+            done
+          done
+          # a removed directory takes its contents with it: only the top-most removed entries are removed
+          for p in "${!removed[@]}"; do
+            a=$p
+            while a=${a%/*}; [ "$a" != . ] && [ -z "${removed[$a]-}" ]; do :; done
+            if [ "$a" = . ]; then gone+=("$p"); fi
+          done
+          # only the entries to copy come out of the branch's workspace (parents first)
+          mkdir -p "$t"
+          printf '%s\0' "${!want[@]}" | LC_ALL=C sort -z > "$d/.want"
+          if [ "${#want[@]}" -gt 0 ]; then tar -xzpf "$src/.j2gha-ws.tgz" -C "$t" --null --no-unquote --no-recursion -T "$d/.want"; fi
+          # read-only directories (a Go module cache) are opened for the changes; their modes are put back afterwards
+          for p in "${gone[@]}" "${!want[@]}"; do
+            a=${p%/*}
+            if [ "$a" != . ] && isdir "$ws/$a" && [ ! -w "$ws/$a" ] && [ -z "${locked[$a]-}" ]; then
+              locked[$a]=$(stat -c %a "$ws/$a")
+              chmod u+w "$ws/$a"
+            fi
+          done
+          for p in "${gone[@]}"; do remove "$ws/$p"; done
+          # clear what is in the way of an entry's type: a file or link where the branch has a directory, or the reverse
+          for p in "${!want[@]}"; do
+            if isdir "$t/$p"; then
+              if [ -L "$ws/$p" ] || { [ -e "$ws/$p" ] && [ ! -d "$ws/$p" ]; }; then rm -f -- "$ws/$p"; fi
+              if isdir "$ws/$p" && [ ! -w "$ws/$p" ]; then chmod u+w "$ws/$p"; fi  # tar sets the branch's mode
+            elif isdir "$ws/$p"; then
+              remove "$ws/$p"
+            fi
+          done
+          if [ "${#want[@]}" -gt 0 ]; then
+            # tar sets directory modes after their contents
+            tar -C "$t" --null --no-unquote --no-recursion -T "$d/.want" -cf - | tar -xpf - -C "$ws"
+          fi
+          for a in "${!locked[@]}"; do
+            if [ -z "${want[$a]-}" ] && isdir "$ws/$a"; then chmod "${locked[$a]}" "$ws/$a"; fi
+          done
+          remove "$t"
+        }
+        # every producer the restore relies on is accounted for: its workspace arrived, or its job was skipped and the
+        # producers it would have started from are accounted for in turn (the fallback chain actually used)
+        declare -A result=() fallback=() seen=()
+        for r in $J2GHA_WS_RESULTS; do result[${r%%=*}]=${r#*=}; done
+        while IFS= read -r line; do
+          if [ -n "$line" ]; then fallback[${line%%:*}]=${line#*:}; fi
+        done <<< "$J2GHA_WS_FALLBACKS"
+        account() {
+          local p=$1 f
+          if [ -n "${seen[$p]-}" ] || present "$p"; then return 0; fi
+          seen[$p]=1
+          case "${result[$p]-}" in
+            success|failure)
+              echo "::error::job '$p' ran (${result[$p]}) but its workspace did not arrive: restoring an older one would lose its changes"
+              exit 1 ;;
+            skipped|cancelled) ;;
+            *) echo "::warning::the workspace of job '$p' did not arrive and its result is not known here (not a job this one needs): taken as skipped - if it ran, its changes are missing" ;;
+          esac
+          for f in ${fallback[$p]-}; do account "$f"; done
+        }
+        for p in $J2GHA_WS_HEADS; do account "$p"; done
+        # the workspaces to merge: those downloaded that no other downloaded one descends from
+        frontier=()
+        for p in $J2GHA_WS_ORDER; do
+          present "$p" || continue
+          covered=false
+          for q in $J2GHA_WS_ORDER; do
+            if [ "$q" != "$p" ] && present "$q"; then
+              case " $(ancestors "$q") " in *" $p "*) covered=true ;; esac
+            fi
+          done
+          if [ "$covered" = false ]; then frontier+=("$p"); fi
+        done
+        restored=false
+        if [ "${#frontier[@]}" -gt 0 ]; then
+          # the restored workspace replaces what the job started with (act copies the repository into every job)
+          shopt -s dotglob nullglob
+          for e in "$ws"/*; do
+            if [ "$e" != "$d" ]; then remove "$e"; fi
+          done
+          shopt -u dotglob nullglob
+          tar -xzpf "$d/${frontier[0]}/.j2gha-ws.tgz" -C "$ws"
+          for f in "${frontier[@]:1}"; do replay "$f"; done
+          restored=true
+        fi
+        remove "$d"
+        echo "restored=$restored" >> "$GITHUB_OUTPUT"
+    - name: 'post: emailext notification'
+      id: s21
+      if: always() && (contains(needs.*.result, 'failure') || failure())
+      run: echo "::notice::emailext notification (configure an approved notification action)"
+    timeout-minutes: 10

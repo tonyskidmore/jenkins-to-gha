@@ -3,7 +3,7 @@ name: j2gha harness run
 on:
   push:
     branches:
-    - j2gha/run/107-trace-hosted-20261012082534
+    - j2gha/run/107-trace-hosted-20261012123746
   workflow_dispatch:
 permissions:
   contents: read
@@ -88,54 +88,46 @@ jobs:
       if: steps.s1.outputs.run == 'true'
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Echo environment","step":"sh"}'
     - name: 'Echo environment: echo'
-      id: s6
+      id: s8
       if: steps.s1.outputs.run == 'true'
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Echo environment","step":"echo"}'
     - name: 'Echo environment: if (line 262)'
-      id: s7
+      id: s9
       if: (steps.s1.outputs.run == 'true') && (env.JOB_NAME == 'wko-kind-k8sversion')
       run: echo "taken=true" >> "$GITHUB_OUTPUT"
     - name: 'Echo environment: if (line 262)'
-      id: s8
-      if: (steps.s1.outputs.run == 'true') && (steps.s7.outcome == 'skipped')
+      id: s10
+      if: (steps.s1.outputs.run == 'true') && (steps.s9.outcome == 'skipped')
       run: echo "taken=false" >> "$GITHUB_OUTPUT"
     - name: 'Build WebLogic Kubernetes Operator: mkdir -p operator/target && echo built > operator/target/weblogic-kube'
-      id: s9
+      id: s11
       if: steps.s1.outputs.run == 'true'
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Build WebLogic Kubernetes Operator","step":"sh"}'
     - name: 'Make Workspace bin directory: mkdir -m777 -p ${WORKSPACE}/bin'
-      id: s10
+      id: s12
       if: steps.s1.outputs.run == 'true'
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Make Workspace bin directory","step":"sh"}'
     - name: 'Make Workspace bin directory: printf ''%s\n'' ''#!/bin/sh'' ''[ -p /dev/stdin ] && cat >/dev/null'' ''echo'
-      id: s11
+      id: s13
       if: steps.s1.outputs.run == 'true'
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Make Workspace bin directory","step":"sh"}'
     - name: 'Install Helm: export PATH=${runtime_path}'
-      id: s12
+      id: s14
       if: steps.s1.outputs.run == 'true'
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Install Helm","step":"sh"}'
     - name: 'Run Helm installation tests: export PATH="${WORKSPACE}/bin:${PATH}"'
-      id: s13
+      id: s15
       if: steps.s1.outputs.run == 'true'
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Run Helm installation tests","step":"sh"}'
     - name: 'Install kubectl: export PATH=${runtime_path}'
-      id: s14
+      id: s16
       if: steps.s1.outputs.run == 'true'
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Install kubectl","step":"sh"}'
     - name: 'Install kind: export PATH=${runtime_path}'
-      id: s15
+      id: s17
       if: steps.s1.outputs.run == 'true'
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Install kind","step":"sh"}'
     - name: 'Preparing Integration Test Environment: mkdir -m777 -p ${result_root}'
-      id: s16
-      if: steps.s1.outputs.run == 'true'
-      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Preparing Integration Test Environment","step":"sh"}'
-    - name: 'Preparing Integration Test Environment: echo'
-      id: s17
-      if: steps.s1.outputs.run == 'true'
-      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Preparing Integration Test Environment","step":"echo"}'
-    - name: 'Preparing Integration Test Environment: mkdir -m777 -p ${pv_root}'
       id: s18
       if: steps.s1.outputs.run == 'true'
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Preparing Integration Test Environment","step":"sh"}'
@@ -143,61 +135,69 @@ jobs:
       id: s19
       if: steps.s1.outputs.run == 'true'
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Preparing Integration Test Environment","step":"echo"}'
-    - name: 'Start registry container: export PATH=${runtime_path}'
+    - name: 'Preparing Integration Test Environment: mkdir -m777 -p ${pv_root}'
       id: s20
+      if: steps.s1.outputs.run == 'true'
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Preparing Integration Test Environment","step":"sh"}'
+    - name: 'Preparing Integration Test Environment: echo'
+      id: s21
+      if: steps.s1.outputs.run == 'true'
+      run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Preparing Integration Test Environment","step":"echo"}'
+    - name: 'Start registry container: export PATH=${runtime_path}'
+      id: s22
       if: steps.s1.outputs.run == 'true'
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Start registry container","step":"sh"}'
     - name: 'Create kind cluster: stage environment'
-      id: s21
+      id: s23
       if: steps.s1.outputs.run == 'true'
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Create kind cluster","step":"sh"}'
     - name: 'Create kind cluster: export PATH=${runtime_path}'
-      id: s22
+      id: s24
       if: steps.s1.outputs.run == 'true'
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Create kind cluster","step":"sh"}'
     - name: 'Run integration tests: enter stage'
-      id: s23
+      id: s25
       if: steps.s1.outputs.run == 'true'
       run: echo "run=true" >> "$GITHUB_OUTPUT"
     - name: 'Run integration tests: if [ -z "${IT_TEST}" ] && [ "${MAVEN_PROFILE_NAME}" = "integration-tes'
-      id: s24
-      if: steps.s23.outputs.run == 'true'
+      id: s27
+      if: steps.s25.outputs.run == 'true'
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Run integration tests","step":"sh"}'
     - name: 'Run integration tests: export PATH=${runtime_path}'
-      id: s26
-      if: steps.s23.outputs.run == 'true'
+      id: s29
+      if: steps.s25.outputs.run == 'true'
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Run integration tests","step":"sh"}'
     - name: 'Run integration tests: export PATH="${WORKSPACE}/bin:${PATH}"'
-      id: s27
-      if: steps.s23.outputs.run == 'true'
+      id: s30
+      if: steps.s25.outputs.run == 'true'
       env:
         OCIR_USER: j2gha-user
         OCIR_PASS: j2gha-fake-password
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Run integration tests","step":"sh"}'
     - name: 'Run integration tests: export PATH="${WORKSPACE}/bin:${PATH}"'
-      id: s28
-      if: (always()) && (steps.s23.outcome == 'success')
+      id: s31
+      if: (always()) && (steps.s25.outcome == 'success')
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Run integration tests","step":"sh"}'
     - name: 'Run integration tests: archive artifacts'
-      id: s29
-      if: (always()) && (steps.s23.outcome == 'success')
+      id: s32
+      if: (always()) && (steps.s25.outcome == 'success')
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Run integration tests","step":"archiveArtifacts"}'
     - name: 'Run integration tests: junit summary'
-      id: s30
-      if: ((always()) && (steps.s23.outcome == 'success')) && (always())
+      id: s33
+      if: ((always()) && (steps.s25.outcome == 'success')) && (always())
       env:
         J2GHA_JUNIT: integration-tests/target/failsafe-reports/*.xml
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Run integration tests","step":"junit"}'
     - name: 'Filter unwanted branches: export PATH="${WORKSPACE}/bin:${PATH}"'
-      id: s32
+      id: s35
       if: (always()) && (steps.s1.outcome == 'success')
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Filter unwanted branches","step":"sh"}'
     - name: 'Sync: enter stage'
-      id: s33
+      id: s36
       if: ((env.BRANCH_NAME == 'main' || env.BRANCH_NAME == 'release/4.0' || env.BRANCH_NAME == 'release/3.4')) && ((!(github.event_name
         == 'schedule') || (startsWith(env.TAG_NAME, 'v') && !contains(env.TAG_NAME, '/'))))
       run: echo "run=true" >> "$GITHUB_OUTPUT"
     - name: 'Sync: trigger downstream ''wkt-sync'''
-      id: s34
-      if: steps.s33.outputs.run == 'true'
+      id: s37
+      if: steps.s36.outputs.run == 'true'
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Sync","step":"build"}'

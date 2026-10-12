@@ -3,7 +3,7 @@
   "mode": "full",
   "result": "failure",
   "exit_code": 1,
-  "seconds": 7.3,
+  "seconds": 46.5,
   "jobs": {
     "main": {
       "result": "failure"
@@ -11,11 +11,11 @@
   },
   "traces": [],
   "failed_steps": [
-    "Checkout"
+    "Record build: launchable verify && launchable record build --name ${launchableName}"
   ],
   "error_tail": [
-    "{\"level\":\"info\",\"msg\":\"Using docker host 'unix:///var/run/docker.sock', and daemon socket '-'\",\"time\":\"2026-10-10T08:23:44Z\"}",
-    "{\"level\":\"info\",\"msg\":\"Start server on http://172.17.0.3:34567\",\"time\":\"2026-10-10T08:23:44Z\"}",
+    "{\"level\":\"info\",\"msg\":\"Using docker host 'unix:///var/run/docker.sock', and daemon socket '-'\",\"time\":\"2026-10-12T13:05:07Z\"}",
+    "{\"level\":\"info\",\"msg\":\"Start server on http://172.17.0.3:34567\",\"time\":\"2026-10-12T13:05:07Z\"}",
     "Error: Job 'main, Record build' failed"
   ],
   "outputs": {
@@ -24,8 +24,8 @@
     "injected": [
       {
         "path": ".github/workflows/j2gha.yml",
-        "size": 7069,
-        "sha256": "54d6f3dd519e99e10c80921ef503b4cb4d88ecd119595718673e3b3fba745ee6"
+        "size": 7086,
+        "sha256": "57428f8f868ed35807786fd0404817e52a1db696cdbc632f0429043815d35518"
       }
     ]
   },
@@ -41,7 +41,7 @@
       "git_branch": "origin/master"
     },
     "mode": "full",
-    "model_sha256": "f2cd59870cd96d3e527fb0b99810471d3546d8d5bd225b1f56527f8ff6df4daa",
+    "model_sha256": "e4574c5119def24277ec5e70380709f481b2e56b946f5c33f14572bef1565bd7",
     "images": {
       "jenkins": {
         "ref": "j2gha/jenkins:local",
@@ -93,17 +93,17 @@
       }
     }
   },
-  "finished_at": "2026-10-10T08:23:50+00:00",
+  "finished_at": "2026-10-12T13:05:53+00:00",
   "comparison": {
     "mode": "full",
-    "verdict": "inconclusive",
-    "equivalent": false,
-    "similarity_pct": null,
+    "verdict": "equivalent",
+    "equivalent": true,
+    "similarity_pct": 100.0,
     "jenkins_result": "FAILURE",
     "gha_result": "failure",
     "jenkins_failed_stage": "Record build",
-    "gha_failed_stage": null,
-    "gha_failed_step": "Checkout",
+    "gha_failed_stage": "Record build",
+    "gha_failed_step": "Record build: launchable verify && launchable record build --name ${launchableName}",
     "stages": [],
     "outputs": {
       "tests": {
@@ -122,10 +122,6 @@
         "proven": false
       },
       "verdict": "same"
-    },
-    "inconclusive": {
-      "reason": "the failing stage is unknown on the converted side",
-      "stage": null
     }
   }
 }

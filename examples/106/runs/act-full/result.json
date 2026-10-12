@@ -1,35 +1,34 @@
 {
   "tier": "act",
   "mode": "full",
-  "result": "failure",
-  "exit_code": 1,
-  "seconds": 16.8,
+  "result": "success",
+  "exit_code": 0,
+  "seconds": 51.8,
   "jobs": {
     "setup": {
-      "result": "failure"
+      "result": "success"
+    },
+    "acceptance-test": {
+      "result": "success"
+    },
+    "approval": {
+      "result": "success"
     },
     "post": {
       "result": "success"
     }
   },
   "traces": [],
-  "failed_steps": [
-    "Build: tar --exclude='./.git' --exclude='./Jenkinsfile' --exclude='*.tar.gz'",
-    "Restore pipeline workspace (approval)"
-  ],
-  "error_tail": [
-    "{\"level\":\"info\",\"msg\":\"Using docker host 'unix:///var/run/docker.sock', and daemon socket '-'\",\"time\":\"2026-10-10T09:10:07Z\"}",
-    "{\"level\":\"info\",\"msg\":\"Start server on http://172.17.0.3:34567\",\"time\":\"2026-10-10T09:10:07Z\"}",
-    "Error: Job 'Setup, Build, Publish, DEV Deploy, PRE Deploy' failed"
-  ],
+  "failed_steps": [],
+  "error_tail": null,
   "outputs": {
     "archived": [],
     "tests": null,
     "injected": [
       {
         "path": ".github/workflows/j2gha.yml",
-        "size": 22200,
-        "sha256": "9eccd040573bfa217dc5b421c95a29ad2d5167af7e8bbb9c5364b008612ea920"
+        "size": 24535,
+        "sha256": "933feb6cd95817df64dc6e6bb1ebcfef1a605431ac344580b4f3afc07a9a5573"
       }
     ]
   },
@@ -45,7 +44,7 @@
       "git_branch": "origin/master"
     },
     "mode": "full",
-    "model_sha256": "92e54fb432c435c0b839d9b8123bca0c9a35fd30df7f1e596e99379603522e17",
+    "model_sha256": "8fed40b83b5a13123e40ed546b9731d098e57f2f77cdc0fd5e212f72ab5e7378",
     "images": {
       "jenkins": {
         "ref": "j2gha/jenkins:local",
@@ -97,17 +96,17 @@
       }
     }
   },
-  "finished_at": "2026-10-10T09:10:23+00:00",
+  "finished_at": "2026-10-12T13:27:19+00:00",
   "comparison": {
     "mode": "full",
-    "verdict": "differs",
-    "equivalent": false,
-    "similarity_pct": 0.0,
+    "verdict": "equivalent",
+    "equivalent": true,
+    "similarity_pct": 100.0,
     "jenkins_result": "SUCCESS",
-    "gha_result": "failure",
+    "gha_result": "success",
     "jenkins_failed_stage": null,
-    "gha_failed_stage": "Build",
-    "gha_failed_step": "Build: tar --exclude='./.git' --exclude='./Jenkinsfile' --exclude='*.tar.gz'",
+    "gha_failed_stage": null,
+    "gha_failed_step": null,
     "stages": [],
     "outputs": {
       "tests": {

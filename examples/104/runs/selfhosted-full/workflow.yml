@@ -3,7 +3,7 @@ name: j2gha harness run
 on:
   push:
     branches:
-    - j2gha/run/104-full-selfhosted-20261012084752
+    - j2gha/run/104-full-selfhosted-20261012132048
   workflow_dispatch:
 permissions:
   contents: read
@@ -12,7 +12,7 @@ env:
   TAG_NAME: ''
   CHANGE_ID: ''
   BUILD_NUMBER: ${{ github.run_number }}
-  JOB_NAME: ${{ github.workflow }}
+  JOB_NAME: ex-104-full
   BUILD_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
   GIT_COMMIT: 4d48d2d9d80c31817c6026a1b269589601f34de6
   APP_NAME: open-vsx-org
@@ -29,7 +29,7 @@ jobs:
     name: Build docker image
     runs-on:
     - self-hosted
-    - j2gha-0f960e07
+    - j2gha-0573120b
     timeout-minutes: 10
     steps:
     - name: Checkout
@@ -53,7 +53,7 @@ jobs:
     needs: build-docker-image
     runs-on:
     - self-hosted
-    - j2gha-0f960e07
+    - j2gha-0573120b
     timeout-minutes: 10
     steps:
     - name: Checkout
@@ -77,7 +77,7 @@ jobs:
     needs: push-docker-image
     runs-on:
     - self-hosted
-    - j2gha-0f960e07
+    - j2gha-0573120b
     timeout-minutes: 10
     steps:
     - name: Checkout
@@ -174,7 +174,7 @@ jobs:
     if: always()
     runs-on:
     - self-hosted
-    - j2gha-0f960e07
+    - j2gha-0573120b
     steps:
     - name: Restore pipeline workspace (deploy-test)
       id: j2gha-ws-deploy-test

@@ -2,7 +2,7 @@
   "tier": "selfhosted",
   "mode": "full",
   "repo": "tonyskidmore/jenkins-to-gha",
-  "branch": "j2gha/run/116-full-selfhosted-20261012091612",
+  "branch": "j2gha/run/116-full-selfhosted-20261012131458",
   "estimate": {
     "typical": 0,
     "worst_case": 0,
@@ -13,9 +13,9 @@
     "matrix_jobs": 1,
     "jobs": 1
   },
-  "run_url": "https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38228788584",
+  "run_url": "https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38254368072",
   "result": "success",
-  "run_id": 38228788584,
+  "run_id": 38254368072,
   "traces": [],
   "jobs": [
     {
@@ -24,130 +24,137 @@
       "conclusion": "success",
       "labels": [
         "self-hosted",
-        "j2gha-ed859c49"
+        "j2gha-54fa3d78"
       ],
-      "started_at": "2026-10-12T09:16:26Z",
-      "completed_at": "2026-10-12T09:20:41Z",
+      "started_at": "2026-10-12T13:15:12Z",
+      "completed_at": "2026-10-12T13:19:42Z",
       "steps": [
         {
           "name": "Set up job",
           "number": 1,
           "conclusion": "success",
-          "started_at": "2026-10-12T09:16:28Z",
-          "completed_at": "2026-10-12T09:16:30Z"
+          "started_at": "2026-10-12T13:15:15Z",
+          "completed_at": "2026-10-12T13:15:17Z"
         },
         {
           "name": "Checkout",
           "number": 2,
           "conclusion": "success",
-          "started_at": "2026-10-12T09:16:30Z",
-          "completed_at": "2026-10-12T09:16:32Z"
+          "started_at": "2026-10-12T13:15:17Z",
+          "completed_at": "2026-10-12T13:15:18Z"
         },
         {
           "name": "podTemplate (manual migration)",
           "number": 3,
           "conclusion": "success",
-          "started_at": "2026-10-12T09:16:32Z",
-          "completed_at": "2026-10-12T09:16:32Z"
+          "started_at": "2026-10-12T13:15:18Z",
+          "completed_at": "2026-10-12T13:15:18Z"
         },
         {
           "name": "withFolderProperties (manual migration)",
           "number": 4,
           "conclusion": "success",
-          "started_at": "2026-10-12T09:16:32Z",
-          "completed_at": "2026-10-12T09:16:32Z"
+          "started_at": "2026-10-12T13:15:18Z",
+          "completed_at": "2026-10-12T13:15:18Z"
+        },
+        {
+          "name": ": set APP_ID",
+          "number": 5,
+          "conclusion": "success",
+          "started_at": "2026-10-12T13:15:18Z",
+          "completed_at": "2026-10-12T13:15:18Z"
         },
         {
           "name": "checkout: checkout",
-          "number": 5,
+          "number": 6,
           "conclusion": "success",
-          "started_at": "2026-10-12T09:16:32Z",
-          "completed_at": "2026-10-12T09:16:33Z"
+          "started_at": "2026-10-12T13:15:18Z",
+          "completed_at": "2026-10-12T13:15:20Z"
         },
         {
           "name": "Get IPA from AWS S3: test -n \"$AWS_ACCESS_KEY_ID\" && echo https://raw.githubusercontent.com",
-          "number": 6,
+          "number": 7,
           "conclusion": "success",
-          "started_at": "2026-10-12T09:16:33Z",
-          "completed_at": "2026-10-12T09:16:33Z"
+          "started_at": "2026-10-12T13:15:20Z",
+          "completed_at": "2026-10-12T13:15:20Z"
         },
         {
           "name": "install ipa in browserstack: curl -sSfLo CVSMobile.ipa `cat ${LBRANCH}.txt`",
-          "number": 7,
+          "number": 8,
           "conclusion": "success",
-          "started_at": "2026-10-12T09:16:33Z",
-          "completed_at": "2026-10-12T09:16:34Z"
+          "started_at": "2026-10-12T13:15:20Z",
+          "completed_at": "2026-10-12T13:15:20Z"
         },
         {
           "name": "install ipa in browserstack: test -n \"$BROWSERSTACK_CREDS\" && echo '{\"app_url\":\"bs://j2gha-local\"}'",
-          "number": 8,
+          "number": 9,
           "conclusion": "success",
-          "started_at": "2026-10-12T09:16:34Z",
-          "completed_at": "2026-10-12T09:16:34Z"
+          "started_at": "2026-10-12T13:15:20Z",
+          "completed_at": "2026-10-12T13:15:20Z"
         },
         {
           "name": "test: browserstack (manual migration)",
-          "number": 9,
+          "number": 10,
           "conclusion": "success",
-          "started_at": "2026-10-12T09:16:34Z",
-          "completed_at": "2026-10-12T09:16:34Z"
+          "started_at": "2026-10-12T13:15:20Z",
+          "completed_at": "2026-10-12T13:15:20Z"
         },
         {
           "name": "test: mvn --batch-mode clean install -DskipTests -DBROWSERSTACK_APP_ID=${APP",
-          "number": 10,
+          "number": 11,
           "conclusion": "success",
-          "started_at": "2026-10-12T09:16:34Z",
-          "completed_at": "2026-10-12T09:20:36Z"
+          "started_at": "2026-10-12T13:15:20Z",
+          "completed_at": "2026-10-12T13:19:36Z"
         },
         {
           "name": "create report: mkdir -p target/site/serenity && echo \"<html><body><h1>DVSA CVS Mobile",
-          "number": 11,
+          "number": 12,
           "conclusion": "success",
-          "started_at": "2026-10-12T09:20:36Z",
-          "completed_at": "2026-10-12T09:20:36Z"
+          "started_at": "2026-10-12T13:19:36Z",
+          "completed_at": "2026-10-12T13:19:36Z"
         },
         {
           "name": "create report: publish HTML report",
-          "number": 12,
+          "number": 13,
           "conclusion": "success",
-          "started_at": "2026-10-12T09:20:36Z",
-          "completed_at": "2026-10-12T09:20:38Z"
+          "started_at": "2026-10-12T13:19:36Z",
+          "completed_at": "2026-10-12T13:19:38Z"
         },
         {
           "name": "Post checkout: checkout",
-          "number": 23,
+          "number": 25,
           "conclusion": "success",
-          "started_at": "2026-10-12T09:20:38Z",
-          "completed_at": "2026-10-12T09:20:38Z"
+          "started_at": "2026-10-12T13:19:38Z",
+          "completed_at": "2026-10-12T13:19:38Z"
         },
         {
           "name": "Post Checkout",
-          "number": 24,
+          "number": 26,
           "conclusion": "success",
-          "started_at": "2026-10-12T09:20:38Z",
-          "completed_at": "2026-10-12T09:20:38Z"
+          "started_at": "2026-10-12T13:19:38Z",
+          "completed_at": "2026-10-12T13:19:39Z"
         },
         {
           "name": "Complete job",
-          "number": 25,
+          "number": 27,
           "conclusion": "success",
-          "started_at": "2026-10-12T09:20:38Z",
-          "completed_at": "2026-10-12T09:20:38Z"
+          "started_at": "2026-10-12T13:19:39Z",
+          "completed_at": "2026-10-12T13:19:39Z"
         }
       ]
     }
   ],
   "failed_steps": [],
   "billable_minutes": 0,
-  "seconds": 274.2,
+  "seconds": 293.2,
   "outputs": {
     "archived": [],
     "tests": null,
     "injected": [
       {
         "path": ".github/workflows/j2gha-run.yml",
-        "size": 3231,
-        "sha256": "8b92626ae667db02b9c126d546ef9770575c484b2951bb9c9fa7e52d82c5b0da"
+        "size": 3862,
+        "sha256": "f5597d931cdbb9cbb3dd7f1070269563c006ec43659d74604660be2df6e6e91f"
       }
     ]
   },
@@ -158,7 +165,7 @@
       "git_branch": "origin/develop"
     },
     "mode": "full",
-    "model_sha256": "f635797836002fff79c7ca1a633b3abf9245578a890f9f6842eef8d39ef5d148",
+    "model_sha256": "44e3eb9b1b6f99cd0ff9288d233829cac45c978a575056acfd5c407a5fc4b1a8",
     "images": {
       "jenkins": {
         "ref": "j2gha/jenkins:local",
@@ -210,7 +217,7 @@
       }
     }
   },
-  "finished_at": "2026-10-12T09:20:50+00:00",
+  "finished_at": "2026-10-12T13:19:55+00:00",
   "comparison": {
     "mode": "full",
     "verdict": "equivalent",

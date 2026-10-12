@@ -2,7 +2,7 @@
   "tier": "selfhosted",
   "mode": "full",
   "repo": "tonyskidmore/jenkins-to-gha",
-  "branch": "j2gha/run/016-full-selfhosted-20261012092402",
+  "branch": "j2gha/run/016-full-selfhosted-20261012125823",
   "estimate": {
     "typical": 0,
     "worst_case": 0,
@@ -13,9 +13,9 @@
     "matrix_jobs": 1,
     "jobs": 1
   },
-  "run_url": "https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38229643456",
+  "run_url": "https://github.com/tonyskidmore/jenkins-to-gha/actions/runs/38252452001",
   "result": "failure",
-  "run_id": 38229643456,
+  "run_id": 38252452001,
   "traces": [],
   "jobs": [
     {
@@ -24,108 +24,115 @@
       "conclusion": "failure",
       "labels": [
         "self-hosted",
-        "j2gha-4e4fca10"
+        "j2gha-e4b52e2e"
       ],
-      "started_at": "2026-10-12T09:24:17Z",
-      "completed_at": "2026-10-12T09:24:29Z",
+      "started_at": "2026-10-12T12:58:38Z",
+      "completed_at": "2026-10-12T12:58:51Z",
       "steps": [
         {
           "name": "Set up job",
           "number": 1,
           "conclusion": "success",
-          "started_at": "2026-10-12T09:24:19Z",
-          "completed_at": "2026-10-12T09:24:21Z"
+          "started_at": "2026-10-12T12:58:40Z",
+          "completed_at": "2026-10-12T12:58:42Z"
         },
         {
           "name": "Checkout",
           "number": 2,
           "conclusion": "success",
-          "started_at": "2026-10-12T09:24:21Z",
-          "completed_at": "2026-10-12T09:24:22Z"
+          "started_at": "2026-10-12T12:58:42Z",
+          "completed_at": "2026-10-12T12:58:44Z"
         },
         {
           "name": "podTemplate (manual migration)",
           "number": 3,
           "conclusion": "success",
-          "started_at": "2026-10-12T09:24:22Z",
-          "completed_at": "2026-10-12T09:24:22Z"
+          "started_at": "2026-10-12T12:58:44Z",
+          "completed_at": "2026-10-12T12:58:44Z"
         },
         {
           "name": "withFolderProperties (manual migration)",
           "number": 4,
           "conclusion": "success",
-          "started_at": "2026-10-12T09:24:22Z",
-          "completed_at": "2026-10-12T09:24:22Z"
+          "started_at": "2026-10-12T12:58:44Z",
+          "completed_at": "2026-10-12T12:58:44Z"
+        },
+        {
+          "name": ": set APP_ID",
+          "number": 5,
+          "conclusion": "success",
+          "started_at": "2026-10-12T12:58:44Z",
+          "completed_at": "2026-10-12T12:58:44Z"
         },
         {
           "name": "checkout: checkout",
-          "number": 5,
+          "number": 6,
           "conclusion": "success",
-          "started_at": "2026-10-12T09:24:22Z",
-          "completed_at": "2026-10-12T09:24:23Z"
+          "started_at": "2026-10-12T12:58:44Z",
+          "completed_at": "2026-10-12T12:58:46Z"
         },
         {
           "name": "Get IPA from AWS S3: aws s3 cp s3://dvsa-cvs-mobile-artefacts/files/${LBRANCH}.txt ${LBRANC",
-          "number": 6,
+          "number": 7,
           "conclusion": "failure",
-          "started_at": "2026-10-12T09:24:23Z",
-          "completed_at": "2026-10-12T09:24:23Z"
+          "started_at": "2026-10-12T12:58:46Z",
+          "completed_at": "2026-10-12T12:58:46Z"
         },
         {
           "name": "install ipa in browserstack: wget -O CVSMobile.ipa `cat ${LBRANCH}.txt`",
-          "number": 7,
+          "number": 8,
           "conclusion": "skipped",
-          "started_at": "2026-10-12T09:24:23Z",
-          "completed_at": "2026-10-12T09:24:23Z"
+          "started_at": "2026-10-12T12:58:46Z",
+          "completed_at": "2026-10-12T12:58:46Z"
         },
         {
           "name": "install ipa in browserstack: curl -u $BROWSERSTACK_CREDS -X POST \"https://api-cloud.browserstack.co",
-          "number": 8,
+          "number": 9,
           "conclusion": "skipped",
-          "started_at": "2026-10-12T09:24:23Z",
-          "completed_at": "2026-10-12T09:24:23Z"
+          "started_at": "2026-10-12T12:58:46Z",
+          "completed_at": "2026-10-12T12:58:46Z"
         },
         {
           "name": "test: browserstack (manual migration)",
-          "number": 9,
+          "number": 10,
           "conclusion": "skipped",
-          "started_at": "2026-10-12T09:24:23Z",
-          "completed_at": "2026-10-12T09:24:23Z"
+          "started_at": "2026-10-12T12:58:46Z",
+          "completed_at": "2026-10-12T12:58:46Z"
         },
         {
           "name": "test: mvn --batch-mode clean install -PCI-Browserstack -DBROWSERSTACK_APP_ID",
-          "number": 10,
+          "number": 11,
           "conclusion": "skipped",
-          "started_at": "2026-10-12T09:24:23Z",
-          "completed_at": "2026-10-12T09:24:23Z"
+          "started_at": "2026-10-12T12:58:46Z",
+          "completed_at": "2026-10-12T12:58:46Z"
         },
         {
           "name": "create report: publish HTML report",
-          "number": 11,
+          "number": 12,
           "conclusion": "success",
-          "started_at": "2026-10-12T09:24:23Z",
-          "completed_at": "2026-10-12T09:24:24Z"
+          "started_at": "2026-10-12T12:58:46Z",
+          "completed_at": "2026-10-12T12:58:46Z"
         },
         {
           "name": "Post checkout: checkout",
-          "number": 21,
+          "number": 23,
           "conclusion": "success",
-          "started_at": "2026-10-12T09:24:24Z",
-          "completed_at": "2026-10-12T09:24:24Z"
+          "started_at": "2026-10-12T12:58:46Z",
+          "completed_at": "2026-10-12T12:58:46Z"
         },
         {
           "name": "Post Checkout",
-          "number": 22,
+          "number": 24,
           "conclusion": "success",
-          "started_at": "2026-10-12T09:24:24Z",
-          "completed_at": "2026-10-12T09:24:24Z"
+          "started_at": "2026-10-12T12:58:46Z",
+          "completed_at": "2026-10-12T12:58:47Z"
         },
         {
           "name": "Complete job",
-          "number": 23,
+          "number": 25,
           "conclusion": "success",
-          "started_at": "2026-10-12T09:24:24Z",
-          "completed_at": "2026-10-12T09:24:24Z"
+          "started_at": "2026-10-12T12:58:47Z",
+          "completed_at": "2026-10-12T12:58:47Z"
         }
       ]
     }
@@ -134,15 +141,15 @@
     "Get IPA from AWS S3: aws s3 cp s3://dvsa-cvs-mobile-artefacts/files/${LBRANCH}.txt ${LBRANC"
   ],
   "billable_minutes": 0,
-  "seconds": 33.4,
+  "seconds": 33.3,
   "outputs": {
     "archived": [],
     "tests": null,
     "injected": [
       {
         "path": ".github/workflows/j2gha-run.yml",
-        "size": 2859,
-        "sha256": "172ecbf433adfc380f0940923fe6a79896f0bc7b00dcc4710618017284692215"
+        "size": 3481,
+        "sha256": "024f51255448a96a4d5efb7219e105e98090de02a139d4860d6af7494186fbab"
       }
     ]
   },
@@ -153,7 +160,7 @@
       "git_branch": "origin/develop"
     },
     "mode": "full",
-    "model_sha256": "2f705a335fe1acf149e69ec83f7968da0f103c300200009e55748a2b540eb771",
+    "model_sha256": "66c3c1e11d4450aef583412cfac2e9c62ff6217e27892ba4a30e44a285efa9a2",
     "images": {
       "jenkins": {
         "ref": "j2gha/jenkins:local",
@@ -205,7 +212,7 @@
       }
     }
   },
-  "finished_at": "2026-10-12T09:24:39+00:00",
+  "finished_at": "2026-10-12T12:59:00+00:00",
   "comparison": {
     "mode": "full",
     "verdict": "equivalent",

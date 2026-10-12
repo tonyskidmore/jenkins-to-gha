@@ -3,7 +3,7 @@ name: j2gha harness run
 on:
   push:
     branches:
-    - j2gha/run/003-full-selfhosted-20261012083716
+    - j2gha/run/003-full-selfhosted-20261012122323
   workflow_dispatch:
 permissions:
   contents: read
@@ -26,7 +26,7 @@ jobs:
     name: Check Commit Message, Get Ready
     runs-on:
     - self-hosted
-    - j2gha-5b18ed28
+    - j2gha-7ab7532d
     timeout-minutes: 10
     steps:
     - name: Checkout
@@ -39,7 +39,14 @@ jobs:
       run: 'true'
     - name: 'Check Commit Message: git log -1 --pretty=format:%s'
       id: s1
-      run: git log -1 --pretty=format:%s
+      run: |-
+        commitMsg="$(
+        git log -1 --pretty=format:%s
+        )"
+        commitMsg="${commitMsg#"${commitMsg%%[![:space:]]*}"}"
+        commitMsg="${commitMsg%"${commitMsg##*[![:space:]]}"}"
+        { echo 'commitMsg<<J2GHA_EOF'; printf '%s\n' "$commitMsg"; echo J2GHA_EOF; } >> "$GITHUB_ENV"
+        { echo 'commitMsg<<J2GHA_EOF'; printf '%s\n' "$commitMsg"; echo J2GHA_EOF; } >> "$GITHUB_OUTPUT"
     - name: 'Check Commit Message: Groovy if (manual)'
       id: s2
       run: 'echo "::warning::manual migration: Groovy condition at line 39: skipKeywords.any { commitMsg.toLowerCase().contains(it)
@@ -72,7 +79,7 @@ jobs:
     needs: check-commit-message
     runs-on:
     - self-hosted
-    - j2gha-5b18ed28
+    - j2gha-7ab7532d
     timeout-minutes: 10
     steps:
     - name: Restore pipeline workspace (check-commit-message)
@@ -247,7 +254,7 @@ jobs:
     needs: run-urdf-tests
     runs-on:
     - self-hosted
-    - j2gha-5b18ed28
+    - j2gha-7ab7532d
     timeout-minutes: 10
     strategy:
       fail-fast: false
@@ -506,7 +513,7 @@ jobs:
     needs: build-robot-urdfs-and-srdfs
     runs-on:
     - self-hosted
-    - j2gha-5b18ed28
+    - j2gha-7ab7532d
     timeout-minutes: 10
     strategy:
       fail-fast: false
@@ -725,7 +732,7 @@ jobs:
     needs: build-end-effector-urdfs
     runs-on:
     - self-hosted
-    - j2gha-5b18ed28
+    - j2gha-7ab7532d
     container:
       image: franka/build/ubuntu-24.04:0.27.0
     timeout-minutes: 10
@@ -1185,7 +1192,7 @@ jobs:
     needs: archive-urdfs-and-srdfs
     runs-on:
     - self-hosted
-    - j2gha-5b18ed28
+    - j2gha-7ab7532d
     timeout-minutes: 10
     steps:
     - name: Restore pipeline workspace (archive-urdfs-and-srdfs)
@@ -1469,7 +1476,7 @@ jobs:
     needs: archive-urdfs-and-srdfs
     runs-on:
     - self-hosted
-    - j2gha-5b18ed28
+    - j2gha-7ab7532d
     timeout-minutes: 10
     steps:
     - name: Restore pipeline workspace (archive-urdfs-and-srdfs)
@@ -1761,7 +1768,7 @@ jobs:
     if: always()
     runs-on:
     - self-hosted
-    - j2gha-5b18ed28
+    - j2gha-7ab7532d
     steps:
     - name: Restore pipeline workspace (trigger-upstream-franka_ros2_ws-builds-h)
       id: j2gha-ws-trigger-upstream-franka_ros2_ws-builds-h

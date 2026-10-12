@@ -10,12 +10,20 @@ env:
   TAG_NAME: ''
   CHANGE_ID: ''
   BUILD_NUMBER: ${{ github.run_number }}
-  JOB_NAME: ${{ github.workflow }}
+  JOB_NAME: ex-017-trace
   BUILD_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
   WORKSPACE: ${{ github.workspace }}
   GIT_COMMIT: ${{ github.sha }}
   GIT_BRANCH: origin/master
   GIT_URL: ${{ github.server_url }}/${{ github.repository }}.git
+  APP_BRANCH: j2gha-stub
+  TF_BRANCH: j2gha-stub
+  ACTION: j2gha-stub
+  ENVIRONMENT: j2gha-stub
+  CLEAN_WORKSPACE: j2gha-stub
+  SELENIUM_HUB_ADDRESS: j2gha-stub
+  SKIP_TESTS: j2gha-stub
+  FORCE_RELOAD_DATA: j2gha-stub
 defaults:
   run:
     shell: bash
@@ -40,10 +48,10 @@ jobs:
       if: (steps.s1.outputs.run == 'true') && (steps.s2.outcome == 'skipped')
       run: echo "taken=false" >> "$GITHUB_OUTPUT"
     - name: 'Init: TF deployment bucket: date +%Y%m%d%H%M%S'
-      id: s11
+      id: s12
       run: 'printf ''%s %s\n'' J2GHA-TRACE ''{"stage":"Init: TF deployment bucket","step":"sh"}'''
     - name: 'Init: Verify environment: enter stage'
-      id: s15
+      id: s17
       if: env.action != 'destroy'
       run: echo "run=true" >> "$GITHUB_OUTPUT"
   build-build-cvr-frontend:
@@ -53,19 +61,19 @@ jobs:
     timeout-minutes: 5
     steps:
     - name: 'Build: enter stage'
-      id: s32
+      id: s34
       if: env.action == 'apply'
       run: echo "run=true" >> "$GITHUB_OUTPUT"
     - name: Checkout
-      if: steps.s32.outputs.run == 'true'
+      if: steps.s34.outputs.run == 'true'
       run: 'printf ''%s %s\n'' J2GHA-TRACE ''{"stage":"Build: CVR frontend","step":"checkout"}'''
     - name: 'Build: CVR frontend: enter stage'
-      id: s33
-      if: (steps.s32.outputs.run == 'true') && (vars.J2GHA_WHEN_L318 == 'true')
+      id: s35
+      if: (steps.s34.outputs.run == 'true') && (vars.J2GHA_WHEN_L318 == 'true')
       run: echo "run=true" >> "$GITHUB_OUTPUT"
     - name: 'Build: CVR frontend: deleteDir'
-      id: s35
-      if: steps.s33.outputs.run == 'true'
+      id: s37
+      if: steps.s35.outputs.run == 'true'
       run: 'printf ''%s %s\n'' J2GHA-TRACE ''{"stage":"Build: CVR frontend","step":"deleteDir"}'''
   build-build-cvr-backend:
     name: 'Build / Build: CVR backend'
@@ -74,19 +82,19 @@ jobs:
     timeout-minutes: 5
     steps:
     - name: 'Build: enter stage'
-      id: s42
+      id: s44
       if: env.action == 'apply'
       run: echo "run=true" >> "$GITHUB_OUTPUT"
     - name: Checkout
-      if: steps.s42.outputs.run == 'true'
+      if: steps.s44.outputs.run == 'true'
       run: 'printf ''%s %s\n'' J2GHA-TRACE ''{"stage":"Build: CVR backend","step":"checkout"}'''
     - name: 'Build: CVR backend: enter stage'
-      id: s43
-      if: (steps.s42.outputs.run == 'true') && (vars.J2GHA_WHEN_L351 == 'true')
+      id: s45
+      if: (steps.s44.outputs.run == 'true') && (vars.J2GHA_WHEN_L351 == 'true')
       run: echo "run=true" >> "$GITHUB_OUTPUT"
     - name: 'Build: CVR backend: deleteDir'
-      id: s45
-      if: steps.s43.outputs.run == 'true'
+      id: s47
+      if: steps.s45.outputs.run == 'true'
       run: 'printf ''%s %s\n'' J2GHA-TRACE ''{"stage":"Build: CVR backend","step":"deleteDir"}'''
   build-build-frontend-assets:
     name: 'Build / Build: frontend assets'
@@ -95,15 +103,15 @@ jobs:
     timeout-minutes: 5
     steps:
     - name: 'Build: enter stage'
-      id: s52
+      id: s54
       if: env.action == 'apply'
       run: echo "run=true" >> "$GITHUB_OUTPUT"
     - name: Checkout
-      if: steps.s52.outputs.run == 'true'
+      if: steps.s54.outputs.run == 'true'
       run: 'printf ''%s %s\n'' J2GHA-TRACE ''{"stage":"Build: frontend assets","step":"checkout"}'''
     - name: 'Build: frontend assets: deleteDir'
-      id: s54
-      if: steps.s52.outputs.run == 'true'
+      id: s56
+      if: steps.s54.outputs.run == 'true'
       run: 'printf ''%s %s\n'' J2GHA-TRACE ''{"stage":"Build: frontend assets","step":"deleteDir"}'''
   build-build-cvr-data-update-module:
     name: 'Build / Build: CVR data update module'
@@ -112,19 +120,19 @@ jobs:
     timeout-minutes: 5
     steps:
     - name: 'Build: enter stage'
-      id: s62
+      id: s64
       if: env.action == 'apply'
       run: echo "run=true" >> "$GITHUB_OUTPUT"
     - name: Checkout
-      if: steps.s62.outputs.run == 'true'
+      if: steps.s64.outputs.run == 'true'
       run: 'printf ''%s %s\n'' J2GHA-TRACE ''{"stage":"Build: CVR data update module","step":"checkout"}'''
     - name: 'Build: CVR data update module: enter stage'
-      id: s63
-      if: (steps.s62.outputs.run == 'true') && (vars.J2GHA_WHEN_L450 == 'true')
+      id: s65
+      if: (steps.s64.outputs.run == 'true') && (vars.J2GHA_WHEN_L450 == 'true')
       run: echo "run=true" >> "$GITHUB_OUTPUT"
     - name: 'Build: CVR data update module: deleteDir'
-      id: s65
-      if: steps.s63.outputs.run == 'true'
+      id: s67
+      if: steps.s65.outputs.run == 'true'
       run: 'printf ''%s %s\n'' J2GHA-TRACE ''{"stage":"Build: CVR data update module","step":"deleteDir"}'''
   deploy:
     name: Deploy
@@ -137,23 +145,23 @@ jobs:
     timeout-minutes: 5
     steps:
     - name: 'Deploy: Upload CVR frontend package: enter stage'
-      id: s72
+      id: s74
       if: vars.J2GHA_WHEN_L488 == 'true'
       run: echo "run=true" >> "$GITHUB_OUTPUT"
     - name: 'Deploy: Upload CVR backend package: enter stage'
-      id: s77
+      id: s79
       if: vars.J2GHA_WHEN_L507 == 'true'
       run: echo "run=true" >> "$GITHUB_OUTPUT"
     - name: 'Deploy: Upload CVR data update package: enter stage'
-      id: s82
+      id: s84
       if: vars.J2GHA_WHEN_L526 == 'true'
       run: echo "run=true" >> "$GITHUB_OUTPUT"
     - name: 'Deploy: Upload CVR frontend assets: enter stage'
-      id: s90
+      id: s92
       if: env.action == 'apply'
       run: echo "run=true" >> "$GITHUB_OUTPUT"
     - name: 'Deploy: Manifest: enter stage'
-      id: s97
+      id: s99
       if: env.action == 'apply'
       run: echo "run=true" >> "$GITHUB_OUTPUT"
   load-test-data-to-db:
@@ -165,7 +173,7 @@ jobs:
     - name: Checkout
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Load test data to DB","step":"checkout"}'
     - name: 'Load test data to DB: enter stage'
-      id: s101
+      id: s103
       if: vars.J2GHA_WHEN_L679 == 'true'
       run: echo "run=true" >> "$GITHUB_OUTPUT"
   tests:
@@ -177,12 +185,12 @@ jobs:
     - name: Checkout
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Tests","step":"checkout"}'
     - name: 'Tests: enter stage'
-      id: s107
+      id: s109
       if: env.action == 'apply' && env.skip_tests != 'true'
       run: echo "run=true" >> "$GITHUB_OUTPUT"
     - name: 'Tests: curl ${recallsApiGwUrl}${warmupPath} --output /dev/null'
-      id: s109
-      if: steps.s107.outputs.run == 'true'
+      id: s111
+      if: steps.s109.outputs.run == 'true'
       run: printf '%s %s\n' J2GHA-TRACE '{"stage":"Tests","step":"sh"}'
   post:
     name: post
@@ -199,11 +207,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: 'Declarative: Post Actions: if (line 775)'
-      id: s111
+      id: s113
       if: (always()) && (env.clean_workspace == 'true')
       run: echo "taken=true" >> "$GITHUB_OUTPUT"
     - name: 'Declarative: Post Actions: if (line 775)'
-      id: s112
-      if: (always()) && (steps.s111.outcome == 'skipped')
+      id: s114
+      if: (always()) && (steps.s113.outcome == 'skipped')
       run: echo "taken=false" >> "$GITHUB_OUTPUT"
     timeout-minutes: 5
