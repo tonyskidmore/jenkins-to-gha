@@ -66,6 +66,26 @@ commands), 12 of the 16 twins' conversions showed no difference from the success
 Actions; the other 4 differ where the converter reports manual work. Each example's README links its reference runs on
 GitHub Actions. Index: [examples/README.md](examples/README.md); details: [docs/results.md](docs/results.md).
 
+## Where it stands
+
+`j2gha` is a working prototype, not a migration product. It parses a Jenkinsfile with Jenkins' own Groovy, scores how
+hard the pipeline will be to migrate, and generates a GitHub Actions workflow with a migration report that lists, by
+source line, what was mapped, approximated, left as manual work or dropped. 
+
+It checks the workflow with actionlint, zizmor and its own policy checks, and then, unusually for a converter, runs the original on a disposable local Jenkins and the conversion on act or real GitHub runners and compares the two runs stage by stage, which it has done for 20
+public pipelines and their 16 twins. The practical way to use it is as a first pass and a safety net, not an autopilot:
+use the analysis to size a migration and find the pipelines that need redesign, start from the draft workflow and work
+through its manual items, and use the trace comparison to check that a reviewed workflow still runs the same stages and
+steps in the same order as the Jenkinsfile.
+
+What it does not do matters as much. It does not migrate what surrounds a Jenkinsfile: credential values, agents and runners, 
+plugin configuration or job settings. It cannot convert Groovy that shapes the pipeline at run time, such as stages built in loops or values computed in closures, and reports those as manual work. It stubs shared-library steps and plugin objects, so it shows they are called but not what they do. An
+*equivalent* verdict means only that no difference was found in the scenario that was run: trace mode compares control
+flow, not the commands or what they produce, and full mode compares outcomes only where a pipeline can succeed in a
+disposable environment, which most real pipelines cannot without their private services and credentials (hence the
+twins). Twenty pipelines is a small sample, and every converted workflow still needs a person's review before it
+replaces a Jenkins job.
+
 ## Documentation
 
 | Topic | Document |
