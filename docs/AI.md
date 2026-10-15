@@ -15,8 +15,20 @@ Everything agent-related is optional:
 | `AGENTS.md`, `.github/instructions/` | Optional (Claude Code, GitHub Copilot, Codex) | Project notes an agent loads automatically: `AGENTS.md` always, and a path-scoped rule file when it works on matching files (`.claude/rules` is the same directory). A human can read them as a developer guide. |
 | `.github/agents/`, `.github/hooks/` | Optional (GitHub Copilot) | A custom agent for migration work, and a hook that asks before an agent starts a GitHub-hosted run ([copilot.md](copilot.md)). |
 
-Claude Code and GitHub Copilot read the same files: the skills, `AGENTS.md` and the rule files. What else Copilot needs, and how
-to use it with private pipelines or a local model, is in [copilot.md](copilot.md).
+Claude Code and GitHub Copilot read the same files: the skills, `AGENTS.md` and the rule files. What else Copilot
+needs, and how to use it with private pipelines or a local model, is in [copilot.md](copilot.md).
+
+**Claude Code needs version 2.1.277 or later** to read `AGENTS.md` (check with `claude --version`).
+
+- **Why there is no `CLAUDE.md`.** Claude Code reads `AGENTS.md` only when the repository has no `CLAUDE.md`, so this
+  repository has none. `AGENTS.md` replaced it after v0.1.0.
+- **With an older Claude Code,** create a local `CLAUDE.md` in the repository root containing the single line
+  `@AGENTS.md`. It is gitignored, so it stays out of commits.
+- **Path-scoped rules need no setup:** Claude Code reads `.claude/rules`, a symlink to `.github/instructions`.
+  - On Windows, git checks a symlink out as a plain text file unless symlinks are enabled. Clone with
+    `git clone -c core.symlinks=true` (this needs Developer Mode or administrator rights), or Claude Code will not load
+    the rules.
+  - Copilot reads `.github/instructions` directly, so it is not affected.
 
 How the converter learns new Jenkins steps (a person or an agent adds catalog entries and generator code, then checks
 them with tests and the differential run) is in [extending.md](extending.md). A starting point for letting an agent do
