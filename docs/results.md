@@ -8,7 +8,7 @@ example's README (see [Reference runs](#reference-runs)). To repeat the original
 
 | Stage | Outcome |
 |---|---|
-| Analysis | 20/20 parsed with Jenkins' Groovy. Declarative ones were validated against Jenkins 2.580.1. Difficulty ranges from 5 to 67. |
+| Analysis | 20/20 parsed with Jenkins' Groovy. Declarative ones were validated against Jenkins 2.580.1. Difficulty ranges from 5 to 58 (scoring as in [scoring.md](scoring.md#migration-difficulty-0-100)). |
 | Conversion | 20/20 converted, at 12-87% estimated automation (report items weighted by status: an effort estimate, not a measure of correctness). Every manual item has a source line. |
 | Static validation | 20/20 pass actionlint structurally and the j2gha policy, with every scanner run (a scanner that cannot run fails validation). Shellcheck findings in the *original* scripts are reported as SAST. zizmor is clean for 18/20 after SHA-pinning and `persist-credentials: false`; 001 keeps High `unpinned-images` findings inherited from tag-only Jenkins docker-agent images (⚠️ in the summary), and 015 has informational `use-trusted-publishing` findings for its token-based `npm publish`. |
 | Jenkins execution (trace) | 18/20 run to completion after automatic localisation. 017 and 018 stop on their own `error()`, in branches decided by values that trace mode stubs. |

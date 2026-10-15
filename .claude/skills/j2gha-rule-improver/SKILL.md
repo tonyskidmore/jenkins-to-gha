@@ -13,6 +13,11 @@ the same loop with a worklist and a gate. You are the optimizer; the harness is 
 
 - Work on a new branch `rules/<step>`. Never commit to `main`, never push, never open a hosted run (`--tier hosted`).
 - One step per branch. Stop after one proposal and report.
+- **Under the GitHub Copilot cloud agent**, which always pushes its own `copilot/*` branch and opens a pull request,
+  that pull request is the proposal.
+  - Keep it a draft, and say in it that a human decides the merge.
+  - Run `git fetch origin main` before `uv run j2gha guard --base main`.
+  - The baseline needs Docker and about 10 minutes, so prefer running this skill locally.
 - Do not edit anything matched by `evals/protected.txt` (the validators, runners, comparison, provenance, the dumper,
   `evals/*`, CI), and do not delete or weaken an existing test. `uv run j2gha guard --base main` must pass.
 - Do not move a step to `noop`, change a catalog `weight`, or add a step to only one side of the trace lists to improve
@@ -30,7 +35,7 @@ the same loop with a worklist and a gate. You are the optimizer; the harness is 
      and check again. Read `examples/<id>/runs/jenkins-trace/console.log`: a controller error such as
      `UnapprovedUsageException` or a connection error is a flake. If the regression persists, or the cause is not
      environmental, stop and report: the tree is not clean. Do not edit rules to compensate.
-2. **Pick the gap.** `uv run j2gha gaps --unmapped-only`. Use `$ARGUMENTS` if given, else the top row. Without
+2. **Pick the gap.** `uv run j2gha gaps --unmapped-only`. Use the step the user named, if any, else the top row. Without
    `--unmapped-only` many rows are `policy` steps the generator already approximates (`withCredentials`, `retry`).
    Read the step in the example Jenkinsfiles it appears in.
 3. **Branch.** `git switch -c rules/<step>` now, before editing. Generated files under `examples/` that the baseline run

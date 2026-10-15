@@ -196,7 +196,7 @@ page-list snapshot.
   5. Fetch the bundle when a task needs more than a couple of lookups.
 - **Gitignored path.** `.docs/` is gitignored, so repo-root searches skip it, which keeps code searches clean. The
   skills therefore always pass the path explicitly.
-- **Other entry points.** `jenkins-to-gha` and `CLAUDE.md` point to the two skills.
+- **Other entry points.** `jenkins-to-gha` and `AGENTS.md` point to the two skills.
 
 **The harness.** The pipeline (`analyze`, `convert`, `validate`, `run`) never reads the bundles: an strace of a full
 `pipeline` run plus `analyze`/`convert`/`validate all` (2026-10-05) recorded no access to `.docs`. The only use is

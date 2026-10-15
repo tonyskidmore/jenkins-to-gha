@@ -1,5 +1,5 @@
 {
-  "analysis_version": 1,
+  "analysis_version": 2,
   "parser": {
     "engine": "groovy-ast (Jenkins-bundled Groovy 2.4, CONVERSION phase)",
     "ok": true,
@@ -319,8 +319,7 @@
       "severity": "high",
       "line": null,
       "evidence": "fe-gitlab-pipeline-steps@lts-2.2",
-      "recommendation": "Library steps are opaque to static analysis; map them to composite actions/reusable workflows",
-      "gate": true
+      "recommendation": "Library steps are opaque to static analysis; map them to composite actions/reusable workflows"
     },
     {
       "id": "ScriptBlocks",
@@ -372,16 +371,7 @@
       "recommendation": "Plugin or shared-library step with no catalog mapping - inspect implementation"
     }
   ],
-  "hard_gates": [
-    {
-      "id": "SharedLibrary",
-      "severity": "high",
-      "line": null,
-      "evidence": "fe-gitlab-pipeline-steps@lts-2.2",
-      "recommendation": "Library steps are opaque to static analysis; map them to composite actions/reusable workflows",
-      "gate": true
-    }
-  ],
+  "hard_gates": [],
   "styles": [
     "declarative",
     "shared-library",
@@ -404,20 +394,18 @@
     "weighted_mapped_pct": 72.8
   },
   "complexity": {
-    "score": 55,
-    "classification": "significant-redesign",
+    "score": 43,
+    "classification": "assisted",
     "dimensions": {
       "declarative_structure": 10,
       "step_mapping": 6.8,
-      "plugin_coupling": 14.2,
+      "plugin_coupling": 2.2,
       "library_opacity": 15,
       "runtime_coupling": 5.0,
       "security_identity": 0,
       "control_flow": 4.0
     },
-    "hard_gates": [
-      "SharedLibrary"
-    ],
+    "hard_gates": [],
     "weights": {
       "declarative_structure": 20,
       "step_mapping": 25,
@@ -426,6 +414,16 @@
       "runtime_coupling": 10,
       "security_identity": 10,
       "control_flow": 5
+    },
+    "unknown_steps": [
+      "feNotifySCM",
+      "fePublishBuildInfo",
+      "fePublishOpkg",
+      "notifyBitbucket"
+    ],
+    "if_unknown_mapped": {
+      "score": 35,
+      "classification": "assisted"
     }
   },
   "convertibility": "partial",

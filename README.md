@@ -40,8 +40,12 @@ uv run j2gha docker build    # build the Jenkins, act and runner images (once; s
 
 Then follow the hands-on [walkthrough](examples/000/README.md): it takes one realistic pipeline from Jenkins to
 GitHub Actions through every stage, and everything it writes is gitignored. Running the corpus and the other commands
-is covered in [docs/usage.md](docs/usage.md). No AI agent or LLM API key is needed; the Claude Code skills are
-optional ([docs/AI.md](docs/AI.md)).
+is covered in [docs/usage.md](docs/usage.md).
+
+To convert your own pipelines, including ones that are not public, see [docs/own-pipelines.md](docs/own-pipelines.md).
+
+No AI agent or LLM API key is needed. The agent skills, for Claude Code or GitHub Copilot, are optional
+([docs/AI.md](docs/AI.md), [docs/copilot.md](docs/copilot.md)).
 
 ## How it works
 
@@ -91,11 +95,13 @@ replaces a Jenkins job.
 | Topic | Document |
 |---|---|
 | Prerequisites, commands, Actions minutes | [prerequisites.md](docs/prerequisites.md), [usage.md](docs/usage.md) |
+| Converting your own pipelines, reading the scores | [own-pipelines.md](docs/own-pipelines.md), [scoring.md](docs/scoring.md) |
 | Approach and design | [mechanism.md](docs/mechanism.md), [architecture.md](docs/architecture.md) |
 | Results and limitations | [results.md](docs/results.md), [architecture.md](docs/architecture.md#known-limitations-and-where-to-extend) |
 | Adding conversion rules | [extending.md](docs/extending.md), [self-improvement.md](docs/self-improvement.md) |
-| Agent skills and AI | [skills.md](docs/skills.md), [AI.md](docs/AI.md) |
+| Agent skills and AI, GitHub Copilot | [skills.md](docs/skills.md), [AI.md](docs/AI.md), [copilot.md](docs/copilot.md) |
 | Background research | [research.md](docs/research.md), [act-evaluation.md](docs/act-evaluation.md), [tooling.md](docs/tooling.md), [documentation.md](docs/documentation.md) |
+| What changed, by version | [CHANGELOG.md](CHANGELOG.md) |
 
 ## Feedback
 

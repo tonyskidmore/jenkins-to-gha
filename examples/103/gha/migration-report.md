@@ -1,13 +1,25 @@
 # Migration report: frankarobotics/franka_description `Jenkinsfile`
 
-- **Classification:** significant-redesign (difficulty 55/100)
+- **Classification:** assisted (difficulty 43/100)
 - **Convertibility:** partial
 - **Automated mapping (effort estimate, not correctness):** 68.9% (41 mapped, 44 approximated, 13 manual, 1 dropped)
 - **Weighted step coverage (analysis):** 72.8%
 
-## Blocking items (hard gates)
+## Difficulty breakdown
 
-- line ?: **SharedLibrary** - fe-gitlab-pipeline-steps@lts-2.2 → Library steps are opaque to static analysis; map them to composite actions/reusable workflows
+| Dimension | Score | Max |
+|---|---:|---:|
+| declarative structure | 10 | 20 |
+| step mapping | 6.8 | 25 |
+| plugin coupling | 2.2 | 15 |
+| library opacity | 15 | 15 |
+| runtime coupling | 5.0 | 10 |
+| security identity | 0 | 10 |
+| control flow | 4.0 | 5 |
+
+- **Hard gates:** none
+- **Unknown steps (4):** `feNotifySCM`, `fePublishBuildInfo`, `fePublishOpkg`, `notifyBitbucket` - plugin or shared-library steps the step catalog does not know, each a manual item below. If every one were mapped, the difficulty would be **35/100 - assisted**.
+- How the score is built: `docs/scoring.md` in the j2gha repository.
 
 ## Mapping detail
 

@@ -14,9 +14,9 @@ Local docs are optional. Use them when present; never fail a task because they a
 uv run j2gha docs path jenkins     # prints the bundle dir, or exits 1 if not downloaded
 ```
 
-- **Found** → work from that directory (call it `$J`). It is gitignored, so always pass `$J` explicitly as the
-  Grep/Glob path (repo-root searches skip it).
-- **Not found** → if the task needs more than one or two lookups, or `$ARGUMENTS` contains `--fetch`, download it
+- **Found** → work from that directory (call it `$J`). It is gitignored, so always pass `$J` explicitly to your
+  search tool, e.g. `rg -n --no-ignore <pattern> "$J"` (searches from the repository root skip it).
+- **Not found** → if the task needs more than one or two lookups, or the request includes `--fetch`, download it
   (about 1 minute):
   `uv run j2gha docs fetch jenkins`. The `controller` part needs Docker (the harness controller is started
   automatically). Without Docker, run `--parts handbook,declarative,plugins` (a bundle labelled `latest`). Otherwise
@@ -28,8 +28,8 @@ uv run j2gha docs path jenkins     # prints the bundle dir, or exits 1 if not do
 | Need | Read |
 |---|---|
 | Step parameters, exactly as the harness controller runs them | `$J/steps/<step>.md` (header shows plugin + version) |
-| Step from a plugin the controller doesn't have | Grep `` `<step>` `` in `$J/plugins/INDEX.md` → `$J/plugins/<plugin>.md` (latest release) |
-| Declarative section/directive semantics (`agent`, `post`, `when`, `matrix`, `input`, ordering rules) | `$J/handbook/pipeline/syntax.md` (Grep the heading, read only that range) |
+| Step from a plugin the controller doesn't have | Search for `` `<step>` `` in `$J/plugins/INDEX.md` → `$J/plugins/<plugin>.md` (latest release) |
+| Declarative section/directive semantics (`agent`, `post`, `when`, `matrix`, `input`, ordering rules) | `$J/handbook/pipeline/syntax.md` (search for the heading, read only that range) |
 | An `options` / `triggers` / `parameters` / `when` / `agent` symbol (e.g. `cron` with `TZ=`, `disableConcurrentBuilds`) | `$J/declarative/<directive>/<symbol>.md` (list: `$J/declarative/INDEX.md`). The page header says "installed" (exact) or "latest release" |
 | `env` variables, `currentBuild`, `params`, `docker`, `scm` | `$J/globals/<name>.md` |
 | Scripted pipeline, CPS, `@NonCPS`, sandbox | `$J/handbook/pipeline/cps-method-mismatches.md`, `$J/handbook/cps/*.md` |
@@ -37,7 +37,7 @@ uv run j2gha docs path jenkins     # prints the bundle dir, or exits 1 if not do
 | Exact core + plugin versions | `$J/plugins.md`, `$J/manifest.json` |
 
 Read `$J/INDEX.md` only when you don't know which page you need. It is llms.txt-style: one line per page with a
-blurb. Prefer Grep with `-n` plus a ranged Read over reading whole pages. `syntax.md` alone is about 70 KB.
+blurb. Prefer a line-numbered search (`rg -n`) and reading that range over reading whole pages. `syntax.md` alone is about 70 KB.
 
 Cite the `> Source:` line at the top of each page, plus the bundle version, when you report a fact.
 

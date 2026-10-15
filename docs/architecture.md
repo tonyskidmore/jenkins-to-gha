@@ -255,6 +255,19 @@ minutes.
   `J2GHA_ENV_CANARY` secret to check that environment secrets arrive.
 - The Jenkins controller is shared state: harness processes take an exclusive lock (`.j2gha/jenkins.lock`) and a
   second one fails fast, naming the holder.
+- Pipelines that are not corpus examples are never pushed to a repository that is not private. These are the user's
+  own pipelines, kept in `J2GHA_PIPELINES_DIR` outside the clone ([own-pipelines.md](own-pipelines.md)). The
+  selfhosted and hosted tiers refuse them unless `J2GHA_REPO` names a repository the GitHub API reports as private or
+  internal (`stages.remote_refusal`; the default `origin` of a clone of this repository is public). The local tiers
+  still run.
+- `J2GHA_OFFLINE=1` (`--offline`) stops the harness's own network use at two choke points:
+  - **The GitHub client** (`github.GitHub.request`) serves cached responses and raises `OfflineError` for anything
+    else, so `convert` pins only actions whose lookups are cached.
+  - **The run planner** (`stages._refused_tiers`) refuses the remote tiers and a full-mode run that would fetch a
+    source repository.
+
+  `docs fetch`, `crawl`, `budget` and `environments` stop with a message. Docker pulls and act's first download of a
+  public action are outside it.
 - Remote runs use orphan branches that contain only the generated workflow, deleted after each run. Generated
   workflows use `permissions: contents: read` and `persist-credentials: false`, and pin actions to commit SHAs when a
   GitHub token is available to resolve them; otherwise an action keeps its version tag, which the policy check reports

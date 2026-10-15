@@ -5,6 +5,21 @@
 - **Automated mapping (effort estimate, not correctness):** 24.4% (6 mapped, 3 approximated, 23 manual, 0 dropped)
 - **Weighted step coverage (analysis):** 76.3%
 
+## Difficulty breakdown
+
+| Dimension | Score | Max |
+|---|---:|---:|
+| declarative structure | 13.0 | 20 |
+| step mapping | 5.9 | 25 |
+| plugin coupling | 2.2 | 15 |
+| library opacity | 9 | 15 |
+| runtime coupling | 2.0 | 10 |
+| security identity | 0 | 10 |
+| control flow | 0.0 | 5 |
+
+- **Hard gates:** none
+- How the score is built: `docs/scoring.md` in the j2gha repository.
+
 ## Mapping detail
 
 | | Jenkins | Line | Stage | GitHub Actions | Note |

@@ -1,5 +1,5 @@
 {
-  "analysis_version": 1,
+  "analysis_version": 2,
   "parser": {
     "engine": "groovy-ast (Jenkins-bundled Groovy 2.4, CONVERSION phase)",
     "ok": true,
@@ -341,9 +341,18 @@
       "runtime_coupling": 10,
       "security_identity": 10,
       "control_flow": 5
+    },
+    "unknown_steps": [
+      "configFileProvider",
+      "cucumber",
+      "rocketSend"
+    ],
+    "if_unknown_mapped": {
+      "score": 22,
+      "classification": "assisted"
     }
   },
-  "convertibility": "automatic",
+  "convertibility": "partial",
   "ir_notes": [],
   "source_sha256": "7a7829dec3ba733500b2818ce80d22c96d279bcacf84b57b342109552ae76aae"
 }

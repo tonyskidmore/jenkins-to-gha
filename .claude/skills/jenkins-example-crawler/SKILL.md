@@ -21,7 +21,7 @@ check the result.
 
 ## Arguments
 
-`$ARGUMENTS` - first token is the number of examples to create (default 10). Remaining tokens are passed through
+The user's request: the number of examples to create comes first (default 10). Any options after it are passed through
 to `j2gha crawl`, e.g. `--styles matrix scripted` to target specific styles or `--allow-unlicensed` to include
 repositories without a detected licence (excluded by default so every example is redistributable).
 
@@ -58,7 +58,7 @@ exactly as before.
 
 ## Procedure
 
-1. Parse the count from `$ARGUMENTS` (default 10) and run:
+1. Take the count from the request (default 10) and run:
 
    ```bash
    uv run j2gha crawl --count <count> [extra args]
@@ -79,6 +79,12 @@ exactly as before.
 3. After it finishes, list what was added (`ls examples/`) and spot-check one or two `README.md` files: the
    citation link must resolve to the original file and the score table must sum to the total.
 4. Report back a table of the new examples: id, score, primary style, repository:path - the CLI prints exactly this.
+   Then do the licence work, which the crawler does not do yet:
+   - **Check each licence with the user before keeping the example.** The crawler does not exclude copyleft licences
+     (AGPL sources were dropped from the corpus).
+   - **Copy the source repository's licence in** as `LICENSE.upstream`, and its `NOTICE` as `NOTICE.upstream` when it
+     has one.
+   - **Add the example's row** to `THIRD-PARTY-NOTICES.md`.
 5. Offer the next harness step: `uv run j2gha analyze <ids>` (AST analysis written into each README), then
    `uv run j2gha convert <ids>` / `validate` / `run --tier jenkins,act`.
 

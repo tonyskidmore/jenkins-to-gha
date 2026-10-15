@@ -2,6 +2,7 @@
 name: narrated-explainer
 description: Build a narrated explainer or walkthrough video from technical documentation, with no paid video framework. Writes a scene script, replays REAL captured terminal output and screen recordings of real runs, generates British or American female narration locally with Kokoro (no API key), burns in word-highlighted captions, and renders an mp4 with headless Chrome and ffmpeg. Use whenever the user wants a video, screencast, training video, tutorial video, narrated demo, explainer or voiceover for a README, walkthrough, runbook, issue write-up or CLI workflow, even if they never say "video skill" - for example "turn this walkthrough into a video", "make an educational video explaining this", "narrate these commands", "record a demo with a voiceover". Also use to extend, re-render or fix an existing explainer project (scenes.json, pronunciations, captures).
 argument-hint: "<source doc or topic> [--chapter name] [--engine kokoro]"
+disable-model-invocation: true
 ---
 
 # Narrated explainer video

@@ -5,6 +5,22 @@
 - **Automated mapping (effort estimate, not correctness):** 48.4% (5 mapped, 7 approximated, 7 manual, 0 dropped)
 - **Weighted step coverage (analysis):** 56.0%
 
+## Difficulty breakdown
+
+| Dimension | Score | Max |
+|---|---:|---:|
+| declarative structure | 13.0 | 20 |
+| step mapping | 11.0 | 25 |
+| plugin coupling | 9.8 | 15 |
+| library opacity | 0.0 | 15 |
+| runtime coupling | 8.0 | 10 |
+| security identity | 4 | 10 |
+| control flow | 0.0 | 5 |
+
+- **Hard gates:** none
+- **Unknown steps (2):** `browserstack`, `withFolderProperties` - plugin or shared-library steps the step catalog does not know, each a manual item below. If every one were mapped, the difficulty would be **37/100 - assisted**.
+- How the score is built: `docs/scoring.md` in the j2gha repository.
+
 ## Secrets required
 
 | Secret | Purpose |

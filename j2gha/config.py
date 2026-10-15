@@ -45,8 +45,41 @@ JENKINS_USER = "admin"
 JENKINS_PASSWORD = os.environ.get("J2GHA_JENKINS_PASSWORD", "j2gha-local-only")
 
 
+def offline() -> bool:
+    """J2GHA_OFFLINE: the harness itself makes no GitHub API calls (cached responses still serve) and fetches no source
+    repository or docs. Docker image pulls and act's first download of each public action are not covered."""
+    return os.environ.get("J2GHA_OFFLINE", "").strip().lower() in ("1", "true", "yes", "on")
+
+
+def pipelines_dir() -> Path | None:
+    """J2GHA_PIPELINES_DIR: where your own pipelines live, outside the clone, so neither a pipeline nor anything the
+    stages write next to it is in this (public) repository's working tree. None when unset."""
+    env = os.environ.get("J2GHA_PIPELINES_DIR")
+    return Path(env).expanduser().resolve() if env else None
+
+
 def example_dir(example_id: str | int) -> Path:
-    return EXAMPLES_DIR / normalise_id(example_id)
+    """A pipeline's directory: in J2GHA_PIPELINES_DIR when set, unless only the corpus has the id (`003`, `000`)."""
+    i = normalise_id(example_id)
+    own = pipelines_dir()
+    if own is not None and ((own / i).is_dir() or not (EXAMPLES_DIR / i).is_dir()):
+        return own / i
+    return EXAMPLES_DIR / i
+
+
+def display_dir(d: Path) -> str:
+    """How generated files name a pipeline's directory: relative to the clone, never an absolute local path."""
+    d = d.resolve()
+    try:
+        return str(d.relative_to(ROOT.resolve()))
+    except ValueError:
+        return d.name
+
+
+def is_corpus(d: Path) -> bool:
+    """A public corpus example: a crawled original or twin (cited in source.json) or the walkthrough."""
+    d = d.resolve()
+    return d.parent == EXAMPLES_DIR.resolve() and ((d / "source.json").exists() or is_walkthrough(d))
 
 
 def normalise_id(example_id: str | int) -> str:
@@ -71,3 +104,13 @@ def list_example_ids() -> list[str]:
     if not EXAMPLES_DIR.exists():
         return []
     return sorted(p.name for p in EXAMPLES_DIR.iterdir() if p.is_dir() and p.name.isdigit() and not is_walkthrough(p))
+
+
+def list_pipeline_ids() -> list[str]:
+    """What `all` means on the command line: every pipeline in J2GHA_PIPELINES_DIR when set, else the corpus."""
+    own = pipelines_dir()
+    if own is None:
+        return list_example_ids()
+    if not own.is_dir():
+        return []
+    return sorted(p.name for p in own.iterdir() if (p / "Jenkinsfile").is_file() and not is_walkthrough(p))

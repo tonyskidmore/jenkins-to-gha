@@ -20,7 +20,7 @@ pipeline allows.
 
 ## Arguments
 
-`$ARGUMENTS`: the example id (`009`), optionally the scenario to run (`--branch`, `--param NAME=VALUE`) and the
+The user's request names the example id (`009`) and, optionally the scenario to run (`--branch`, `--param NAME=VALUE`) and the
 tiers (`--tiers jenkins,act` by default; add `selfhosted` for a real-GitHub confirmation at zero minutes).
 
 ## Prerequisites (check, do not assume)

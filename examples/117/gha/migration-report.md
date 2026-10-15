@@ -1,13 +1,25 @@
 # Migration report: dvsa/recalls-pipeline `jenkinsfile.groovy`
 
-- **Classification:** significant-redesign (difficulty 46/100)
+- **Classification:** assisted (difficulty 36/100)
 - **Convertibility:** partial
 - **Automated mapping (effort estimate, not correctness):** 34.5% (30 mapped, 53 approximated, 100 manual, 3 dropped)
 - **Weighted step coverage (analysis):** 84.3%
 
-## Blocking items (hard gates)
+## Difficulty breakdown
 
-- line ?: **SharedLibrary** - PipelineUtils@master → Library steps are opaque to static analysis; map them to composite actions/reusable workflows
+| Dimension | Score | Max |
+|---|---:|---:|
+| declarative structure | 10 | 20 |
+| step mapping | 3.9 | 25 |
+| plugin coupling | 6.0 | 15 |
+| library opacity | 11 | 15 |
+| runtime coupling | 4.0 | 10 |
+| security identity | 0 | 10 |
+| control flow | 1.0 | 5 |
+
+- **Hard gates:** none
+- **Unknown steps (1):** `fail` - plugin or shared-library steps the step catalog does not know, each a manual item below. If every one were mapped, the difficulty would be **34/100 - assisted**.
+- How the score is built: `docs/scoring.md` in the j2gha repository.
 
 ## Mapping detail
 

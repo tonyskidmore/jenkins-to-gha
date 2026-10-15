@@ -1,5 +1,5 @@
 {
-  "analysis_version": 1,
+  "analysis_version": 2,
   "parser": {
     "engine": "groovy-ast (Jenkins-bundled Groovy 2.4, CONVERSION phase)",
     "ok": true,
@@ -417,9 +417,18 @@
       "runtime_coupling": 10,
       "security_identity": 10,
       "control_flow": 5
+    },
+    "unknown_steps": [
+      "checkoutStep",
+      "cleanupMavenCache",
+      "configureMavenCache"
+    ],
+    "if_unknown_mapped": {
+      "score": 30,
+      "classification": "assisted"
     }
   },
-  "convertibility": "automatic",
+  "convertibility": "partial",
   "ir_notes": [
     "pipeline {} is defined inside shared-library method 'call()'"
   ],

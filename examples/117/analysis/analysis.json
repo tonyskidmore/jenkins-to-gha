@@ -1,5 +1,5 @@
 {
-  "analysis_version": 1,
+  "analysis_version": 2,
   "parser": {
     "engine": "groovy-ast (Jenkins-bundled Groovy 2.4, CONVERSION phase)",
     "ok": true,
@@ -659,8 +659,7 @@
       "severity": "high",
       "line": null,
       "evidence": "PipelineUtils@master",
-      "recommendation": "Library steps are opaque to static analysis; map them to composite actions/reusable workflows",
-      "gate": true
+      "recommendation": "Library steps are opaque to static analysis; map them to composite actions/reusable workflows"
     },
     {
       "id": "ScriptBlocks",
@@ -782,16 +781,7 @@
       "recommendation": "Choose runs-on via matrix/inputs"
     }
   ],
-  "hard_gates": [
-    {
-      "id": "SharedLibrary",
-      "severity": "high",
-      "line": null,
-      "evidence": "PipelineUtils@master",
-      "recommendation": "Library steps are opaque to static analysis; map them to composite actions/reusable workflows",
-      "gate": true
-    }
-  ],
+  "hard_gates": [],
   "styles": [
     "declarative",
     "shared-library",
@@ -811,20 +801,18 @@
     "weighted_mapped_pct": 84.3
   },
   "complexity": {
-    "score": 46,
-    "classification": "significant-redesign",
+    "score": 36,
+    "classification": "assisted",
     "dimensions": {
       "declarative_structure": 10,
       "step_mapping": 3.9,
-      "plugin_coupling": 9.0,
+      "plugin_coupling": 6.0,
       "library_opacity": 11,
       "runtime_coupling": 4.0,
       "security_identity": 0,
       "control_flow": 1.0
     },
-    "hard_gates": [
-      "SharedLibrary"
-    ],
+    "hard_gates": [],
     "weights": {
       "declarative_structure": 20,
       "step_mapping": 25,
@@ -833,6 +821,13 @@
       "runtime_coupling": 10,
       "security_identity": 10,
       "control_flow": 5
+    },
+    "unknown_steps": [
+      "fail"
+    ],
+    "if_unknown_mapped": {
+      "score": 34,
+      "classification": "assisted"
     }
   },
   "convertibility": "partial",
