@@ -1,7 +1,8 @@
 # Agent skills
 
-Everything an AI agent does in this repository goes through the `j2gha` CLI; the skills in `.claude/skills/` tell
-a Claude Code session how to drive it, what to read afterwards and what not to do. None of them is required:
+Everything an AI agent does in this repository goes through the `j2gha` CLI. The skills in `.claude/skills/` tell
+the agent how to drive it, what to read afterwards and what not to do. The agent can be Claude Code or GitHub Copilot;
+Copilot reads the same directory ([copilot.md](copilot.md)). None of them is required:
 the commands in [usage.md](usage.md) run the same stages by hand (what needs an agent: [AI.md](AI.md)). Each skill is a directory with a
 `SKILL.md` (frontmatter `name`, `description`, `argument-hint`, then the instructions), and optionally `scripts/`,
 `references/`, `assets/` and `evals/`.

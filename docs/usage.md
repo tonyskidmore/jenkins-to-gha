@@ -7,8 +7,8 @@ of this repository.
 
 ## Convert your own pipeline
 
-Give the pipeline a directory under `examples/` with a name rather than a number (numbered directories are the corpus;
-`all` and `summary` skip named ones), copy the Jenkinsfile in, and run the stages:
+Give the pipeline a directory under `examples/` with a name rather than a number, copy the Jenkinsfile in, and run the
+stages:
 
 ```bash
 mkdir examples/my-pipeline
@@ -16,21 +16,14 @@ cp /path/to/Jenkinsfile examples/my-pipeline/
 uv run j2gha pipeline my-pipeline         # analyse, convert, validate, then a trace run on Jenkins and act
 ```
 
-- **Read the results:** `examples/my-pipeline/README.md` (every stage's summary, created on the first run),
-  `gha/migration-report.md` (each construct mapped, approximated, manual or dropped, with its source line) and
-  `gha/workflow.yml`.
-- **Plugins:** a Declarative agent, option, trigger or parameter type whose plugin is not in
-  `docker/jenkins/plugins.txt` is reported as a validation failure; add the plugin (see [extending.md](extending.md)).
-- **Full mode** (`uv run j2gha run my-pipeline --mode full`) runs the real commands and needs the pipeline's source
-  code. Add a `source.json` naming a *public* repository and commit:
-  `{"repository": {"full_name": "owner/repo"}, "snapshot_commit": "<commit sha>"}`. The source is fetched anonymously,
-  so private repositories are not supported, and credentials are always fakes.
-- **Using the workflow:** copy `gha/workflow.yml` into the target repository's `.github/workflows/`, then work through
-  the migration report: review every approximated and manual item, create the secrets it lists, add required reviewers
-  to the environments that replace `input` gates, and set or replace any `vars.J2GHA_WHEN_L<line>` variables (conditions
-  the converter could not translate). Do not copy anything from `runs/`: those are the harness's test variants, with
-  fake credentials.
-- The directory is not gitignored: keep it out of commits if the Jenkinsfile is not yours to publish.
+[own-pipelines.md](own-pipelines.md) covers the rest. Read it before using a pipeline that is not public:
+
+- keeping the directory out of git, since it is not gitignored;
+- what each stage sends off your machine;
+- how to read the results and the difficulty score;
+- shared libraries and missing plugins;
+- full mode;
+- using the converted workflow.
 
 ## Grow and run the corpus
 
@@ -48,9 +41,13 @@ To repeat the originals' trace results on act from [results.md](results.md), run
 Each stage writes its results into the example's `README.md`, `analysis/`, `gha/` and `runs/`. These are committed for
 the corpus examples, so running them changes tracked files: `git restore examples/` puts back the committed versions
 (it also discards any other uncommitted edits there, and leaves new files in place). The walkthrough, `examples/000`,
-writes only gitignored files. Or, from Claude Code, use the skills:
-`/jenkins-example-crawler 10` and `/jenkins-to-gha all` (see [skills.md](skills.md); no agent is needed, see
-[AI.md](AI.md)).
+writes only gitignored files.
+
+Or use the skills from Claude Code or GitHub Copilot CLI: `/jenkins-example-crawler 10` and `/jenkins-to-gha all`.
+
+- What each skill does: [skills.md](skills.md).
+- Using Copilot: [copilot.md](copilot.md).
+- No agent is needed: [AI.md](AI.md).
 
 ## Run on real GitHub Actions
 
@@ -61,7 +58,12 @@ uv run j2gha run 004 --tier hosted --yes --max-minutes N    # GitHub-hosted runn
 ```
 
 Both push the workflow to a throw-away branch of the repository in `J2GHA_REPO` (default: this clone's `origin`) and
-delete it afterwards. act, the local tier, cannot be the final word; why is in [act-evaluation.md](act-evaluation.md).
+delete it afterwards. The run's logs and artifacts stay in that repository.
+
+For a pipeline that is not public, set `J2GHA_REPO` to a private repository you control
+([own-pipelines.md](own-pipelines.md#what-leaves-your-machine)).
+
+act, the local tier, cannot be the final word; why is in [act-evaluation.md](act-evaluation.md).
 
 ## Re-run the reference runs
 

@@ -8,10 +8,13 @@ reference: report results as what the runs showed (an *equivalent* verdict means
 proof that a conversion is correct.
 
 - **Using it:** `docs/prerequisites.md`, `docs/usage.md`; results: `docs/results.md`.
+- **Own (private) pipelines:** `docs/own-pipelines.md`. It covers keeping them out of git, what leaves the machine,
+  reading results, and shared libraries. Difficulty score: `docs/scoring.md`.
 - **Design:** `docs/mechanism.md`, `docs/architecture.md`.
 - **Reference-docs subsystem:** `docs/documentation.md`.
 - **Adding or changing a conversion rule:** `docs/extending.md`; agent-assisted: `docs/self-improvement.md`.
-- **AI and agents:** `docs/AI.md` (what needs an agent, how the repo was built), `docs/skills.md`.
+- **AI and agents:** `docs/AI.md` (what needs an agent, how the repo was built), `docs/skills.md`; GitHub Copilot
+  (which also reads this file and `.claude/skills/`): `docs/copilot.md`.
 - **Videos:** `docs/walkthrough-videos.md`; sources in `docs/video/`.
 - **README.md stays short** (what it is, getting started, links): detail goes in the relevant `docs/` page, not the README.
 

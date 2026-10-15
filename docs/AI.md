@@ -11,8 +11,11 @@ Everything agent-related is optional:
 | Element | Needs an agent? | What it is |
 |---|---|---|
 | `j2gha ...` (every command in [usage.md](usage.md)) | No | Deterministic CLI |
-| `.claude/skills/` | Optional (Claude Code) | Skills that drive the CLI and read its results, look up reference docs, propose rule changes and make the videos; each one is described in [skills.md](skills.md) |
-| `CLAUDE.md` | Optional (Claude Code) | Project notes an agent loads automatically; a human can read it as a developer guide |
+| `.claude/skills/` | Optional (Claude Code, GitHub Copilot) | Skills that drive the CLI and read its results, look up reference docs, propose rule changes and make the videos. Each one is described in [skills.md](skills.md). |
+| `CLAUDE.md` | Optional (Claude Code, GitHub Copilot) | Project notes an agent loads automatically. A human can read it as a developer guide. |
+
+GitHub Copilot reads both: Copilot CLI loads the skills and `CLAUDE.md` from a clone. What else Copilot needs, and how
+to use it with private pipelines or a local model, is in [copilot.md](copilot.md).
 
 How the converter learns new Jenkins steps (a person or an agent adds catalog entries and generator code, then checks
 them with tests and the differential run) is in [extending.md](extending.md). A starting point for letting an agent do

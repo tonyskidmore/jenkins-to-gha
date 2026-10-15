@@ -68,6 +68,8 @@ plus **hard gates** (dynamic stage generation, dynamic `parallel`, `load`/`evalu
 opaque library entry points, parse failures) that force at least *significant-redesign*. Classification bands:
 0-20 straightforward · 21-45 assisted · 46-70 significant redesign · 71-100 rebuild around intent.
 
+How each dimension is computed, and how to read a score: [scoring.md](scoring.md#migration-difficulty-0-100).
+
 ### 4. Generate deterministically; report everything
 
 The generator owns the YAML (no free-form LLM output). Every Jenkins construct produces a report line with
