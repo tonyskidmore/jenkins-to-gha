@@ -10,7 +10,10 @@ All notable changes to `j2gha` are recorded here, newest first.
 
 ## [Unreleased]
 
-Your own (private) pipelines, offline use, and GitHub Copilot.
+## [0.2.0] - 2026-10-15
+
+Your own (private) pipelines, offline use, a difficulty score that explains itself, and agent instructions
+shared by Claude Code and GitHub Copilot.
 
 ### Added
 
@@ -163,5 +166,6 @@ The initial proof of concept: `main` at the end of the first public release (pul
   - videos.
 - **Walkthrough.** Example 000 as a hands-on walkthrough, and narrated walkthrough videos.
 
-[Unreleased]: https://github.com/tonyskidmore/jenkins-to-gha/compare/v0.1.0...HEAD
+[Unreleased]: https://github.com/tonyskidmore/jenkins-to-gha/compare/v0.2.0...HEAD
+[0.2.0]: https://github.com/tonyskidmore/jenkins-to-gha/compare/v0.1.0...v0.2.0
 [0.1.0]: https://github.com/tonyskidmore/jenkins-to-gha/releases/tag/v0.1.0
