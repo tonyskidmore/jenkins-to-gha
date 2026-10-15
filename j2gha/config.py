@@ -45,6 +45,12 @@ JENKINS_USER = "admin"
 JENKINS_PASSWORD = os.environ.get("J2GHA_JENKINS_PASSWORD", "j2gha-local-only")
 
 
+def offline() -> bool:
+    """J2GHA_OFFLINE: the harness itself makes no GitHub API calls (cached responses still serve) and fetches no source
+    repository or docs. Docker image pulls and act's first download of each public action are not covered."""
+    return os.environ.get("J2GHA_OFFLINE", "").strip().lower() in ("1", "true", "yes", "on")
+
+
 def pipelines_dir() -> Path | None:
     """J2GHA_PIPELINES_DIR: where your own pipelines live, outside the clone, so neither a pipeline nor anything the
     stages write next to it is in this (public) repository's working tree. None when unset."""

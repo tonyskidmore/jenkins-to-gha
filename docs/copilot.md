@@ -78,7 +78,9 @@ arguments out from what you asked. Prompts that work:
 ## Working with private pipelines
 
 **Keep the pipeline local.** Use only the local stages and tiers in
-[own-pipelines.md](own-pipelines.md#what-leaves-your-machine). What Copilot sends is a separate matter.
+[own-pipelines.md](own-pipelines.md#what-leaves-your-machine). Export `J2GHA_OFFLINE=1` in the shell you start Copilot
+from, and the harness refuses anything that would go to GitHub, whatever the agent runs
+([offline mode](own-pipelines.md#offline-mode)). What Copilot sends is a separate matter.
 
 **What goes to the model.** Copilot sends your prompts, and the files and command output it reads, to the models your
 Copilot plan provides. Which models and features you may use is set by your organisation's Copilot policies, so check

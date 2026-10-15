@@ -11,11 +11,13 @@
     j2gha docker build               build harness images
     j2gha budget                     GitHub Actions minutes usage + guard status
     j2gha gaps | scoreboard | guard  rule-improvement evals (docs/self-improvement.md)
-    j2gha summary                    write examples/README.md (corpus index with results)
+    j2gha summary                    write examples/README.md (corpus index), or J2GHA_PIPELINES_DIR's index
     j2gha docs fetch|status|use|path|xref   local, version-pinned Jenkins + GHA reference docs for agents
 
 IDS are corpus numbers (003, 1-5, "004 009") or pipeline names; `all` (the default) is the numbered corpus, or every
 pipeline in J2GHA_PIPELINES_DIR (--pipelines-dir) when that is set: keep your own pipelines there, outside the clone.
+J2GHA_OFFLINE=1 (--offline): no GitHub API calls (cached lookups only), no source or docs fetch; the remote tiers and
+full mode on a cited source are refused.
 """
 
 from __future__ import annotations
@@ -68,8 +70,15 @@ def cmd_add(a: argparse.Namespace) -> int:
     return 0
 
 
+def _online(what: str) -> None:
+    if config.offline():
+        raise SystemExit(f"j2gha {what}: J2GHA_OFFLINE is set, and this command works on GitHub")
+
+
 def cmd_crawl(a: argparse.Namespace) -> int:
     from .crawl.crawler import crawl, rescore
+
+    _online("crawl")
 
     if a.rescore:
         rescore()
@@ -149,9 +158,10 @@ def cmd_pipeline(a: argparse.Namespace) -> int:
 
 
 def cmd_summary(a: argparse.Namespace) -> int:
-    from .stages import summarize_examples
+    from .stages import summarize_examples, summarize_pipelines
 
-    print(summarize_examples())
+    own = config.pipelines_dir()
+    print(summarize_pipelines(own) if own else summarize_examples())
     return 0
 
 
@@ -234,6 +244,7 @@ def cmd_budget(a: argparse.Namespace) -> int:
     if a.clear:
         print(f"cleared {clear_reservations(a.clear)} pending reservation(s)")
         return 0
+    _online("budget")
     r = report(refresh=a.refresh)
     print(json.dumps(r, indent=2) if a.json else r["text"])
     return 0
@@ -244,6 +255,7 @@ def cmd_environments(a: argparse.Namespace) -> int:
     from .gha.remote import harness_repo
     from .github import GitHub
 
+    _online("environments")
     gh, repo = GitHub(cache_ttl=0), harness_repo()
     if a.action == "clean":
         names = delete_harness(gh, repo)
@@ -257,8 +269,10 @@ def cmd_environments(a: argparse.Namespace) -> int:
 def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(prog="j2gha", description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = p.add_subparsers(dest="cmd", required=True)
-    own = argparse.ArgumentParser(add_help=False)
-    own.add_argument("--pipelines-dir", metavar="DIR", default=None,
+    common = argparse.ArgumentParser(add_help=False)
+    common.add_argument("--offline", action="store_true", default=None,
+                        help="no GitHub API calls (cached lookups only) and no source fetch; default: $J2GHA_OFFLINE")
+    common.add_argument("--pipelines-dir", metavar="DIR", default=None,
                      help="directory of your own pipelines, outside the clone (default: $J2GHA_PIPELINES_DIR)")
 
     c = sub.add_parser("crawl", help="crawl github.com for example Jenkinsfiles")
@@ -275,29 +289,29 @@ def main(argv: list[str] | None = None) -> int:
     c.add_argument("--verbose", "-v", action="store_true")
     c.set_defaults(func=cmd_crawl)
 
-    ad = sub.add_parser("add", parents=[own], help="copy your own Jenkinsfile in as a pipeline")
+    ad = sub.add_parser("add", parents=[common], help="copy your own Jenkinsfile in as a pipeline")
     ad.add_argument("path", help="the Jenkinsfile, whatever its name (or a directory containing a Jenkinsfile)")
     ad.add_argument("--name", default=None,
                     help="pipeline name (default: its directory, plus the file name when that is not Jenkinsfile)")
     ad.add_argument("--force", action="store_true", help="replace an existing pipeline's Jenkinsfile")
     ad.set_defaults(func=cmd_add)
 
-    an = sub.add_parser("analyze", aliases=["analyse"], parents=[own], help="AST analysis of examples")
+    an = sub.add_parser("analyze", aliases=["analyse"], parents=[common], help="AST analysis of examples")
     an.add_argument("ids", nargs="*")
     an.add_argument("--no-jenkins", dest="jenkins", action="store_false",
                     help="skip Jenkins' authoritative Declarative model even if the controller can start")
     an.set_defaults(func=cmd_analyze)
 
-    cv = sub.add_parser("convert", parents=[own], help="convert examples to GitHub Actions")
+    cv = sub.add_parser("convert", parents=[common], help="convert examples to GitHub Actions")
     cv.add_argument("ids", nargs="*")
     cv.set_defaults(func=cmd_convert)
 
-    va = sub.add_parser("validate", parents=[own], help="static validation of generated workflows")
+    va = sub.add_parser("validate", parents=[common], help="static validation of generated workflows")
     va.add_argument("ids", nargs="*")
     va.set_defaults(func=cmd_validate)
 
     for name, func, default_tier in (("run", cmd_run, "jenkins,act"), ("pipeline", cmd_pipeline, "jenkins,act")):
-        r = sub.add_parser(name, parents=[own], help="execute examples in one or more tiers" if name == "run"
+        r = sub.add_parser(name, parents=[common], help="execute examples in one or more tiers" if name == "run"
                            else "analyze, convert, validate and run examples")
         r.add_argument("ids", nargs="*")
         r.add_argument("--tier", type=_tiers, default=_tiers(default_tier),
@@ -329,10 +343,12 @@ def main(argv: list[str] | None = None) -> int:
                                 "secret is visible (act ignores environments)")
         r.set_defaults(func=func)
 
-    sm = sub.add_parser("summary", help="write examples/README.md (corpus index with harness results)")
+    sm = sub.add_parser("summary", parents=[common],
+                        help="write examples/README.md (corpus index with harness results), or the index of "
+                             "J2GHA_PIPELINES_DIR when that is set")
     sm.set_defaults(func=cmd_summary)
 
-    g = sub.add_parser("gaps", parents=[own],
+    g = sub.add_parser("gaps", parents=[common],
                        help="steps the converter does not map, ranked by cost (rule-improvement worklist)")
     g.add_argument("ids", nargs="*")
     g.add_argument("--limit", type=int, default=20)
@@ -385,6 +401,8 @@ def main(argv: list[str] | None = None) -> int:
     a = p.parse_args(argv)
     if getattr(a, "pipelines_dir", None):
         os.environ["J2GHA_PIPELINES_DIR"] = str(Path(a.pipelines_dir).expanduser().resolve())
+    if getattr(a, "offline", None):
+        os.environ["J2GHA_OFFLINE"] = "1"
     return int(a.func(a) or 0)
 
 

@@ -50,6 +50,11 @@ def add_parser(sub) -> None:
 
 def run(a: argparse.Namespace) -> int:
     if a.action == "fetch":
+        from ..config import offline
+
+        if offline():
+            raise SystemExit("j2gha docs fetch: J2GHA_OFFLINE is set (fetching downloads from jenkins.io and "
+                             "docs.github.com); the bundles already in place still serve the skills")
         if a.label and a.source != "jenkins":
             raise SystemExit("--label applies to `j2gha docs fetch jenkins` only")
         sources = ["jenkins", "gha"] if a.source == "all" else [a.source]

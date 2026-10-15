@@ -17,7 +17,8 @@ uv run j2gha pipeline payments                    # analyse, convert, validate, 
 
 [own-pipelines.md](own-pipelines.md) covers the rest. Read it before using a pipeline that is not public:
 
-- the pipelines directory and `j2gha add`;
+- the pipelines directory, `j2gha add`, and its index (`j2gha summary`);
+- offline mode (`J2GHA_OFFLINE=1`);
 - what each stage sends off your machine;
 - how to read the results and the difficulty score;
 - shared libraries and missing plugins;

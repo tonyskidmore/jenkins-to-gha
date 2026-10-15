@@ -42,6 +42,8 @@ uv run j2gha pipeline payments                            # analyse, convert, va
 - **The corpus is still reachable.** Corpus ids such as `003` still find the corpus example when your directory has no
   pipeline of that name.
 - **Common gaps.** `uv run j2gha gaps` ranks the steps the converter could not map, across your pipelines.
+- **An index of them all.** `uv run j2gha summary` writes `$J2GHA_PIPELINES_DIR/README.md`, one row per pipeline:
+  dialect, difficulty, hard gates, automation, validation and run results.
 
 **Without `J2GHA_PIPELINES_DIR`.** Pipelines go under the clone's `examples/` (`add` warns about it). That directory is
 tracked, and this repository is public, so use it only for pipelines you could publish.
@@ -51,13 +53,37 @@ tracked, and this repository is public, so use it only for pipelines you could p
 | Stage | Network | What it sends |
 |---|---|---|
 | `analyze`, `validate` | None. The parser, actionlint and zizmor run in containers with no network access. | Nothing. |
-| `convert` | The GitHub API, when a GitHub token is available (`GH_TOKEN`, `GITHUB_TOKEN` or `gh auth token`) | Only the names and versions of the public actions the workflow uses, to pin them to commit SHAs. Without a token, actions keep their version tags. |
+| `convert` | The GitHub API, when a GitHub token is available (`GH_TOKEN`, `GITHUB_TOKEN` or `gh auth token`) | Only the names and versions of the public actions the workflow uses, to pin them to commit SHAs. Without a token, actions keep their version tags. [Offline](#offline-mode), only lookups already cached are used. |
 | `run --tier jenkins,act`, trace mode (the default) | Local Docker. act downloads each action the first time it is used. | Nothing from the pipeline. Trace mode replaces `sh`, `bat` and the other steps with trace markers, so the pipeline's commands do not run. Groovy in `script {}` blocks does run, on the local Jenkins. |
 | `run --mode full` | | Not available for a private pipeline (see [below](#can-i-run-the-real-commands)). |
 | `run --tier selfhosted`, `--tier hosted` | GitHub | **The converted workflow:** its stage names, commands and comments are pushed to the repository in `J2GHA_REPO`, and run logs and artifacts stay in that repository's Actions history. For any pipeline that is not a corpus example, the harness refuses these tiers unless `J2GHA_REPO` names a repository GitHub reports as private (or internal). The default, your clone's `origin`, is this public repository if you cloned it. The local tiers in the same command still run. |
 
 An AI assistant is separate from all of this, and what it sends depends on the assistant. For GitHub Copilot, see
 [copilot.md](copilot.md#working-with-private-pipelines).
+
+### Offline mode
+
+Set `J2GHA_OFFLINE=1`, or pass `--offline` to a command, and the harness itself makes no GitHub API calls and
+fetches nothing:
+
+```bash
+export J2GHA_OFFLINE=1
+uv run j2gha pipeline payments          # analyse, convert, validate, Jenkins and act trace runs: all still work
+```
+
+- **`convert`** pins only the actions whose commit SHA is already in the lookup cache (`.cache/`, kept for 7 days).
+  The rest keep their version tag, which it reports. Convert again online later to pin them.
+- **The remote tiers are refused**, as is a full-mode run that would fetch a source repository. The local tiers in the
+  same command still run.
+- **Commands that exist to go online fail with a clear message:** `docs fetch`, `crawl`, `budget`, `environments`.
+
+**What offline mode does not cover:**
+
+- Docker image pulls, during `docker build` or for a `docker` agent;
+- act's first download of each public action a workflow uses. Run a workflow once while online, or build the images on
+  a connected machine, and later runs reuse the cache.
+
+These carry nothing from your pipelines.
 
 ## Read the results
 

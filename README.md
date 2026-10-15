@@ -101,6 +101,7 @@ replaces a Jenkins job.
 | Adding conversion rules | [extending.md](docs/extending.md), [self-improvement.md](docs/self-improvement.md) |
 | Agent skills and AI, GitHub Copilot | [skills.md](docs/skills.md), [AI.md](docs/AI.md), [copilot.md](docs/copilot.md) |
 | Background research | [research.md](docs/research.md), [act-evaluation.md](docs/act-evaluation.md), [tooling.md](docs/tooling.md), [documentation.md](docs/documentation.md) |
+| What changed, by version | [CHANGELOG.md](CHANGELOG.md) |
 
 ## Feedback
 

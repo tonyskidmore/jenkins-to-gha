@@ -17,6 +17,13 @@ proof that a conversion is correct.
   (which also reads this file and `.claude/skills/`): `docs/copilot.md`.
 - **Videos:** `docs/walkthrough-videos.md`; sources in `docs/video/`.
 - **README.md stays short** (what it is, getting started, links): detail goes in the relevant `docs/` page, not the README.
+- **Maintain CHANGELOG.md.** Every user-visible change adds its entry under `## [Unreleased]` (Added / Changed /
+  Fixed / Removed) in the same commit or pull request.
+  - User-visible means a command, option, environment variable, behaviour, output or doc a user follows.
+  - A new feature's entry says how to use it: a command or two.
+  - Internal refactors and test-only changes need no entry.
+  - A release moves `[Unreleased]` under `## [X.Y.Z] - date`, bumps `version` in `pyproject.toml`, tags `main`
+    `vX.Y.Z` and updates the compare links at the bottom. `v0.1.0` is the initial proof of concept.
 
 ## Commands
 
@@ -33,6 +40,7 @@ uv run j2gha crawl --count N [--dry-run]           # add N scored examples (need
 uv run j2gha add PATH [--name N] [--force]         # own pipeline (any file name) -> $J2GHA_PIPELINES_DIR/N/Jenkinsfile
 uv run j2gha analyze|convert|validate [ids|all]    # ids: 003, 1-5, "004 009", names; all (default) = corpus, or
                                                    # every pipeline in J2GHA_PIPELINES_DIR (--pipelines-dir) when set
+J2GHA_OFFLINE=1 uv run j2gha pipeline <ids>        # or --offline: no GitHub API calls (cache only), no source/docs fetch
 uv run j2gha run <ids> --tier jenkins,act [--mode trace|full] [--branch B] [--param NAME=VALUE ...] [--edited-model] [--fail-on-differs]
 uv run j2gha run <ids> --tier selfhosted           # real GitHub Actions via local JIT runners, 0 minutes (prefer this)
 uv run j2gha run <ids> --tier selfhosted --environments   # also enter j2gha-* environments + canary secret check
@@ -40,7 +48,7 @@ uv run j2gha environments [list|clean]             # the harness repo's j2gha-* 
 uv run j2gha run <ids> --tier hosted --yes --max-minutes N   # spends account minutes: user approval + `j2gha budget` first
 uv run j2gha pipeline <ids> [--continue-on-invalid]   # analyze -> convert -> validate -> run (jenkins,act)
 uv run j2gha gaps [--unmapped-only] | scoreboard [--check] [--strict] | guard [--base main]   # rule-improvement worklist, baseline compare, protected-file check
-uv run j2gha summary                               # regenerate examples/README.md
+uv run j2gha summary                               # regenerate examples/README.md ($J2GHA_PIPELINES_DIR/README.md when set)
 uv run j2gha budget [--clear ID...]                # minutes used/remaining for the harness repo's owner, reservations
 uv run j2gha jenkins up|down|status                # disposable controller on 127.0.0.1:18080 (admin / j2gha-local-only)
 uv run j2gha docs fetch [jenkins|gha] [--version fpt|ghec|ghes-X.Y] [--label L] [--parts P]   # -> .docs/ (gitignored)

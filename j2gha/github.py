@@ -14,7 +14,7 @@ from typing import Any
 
 import requests
 
-from .config import CACHE_DIR
+from .config import CACHE_DIR, offline
 
 API = "https://api.github.com"
 API_VERSION = "2022-11-28"
@@ -25,6 +25,13 @@ class GitHubError(RuntimeError):
         super().__init__(f"GitHub API {status} for {url}: {message}")
         self.status = status
         self.url = url
+
+
+class OfflineError(GitHubError):
+    """A request J2GHA_OFFLINE stopped: it was not in the cache."""
+
+    def __init__(self, url: str):
+        super().__init__(0, "not cached, and J2GHA_OFFLINE is set", url)
 
 
 def discover_token() -> str | None:
@@ -94,6 +101,8 @@ class GitHub:
             cached = self._read_cache(cache_file)
             if cached is not None:
                 return cached
+        if offline():
+            raise OfflineError(url)
         if "/search/" in url:
             wait = self.search_interval - (time.time() - self._last_search)
             if wait > 0:

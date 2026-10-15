@@ -58,3 +58,10 @@ def _no_operator_pipelines_dir(monkeypatch):
     first records the original state, so a value `j2gha --pipelines-dir` sets during a test is undone too."""
     monkeypatch.setenv("J2GHA_PIPELINES_DIR", "")
     monkeypatch.delenv("J2GHA_PIPELINES_DIR")
+
+
+@pytest.fixture(autouse=True)
+def _no_operator_offline(monkeypatch):
+    """Tests decide for themselves whether J2GHA_OFFLINE is set (setenv first: undone even if `--offline` sets it)."""
+    monkeypatch.setenv("J2GHA_OFFLINE", "")
+    monkeypatch.delenv("J2GHA_OFFLINE")

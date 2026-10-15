@@ -146,3 +146,20 @@ def test_a_refused_remote_tier_still_runs_the_local_ones(corpus, own, monkeypatc
     assert stages.run_examples(["app"], ["hosted"]) == stages.EXIT_REFUSED and seen == []
     assert stages.run_examples(["001"], ["jenkins", "hosted"]) == stages.EXIT_OK  # corpus: unchanged
     assert seen == [("001", ["jenkins", "hosted"])]
+
+
+def test_summary_indexes_the_pipelines_dir(corpus, own, monkeypatch):
+    import json
+    (own / "app" / "analysis").mkdir()
+    (own / "app" / "analysis" / "analysis.json").write_text(json.dumps(
+        {"dialect": "declarative", "complexity": {"score": 52, "classification": "significant-redesign",
+                                                  "hard_gates": ["SharedLibrary"]}}))
+    (own / "app" / "gha").mkdir()
+    (own / "app" / "gha" / "conversion.json").write_text(json.dumps({"automation_pct": 59.0, "counts": {"manual": 46}}))
+    (own / "bare").mkdir()
+    (own / "bare" / "Jenkinsfile").write_text("pipeline {}")
+    monkeypatch.setattr(stages, "summarize_examples", lambda: pytest.fail("the corpus index is not rewritten"))
+    assert cli.main(["summary"]) == 0
+    text = (own / "README.md").read_text()
+    assert "| [app](app/README.md) | `declarative` | 52 significant-redesign | SharedLibrary | 59.0% (46 manual) |" in text
+    assert "| [bare](bare/README.md) | `-` | - " in text
