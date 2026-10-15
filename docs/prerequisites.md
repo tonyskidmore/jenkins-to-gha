@@ -49,46 +49,20 @@ to `mirrors.updates.jenkins.io` and download mirrors; a corporate proxy may inte
 For example, a Zscaler-issued certificate on the mirror can cause this failure even when the initial update
 center's certificate is trusted.
 
-`UV_SYSTEM_CERTS=true` affects uv on the host only. Neither macOS Keychain trust nor Docker Desktop's registry
-trust automatically installs a CA into the image's Linux certificate store or Java truststore.
-
-Obtain your organisation's approved proxy CA certificate from IT or export the approved CA from your system's
-certificate store in PEM format. Use a CA certificate, not the short-lived certificate served by the mirror,
-and never include a private key. The existing `J2GHA_JENKINS_BASE` override lets you use a local CA-enabled base
-without editing the repository's Dockerfile:
+If you need the Jenkins image to trust your organisation's proxy, obtain its approved CA certificate from IT or
+export it from your system's certificate store. Use a CA certificate, not the short-lived certificate served by the
+mirror, and never include a private key. Put the certificate at the path the Jenkins Dockerfile expects:
 
 ```sh
-# Replace this path with your approved CA certificate (one PEM certificate).
-ca_context="$(mktemp -d)"
-cp /path/to/approved-proxy-ca.crt "$ca_context/proxy-ca.crt"
-cat > "$ca_context/Dockerfile" <<'EOF'
-FROM jenkins/jenkins:lts-jdk21@sha256:a660310e39ade10631f774bacd5219de767dfd08947ea5c32a739b5e5bb382c1
-USER root
-COPY proxy-ca.crt /usr/local/share/ca-certificates/j2gha-proxy-ca.crt
-RUN update-ca-certificates \
- && keytool -importcert -noprompt -trustcacerts -cacerts \
-      -storepass changeit -alias j2gha-proxy-ca \
-      -file /usr/local/share/ca-certificates/j2gha-proxy-ca.crt
-USER jenkins
-EOF
-docker build -t j2gha/jenkins-base:local-ca "$ca_context"
-```
-
-Then, from the repository root in the same shell:
-
-```sh
-export J2GHA_JENKINS_BASE=j2gha/jenkins-base:local-ca
+cp /path/to/approved-proxy-ca.cer docker/jenkins/certs/trustedCA.cer
 uv run j2gha docker build --only jenkins
 ```
 
-Keep the override set for later builds (including automatic builds by `jenkins up`). If the repository's pinned
-Jenkins base changes, recreate the CA-enabled base from that new reference. The local image contains your
-organisation's CA and is a custom build input; do not publish it without approval. After building, you can remove
-the temporary context's two files and its empty directory.
+If `docker/jenkins/certs/trustedCA.cer` is present, the Jenkins Dockerfile imports it into Java's truststore during
+the image build. If it is absent, the import is skipped and the image builds without an additional CA. The `.cer`
+file is git-ignored, so keep it local and do not commit it. Rebuild the Jenkins image whenever you replace or update
+the certificate; the regular `uv run j2gha docker build` command also builds this image.
 
-This preserves TLS verification. Do not work around the failure by disabling verification or switching downloads
-to HTTP. Other harness images have their own trust stores and may need separate CA configuration if their
-downloads encounter the same proxy.
 
 ## Versions in use
 

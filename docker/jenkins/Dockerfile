@@ -30,13 +30,16 @@ COPY groovy/ /opt/j2gha/
 COPY bin/j2gha-ast bin/j2gha-check-plugins /usr/local/bin/
 RUN chmod +x /usr/local/bin/j2gha-ast /usr/local/bin/j2gha-check-plugins
 
-COPY certs/KAINOS-ZSCALER-G2.cer /tmp/company-ca.cer
-RUN keytool -importcert -noprompt -trustcacerts \
-      -alias company-ca \
-      -file /tmp/company-ca.cer \
-      -keystore "$JAVA_HOME/lib/security/cacerts" \
-      -storepass changeit \
- && rm /tmp/company-ca.cer
+RUN --mount=type=bind,source=certs,target=/tmp/certs,ro \
+    if [ -f /tmp/certs/trustedCA.cer ]; then \
+      keytool -importcert -noprompt -trustcacerts \
+        -alias company-ca \
+        -file /tmp/certs/trustedCA.cer \
+        -keystore "$JAVA_HOME/lib/security/cacerts" \
+        -storepass changeit; \
+    else \
+      echo "No trustedCA.cer found; skipping Java truststore import."; \
+    fi
 
 USER jenkins
 # Adding or upgrading a plugin: put its bare name (or name:version) in plugins.txt and rebuild. The pin check then
