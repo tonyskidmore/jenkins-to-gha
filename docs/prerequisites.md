@@ -5,7 +5,7 @@ Python and uv; the GitHub tiers also need the GitHub CLI and a repository you ad
 
 | Requirement | Needed for | Notes |
 |---|---|---|
-| An x86-64 (amd64) Docker host: Linux, macOS or Windows with WSL2 | everything | Developed and tested on WSL2 (Ubuntu 22.04, x86_64); other hosts are untested. The images download x86-64 binaries (act, Node) and act runs jobs with `--container-architecture linux/amd64`, so ARM hosts (Apple Silicon, ARM Linux) are not supported; they could only run under x86-64 emulation, which is untested and slow. |
+| An x86-64 (amd64) Docker host: Linux, macOS or Windows with WSL2 | everything | Developed and tested on WSL2 (Ubuntu 22.04, x86_64); other hosts are untested. The self-hosted runner image selects a checksum-pinned Node download for either amd64 or arm64. The act CLI image still downloads an x86-64 binary and act runs jobs with `--container-architecture linux/amd64`, so native ARM support for the whole harness is not established; act on ARM hosts (Apple Silicon, ARM Linux) needs x86-64 emulation, which is untested and slow. |
 | [Docker Engine](https://docs.docker.com/engine/install/), usable without `sudo` | every stage | Parses Jenkinsfiles with the Groovy inside the Jenkins image (`convert` skips this when an up-to-date analysis exists) and runs the Jenkins controller, act, actionlint, zizmor and the self-hosted runners. `uv run j2gha docker build` builds four images: `j2gha/jenkins:local`, `j2gha/act:local`, and the two runner images `j2gha/act-runner:local` and `j2gha/runner:local` (the upstream act and Actions runner images plus the Jenkins image's toolchain, so converted pipelines find the same Maven, Node, make and Python on both sides). It also pulls the pinned actionlint and zizmor images. The images take about 6.5 GB (Jenkins 1.7 GB, act runner 2.2 GB, Actions runner 2.3 GB, act and the two linters 0.3 GB); allow about **10 GB of disk** for the build cache, act's cache and run workspaces. Allow **4 GB of free memory**: the controller is capped at 3 GB. |
 | Internet access | `docker build`, `crawl`, `convert` (SHA pinning), local runs, the GitHub tiers, `docs fetch` | The image build downloads base images (Docker Hub, ghcr.io), Jenkins plugins and the act release. Local runs need it too: act downloads each action the first time it is used, and full mode fetches the example's source repository and whatever its build downloads. `J2GHA_OFFLINE=1` stops the harness's own GitHub calls and fetches ([own-pipelines.md](own-pipelines.md#offline-mode)). |
 | Python 3.10+ and [uv](https://docs.astral.sh/uv/getting-started/installation/) | everything | `uv sync` installs the harness into `.venv` (uv downloads a suitable Python if none is installed). The unit tests pass on 3.10 and 3.13. |
@@ -18,6 +18,51 @@ Python and uv; the GitHub tiers also need the GitHub CLI and a repository you ad
 | Node.js 18+ (22+ for `hyperframes-walkthrough`), npm, ffmpeg and Chrome or Chromium | the video skills only (optional) | `nx setup` and `hfw setup` check these; see [skills.md](skills.md). Not needed to run the harness. |
 
 Ports: the Jenkins controller listens on `127.0.0.1:18080` (change it with `J2GHA_JENKINS_PORT`).
+
+## uv certificate errors
+
+If `uv sync` or `uv run` fails while fetching packages (including the `hatchling` build dependency) with
+`invalid peer certificate: UnknownIssuer`, try the system certificate store:
+
+```sh
+uv sync --system-certs
+```
+
+uv uses bundled Mozilla root certificates by default. A corporate proxy's CA may be trusted by your operating
+system but absent from that bundle. To use system certificates for subsequent uv commands in the same shell:
+
+```sh
+export UV_SYSTEM_CERTS=true
+uv sync
+```
+
+If the error persists, check that your organisation's approved CA is installed and trusted in your operating
+system's certificate store, or use an approved PEM CA bundle via `SSL_CERT_FILE`. Do not disable certificate
+verification with `--allow-insecure-host`. See [uv's TLS certificate documentation](https://docs.astral.sh/uv/concepts/authentication/certificates/).
+
+## Jenkins image certificate errors
+
+If `uv run j2gha docker build` fails at `jenkins-plugin-cli` with `SSLHandshakeException`,
+`PKIX path building failed` or `unable to find valid certification path to requested target`, Java inside the
+image cannot verify an HTTPS certificate. The plugin installer follows redirects from `updates.jenkins.io`
+to `mirrors.updates.jenkins.io` and download mirrors; a corporate proxy may intercept only some of these hosts.
+For example, a Zscaler-issued certificate on the mirror can cause this failure even when the initial update
+center's certificate is trusted.
+
+If you need the Jenkins image to trust your organisation's proxy, obtain its approved CA certificate from IT or
+export it from your system's certificate store. Use a CA certificate, not the short-lived certificate served by the
+mirror, and never include a private key. Put the certificate at the path the Jenkins Dockerfile expects:
+
+```sh
+cp /path/to/approved-proxy-ca.cer docker/jenkins/certs/trustedCA.cer
+uv run j2gha docker build --only jenkins
+```
+
+If `docker/jenkins/certs/trustedCA.cer` is present, the Jenkins Dockerfile imports it into Java's truststore during
+the image build. If it is absent, the import is skipped and the image builds without an additional CA. The `.cer`
+file is git-ignored, so keep it local and do not commit it. Rebuild the Jenkins image whenever you replace or update
+the certificate; the regular `uv run j2gha docker build` command also builds this image.
+
 
 ## Versions in use
 

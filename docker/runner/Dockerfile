@@ -15,10 +15,17 @@ RUN apt-get update \
       openjdk-21-jdk-headless ca-certificates xz-utils xvfb libgtk-3-0t64 \
  && rm -rf /var/lib/apt/lists/*
 # Node 20 from nodejs.org (Ubuntu 24.04's apt nodejs is 18, below the `engines` of current npm projects; the Jenkins
-# image has Debian 13's Node 20). Pinned by version and sha256; change NODE_VERSION and NODE_SHA256 together.
+# image has Debian 13's Node 20). Pinned by version and sha256; change NODE_VERSION and both checksums together.
+ARG TARGETARCH
 ARG NODE_VERSION=20.20.2
-ARG NODE_SHA256=df770b2a6f130ed8627c9782c988fda9669fa23898329a61a871e32f965e007d
-RUN curl -fsSL -o /tmp/node.tar.xz "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-x64.tar.xz" \
+ARG NODE_SHA256_AMD64=df770b2a6f130ed8627c9782c988fda9669fa23898329a61a871e32f965e007d
+ARG NODE_SHA256_ARM64=73093db209e4e9e09dd7d15a47aeaab1b74833830df03efa5f942a1122c5fa71
+RUN case "$TARGETARCH" in \
+      amd64) NODE_ARCH=x64; NODE_SHA256="$NODE_SHA256_AMD64" ;; \
+      arm64) NODE_ARCH=arm64; NODE_SHA256="$NODE_SHA256_ARM64" ;; \
+      *) echo "Unsupported Node target architecture: $TARGETARCH" >&2; exit 1 ;; \
+    esac \
+ && curl -fsSL -o /tmp/node.tar.xz "https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}-linux-${NODE_ARCH}.tar.xz" \
  && echo "${NODE_SHA256}  /tmp/node.tar.xz" | sha256sum -c - \
  && tar -xJf /tmp/node.tar.xz -C /usr/local --strip-components=1 --exclude='*/CHANGELOG.md' --exclude='*/README.md' \
  && rm /tmp/node.tar.xz && node --version && npm --version

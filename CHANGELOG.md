@@ -10,6 +10,11 @@ All notable changes to `j2gha` are recorded here, newest first.
 
 ## [Unreleased]
 
+### Changed
+
+- Make the Jenkins image's organisation CA certificate optional; when `docker/jenkins/certs/trustedCA.cer` is
+  present, it is imported during build.
+
 ## [0.2.0] - 2026-10-15
 
 Your own (private) pipelines, offline use, a difficulty score that explains itself, and agent instructions
