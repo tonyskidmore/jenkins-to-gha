@@ -1,9 +1,25 @@
 # Migration report: opensearch-project/opensearch-migrations `vars/defaultIntegPipeline.groovy`
 
 - **Classification:** assisted (difficulty 45/100)
-- **Convertibility:** automatic
+- **Convertibility:** partial
 - **Automated mapping (effort estimate, not correctness):** 51.4% (14 mapped, 19 approximated, 17 manual, 1 dropped)
 - **Weighted step coverage (analysis):** 70.9%
+
+## Difficulty breakdown
+
+| Dimension | Score | Max |
+|---|---:|---:|
+| declarative structure | 16 | 20 |
+| step mapping | 7.3 | 25 |
+| plugin coupling | 10.5 | 15 |
+| library opacity | 4 | 15 |
+| runtime coupling | 2.0 | 10 |
+| security identity | 5 | 10 |
+| control flow | 0.0 | 5 |
+
+- **Hard gates:** none
+- **Unknown steps (3):** `checkoutStep`, `cleanupMavenCache`, `configureMavenCache` - plugin or shared-library steps the step catalog does not know, each a manual item below. If every one were mapped, the difficulty would be **30/100 - assisted**.
+- How the score is built: `docs/scoring.md` in the j2gha repository.
 
 ## Secrets required
 

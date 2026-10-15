@@ -1,5 +1,5 @@
 {
-  "analysis_version": 1,
+  "analysis_version": 2,
   "parser": {
     "engine": "groovy-ast (Jenkins-bundled Groovy 2.4, CONVERSION phase)",
     "ok": true,
@@ -474,8 +474,7 @@
       "severity": "high",
       "line": null,
       "evidence": "test-shared-library@dai-updated",
-      "recommendation": "Library steps are opaque to static analysis; map them to composite actions/reusable workflows",
-      "gate": true
+      "recommendation": "Library steps are opaque to static analysis; map them to composite actions/reusable workflows"
     },
     {
       "id": "ExternalGroovyLoad",
@@ -538,14 +537,6 @@
   ],
   "hard_gates": [
     {
-      "id": "SharedLibrary",
-      "severity": "high",
-      "line": null,
-      "evidence": "test-shared-library@dai-updated",
-      "recommendation": "Library steps are opaque to static analysis; map them to composite actions/reusable workflows",
-      "gate": true
-    },
-    {
       "id": "ExternalGroovyLoad",
       "severity": "high",
       "line": 97,
@@ -585,12 +576,12 @@
     "weighted_mapped_pct": 74.1
   },
   "complexity": {
-    "score": 60,
+    "score": 54,
     "classification": "significant-redesign",
     "dimensions": {
       "declarative_structure": 13.0,
       "step_mapping": 6.5,
-      "plugin_coupling": 12.0,
+      "plugin_coupling": 6.0,
       "library_opacity": 13,
       "runtime_coupling": 6.0,
       "security_identity": 4,
@@ -598,8 +589,7 @@
     },
     "hard_gates": [
       "DynamicParallel",
-      "ExternalGroovyLoad",
-      "SharedLibrary"
+      "ExternalGroovyLoad"
     ],
     "weights": {
       "declarative_structure": 20,
@@ -609,6 +599,14 @@
       "runtime_coupling": 10,
       "security_identity": 10,
       "control_flow": 5
+    },
+    "unknown_steps": [
+      "buildSummary",
+      "pipelineContextFactory"
+    ],
+    "if_unknown_mapped": {
+      "score": 48,
+      "classification": "significant-redesign"
     }
   },
   "convertibility": "partial",

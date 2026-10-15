@@ -5,6 +5,22 @@
 - **Automated mapping (effort estimate, not correctness):** 34.3% (7 mapped, 7 approximated, 20 manual, 1 dropped)
 - **Weighted step coverage (analysis):** 68.0%
 
+## Difficulty breakdown
+
+| Dimension | Score | Max |
+|---|---:|---:|
+| declarative structure | 13.0 | 20 |
+| step mapping | 8.0 | 25 |
+| plugin coupling | 15 | 15 |
+| library opacity | 0.0 | 15 |
+| runtime coupling | 6.0 | 10 |
+| security identity | 6 | 10 |
+| control flow | 3.0 | 5 |
+
+- **Hard gates:** DynamicParallel (each forces at least significant-redesign; see *Blocking items*)
+- **Unknown steps (2):** `discoverGitReferenceBuild`, `withChecks` - plugin or shared-library steps the step catalog does not know, each a manual item below. If every one were mapped, the difficulty would be **46/100 - significant-redesign**.
+- How the score is built: `docs/scoring.md` in the j2gha repository.
+
 ## Secrets required
 
 | Secret | Purpose |

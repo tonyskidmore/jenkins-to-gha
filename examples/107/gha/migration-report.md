@@ -5,6 +5,21 @@
 - **Automated mapping (effort estimate, not correctness):** 78.0% (55 mapped, 37 approximated, 7 manual, 0 dropped)
 - **Weighted step coverage (analysis):** 76.1%
 
+## Difficulty breakdown
+
+| Dimension | Score | Max |
+|---|---:|---:|
+| declarative structure | 10 | 20 |
+| step mapping | 6.0 | 25 |
+| plugin coupling | 3.0 | 15 |
+| library opacity | 0.0 | 15 |
+| runtime coupling | 4.0 | 10 |
+| security identity | 2 | 10 |
+| control flow | 0.0 | 5 |
+
+- **Hard gates:** ExternalGroovyLoad (each forces at least significant-redesign; see *Blocking items*)
+- How the score is built: `docs/scoring.md` in the j2gha repository.
+
 ## Secrets required
 
 | Secret | Purpose |

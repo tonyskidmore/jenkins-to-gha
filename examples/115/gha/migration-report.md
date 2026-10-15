@@ -5,6 +5,22 @@
 - **Automated mapping (effort estimate, not correctness):** 46.7% (23 mapped, 27 approximated, 34 manual, 0 dropped)
 - **Weighted step coverage (analysis):** 43.7%
 
+## Difficulty breakdown
+
+| Dimension | Score | Max |
+|---|---:|---:|
+| declarative structure | 10 | 20 |
+| step mapping | 14.1 | 25 |
+| plugin coupling | 15 | 15 |
+| library opacity | 4 | 15 |
+| runtime coupling | 6.0 | 10 |
+| security identity | 6 | 10 |
+| control flow | 1.0 | 5 |
+
+- **Hard gates:** none
+- **Unknown steps (15):** `bumpVersion`, `closure`, `customizePublishingInfo`, `customizeVersion`, `detectSecrets`, `doVersionBump`, `getNewVersion`, `getTargetVersion`, `gitsh`, `mendScan`, `publishArtifactoryBuildInfo`, `publishArtifactoryBuildInfoScript`, `rtBuildInfo`, `rtPublishBuildInfo`, `scanCode` - plugin or shared-library steps the step catalog does not know, each a manual item below. If every one were mapped, the difficulty would be **32/100 - assisted**.
+- How the score is built: `docs/scoring.md` in the j2gha repository.
+
 ## Secrets required
 
 | Secret | Purpose |

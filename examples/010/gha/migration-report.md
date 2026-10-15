@@ -1,19 +1,31 @@
 # Migration report: apicollective/apibuilder `Jenkinsfile`
 
-- **Classification:** significant-redesign (difficulty 67/100)
+- **Classification:** significant-redesign (difficulty 58/100)
 - **Convertibility:** partial
 - **Automated mapping (effort estimate, not correctness):** 46.7% (8 mapped, 3 approximated, 10 manual, 0 dropped)
 - **Weighted step coverage (analysis):** 32.9%
+
+## Difficulty breakdown
+
+| Dimension | Score | Max |
+|---|---:|---:|
+| declarative structure | 13.0 | 20 |
+| step mapping | 16.8 | 25 |
+| plugin coupling | 2.2 | 15 |
+| library opacity | 15 | 15 |
+| runtime coupling | 8.0 | 10 |
+| security identity | 2 | 10 |
+| control flow | 1.0 | 5 |
+
+- **Hard gates:** none
+- **Unknown steps (3):** `checkoutWithTags`, `mainJenkinsBuildArgo`, `taggingv2` - plugin or shared-library steps the step catalog does not know, each a manual item below. If every one were mapped, the difficulty would be **45/100 - assisted**.
+- How the score is built: `docs/scoring.md` in the j2gha repository.
 
 ## Secrets required
 
 | Secret | Purpose |
 |---|---|
 | `JENKINS_ARGOCD_TOKEN` | Jenkins credential 'jenkins-argocd-token' |
-
-## Blocking items (hard gates)
-
-- line ?: **SharedLibrary** - lib-jenkins-pipeline → Library steps are opaque to static analysis; map them to composite actions/reusable workflows
 
 ## Mapping detail
 

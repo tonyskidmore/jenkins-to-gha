@@ -5,6 +5,22 @@
 - **Automated mapping (effort estimate, not correctness):** 68.6% (22 mapped, 11 approximated, 9 manual, 2 dropped)
 - **Weighted step coverage (analysis):** 87.9%
 
+## Difficulty breakdown
+
+| Dimension | Score | Max |
+|---|---:|---:|
+| declarative structure | 10 | 20 |
+| step mapping | 3.0 | 25 |
+| plugin coupling | 9.0 | 15 |
+| library opacity | 0.0 | 15 |
+| runtime coupling | 8.0 | 10 |
+| security identity | 2 | 10 |
+| control flow | 5 | 5 |
+
+- **Hard gates:** DynamicParallel (each forces at least significant-redesign; see *Blocking items*)
+- **Unknown steps (1):** `withDockerContainer` - plugin or shared-library steps the step catalog does not know, each a manual item below. If every one were mapped, the difficulty would be **46/100 - significant-redesign**.
+- How the score is built: `docs/scoring.md` in the j2gha repository.
+
 ## Secrets required
 
 | Secret | Purpose |

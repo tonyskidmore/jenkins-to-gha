@@ -1,9 +1,25 @@
 # Migration report: fabiojose/platform-as-code-example `Jenkinsfile`
 
 - **Classification:** assisted (difficulty 42/100)
-- **Convertibility:** automatic
+- **Convertibility:** partial
 - **Automated mapping (effort estimate, not correctness):** 70.2% (18 mapped, 26 approximated, 4 manual, 1 dropped)
 - **Weighted step coverage (analysis):** 52.6%
+
+## Difficulty breakdown
+
+| Dimension | Score | Max |
+|---|---:|---:|
+| declarative structure | 6.5 | 20 |
+| step mapping | 11.8 | 25 |
+| plugin coupling | 10.5 | 15 |
+| library opacity | 4 | 15 |
+| runtime coupling | 2.0 | 10 |
+| security identity | 7 | 10 |
+| control flow | 0.0 | 5 |
+
+- **Hard gates:** none
+- **Unknown steps (3):** `configFileProvider`, `cucumber`, `rocketSend` - plugin or shared-library steps the step catalog does not know, each a manual item below. If every one were mapped, the difficulty would be **22/100 - assisted**.
+- How the score is built: `docs/scoring.md` in the j2gha repository.
 
 ## Secrets required
 

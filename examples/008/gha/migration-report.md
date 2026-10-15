@@ -1,9 +1,25 @@
 # Migration report: h2oai/h2o-3 `docker/Jenkinsfile-build-docker`
 
-- **Classification:** significant-redesign (difficulty 60/100)
+- **Classification:** significant-redesign (difficulty 54/100)
 - **Convertibility:** partial
 - **Automated mapping (effort estimate, not correctness):** 48.4% (21 mapped, 15 approximated, 26 manual, 0 dropped)
 - **Weighted step coverage (analysis):** 73.9%
+
+## Difficulty breakdown
+
+| Dimension | Score | Max |
+|---|---:|---:|
+| declarative structure | 13.0 | 20 |
+| step mapping | 6.5 | 25 |
+| plugin coupling | 6.0 | 15 |
+| library opacity | 13 | 15 |
+| runtime coupling | 6.0 | 10 |
+| security identity | 4 | 10 |
+| control flow | 5 | 5 |
+
+- **Hard gates:** DynamicParallel, ExternalGroovyLoad (each forces at least significant-redesign; see *Blocking items*)
+- **Unknown steps (2):** `buildSummary`, `pipelineContextFactory` - plugin or shared-library steps the step catalog does not know, each a manual item below. If every one were mapped, the difficulty would be **48/100 - significant-redesign**.
+- How the score is built: `docs/scoring.md` in the j2gha repository.
 
 ## Secrets required
 
@@ -14,7 +30,6 @@
 
 ## Blocking items (hard gates)
 
-- line ?: **SharedLibrary** - test-shared-library@dai-updated → Library steps are opaque to static analysis; map them to composite actions/reusable workflows
 - line 97: **ExternalGroovyLoad** - load(scripts/jenkins/groovy/pipelineContext.groovy) → Inline the loaded logic as scripts/composite actions
 - line 174: **DynamicParallel** - parallel(targets.collectEntries(...)) → Emit a bounded matrix from a planning job (fromJSON) instead of runtime fan-out
 
