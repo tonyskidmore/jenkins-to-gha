@@ -1,7 +1,7 @@
 # Using the CLI
 
 The commands below assume the [prerequisites](prerequisites.md) are met and `uv sync` and `uv run j2gha docker build`
-have been run. The full list of commands and options is in `uv run j2gha --help` and in [CLAUDE.md](../CLAUDE.md#commands).
+have been run. The full list of commands and options is in `uv run j2gha --help` and in [AGENTS.md](../AGENTS.md#commands).
 What each stage does is in [architecture.md](architecture.md#stages). Run every command from the root of your clone
 of this repository.
 

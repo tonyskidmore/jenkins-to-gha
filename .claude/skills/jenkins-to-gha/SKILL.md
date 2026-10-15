@@ -22,7 +22,7 @@ artifacts into the example directory and updates its own marker-delimited sectio
 
 ## Procedure
 
-1. Resolve ids from `$ARGUMENTS` (`all`, `003`, `1-5`, `004 009`, or pipeline names). Default tier `jenkins,act`, mode
+1. Resolve ids from the user's request (`all`, `003`, `1-5`, `004 009`, or pipeline names). Default tier `jenkins,act`, mode
    `trace`.
    - **The user's own pipelines** live outside the clone, in `$J2GHA_PIPELINES_DIR/<name>/`; their results are there
      too, not under `examples/`. With that variable set, `all` means those pipelines.
@@ -41,6 +41,22 @@ artifacts into the example directory and updates its own marker-delimited sectio
 5. For differences, open `runs/<tier>-trace/result.json` → `comparison.stages` and explain which stage/step
    diverged; fixes usually belong in `j2gha/convert/generator.py` (GHA side) or `j2gha/jenkins/localize.py`
    (Jenkins side).
+
+## Reviewing a migration report
+
+When the user asks what a converted pipeline needs, or why it scored as it did, work from its files: `README.md`,
+`analysis/analysis.json` and `gha/migration-report.md`.
+
+1. **The score.** Use the *Difficulty breakdown* to explain it.
+   - Name any hard gate: it is a construct with no GitHub Actions equivalent.
+   - Name the unknown steps, and compare the score with the one *if they were mapped*. A large gap is information
+     j2gha lacks, often shared-library steps, not the pipeline's own structure (`docs/scoring.md`).
+2. **The work left.** Group the `manual` and `approximated` items by stage. List the secrets, environments and
+   `vars.J2GHA_WHEN_L<line>` variables the workflow needs.
+3. **Edits.** Suggest them to a copy of `gha/workflow.yml` that the user owns. Never edit the generated files in place,
+   and never copy from `runs/` (test variants with fake credentials).
+4. **What has been shown.** Report results as what the runs showed: an *equivalent* trace means no difference was found
+   in that scenario's control flow, not that the conversion is correct.
 
 ## Looking things up
 
@@ -78,7 +94,7 @@ construct.
 
 The budget guard reads the billing usage of the **target repository's owner** (user or organization). If billing data
 is unavailable it falls back to a jobs-API tally, which is a lower bound, and refuses hosted runs; for a user-owned
-repository ask the user to run `! gh auth refresh -h github.com -s user`. `j2gha budget` lists pending minute
+repository ask the user to run `gh auth refresh -h github.com -s user` in a terminal. `j2gha budget` lists pending minute
 reservations (runs dispatched but not yet reconciled) and in-flight runs; `j2gha budget --clear ID...` clears a
 reservation after its run has been checked by hand.
 

@@ -4,8 +4,8 @@ Everything an AI agent does in this repository goes through the `j2gha` CLI. The
 the agent how to drive it, what to read afterwards and what not to do. The agent can be Claude Code or GitHub Copilot;
 Copilot reads the same directory ([copilot.md](copilot.md)). None of them is required:
 the commands in [usage.md](usage.md) run the same stages by hand (what needs an agent: [AI.md](AI.md)). Each skill is a directory with a
-`SKILL.md` (frontmatter `name`, `description`, `argument-hint`, then the instructions), and optionally `scripts/`,
-`references/`, `assets/` and `evals/`.
+`SKILL.md` (frontmatter `name`, `description`, `argument-hint`, optionally `disable-model-invocation`, then the
+instructions), and optionally `scripts/`, `references/`, `assets/` and `evals/`.
 
 ## The chain
 
@@ -94,6 +94,9 @@ bundles; the migration report's references are web URLs. See `docs/documentation
 Builds the narrated walkthrough videos in `docs/video/` from a document: a scene script, replayed terminal output,
 local text-to-speech, captions, an mp4 through headless Chrome and ffmpeg. Unrelated to running the harness.
 
+Like `hyperframes-walkthrough`, it is marked `disable-model-invocation`. Neither agent loads it on its own, so it costs
+no context in other work: invoke it by name.
+
 ## hyperframes-walkthrough
 
 `/hyperframes-walkthrough <example id> [--slug name]` · `hfw publish <video> --tag videos`
@@ -113,5 +116,10 @@ assets with `hfw publish` (dry run unless `--yes`), never in git.
 - The Jenkins controller is single-user (`.j2gha/jenkins.lock`): one `run`/`analyze` at a time.
 - Generated directories (`analysis/`, `gha/`, `runs/`) are never hand-edited; the cited `examples/0NN/Jenkinsfile`
   is never edited; `evals/` is human-owned.
+- Skills work under Claude Code and GitHub Copilot alike.
+  - They refer to "the user's request" rather than `$ARGUMENTS`: Claude Code substitutes that placeholder, Copilot
+    does not.
+  - They name tools generically ("search", "a web-fetch tool").
+  - `tests/test_agent_docs.py` checks their frontmatter.
 - A skill reports what the harness measured and what it does not establish (a hollow green, an act fault, a
   difference caused by the environment) in the same breath as the verdict.

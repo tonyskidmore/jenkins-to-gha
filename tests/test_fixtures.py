@@ -26,7 +26,7 @@ DUMPER = ROOT / "docker" / "jenkins" / "groovy" / "ast_dump.groovy"
 RECORD = FIXTURES / "DUMPER.sha256"
 REGENERATE = ("regenerate the AST fixtures with the current dumper and record its hash: "
               "`uv run python tests/test_fixtures.py` (dump_sources({name: text}) for every Jenkinsfile.<name>, "
-              "see CLAUDE.md 'Test fixtures'; needs the j2gha/jenkins:local image), then review the fixture diff")
+              "see .github/instructions/tests.instructions.md; needs the j2gha/jenkins:local image), then review the fixture diff")
 
 
 def fixture_pairs() -> dict[str, Path]:

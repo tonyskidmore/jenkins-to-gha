@@ -2,6 +2,7 @@
 name: hyperframes-walkthrough
 description: Make the 60-second HyperFrames walkthrough video for a j2gha example - Jenkins baseline, analyse/convert/validate, differential trace, real GitHub Actions - with LIVE screen captures of the actual Jenkins build and GitHub Actions run playing inside the video's browser frames (video-in-video), local Kokoro narration and an ambient soundtrack, rendered to 1080p MP4 with HyperFrames; and publish finished videos as GitHub release assets. Use whenever the user wants a short walkthrough, promo or demo video of an example (examples/NNN) or of the harness, wants the real pipeline/workflow runs filmed rather than screenshots, wants to re-capture, re-cut or re-render the existing 60 s walkthrough, or wants to upload/publish/store a rendered video (any video, narrated-explainer chapters included) on GitHub releases. For long narrated chapters replaying terminal output, use narrated-explainer instead.
 argument-hint: "<example id, e.g. 000> [--slug name] | publish <video>"
+disable-model-invocation: true
 ---
 
 # 60-second walkthrough video with live captures (HyperFrames)

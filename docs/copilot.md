@@ -13,20 +13,31 @@ from GitHub's documentation.
 
 ## What Copilot reads from this repository
 
+Claude Code reads the same files, so one set of instructions serves both.
+
 | | Copilot CLI | VS Code (Copilot agent) | Copilot cloud agent |
 |---|---|---|---|
+| `AGENTS.md`: the root instructions, always loaded | Yes (checked) | Yes (documented) | Yes (documented) |
+| `.github/instructions/*.instructions.md`: rules scoped by `applyTo`, loaded for matching files | Yes (checked) | Yes (documented) | Yes (documented) |
 | Skills in `.claude/skills/` | Yes (checked) | Yes (documented) | Yes (documented) |
-| `CLAUDE.md` as repository instructions | Yes (checked) | Not documented for the Copilot agent | Yes, at the repository root (documented) |
+| The `j2gha-migrator` agent in `.github/agents/` | Yes (documented) | Yes (documented) | Yes (documented) |
+| The hook in `.github/hooks/` | Yes (documented) | Preview | Yes (documented) |
 
 To check from a clone:
 
 ```bash
+copilot instruction list    # AGENTS.md and the eleven rule files, each with its applyTo globs
 copilot skill list          # the project skills from .claude/skills/
-copilot instruction list    # CLAUDE.md
 ```
 
-Copilot loads a skill's name and description up front and reads the rest only when it uses the skill, so unused skills
-cost little.
+**How the instructions are layered:**
+
+- **`AGENTS.md`** is short: what j2gha is, where to find things, the commands and the rules that apply everywhere.
+- **The rule files** carry the detail for one area each, for example the generator or the corpus. They load only when
+  Copilot works on matching files.
+- **A skill's** name and description load up front; the rest is read only when the skill is used.
+- **The two video skills** are marked `disable-model-invocation`, so they never enter Copilot's context unless you
+  invoke them by name.
 
 ## Skills for converting pipelines
 
@@ -63,6 +74,12 @@ arguments out from what you asked. Prompts that work:
 - "Group the approximated and manual items in the payments pipeline's gha/migration-report.md by stage, and list the
   secrets and environments the workflow needs."
 
+**The `j2gha-migrator` agent** packages this workflow with its rules: keep pipelines local and out of git, explain
+before editing, edit only a copy of the workflow, and never change j2gha itself.
+
+- **Select it:** `copilot --agent j2gha-migrator`, or `/agent` in a session (in VS Code, the agent picker).
+- **Then ask, for example:** "add ~/src/payments/Jenkinsfile and tell me what its migration needs".
+
 **A tested run.** The first prompt was run on example 000 with Copilot CLI. Copilot:
 
 1. loaded the skill;
@@ -96,6 +113,13 @@ them with whoever administers them.
 **Tool limits.** `--deny-tool 'shell(git push)'` stops the agent pushing, and a deny rule always beats an allow rule.
 Shell rules match a command and its first subcommand only, so they cannot single out one `j2gha run` option.
 
+**The hook** in `.github/hooks/` asks you before the agent starts a GitHub-hosted run (`--tier hosted`), because that
+spends Actions minutes.
+
+- Copilot CLI shows the question. A non-interactive run or the cloud agent treats it as a refusal.
+- Set `J2GHA_AGENT_HOSTED=1` before starting Copilot to let the agent start hosted runs itself.
+- Repository hooks load only in folders you have trusted.
+
 **Content exclusion.** GitHub's documentation does not agree on whether content exclusion applies to Copilot CLI and
 agents. Do not rely on it to keep files from Copilot.
 
@@ -114,7 +138,7 @@ copilot
 **Model requirements.** The model must support tool calling and streaming. GitHub recommends a context window of
 128k tokens or more; raise the server's own context limit to match.
 
-**What still works.** The skills and `CLAUDE.md` load as usual.
+**What still works.** `AGENTS.md`, the rule files and the skills load as usual.
 
 **What has not been tested.** This repository has not been tested with local models yet. Expect a small model to
 follow the skills less reliably than Copilot's hosted models.

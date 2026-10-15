@@ -19,8 +19,9 @@ uv run j2gha docs path gha         # default GHA bundle dir, or exit 1
   - Use GitHub.com (`fpt`) unless the user or the project says GHEC or a GHES release.
   - Pass `--version ghes-3.19` to `path`, or set `J2GHA_DOCS_GHA=ghes-3.19`, to use another downloaded bundle.
   - `uv run j2gha docs use gha <version>` changes the default.
-- **Found** → work from that directory (`$G`). It is gitignored, so pass `$G` explicitly as the Grep/Glob path.
-- **Not found** → if the task needs more than one or two lookups, or `$ARGUMENTS` contains `--fetch`, download:
+- **Found** → work from that directory (`$G`). It is gitignored, so pass `$G` explicitly to your search tool, e.g. `rg -n --no-ignore <pattern> "$G"` (searches
+  from the repository root skip gitignored paths).
+- **Not found** → if the task needs more than one or two lookups, or the request includes `--fetch`, download:
   - Command: `uv run j2gha docs fetch gha [--version fpt|ghec|ghes-X.Y]`.
   - It fetches about 250 pages and is throttled for docs.github.com's rate limit, so expect about 5 minutes the
     first time. Re-runs within 7 days reuse the cache.
@@ -35,7 +36,7 @@ Pages mirror docs.github.com paths: `$G/actions/<path>.md`.
 
 | Need | Read |
 |---|---|
-| Any workflow key (`on`, `jobs.<id>.if`, `strategy.matrix`, `concurrency`, `container`, `services`, `permissions`...) | `$G/actions/reference/workflows-and-actions/workflow-syntax.md` (about 170 KB: Grep the key's heading, read that range) |
+| Any workflow key (`on`, `jobs.<id>.if`, `strategy.matrix`, `concurrency`, `container`, `services`, `permissions`...) | `$G/actions/reference/workflows-and-actions/workflow-syntax.md` (about 170 KB: search for the key's heading, read that range) |
 | Contexts (`github`, `env`, `job`, `steps`, `inputs`...) and where each is available | `$G/actions/reference/workflows-and-actions/contexts.md` |
 | Expressions, operators, status functions (`always()`, `cancelled()`...) | `$G/actions/reference/workflows-and-actions/expressions.md` |
 | Events and their filters (`workflow_dispatch`, `workflow_run`, `schedule`...) | `$G/actions/reference/workflows-and-actions/events-that-trigger-workflows.md` |
@@ -44,7 +45,7 @@ Pages mirror docs.github.com paths: `$G/actions/<path>.md`.
 | Limits (job time, matrix size, queue, payloads) | `$G/actions/reference/limits.md` |
 | Environments, required reviewers, wait timers | `$G/actions/reference/workflows-and-actions/deployments-and-environments.md` |
 | Jenkins migration guide / Actions Importer | `$G/actions/tutorials/migrate-to-github-actions/manual-migrations/migrate-from-jenkins.md`, `.../automated-migrations/jenkins-migration.md` |
-| Anything else | Grep `$G` or `$G/INDEX.md` (reference pages) → category sub-indexes (`$G/actions/how-tos/INDEX.md`, `concepts/`, `tutorials/`) |
+| Anything else | Search `$G` or `$G/INDEX.md` (reference pages) → category sub-indexes (`$G/actions/how-tos/INDEX.md`, `concepts/`, `tutorials/`) |
 
 Cite the `> Source:` URL at the top of the page and the bundle version (e.g. "GHES 3.19 docs").
 
@@ -75,7 +76,7 @@ a burst: it answers HTTP 429.
   ```bash
   curl -s "https://docs.github.com/api/article/body?pathname=/en/actions/reference/workflows-and-actions/contexts"
   ```
-  For a GHES version, prefix the path: `/en/enterprise-server@3.19/actions/...`. WebFetch on
+  For a GHES version, prefix the path: `/en/enterprise-server@3.19/actions/...`. A web-fetch tool on
   `https://docs.github.com/en/actions/<path>.md` also works.
 - **Search:**
   ```bash

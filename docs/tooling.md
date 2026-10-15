@@ -15,11 +15,11 @@ new information.
 | **Ephemeral self-hosted runners** | `j2gha/runner:local` (digest-pinned `actions-runner` base + the Jenkins toolchain) | Real GitHub Actions execution through local just-in-time runners, with no minutes spent. The preferred remote tier. The act job container (`j2gha/act-runner:local`) is built the same way. | `docker/runner/`, `docker/act-runner/`, `runners/`, `gha/` |
 | **GitHub-hosted runners** | n/a | Last-resort execution, behind the minutes budget guard and explicit user approval. | `gha/budget.py` |
 | **Jenkins controller** | digest-pinned base, plugins pinned in `plugins.txt` | Reference execution of the original Jenkinsfile, and the Groovy 2.4 AST used for parsing. | `docker/jenkins/`, `jenkins/` |
-| **Jenkins Configuration as Code (JCasC)** | `configuration-as-code` plugin, pinned in `plugins.txt` | Configures the disposable controller declaratively (local admin user, 16 executors, common agent labels, standard crumb issuer, no setup wizard), so every build of the image starts identically. The controller is local-only; script approval is handled separately through the script console (see `CLAUDE.md`). | `docker/jenkins/casc/jenkins.yaml` |
+| **Jenkins Configuration as Code (JCasC)** | `configuration-as-code` plugin, pinned in `plugins.txt` | Configures the disposable controller declaratively (local admin user, 16 executors, common agent labels, standard crumb issuer, no setup wizard), so every build of the image starts identically. The controller is local-only; script approval is handled separately through the script console (see `.github/instructions/execution.instructions.md`). | `docker/jenkins/casc/jenkins.yaml` |
 | **pytest, ruff** | dev group / `uvx` | Unit tests (the only check CI runs) and lint (`ruff --select F,E9,B`, run locally). | `tests/`, `pyproject.toml` |
 
 Every scanner in the table runs without network access or credentials. Execution variants replace secrets with the
-`FAKE_*` values (see `CLAUDE.md`).
+`FAKE_*` values (see `.github/instructions/execution.instructions.md`).
 
 ## Evaluated and not adopted
 

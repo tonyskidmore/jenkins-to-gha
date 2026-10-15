@@ -62,6 +62,28 @@ Your own (private) pipelines, offline use, and GitHub Copilot.
   [j2gha] 017:   1 unknown step(s) (fail): 34 (assisted) if they were mapped
   ```
 
+- **One set of agent instructions for Claude Code, GitHub Copilot and Codex.**
+  - **`AGENTS.md`** is the short root file, always loaded: what j2gha is, a "what you need → what to read" table, the
+    layout, the commands, and the rules that apply everywhere.
+  - **Eleven path-scoped rule files** in `.github/instructions/` carry the developer detail. They have both `applyTo`
+    (Copilot) and `paths` (Claude Code) frontmatter, and `.claude/rules` is the same directory. An agent loads a rule
+    only when it works on matching files.
+  - **`tests/test_agent_docs.py`** keeps it accurate: links, rule globs, skill and agent frontmatter, the hook.
+
+  ```bash
+  copilot instruction list      # AGENTS.md and the eleven rule files, each with its globs
+  ```
+
+- **`j2gha-migrator`, a GitHub Copilot custom agent** (`.github/agents/`). It packages the migration workflow with its
+  rules: keep pipelines local, explain before editing, edit only a copy of the workflow, and never change j2gha itself.
+
+  ```bash
+  copilot --agent j2gha-migrator   # then: "add ~/src/payments/Jenkinsfile and tell me what its migration needs"
+  ```
+
+- **A Copilot hook** (`.github/hooks/`) that asks before an agent starts a GitHub-hosted run. Set
+  `J2GHA_AGENT_HOSTED=1` to let the agent start hosted runs itself.
+- **[`docs/README.md`](docs/README.md)**: every docs page with its readers, and what to update when code changes.
 - **New docs:**
   - [`docs/own-pipelines.md`](docs/own-pipelines.md): converting your own pipelines. Covers what each stage sends off
     the machine, reading the results, why shared-library pipelines rate *significant-redesign*, shared libraries,
@@ -96,9 +118,17 @@ Your own (private) pipelines, offline use, and GitHub Copilot.
   - The local tiers in the same command still run, and the refusal exits with status 3.
 - **A named pipeline without a `Jenkinsfile` now gets a clear error** instead of a crash in `convert`.
 - **Generated files name your own pipeline by its directory name**, never by an absolute local path.
-- **The docs now cover GitHub Copilot as well as Claude Code.** `AI.md`, `skills.md`, `usage.md`, the README and
-  `CLAUDE.md` say that Copilot reads `.claude/skills/` and `CLAUDE.md`. The `jenkins-to-gha` skill knows about the
-  pipelines directory.
+- **The docs now cover GitHub Copilot as well as Claude Code.** `AI.md`, `skills.md` and `usage.md` say that Copilot
+  reads the same skills and instructions.
+- **`CLAUDE.md` is replaced by `AGENTS.md`.** Claude Code 2.1.277 and later read `AGENTS.md`. For an older Claude Code,
+  create a local `CLAUDE.md` containing `@AGENTS.md`; it is gitignored.
+- **The skills work under Copilot too.**
+  - They refer to the user's request instead of `$ARGUMENTS`, which Copilot does not substitute.
+  - They name tools generically.
+  - The two video skills are `disable-model-invocation`: invoke them by name.
+  - `jenkins-to-gha` gains *Reviewing a migration report* and knows the pipelines directory.
+  - The crawler skill now includes the licence step.
+  - The rule improver says how to work under the Copilot cloud agent.
 
 ## [0.1.0] - 2026-10-13
 
