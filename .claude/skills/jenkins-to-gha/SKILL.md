@@ -22,7 +22,14 @@ artifacts into the example directory and updates its own marker-delimited sectio
 
 ## Procedure
 
-1. Resolve ids from `$ARGUMENTS` (`all`, `003`, `1-5`, `004 009`). Default tier `jenkins,act`, mode `trace`.
+1. Resolve ids from `$ARGUMENTS` (`all`, `003`, `1-5`, `004 009`, or pipeline names). Default tier `jenkins,act`, mode
+   `trace`.
+   - **The user's own pipelines** live outside the clone, in `$J2GHA_PIPELINES_DIR/<name>/`; their results are there
+     too, not under `examples/`. With that variable set, `all` means those pipelines.
+   - **Adding a pipeline:** `j2gha add PATH [--name N]` copies a Jenkinsfile in, whatever its file name.
+   - **Remote tiers:** never point them at a pipeline that is not a corpus example. The harness refuses unless
+     `J2GHA_REPO` is a private repository; leave that choice to the user.
+   - **More:** `docs/own-pipelines.md`.
 2. Make sure Docker is running. The Jenkins controller starts automatically (`j2gha jenkins up`), takes ~40 s the
    first time, and stays up for subsequent runs (`j2gha jenkins down` to stop it).
 3. Run the stages in order (analysis must exist before conversion; conversion before validation/execution).

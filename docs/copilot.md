@@ -44,14 +44,23 @@ The other skills are for other jobs:
 [skills.md](skills.md) describes them all. The docs skills read the bundles that `uv run j2gha docs fetch` downloads
 ([documentation.md](documentation.md)).
 
-Ask for a skill by name, or type `/<skill>` in Copilot CLI. Name the pipeline in your request: the skills were written
-for Claude Code, and Copilot does not fill in their `$ARGUMENTS` placeholder, so it works the arguments out from what
-you asked. Prompts that work:
+**Your own pipelines.** If they live outside the clone in `J2GHA_PIPELINES_DIR`
+([own-pipelines.md](own-pipelines.md#set-up-a-pipeline)), start Copilot in the clone with that variable exported. Also
+give Copilot access to the directory, so it can read the results there:
 
-- "Use the jenkins-to-gha skill to analyse, convert and validate examples/my-pipeline, then explain its difficulty
+```bash
+export J2GHA_PIPELINES_DIR=~/j2gha-pipelines
+copilot --add-dir "$J2GHA_PIPELINES_DIR"
+```
+
+**Invoking skills.** Ask for a skill by name, or type `/<skill>` in Copilot CLI. Name the pipeline in your request: the
+skills were written for Claude Code, and Copilot does not fill in their `$ARGUMENTS` placeholder, so it works the
+arguments out from what you asked. Prompts that work:
+
+- "Use the jenkins-to-gha skill to analyse, convert and validate the payments pipeline, then explain its difficulty
   score and the manual items in its migration report."
-- "Why is examples/my-pipeline rated significant-redesign? Use its analysis/analysis.json."
-- "Group the approximated and manual items in examples/my-pipeline/gha/migration-report.md by stage, and list the
+- "Why is the payments pipeline rated significant-redesign? Use its analysis/analysis.json."
+- "Group the approximated and manual items in the payments pipeline's gha/migration-report.md by stage, and list the
   secrets and environments the workflow needs."
 
 **A tested run.** The first prompt was run on example 000 with Copilot CLI. Copilot:

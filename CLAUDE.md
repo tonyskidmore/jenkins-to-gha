@@ -8,8 +8,8 @@ reference: report results as what the runs showed (an *equivalent* verdict means
 proof that a conversion is correct.
 
 - **Using it:** `docs/prerequisites.md`, `docs/usage.md`; results: `docs/results.md`.
-- **Own (private) pipelines:** `docs/own-pipelines.md`. It covers keeping them out of git, what leaves the machine,
-  reading results, and shared libraries. Difficulty score: `docs/scoring.md`.
+- **Own (private) pipelines:** `docs/own-pipelines.md`. It covers `J2GHA_PIPELINES_DIR` and `j2gha add`, what leaves
+  the machine, reading results, and shared libraries. Difficulty score: `docs/scoring.md`.
 - **Design:** `docs/mechanism.md`, `docs/architecture.md`.
 - **Reference-docs subsystem:** `docs/documentation.md`.
 - **Adding or changing a conversion rule:** `docs/extending.md`; agent-assisted: `docs/self-improvement.md`.
@@ -30,7 +30,9 @@ uvx ruff check j2gha tests --select F,E9,B --ignore B008                  # lint
 
 uv run j2gha docker build [--only jenkins|act|act-runner|runner]   # harness images (runner images carry the Jenkins toolchain)
 uv run j2gha crawl --count N [--dry-run]           # add N scored examples (needs gh auth + j2gha/jenkins:local)
-uv run j2gha analyze|convert|validate [ids|all]    # ids: 003, 1-5, "004 009", all (default)
+uv run j2gha add PATH [--name N] [--force]         # own pipeline (any file name) -> $J2GHA_PIPELINES_DIR/N/Jenkinsfile
+uv run j2gha analyze|convert|validate [ids|all]    # ids: 003, 1-5, "004 009", names; all (default) = corpus, or
+                                                   # every pipeline in J2GHA_PIPELINES_DIR (--pipelines-dir) when set
 uv run j2gha run <ids> --tier jenkins,act [--mode trace|full] [--branch B] [--param NAME=VALUE ...] [--edited-model] [--fail-on-differs]
 uv run j2gha run <ids> --tier selfhosted           # real GitHub Actions via local JIT runners, 0 minutes (prefer this)
 uv run j2gha run <ids> --tier selfhosted --environments   # also enter j2gha-* environments + canary secret check

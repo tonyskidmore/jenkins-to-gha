@@ -1,6 +1,7 @@
 """j2gha command line interface.
 
     j2gha crawl --count N            find & score example Jenkinsfiles on github.com -> examples/NNN
+    j2gha add PATH [--name N]        copy your own Jenkinsfile (any file name) in as pipeline N
     j2gha analyze [IDS]              AST analysis (+ Jenkins model when the controller is up) -> README
     j2gha convert [IDS]              IR -> GitHub Actions workflow + migration report
     j2gha validate [IDS]             actionlint / zizmor / policy checks on the generated workflow
@@ -12,20 +13,26 @@
     j2gha gaps | scoreboard | guard  rule-improvement evals (docs/self-improvement.md)
     j2gha summary                    write examples/README.md (corpus index with results)
     j2gha docs fetch|status|use|path|xref   local, version-pinned Jenkins + GHA reference docs for agents
+
+IDS are corpus numbers (003, 1-5, "004 009") or pipeline names; `all` (the default) is the numbered corpus, or every
+pipeline in J2GHA_PIPELINES_DIR (--pipelines-dir) when that is set: keep your own pipelines there, outside the clone.
 """
 
 from __future__ import annotations
 
 import argparse
 import json
+import os
 import sys
+from pathlib import Path
 
-from .config import list_example_ids, normalise_id
+from . import config
+from .config import list_pipeline_ids, normalise_id
 
 
 def _ids(values: list[str] | None) -> list[str]:
     if not values or values == ["all"]:
-        return list_example_ids()
+        return list_pipeline_ids()
     out = []
     for v in (p for val in values for p in val.replace(",", " ").split()):  # "004 009" / "004,009" too
         if "-" in v and all(p.isdigit() for p in v.split("-", 1)):
@@ -34,6 +41,31 @@ def _ids(values: list[str] | None) -> list[str]:
         else:
             out.append(normalise_id(v))
     return out
+
+
+def _pipelines(values: list[str] | None) -> list[str]:
+    """`_ids` for the stage commands: every pipeline must have a Jenkinsfile (a clear error, not a crash later)."""
+    ids = _ids(values)
+    own = config.pipelines_dir()
+    where = f"{own} (J2GHA_PIPELINES_DIR) or {config.EXAMPLES_DIR}" if own else str(config.EXAMPLES_DIR)
+    if not ids:
+        raise SystemExit(f"j2gha: no pipelines in {where}; add one with `j2gha add PATH`")
+    missing = [i for i in ids if not (config.example_dir(i) / "Jenkinsfile").is_file()]
+    if missing:
+        raise SystemExit(f"j2gha: no Jenkinsfile for {', '.join(missing)} in {where}; add one with "
+                         "`j2gha add PATH --name NAME`" + ("" if own else ", or set J2GHA_PIPELINES_DIR"))
+    return ids
+
+
+def cmd_add(a: argparse.Namespace) -> int:
+    from .stages import add_pipeline
+
+    try:
+        d = add_pipeline(Path(a.path), name=a.name, force=a.force)
+    except ValueError as e:
+        raise SystemExit(f"j2gha add: {e}") from None
+    print(d.name)
+    return 0
 
 
 def cmd_crawl(a: argparse.Namespace) -> int:
@@ -56,21 +88,21 @@ def cmd_crawl(a: argparse.Namespace) -> int:
 def cmd_analyze(a: argparse.Namespace) -> int:
     from .stages import analyze_examples
 
-    analyze_examples(_ids(a.ids), use_jenkins=a.jenkins)
+    analyze_examples(_pipelines(a.ids), use_jenkins=a.jenkins)
     return 0
 
 
 def cmd_convert(a: argparse.Namespace) -> int:
     from .stages import convert_examples
 
-    convert_examples(_ids(a.ids))
+    convert_examples(_pipelines(a.ids))
     return 0
 
 
 def cmd_validate(a: argparse.Namespace) -> int:
     from .stages import validate_examples
 
-    return validate_examples(_ids(a.ids))
+    return validate_examples(_pipelines(a.ids))
 
 
 TIERS = ("jenkins", "act", "selfhosted", "hosted")
@@ -95,7 +127,7 @@ def _param(text: str) -> tuple[str, str]:
 def cmd_run(a: argparse.Namespace) -> int:
     from .stages import run_examples
 
-    return run_examples(_ids(a.ids), tiers=a.tier, mode=a.mode, docker_socket=a.docker, yes=a.yes,
+    return run_examples(_pipelines(a.ids), tiers=a.tier, mode=a.mode, docker_socket=a.docker, yes=a.yes,
                         max_minutes=a.max_minutes, branch=a.branch, fail_on_differs=a.fail_on_differs,
                         params=dict(a.param) or None, allow_edited_model=a.edited_model,
                         environments=a.environments)
@@ -104,7 +136,7 @@ def cmd_run(a: argparse.Namespace) -> int:
 def cmd_pipeline(a: argparse.Namespace) -> int:
     from .stages import analyze_examples, convert_examples, log, run_examples, validation_failures
 
-    ids = _ids(a.ids)
+    ids = _pipelines(a.ids)
     analyze_examples(ids, use_jenkins=True)
     convert_examples(ids)
     invalid = validation_failures(ids)
@@ -126,8 +158,11 @@ def cmd_summary(a: argparse.Namespace) -> int:
 def cmd_gaps(a: argparse.Namespace) -> int:
     from . import improve
 
-    rows = improve.gaps(_ids(a.ids) if a.ids else None, include_holdout=a.include_holdout,
-                        unmapped_only=a.unmapped_only)
+    own = config.pipelines_dir()
+    ids = _ids(a.ids) if a.ids or own else None
+    # your own pipelines are read from J2GHA_PIPELINES_DIR; the default (and any corpus id among them) from examples/
+    root = own if own and ids and all(config.example_dir(i).parent == own for i in ids) else None
+    rows = improve.gaps(ids, examples_dir=root, include_holdout=a.include_holdout, unmapped_only=a.unmapped_only)
     print(json.dumps(rows, indent=2) if a.json else improve.format_gaps(rows, a.limit))
     return 0
 
@@ -222,6 +257,9 @@ def cmd_environments(a: argparse.Namespace) -> int:
 def main(argv: list[str] | None = None) -> int:
     p = argparse.ArgumentParser(prog="j2gha", description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     sub = p.add_subparsers(dest="cmd", required=True)
+    own = argparse.ArgumentParser(add_help=False)
+    own.add_argument("--pipelines-dir", metavar="DIR", default=None,
+                     help="directory of your own pipelines, outside the clone (default: $J2GHA_PIPELINES_DIR)")
 
     c = sub.add_parser("crawl", help="crawl github.com for example Jenkinsfiles")
     c.add_argument("--count", "-n", type=int, default=10, help="number of examples to add")
@@ -237,22 +275,29 @@ def main(argv: list[str] | None = None) -> int:
     c.add_argument("--verbose", "-v", action="store_true")
     c.set_defaults(func=cmd_crawl)
 
-    an = sub.add_parser("analyze", aliases=["analyse"], help="AST analysis of examples")
+    ad = sub.add_parser("add", parents=[own], help="copy your own Jenkinsfile in as a pipeline")
+    ad.add_argument("path", help="the Jenkinsfile, whatever its name (or a directory containing a Jenkinsfile)")
+    ad.add_argument("--name", default=None,
+                    help="pipeline name (default: its directory, plus the file name when that is not Jenkinsfile)")
+    ad.add_argument("--force", action="store_true", help="replace an existing pipeline's Jenkinsfile")
+    ad.set_defaults(func=cmd_add)
+
+    an = sub.add_parser("analyze", aliases=["analyse"], parents=[own], help="AST analysis of examples")
     an.add_argument("ids", nargs="*")
     an.add_argument("--no-jenkins", dest="jenkins", action="store_false",
                     help="skip Jenkins' authoritative Declarative model even if the controller can start")
     an.set_defaults(func=cmd_analyze)
 
-    cv = sub.add_parser("convert", help="convert examples to GitHub Actions")
+    cv = sub.add_parser("convert", parents=[own], help="convert examples to GitHub Actions")
     cv.add_argument("ids", nargs="*")
     cv.set_defaults(func=cmd_convert)
 
-    va = sub.add_parser("validate", help="static validation of generated workflows")
+    va = sub.add_parser("validate", parents=[own], help="static validation of generated workflows")
     va.add_argument("ids", nargs="*")
     va.set_defaults(func=cmd_validate)
 
     for name, func, default_tier in (("run", cmd_run, "jenkins,act"), ("pipeline", cmd_pipeline, "jenkins,act")):
-        r = sub.add_parser(name, help="execute examples in one or more tiers" if name == "run"
+        r = sub.add_parser(name, parents=[own], help="execute examples in one or more tiers" if name == "run"
                            else "analyze, convert, validate and run examples")
         r.add_argument("ids", nargs="*")
         r.add_argument("--tier", type=_tiers, default=_tiers(default_tier),
@@ -287,7 +332,8 @@ def main(argv: list[str] | None = None) -> int:
     sm = sub.add_parser("summary", help="write examples/README.md (corpus index with harness results)")
     sm.set_defaults(func=cmd_summary)
 
-    g = sub.add_parser("gaps", help="steps the converter does not map, ranked by cost (rule-improvement worklist)")
+    g = sub.add_parser("gaps", parents=[own],
+                       help="steps the converter does not map, ranked by cost (rule-improvement worklist)")
     g.add_argument("ids", nargs="*")
     g.add_argument("--limit", type=int, default=20)
     g.add_argument("--json", action="store_true")
@@ -337,6 +383,8 @@ def main(argv: list[str] | None = None) -> int:
     add_docs_parser(sub)
 
     a = p.parse_args(argv)
+    if getattr(a, "pipelines_dir", None):
+        os.environ["J2GHA_PIPELINES_DIR"] = str(Path(a.pipelines_dir).expanduser().resolve())
     return int(a.func(a) or 0)
 
 

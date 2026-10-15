@@ -7,18 +7,17 @@ of this repository.
 
 ## Convert your own pipeline
 
-Give the pipeline a directory under `examples/` with a name rather than a number, copy the Jenkinsfile in, and run the
-stages:
+Keep your pipelines in a directory outside the clone, add each Jenkinsfile (any file name), and run the stages:
 
 ```bash
-mkdir examples/my-pipeline
-cp /path/to/Jenkinsfile examples/my-pipeline/
-uv run j2gha pipeline my-pipeline         # analyse, convert, validate, then a trace run on Jenkins and act
+export J2GHA_PIPELINES_DIR=~/j2gha-pipelines
+uv run j2gha add /path/to/payments/Jenkinsfile    # -> ~/j2gha-pipelines/payments/Jenkinsfile
+uv run j2gha pipeline payments                    # analyse, convert, validate, then a trace run on Jenkins and act
 ```
 
 [own-pipelines.md](own-pipelines.md) covers the rest. Read it before using a pipeline that is not public:
 
-- keeping the directory out of git, since it is not gitignored;
+- the pipelines directory and `j2gha add`;
 - what each stage sends off your machine;
 - how to read the results and the difficulty score;
 - shared libraries and missing plugins;
@@ -60,8 +59,8 @@ uv run j2gha run 004 --tier hosted --yes --max-minutes N    # GitHub-hosted runn
 Both push the workflow to a throw-away branch of the repository in `J2GHA_REPO` (default: this clone's `origin`) and
 delete it afterwards. The run's logs and artifacts stay in that repository.
 
-For a pipeline that is not public, set `J2GHA_REPO` to a private repository you control
-([own-pipelines.md](own-pipelines.md#what-leaves-your-machine)).
+For a pipeline that is not a corpus example, the harness refuses both tiers unless `J2GHA_REPO` names a private
+repository ([own-pipelines.md](own-pipelines.md#what-leaves-your-machine)).
 
 act, the local tier, cannot be the final word; why is in [act-evaluation.md](act-evaluation.md).
 

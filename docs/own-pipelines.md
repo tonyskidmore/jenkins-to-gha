@@ -13,28 +13,38 @@ from the root of your clone. To see every stage on one pipeline first, follow th
 
 ## Set up a pipeline
 
-Each pipeline needs its own directory under `examples/`:
-
-- **Name, not number.** Numbered directories are the corpus.
-- **One `Jenkinsfile`.** It must be called exactly that. Copy a pipeline stored under another name (`Jenkinsfile.deploy`,
-  `ci/build.groovy`) in as `Jenkinsfile`, one directory per pipeline.
+Keep your pipelines in a directory **outside the clone**, and point `J2GHA_PIPELINES_DIR` at it. Each pipeline then
+gets a subdirectory there, and everything the stages write for it goes there too: `analysis/`, `gha/`, `runs/` and its
+`README.md`. None of it is in this repository's working tree, so none of it can be committed by accident.
 
 ```bash
-mkdir examples/my-pipeline
-cp /path/to/Jenkinsfile examples/my-pipeline/
-printf 'examples/my-pipeline/\n' >> .git/info/exclude   # keep it out of git
-uv run j2gha pipeline my-pipeline        # analyse, convert, validate, then a trace run on Jenkins and act
+export J2GHA_PIPELINES_DIR=~/j2gha-pipelines              # or pass --pipelines-dir DIR to each command
+uv run j2gha add /path/to/payments/Jenkinsfile            # -> ~/j2gha-pipelines/payments/Jenkinsfile
+uv run j2gha add /path/to/payments/Jenkinsfile.deploy     # -> payments-jenkinsfile-deploy
+uv run j2gha add ci/build.groovy --name billing-build     # choose the name yourself
+uv run j2gha pipeline payments                            # analyse, convert, validate, then a trace run on Jenkins and act
 ```
 
-- **Keep private pipelines out of git.** `examples/` is tracked, and this repository is public. `.git/info/exclude`
-  works like `.gitignore` but is never committed, so it stays in your clone. Afterwards, check with `git status` that
-  the directory no longer shows. Do not push a clone or fork that contains a private pipeline.
-- **Run the stages one at a time.** Use `uv run j2gha analyze my-pipeline`, then `convert`, `validate` and
-  `run my-pipeline --tier jenkins,act`. Each stage can be re-run on its own.
-- **Several pipelines.** Name each one, e.g. `uv run j2gha pipeline app-a app-b`. `all` and `summary` cover only the
-  numbered corpus.
-- **Common gaps across them.** `uv run j2gha gaps app-a app-b` ranks the steps the converter could not map, across the
-  pipelines you name.
+**What `add` does.**
+
+- It copies the file in as `<name>/Jenkinsfile`; the file can have any name.
+- The default name is the file's directory, plus the file name when that is not `Jenkinsfile`.
+- A name is letters, digits, `-` and `_`. It is never all digits, because numbers are corpus ids.
+- Re-adding a changed file needs `--force`. The later stages notice the change and re-analyse.
+- You can also create `<name>/Jenkinsfile` in the directory by hand.
+
+**Running the stages.**
+
+- **One at a time.** Use `uv run j2gha analyze payments`, then `convert`, `validate` and
+  `run payments --tier jenkins,act`. Each stage can be re-run on its own.
+- **`all` is your pipelines.** With `J2GHA_PIPELINES_DIR` set, `all` (and a command given no ids) means every pipeline
+  in that directory, e.g. `uv run j2gha pipeline all`.
+- **The corpus is still reachable.** Corpus ids such as `003` still find the corpus example when your directory has no
+  pipeline of that name.
+- **Common gaps.** `uv run j2gha gaps` ranks the steps the converter could not map, across your pipelines.
+
+**Without `J2GHA_PIPELINES_DIR`.** Pipelines go under the clone's `examples/` (`add` warns about it). That directory is
+tracked, and this repository is public, so use it only for pipelines you could publish.
 
 ## What leaves your machine
 
@@ -44,7 +54,7 @@ uv run j2gha pipeline my-pipeline        # analyse, convert, validate, then a tr
 | `convert` | The GitHub API, when a GitHub token is available (`GH_TOKEN`, `GITHUB_TOKEN` or `gh auth token`) | Only the names and versions of the public actions the workflow uses, to pin them to commit SHAs. Without a token, actions keep their version tags. |
 | `run --tier jenkins,act`, trace mode (the default) | Local Docker. act downloads each action the first time it is used. | Nothing from the pipeline. Trace mode replaces `sh`, `bat` and the other steps with trace markers, so the pipeline's commands do not run. Groovy in `script {}` blocks does run, on the local Jenkins. |
 | `run --mode full` | | Not available for a private pipeline (see [below](#can-i-run-the-real-commands)). |
-| `run --tier selfhosted`, `--tier hosted` | GitHub | **The converted workflow:** its stage names, commands and comments are pushed to the repository in `J2GHA_REPO`. That defaults to your clone's `origin`, which is this public repository if you cloned it. Run logs and artifacts stay in that repository's Actions history. For a private pipeline, use these tiers only with `J2GHA_REPO` set to a private repository you control. |
+| `run --tier selfhosted`, `--tier hosted` | GitHub | **The converted workflow:** its stage names, commands and comments are pushed to the repository in `J2GHA_REPO`, and run logs and artifacts stay in that repository's Actions history. For any pipeline that is not a corpus example, the harness refuses these tiers unless `J2GHA_REPO` names a repository GitHub reports as private (or internal). The default, your clone's `origin`, is this public repository if you cloned it. The local tiers in the same command still run. |
 
 An AI assistant is separate from all of this, and what it sends depends on the assistant. For GitHub Copilot, see
 [copilot.md](copilot.md#working-with-private-pipelines).
@@ -71,9 +81,11 @@ An AI assistant is separate from all of this, and what it sends depends on the a
   - *Automation* weights them: mapped 1, dropped 0.8, approximated 0.6, manual 0.
   - It estimates the conversion effort. It does not measure correctness.
 
+In the pipeline's directory (`$J2GHA_PIPELINES_DIR/<name>/`):
+
 | File | What it holds |
 |---|---|
-| `examples/<name>/README.md` | Each stage's summary. The analysis section has a collapsed *Difficulty dimensions* table, with the hard gates under it. |
+| `README.md` | Each stage's summary. The analysis section has a collapsed *Difficulty dimensions* table, with the hard gates under it. |
 | `analysis/analysis.json` | Findings, step inventory, unknown steps, and the score's dimensions and gates (`complexity`) |
 | `gha/workflow.yml` | The draft workflow |
 | `gha/migration-report.md` | Every Jenkins construct with its source line, its status (mapped, approximated, manual, dropped) and its GitHub Actions target |
@@ -108,7 +120,7 @@ What j2gha does with them today:
 - **Runs.** In runs the step is stubbed, so the trace shows that it was called, not what it did.
 - **The library itself is not read.** That is a [known limitation](architecture.md#known-limitations-and-where-to-extend).
 - **Pipeline templates are the exception.** A library pipeline template is a `vars/<name>.groovy` file whose `call()`
-  holds a whole `pipeline {}`. One can be analysed and converted on its own: copy it in as a pipeline's `Jenkinsfile`.
+  holds a whole `pipeline {}`. One can be analysed and converted on its own: `uv run j2gha add vars/<name>.groovy`.
   Examples 005 and 011 are templates. Other library files analysed this way are reported, not converted.
 
 ## Missing Jenkins plugins
@@ -127,8 +139,8 @@ Tools named in `tools {}` need no change: they are installed per pipeline.
 
 ## Can I run the real commands?
 
-**Not for a private pipeline.** Full mode (`uv run j2gha run my-pipeline --mode full`) runs the pipeline's real
-commands against its source code.
+**Not for a private pipeline.** Full mode (`uv run j2gha run payments --mode full`) runs the pipeline's real commands
+against its source code.
 
 - The source is fetched anonymously from the *public* repository and commit named in a `source.json`:
   `{"repository": {"full_name": "owner/repo"}, "snapshot_commit": "<commit sha>"}`.

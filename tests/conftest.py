@@ -50,3 +50,11 @@ def script_dispatch():
 @pytest.fixture
 def semantics():
     return load("semantics")
+
+
+@pytest.fixture(autouse=True)
+def _no_operator_pipelines_dir(monkeypatch):
+    """Unit tests resolve pipelines from the corpus, whatever J2GHA_PIPELINES_DIR the operator's shell sets. setenv
+    first records the original state, so a value `j2gha --pipelines-dir` sets during a test is undone too."""
+    monkeypatch.setenv("J2GHA_PIPELINES_DIR", "")
+    monkeypatch.delenv("J2GHA_PIPELINES_DIR")
