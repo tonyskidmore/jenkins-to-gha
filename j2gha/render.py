@@ -96,6 +96,10 @@ def analysis_section(a: dict[str, Any], ir: Pipeline | None, env: dict[str, str]
            f"| Credentials referenced | {m.get('credentials', 0)} |",
            f"| Weighted mapping coverage | {a['coverage']['weighted_mapped_pct']}% |",
            f"| **Migration difficulty** | **{cx['score']}/100 - {cx['classification']}** |",
+           *([f"| If every unknown step were mapped | {cx['if_unknown_mapped']['score']}/100 - "
+              f"{cx['if_unknown_mapped']['classification']} ({len(cx['unknown_steps'])} unknown: "
+              f"{', '.join(f'`{n}`' for n in cx['unknown_steps'][:8])}{', …' if len(cx['unknown_steps']) > 8 else ''}) |"]
+             if cx.get("if_unknown_mapped") else []),
            f"| Convertibility | `{a['convertibility']}` |",
            ""]
     out += ["<details><summary>Difficulty dimensions</summary>\n", "| Dimension | Score | Max |", "|---|---:|---:|"]
@@ -229,6 +233,25 @@ def handoff_section(handoff: dict[str, Any] | None) -> list[str]:
             "as skipped, with a warning."]
 
 
+def difficulty_section(cx: dict[str, Any]) -> list[str]:
+    """The migration report's breakdown of the difficulty score (docs/scoring.md explains each part)."""
+    if not cx.get("dimensions"):
+        return []
+    out = ["## Difficulty breakdown\n", "| Dimension | Score | Max |", "|---|---:|---:|"]
+    out += [f"| {k.replace('_', ' ')} | {v} | {cx.get('weights', {}).get(k, '')} |" for k, v in cx["dimensions"].items()]
+    gates = cx.get("hard_gates", [])
+    out += ["", f"- **Hard gates:** {', '.join(gates) or 'none'}"
+            + (" (each forces at least significant-redesign; see *Blocking items*)" if gates else "")]
+    if cx.get("if_unknown_mapped"):
+        mapped = cx["if_unknown_mapped"]
+        out.append(f"- **Unknown steps ({len(cx['unknown_steps'])}):** {', '.join(f'`{n}`' for n in cx['unknown_steps'])}"
+                   " - plugin or shared-library steps the step catalog does not know, each a manual item below. If "
+                   f"every one were mapped, the difficulty would be **{mapped['score']}/100 - "
+                   f"{mapped['classification']}**.")
+    out += ["- How the score is built: `docs/scoring.md` in the j2gha repository.", ""]
+    return out
+
+
 def migration_report(meta: dict[str, Any], analysis: dict[str, Any], report: dict[str, Any], ir: Pipeline | None) -> str:
     repo = meta.get("repository", {})
     cx = analysis["complexity"]
@@ -239,6 +262,7 @@ def migration_report(meta: dict[str, Any], analysis: dict[str, Any], report: dic
            f"({report['counts'].get('mapped', 0)} mapped, {report['counts'].get('approximated', 0)} approximated, "
            f"{report['counts'].get('manual', 0)} manual, {report['counts'].get('dropped', 0)} dropped)",
            f"- **Weighted step coverage (analysis):** {analysis['coverage']['weighted_mapped_pct']}%", ""]
+    out += difficulty_section(cx)
     if report["secrets"]:
         out += ["## Secrets required\n", "| Secret | Purpose |", "|---|---|"]
         out += [f"| `{k}` | {v} |" for k, v in report["secrets"].items()]

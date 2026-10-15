@@ -15,7 +15,7 @@ from . import catalog
 from .ast import CallCtx, all_calls, child_calls, first_arg, value_text, walk_statements
 from .declarative import binding_type, build_ir, parse_environment
 
-ANALYSIS_VERSION = 1
+ANALYSIS_VERSION = 2  # 2: unknown steps counted once, no SharedLibrary gate, score as if they were mapped
 
 # Styles used by both the analyser and the GitHub crawler (crawl.styles).
 STYLE_TITLES = {
@@ -381,9 +381,11 @@ def find_issues(text: str, ast: dict, ir: Pipeline | None, inv: dict, dialect: s
         out.append(_finding("LibraryTemplate", "medium", None, "Declarative pipeline defined in a shared-library var",
                             "Convert to a reusable workflow (on: workflow_call) with explicit inputs"))
     if ir and ir.libraries:
+        # not a gate: an opaque library is missing information, not proof of a redesign; its unknown steps count in
+        # library opacity, and the score is also given as if they were mapped (complexity.if_unknown_mapped)
         out.append(_finding("SharedLibrary", "high", None, ", ".join(ir.libraries),
-                            "Library steps are opaque to static analysis; map them to composite actions/reusable workflows",
-                            gate=bool(inv["unknown_steps"])))
+                            "Library steps are opaque to static analysis; map them to composite actions/reusable "
+                            "workflows"))
     for pat in catalog.hard_gate_patterns():
         for i, line in enumerate(text.splitlines(), 1):
             if pat["pattern"] in line and not line.strip().startswith("//"):
@@ -529,36 +531,53 @@ def detect_styles(dialect: str, inv: dict, ir: Pipeline | None) -> list[str]:
 
 
 # --------------------------------------------------------------------------- scoring
-def coverage(inv: dict) -> dict[str, Any]:
-    by_cat = Counter()
+def _weighted_pct(inv: dict, skip: tuple[str, ...] = ()) -> float:
     num = den = 0.0
     for name, e in inv["steps"].items():
-        by_cat[e["category"]] += e["count"]
+        if e["category"] in skip:
+            continue
         w = catalog.weight(name) if e["category"] not in ("groovy", "local") else 0.5
         w = max(w, 0.25)
         num += w * e["count"] * CREDIT.get(e["category"], 0)
         den += w * e["count"]
-    pct = round(100 * num / den, 1) if den else 100.0
-    return {"by_category": dict(by_cat), "weighted_mapped_pct": pct}
+    return round(100 * num / den, 1) if den else 100.0
 
 
-def complexity(result: dict, inv: dict) -> dict[str, Any]:
+def coverage(inv: dict) -> dict[str, Any]:
+    by_cat = Counter()
+    for e in inv["steps"].values():
+        by_cat[e["category"]] += e["count"]
+    return {"by_category": dict(by_cat), "weighted_mapped_pct": _weighted_pct(inv)}
+
+
+BANDS = ((20, "straightforward"), (45, "assisted"), (70, "significant-redesign"), (100, "rebuild-around-intent"))
+
+
+def band(score: int) -> str:
+    return next(name for top, name in BANDS if score <= top)
+
+
+def _dimensions(result: dict, inv: dict, unknown: int, mapped_pct: float) -> dict[str, float]:
+    """The seven weighted dimensions, for `unknown` distinct unknown steps and a weighted coverage of `mapped_pct`."""
     m = inv["metrics"]
     dialect = result["dialect"]
     steps = inv["steps"]
+    library = bool(result["libraries"]) or dialect in ("library-call", "library-step")
     dims: dict[str, float] = {}
     base = {"declarative": 0, "library-template": 6, "scripted": 13, "library-call": 12, "library-step": 12,
             "unknown": 18, "unparseable": 20}.get(dialect, 15)
     dims["declarative_structure"] = min(20, base + min(10, 2 * m.get("script_blocks", 0) +
                                                        0.25 * m.get("script_statements", 0)))
-    dims["step_mapping"] = round(25 * (1 - result["coverage"]["weighted_mapped_pct"] / 100), 1)
+    dims["step_mapping"] = round(25 * (1 - mapped_pct / 100), 1)
     policy_distinct = sum(1 for e in steps.values() if e["category"] in ("policy", "redesign"))
-    dims["plugin_coupling"] = min(15, 3 * m.get("unknown_steps", 0) + 0.75 * policy_distinct)
+    # Beyond coverage, an unknown step counts once: in library opacity when the pipeline loads a library (a bare call
+    # it does not define is most likely one of the library's steps), otherwise in plugin coupling.
+    dims["plugin_coupling"] = min(15, (0 if library else 3 * unknown) + 0.75 * policy_distinct)
     lib = 0.0
-    if result["libraries"] or dialect in ("library-call", "library-step"):
-        lib = 9 + 2 * m.get("unknown_steps", 0)
-    elif m.get("unknown_steps", 0) >= 3:
-        lib = 4
+    if library:
+        lib = 9 + 2 * unknown
+    elif unknown >= 3:
+        lib = 4  # several unknown steps and no @Library: perhaps an implicitly loaded global library
     dims["library_opacity"] = min(15, lib)
     env = 0.0
     kinds = [a.get("kind") for a in inv["agents"]]
@@ -581,29 +600,37 @@ def complexity(result: dict, inv: dict) -> dict[str, Any]:
     cf += 1 if m.get("max_stage_depth", 0) > 2 else 0
     cf += 1 if m.get("parallel_blocks", 0) > 1 else 0
     dims["control_flow"] = min(5, cf)
-    score = round(sum(dims.values()))
-    gates = [f["id"] for f in result["findings"] if f.get("gate")]
-    if gates:
-        score = max(score, 46)
-    if score <= 20:
-        cls = "straightforward"
-    elif score <= 45:
-        cls = "assisted"
-    elif score <= 70:
-        cls = "significant-redesign"
-    else:
-        cls = "rebuild-around-intent"
-    return {"score": score, "classification": cls, "dimensions": {k: round(v, 1) for k, v in dims.items()},
-            "hard_gates": sorted(set(gates)),
-            "weights": {"declarative_structure": 20, "step_mapping": 25, "plugin_coupling": 15, "library_opacity": 15,
-                        "runtime_coupling": 10, "security_identity": 10, "control_flow": 5}}
+    return dims
+
+
+def complexity(result: dict, inv: dict) -> dict[str, Any]:
+    gates = sorted({f["id"] for f in result["findings"] if f.get("gate")})
+
+    def score(dims: dict[str, float]) -> int:
+        s = round(sum(dims.values()))
+        return max(s, 46) if gates else s  # a hard gate forces at least significant-redesign
+
+    unknown = inv["metrics"].get("unknown_steps", 0)
+    dims = _dimensions(result, inv, unknown, result["coverage"]["weighted_mapped_pct"])
+    out: dict[str, Any] = {
+        "score": score(dims), "classification": band(score(dims)),
+        "dimensions": {k: round(v, 1) for k, v in dims.items()}, "hard_gates": gates,
+        "weights": {"declarative_structure": 20, "step_mapping": 25, "plugin_coupling": 15, "library_opacity": 15,
+                    "runtime_coupling": 10, "security_identity": 10, "control_flow": 5}}
+    if unknown:
+        # what the score would be if every unknown (plugin or library) step were mapped: how much of it is missing
+        # information rather than the pipeline's own structure
+        mapped = score(_dimensions(result, inv, 0, _weighted_pct(inv, skip=("unknown",))))
+        out["unknown_steps"] = sorted({u["name"] for u in result["unknown_steps"]})
+        out["if_unknown_mapped"] = {"score": mapped, "classification": band(mapped)}
+    return out
 
 
 def convertibility(result: dict) -> str:
     d = result["dialect"]
     if d in ("unparseable", "library-call", "library-step", "unknown"):
         return "report-only"
-    if result["complexity"]["hard_gates"]:
+    if result["complexity"]["hard_gates"] or result["unknown_steps"]:  # unknown steps convert to manual placeholders
         return "partial"
     if d == "scripted":
         return "partial"

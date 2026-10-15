@@ -102,6 +102,26 @@ def _analyze(dirs: dict[str, Path], texts: dict[str, str], asts: dict[str, dict]
         update_section(d / "README.md", "analysis", analysis_section(a, ir, env))
         log(f"{i}: {a['dialect']:<16} difficulty {a['complexity']['score']:>3} ({a['complexity']['classification']}), "
             f"coverage {a['coverage']['weighted_mapped_pct']}%, convertibility {a['convertibility']}")
+        for line in difficulty_breakdown(a["complexity"]):
+            log(f"{i}:   {line}")
+
+
+DIMENSION_LABELS = {"declarative_structure": "structure", "step_mapping": "mapping", "plugin_coupling": "plugins",
+                    "library_opacity": "library", "runtime_coupling": "runtime", "security_identity": "security",
+                    "control_flow": "flow"}
+
+
+def difficulty_breakdown(cx: dict[str, Any]) -> list[str]:
+    """What makes up a difficulty score, for the console: the dimensions, the gates, and the unknown steps with the
+    score as if they were mapped."""
+    dims = ", ".join(f"{DIMENSION_LABELS.get(k, k)} {v:g}" for k, v in cx["dimensions"].items())
+    lines = [f"{dims}; hard gates: {', '.join(cx['hard_gates']) or 'none'}"]
+    if cx.get("unknown_steps"):
+        names, mapped = cx["unknown_steps"], cx["if_unknown_mapped"]
+        shown = ", ".join(names[:5]) + (f", ... (+{len(names) - 5})" if len(names) > 5 else "")
+        lines.append(f"{len(names)} unknown step(s) ({shown}): {mapped['score']} ({mapped['classification']}) "
+                     "if they were mapped")
+    return lines
 
 
 # ------------------------------------------------------------------------------------------------- convert
