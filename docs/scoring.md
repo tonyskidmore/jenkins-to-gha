@@ -20,8 +20,8 @@ the code is `complexity()` in `j2gha/analysis/analyze.py`.
 |---|---:|---|
 | Declarative structure | 20 | The dialect, plus `script {}` blocks and the Groovy statements in them (up to 10). By dialect: Declarative 0, library template 6, library call or step 12, scripted 13, unknown 18, unparseable 20. |
 | Step mapping | 25 | Steps the catalog cannot map, weighted by risk: 25 × (1 − weighted coverage). |
-| Plugin coupling | 15 | 3 per distinct unknown step, and 0.75 per distinct step whose conversion needs a policy decision or a redesign. |
-| Library opacity | 15 | 9 when the pipeline loads a shared library (or is a library call), plus 2 per distinct unknown step. Without a library: 4 when there are 3 or more unknown steps. |
+| Plugin coupling | 15 | 0.75 per distinct step whose conversion needs a policy decision or a redesign. When the pipeline loads no shared library, also 3 per distinct unknown step. |
+| Library opacity | 15 | 9 when the pipeline loads a shared library (or is a library call), plus 2 per distinct unknown step. Without a library: 4 when there are 3 or more unknown steps, which may come from an implicitly loaded global library. |
 | Runtime coupling | 10 | Custom agent labels, `docker`, `dockerfile` or Kubernetes agents, `bat`/`powershell` steps, and `tools`. |
 | Security and identity | 10 | Credentials (2 each, up to 6), `input` gates, and cloud-auth wrappers (`withAWS`, `azureCLI`, `withVault`, `withKubeConfig`). |
 | Control flow | 5 | Dynamic `parallel` or stage generation, loops, `try`/`catch`, a matrix, stages nested more than 2 deep, or more than one `parallel`. |
@@ -32,11 +32,13 @@ the code is `complexity()` in `j2gha/analysis/analyze.py`.
 |---|---|
 | `ParseError` | Jenkins' Groovy rejects the file. |
 | `OpaqueLibraryEntrypoint` | The whole pipeline is a call into a shared library. |
-| `SharedLibrary` | The pipeline loads a shared library and calls at least one unknown step. |
 | `JenkinsApiCoupling` | The pipeline uses Jenkins internals: `Jenkins.instance`, `currentBuild.rawBuild`, `hudson.model.`, `@NonCPS`, `GroovyShell` and the other patterns under `hard_gates` in `j2gha/rules/steps.yaml`. |
 | `ExternalGroovyLoad` | `load` or `evaluate`. |
 | `DynamicParallel` | `parallel` over a map built at run time. |
 | `DynamicStageGeneration` | `stage()` called inside a loop. |
+
+`SharedLibrary`, a pipeline that loads a shared library, is a high-severity finding but not a gate. An opaque library
+is missing information, not proof that the pipeline needs a redesign.
 
 **Bands:** 0-20 straightforward · 21-45 assisted · 46-70 significant-redesign · 71-100 rebuild-around-intent.
 
@@ -45,29 +47,45 @@ the code is `complexity()` in `j2gha/analysis/analyze.py`.
 | Value | When |
 |---|---|
 | `report-only` | A library call or step, or a file that did not parse |
-| `partial` | Any hard gate, a scripted pipeline, or a score above 45 |
+| `partial` | Any hard gate, any unknown step (it converts to a manual placeholder), a scripted pipeline, or a score above 45 |
 | `automatic` | Everything else |
 
-### Unknown steps weigh heavily
+### Unknown steps
 
 An unknown step is a plugin or shared-library step that the step catalog does not know. j2gha cannot tell the two
 apart.
 
-- **It counts several times.** An unknown step counts in step mapping and plugin coupling. If the pipeline loads a
-  library, it also counts in library opacity and triggers the `SharedLibrary` gate.
-- **So library-heavy pipelines score high.** Pipelines that rely on shared libraries tend to land in
-  significant-redesign whatever their structure.
-- **Example 017:** its dimensions add up to 39 (assisted), and one unknown step lifts it to 46 through the gate.
-- **Read the dimensions before the band.** A high score made of library opacity and unknown steps says how much
-  j2gha could not see, not that the pipeline's own structure is hard to migrate.
+- **Where it counts.** It counts in step mapping, through coverage. Beyond that it counts once more:
+  - in library opacity when the pipeline loads a library, since a bare call it does not define is most likely a library
+    step;
+  - otherwise in plugin coupling.
+- **The score as if they were mapped.** When a pipeline has unknown steps, j2gha also gives the score and band it would
+  have if every one of them were mapped. The difference is how much of the score is information j2gha lacks rather
+  than the pipeline's own structure.
+- **Example 017** has one unknown step and scores 36 (assisted). It would score 34 if that step were mapped.
+- **Read the dimensions and that second score before the band.** Many unknown steps can still push a pipeline into
+  significant-redesign. Example 015 has 15 unknown steps and no library; it scores 56, and 32 if they were mapped.
+- **Before analysis version 2**, the `SharedLibrary` finding was a hard gate, and an unknown step counted in both plugin
+  coupling and library opacity. Library pipelines then rated significant-redesign almost regardless of their structure
+  (017 scored 46).
 
 ### Where to see it
 
-- The pipeline's `README.md`, analysis section:
-  - the *Migration difficulty* row;
+- **The `analyze` output** (also in `pipeline`): after the summary line, one line with the dimensions and gates and,
+  when there are unknown steps, one line naming them with the score as if they were mapped:
+
+  ```text
+  [j2gha] 017: declarative      difficulty  36 (assisted), coverage 82.8%, convertibility partial
+  [j2gha] 017:   structure 10, mapping 4.3, plugins 6, library 11, runtime 4, security 0, flow 1; hard gates: none
+  [j2gha] 017:   1 unknown step(s) (fail): 34 (assisted) if they were mapped
+  ```
+
+- **The pipeline's `README.md`**, analysis section:
+  - the *Migration difficulty* row, and *If every unknown step were mapped*;
   - the collapsed *Difficulty dimensions* table, with the hard gates under it.
-- `analysis/analysis.json`, under `complexity`: `score`, `classification`, `dimensions` and `hard_gates`.
-- `gha/migration-report.md`: the classification, and the hard gates listed as blocking items.
+- **`analysis/analysis.json`**, under `complexity`: `score`, `classification`, `dimensions`, `hard_gates`, and, with
+  unknown steps, `unknown_steps` and `if_unknown_mapped`.
+- **`gha/migration-report.md`:** the *Difficulty breakdown* section, and the hard gates listed as blocking items.
 
 Converting your own pipelines, and what to do about libraries and plugins: [own-pipelines.md](own-pipelines.md).
 

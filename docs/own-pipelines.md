@@ -87,19 +87,26 @@ These carry nothing from your pipelines.
 
 ## Read the results
 
-`pipeline` prints two summary lines. Example 017, a public pipeline that loads a shared library:
+`pipeline` prints a summary of the analysis and one of the conversion. Example 017, a public pipeline that loads a
+shared library:
 
 ```text
-[j2gha] 017: declarative      difficulty  46 (significant-redesign), coverage 82.8%, convertibility partial
+[j2gha] 017: declarative      difficulty  36 (assisted), coverage 82.8%, convertibility partial
+[j2gha] 017:   structure 10, mapping 4.3, plugins 6, library 11, runtime 4, security 0, flow 1; hard gates: none
+[j2gha] 017:   1 unknown step(s) (fail): 34 (assisted) if they were mapped
 [j2gha] 017: 9 job(s); mapped 29, approx 53, manual 98 -> automation 34.5%
 ```
 
 - **difficulty:** a 0-100 estimate of the migration effort, and its band. How it is built, and how to read it:
   [scoring.md](scoring.md#migration-difficulty-0-100).
+- **The two indented lines:**
+  - the dimensions the score adds up and any hard gates;
+  - when the pipeline calls steps j2gha does not know, those steps, with the score as if they were mapped.
 - **coverage:** the share of the pipeline's steps the step catalog can map, weighted by risk.
 - **convertibility:** one of three values.
-  - `automatic`: score of 45 or less, with no hard gate.
-  - `partial`: a hard gate, a scripted pipeline, or a score above 45.
+  - `automatic`: score of 45 or less, with no hard gate and no unknown step.
+  - `partial`: a hard gate, an unknown step (it converts to a manual placeholder), a scripted pipeline, or a score
+    above 45.
   - `report-only`: the behaviour is in a library call, or the file did not parse. The pipeline is reported, not
     converted.
 - **mapped, approx, manual → automation:**
@@ -111,28 +118,31 @@ In the pipeline's directory (`$J2GHA_PIPELINES_DIR/<name>/`):
 
 | File | What it holds |
 |---|---|
-| `README.md` | Each stage's summary. The analysis section has a collapsed *Difficulty dimensions* table, with the hard gates under it. |
+| `README.md` | Each stage's summary. The analysis section gives the score as if every unknown step were mapped, and has a collapsed *Difficulty dimensions* table with the hard gates under it. |
 | `analysis/analysis.json` | Findings, step inventory, unknown steps, and the score's dimensions and gates (`complexity`) |
 | `gha/workflow.yml` | The draft workflow |
-| `gha/migration-report.md` | Every Jenkins construct with its source line, its status (mapped, approximated, manual, dropped) and its GitHub Actions target |
+| `gha/migration-report.md` | A *Difficulty breakdown*, then every Jenkins construct with its source line, its status (mapped, approximated, manual, dropped) and its GitHub Actions target |
 | `gha/validation.json` | actionlint, zizmor and policy findings |
 | `runs/` | Run records and the harness's test variants of the workflow, which have fake credentials. Do not copy from here. |
 
 ### Why is my pipeline rated significant-redesign?
 
-**Usually because of a hard gate.** A gate is a construct that j2gha treats as needing redesign, and any gate raises the
-score to at least 46, which is the significant-redesign band. Open *Difficulty dimensions* in the pipeline's README: the
-gates are listed under the table.
+The breakdown under the summary line says which of two reasons applies.
 
-**`SharedLibrary` is a common one** where steps are shared through libraries. It applies to a pipeline that loads a
-shared library and calls any step j2gha does not recognise.
+**1. A hard gate.** A gate is a construct with no GitHub Actions equivalent: `parallel` over a map built at run time,
+stages created in a loop, `load`/`evaluate`, or Jenkins internals. Any gate raises the score to at least 46, the
+significant-redesign band. The gates are named after `hard gates:`, and under the *Difficulty dimensions* table in the
+pipeline's README.
 
-- j2gha cannot see inside the library, so each such step also adds to step mapping, plugin coupling and library
-  opacity.
-- Example 017 shows the effect: its dimensions add up to 39 (assisted), and one unknown step lifts it to 46 through
-  the gate.
-- A rating like that measures what j2gha could not see as much as the pipeline itself. Read the dimensions before the
-  band.
+**2. Many steps j2gha does not know.** These are typically shared-library or plugin steps.
+
+- They lower coverage (step mapping).
+- They add to library opacity, or to plugin coupling when no library is loaded.
+- Compare the score with the one *if they were mapped*. A large gap means the rating reflects what j2gha cannot see
+  inside your libraries rather than the pipeline's own structure.
+
+Loading a shared library is not a gate in itself. Before analysis version 2 it was, which is why every library pipeline
+used to rate at least 46.
 
 [scoring.md](scoring.md#migration-difficulty-0-100) lists every gate and dimension.
 

@@ -50,6 +50,18 @@ Your own (private) pipelines, offline use, and GitHub Copilot.
   J2GHA_OFFLINE=1 uv run j2gha pipeline payments
   ```
 
+- **A breakdown of every difficulty score.** It appears in three places:
+  - **`analyze`** (and `pipeline`) prints the dimensions and hard gates under the summary line. When the pipeline calls
+    steps j2gha does not know, it also names them, with the score as if they were mapped.
+  - **The README analysis table** gains an *If every unknown step were mapped* row.
+  - **The migration report** opens with a *Difficulty breakdown* section.
+
+  ```text
+  [j2gha] 017: declarative      difficulty  36 (assisted), coverage 82.8%, convertibility partial
+  [j2gha] 017:   structure 10, mapping 4.3, plugins 6, library 11, runtime 4, security 0, flow 1; hard gates: none
+  [j2gha] 017:   1 unknown step(s) (fail): 34 (assisted) if they were mapped
+  ```
+
 - **New docs:**
   - [`docs/own-pipelines.md`](docs/own-pipelines.md): converting your own pipelines. Covers what each stage sends off
     the machine, reading the results, why shared-library pipelines rate *significant-redesign*, shared libraries,
@@ -65,6 +77,19 @@ Your own (private) pipelines, offline use, and GitHub Copilot.
 
 ### Changed
 
+- **Difficulty scoring (analysis version 2).** Shared-library pipelines no longer rate significant-redesign just
+  because they load a library.
+  - **`SharedLibrary` is no longer a hard gate**, so it no longer floors the score at 46. It stays a high-severity
+    finding.
+  - **An unknown step counts once** beyond coverage: in library opacity when a library is loaded, otherwise in plugin
+    coupling. Before, it counted in both.
+  - **Convertibility is `partial`** whenever unknown steps remain.
+  - **Weighted coverage is unchanged.**
+  - **Corpus effect:**
+    - 003/103 55 → 43, 010 67 → 58, 017/117 46 → 36, 008/108 60 → 54;
+    - 005, 006 and 106 go `automatic` → `partial`.
+
+  The committed corpus results were regenerated. Details: [`docs/scoring.md`](docs/scoring.md#unknown-steps).
 - **The selfhosted and hosted tiers refuse a pipeline that is not a corpus example**, unless `J2GHA_REPO` names a
   repository the GitHub API reports as private (or internal).
   - Before, such a pipeline was pushed to the clone's `origin`, which is this public repository.
